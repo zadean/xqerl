@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="array-flatten"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="array-flatten">
+    <description>Tests for the array:flatten function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-sort"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    
+    <test-case name="array-flatten-001">
+        <description>Apply flatten function to array with number members</description>
+        <created by="Michael Kay" on="2014-12-03"/>
+        <environment ref="array"/>
+        <test>array:flatten([1, 4, 6, 5, 3])</test>
+        <result>
+            <all-of>                
+                <assert-type>xs:integer*</assert-type>
+                <assert>count($result) eq 5</assert>
+                <assert-deep-eq>1, 4, 6, 5, 3</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>  
+    
+    <test-case name="array-flatten-002">
+        <description>Apply flatten function to empty array</description>
+        <created by="Michael Kay" on="2014-12-03"/>
+        <environment ref="array"/>
+        <test>array:flatten([])</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    
+    <test-case name="array-flatten-003">
+        <description>Apply flatten function to empty sequence</description>
+        <created by="Michael Kay" on="2014-12-03"/>
+        <environment ref="array"/>
+        <test>array:flatten(())</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    
+    <test-case name="array-flatten-004">
+        <description>Apply flatten function to sequence containing no arrays</description>
+        <created by="Michael Kay" on="2014-12-03"/>
+        <environment ref="array"/>
+        <test>array:flatten((1, 4, 6, 9))</test>
+        <result>
+            <assert-deep-eq>1, 4, 6, 9</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-flatten-005">
+        <description>Apply flatten function to sequence containing nested arrays</description>
+        <created by="Michael Kay" on="2014-12-03"/>
+        <environment ref="array"/>
+        <test>array:flatten(([1, [4, [6, 9]]]))</test>
+        <result>
+            <assert-deep-eq>1, 4, 6, 9</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-flatten-006">
+        <description>Apply flatten function to sequence containing maps</description>
+        <created by="Michael Kay" on="2014-12-03"/>
+        <environment ref="array"/>
+        <test>array:flatten((map{}, map{1:2}, map{1:2, 2:3}))</test>
+        <result>
+            <assert-deep-eq>map{}, map{1:2}, map{1:2, 2:3}</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-flatten-007">
+        <description>Apply flatten function to sequence containing maps containing arrays</description>
+        <created by="Michael Kay" on="2014-12-03"/>
+        <environment ref="array"/>
+        <test>array:flatten((map{}, map{1:[2,3]}, map{1:[2], 2:[3]}))</test>
+        <result>
+            <assert-deep-eq>map{}, map{1:[2,3]}, map{1:[2], 2:[3]}</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-flatten-008">
+        <description>Apply flatten function to sequence containing nodes</description>
+        <created by="Michael Kay" on="2014-12-03"/>
+        <environment ref="array"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[<out>{array:flatten((<a/>, <b/>, <c/>))}</out>]]></test>
+        <result>
+            <assert-xml><![CDATA[<out><a/><b/><c/></out>]]></assert-xml>
+        </result>
+    </test-case>
+    
+    <test-case name="array-flatten-009">
+        <description>Apply flatten function to array containing nodes</description>
+        <created by="Michael Kay" on="2014-12-03"/>
+        <environment ref="array"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[<out>{array:flatten([<a/>, [<b/>, <c/>]])}</out>]]></test>
+        <result>
+            <assert-xml><![CDATA[<out><a/><b/><c/></out>]]></assert-xml>
+        </result>
+    </test-case>
+    
+    <test-case name="array-flatten-010">
+        <description>Implicit flatten of array containing nodes by element constructor</description>
+        <created by="Michael Kay" on="2014-12-03"/>
+        <environment ref="array"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[<out>{[<a/>, [<b/>, <c/>]]}</out>]]></test>
+        <result>
+            <assert-xml><![CDATA[<out><a/><b/><c/></out>]]></assert-xml>
+        </result>
+    </test-case>
+ 
+    
+</test-set>

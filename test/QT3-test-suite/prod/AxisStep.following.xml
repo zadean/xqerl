@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-AxisStep.following">
+   <description>Tests for the following axis</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-AxisStep"/>
+   <link type="spec" document="XQuery" section-number="3.2.1.1" idref="axes"/>
+
+   <test-case name="following-1">
+      <description> Evaluation of the following axis for which the context node is not a node. </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <test>(200)/following::*</test>
+      <result>
+         <error code="XPTY0019"/>
+      </result>
+   </test-case>
+
+   <test-case name="following-2">
+      <description> Evaluation of the following axis for which the given node does not exists. Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>fn:count(/works/employee[1]/following::noSuchNode)</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="following-3">
+      <description> Evaluation of the following axis that is part of an "is" expression (return true). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>exactly-one(/works/employee[12]/following::employee) is exactly-one(/works/employee[13])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="following-4">
+      <description> Evaluation of the following axis that is part of an "is" expression (return false). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>exactly-one(/works[1]/employee[12]/following::employee) is exactly-one(/works[1]/employee[12])</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="following-5">
+      <description> Evaluation of the following axis that is part of an "node before" expression (return true). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test><![CDATA[(/works[1]/employee[11]/following::employee[1]) << (/works[1]/employee[13])]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="following-6">
+      <description> Evaluation of the following axis that is part of an "node before" expression and both operands are the same (return false). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test><![CDATA[exactly-one(/works[1]/employee[12]/following::employee) << exactly-one(/works[1]/employee[12]/following::employee)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="following-7">
+      <description> Evaluation of the following axis that is part of an "node before" expression both operands are differents (return false). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test><![CDATA[exactly-one(/works[1]/employee[12]/following::employee) << exactly-one(/works[1]/employee[12]/overtime[1])]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="following-8">
+      <description> Evaluation of the following axis that is part of an "node after" expression (returns true). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>exactly-one(/works[1]/employee[13]) >> exactly-one(/works[1]/employee[12]/overtime[1]/day[1]/following::day)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="following-9">
+      <description> Evaluation of the following axis that is part of an "node after" expression with both operands the same (returns false). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>exactly-one(/works[1]/employee[12]/following::employee) >> exactly-one(/works[1]/employee[12]/following::employee)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="following-10">
+      <description> Evaluation of the following axis that is part of an "node after" expression with different operands (returns false). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>exactly-one(/works[1]/employee[12]) >> exactly-one(/works[1]/employee[12]/following::employee)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="following-11">
+      <description> Evaluation of the following axis that is part of an "union " operation. Both operands are the same. </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>(/works/employee[12]/*/day[1]/following::day) | (/works/employee[12]/*/day[1]/following::day)</test>
+      <result>
+         <assert-xml><![CDATA[<day>Tuesday</day>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="following-12">
+      <description> Evaluation of the following axis that is part of an "union" operation. Both operands are different </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>(/works/employee[12]/*/day[1]/following::day) | (/works/employee[12]/*/day[1])</test>
+      <result>
+         <assert-xml><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="following-13">
+      <description> Evaluation of the following axis that is part of an "intersect" operation. Both operands are the same. </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>(/works[1]/employee[12]/overtime[1]/day[1]/following::day) intersect (/works[1]/employee[12]/overtime[1]/day[1]/following::day)</test>
+      <result>
+         <assert-xml><![CDATA[<day>Tuesday</day>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="following-14">
+      <description> Evaluation of the following axis that is part of an "except" operation. Both operands are the same. Uses fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>fn:count((/works[1]/employee[12]/following::employee) except (/works[1]/employee[12]/following::employee))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="following-15">
+      <description> Evaluation of the following axis that is part of an "except" operation. Both operands are different. </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>(/works[1]/employee[12]/overtime/day) except (/works[1]/employee[12]/overtime/day[1]/following::day)</test>
+      <result>
+         <assert-xml><![CDATA[<day>Monday</day>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="following-16">
+      <description> Evaluation of the following axis that is part of a boolean expression ("and" and fn:true(). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>(/works[1]/employee[12]/following::employee) and fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="following-17">
+      <description> Evaluation of the following axis that is part of a boolean expression ("and" and fn:false()). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>(/works[1]/employee[12]/following::employee) and fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="following-18">
+      <description> Evaluation of the following axis that is part of a boolean expression ("or" and fn:true()). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>(/works[1]/employee[12]/following::employee) or fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="following-19">
+      <description> Evaluation of the following axis that is part of a boolean expression ("or" and fn:false()). </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>(/works[1]/employee[12]/following::employee) or fn:false()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="following-20">
+      <description> Evaluation of the following axis that used as part of the deep-equal-function. </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <environment ref="works-mod"/>
+      <test>fn:deep-equal(/works[1]/employee[12]/following::employee,/works[1]/employee[12]/following::employee)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="following-21">
+      <description> Evaluation of the following axis used together with a newly constructed element. Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-12-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $var := <anElement>Some Content</anElement> return fn:count($var/following::*)]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-followingAxis-1">
+      <description> Evaluate the 'following' axis on a html document. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        let $i := <html> <head/> <body> <p attr="foo"> </p> <p attr="boo"> </p> <p> </p> <p> </p> <p> </p> </body> </html> 
+        return $i//p[1]/following::*
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<p attr="boo"/><p/><p/><p/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-followingAxis-2">
+      <description> Evaluate the child node from the last node in a tree. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare variable $i := <root> <child/> <child/> <child> <child2> <child3> <leaf/> </child3> </child2> </child> </root>;
+         1, root($i)//leaf/following::node(), 1
+      ]]></test>
+      <result>
+         <assert-string-value>1 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-followingAxis-3">
+      <description> Evaluate the child node from root of a tree. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare variable $i := <root> <child/> <child/> <child> <child2> <child3> <leaf/> </child3> </child2> </child> </root>; 
+        empty(root($i)/following::node())
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-followingAxis-4">
+      <description> Evaluate fn:count() on a range of nodes, navigated with axis following. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare variable $i := <root> <child/> <child/> <child> <child2> <child3> <leaf/> </child3> </child2> </child> </root>; 
+        root($i)//count(following::node())
+      ]]></test>
+      <result>
+         <assert-string-value>0 5 4 0 0 0 0</assert-string-value>
+      </result>
+   </test-case>
+</test-set>

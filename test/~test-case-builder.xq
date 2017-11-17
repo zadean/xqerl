@@ -4,8 +4,6 @@ declare option output:cdata-section-elements "Q{http://www.w3.org/2010/09/qt-fot
                                               Q{http://www.w3.org/2010/09/qt-fots-catalog}result
                                               Q{http://www.w3.org/2010/09/qt-fots-catalog}assert-string-value";
 
-declare variable $git-root as xs:string := "/git/zadean/";
-
 declare function local:print-result($result)
 {
   let $name := local-name($result)
@@ -114,11 +112,9 @@ declare function local:print-result($result)
     "   end"
   else if ($name = "assert-xml") then
     let $ec := if ($result/@file) then
-                local:mask-string(
-                  file:read-text(
-                    substring-after(
-                      resolve-uri($result/@file, base-uri($result)),
-                      "file:///")))
+                local:absolute-path($result/@file, $result) =>
+                file:read-text() =>
+                local:mask-string()
                else
                  local:mask-string($result/data())
     return
@@ -132,12 +128,11 @@ declare function local:print-result($result)
 
 declare function local:print-testcase($test-case)
 {
-  (: $test-case/../*:environment[*:source[@validation]]/@name :)
   let $inscope-schema-envs := 
     ($test-case/../*:environment[*:source[@validation]]/@name union 
-     doc($git-root||"xquery-3.1/QT3-test-suite/catalog.xml")/*:catalog/*:environment[*:source[@validation]]/@name)
+     doc("QT3-test-suite/catalog.xml")/*:catalog/*:environment[*:source[@validation]]/@name)
   let $name := $test-case/@name
-  let $deps := $test-case/*:dependency | $test-case/../*:dependency (: < type="feature" value="schemaImport"/> :)
+  let $deps := $test-case/*:dependency | $test-case/../*:dependency
   let $env  := $test-case/*:environment/(@ref|@name)/string()
   return
   "'"||$name||"'(_Config) ->"||'&#10;'||
@@ -245,7 +240,9 @@ declare function local:print-testcase($test-case)
     "   Qry = "||
     (
       if ($test-case/*:test/@file) then
-        local:mask-string(file:read-text(substring-after(resolve-uri($test-case/*:test/@file, base-uri($test-case)),"file:///"),"utf-8",true()))
+        local:absolute-path($test-case/*:test/@file, $test-case) =>
+        file:read-text("utf-8",true()) =>
+        local:mask-string()
       else
         local:mask-string($test-case/*:test/text())
    )
@@ -309,14 +306,14 @@ declare function local:print-environment($env)
   (
     for $res in $sources
     return
-    "{"""||substring-after(resolve-uri($res/@file, base-uri($res)),"file:///") ||""","""||$res/@role||""","""||$res/@uri||"""}"
+    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@role||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{schemas, ["||
   (
     for $res in $schemas
     return
-    "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
+    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{collections, ["||
@@ -326,7 +323,7 @@ declare function local:print-environment($env)
     "{"""||$res/@uri||""",["||(
       for $s in $res/*:source
       return
-      """"||resolve-uri($s/@file, base-uri($s)) ||""""
+      """"||local:absolute-path($s/@file, $s)||""""
     ) => string-join(","||'&#10;')
     ||"]}"
   ) => string-join(","||'&#10;')
@@ -338,7 +335,7 @@ declare function local:print-environment($env)
     if (not(empty($res))) then
     "{"""||$res/@uri||"""}"
     else
-    "{"""||substring-after(base-uri($env),"file:///")||"""}"
+    "{"""||local:absolute-path(".", $env)||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{params, ["||
@@ -366,14 +363,14 @@ declare function local:print-environment($env)
   (
     for $res in $resources
     return
-    "{"""||substring-after(resolve-uri($res/@file, base-uri($res)),"file:///") ||""","""||$res/@uri||"""}"
+    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]}," || '&#10;' ||
   "{modules, ["||
   (
     for $res in $modules
     return
-    "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
+    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]}" || '&#10;' ||
   "]"
@@ -419,14 +416,14 @@ declare function local:print-local-environment($env as item()*) as item()*
   (
     for $res in $sources
     return
-    "{"""||substring-after(resolve-uri($res/@file, base-uri($res)),"file:///") ||""","""||$res/@role||""","""||$res/@uri||"""}"
+    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@role||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;') 
   ||"]},"|| '&#10;' ||
   "{schemas, ["||
   (
     for $res in $schemas
     return
-    "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
+    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{collections, ["||
@@ -448,7 +445,7 @@ declare function local:print-local-environment($env as item()*) as item()*
     if (not(empty($res))) then
     "{"""||$res/@uri||"""}"
     else
-    "{"""||substring-after(base-uri($env),"file:///")||"""}"
+    "{"""||local:absolute-path(".", $env)||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{vars, ["||
@@ -476,14 +473,14 @@ declare function local:print-local-environment($env as item()*) as item()*
   (
     for $res in $resources
     return
-    "{"""||substring-after(resolve-uri($res/@file, base-uri($res)),"file:///") ||""","""||$res/@uri||"""}"
+    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]}," || '&#10;' ||
   "{modules, ["||
   (
     for $res in $modules
     return
-    "{"""||resolve-uri($res/@file, base-uri($res)) ||""","""||$res/@uri||"""}"
+    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]}" || '&#10;' ||
   "]")
@@ -502,9 +499,14 @@ declare function local:mask-string($text)
   )
 };
 
+declare function local:absolute-path($path as xs:string, $base) as xs:string
+{
+  substring-after(resolve-uri($path, base-uri($base)),"file:///")
+};
+
 (: Erlang SUITE :)
 (
-let $doc := doc($git-root||"xquery-3.1/QT3-test-suite/catalog.xml")
+let $doc := doc("QT3-test-suite/catalog.xml")
 let $globalEnvs := $doc/*:catalog/*:environment
 for $ts in$doc/*:catalog/*:test-set(: [@name = "prod-AxisStep.abbr"] :)
 let $file := resolve-uri($ts/@file, base-uri($ts)) 
@@ -536,8 +538,11 @@ let $mod := "-module('"||$usname||"_SUITE')."||'&#10;'
 ||"init_per_suite(Config) -> ok"
 ||'&#10;'
 ||( for $res in $case//*:module
-return
-", try  xqerl:compile("""||substring-after(resolve-uri($res/@file, base-uri($res)),"file:///") ||""") catch _:_ -> ok end" ) => distinct-values() => string-join('&#10;')
+    return
+    ", try  xqerl:compile("""||local:absolute-path($res/@file, $res)||""") catch _:_ -> ok end" 
+  ) => 
+  distinct-values() => 
+  string-join('&#10;')
 ||",Config."
 ||'&#10;'
 (: all :)
@@ -567,6 +572,6 @@ return
 ||"."
 ||'&#10;'
 return
-file:write-text($git-root||"xqerl/test/"||$usname||"_SUITE.erl", $mod, "utf-8")
+file:write-text(resolve-uri($usname)||"_SUITE.erl", $mod, "utf-8")
 )
 

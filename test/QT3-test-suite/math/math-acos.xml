@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="math-acos" covers-30="math-acos"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Tests for the math:acos function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-acos"/>
+    <dependency type="spec" value="XP30+ XQ30+"/>
+
+    <test-case name="math-acos-001">
+        <description>Evaluate the function math:acos() with the argument ()</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
+        <environment ref="math"/>
+        <test>math:acos(())</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="math-acos-002">
+        <description>Evaluate the function math:acos() with the argument 0</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
+        <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19782 - change expected result" />
+        <environment ref="math"/>
+        <test>math:acos(0)</test>
+        <result>
+            <assert>abs($result - 1.5707963267948966e0) lt 1e-14</assert>
+        </result>
+    </test-case>
+    <test-case name="math-acos-003">
+        <description>Evaluate the function math:acos() with the argument -0.0e0</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
+        <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19782 - change expected result" />
+        <environment ref="math"/>
+        <test>math:acos(-0.0e0)</test>
+        <result>
+            <assert>abs($result - 1.5707963267948966e0) lt 1e-14</assert>
+        </result>
+    </test-case>
+    <test-case name="math-acos-004">
+        <description>Evaluate the function math:acos() with the argument 1.0e0</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
+        <environment ref="math"/>
+        <test>math:acos(1.0e0)</test>
+        <result>
+            <assert-eq>0.0e0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-acos-005">
+        <description>Evaluate the function math:acos() with the argument -1.0e0</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
+        <environment ref="math"/>
+        <test>math:acos(-1.0e0)</test>
+        <result>
+            <assert-eq>3.141592653589793e0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-acos-006">
+        <description>Evaluate the function math:acos() with the argument 2.0e0</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
+        <environment ref="math"/>
+        <test>math:acos(2.0e0)</test>
+        <result>
+            <assert-string-value>NaN</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="math-acos-007">
+        <description>Evaluate the function math:acos() with the argument xs:double('NaN')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
+        <environment ref="math"/>
+        <test>math:acos(xs:double('NaN'))</test>
+        <result>
+            <assert-string-value>NaN</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="math-acos-008">
+        <description>Evaluate the function math:acos() with the argument xs:double('INF')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
+        <environment ref="math"/>
+        <test>math:acos(xs:double('INF'))</test>
+        <result>
+            <assert-string-value>NaN</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="math-acos-009">
+        <description>Evaluate the function math:acos() with the argument xs:double('-INF')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
+        <environment ref="math"/>
+        <test>math:acos(xs:double('-INF'))</test>
+        <result>
+            <assert-string-value>NaN</assert-string-value>
+        </result>
+    </test-case>
+</test-set>

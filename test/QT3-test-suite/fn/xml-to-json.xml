@@ -1,0 +1,1632 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-xml-to-json" covers="fn-xml-to-json">
+  <description>xml-to-json() function introduced in XPath 3.1</description>
+  <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+    idref="func-json-to-xml"/>
+   
+   <environment name="xml-to-json-C">
+      <source role="." file="xml-to-json/xml-to-json-C.xsl">
+         <!-- Taken from the XSLT30 test file of the same name. Although this is XSLT code, it is used here simply as data -->
+         <created by="Michael Kay" on="2016-04-22"/>
+      </source>
+   </environment>
+   
+   <environment name="xml-to-json-D">
+      <source role="." file="xml-to-json/xml-to-json-D.xsl">
+         <!-- Taken from the XSLT30 test file of the same name, with modifications when testing comments and PIs.
+              Although this is XSLT code, it is used here simply as data-->
+         <created by="Michael Kay" on="2016-04-29"/>
+      </source>
+   </environment>
+
+   <dependency type="spec" value="XP31+ XQ31+"/>
+
+   <test-case name="xml-to-json-001">
+      <description>simple "null" content, not indented</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('null',map{'liberal':true()}))</test>
+      <result>
+            <assert-eq>"null"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-002">
+      <description>simple "null" content, not indented</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('null',map{'liberal':true()}))</test>
+      <result>
+            <assert-eq>"null"</assert-eq>
+      </result>
+   </test-case>
+
+      <test-case name="xml-to-json-003">
+      <description>simple "null" content, not indented</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('null',map{'liberal':true()}))</test>
+      <result>
+            <assert-eq>"null"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-004">
+      <description>simple "true" content, not indented</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('true'))</test>
+      <result>
+            <assert-eq>"true"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-005">
+      <description>simple "false" content</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('false'))</test>
+      <result>
+            <assert-eq>"false"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-006">
+      <description>simple "number" content</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('93.7'))</test>
+      <result>
+            <assert-eq>"93.7"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-007">
+      <description>simple variable content</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <dependency type="spec" value="XQ31+"/>
+       <test>
+           declare variable $in := '"London"';
+          xml-to-json(json-to-xml($in))</test>
+      <result>
+            <assert-eq>'"London"'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-008">
+      <description>simple variable with empty string</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+           declare variable $in := '""';
+          xml-to-json(json-to-xml($in))</test>
+      <result>
+            <assert-eq>'""'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-009">
+      <description>empty array</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('[]'))</test>
+      <result>
+            <assert-eq>'[]'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-010">
+      <description>singleton array</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('[34]'))</test>
+      <result>
+            <assert-eq>'[34]'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-011">
+      <description>two-member array</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('[true, false]'))</test>
+      <result>
+            <assert-eq>'[true,false]'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-012">
+      <description>simple variable with empty string</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('["A", "B", "C", "D", "E"]'))</test>
+      <result>
+            <assert-eq>'["A","B","C","D","E"]'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-013">
+      <description>empty map</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('{}'))</test>
+      <result>
+            <assert-eq>'{}'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-014">
+      <description>1 entry map</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+       <test>xml-to-json(json-to-xml('{"A":true}'))</test>
+      <result>
+            <assert-eq>'{"A":true}'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-015">
+      <description>five entry map</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+       <test>xml-to-json(json-to-xml('{"A":1, "B":2, "C":3, "D":4, "E":5}'))</test>
+      <result>
+            <assert-eq>'{"A":1,"B":2,"C":3,"D":4,"E":5}'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-016">
+      <description>complex map</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+       <test>xml-to-json(json-to-xml('{"A":[1,2], "B":[true,false], "C":["Paris","London","Berlin"], "D":[1, true, "on"], "E":[null, null]}'))</test>
+      <result>
+            <assert-eq>'{"A":[1,2],"B":[true,false],"C":["Paris","London","Berlin"],"D":[1,true,"on"],"E":[null,null]}'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-017">
+      <description>1 entry map</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2016-07-20" change="Solidus is now escaped: see bug 29665" />
+       <test>xml-to-json(json-to-xml('"\\\/\"\r\t\n\u0020"'))</test>
+      <result>
+            <assert-eq>'"\\\/\"\r\t\n "'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-021">
+      <description>simple "null" content</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions"/>)
+       ]]></test>
+      <result>
+            <assert-eq>"null"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-022">
+      <description>simple true content</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions">true</boolean>)
+       ]]></test>
+      <result>
+            <assert-eq>"true"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-023">
+      <description>simple numeric content</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions">23</number>)
+       ]]></test>
+      <result>
+            <assert-eq>"23"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-024">
+      <description>simple string content</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">banana</string>)
+       ]]></test>
+      <result>
+            <assert-eq>'"banana"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-025">
+      <description>boolean with whitespace (bug 28180)</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions"> false </boolean>)
+       ]]></test>
+      <result>
+            <assert-eq>"false"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-026">
+      <description>number with leading zeroes and whitespace (bug 28180)</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions"> +005 </number>)
+       ]]></test>
+      <result>
+            <assert-eq>"5"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-027">
+      <description>whitespace string (bug 28180)</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">   </string>)
+       ]]></test>
+      <result>
+            <assert-eq>'"   "'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-028">
+      <description>array with comments and whitespace</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(<array xmlns="http://www.w3.org/2005/xpath-functions"> <null/> <!--comma--> <null/>   </array>)
+       ]]></test>
+      <result>
+            <assert-eq>"[null,null]"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-029">
+      <description>map with comments and whitespace</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"> <null key="a"/> <!--comma--> <null key="b"/>   </map>)
+       ]]></test>
+      <result>
+            <assert-eq>'{"a":null,"b":null}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-030">
+      <description>Document node wrapper</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(document{<array xmlns="http://www.w3.org/2005/xpath-functions"><null/><null/></array>})
+       ]]></test>
+      <result>
+            <assert-eq>"[null,null]"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-031">
+      <description>Use a namespace prefix</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(document{<jj:array xmlns:jj="http://www.w3.org/2005/xpath-functions"><jj:null/><jj:null/></jj:array>})
+       ]]></test>
+      <result>
+            <assert-eq>"[null,null]"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-032">
+      <description>Wrong namespace</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(document{<jj:array xmlns:jj="http://www.w3.org/2005/xpath-functions/not-json"><jj:null/><jj:null/></jj:array>})
+       ]]></test>
+      <result>
+           <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-033">
+      <description>Invalid XML: contains disallowed attributes</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"> <null key="a" yek="z"/> <null key="b"/>   </map>)
+       ]]></test>
+      <result>
+            <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-034">
+      <description>Invalid XML: contains disallowed elements</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"> <null key="a"/> <null key="b"/> <yek key="c"/>  </map>)
+       ]]></test>
+      <result>
+            <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-035">
+      <description>Invalid XML: contains missing attribute</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><null/><null/></map>)
+       ]]></test>
+      <result>
+            <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-036">
+      <description>Invalid XML: contains duplicate keys</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><null key="a"/><null key="a"/></map>)
+       ]]></test>
+      <result>
+            <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-037">
+      <description>String split by a comment</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">ban<!--c-->ana</string>)
+       ]]></test>
+      <result>
+            <assert-eq>'"banana"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-038">
+      <description>Number split by a comment</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions">2<!--c-->7</number>)
+       ]]></test>
+      <result>
+            <assert-eq>'27'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-039">
+      <description>Boolean split by a comment</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions">tr<!--c-->ue</boolean>)
+       ]]></test>
+      <result>
+            <assert-eq>'true'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-040">
+      <description>Invalid child of string</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">ok<null/></string>)
+       ]]></test>
+      <result>
+            <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-041">
+      <description>Invalid child of number</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions">17<string>qq</string></number>)
+       ]]></test>
+      <result>
+            <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-042">
+      <description>Invalid child of boolean</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        declare boundary-space preserve;
+        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions">true<string>qq</string></boolean>)
+       ]]></test>
+      <result>
+            <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-043">
+      <description>Invalid child of null</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions"><null/></null>)
+       ]]></test>
+      <result>
+            <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-044">
+      <description>Invalid child of null</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions"><null/></null>)
+       ]]></test>
+      <result>
+            <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-045">
+      <description>Effect of xsi:type (bug 28181)</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-13" change="By the decision on 28181, this is no longer an error"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<number xsi:type="xs:short" xmlns="http://www.w3.org/2005/xpath-functions" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xmlns:xs="http://www.w3.org/2001/XMLSchema">231</number>)
+       ]]></test>
+      <result>
+            <assert-eq>"231"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-046">
+      <description>Validated content</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/2005/xpath-functions";
+        xml-to-json(validate strict {<number>-23.7</number>})
+       ]]></test>
+      <result>
+            <assert-eq>"-23.7"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-047">
+      <description>Validated content. Validation fails because xsi:type isn't derived from j:numberType</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/2005/xpath-functions";
+        xml-to-json(validate strict{<number xsi:type="xs:int" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema">-23</number>})
+       ]]></test>
+      <result>
+            <error code="XQDY0027"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-048">
+      <description>Invalid content</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <modified by="Josh Spiegel" on="2016-01-20" change="Error code change for bug 29371"/>
+      <dependency type="spec" value="XQ31"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/2005/xpath-functions";
+        xml-to-json(validate strict{<number xsi:type="xs:int" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema">-23.7</number>})
+       ]]></test>
+      <result>
+            <error code="XQDY0027"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-049">
+      <description>String that needs escaping</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">abc&#xa;def</string>)
+       ]]></test>
+      <result>
+            <assert-eq>'"abc\ndef"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-050">
+      <description>String that needs escaping</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test><![CDATA[
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">abc&#x7;def</string>)
+       ]]></test>
+      <result>
+            <assert-eq>'"abc\u0007def"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-051">
+      <description>Key that needs escaping</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><string key="&#x9;">tab</string></map>)
+       ]]></test>
+      <result>
+            <assert-eq>'{"\t":"tab"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-052">
+      <description>Key marked as escaped</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+        ><string escaped-key="true" key="\t">tab</string></map>)
+       ]]></test>
+      <result>
+            <assert-eq>'{"\t":"tab"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-053">
+      <description>Key marked as not escaped</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+        ><string escaped-key="0" key="\t">tab</string></map>)
+       ]]></test>
+      <result>
+            <assert-eq>'{"\\t":"tab"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-054">
+      <description>String marked as escaped</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions">
+            <string escaped="1" key="t1">\t</string>
+            <string escaped="0" key="t2">\t</string>
+            <string escaped="1" key="t3">&#x9;</string>
+            <string escaped="0" key="t4">&#x9;</string>
+        </map>)
+       ]]></test>
+      <result>
+            <assert-eq>'{"t1":"\t","t2":"\\t","t3":"\t","t4":"\t"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-055">
+      <description>String marked as not escaped</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+        ><string escaped="false" key="tab">\t</string></map>)
+       ]]></test>
+      <result>
+            <assert-eq>'{"tab":"\\t"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-056">
+      <description>Indent</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+        ><number key="a">1</number><number key="b">2</number></map>, map{'indent':true()})
+        return translate(normalize-space($result), ' ', '')
+       ]]></test>
+      <result>
+            <assert-eq>'{"a":1,"b":2}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-057">
+      <description>Indent</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+        ><number key="a">1</number><number key="b">2</number></map>, map{'indent':true()})
+        return normalize-space($result) eq $result
+       ]]></test>
+      <result>
+            <!-- technically indent=true could have a null implementation but we assume it does something -->
+            <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-058">
+      <description>Indent=false</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+        ><number key="a">1</number><number key="b">2</number></map>, map{'indent':false()})
+        return normalize-space($result) eq $result
+       ]]></test>
+      <result>
+            <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-059">
+      <description>Indent=rubbish</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29022"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+        ><number key="a">1</number><number key="b">2</number></map>, map{'indent':()})
+        return normalize-space($result) eq $result
+       ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-060">
+      <description>Unknown options are ignored</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+        ><number key="a">1</number><number key="b">2</number></map>, map{'indent':false(), 'outdent':true()})
+        return normalize-space($result) eq $result
+       ]]></test>
+      <result>
+            <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-061">
+      <description>Validated content with maps and arrays</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import schema default element namespace "http://www.w3.org/2005/xpath-functions";
+        xml-to-json(validate strict {json-to-xml('{"a":2, "b\\":[null, true, false, "xyz\t"]}')})
+       ]]></test>
+      <result>
+            <assert-eq>'{"a":2,"b\\":[null,true,false,"xyz\t"]}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-062">
+      <description>Invalid value of escaped-key attribute</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+        ><string escaped-key="bonkers" key="\t">tab</string></map>)
+       ]]></test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-063">
+      <description>Invalid value of escaped attribute</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+        ><string escaped="potty" key="\t">tab</string></map>)
+       ]]></test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-064">
+      <description>(Was) Invalid position of escaped-key attribute</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <modified by="Michael Kay" on="2017-04-05" change="See bug 30077; this is now allowed as a result of bug 29917"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+        escaped-key="0"><string key="\t">tab</string></map>)
+       ]]></test>
+      <result>
+            <assert-eq>'{"\\t":"tab"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-065">
+      <description>(Was) Invalid position of escaped attribute</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <modified by="Michael Kay" on="2017-04-05" change="See bug 30077; this is now allowed as a result of bug 29917"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+         escaped="0"><string key="\t">tab</string></map>)
+       ]]></test>
+      <result>
+         <assert-eq>'{"\\t":"tab"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-066">
+      <description>Empty sequence</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>xml-to-json(())</test>
+      <result>
+          <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-067">
+      <description>Empty sequence</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>xml-to-json((), map{})</test>
+      <result>
+          <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-068">
+      <description>Attributes in other namespaces are OK</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
+         xml:base="http://www.w3.org"><string key="t">tab</string></map>)
+       ]]></test>
+      <result>
+            <assert-eq>'{"t":"tab"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-069">
+      <description>Attributes in JSON namespace are not OK</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<j:map xmlns:j="http://www.w3.org/2005/xpath-functions"
+         j:base="http://www.w3.org"><j:string key="t">tab</j:string></j:map>)
+       ]]></test>
+      <result>
+            <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-070">
+      <description>
+         Converting a subtree of a valid tree: test case for bug 29917.
+         Currently invalid because the selected element has a 'key' attribute which is not allowed.
+      </description>
+      <created by="Michael Kay" on="2016-10-06"/>
+      <modified by="Michael Kay" on="2016-10-18" change="Bug 29917 was accepted; expected results therefore change"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>
+         let $x := json-to-xml('[{ "givenNames": ["Michael", "Howard"], "surname": "Kay"}]')
+         return xml-to-json($x//*[@key='givenNames'])
+      </test>
+      <result>
+         <assert-eq>'["Michael","Howard"]'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-C-001">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t001"]/*:variable/*)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-002">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t002"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-003">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t003"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-004">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t004"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-005">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t005"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-006">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t006"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-007">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t007"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-008">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t008"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-009">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t009"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-010">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t010"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-011">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t011"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-012">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t012"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-013">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t013"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-014">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t014"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-015">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t015"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-016">
+      <description>(Was) Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <modified by="Michael Kay" on="2017-04-05" change="See bug 30077; this is now allowed as a result of bug 29917"/>     
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t016"]/*:variable/*)</test>
+      <result>
+         <assert-string-value>"xxxx"</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-017">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t017"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0007"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-C-018">
+      <description>Invalid input</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-C"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t018"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0007"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-001">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t001"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"a"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-002">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t002"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"a"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-003">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t003"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\""'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-004">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t004"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\\"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-005">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t005"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\uD834\uDD1E"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-006">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t006"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\\\""'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-007">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t007"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\\\\"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-008">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t008"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\\uD834\\uDD1E"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-009">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t009"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"  "'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-010">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t010"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\"-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-011">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t011"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\n-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-012">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t012"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\r-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-013">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t013"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\t-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-014">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t014"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\u007F-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-016">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t014"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\u007F-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-101">
+      <description>Valid input - booleans</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t101"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'false'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-102">
+      <description>Valid input - booleans</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t102"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'true'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-103">
+      <description>Valid input - booleans</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t103"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'false'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-104">
+      <description>Valid input - booleans</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t104"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'true'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-201">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t201"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'7'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-202">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t202"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'-0'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-203">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t203"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'1.0E6'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-204">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t204"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'-0.000001'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-205">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t205"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'0.001'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-206">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t206"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'23'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-301">
+      <description>Valid input - null</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t301"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'null'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-302">
+      <description>Valid input - null</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t302"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'null'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-303">
+      <description>Valid input - null</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t303"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'null'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-401">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t401"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'[]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-402">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t402"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'[]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-403">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t403"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'[]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-404">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t404"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'[null]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-405">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t405"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'["(",null,null,")"]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-406">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t406"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'["(",null,null,")"]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-407">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t407"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'[null]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-501">
+      <description>Maps: duplicates after escaping</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <modified by="Michael Kay"  on="2016-06-09" change="effect of bug 29588"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t501"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-502">
+      <description>Maps: duplicates after escaping</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <modified by="Michael Kay"  on="2016-06-09" change="effect of bug 29588"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t502"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-503">
+      <description>Maps: duplicates after escaping</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <modified by="Michael Kay"  on="2016-06-09" change="effect of bug 29588"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t503"]/*:variable/*)</test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-504">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t504"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"\"":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-505">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t505"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"\\":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-506">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t506"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"\uD834\uDD1E":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-507">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <modified by="Christian Gruen" on="2016-06-02" change="Comparison of test result revised."/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t507"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"\"":"1","\\\"":"0"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-508">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t508"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"A":"1","B":"  "}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-509">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t509"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"-\n-":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-510">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t510"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"-\r-":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-511">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>xml-to-json(//*:template[@name="t511"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"-\t-":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+
+
+
+
+</test-set>

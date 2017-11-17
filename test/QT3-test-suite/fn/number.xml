@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-number">
+   <description>Tests the fn:number() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-number"/>
+
+   <test-case name="fn-numberint1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:int(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:int("-2147483648"))</test>
+      <result>
+         <assert-string-value>-2.147483648E9</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberint1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:int(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:int("-1873914410"))</test>
+      <result>
+         <assert-string-value>-1.87391441E9</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberint1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:int(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:int("2147483647"))</test>
+      <result>
+         <assert-string-value>2.147483647E9</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberintg1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:integer(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:integer("-999999999999999999"))</test>
+      <result>
+         <assert-string-value>-1.0E18</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberintg1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:integer(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:integer("830993497117024304")) eq 830993497117024304</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberintg1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:integer(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:integer("999999999999999999"))</test>
+      <result>
+         <assert-string-value>1.0E18</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberdec1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:decimal(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:decimal("-999999999999999999"))</test>
+      <result>
+         <assert-string-value>-1.0E18</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberdec1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:decimal(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:decimal("617375191608514839")) eq 617375191608514839</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberdec1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:decimal(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:decimal("999999999999999999"))</test>
+      <result>
+         <assert-string-value>1.0E18</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberdbl1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:double(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:double("-1.7976931348623157E308"))</test>
+      <result>
+         <assert-string-value>-1.7976931348623157E308</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberdbl1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:double(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:double("0"))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberdbl1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:double(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:double("1.7976931348623157E308"))</test>
+      <result>
+         <assert-string-value>1.7976931348623157E308</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberflt1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:float(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:float("-3.4028235E38")) eq -3.4028234663852885E38</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberflt1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:float(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:float("0"))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberflt1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:float(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:float("3.4028235E38"))</test>
+      <result>
+         <any-of>
+            <assert-string-value>3.4028234663852885E38</assert-string-value>
+            <assert-string-value>3.402823466385289E38</assert-string-value>
+            <assert-string-value>3.4028234663852886E38</assert-string-value>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberlng1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:long(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:long("-92233720368547758"))</test>
+      <result>
+         <assert-string-value>-9.223372036854776E16</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberlng1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:long(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:long("-47175562203048468")) eq -47175562203048468</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberlng1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:long(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:long("92233720368547758"))</test>
+      <result>
+         <assert-string-value>9.223372036854776E16</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberusht1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:unsignedShort(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:unsignedShort("0"))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberusht1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:unsignedShort(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:unsignedShort("44633"))</test>
+      <result>
+         <assert-string-value>44633</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberusht1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:unsignedShort(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:unsignedShort("65535"))</test>
+      <result>
+         <assert-string-value>65535</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbernint1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:negativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:negativeInteger("-999999999999999999"))</test>
+      <result>
+         <assert-string-value>-1.0E18</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbernint1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:negativeInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:negativeInteger("-297014075999096793")) eq -297014075999096793</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbernint1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:negativeInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:negativeInteger("-1"))</test>
+      <result>
+         <assert-string-value>-1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberpint1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:positiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:positiveInteger("1"))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberpint1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:positiveInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:positiveInteger("52704602390610033")) eq 52704602390610033</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberpint1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:positiveInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:positiveInteger("999999999999999999"))</test>
+      <result>
+         <assert-string-value>1.0E18</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberulng1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:unsignedLong(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:unsignedLong("0"))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberulng1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:unsignedLong(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:unsignedLong("130747108607674654"))</test>
+      <result>
+         <any-of>
+            <assert-string-value>1.3074710860767466E17</assert-string-value>
+            <assert-string-value>1.30747108607674648E17</assert-string-value>
+            <assert-string-value>1.30747108607674649E17</assert-string-value>
+            <assert-string-value>1.3074710860767465E17</assert-string-value>
+            <assert-string-value>1.30747108607674651E17</assert-string-value>
+            <assert-string-value>1.30747108607674652E17</assert-string-value>
+            <assert-string-value>1.30747108607674653E17</assert-string-value>
+            <assert-string-value>1.30747108607674654E17</assert-string-value>
+            <assert-string-value>1.30747108607674655E17</assert-string-value>
+            <assert-string-value>1.30747108607674656E17</assert-string-value>
+            <assert-string-value>1.30747108607674657E17</assert-string-value>
+            <assert-string-value>1.30747108607674658E17</assert-string-value>
+            <assert-string-value>1.30747108607674659E17</assert-string-value>
+            <assert-string-value>1.30747108607674661E17</assert-string-value>
+            <assert-string-value>1.30747108607674662E17</assert-string-value>
+            <assert-string-value>1.30747108607674663E17</assert-string-value>
+            <assert-string-value>1.30747108607674664E17</assert-string-value>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numberulng1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:unsignedLong(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:unsignedLong("184467440737095516")) eq 1.8446744073709551E17</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbernpi1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:nonPositiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:nonPositiveInteger("-999999999999999999"))</test>
+      <result>
+         <assert-string-value>-1.0E18</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbernpi1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:nonPositiveInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:nonPositiveInteger("-475688437271870490"))</test>
+      <result>
+         <any-of>
+            <assert-string-value>-4.7568843727187049E17</assert-string-value>
+            <assert-string-value>-4.756884372718705E17</assert-string-value>
+            <assert-string-value>-4.7568843727187046E17</assert-string-value>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbernpi1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:nonPositiveInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:nonPositiveInteger("0"))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbernni1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:nonNegativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:nonNegativeInteger("0"))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbernni1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:nonNegativeInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:nonNegativeInteger("303884545991464527")) eq 303884545991464527</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbernni1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:nonNegativeInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:nonNegativeInteger("999999999999999999"))</test>
+      <result>
+         <assert-string-value>1.0E18</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbersht1args-1">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:short(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:short("-32768"))</test>
+      <result>
+         <assert-string-value>-32768</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbersht1args-2">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:short(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:short("-5324"))</test>
+      <result>
+         <assert-string-value>-5324</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-numbersht1args-3">
+      <description> Evaluates The "number" function with the arguments set as follows: $arg = xs:short(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:number(xs:short("32767"))</test>
+      <result>
+         <assert-string-value>32767</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-number-1">
+      <description> Evaluation of the fn:number function with empty sequence as an argument. </description>
+      <created by="Carmelo Montanez" on="2005-09-20"/>
+      <test>fn:number(())</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-number-2">
+      <description> Evaluation of the fn:number function with a string set as an argument. </description>
+      <created by="Carmelo Montanez" on="2005-09-20"/>
+      <test>fn:number("A String")</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-number-3">
+      <description> Evaluation of the fn:number function with an undefined context node. </description>
+      <created by="Carmelo Montanez" on="2005-09-20"/>
+      <environment ref="empty"/>
+      <test>fn:number()</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-number-4">
+      <description> Evaluation of the fn:number function with an undefined context node and argument set to ".". </description>
+      <created by="Carmelo Montanez" on="2006-02-08"/>
+      <environment ref="empty"/>
+      <test>fn:number(.)</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-number-5">
+      <description>number() applied to a boolean</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>number(true())</test>
+      <result>
+         <all-of>
+            <assert-type>xs:double</assert-type>
+            <assert-eq>1.0e0</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-number-6">
+      <description>number() applied to a boolean</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>number(false())</test>
+      <result>
+         <all-of>
+            <assert-type>xs:double</assert-type>
+            <assert-eq>0.0e0</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-number-7">
+      <description>number() applied to a duration</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>number(implicit-timezone())</test>
+      <result>
+         <all-of>
+            <assert-type>xs:double</assert-type>
+            <assert-string-value>NaN</assert-string-value>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-number-8">
+      <description>number() applied to a string with whitespace</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>number("  -22e0  ")</test>
+      <result>
+         <all-of>
+            <assert-type>xs:double</assert-type>
+            <assert-eq>-22e0</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-number-9">
+      <description>number() applied to a string with leading plus sign</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>number("+22e0")</test>
+      <result>
+         <all-of>
+            <assert-type>xs:double</assert-type>
+            <assert-eq>2.2e1</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-number-10">
+      <description>number() applied to an untypedAtomic</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>number(xs:untypedAtomic("1000"))</test>
+      <result>
+         <all-of>
+            <assert-type>xs:double</assert-type>
+            <assert-eq>1e3</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-1">
+      <description> A test whose essence is: `number(1, 2)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>number(1, 2)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-2">
+      <description> A test whose essence is: `fn:number(1) eq 1`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:number(1) eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-3">
+      <description> A test whose essence is: `not(fn:number("results in NaN"))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(fn:number("results in NaN"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-4">
+      <description> A test whose essence is: `fn:number("results in NaN") instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:number("results in NaN") instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-5">
+      <description> A test whose essence is: `fn:number(1) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:number(1) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-6">
+      <description> A test whose essence is: `fn:number(1.1) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:number(1.1) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-7">
+      <description> A test whose essence is: `fn:number(xs:float(3)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:number(xs:float(3)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-8">
+      <description> A test whose essence is: `fn:number(xs:double(3)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:number(xs:double(3)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-9">
+      <description> A test whose essence is: `fn:number("NaN") instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:number("NaN") instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-10">
+      <description> A test whose essence is: `fn:number(()) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:number(()) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-11">
+      <description> A test whose essence is: `not(fn:number(()))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(fn:number(()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-12">
+      <description> fn:number() applied to a type which a cast regardless of source value never would succeed for. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(number(xs:anyURI("example.com/"))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-13">
+      <description> A test whose essence is: `string(number(xs:anyURI("1"))) eq "NaN"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(number(xs:anyURI("1"))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-14">
+      <description> A test whose essence is: `string(number("1")) eq "1"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(number("1")) eq "1"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-15">
+      <description> A test whose essence is: `string(number(xs:gYear("2005"))) eq "NaN"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(number(xs:gYear("2005"))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-16">
+      <description> fn:number() inside a predicate. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>deep-equal((1, 2, 3)[number()], (1, 2, 3))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNumberFunc-17">
+      <description> fn:number() inside a predicate(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1)[number()] eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

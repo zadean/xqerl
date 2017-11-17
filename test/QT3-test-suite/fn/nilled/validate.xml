@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<tc:root
+  xmlns:tc="http://www.w3.org/XQueryTest/testcases"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.w3.org/XQueryTest/testcases validate.xsd">
+
+  <tc:nillable />
+  <tc:nillable xsi:nil="true"/>
+  <tc:nillable xsi:nil="false"/>
+
+  <tc:schema-attribute tc:x="x" />
+
+  <tc:schema-element-head>head</tc:schema-element-head>
+  <tc:schema-element-group>group</tc:schema-element-group>
+  <tc:schema-element-group-restriction>group</tc:schema-element-group-restriction>
+  <tc:schema-element-group-nillable>group</tc:schema-element-group-nillable>
+  <tc:schema-element-group-nillable xsi:nil="true" />
+  <tc:schema-element-group-nillable xsi:nil="false">group</tc:schema-element-group-nillable>
+
+  <tc:schema-element-nillable-head>head</tc:schema-element-nillable-head>
+  <tc:schema-element-nillable-group>group</tc:schema-element-nillable-group>
+  <tc:schema-element-nillable-group xsi:nil="true" />
+  <tc:schema-element-nillable-group xsi:nil="false">group</tc:schema-element-nillable-group>
+  <tc:schema-element-nillable-group-restriction>group</tc:schema-element-nillable-group-restriction>
+  <tc:schema-element-nillable-group-restriction xsi:nil="true" />
+  <tc:schema-element-nillable-group-restriction xsi:nil="false">group</tc:schema-element-nillable-group-restriction>
+
+  <tc:fixed-attribute />
+  <tc:fixed-attribute attr="fixed" />
+  <tc:default-attribute />
+  <tc:default-attribute attr="non-default" />
+
+  <tc:recursive-definition>
+	  <tc:recursive-definition />
+  </tc:recursive-definition>
+
+  <tc:mixed-recursive-definition>
+	  mixed
+	  <tc:mixed-recursive-definition>
+	  	mixed
+	  </tc:mixed-recursive-definition>
+	  mixed
+  </tc:mixed-recursive-definition>
+
+</tc:root> 
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:s="http://www.w3.org/XQueryTest/abf"
+           targetNamespace="http://www.w3.org/XQueryTest/abf"
+           elementFormDefault="qualified">
+
+<xs:complexType name="abfType">
+    <xs:sequence>
+      <xs:element ref="s:a" minOccurs="1"/>
+      <xs:group ref="s:gb" minOccurs="0" maxOccurs="2"/>
+      <xs:element name="f" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:element name="a">
+  <xs:complexType>
+    <xs:sequence/>
+  </xs:complexType>
+</xs:element>
+
+<xs:group name="gb">
+  <xs:sequence>
+    <xs:element name="b"/>
+  </xs:sequence>
+</xs:group>
+
+<xs:element name="abf" type="s:abfType"/>
+
+<xs:element name="xyz">
+ <xs:complexType>
+   <xs:sequence maxOccurs="unbounded">
+     <xs:element ref="s:abf"/>
+   </xs:sequence>
+ </xs:complexType>
+</xs:element> 
+
+</xs:schema>

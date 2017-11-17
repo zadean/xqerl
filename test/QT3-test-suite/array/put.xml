@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="array-put"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="array-put">
+    <description>Tests for the array:put function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-put"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+
+
+
+    <test-case name="array-put-001">
+        <description>Put sequence member in array with string members</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        <environment ref="array"/>
+        <test>array:put(["a", "b", "c", "d"], 3, ("x", "y"))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>["a", "b", ("x", "y"), "d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-put-002">
+        <description>Put sequence member in array with string members</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        <environment ref="array"/>
+        <test>array:put(["a", "b", "c", "d"], 4, ("x", "y"))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>["a", "b", "c", ("x", "y")]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-put-003">
+        <description>Put array member in array with string members</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        <environment ref="array"/>
+        <test>array:put(["a", "b", "c", "d"], 3, ["x", "y"])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>["a", "b", ["x", "y"], "d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-put-004">
+        <description>Put sequence member in array with string members</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        <environment ref="array"/>
+        <test>array:put(["a", "b", "c", "d"], 1, ([],[]))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>[([],[]), "b", "c", "d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-put-005">
+        <description>Put empty sequence member in singleton array</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        <environment ref="array"/>
+        <test>array:put([1], 1, ())</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-deep-eq>[()]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-put-006">
+        <description>Put member in empty array - error</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        <environment ref="array"/>
+        <test>array:put([], 2, ())</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="array-put-007">
+        <description>Put member in array - error</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        <environment ref="array"/>
+        <test>array:put([4,5,[6]], 0, "a")</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+
+    <test-case name="array-put-008">
+        <description>array:put</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        <dependency type="spec" value="XQ31+"/>
+        <environment ref="array"/>
+        <test><![CDATA[   
+              let $x := <x/>
+        	  let $array := [<e/>, <f/>, <g/>]
+           	  for $i in 1 to array:size($array)
+              return
+        	     array:put($array, $i, $x) 
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>array(*)+</assert-type>
+                <assert>count($result) eq 3</assert>
+                <assert>deep-equal($result[1]?*!local-name(), ('x', 'f', 'g'))</assert>
+                <assert>deep-equal($result[2]?*!local-name(), ('e', 'x', 'g'))</assert>
+                <assert>deep-equal($result[3]?*!local-name(), ('e', 'f', 'x'))</assert>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-put-009">
+        <description>array:put</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        
+        <dependency type="spec" value="XQ31+"/>
+        <environment ref="array"/>
+        <test><![CDATA[   
+              let $x := 1
+              let $array := [0,0,0]
+              for $i in 1 to array:size($array)
+              return
+                 array:put($array, $i, $x) 
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>array(*)+</assert-type>
+                <assert>count($result) eq 3</assert>
+                <assert-deep-eq><![CDATA[ 
+                    [1,0,0],
+                    [0,1,0],
+                    [0,0,1]
+                ]]></assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-put-010">
+        <description>array:put - node identity</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        
+        <dependency type="spec" value="XQ31+"/>
+        <environment ref="array"/>
+        <test><![CDATA[   
+              let $x := <c/>
+              let $array := [<a/>, <b/>]
+              let $insert1 := array:put($array, 1, $x)
+              let $insert2 := array:put($array, 2, $x)
+              for $element in (array:flatten($insert1) union array:flatten($insert2))
+              let $name := $element/name()
+              order by $name
+              return $name
+        ]]></test>
+        <result>
+            <assert-deep-eq>("a", "b", "c")</assert-deep-eq>
+        </result>
+    </test-case>
+
+    <test-case name="array-put-011">
+        <description>Put member in array - error</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        <environment ref="array"/>
+        <test>array:put([4,5,[6]], 4, "a")</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="array-put-012">
+        <description>Put member in array - error</description>
+        <created by="Michael Kay" on="2016-06-07"/>
+        <environment ref="array"/>
+        <test>array:put([4,5,[6]], -842, "a")</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
+</test-set>

@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-DirElemConstructor">
+   <description>Tests for the DirElemConstructor (Direct Element Constructor) production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-DirElemConstructor"/>
+   <link type="spec" document="XQuery" section-number="3.7.1"
+         idref="id-element-constructor"/>
+         
+   <dependency type="spec" value="XQ10+"/>      
+
+   <test-case name="Constr-elem-empty-1">
+      <description> Empty element constructor </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-empty-2">
+      <description> Empty element constructor with closing tag </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem></elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-empty-3">
+      <description> Number of child nodes for empty element </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:count((<elem/>)/node())]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-empty-4">
+      <description> Number of child nodes for empty element </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:count((<elem></elem>)/node())]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-empty-5">
+      <description> Whitespace in element constructor </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem />]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-matchtag-1" covers="error-XQST0118">
+      <description> Begin tag matches end tag </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<elem></elemother>]]></test>
+      <result>
+         <error code="XQST0118"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-matchtag-2">
+      <description> Begin tag matches end tag with namespace prefix </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <modified by="Michael Kay" on="2015-01-03" change="see bug 27728"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[<foo:elem xmlns:foo="http://www.w3.org/XQueryTest/Construct" xmlns:bar="http://www.w3.org/XQueryTest/Construct"></bar:elem>]]></test>
+      <result>
+         <error code="*"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-elem-matchtag-2a" covers="error-XQST0118">
+      <description> Begin tag matches end tag with namespace prefix </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <modified by="Michael Kay" on="2015-01-03" change="see bug 27728"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<foo:elem xmlns:foo="http://www.w3.org/XQueryTest/Construct" xmlns:bar="http://www.w3.org/XQueryTest/Construct"></bar:elem>]]></test>
+      <result>
+         <error code="XQST0118"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-curlybr-1">
+      <description> Element constructor with open curly brace </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{{</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>{</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-curlybr-2">
+      <description> Element constructor with closing curly brace </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>}}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>}</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-curlybr-3">
+      <description> Character reference for open curly brace </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>&#x7b;</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>{</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-curlybr-4">
+      <description> Character reference for closing curly brace </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>&#x7d;</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>}</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-curlybr-5">
+      <description> Single open curly brace </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>{</elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-elem-curlybr-6">
+      <description> Single closing curly brace </description>
+      <created by="Andreas Behm" on="2005-01-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>}</elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-1">
+      <description> Ensure processing-instructions aren't included when extracting the string-value from elements. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string(<pi>{<?pi x?>}</pi>) eq ""]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-2">
+      <description> Ensure comments aren't included when extracting the string-value from elements. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string(<a attr="content"><!-- NOTINC -->1<b>2<c><!-- NOTINC -->34</c><!-- NOTINC --><d/>56</b>7</a>) eq "1234567"]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-3">
+      <description> Syntax error in direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-4">
+      <description> Syntax error in direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[< foo/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-5">
+      <description> Syntax error in direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo/ >]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-6">
+      <description> Syntax error in direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[< foo></foo>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-7">
+      <description> Syntax error in direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo>< /foo>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-8">
+      <description> Syntax error in direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo /]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-9">
+      <description> Syntax error in direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-10">
+      <description> Syntax error in direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<prefix:foo]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XPST0081"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-11">
+      <description> Syntax error in direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<prefix: foo/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-12">
+      <description> Syntax error in direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo attr="{'a string'}><<<"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-13">
+      <description> Syntax error in direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[</>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-14">
+      <description> Syntactically invalid direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> content}</e>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-15" covers="error-XQST0118">
+      <description> Syntactically invalid direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-05-22" change="Bug fix related to bug #14340. The error code changed from XPST0003 to XQST0118"/>
+      <modified by="Michael Kay" on="2015-01-03" change="see bug 27728"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<f><c></f></c>]]></test>
+      <result>
+         <error code="XQST0118"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-16">
+      <description> Syntactically invalid direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a><b><c/><d/><a/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-17">
+      <description> Syntactically invalid direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a><b><c/><b/><d/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-18">
+      <description> Syntactically invalid direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-19">
+      <description> Syntactically invalid direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-20">
+      <description> Syntactically invalid direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-21">
+      <description> Syntactically invalid direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><[]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-22">
+      <description> Syntactically invalid direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><![]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-23">
+      <description> Syntactically invalid direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem><!-]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-24">
+      <description> Syntactically invalid direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>&</elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-25">
+      <description> Enclosed expressions aren't allowed inside element constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem {"attribute-name"} = "attribute value"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-26">
+      <description> Enclosed expressions aren't allowed inside element constructors.(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem attributename = {"attribute value"} />]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-27">
+      <description> Enclosed expressions aren't allowed inside element constructors.(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem attributename = {"attribute value"}></elem>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-28">
+      <description> A simple direct element constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a></a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-29">
+      <description> Serialize a sequence of direct element constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e>a</e>, <e>b</e>, <e>c</e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e>a</e><e>b</e><e>c</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-30">
+      <description> Serialize a couple of element constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem>some text<node/>some text</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>some text<node/>some text</elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-31">
+      <description> A couple of simple elements. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo > <doo/> </foo>]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo><doo/></foo>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-32">
+      <description> A couple of simple elements(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo><doo/></foo>]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo><doo/></foo>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-33">
+      <description> A couple of simple elements(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo><doo/> </foo>]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo><doo/></foo>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-34">
+      <description> An element with a computed attribute and element. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo > {attribute name {"content"}} <doo/> </foo>]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo name="content"><doo/></foo>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-35" covers-30="reserved-namespaces">
+      <description> Bind the 'xml' namespace URI to an invalid prefix. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:aPrefixOtherThanXml="http://www.w3.org/XML/1998/namespace"/>]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-36" covers-30="reserved-namespaces">
+      <description> Bind the 'xml' namespace URI to an invalid prefix(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns="http://www.w3.org/XML/1998/namespace"/>]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-37" covers-30="reserved-namespaces">
+      <description> Bind the 'xml' namespace URI to an invalid prefix(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:XML="http://www.w3.org/XML/1998/namespace"/>]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-38" covers-30="reserved-namespaces">
+      <description> Bind the 'xml' namespace URI to a valid prefix. The output doesn't expect the declaration because the c14n specification ignores declarations of the xml prefix if it binds to the XML namespace(see section 2.3). In either case, serializing this declaration is redundant. See the public report #4217 in W3C's Bugzilla database. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:xml="http://www.w3.org/XML/1998/namespace"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-39" covers-30="reserved-namespaces">
+      <description> Bind the 'xmlns' namespace URI to an invalid prefix(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:xmlns="http://www.w3.org/XML/1998/namespace"/>]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-40" covers-30="reserved-namespaces">
+      <description> Bind the 'xmlns' namespace URI to an invalid prefix(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:xmlns="http://www.w3.org/2000/xmlns/"/>]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-41" covers-30="reserved-namespaces">
+      <description> Bind the 'xmlns' namespace URI to an invalid prefix(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:xmlns="http://www.example.com/"/>]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-42">
+      <description> Use a content sequence that is a strange combination of a computed document constructor and a path. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { document{()}/(/) } </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-43">
+      <description> Use a content sequence that is a computed document constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { document{()} } </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-44">
+      <description> Extract the string value of a single element node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string(<e>text</e>)]]></test>
+      <result>
+         <assert-string-value>text</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-45">
+      <description> Extract the typed value of a single element node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[data(<e>text</e>)]]></test>
+      <result>
+         <assert-string-value>text</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-46">
+      <description> Use an element constructor that use a namespace declare in a prolog declaration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace p = "http://www.example.com/"; <p:e/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<p:e xmlns:p="http://www.example.com/"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-47">
+      <description> Use content that needs to be escaped, inside namespace declaration attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $in := <r> <e xmlns="http://example.com/&lt;&gt;&quot;&apos;"""/> <e xmlns='http://example.com/&lt;&gt;&quot;&apos;'''/> <p:e xmlns:p="http://example.com/&lt;&gt;&quot;&apos;"""/> <p:e xmlns:p='http://example.com/&lt;&gt;&quot;&apos;'''/> </r> return <r>{for $n in $in/*/namespace-uri(.) return <e ns="{$n}"/>}</r>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<r><e ns="http://example.com/&lt;&gt;&quot;'&quot;"/><e ns="http://example.com/&lt;&gt;&quot;''"/><e ns="http://example.com/&lt;&gt;&quot;'&quot;"/><e ns="http://example.com/&lt;&gt;&quot;''"/></r>]]></assert-xml>
+            <error code="XQST0046"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-48">
+      <description> In XQuery, as opposed to XML, the sequence ]]&lt; is allowed in element content. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;e>]]&gt;&lt;/e&gt;</test>
+      <result>
+         <assert-string-value>]]&gt;</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-49">
+      <description> In XQuery, as opposed to XML, the sequence ]]&lt; is allowed in attribute content. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;e attr="]]&gt;"/&gt;</test>
+      <result>
+         <assert-xml>&lt;e attr="]]&gt;"/&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-50">
+      <description> Character &lt; cannot appear in attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e attr="<"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-51">
+      <description> Ensure that whitespace normalization of xml:id is performed. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xml:id=" fo"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xml:id="fo"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-52">
+      <description> Output sharp S. </description>
+      <created by="Frans Englich" on="2008-05-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>&#223;</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a>&#223;</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-53">
+      <description> There is no 'namespace' constructor in XQuery 1.0. </description>
+      <created by="Frans Englich" on="2008-05-23"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>namespace {"p"} {"abc"}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-DirectConElem-53a">
+      <description> There is a 'namespace' constructor in XQuery 3.0. </description>
+      <created by="Michael Kay" on="2011-07-22"/>
+      <modified by="O'Neil Delpratt" on="2014-12-16" change="Bug fix relating #27180: Added + to the dependency" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>namespace {"p"} {"abc"}</test>
+      <result>
+         <all-of>
+            <assert-type>namespace-node()</assert-type>
+            <assert-string-value>abc</assert-string-value>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DirectConElem-54">
+      <description> There is no 'namespace-node' constructor in XQuery. </description>
+      <created by="Frans Englich" on="2008-05-23"/>
+      <test>namespace-node {"p"} {"abc"}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-directconelem-001">
+      <description>Checks the in-scope namespaces of directly constructed element. </description>
+      <created by="Tim Mills" on="2013-07-04"/>
+      <test>
+<![CDATA[
+declare default element namespace "http://example.com/0"; 
+declare namespace a = "http://example.com/1"; 
+declare namespace b = "http://example.com/2"; 
+declare copy-namespaces preserve,no-inherit;
+
+declare function local:in-scope-namespace-bindings($arg)
+{
+  for $i in in-scope-prefixes($arg) 
+  order by $i 
+  return 
+  concat("xmlns",
+         if (string-length($i) = 0)
+         then ""
+         else ":",
+         $i,
+         '="', namespace-uri-for-prefix($i, $arg), '"')
+};
+
+<a:outer b:outer="attr" xmlns:c="http://example.com/3" c:outer="attr">
+  <inner a="a:attr" b="b:attr" />
+</a:outer>/(local:in-scope-namespace-bindings(.),
+            '|', 
+            local:in-scope-namespace-bindings((./*)[1]))
+]]>
+      </test>
+      <result>
+         <assert-string-value>xmlns:a="http://example.com/1" xmlns:b="http://example.com/2" xmlns:c="http://example.com/3" xmlns:xml="http://www.w3.org/XML/1998/namespace" | xmlns="http://example.com/0" xmlns:c="http://example.com/3" xmlns:xml="http://www.w3.org/XML/1998/namespace"</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-directconelem-002">
+      <description>Checks the in-scope namespaces of directly constructed element. </description>
+      <created by="Tim Mills" on="2013-07-04"/>
+      <test>
+<![CDATA[
+declare default element namespace "http://example.com/0"; 
+declare namespace a = "http://example.com/1"; 
+declare namespace b = "http://example.com/2"; 
+declare copy-namespaces preserve,inherit;
+
+declare function local:in-scope-namespace-bindings($arg)
+{
+  for $i in in-scope-prefixes($arg) 
+  order by $i 
+  return 
+  concat("xmlns",
+         if (string-length($i) = 0)
+         then ""
+         else ":",
+         $i,
+         '="', namespace-uri-for-prefix($i, $arg), '"')
+};
+
+<a:outer b:outer="attr" xmlns:c="http://example.com/3" c:outer="attr">
+  <inner a="a:attr" b="b:attr" />
+</a:outer>/(local:in-scope-namespace-bindings(.),
+            '|', 
+            local:in-scope-namespace-bindings((./*)[1]))
+]]>
+      </test>
+      <result>
+         <assert-string-value>xmlns:a="http://example.com/1" xmlns:b="http://example.com/2" xmlns:c="http://example.com/3" xmlns:xml="http://www.w3.org/XML/1998/namespace" | xmlns="http://example.com/0" xmlns:c="http://example.com/3" xmlns:xml="http://www.w3.org/XML/1998/namespace"</assert-string-value>
+      </result>
+   </test-case>
+
+</test-set>

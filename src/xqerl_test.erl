@@ -242,7 +242,7 @@ string_value(Seq) ->
    xqerl_types:string_value(Seq).
 
 run_suite(Suite) ->
-   ct:run_test([{},{suite, Suite},{dir, "/git/zadean/xqerl/test"},{logdir, "/git/zadean/xqerl/test/logs"}])
+   ct:run_test([{},{suite, Suite},{dir, "../test"},{logdir, "../test/logs"}])
 .
 
 run(misc) ->
@@ -689,18 +689,6 @@ run(Str) ->
 run(Str, Options) ->
    io:format("~p~n",[Str]),
    xqerl:run(Str, Options).
-
-
-%% test() ->
-%%    L = [{sources, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xml","."}]},
-%% {schemas, [{"file:///C:/git/xqerl/test/QT3_1_0/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
-%% {collections, []},
-%% {'static-base-uri', []},
-%% {params, []},
-%% {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-%% {resources, []}
-%% ],
-%%    handle_environment(L).
 
 
 handle_environment(List) ->

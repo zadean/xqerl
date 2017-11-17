@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-intersect">
+   <description>Tests for the intersect() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-intersect"/>
+         
+   <environment name="acme_corp">
+      <source role="." file="union/acme_corp.xml">
+         <description>Source document for Function Declaration tests</description>
+         <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      </source>
+   </environment>
+   
+   <environment name="bib2">
+      <source role="." file="union/bib2.xml">
+         <description>Bibliography example with extra comments and PIs.</description>
+         <created by="spec-authors" on="2005-06-14"/>
+      </source>
+   </environment>
+
+   <test-case name="fn-intersect-node-args-001">
+      <description>arg: node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>(/bib/book[1]/title intersect /bib/book[1]/title)/string()</test>
+      <result>
+         <assert-string-value>TCP/IP Illustrated</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-002">
+      <description>arg: incorrect nodes</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/bib/book/title intersect /bib/book[1]/title</test>
+      <result>
+         <assert-string-value>TCP/IP Illustrated</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-003">
+      <description>arg: node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/bib/book[3]/title intersect root(exactly-one(/bib/book[3]/title))</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-004">
+      <description>arg: text node &amp; node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/bib/book[3]/title/text() intersect /bib/book/title/text()</test>
+      <result>
+         <assert-string-value>Data on the Web</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-005">
+      <description>arg: processing-instruction node &amp; node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>(/processing-instruction() intersect /processing-instruction())/name()</test>
+      <result>
+         <assert-string-value>PI1 PI2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-006">
+      <description>arg: processing-instruction node &amp; node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>(/processing-instruction(PI1) intersect /processing-instruction())/name()</test>
+      <result>
+         <assert-string-value>PI1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-007">
+      <description>arg: comment node &amp; node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>string-join((/comment() intersect /comment()), "|")</test>
+      <result>
+         <assert-string-value> this file is a copy of bib.xml; just adds a few comments and PI nodes for testing | Comment 1 | Comment 2 </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-008">
+      <description>arg: text node &amp; node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/bib/book[3]/title/text() intersect /bib/book/title/text()</test>
+      <result>
+         <assert-string-value>Data on the Web</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-009">
+      <description>arg: processing-instruction node &amp; node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/processing-instruction() intersect /bib/book[2]/title</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-010">
+      <description>arg: processing-instruction node &amp; node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/processing-instruction(PI1) intersect /bib/book</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-011">
+      <description>arg: comment node &amp; node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>(/bib/book intersect /bib/book)/string(@year)</test>
+      <result>
+         <assert-string-value>1994 1992 2000 1999</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-012">
+      <description>arg: node &amp; non existing node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>//author intersect //nonexisting</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-013">
+      <description>arg: node &amp; empty sequence</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>//author intersect ()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-014">
+      <description>arg: empty sequence &amp; empty sequence</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <test>() intersect ()</test>
+      <result>
+         <any-of>
+            <assert-empty/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-015">
+      <description>arg: node and node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test> (/atomic:root/atomic:integer) intersect (/atomic:root/atomic:integer)</test>
+      <result>
+         <assert-xml><![CDATA[<atomic:integer xmlns:foo="http://www.example.com/foo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:atomic="http://www.w3.org/XQueryTest">12678967543233</atomic:integer>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-016">
+      <description>arg: node &amp; node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:integer) intersect (/atomic:root/atomic:integer)</test>
+      <result>
+         <assert-xml><![CDATA[<atomic:integer xmlns:foo="http://www.example.com/foo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:atomic="http://www.w3.org/XQueryTest">12678967543233</atomic:integer>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-017">
+      <description>arg: node &amp; node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:integer) intersect (/atomic:root/atomic:string)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-018">
+      <description>arg: text node &amp; text node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:duration/text()) intersect (/atomic:root/atomic:duration/text())</test>
+      <result>
+         <assert-string-value>P1Y2M3DT10H30M</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-019">
+      <description>arg: text node &amp; text node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:date/text()) intersect (/atomic:root/atomic:date/text())</test>
+      <result>
+         <assert-string-value>2000-01-01+05:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-020">
+      <description>arg: text node &amp; text node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:base64Binary/text()) intersect (/atomic:root/atomic:base64Binary/text())</test>
+      <result>
+         <assert-string-value>R0lGODlhcgGSALMAAAQCAEMmCZtuMFQxDS8b</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-021">
+      <description>arg: text node &amp; text node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:QName/text()) intersect (/atomic:root/atomic:QName/text())</test>
+      <result>
+         <assert-string-value>foo:aQname</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-022">
+      <description>arg: text node &amp; text node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:idrefs/text()) intersect (/atomic:root/atomic:idrefs/text())</test>
+      <result>
+         <assert-string-value>id1 id2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-intersect-node-args-023">
+      <description>arg: node &amp; node</description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $node in ((//price/text()) , (//price/text())) intersect ((//price/text()) , (//price/text())) return <a> {$node} </a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a> 65.95</a><a>65.95</a><a> 39.95</a><a>129.95</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-1">
+      <description>Only nodes are allowed.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3) intersect (1, 2, 3)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-2">
+      <description>Use a node kind keyword, text, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect text))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-3">
+      <description>Use a node kind keyword, node, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect node))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-4">
+      <description>Use a node kind keyword, element, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect element))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-5">
+      <description>Use a node kind keyword, attribute, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect attribute))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-6">
+      <description>Use a node kind keyword, document-node, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect document-node))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-7">
+      <description>Use a node kind keyword, comment, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect comment))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-8">
+      <description>Use a node kind keyword, processing-instruction, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect processing-instruction))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-9">
+      <description>Use a node kind keyword, item, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect item))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-10">
+      <description>Use a node kind keyword, document, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect document))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-11">
+      <description>Use a node kind keyword, if, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect if))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-12">
+      <description>Use a node kind keyword, then, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect then))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-13">
+      <description>Use a node kind keyword, mod, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect mod))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-14">
+      <description>Use a node kind keyword, div, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect div))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-15">
+      <description>Use a node kind keyword, empty-sequence, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect empty-sequence))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-16">
+      <description>Use a node kind keyword, schema-attribute, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect schema-attribute))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-17">
+      <description>Use a node kind keyword, schema-element, to test query parsing.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author intersect schema-element))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-18">
+      <description>Use a computed attribute constructor as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect attribute {"name"} {()}))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-19">
+      <description>Use a computed attribute constructor as right operand(#2).</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect attribute name {()}))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-20">
+      <description>Use a computed attribute constructor as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect element {"name"} {()}))]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-21">
+      <description>Use a computed attribute constructor as right operand(#2).</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect element name {()}))]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-22">
+      <description>Use a computed attribute constructor as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect processing-instruction {"name"} {()}))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-23">
+      <description>Use a computed attribute constructor as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect processing-instruction name {}))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-24">
+      <description>Use a computed attribute constructor as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect comment {()}))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-25">
+      <description>Use a computed attribute constructor as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect text {()}))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-26">
+      <description>Use a name test that is the descendant axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect descendant))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-27">
+      <description>Use a name test that is the attribute axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect attribute))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-28">
+      <description>Use a name test that is the self axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect self))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-29">
+      <description>Use a name test that is the descendant-or-self axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect descendant-or-self))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-30">
+      <description>Use a name test that is the following-sibling axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect following-sibling))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-31">
+      <description>Use a name test that is the following axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect following))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-32">
+      <description>Use a name test that is the preceding-sibling axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect preceding-sibling))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-33">
+      <description>Use a name test that is the preceding axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect preceding))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-34">
+      <description>Use a name test that is the parent axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect parent))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-35">
+      <description>Use a name test that is the ancestor axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect ancestor))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-36">
+      <description>Use a name test that is the ancestor axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect ancestor))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-37">
+      <description>Use a name test that is the ancestor-or-self axis as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect ancestor-or-self))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-38">
+      <description>Use 'declare as right operand.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a intersect declare))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-39">
+      <description>Extract the boolean value from a intersect expression.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <environment ref="acme_corp"/>
+      <test>boolean(//employee[location = "Denver"] intersect //employee[last()])</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-40">
+      <description>Explicitly sort the result of an intersect expression.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <environment ref="acme_corp"/>
+      <test>//(employee[location = "Denver"] intersect //employee[last()])/./location</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-41">
+      <description>Ensure node deduplication is done.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<r> { let $i := <e> <a/> <b/> <c/> </e>/a , $t := $i/following-sibling::b return (($i intersect ($i, $i)), (($t, $t) intersect $t)) } </r>]]></test>
+      <result>
+         <assert-xml><![CDATA[<r><a/><b/></r>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-42">
+      <description>Perform intersection between two singleton document nodes.</description>
+      <created by="Frans Englich" on="2008-05-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         declare function local:function ($c as node()) { $c intersect $c }; 
+         empty(local:function(document{()}))
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-43">
+      <description>Ensure two sequential union operators can be parsed(intersect).</description>
+      <created by="Frans Englich" on="2009-01-26"/>
+      <test>1 intersect 2 intersect 3</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqIntersect-44">
+      <description>Ensure two sequential union operators can be parsed(except).</description>
+      <created by="Frans Englich" on="2009-01-26"/>
+      <test>1 except 2 except 3</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="combiningnodeseqintersecthc1">
+      <description> Simple combination of node sequences involving different node sequences that results in empty sequence . Use "intersect" operator. Uses the count function to avoid the empty file for results. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count((<a>0</a>,<a>1</a>) intersect (<a>3</a>,<a>4</a>))]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="combiningnodeseqintersecthc2">
+      <description> Simple combination of node sequences involving two empty sequences. Use "intersect" operator. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <test>count(() intersect ())</test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="combiningnodeseqintersecthc3">
+      <description> Simple combination of sequences, where the two sequences are the same. Use "intersect" operator. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <environment ref="works"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>for $h in ( (//hours) intersect (//hours[xs:integer(.) gt 12])) order by number($h) return $h</test>
+      <result>
+         <assert-xml><![CDATA[<hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="combiningnodeseqintersecthc4">
+      <description> Simple combination of sequences, where second sequence intersect first sequence (multiple data sources). Use "intersect" operator. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <environment ref="works-and-staff"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>for $h in ( ($works//hours) intersect ($works//hours, $staff//grade)) order by number($h) return $h</test>
+      <result>
+         <assert-xml><![CDATA[<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
+      </result>
+   </test-case>
+   
+</test-set>

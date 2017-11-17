@@ -1,0 +1,26 @@
+<xs:schema
+     xmlns:xs        ="http://www.w3.org/2001/XMLSchema"
+     xmlns:res       ="http://schema.highwire.org/Publishing/Resource/qischema072"
+     targetNamespace ="http://schema.highwire.org/Publishing/Resource/qischema072"
+     elementFormDefault  ="qualified"  
+     attributeFormDefault="unqualified">
+     
+     <!-- schema designed to test validation of element-level constraints on the top-level element -->
+     
+   <xs:element   name="abs" type="res:sequence" abstract="true" />
+   <xs:element   name="fix" type="xs:string" fixed="fixedvalue" />
+   <xs:element   name="uni" type="res:sequence">
+     <xs:unique name="u">
+       <xs:selector xpath="res:link"/>
+       <xs:field xpath="@href"/>
+     </xs:unique>
+   </xs:element>   
+   <xs:complexType name="sequence">
+     <xs:sequence>
+       <xs:element name="link" type="res:link" maxOccurs="unbounded"/>
+     </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="link">
+     <xs:attribute name="href" type="xs:anyURI"/>
+   </xs:complexType>
+</xs:schema>

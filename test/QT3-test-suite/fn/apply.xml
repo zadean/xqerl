@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-apply" covers="fn-apply">
+   <description>Tests the apply() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+         idref="func-apply"/>
+   <dependency type="spec" value="XP31+ XQ31+" />
+   <dependency type="feature" value="higherOrderFunctions"/>
+
+   <test-case name="fn-apply-01">
+      <description> basic use of apply </description>
+      <created by="Michael Kay" on="2014-12-17"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>apply(abs#1, [-2])</test>
+      <result>
+	    <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-apply-02">
+      <description>Call built-in function with 0 arguments</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Kay" on="2015-01-29" change="correct expected result (was 'true' as an element name)"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>apply(true#0, array {})</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+ 
+   <test-case name="fn-apply-03">
+      <description>Invoke built-in function with sequence as argument</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Kay" on="2015-01-29" change="correct expected result (a string, not a number)"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>apply(string-join#1, [reverse(1 to 5) ! string()])</test>
+      <result>
+         <assert-eq>"54321"</assert-eq>
+      </result>
+   </test-case>
+ 
+   <test-case name="fn-apply-04">
+      <description>Invoke inline function</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Use syntax that also works in XPath"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>
+         let $func := function($a,$b,$c) { $a + $b + $c }
+           , $args := [ 1, 2, 3 ]
+         return apply($func, $args)
+      </test>
+      <result>
+         <assert-eq>6</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-apply-05">
+      <description>Invoke user-defined function</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to FunctionDecl"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+         declare function local:square($n as xs:integer) { $n * $n };
+         apply(local:square#1, [ 10 ])
+      </test>
+      <result>
+         <assert-eq>100</assert-eq>
+      </result>
+   </test-case>
+ 
+   <test-case name="fn-apply-06">
+      <description>Partial function application</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Kay" on="2015-01-29" change="correct expected result (a string, not a node name)"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>
+         apply(substring('flower', ?, ?), [ 3, 2 ])
+      </test>
+      <result>
+         <assert-eq>"ow"</assert-eq>
+      </result>
+   </test-case>
+ 
+   <test-case name="fn-apply-07">
+      <description>Invoke function retrieved via function-lookup</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>
+         let $f := function-lookup(xs:QName('fn:count'), 1)
+         return apply($f, [ ('one', 'two') ])
+      </test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+ 
+   <test-case name="fn-apply-08">
+      <description>Invoke concat with different number of arguments</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Use syntax that also works in XPath"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>
+         for $a in 2 to 3
+         return
+         let $f := function-lookup(xs:QName('fn:concat'), $a)
+         return apply($f, array { 1 to $a })
+      </test>
+      <result>
+         <assert-deep-eq>"12", "123"</assert-deep-eq>
+      </result>
+   </test-case>
+ 
+   <test-case name="fn-apply-09">
+      <description>Invoke functions with different number of arguments</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Use syntax that also works in XPath"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>
+         for $name in (true#0, count#1, empty#1, concat#2) 
+         return
+         let $arity := function-arity($name)
+           , $args := array { (1 to $arity) ! 'X' }
+         return apply($name, $args)
+      </test>
+      <result>
+         <assert-deep-eq>true(), 1, false(), "XX"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-apply-10">
+      <description>Invoke inlined functions</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>
+         for $f in (
+           function($a) { $a },
+           function($a, $b) { $a + $b },
+           function($a, $b, $c) { $a + $b + $c }
+         )
+         return apply($f, array { 1 to function-arity($f) })
+      </test>
+      <result>
+         <assert-deep-eq>1, 3, 6</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-apply-11">
+      <description>Single argument of type array</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>
+         data#1 => fn:apply([ [ 1 to 3 ] ])
+      </test>
+      <result>
+         <assert-deep-eq>1, 2, 3</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-apply-12">
+      <description>Wrong number of arguments</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>apply(false#0, [0])</test>
+      <result>
+         <error code="FOAP0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-apply-13">
+      <description>Supply sequence to a function that expects a string</description>
+      <created by="Christian Gruen" on="2014-12-19"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>apply(string-length#1, [ ('a','b') ])</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-apply-14">
+      <description>Invoke atomization</description>
+      <created by="Michael Kay" on="2015-01-29"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         fn:apply(lower-case#1, [<a>ABC</a>])
+      ]]></test>
+      <result>
+         <assert-eq>"abc"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-apply-15">
+      <description>Apply user-defined function, with atomization</description>
+      <created by="Michael Kay" on="2015-01-29"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare function local:l($x as xs:string){lower-case($x)};
+         declare function local:u($x as xs:string){upper-case($x)};
+         let $data := <a><b>Banana</b></a>
+         return apply(if (current-date() lt xs:date('1900-01-01')) then local:l#1 else local:u#1, [$data])
+      ]]></test>
+      <result>
+         <assert-eq>"BANANA"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-apply-16">
+      <description>An XPath test to defeat rewriting as a static function call</description>
+      <created by="Michael Kay" on="2015-01-29"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>apply(if (current-date() lt xs:date('1900-01-01')) then abs#1 else round#1, [-2])</test>
+      <result>
+	    <assert-eq>-2</assert-eq>
+      </result>
+   </test-case>
+</test-set>

@@ -1,0 +1,127 @@
+
+<mediawiki xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.10/ http://www.mediawiki.org/xml/export-0.10.xsd" version="0.10" xml:lang="en">
+  <siteinfo>
+    <sitename>Wikipedia</sitename>
+    <dbname>enwiki</dbname>
+    <base>https://en.wikipedia.org/wiki/Main_Page</base>
+    <generator>MediaWiki 1.26wmf23</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Wikipedia</namespace>
+      <namespace key="5" case="first-letter">Wikipedia talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="100" case="first-letter">Portal</namespace>
+      <namespace key="101" case="first-letter">Portal talk</namespace>
+      <namespace key="108" case="first-letter">Book</namespace>
+      <namespace key="109" case="first-letter">Book talk</namespace>
+      <namespace key="118" case="first-letter">Draft</namespace>
+      <namespace key="119" case="first-letter">Draft talk</namespace>
+      <namespace key="446" case="first-letter">Education Program</namespace>
+      <namespace key="447" case="first-letter">Education Program talk</namespace>
+      <namespace key="710" case="first-letter">TimedText</namespace>
+      <namespace key="711" case="first-letter">TimedText talk</namespace>
+      <namespace key="828" case="first-letter">Module</namespace>
+      <namespace key="829" case="first-letter">Module talk</namespace>
+      <namespace key="2300" case="first-letter">Gadget</namespace>
+      <namespace key="2301" case="first-letter">Gadget talk</namespace>
+      <namespace key="2302" case="case-sensitive">Gadget definition</namespace>
+      <namespace key="2303" case="case-sensitive">Gadget definition talk</namespace>
+      <namespace key="2600" case="first-letter">Topic</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Kawasaki's theorem</title>
+    <ns>0</ns>
+    <id>14511776</id>
+    <revision>
+      <id>644042381</id>
+      <parentid>588273219</parentid>
+      <timestamp>2015-01-25T02:02:31Z</timestamp>
+      <contributor>
+        <username>Myasuda</username>
+        <id>1187538</id>
+      </contributor>
+      <minor/>
+      <comment>/* Proof */ sp</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text xml:space="preserve" bytes="12013">[[File:Kawasaki's theorem.jpg|thumb|300px|In this example, the alternating sum of angles (starting from the triangle in the bottom of the crease pattern) is {{nowrap|1=90 &amp;minus; 45 + 22.5 &amp;minus; 22.5 + 45 &amp;minus; 90 + 22.5 &amp;minus; 22.5 = 0}}. Since it adds to zero, the crease pattern may be flat-folded, as shown.]]
+'''Kawasaki's theorem''' is a [[theorem]] in the [[mathematics of paper folding]], named after [[Toshikazu Kawasaki]], that gives a criterion for determining whether a [[crease pattern]] with a single [[Vertex (geometry)|vertex]] may be folded to form a flat figure.
+
+== Statement of the theorem ==
+[[Maekawa's theorem]] states that the number of [[mountain fold]]s in a flat-folded vertex figure differs from the number of [[valley fold]]s  by exactly two folds. From this it follows that the total number of folds must be even.&lt;ref name=&quot;hull&quot;/&gt; Therefore, suppose that a crease pattern consists of an even number {{math|2''n''}} of creases radiating from a single vertex {{mvar|v}}, without specification of which creases should be mountain folds and which should be valley folds. In this crease pattern, let {{math|α&lt;sub&gt;1&lt;/sub&gt;, α&lt;sub&gt;2&lt;/sub&gt;, ⋯, α&lt;sub&gt;2''n''&lt;/sub&gt;}} be the consecutive angles between the creases around&amp;nbsp;{{mvar|v}}, in clockwise order, starting at any one of the angles. Then Kawasaki's theorem is the statement that the crease pattern may be folded flat if and only if the [[Alternating series|alternating sum and difference]] of the angles adds to zero:
+
+:{{math|1=α&lt;sub&gt;1&lt;/sub&gt; &amp;minus; α&lt;sub&gt;2&lt;/sub&gt; +  α&lt;sub&gt;3&lt;/sub&gt; &amp;minus; ⋯ + α&lt;sub&gt;2''n'' &amp;minus; 1&lt;/sub&gt; &amp;minus; α&lt;sub&gt;2''n''&lt;/sub&gt; = 0&lt;/sub&gt;}}
+
+An equivalent way of stating the same condition is that, if the angles are partitioned into two alternating subsets, then the sum of the angles in either of the two subsets is exactly 180 degrees.&lt;ref name=&quot;charm&quot;&gt;{{citation|title=Charming Proofs: A Journey Into Elegant Mathematics|first1=Claudi|last1=Alsina|first2=Roger|last2=Nelsen|publisher=[[Mathematical Association of America]]|isbn=978-0-88385-348-1|series=Dolciani Mathematical Expositions|volume=42|year=2010|page=57|url=http://books.google.com/books?id=mIT5-BN_L0oC&amp;pg=PA57}}.&lt;/ref&gt; However, this equivalent form applies only to a crease pattern on a flat piece of paper, whereas the alternating sum form of the condition remains valid for crease patterns on conical sheets of paper with nonzero [[Defect (geometry)|defect]] at the vertex.&lt;ref&gt;{{citation|first=Tom|last=Hull|authorlink=Tom Hull|contribution=The combinatorics of flat folds: a survey|title=Origami&lt;sup&gt;3&lt;/sup&gt;: Third International Meeting of Origami Science, Mathematics, and Education|publisher=AK Peters|year=2002|isbn= 978-1-56881-181-9|pages=29–38|url=http://books.google.com/books?hl=en&amp;lr=&amp;id=_Nw4Hg89qxoC&amp;oi=fnd&amp;pg=PA27}}.&lt;/ref&gt;
+
+==Local and global flat-foldability==
+Kawasaki's theorem, applied to each of the vertices of an arbitrary crease pattern, determines whether the crease pattern is locally [[Flat-foldability|flat-foldable]], meaning that the part of the crease pattern near the vertex can be flat-folded. However, there exist crease patterns that are locally flat-foldable but that have no global flat folding that works for the whole crease pattern at once.&lt;ref name=&quot;hull&quot;/&gt; {{harvs|first=Tom|last=Hull|authorlink=Tom Hull|year=1994|txt}} conjectured that global flat-foldability could be tested by checking Kawasaki's theorem at each vertex of a crease pattern, and then also testing [[bipartite graph|bipartiteness]] of an [[undirected graph]] associated with the crease pattern,&lt;ref&gt;{{citation|first=Tom|last=Hull|authorlink=Tom Hull|title=On the mathematics of flat origamis|journal=Congressus Numerantium|volume=100|year=1994|pages=215–224|url=http://kahuna.merrimack.edu/~thull/papers/origamimath.pdf}}.&lt;/ref&gt; but this conjecture was disproven by {{harvtxt|Bern|Hayes|1996}}, who showed that the problem of testing global flat-foldability is [[NP-complete]].&lt;ref name=&quot;bh96&quot;&gt;{{citation
+ | last1 = Bern | first1 = Marshall
+ | last2 = Hayes | first2 = Barry
+ | contribution = The complexity of flat origami
+ | pages = 175–183
+ | title = Proc. 7th ACM-SIAM Symposium on Discrete algorithms (SODA '96)
+ | url = http://portal.acm.org/citation.cfm?id=313852.313918
+ | year = 1996}}.&lt;/ref&gt;
+
+==Proof==
+To show that Kawasaki's condition necessarily holds for any flat-folded figure, it suffices to observe that, at each fold, the orientation of the paper is reversed. Thus, if the first crease in the flat-folded figure is placed in the plane parallel to the {{mvar|x}}-axis, the next crease must be rotated from it by an angle of {{math|α&lt;sub&gt;1&lt;/sub&gt;}}, the crease after that by an angle of {{math|α&lt;sub&gt;1&lt;/sub&gt; &amp;minus; α&lt;sub&gt;2&lt;/sub&gt;}} (because the second angle has the reverse orientation from the first), etc. In order for the paper to meet back up with itself at the final angle, Kawasaki's condition must be met.&lt;ref name=&quot;hull&quot;/&gt;&lt;ref name=&quot;charm&quot;/&gt;&lt;ref name=&quot;roses&quot;/&gt;&lt;ref name=&quot;6.849&quot;/&gt;
+
+Showing that the condition is also a [[sufficient condition]] is a matter of describing how to fold a given crease pattern (that is, how to choose whether to make mountain or valley folds, and in what order the flaps of paper should be arranged on top of each other) so that it folds flat. One way to do this is to choose a number {{mvar|i}} such that the partial alternating sum
+:{{math|1=α&lt;sub&gt;1&lt;/sub&gt; &amp;minus; α&lt;sub&gt;2&lt;/sub&gt; +  α&lt;sub&gt;3&lt;/sub&gt; &amp;minus; ⋯ + α&lt;sub&gt;2''i'' &amp;minus; 1&lt;/sub&gt; &amp;minus; α&lt;sub&gt;2''i''&lt;/sub&gt;}}
+is as small as possible: either {{math|1=''i'' = 0}} and the partial sum is an [[empty sum]] that is also zero, or for some nonzero choice of {{mvar|i}} the partial sum is negative. Then, accordion fold the pattern, starting with angle {{math|α&lt;sub&gt;2''i'' + 1&lt;/sub&gt;}} and alternating between mountain and valley folds, placing each angular wedge of the paper below the previous folds. At each step until the final fold, an accordion fold of this type will never self-intersect, and the choice of {{mvar|i}} ensures that the first wedge sticks out to the left of all the other folded pieces of paper, allowing the final wedge to connect back up to it.&lt;ref name=&quot;6.849&quot;&gt;{{citation|last=Demaine|first=Erik|authorlink=Erik Demaine|title=Course Notes for 6.849: Geometric Folding Algorithms: Linkages, Origami, Polyhedra|publisher=[[Massachusetts Institute of Technology]]|date=Fall 2010|contribution=Sept. 15: Single-vertex crease patterns|url=http://courses.csail.mit.edu/6.849/fall10/lectures/L03.html|accessdate=2011-04-13}}.&lt;/ref&gt;
+
+An alternative proof of sufficiency is to consider the smallest angle {{math|α&lt;sub&gt;''i''&lt;/sub&gt;}} and the two creases on either side of it. If one of these two creases is mountain-folded and the other valley-folded, and then the resulting flap of paper is glued down onto the remaining part of the crease pattern, the result will be a crease pattern with two fewer creases, on a conical sheet of paper, that still satisfies Kawasaki's condition. Therefore, by [[mathematical induction]], repeating this process will eventually lead to a flat folding. The base case of the induction is a cone with only two creases and two equal-angle wedges, which can obviously be flat-folded by using a mountain fold for both creases. Using this method, it can be shown that any crease pattern that satisfies Kawasaki's condition has at least {{math|2&lt;sup&gt;''n''&lt;/sup&gt;}} different choices of mountain and valley folds that all lead to valid flat foldings.&lt;ref&gt;{{citation
+ | last = Hull | first = Thomas | authorlink = Tom Hull
+ | mr = 1973236
+ | journal = Ars Combinatoria
+ | pages = 175–187
+ | title = Counting mountain-valley assignments for flat folds
+ | url = http://kahuna.merrimack.edu/~thull/papers/countingfolds.pdf
+ | volume = 67
+ | year = 2003}}.&lt;/ref&gt;
+
+==History==
+In the late 1970s, Yasuji Husimi and [[David A. Huffman]] independently discovered the special case of Kawasaki's theorem for crease patterns with four creases; Huffman called it the &quot;critical [[pi|{{pi}}]] condition&quot;.&lt;ref name=&quot;hull10&quot;/&gt;&lt;ref&gt;{{citation|title=Cones, Curves, Shells, Towers: He Made Paper Jump to Life|first=Margaret|last=Wertheim|journal=[[New York Times]]|date=June 22, 2004|url=http://query.nytimes.com/gst/fullpage.html?res=9800E1D61239F931A15755C0A9629C8B63}}.&lt;/ref&gt; The theorem for crease patterns with arbitrarily many creases was discovered by Kawasaki, by Stuart Robertson, and by Jacques Justin (again, independently of each other) in the late 1970s and early 1980s.&lt;ref name=&quot;bh96&quot;/&gt;&lt;ref name=&quot;hull10&quot;&gt;{{citation|first=Tom|last=Hull|contribution=Maekawa and Kawasaki's Theorems Revisited and Extended|url=http://courses.csail.mit.edu/6.849/fall10/lectures/L20.html|title=Guest lecture, 6.849|date=Fall 2010|publisher=Massachusetts Institute of Technology}}.&lt;/ref&gt;&lt;ref&gt;{{citation
+ | last = Robertson | first = S. A.
+ | mr = 0487893
+ | issue = 3-4
+ | journal = Proceedings of the Royal Society of Edinburgh. Section A. Mathematics
+ | pages = 275–284
+ | title = Isometric folding of Riemannian manifolds
+ | volume = 79
+ | year = 1977}}.&lt;/ref&gt;&lt;ref&gt;{{citation|first=J.|last=Justin|journal=British Origami|date=June 1986|page=30}}. As cited by Hull's MA 323A notes.&lt;/ref&gt;&lt;ref name=&quot;tmto&quot;&gt;{{citation|first=J.|last= Justin|contribution=Towards  a mathematical  theory  of  origami|title=2nd  Int.  Meeting  of Origami  Science|year=1994|location=Otsu,  Japan}}. As cited by {{harvtxt|Bern|Hayes|1996}}.&lt;/ref&gt;&lt;ref&gt;{{citation|first=T.|last=Kawasaki|authorlink=Toshikazu Kawasaki|contribution=On  the  relation  between  mountain-creases  and  valley-creases  of  a flat  origami|title=Origami Science and Technology|editor-first=H.|editor-last=Huzita|year=1989|pages=229–237}}. As cited by {{harvtxt|Bern|Hayes|1996}}.&lt;/ref&gt; Because of Justin's contribution to the problem, it has also been called the Kawasaki–Justin theorem.&lt;ref&gt;{{citation|contribution=4.5 The Kawasaki–Justin theorem|pages=66–68|title=How To Fold It: The Mathematics of Linkages, Origami, and Polyhedra|first=Joseph|last=O'Rourke|authorlink=Joseph O'Rourke (professor)|publisher=Cambridge University Press|year=2011}}.&lt;/ref&gt;
+
+Kawasaki himself has called the result '''Husimi's theorem''', after Yasuji Husimi, and some other authors have followed this terminology as well.&lt;ref name=&quot;roses&quot;&gt;{{citation|title=Roses, Origami &amp; Math|first=Toshikazu|last=Kawasaki|publisher=Japan Publications Trading|year=2005|isbn=978-4-88996-184-3|page=139|url=http://books.google.com/books?id=P88KFwMzXQ0C&amp;pg=PA139}}.&lt;/ref&gt;&lt;ref&gt;{{citation|first=K.|last=Kaino|contribution=Four-dimensional geometry and folding regular tetrahedron|pages=101–112 [102]|title=Statistical and condensed matter physics: over the horizon|editor1-first=Shigeji|editor1-last=Fujita|editor2-first=Tsunehiro|editor2-last=Obata|editor3-first=Akira|editor3-last=Suzuki|publisher=Nova Publishers|year=2007|isbn=978-1-60021-758-6}}.&lt;/ref&gt; The name &quot;Kawasaki's theorem&quot; was first given to this result in ''Origami for the Connoisseur'' by [[Kunihiko Kasahara]] and Toshie Takahama (Japan Publications, 1987).&lt;ref name=&quot;hull&quot;&gt;{{citation|url=http://mars.wne.edu/~thull/combgeom/flatfold/flat.html|title=MA 323A Combinatorial Geometry!: Notes on Flat Folding|first=Tom|last=Hull|authorlink=Tom Hull|accessdate=2011-04-12}}.&lt;/ref&gt;
+
+{{harvtxt|Hull|2003}} credits the lower bound of {{math|2&lt;sup&gt;''n''&lt;/sup&gt;}} on the number of different flat-foldings of a crease pattern meeting the conditions of the theorem to independent work in the early 1990s by Azuma,&lt;ref&gt;{{citation|first=H.|last=Azuma|contribution=Some mathematical observation on flat foldings|title=2nd  Int.  Meeting  of Origami  Science|year=1994|location=Otsu,  Japan}}. As cited by {{harvtxt|Hull|2003}}&lt;/ref&gt; Justin,&lt;ref name=&quot;tmto&quot;/&gt; and Ewins and Hull.
+
+==References==
+{{reflist|colwidth=40em}}
+
+==External links==
+*{{mathworld|title=Kawasaki's Theorem|urlname=KawasakisTheorem}}
+
+[[Category:Mathematical theorems]]
+[[Category:Paper folding]]
+[[Category:Recreational mathematics]]</text>
+      <sha1>cfmmkj83md96g2o9zd5otx8j6vv03cm</sha1>
+    </revision>
+  </page>
+</mediawiki>

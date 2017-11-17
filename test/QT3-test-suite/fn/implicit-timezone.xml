@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-implicit-timezone">
+   <description>Tests for the implicit-timezone() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-implicit-timezone"/>
+
+   <test-case name="fn-implicit-timezone-1">
+      <description>Description Evaluation of "fn:implicit-timezone" with incorrect arity. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:implicit-timezone("Argument 1")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-2">
+      <description> Normal call to "fn:implicit-timezone". </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:implicit-timezone()</test>
+      <result>
+         <assert-type>xs:dayTimeDuration</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-3">
+      <description> Evaluation of "fn:implicit-timezone" as part of an addition operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:string(fn:implicit-timezone() + fn:implicit-timezone())</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-4">
+      <description> Evaluation of "fn:implicit-timezone" as part of a subtraction operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:string(fn:implicit-timezone() - fn:implicit-timezone())</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-5">
+      <description> Evaluation of "fn:implicit-timezone" as part of a multiplication operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:implicit-timezone() * xs:double(2)</test>
+      <result>
+         <assert-type>xs:dayTimeDuration</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-6">
+      <description> Evaluation of "fn:implicit-timezone" as part of a multiplication operation. Second argument is NaN </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:string(fn:implicit-timezone() * (0 div 0E0))</test>
+      <result>
+         <error code="FOCA0005"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-7">
+      <description> Evaluation of "fn:implicit-timezone" as part of a multiplication operation. Second argument is 0 </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:string(fn:implicit-timezone() * 0)</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-8">
+      <description> Evaluation of "fn:implicit-timezone" as part of a multiplication operation. Second argument is -0 </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:string(fn:implicit-timezone() * -0)</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-9">
+      <description> Evaluation of "fn:implicit-timezone" as part of a division operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:string(fn:implicit-timezone() div xs:double(2))</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-10">
+      <description> Evaluation of "fn:implicit-timezone" as part of a division operation. Second argument results in NaN </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:string(fn:implicit-timezone() div ( 0 div 0E0))</test>
+      <result>
+         <error code="FOCA0005"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-11">
+      <description> Evaluation of "fn:implicit-timezone" as part of a division operation. Second argument is 0. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:string(fn:implicit-timezone() div 0 )</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-12">
+      <description> Evaluation of "fn:implicit-timezone" as part of a division operation. Second argument is -0. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:string(fn:implicit-timezone() div -0 )</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-13">
+      <description> Evaluation of "fn:implicit-timezone" as part of a division operation. Both operands includes the fn:implicit-timezone. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>(implicit-timezone() + xs:dayTimeDuration('PT1S')) div (implicit-timezone() + xs:dayTimeDuration('PT1S'))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-14">
+      <description> Evaluation of "fn:implicit-timezone" as part of a division operation. Second operand is a call to xs:dayTimeDuration function. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:string(fn:implicit-timezone() div xs:dayTimeDuration("P0DT60M00S"))</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-15">
+      <description> Evaluation of "fn:implicit-timezone" as part of an addition operation. First operand is a call to xs:time function. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>xs:time("05:00:00") + fn:implicit-timezone()</test>
+      <result>
+         <assert-type>xs:time</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-16">
+      <description> Evaluation of "fn:implicit-timezone" as part of a subtraction operation. First operand is a call to xs:time function. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>xs:time("05:00:00") - fn:implicit-timezone()</test>
+      <result>
+         <assert-type>xs:time</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-17">
+      <description> Evaluation of "fn:implicit-timezone" as part of a subtraction operation. First operand is a call to xs:date function. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>(xs:date("2000-10-30") - fn:implicit-timezone())</test>
+      <result>
+         <assert-type>xs:date</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-18">
+      <description> Evaluation of "fn:implicit-timezone" as part of an addition operation. First operand is a call to xs:date function. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>(xs:date("2000-10-30") + fn:implicit-timezone())</test>
+      <result>
+         <assert-type>xs:date</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-19">
+      <description> Evaluation of "fn:implicit-timezone" as part of a subtraction operation. First operand is a call to xs:dateTime function. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>(xs:dateTime("2000-10-30T11:12:00") - fn:implicit-timezone())</test>
+      <result>
+         <assert-type>xs:dateTime</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-20">
+      <description> Evaluation of "fn:implicit-timezone" as part of an addition operation. First operand is a call to xs:dateTime function. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>(xs:dateTime("2000-10-30T11:12:00") + fn:implicit-timezone())</test>
+      <result>
+         <assert-type>xs:dateTime</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-21">
+      <description> Evaluation of "fn:implicit-timezone" as an an argument to the adjust-date-to-timezone function. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>(fn:adjust-date-to-timezone(xs:date("2000-10-30"),fn:implicit-timezone()))</test>
+      <result>
+         <assert-type>xs:date</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-22">
+      <description> Evaluation of "fn:implicit-timezone" as an an argument to the adjust-time-to-timezone function. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>(fn:adjust-time-to-timezone(xs:time("10:00:00"),fn:implicit-timezone()))</test>
+      <result>
+         <assert-type>xs:time</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-23">
+      <description> Evaluation of "fn:implicit-timezone" as an an argument to the adjust-dateTime-to-timezone function. </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>(fn:adjust-dateTime-to-timezone(xs:dateTime("2002-03-07T10:00:00"),fn:implicit-timezone()))</test>
+      <result>
+         <assert-type>xs:dateTime</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-implicit-timezone-24">
+      <description>Test that implicit timezone is in range -14h to +14h</description>
+      <created by="Michael Kay" on="2011-06-30"/>
+      <test>implicit-timezone() ge xs:dayTimeDuration('-PT14H') and implicit-timezone() le xs:dayTimeDuration('PT14H')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextImplicitTimezoneFunc-1">
+      <description> A test whose essence is: `implicit-timezone("WRONG PARAM")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>implicit-timezone("WRONG PARAM")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextImplicitTimezoneFunc-2">
+      <description> Simple test of implicit-timezone(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>seconds-from-duration(implicit-timezone()) le 0 or seconds-from-duration(implicit-timezone()) gt 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextImplicitTimezoneFunc-3">
+      <description> Test that implicit-timezone() do return a value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>exists(seconds-from-duration(implicit-timezone()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-anyURI-equal">
+   <description>Tests for the anyURI-equal operator (not actually defined as such in F+O)</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-compare"/>
+
+   <test-case name="K-AnyURIEqual-1">
+      <description> A test whose essence is: `xs:anyURI("example.com/") eq xs:anyURI("example.com/")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("example.com/") eq xs:anyURI("example.com/")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AnyURIEqual-2">
+      <description> A test whose essence is: `xs:anyURI("example.com/") ne xs:anyURI("example.com/No")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("example.com/") ne xs:anyURI("example.com/No")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AnyURIEqual-3">
+      <description> A test whose essence is: `xs:anyURI("example.com/") eq xs:string("example.com/")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("example.com/") eq xs:string("example.com/")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AnyURIEqual-4">
+      <description> A test whose essence is: `xs:string("example.com/") eq xs:anyURI("example.com/")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:string("example.com/") eq xs:anyURI("example.com/")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AnyURIEqual-5">
+      <description> A test whose essence is: `xs:anyURI("example.com/") ne xs:string("example.com/No")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("example.com/") ne xs:string("example.com/No")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AnyURIEqual-6">
+      <description> A test whose essence is: `xs:string("example.com/") ne xs:anyURI("example.com/No")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:string("example.com/") ne xs:anyURI("example.com/No")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AnyURIEqual-7">
+      <description> A test whose essence is: `xs:anyURI("example.com/") eq xs:untypedAtomic("example.com/")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("example.com/") eq xs:untypedAtomic("example.com/")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AnyURIEqual-8">
+      <description> A test whose essence is: `xs:untypedAtomic("example.com/") eq xs:anyURI("example.com/")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:untypedAtomic("example.com/") eq xs:anyURI("example.com/")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AnyURIEqual-9">
+      <description> A test whose essence is: `xs:anyURI("example.com/") ne xs:untypedAtomic("example.com/No")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("example.com/") ne xs:untypedAtomic("example.com/No")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AnyURIEqual-10">
+      <description> A test whose essence is: `xs:untypedAtomic("example.com/") ne xs:anyURI("example.com/No")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:untypedAtomic("example.com/") ne xs:anyURI("example.com/No")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-1">
+      <description> Invoked 'eq' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:string("http://example.com/A") eq xs:anyURI("http://example.com/A")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-2">
+      <description> Invoked 'eq' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("http://example.com/A") eq xs:string("http://example.com/A")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-3">
+      <description> Invoked 'eq' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("http://example.com/A") eq xs:anyURI("http://example.com/A")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-4">
+      <description> Invoked 'eq' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(xs:string("http://example.com/A") eq xs:anyURI("http://example.com/B"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-5">
+      <description> Invoked 'eq' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(xs:anyURI("http://example.com/A") eq xs:string("http://example.com/B"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-6">
+      <description> Invoked 'eq' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(xs:anyURI("http://example.com/A") eq xs:anyURI("http://example.com/B"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-7">
+      <description> Invoked 'ne' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(xs:anyURI("http://example.com/A") ne xs:string("http://example.com/A"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-8">
+      <description> Invoked 'ne' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(xs:string("http://example.com/A") ne xs:anyURI("http://example.com/A"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-9">
+      <description> Invoked 'ne' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(xs:anyURI("http://example.com/A") ne xs:anyURI("http://example.com/A"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-10">
+      <description> Invoked 'ne' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("http://example.com/A") ne xs:string("http://example.com/B")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-11">
+      <description> Invoked 'ne' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:string("http://example.com/A") ne xs:anyURI("http://example.com/B")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-AnyURIEqual-12">
+      <description> Invoked 'ne' on xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xs:anyURI("http://example.com/A") ne xs:anyURI("http://example.com/B")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

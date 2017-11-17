@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog"
+          name="prod-DefaultCollationDecl">
+   <description>Tests for the DefaultCollationDecl production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-DefaultCollationDecl"/>
+   <link type="spec" document="XQuery" section-number="4.4"
+         idref="id-default-collation-declaration"/>
+         
+   <dependency type="spec" value="XQ10+"/>      
+
+   <test-case name="defaultcolldecl-1">
+      <description> Evaluation of a prolog with two default collation delarations. </description>
+      <created by="Carmelo Montanez" on="2005-11-30"/>
+      <test>declare default collation "http://www.w3.org/2005/xpath-functions/collation/codepoint"; declare default collation "http://www.w3.org/2005/xpath-functions/collation/codepoint"; declare variable $input-context1 external; "aaa"</test>
+      <result>
+         <error code="XQST0038"/>
+      </result>
+   </test-case>
+
+   <test-case name="defaultcolldecl-2">
+      <description> Evaluation of a prolog with default collation delarations that should raise an error. </description>
+      <created by="Carmelo Montanez" on="2005-11-30"/>
+      <test>declare default collation "http://nonexistentcollition.org/ifsupportedwoooayouarethebestQueryimplementation/makeitharder"; declare variable $input-context1 external; "aaa"</test>
+      <result>
+         <error code="XQST0038"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CollationProlog-1">
+      <description> A 'declare default collation' that uses a relative URI combined with setting the base-uri, to specify the Unicode Codepoint collation. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare base-uri "http://www.w3.org/2005/xpath-functions/"; declare default collation "collation/codepoint"; default-collation() eq "http://www.w3.org/2005/xpath-functions/collation/codepoint"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CollationProlog-2">
+      <description> A 'declare default collation' that uses a relative URI combined with setting the base-uri, to specify an invalid collation. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare base-uri "http://example.com/"; declare default collation "collation/codepoint/DOESNOTEXIT/Testing"; 1</test>
+      <result>
+         <error code="XQST0038"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CollationProlog-3">
+      <description> Any implementation must support setting the default collation to the Unicode Codepoint collation with 'declare default collation'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare default collation "http://www.w3.org/2005/xpath-functions/collation/codepoint"; default-collation() eq "http://www.w3.org/2005/xpath-functions/collation/codepoint"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CollationProlog-4">
+      <description> A 'declare default collation' expression may occur only once. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare default collation "http://www.w3.org/2005/xpath-functions/collation/codepoint"; declare default collation "http://www.w3.org/2005/xpath-functions/collation/codepoint"; default-collation() eq "http://www.w3.org/2005/xpath-functions/collation/codepoint"</test>
+      <result>
+         <error code="XQST0038"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CollationProlog-5">
+      <description> Two 'declare default collation' declarations where the collations differs. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare default collation "http://www.w3.org/2005/xpath-functions/collation/codepoint"; declare default collation "http://www.w3.org/2005/xpath-functions/collation/codepoint2"; default-collation() eq "http://www.w3.org/2005/xpath-functions/collation/codepoint"</test>
+      <result>
+         <error code="XQST0038"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-CollationProlog-1">
+      <description> Invalid URI literal in prolog. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[declare default collation "&"; 1]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+</test-set>

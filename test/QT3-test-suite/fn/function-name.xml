@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" 
+          name="fn-function-name" covers-30="fn-function-name">
+   <description>Tests for the function-name() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-function-name"/>
+         
+   <dependency type="feature" value="higherOrderFunctions"/>      
+
+   <test-case name="fn-function-name-001">
+      <description>Attempts to evaluate the "function-name" function with no arguments.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name()</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-002">
+      <description>Attempts to reference the "function-name" function with arity zero.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name#0</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-003">
+      <description>Attempts to evaluate the "function-name" function with two arguments.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( fn:dateTime#2, fn:dateTime#2 )</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-004">
+      <description>Attempts to reference the "function-name" function with arity two.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name#2</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-005">
+      <description>Attempts to reference the "function-name" function with arity one.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>exists(fn:function-name#1)</test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-006">
+      <description>Evaluates the "function-name" function with the argument set as follows: $func = () </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( () )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-007">
+      <description>Evaluates the "function-name" function with an argument of type xs:anyAtomicType.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( 1 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-008">
+      <description>Evaluates the "function-name" function with an argument of type node().</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( fn:analyze-string((), "unused") )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-009">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( (fn:dateTime#2, fn:dateTime#2) )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-010">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <dependency type="feature" value="staticTyping"/>
+      <test>fn:function-name( if ( fn:current-dateTime() eq
+                                   fn:dateTime( fn:current-date(),
+                                                fn:current-time() ))
+                               then fn:dateTime#2
+                               else 1 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-011">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>( fn:function-name( if (current-date() eq xs:date('1900-01-01'))
+                                then fn:dateTime#2
+                                else 1 ),
+              fn:function-name( if (current-date() eq xs:date('1900-01-01'))
+                                then 1
+                                else fn:dateTime#2 ) )</test>
+      <result>
+	  <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-012">
+      <description>Tests the return type of the "function-name" function.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( fn:substring#2 )</test>
+      <result>
+         <assert-type>xs:QName</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-013" covers-30="partial-function-application">
+      <description>Tests the return type of the "function-name" function.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( fn:substring(?, 1) )</test>
+      <result>
+	<any-of>
+	  <assert-type>empty-sequence()</assert-type>
+	  <error code="XPST0005" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-014">
+      <description>Tests the return type of the "function-name" function.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( function($node){count($node/*)} )</test>
+      <result>
+	<any-of>
+	  <assert-type>empty-sequence()</assert-type>
+	  <error code="XPST0005" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-015">
+      <description>Evaluates the "function-name" function with the argument set as follows: $func = dateTime#2 </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( dateTime#2 )</test>
+      <result>
+	  <assert-eq>fn:QName("http://www.w3.org/2005/xpath-functions", 
+                              "fn:dateTime")</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-016">
+      <description>Evaluates the "function-name" function with the argument set as follows: $func = math:pow#2 </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <environment ref="math"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( math:pow#2 )</test>
+      <result>
+	  <assert-eq>fn:QName("http://www.w3.org/2005/xpath-functions/math", 
+                              "math:pow")</assert-eq>
+      </result>
+   </test-case>
+
+
+   <test-case name="fn-function-name-017">
+      <description>Evaluates the "function-name" function with the argument set as follows: $func = concat#99 </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( concat#99 )</test>
+      <result>
+	  <assert-eq>fn:QName("http://www.w3.org/2005/xpath-functions", 
+                              "fn:concat")</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-018">
+      <description>Evaluates the "function-name" function with the argument set as follows: $func = concat#340282366920938463463374607431768211456</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( concat#340282366920938463463374607431768211456 )</test>
+      <result>
+	<any-of>
+	  <error code="FOAR0002" />
+	  <assert-eq>fn:QName("http://www.w3.org/2005/xpath-functions", 
+                              "fn:concat")</assert-eq>
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-019">
+      <description>Evaluates the "function-name" function with the argument set as follows: function($node){name($node)} </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( function($node){name($node)} )</test>
+      <result>
+	  <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-020">
+      <description>Evaluates the "function-name" function with the argument set as follows: function($arg1, $arg2){subsequence($arg1, $arg2, 1)} </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-name( function($arg1, $arg2)
+                               { subsequence($arg1, $arg2, 1) } )</test>
+      <result>
+	  <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-021" covers-30="partial-function-application">
+      <description>Evaluates the "function-name" function with the argument referring to a partial function application.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>let $initial := fn:substring(?, 1, 1) 
+            return fn:function-name( $initial )</test>
+      <result>
+	  <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-022">
+      <description>Evaluates the "function-name" function with the argument referring a global user-defined function.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare function local:add($arg1, $arg2, $arg3)
+        {
+           $arg1 + $arg2 + $arg3
+        };
+
+	fn:function-name( local:add#3 )
+      </test>
+      <result>
+	  <assert-eq>fn:QName("http://www.w3.org/2005/xquery-local-functions",
+                              "local:add")</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-023">
+      <description>Evaluates the "function-name" function with the argument referring a partial application of a global user-defined function.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare function local:add($arg1, $arg2, $arg3)
+        {
+           $arg1 + $arg2 + $arg3
+        };
+
+	fn:function-name( local:add(1, 2, ?) )
+      </test>
+      <result>
+	  <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-name-024" covers-30="function-item-coercion">
+      <description>Evaluates the "function-name" function with the argument referring to a function item returned by function coercion.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare function local:coerce($arg as function(item()*) as item()*)
+          as function(item()*) as item()*
+        {
+           $arg
+        };
+        
+        let $coerced := local:coerce(fn:abs#1)
+        return if ($coerced instance of function(item()*) as item()*)
+               then fn:function-name( local:coerce(fn:abs#1) )
+               else "error"
+      </test>
+      <result>
+	  <assert-eq>fn:QName("http://www.w3.org/2005/xpath-functions", 
+                              "fn:abs")</assert-eq>
+      </result>
+   </test-case>
+
+</test-set>

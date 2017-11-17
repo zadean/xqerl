@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-current-time">
+   <description>Tests for the current-time() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-current-time"/>
+
+   <test-case name="fn-current-time-1">
+      <description> Evaluates a simple call to the fn:current-time" function. Uses a String Value. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:current-time()</test>
+      <result>
+         <assert-type>xs:time</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-2">
+      <description> Evaluates The "current-time" function as argument to fn:hours-from-time function. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:hours-from-time(fn:current-time())</test>
+      <result>
+         <assert-type>xs:integer</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-3">
+      <description> Evaluates The "current-time" function as argument to fn-minutes-from-time-function. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:minutes-from-time(fn:current-time())</test>
+      <result>
+         <assert-type>xs:integer</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-4">
+      <description> Evaluates The "current-time" function used as as argument to "seconds-from-time" function. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:seconds-from-time(fn:current-time())</test>
+      <result>
+         <assert-type>xs:decimal</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-5">
+      <description> Evaluates The "current-time" function as part of a "-" operation. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:current-time() - fn:current-time()</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-6">
+      <description> Evaluates The "fn-current-time" function used as part of a "+" expression and a dayTimeDuration. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:current-time() + xs:dayTimeDuration("P3DT1H15M")</test>
+      <result>
+         <assert-type>xs:time</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-7">
+      <description> Evaluates The "fn-current-time" function used as part of a "-" expression and a dayTimeDuration. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:current-time() - xs:dayTimeDuration("P3DT1H15M")</test>
+      <result>
+         <assert-type>xs:time</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-8">
+      <description> Evaluates The "current-time" function invoked with incorrect arity. </description>
+      <created by="Carmelo Montanez" on="2005-12-05"/>
+      <test>fn:current-time("Argument 1")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-9">
+      <description> Evaluates The "current-time" function as part of of a subtraction expression. Both operands are the equal to "current-time". </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:current-time() - fn:current-time()</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-10">
+      <description> Evaluates The "current-time" function as an argument to the xs:string function. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>xs:string(fn:current-time())</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-11">
+      <description> Evaluates The "current-time" function as an argument to the timezone-from-time function. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:timezone-from-time(current-time())</test>
+      <result>
+         <assert-type>xs:dayTimeDuration</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-12">
+      <description> Evaluates string value The "current-time" as part of a "numeric-equal" expression (eq operator) </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:string(fn:current-time()) eq fn:string(fn:current-time())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-13">
+      <description> Evaluates The "current-time" function as part of an equal expression (ne operator) </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:string(fn:current-time()) ne fn:string(fn:current-time())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-14">
+      <description> Evaluates The "current-time" function as part of an equal expression (le operator) </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:string(fn:current-time()) le fn:string(fn:current-time())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-15">
+      <description> Evaluates The "current-time" function as part of an equal expression (ge operator) </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:string(fn:current-time()) ge fn:string(fn:current-time())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-16">
+      <description> Evaluates The "current-time" function as part of a boolean expression ("and" opeartor and fn:true function. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:string(fn:current-time()) and fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-17">
+      <description> Evaluates The "current-time" function as part of a boolean expression ("and" opeartor and fn:false function. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:string(fn:current-time()) and fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-18">
+      <description> Evaluates The "current-time" function as part of a boolean expression ("or" opeartor and fn:true function. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:string(fn:current-time()) or fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-19">
+      <description> Evaluates The "current-time" function as part of a boolean expression ("or" opeartor and fn:false function. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:string(fn:current-time()) or fn:false()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-20">
+      <description> Evaluates The "current-time" function (string value)as an argument to the fn:not function. </description>
+      <created by="Carmelo Montanez" on="2005-12-01"/>
+      <test>fn:not(fn:string(fn:current-time()))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-21">
+      <description>Test that the current time has a timezone</description>
+      <created by="Michael Kay" on="2011-06-30"/>
+      <test>exists(timezone-from-time(current-time()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-current-time-22">
+      <description>Test that the current time is the same as the time part of current dateTime</description>
+      <created by="Michael Kay" on="2011-06-30"/>
+      <test>current-time() = xs:time(current-dateTime())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextCurrentTimeFunc-1">
+      <description> A test whose essence is: `current-time("WRONG PARAM")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>current-time("WRONG PARAM")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ContextCurrentTimeFunc-2">
+      <description> Test that the Dynamic Context property 'current dateTime' when presented as a xs:time is stable during execution. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>current-time() eq current-time()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

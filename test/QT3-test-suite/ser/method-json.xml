@@ -1,0 +1,1682 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="method-json">
+   <description>Tests for the Serialization</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-Serialization"/>
+         
+   <dependency type="feature" value="serialization"/>
+   <dependency type="spec" value="XQ31+"/>      
+
+   <test-case name="Serialization-json-1" covers="json-output">
+      <description>Test the JSON serialization output method</description>
+      <created by="Josh Spiegel" on="2014-10-10"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        [ ] 
+
+      ]]></test>
+      <result>
+        <serialization-matches>\[\]</serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-2" covers="json-output">
+      <description>Test the JSON serialization output method</description>
+      <created by="Josh Spiegel" on="2014-10-10"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        map { }
+
+      ]]></test>
+      <result>
+        <serialization-matches>\{\}</serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-3" covers="json-output">
+      <description>Test the JSON serialization output method - empty serializes as null </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        ()
+
+      ]]></test>
+      <result>
+        <serialization-matches>null</serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-4" covers="json-output">
+      <description>Test the JSON serialization output method - empty serializes as null </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        [(),map{"k":()},[()]]
+
+      ]]></test>
+      <result>
+        <serialization-matches>\[null,\{"k":null\},\[null\]\]</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-5" covers="json-output">
+      <description>Test the JSON serialization output method - true/false </description>
+      <created by="Josh Spiegel" on="2014-10-10"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        [true(), not(true())]
+
+      ]]></test>
+      <result>
+        <serialization-matches>\[true,false\]</serialization-matches>
+      </result>
+   </test-case>   
+   
+   <test-case name="Serialization-json-6" covers="json-output">
+      <description>Test the JSON serialization output method - true/false </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        1 eq 1
+
+      ]]></test>
+      <result>
+        <serialization-matches>true</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-7" covers="json-output">
+      <description>Test the JSON serialization output method - strings </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        "abcd"
+
+      ]]></test>
+      <result>
+        <serialization-matches>"abcd"</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-8" covers="json-output">
+      <description>Test the JSON serialization output method - strings </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        ["a","b","c"]
+
+      ]]></test>
+      <result>
+        <serialization-matches>\["a","b","c"\]</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-9" covers="json-output">
+      <description>Test the JSON serialization output method - numbers </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        1234
+
+      ]]></test>
+      <result>
+        <serialization-matches>1234</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-10" covers="json-output">
+      <description>Test the JSON serialization output method - numbers </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        [12,12.34,xs:int("45"),xs:decimal("45.67"),xs:unsignedShort("89")]
+
+      ]]></test>
+      <result>
+        <serialization-matches>\[12,12.34,45,45.67,89\]</serialization-matches>
+      </result>
+   </test-case>   
+   
+   <test-case name="Serialization-json-11" covers="json-output">
+      <description>Test the JSON serialization output method - numbers </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        xs:float("-0")
+
+      ]]></test>
+      <result>
+        <serialization-matches>-0</serialization-matches>
+      </result>
+   </test-case>     
+   
+   <test-case name="Serialization-json-12" covers="json-output">
+      <description>Test the JSON serialization output method - numbers </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        xs:float("INF")
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0020"/>
+      </result>
+   </test-case>    
+   
+   <test-case name="Serialization-json-13" covers="json-output">
+      <description>Test the JSON serialization output method - numbers </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        [xs:double("-INF")]
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0020"/>
+      </result>
+   </test-case>    
+   
+   <test-case name="Serialization-json-14" covers="json-output">
+      <description>Test the JSON serialization output method - numbers </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        xs:double("NaN")
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0020"/>
+      </result>
+   </test-case>     
+
+   <test-case name="Serialization-json-15" covers="json-output">
+      <description>Test the JSON serialization output method - numbers </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        map { "a" : xs:float("NaN") }
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0020"/>
+      </result>
+   </test-case>     
+   
+   <test-case name="Serialization-json-16" covers="json-output">
+      <description>Test the JSON serialization output method - numbers </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        1e-5
+
+      ]]></test>
+      <result>
+        <serialization-matches>0\.00001</serialization-matches>
+      </result>
+   </test-case>  
+   
+   <test-case name="Serialization-json-17" covers="json-output">
+      <description>Test the JSON serialization output method - numbers </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        [-10000000 cast as xs:double]
+
+      ]]></test>
+      <result>
+        <serialization-matches>-1\.0E7</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-18" covers="json-output">
+      <description>Test the JSON serialization output method - numbers </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        map { "a" : xs:decimal(12678967.543233) cast as xs:float }
+
+      ]]></test>
+      <result>
+        <serialization-matches>\{"a":1\.2678\d*E7\}</serialization-matches>
+      </result>
+   </test-case>
+      
+   <test-case name="Serialization-json-19" covers="json-output">
+      <description>Test the JSON serialization output method - other atomic </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        "abc"
+
+      ]]></test>
+      <result>
+        <serialization-matches>"abc"</serialization-matches>
+      </result>
+   </test-case>    
+   
+   <test-case name="Serialization-json-20" covers="json-output">
+      <description>Test the JSON serialization output method - other atomic </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        [xs:QName("abc")]
+
+      ]]></test>
+      <result>
+        <serialization-matches>"abc"</serialization-matches>
+      </result>
+   </test-case>
+    
+   <test-case name="Serialization-json-21" covers="json-output">
+      <description>Test the JSON serialization output method - other atomic </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        map { "a" : xs:gYearMonth("1995-05") }
+
+      ]]></test>
+      <result>
+        <serialization-matches>\{"a":"1995-05"\}</serialization-matches>
+      </result>
+   </test-case>       
+    
+   <test-case name="Serialization-json-22" covers="json-output">
+      <description>Test the JSON serialization output method - other atomic </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        xs:hexBinary("0fb7")
+
+      ]]></test>
+      <result>
+        <serialization-matches>"0FB7"</serialization-matches>
+      </result>
+   </test-case>
+    
+   <test-case name="Serialization-json-23" covers="json-output">
+      <description>Test the JSON serialization output method - SERE0023 </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        1, 2
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0023"/>
+      </result>
+   </test-case>     
+         
+   <test-case name="Serialization-json-24" covers="json-output">
+      <description>Test the JSON serialization output method - SERE0023 </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        [(1, 2)]
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0023"/>
+      </result>
+   </test-case>  
+   
+   <test-case name="Serialization-json-25" covers="json-output">
+      <description>Test the JSON serialization output method - SERE0023 </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        map { "a" : (1, 2) }
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0023"/>
+      </result>
+   </test-case> 
+   
+   <test-case name="Serialization-json-26" covers="json-output">
+      <description>Test the JSON serialization output method - SERE0023 </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        [1],[2]
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0023"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-27" covers="json-output">
+      <description>Test the JSON serialization output method - nodes </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        <e/>
+
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA[<e\\/>]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-28" covers="json-output">
+      <description>Test the JSON serialization output method - nodes </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        comment {" hello world "}
+
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA[<!-- hello world -->]]></serialization-matches>
+      </result>
+   </test-case>       
+   
+   <test-case name="Serialization-json-29" covers="json-output">
+      <description>Test the JSON serialization output method - nodes </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        array {
+           text { "a" },
+           processing-instruction {"a"} {"b"},
+           comment { "a" },
+           element {"a"} {"b"},
+           document { element {"a"}{"b"} }
+        }
+
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA[\["a","<\?a b\?>","<!--a-->","<a>b<\\/a>","<a>b<\\/a>"\]]]></serialization-matches>
+      </result>
+   </test-case>     
+   
+   <test-case name="Serialization-json-30" covers="json-output">
+      <description>Test the JSON serialization output method - nodes </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        [attribute {"a"} {"b"}]
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SENR0001"/>
+      </result>
+   </test-case>
+   
+   
+   <test-case name="Serialization-json-31" covers="json-output">
+      <description>Test the JSON serialization output method - normalization form </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        declare option output:normalization-form "NFC";
+        
+        "suc&#807;on"
+
+      ]]></test>
+      <result>
+        <serialization-matches>"su&#231;on"</serialization-matches>
+      </result>
+   </test-case>   
+    
+   <test-case name="Serialization-json-32" covers="json-output">
+      <description>Test the JSON serialization output method - normalization form </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        declare option output:normalization-form "none";
+        
+        "suc&#807;on"
+
+      ]]></test>
+      <result>
+        <serialization-matches>"suc&#807;on"</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-33" covers="json-output">
+      <description>Test the JSON serialization output method - non-BMP </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        "-&#x10330;-"
+
+      ]]></test>
+      <result>
+        <serialization-matches>"-&#x10330;-"</serialization-matches>
+      </result>
+   </test-case>   
+   
+   <test-case name="Serialization-json-34" covers="json-output">
+      <description>Test the JSON serialization output method - use-character-map </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:parameter-document "json/json-character-map.xml";
+        
+        ["abc","XabcX"]
+
+      ]]></test>
+      <result>
+        <serialization-matches>\["AAABBBCCC","XAAABBBCCCX"\]</serialization-matches>
+      </result>
+   </test-case>
+     
+   
+   <test-case name="Serialization-json-35" covers="json-output">
+      <description>Test the JSON serialization output method - use-character-map (replacement shouldn't be normalized) </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Christian Gruen" on="2015-01-28" change="regular expression fixed"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location"/>
+     <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:parameter-document "json/json-character-map.xml";
+        declare option output:normalization-form "NFC";
+        
+        "|z|"
+
+      ]]></test>
+      <result>
+        <serialization-matches>"\|suc&#807;on\|"</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-36" covers="json-output">
+      <description>Test the JSON serialization output method - use-character-map (replacement shouldn't be escaped) </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:parameter-document "json/json-character-map.xml";
+        
+        map { "|y|" : "y" }
+
+      ]]></test>
+      <result>
+        <serialization-matches>\{"\|"\|":"""\}</serialization-matches>
+      </result>
+   </test-case>   
+        
+   <test-case name="Serialization-json-37" covers="json-output">
+      <description>Test the JSON serialization output method - use-character-map (duplicate keys) </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:parameter-document "json/json-character-map.xml";
+        
+        map { "w" : 1, "x" : 1 }
+
+      ]]></test>
+      <result>
+        <serialization-matches>\{"k":1,"k":1\}</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-38" covers="json-output">
+      <description>Test the JSON serialization output method - use-character-map non-string </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:parameter-document "json/json-character-map.xml";
+        
+        xs:QName("abc")
+
+      ]]></test>
+      <result>
+        <serialization-matches>"AAABBBCCC"</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-39" covers="json-output">
+      <description>Test the JSON serialization output method - use-character-map non-string </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:parameter-document "json/json-character-map.xml";
+        
+        [123, "123", xs:gDay("---11")]
+
+      ]]></test>
+      <result>
+        <serialization-matches>\[123,"one23","---oneone"\]</serialization-matches>
+      </result>
+   </test-case> 
+   
+   
+   <test-case name="Serialization-json-40" covers="json-output">
+      <description>Test the JSON serialization output method - escaping </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="O'Neil Delpratt" on="2014-12-16" change="See bug 27477" />
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        codepoints-to-string((9,10,13,32))
+
+      ]]></test>
+      <result>
+        <serialization-matches>\\t\\n\\r </serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-41" covers="json-output">
+      <description>Test the JSON serialization output method - escaping </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        map { """" : "\
+"}
+
+      ]]></test>
+      <result>
+        <serialization-matches>\{"\\"":"\\\\\\n"\}</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-42" covers="json-output">
+      <description>Test the JSON serialization output method - escaping </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Michael Kay" on="2015-04-13" change="pending resolution of #28476, allow error SERE0008"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        declare option output:encoding "US-ASCII";
+        
+        "&#x10330;"
+
+      ]]></test>
+      <result>
+        <any-of>
+          <serialization-matches flags="i">"\\uD800\\uDF30"</serialization-matches>
+          <assert-serialization-error code="SESU0007"/>
+          <assert-serialization-error code="SERE0008"/>
+        </any-of>
+      </result>
+   </test-case>
+      
+   <test-case name="Serialization-json-43" covers="json-output">
+      <description>Test the JSON serialization output method - escaping </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        "<"
+
+      ]]></test>
+      <result>
+        <serialization-matches>"&lt;"</serialization-matches>
+      </result>
+   </test-case>     
+   
+   <test-case name="Serialization-json-44" covers="json-output">
+      <description>Test the JSON serialization output method - escaping </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        text { "<" }
+
+      ]]></test>
+      <result>
+        <serialization-matches>"&amp;lt;"</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-45" covers="json-output allow-duplicate-names">
+      <description>Test the JSON serialization output method - allow-duplicate-names </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        declare option output:allow-duplicate-names "yes";
+        
+        map { "one" : 1, xs:QName("one") : 1 }  
+
+      ]]></test>
+      <result>
+        <serialization-matches>\{"one":1,"one":1\}</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-46" covers="json-output allow-duplicate-names">
+      <description>Test the JSON serialization output method - allow-duplicate-names </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        declare option output:allow-duplicate-names "no";
+        
+        map { "one" : 1, xs:QName("one") : 1 }  
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0022"/>
+      </result>
+   </test-case> 
+   
+   <test-case name="Serialization-json-47" covers="json-output allow-duplicate-names">
+      <description>Test the JSON serialization output method - allow-duplicate-names </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        
+        map { "on" || "e" : 1, xs:QName("one") : 1 }  
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0022"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-48" covers="json-output allow-duplicate-names">
+      <description>Test the JSON serialization output method - allow-duplicate-names </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        declare option output:allow-duplicate-names "no";
+        
+        map { "a" : map { "a" : map { "a" : 1 } } }  
+
+      ]]></test>
+      <result>
+        <serialization-matches>\{"a":\{"a":\{"a":1\}\}\}</serialization-matches>
+      </result>
+   </test-case>        
+   
+   <test-case name="Serialization-json-49" covers="json-output allow-duplicate-names">
+      <description>Test the JSON serialization output method - allow-duplicate-names </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        declare option output:allow-duplicate-names "no";
+        
+        map { "1" : map { "1" : map { "1" : 1 }, 1 : 1 } }  
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0022"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-50" covers="json-output allow-duplicate-names">
+      <description>Test the JSON serialization output method - allow-duplicate-names </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        declare option output:allow-duplicate-names "no";
+        
+        map { "a": 1, "2014-10-01" : 1, "b" : 1, xs:date("2014-10-01") : 1 }  
+
+      ]]></test>
+      <result>
+        <assert-serialization-error code="SERE0022"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-51" covers="json-output">
+      <description>Test the JSON serialization output method - json-node-output-method </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        declare option output:json-node-output-method "xml";
+        
+        <e>hi</e>
+
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA["<e>hi<\\/e>"]]></serialization-matches>
+      </result>   
+   </test-case>
+   
+   <test-case name="Serialization-json-52" covers="json-output">
+      <description>Test the JSON serialization output method - json-node-output-method </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        declare option output:json-node-output-method "text";
+        
+        <e>hi</e>
+
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA["hi"]]></serialization-matches>
+      </result>   
+   </test-case> 
+   
+   <test-case name="Serialization-json-53" covers="json-output">
+      <description>Test the JSON serialization output method - json-node-output-method parameter doc </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:parameter-document "json/json-node-serialization.xml";
+        
+        <e>hi</e>
+
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA["hi"]]></serialization-matches>
+      </result>   
+   </test-case>    
+   
+   <test-case name="Serialization-json-54" covers="json-output allow-duplicate-names">
+      <description>Test the JSON serialization output method - allow-duplicate-names parameter doc </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:parameter-document "json/json-allow-duplicates.xml";
+        
+        map { "one" : 1, xs:QName("one") : 1 }  
+
+      ]]></test>
+      <result>
+        <serialization-matches>\{"one":1,"one":1\}</serialization-matches>
+      </result>
+   </test-case>
+   
+      
+   <test-case name="Serialization-json-55" covers="json-output">
+      <description>Test the JSON serialization output method</description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="O'Neil Delpratt" on="2014-12-16" change="See bug 27477" />
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:parameter-document "json/json-allow-duplicates.xml";
+        [text { "&#xd;" }, "&#xd;"]
+      ]]></test>
+      <result>
+          <any-of>
+               <serialization-matches>\["&amp;#13;","\\r"\]</serialization-matches>
+              <serialization-matches>\["&amp;#xD;","\\r"\]</serialization-matches>
+              <serialization-matches>\["&amp;#xd;","\\r"\]</serialization-matches>
+          </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-json-56" covers="json-output">
+      <description>Test the JSON serialization output method - nulls </description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        [(),(),<e><f>a</f></e>,()]
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA[\[null,null,"<e><f>a<\\/f><\\/e>",null\]]]></serialization-matches>
+      </result>
+   </test-case>   
+   
+   <test-case name="Serialization-json-57" covers="json-output">
+      <description>Test the JSON serialization output method - escaping. (Note: see bug #28476.)</description>
+      <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Michael Kay" on="2015-04-13" change="pending resolution of #28476, allow error SERE0008"/>
+      <test><![CDATA[ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "json";
+        declare option output:encoding "US-ASCII";
+                
+        "&#x20ac;"
+        
+      ]]></test>
+      <result>
+        <any-of>
+          <serialization-matches flags="i">"\\u20AC"</serialization-matches>
+          <assert-serialization-error code="SERE0008"/>
+          <assert-serialization-error code="SESU0007"/>
+        </any-of>
+      </result>
+   </test-case>      
+
+   <test-case name="Serialization-json-58" covers="json-output">
+      <description>Test json output method - maps and arrays only</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Michael Kay" on="2015-04-13" change="regular expressions; bug #27608"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+map {
+    "book": map {
+        "title": "Data on the Web",
+        "year": 2000,
+        "author": [
+            map {
+                "last": "Abiteboul",
+                "first": "Serge"
+            },
+            map {
+                "last": "Buneman",
+                "first": "Peter"
+            },
+            map {
+                "last": "Suciu",
+                "first": "Dan"
+            }
+        ],
+        "publisher": "Morgan Kaufmann Publishers",
+        "price": 39.95
+    }
+}
+]]></test>
+ <!--     <result>
+         <assert-serialization><![CDATA[{"book":{"title":"Data on the Web","year":2000,"author":[{"last":"Abiteboul","first":"Serge"},{"last":"Buneman","first":"Peter"},{"last":"Suciu","first":"Dan"}],"publisher":"Morgan Kaufmann Publishers","price":39.95}}]]></assert-serialization>
+      </result> -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{.*"last":"Abiteboul".*\},\{.*"last":"Buneman".*\},\{.*"last":"Suciu".*\}\].*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{.*"first":"Serge".*\},\{.*"first":"Peter".*\},\{.*"first":"Dan".*\}\].*\}\}]]></serialization-matches>
+        </all-of>
+      </result>
+
+   </test-case>
+
+   <test-case name="Serialization-json-59" covers="json-output">
+      <description>Test json output method - maps and arrays only</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location; further fix to regular expression (bug 27608)"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+parse-json(unparsed-text('json/data001.json'))
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"glossary":{"title":"example glossary","GlossDiv":{"title":"S","GlossList":{"GlossEntry":{"ID":"SGML","SortAs":"SGML","GlossTerm":"Standard Generalized Markup Language","Acronym":"SGML","Abbrev":"ISO 8879:1986","GlossDef":{"para":"A meta-markup language, used to create markup languages such as DocBook.","GlossSeeAlso":["GML","XML"]},"GlossSee":"markup"}}}}}]]></assert-serialization>
+      </result> -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"glossary":\{.*"title":"example glossary".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"glossary":\{.*"GlossDiv":\{.*"title":"S".*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"glossary":\{.*"GlossDiv":\{.*"GlossList":\{"GlossEntry":\{.*"ID":"SGML".*\}\}.*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"glossary":\{.*"GlossDiv":\{.*"GlossList":\{"GlossEntry":\{.*"SortAs":"SGML".*\}\}.*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"glossary":\{.*"GlossDiv":\{.*"GlossList":\{"GlossEntry":\{.*"GlossTerm":"Standard Generalized Markup Language".*\}\}.*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"glossary":\{.*"GlossDiv":\{.*"GlossList":\{"GlossEntry":\{.*"Acronym":"SGML".*\}\}.*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"glossary":\{.*"GlossDiv":\{.*"GlossList":\{"GlossEntry":\{.*"Abbrev":"ISO 8879:1986".*\}\}.*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"glossary":\{.*"GlossDiv":\{.*"GlossList":\{"GlossEntry":\{.*"GlossSee":"markup".*\}\}.*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"glossary":\{.*"GlossDiv":\{.*"GlossList":\{"GlossEntry":\{.*"GlossDef":\{.*"para":"A meta-markup language, used to create markup languages such as DocBook.".*\}.*\}\}.*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"glossary":\{.*"GlossDiv":\{.*"GlossList":\{"GlossEntry":\{.*"GlossDef":\{.*"GlossSeeAlso":\["GML","XML"\].*\}.*\}\}.*\}.*\}\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-60" covers="json-output">
+      <description>Test json output method - maps and arrays only</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location; further fixes for bug 27608"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+parse-json(unparsed-text('json/data002.json'))
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"menu":{"id":"file","value":"File","popup":{"menuitem":[{"value":"New","onclick":"CreateNewDoc\(\)"},{"value":"Open","onclick":"OpenDoc\(\)"},{"value":"Close","onclick":"CloseDoc\(\)"}]}}}]]></assert-serialization>
+      </result> -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"menu":\{.*"id":"file".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"menu":\{.*"value":"File".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"menu":\{.*"popup":\{"menuitem":\[\{.*"value":"New".*\},\{.*"value":"Open".*\},\{.*"value":"Close".*\}\]\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"menu":\{.*"popup":\{"menuitem":\[\{.*"onclick":"CreateNewDoc\(\)".*\},\{.*"onclick":"OpenDoc\(\)".*\},\{.*"onclick":"CloseDoc\(\)".*\}\]\}.*\}\}]]></serialization-matches>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-61" covers="json-output">
+      <description>Test json output method - maps and arrays only</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location"/>
+      <modified by="Josh Spiegel" on="2016-05-11" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+parse-json(unparsed-text('json/data003.json'))
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"widget":{"debug":"on","window":{"title":"Sample Konfabulator Widget","name":"main_window","width":500,"height":500},"image":{"src":"Images/Sun.png","name":"sun1","hOffset":250,"vOffset":250,"alignment":"center"},"text":{"data":"Click Here","size":36,"style":"bold","name":"text1","hOffset":250,"vOffset":100,"alignment":"center","onMouseUp":"sun1.opacity = (sun1.opacity / 100) * 90;"}}}]]></assert-serialization>
+      </result> -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"widget":\{.*"debug":"on".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"widget":\{.*"window":\{.*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"widget":\{.*"image":\{.*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"widget":\{.*"text":\{.*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA["window":\{.*"title":"Sample Konfabulator Widget".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["window":\{.*"name":"main_window".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["window":\{.*"width":500.*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["window":\{.*"height":500.*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["image":\{.*"src":"Images\\/Sun.png".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["image":\{.*"name":"sun1".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["image":\{.*"hOffset":250.*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["image":\{.*"vOffset":250.*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["image":\{.*"src":"Images\\/Sun.png".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["image":\{.*"alignment":"center".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["text":\{.*"data":"Click Here".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["text":\{.*"size":36.*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["text":\{.*"style":"bold".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["text":\{.*"name":"text1".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["text":\{.*"hOffset":250.*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["text":\{.*"vOffset":100.*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["text":\{.*"alignment":"center".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["text":\{.*"onMouseUp":"sun1\.opacity = \(sun1\.opacity \\/ 100\) \* 90;".*\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-62" covers="json-output">
+      <description>Test json output method - maps and arrays only</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location; further fix for bug 27608"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+parse-json(unparsed-text('json/data004.json'))
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"web-app":{"servlet":[{"servlet-name":"cofaxCDS","servlet-class":"org.cofax.cds.CDSServlet","init-param":{"configGlossary:installationAt":"Philadelphia, PA","configGlossary:adminEmail":"ksm@pobox.com","configGlossary:poweredBy":"Cofax","configGlossary:poweredByIcon":"/images/cofax.gif","configGlossary:staticPath":"/content/static","templateProcessorClass":"org.cofax.WysiwygTemplate","templateLoaderClass":"org.cofax.FilesTemplateLoader","templatePath":"templates","templateOverridePath":"","defaultListTemplate":"listTemplate.htm","defaultFileTemplate":"articleTemplate.htm","useJSP":false,"jspListTemplate":"listTemplate.jsp","jspFileTemplate":"articleTemplate.jsp","cachePackageTagsTrack":200,"cachePackageTagsStore":200,"cachePackageTagsRefresh":60,"cacheTemplatesTrack":100,"cacheTemplatesStore":50,"cacheTemplatesRefresh":15,"cachePagesTrack":200,"cachePagesStore":100,"cachePagesRefresh":10,"cachePagesDirtyRead":10,"searchEngineListTemplate":"forSearchEnginesList.htm","searchEngineFileTemplate":"forSearchEngines.htm","searchEngineRobotsDb":"WEB-INF/robots.db","useDataStore":true,"dataStoreClass":"org.cofax.SqlDataStore","redirectionClass":"org.cofax.SqlRedirection","dataStoreName":"cofax","dataStoreDriver":"com.microsoft.jdbc.sqlserver.SQLServerDriver","dataStoreUrl":"jdbc:microsoft:sqlserver://LOCALHOST:1433;DatabaseName=goon","dataStoreUser":"sa","dataStorePassword":"dataStoreTestQuery","dataStoreTestQuery":"SET NOCOUNT ON;select test='test';","dataStoreLogFile":"/usr/local/tomcat/logs/datastore.log","dataStoreInitConns":10,"dataStoreMaxConns":100,"dataStoreConnUsageLimit":100,"dataStoreLogLevel":"debug","maxUrlLength":500}},{"servlet-name":"cofaxEmail","servlet-class":"org.cofax.cds.EmailServlet","init-param":{"mailHost":"mail1","mailHostOverride":"mail2"}},{"servlet-name":"cofaxAdmin","servlet-class":"org.cofax.cds.AdminServlet"},{"servlet-name":"fileServlet","servlet-class":"org.cofax.cds.FileServlet"},{"servlet-name":"cofaxTools","servlet-class":"org.cofax.cms.CofaxToolsServlet","init-param":{"templatePath":"toolstemplates/","log":1,"logLocation":"/usr/local/tomcat/logs/CofaxTools.log","logMaxSize":"","dataLog":1,"dataLogLocation":"/usr/local/tomcat/logs/dataLog.log","dataLogMaxSize":"","removePageCache":"/content/admin/remove?cache=pages&id=","removeTemplateCache":"/content/admin/remove?cache=templates&id=","fileTransferFolder":"/usr/local/tomcat/webapps/content/fileTransferFolder","lookInContext":1,"adminGroupID":4,"betaServer":true}}],"servlet-mapping":{"cofaxCDS":"/","cofaxEmail":"/cofaxutil/aemail/*","cofaxAdmin":"/admin/*","fileServlet":"/static/*","cofaxTools":"/tools/*"},"taglib":{"taglib-uri":"cofax.tld","taglib-location":"/WEB-INF/tlds/cofax.tld"}}}]]></assert-serialization>
+      </result>  -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"web-app":\{.*"servlet":\[(\{.*\},){4}\{.*\}\].*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"web-app":\{.*"servlet-mapping":\{.*\}.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"web-app":\{.*"taglib":\{.*\}.*\}\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-63" covers="json-output">
+      <description>Test json output method - maps and arrays only</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Michael Kay" on="2015-04-13" change="Moved file location; further fix for bug 27608"/>
+      <modified by="Christian Gruen" on="2015-04-28" change="regular expression: escaping closing curly braces"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+parse-json(unparsed-text('json/data005.json'))
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"menu":{"header":"SVG Viewer","items":[{"id":"Open"},{"id":"OpenNew","label":"Open New"},null,{"id":"ZoomIn","label":"Zoom In"},{"id":"ZoomOut","label":"Zoom Out"},{"id":"OriginalView","label":"Original View"},null,{"id":"Quality"},{"id":"Pause"},{"id":"Mute"},null,{"id":"Find","label":"Find..."},{"id":"FindAgain","label":"Find Again"},{"id":"Copy"},{"id":"CopyAgain","label":"Copy Again"},{"id":"CopySVG","label":"Copy SVG"},{"id":"ViewSVG","label":"View SVG"},{"id":"ViewSource","label":"View Source"},{"id":"SaveAs","label":"Save As"},null,{"id":"Help"},{"id":"About","label":"About Adobe CVG Viewer..."}]}}]]></assert-serialization>
+      </result> -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"menu":\{.*"header":"SVG Viewer".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"menu":\{.*"items":\[(\{[^}]*\},){2}null,((\{[^}]*\},){3}null,){2}(\{[^}]*\},){8}null,\{"id":"Help"\},\{.*\}\].*\}\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-64" covers="json-output">
+      <description>Test json output method - maps and arrays with embedded node</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+map {
+    "book": map {
+        "title": "Data on the Web",
+        "year": 2000,
+        "author": [
+            map {
+                "last": "Abiteboul",
+                "first": "Serge"
+            },
+            map {
+                "last": "Buneman",
+                "first": "Peter"
+            },
+            map {
+                "last": "Suciu",
+                "first": "Dan"
+            }
+        ],
+        "xml-content": <simple>text-value</simple>,
+        "publisher": "Morgan Kaufmann Publishers",
+        "price": 39.95
+    }
+}
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"book":{"title":"Data on the Web","year":2000,"author":[{"last":"Abiteboul","first":"Serge"},{"last":"Buneman","first":"Peter"},{"last":"Suciu","first":"Dan"}],"xml-content":"<simple>text-value</simple>","publisher":"Morgan Kaufmann Publishers","price":39.95}}]]></assert-serialization>
+      </result>  -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<simple>text-value<\\/simple>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-65" covers="json-output">
+      <description>Test json output method - maps and arrays with embedded node</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+map {
+    "book": map {
+        "title": "Data on the Web",
+        "year": 2000,
+        "author": [
+            map {
+                "last": "Abiteboul",
+                "first": "Serge"
+            },
+            map {
+                "last": "Buneman",
+                "first": "Peter"
+            },
+            map {
+                "last": "Suciu",
+                "first": "Dan"
+            }
+        ],
+        "xml-content": element simple { "text-value" },
+        "publisher": "Morgan Kaufmann Publishers",
+        "price": 39.95
+    }
+}
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"book":{"title":"Data on the Web","year":2000,"author":[{"last":"Abiteboul","first":"Serge"},{"last":"Buneman","first":"Peter"},{"last":"Suciu","first":"Dan"}],"xml-content":"<simple>text-value</simple>","publisher":"Morgan Kaufmann Publishers","price":39.95}}]]></assert-serialization>
+      </result> -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<simple>text-value<\\/simple>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-66" covers="json-output">
+      <description>Test json output method - maps and arrays with embedded node</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+map {
+    "book": map {
+        "title": "Data on the Web",
+        "year": 2000,
+        "author": [
+            map {
+                "last": "Abiteboul",
+                "first": "Serge"
+            },
+            map {
+                "last": "Buneman",
+                "first": "Peter"
+            },
+            map {
+                "last": "Suciu",
+                "first": "Dan"
+            }
+        ],
+        "xml-content": element simple { 1 + 1 },
+        "publisher": "Morgan Kaufmann Publishers",
+        "price": 39.95
+    }
+}
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"book":{"title":"Data on the Web","year":2000,"author":[{"last":"Abiteboul","first":"Serge"},{"last":"Buneman","first":"Peter"},{"last":"Suciu","first":"Dan"}],"xml-content":"<simple>2</simple>","publisher":"Morgan Kaufmann Publishers","price":39.95}}]]></assert-serialization>
+      </result>  -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<simple>2<\\/simple>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-67" covers="json-output">
+      <description>Test json output method - maps and arrays with embedded node</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+map {
+    "book": map {
+        "title": "Data on the Web",
+        "year": 2000,
+        "author": [
+            map {
+                "last": "Abiteboul",
+                "first": "Serge"
+            },
+            map {
+                "last": "Buneman",
+                "first": "Peter"
+            },
+            element simple { 1 + 1 },
+            map {
+                "last": "Suciu",
+                "first": "Dan"
+           }
+        ],
+        "publisher": "Morgan Kaufmann Publishers",
+        "price": 39.95
+    }
+}
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"book":{"title":"Data on the Web","year":2000,"author":[{"last":"Abiteboul","first":"Serge"},{"last":"Buneman","first":"Peter"},"<simple>2</simple>",{"last":"Suciu","first":"Dan"}],"publisher":"Morgan Kaufmann Publishers","price":39.95}}]]></assert-serialization>
+      </result>  -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},"<simple>2<\\/simple>",\{[^}]*\}\].*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-68" covers="json-output">
+      <description>Test json output method - maps and arrays with embedded node</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+map {
+    "book": map {
+        "title": "Data on the Web",
+        "year": 2000,
+        "author": [
+            map {
+                "last": "Abiteboul",
+                "first": "Serge"
+            },
+            map {
+                "last": "Buneman",
+                "first": "Peter"
+            },
+            map {
+                "last": "Suciu",
+                "first": "Dan"
+            }
+        ],
+        <node-key>strange</node-key> : element simple { 1 + 1 },
+        "publisher": "Morgan Kaufmann Publishers",
+        "price": 39.95
+    }
+}
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"book":{"title":"Data on the Web","year":2000,"author":[{"last":"Abiteboul","first":"Serge"},{"last":"Buneman","first":"Peter"},{"last":"Suciu","first":"Dan"}],"<node-key>strange</node-key>":"<simple>2</simple>","publisher":"Morgan Kaufmann Publishers","price":39.95}}]]></assert-serialization>
+      </result>  -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"strange":"<simple>2<\\/simple>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-69" covers="json-output">
+      <description>Test json output method - maps and arrays with embedded node</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+map {
+    "book": map {
+        "title": "Data on the Web",
+        "year": 2000,
+        "author": [
+            map {
+                "last": "Abiteboul",
+                "first": "Serge"
+            },
+            map {
+                "last": "Buneman",
+                "first": "Peter"
+            },
+            map {
+                "last": "Suciu",
+                "first": "Dan"
+            }
+        ],
+        "xml-content": <complex><simple>text-value</simple></complex>,
+        "publisher": "Morgan Kaufmann Publishers",
+        "price": 39.95
+    }
+}
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"book":{"title":"Data on the Web","year":2000,"author":[{"last":"Abiteboul","first":"Serge"},{"last":"Buneman","first":"Peter"},{"last":"Suciu","first":"Dan"}],"xml-content":"<complex><simple>text-value</simple></complex>","publisher":"Morgan Kaufmann Publishers","price":39.95}}]]></assert-serialization>
+      </result> -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<complex><simple>text-value<\\/simple><\\/complex>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-70" covers="json-output">
+      <description>Test default value of json-node-output-method is xml</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+
+map {
+    "book": map {
+        "title": "Data on the Web",
+        "year": 2000,
+        "author": [
+            map {
+                "last": "Abiteboul",
+                "first": "Serge"
+            },
+            map {
+                "last": "Buneman",
+                "first": "Peter"
+            },
+            map {
+                "last": "Suciu",
+                "first": "Dan"
+            }
+        ],
+        "xml-content": <complex><simple>text-value</simple></complex>,
+        "publisher": "Morgan Kaufmann Publishers",
+        "price": 39.95
+    }
+}
+]]></test>
+<!--      <result>
+         <assert-serialization><![CDATA[{"book":{"title":"Data on the Web","year":2000,"author":[{"last":"Abiteboul","first":"Serge"},{"last":"Buneman","first":"Peter"},{"last":"Suciu","first":"Dan"}],"xml-content":"<complex><simple>text-value</simple></complex>","publisher":"Morgan Kaufmann Publishers","price":39.95}}]]></assert-serialization>
+      </result>  -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<complex><simple>text-value<\\/simple><\\/complex>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-71" covers="json-output">
+      <description>Test json output method - maps and arrays, various atomic types</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Michael Kay" on="2015-04-13" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+map {
+  "string-value": "a string",
+  "numeric-value": 123.456,
+  "node-value": element el1 { element el2 { "simple content" }},
+  xs:integer("123456"): xs:integer("123456"),
+  xs:date("2014-09-30"): "date-key",
+  "array": [
+    xs:integer("123456"), xs:date("2014-09-30"), xs:boolean("true"), xs:boolean("false")
+  ]
+}
+]]></test>
+ <!--     <result>
+         <assert-serialization><![CDATA[{"string-value":"a string","numeric-value":123.456,"node-value":"<el1><el2>simple content</el2></el1>","123456":123456,"2014-09-30":"date-key","array":[123456,"2014-09-30",true,false]}]]></assert-serialization>
+      </result> -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{.*"string-value":"a string".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"numeric-value":123.456.*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"node-value":"<el1><el2>simple content<\\/el2><\\/el1>".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"123456":123456.*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"2014-09-30":"date-key".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"array":\[123456,"2014-09-30",true,false\].*\}]]></serialization-matches>
+        </all-of>
+      </result>
+
+   </test-case>
+
+   <test-case name="Serialization-json-72" covers="json-output allow-duplicate-names">
+      <description>Test json output method - allow-duplicate-names = yes</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Michael Kay" on="2015-04-13" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+declare option output:allow-duplicate-names "yes";
+
+map {
+  "string-value": "a string",
+  "numeric-value": 123.456,
+  "node-value": element el1 { element el2 { "simple content" }},
+  xs:integer("123456"): xs:integer("123456"),
+  xs:date("2014-09-30"): "date-key",
+  "2014-09-30": "string date key",
+  "array": [
+    xs:integer("123456"), xs:date("2014-09-30"), xs:boolean("true"), xs:boolean("false")
+  ]
+}
+]]></test>
+  <!--    <result>
+         <assert-serialization><![CDATA[{"string-value":"a string","numeric-value":123.456,"node-value":"<el1><el2>simple content</el2></el1>","123456":123456,"2014-09-30":"date-key","2014-09-30":"string date key","array":[123456,"2014-09-30",true,false]}]]></assert-serialization>
+      </result> -->
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA[\{.*"string-value":"a string".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"numeric-value":123.456.*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"node-value":"<el1><el2>simple content<\\/el2><\\/el1>".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"123456":123456.*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"2014-09-30":"date-key".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"2014-09-30":"string date key".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"array":\[123456,"2014-09-30",true,false\].*\}]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-73" covers="json-output allow-duplicate-names">
+      <description>Test json output method - allow-duplicate-names = no</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+declare option output:allow-duplicate-names "no";
+
+map {
+  "string-value": "a string",
+  "numeric-value": 123.456,
+  "node-value": element el1 { element el2 { "simple content" }},
+  xs:integer("123456"): xs:integer("123456"),
+  xs:date("2014-09-30"): "date-key",
+  "2014-09-30": "string date key",
+  "array": [
+    xs:integer("123456"), xs:date("2014-09-30"), xs:boolean("true"), xs:boolean("false")
+  ]
+}
+]]></test>
+      <result>
+        <assert-serialization-error code="SERE0022"/>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-json-74" covers="json-output allow-duplicate-names">
+      <description>Test json output method - allow-duplicate-names - default no</description>
+      <created by="Andrew Coleman" on="2014-09-26"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "json";
+declare option output:indent  "no";
+declare option output:media-type  "text/json";
+declare option output:encoding  "UTF-8";
+declare option output:json-node-output-method  "xml";
+
+map {
+  "string-value": "a string",
+  "numeric-value": 123.456,
+  "node-value": element el1 { element el2 { "simple content" }},
+  xs:integer("123456"): xs:integer("123456"),
+  xs:date("2014-09-30"): "date-key",
+  "2014-09-30": "string date key",
+  "array": [
+    xs:integer("123456"), xs:date("2014-09-30"), xs:boolean("true"), xs:boolean("false")
+  ]
+}
+]]></test>
+      <result>
+        <assert-serialization-error code="SERE0022"/>
+      </result>
+   </test-case>
+</test-set>

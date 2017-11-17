@@ -1,0 +1,5 @@
+{ "name" : "broiler", "category" : "kitchen", "price" : 100, "cost" : 70 }
+{ "name" : "toaster", "category" : "kitchen", "price" : 30, "cost" : 10 }
+{ "name" : "blender", "category" : "kitchen", "price" : 50, "cost" : 25 }
+{ "name" : "socks", "category" : "clothes", "price" : 5, "cost" : 2 }
+{ "name" : "shirt", "category" : "clothes", "price" : 10, "cost" : 3 }

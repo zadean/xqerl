@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="app-UseCaseNLP">
+   <description>Tests for Natural Language Processing</description>
+   
+   <environment name="speech-representation.json">
+   <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseNLP/"/>
+      <resource file="UseCaseNLP/speech-representation.json" media-type="application/json" uri="speech-representation.json">
+         <created by="Carla Spruit" on="2014-12-30"/>
+      </resource> 
+   </environment>
+  
+   <!-- Most of the tests use dynamic function call syntax, so they require the HOF feature -->
+   <dependency type="feature" value="higherOrderFunctions"/>
+           
+   <test-case name="UseCaseNLP-001" covers="fn-json-doc postfix-lookup">
+      <description>Use case Natural Language Processing: Convert Part of Speech Data to XML</description>
+      <created by="Carla Spruit" on="2014-12-30"/>
+      <modified by="Michael Dyck" on="2015-01-19" change="Remove XP31+ from spec-dependency due to DirectConstructors"/>
+      <environment ref="speech-representation.json"/>
+      <dependency type="spec" value="XQ31+"/>      
+      <test>
+        <![CDATA[
+          <s>
+           {
+            for $w in json-doc('speech-representation.json')?*
+            return <w pos="{ $w(2) }">{ $w(1) }</w>
+           }
+          </s>      
+        ]]>
+      </test>
+      <result>
+        <assert-xml><![CDATA[<s><w pos="DT">A</w><w pos="NN">bride</w><w pos=",">,</w><w pos="PRP">you</w><w pos="VBP">know</w><w pos=",">,</w><w pos="MD">must</w><w pos="VB">appear</w><w pos="IN">like</w><w pos="DT">a</w><w pos="NN">bride</w><w pos=",">,</w><w pos="CC">but</w><w pos="PRP$">my</w><w pos="JJ">natural</w><w pos="NN">taste</w><w pos="VBZ">is</w><w pos="DT">all</w><w pos="IN">for</w><w pos="NN">simplicity</w><w pos=":">;</w><w pos="DT">a</w><w pos="JJ">simple</w><w pos="NN">style</w><w pos="IN">of</w><w pos="NN">dress</w><w pos="VBZ">is</w><w pos="RB">so</w><w pos="RB">infinitely</w><w pos="JJ">preferable</w><w pos="TO">to</w><w pos="VB">finery</w><w pos=".">.</w></s>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseNLP-002" covers="fn-json-doc postfix-lookup map-constructor">
+      <description>Use case Natural Language Processing: Convert Part of Speech Data to XML</description>
+      <created by="Carla Spruit" on="2014-12-30"/>
+      <modified by="Michael Dyck" on="2015-01-19" change="Remove XP31+ from spec-dependency due to DirectConstructors"/>
+      <environment ref="speech-representation.json"/>      
+      <dependency type="spec" value="XQ31+"/>      
+      <test>
+        <![CDATA[
+          declare variable $index := map { "pos" : 2, "lemma" : 1 };
+          <s>
+           {
+            for $w in json-doc('speech-representation.json')?*
+            return <w pos="{ $w($index("pos")) }">{ $w($index("lemma")) }</w>
+           }
+          </s>			  
+        ]]>
+      </test>
+      <result>
+        <assert-xml><![CDATA[<s><w pos="DT">A</w><w pos="NN">bride</w><w pos=",">,</w><w pos="PRP">you</w><w pos="VBP">know</w><w pos=",">,</w><w pos="MD">must</w><w pos="VB">appear</w><w pos="IN">like</w><w pos="DT">a</w><w pos="NN">bride</w><w pos=",">,</w><w pos="CC">but</w><w pos="PRP$">my</w><w pos="JJ">natural</w><w pos="NN">taste</w><w pos="VBZ">is</w><w pos="DT">all</w><w pos="IN">for</w><w pos="NN">simplicity</w><w pos=":">;</w><w pos="DT">a</w><w pos="JJ">simple</w><w pos="NN">style</w><w pos="IN">of</w><w pos="NN">dress</w><w pos="VBZ">is</w><w pos="RB">so</w><w pos="RB">infinitely</w><w pos="JJ">preferable</w><w pos="TO">to</w><w pos="VB">finery</w><w pos=".">.</w></s>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseNLP-003" covers="fn-json-doc postfix-lookup map-constructor">
+      <description>Use case Natural Language Processing: Converting arrays to maps</description>
+      <created by="Carla Spruit" on="2014-12-30"/>
+      <environment ref="speech-representation.json"/>      
+      <dependency type="spec" value="XP31+ XQ31+"/>      
+      <test>
+        <![CDATA[
+          array {
+            for $w in json-doc('speech-representation.json')?*
+            return map { "pos" : $w(2), "lemma" : $w(1) }
+          }
+        ]]>
+      </test>
+      <result>
+        <assert-deep-eq>
+        	[ map { "pos" : "DT", "lemma" : "A" }, 
+        	  map { "pos" : "NN", "lemma" : "bride" }, 
+        	  map { "pos" : ",", "lemma" : "," }, 
+        	  map { "pos" : "PRP", "lemma" : "you" }, 
+        	  map { "pos" : "VBP", "lemma" : "know" }, 
+        	  map { "pos" : ",", "lemma" : "," }, 
+        	  map { "pos" : "MD", "lemma" : "must" }, 
+        	  map { "pos" : "VB", "lemma" : "appear" }, 
+        	  map { "pos" : "IN", "lemma" : "like" }, 
+        	  map { "pos" : "DT", "lemma" : "a" }, 
+        	  map { "pos" : "NN", "lemma" : "bride" }, 
+        	  map { "pos" : ",", "lemma" : "," }, 
+        	  map { "pos" : "CC", "lemma" : "but" }, 
+        	  map { "pos" : "PRP$", "lemma" : "my" }, 
+        	  map { "pos" : "JJ", "lemma" : "natural" }, 
+        	  map { "pos" : "NN", "lemma" : "taste" }, 
+        	  map { "pos" : "VBZ", "lemma" : "is" }, 
+        	  map { "pos" : "DT", "lemma" : "all" }, 
+        	  map { "pos" : "IN", "lemma" : "for" }, 
+        	  map { "pos" : "NN", "lemma" : "simplicity" }, 
+        	  map { "pos" : ":", "lemma" : ";" }, 
+        	  map { "pos" : "DT", "lemma" : "a" }, 
+        	  map { "pos" : "JJ", "lemma" : "simple" }, 
+        	  map { "pos" : "NN", "lemma" : "style" }, 
+        	  map { "pos" : "IN", "lemma" : "of" }, 
+        	  map { "pos" : "NN", "lemma" : "dress" }, 
+        	  map { "pos" : "VBZ", "lemma" : "is" }, 
+        	  map { "pos" : "RB", "lemma" : "so" }, 
+        	  map { "pos" : "RB", "lemma" : "infinitely" }, 
+        	  map { "pos" : "JJ", "lemma" : "preferable" }, 
+        	  map { "pos" : "TO", "lemma" : "to" }, 
+        	  map { "pos" : "VB", "lemma" : "finery" }, 
+        	  map { "pos" : ".", "lemma" : "." } 
+        	]
+        </assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseNLP-004" covers="fn-json-doc postfix-lookup">
+      <description>Use case Natural Language Processing: Group by part of speech</description>
+      <created by="Carla Spruit" on="2014-12-30"/>
+      <environment ref="speech-representation.json"/>      
+      <dependency type="spec" value="XQ31+"/>      
+      <test>
+        <![CDATA[
+          for $word in json-doc('speech-representation.json')?*
+          let $pos := $word(2)
+          let $lexeme := $word(1)
+          where $pos = ("JJ", "NN", "RB", "VB")
+          group by $pos
+          order by $pos
+          return 
+            <pos name="{$pos}">
+              { 
+                for $l in distinct-values($lexeme)
+                return <lexeme>{ $l }</lexeme>
+              }
+            </pos>
+        ]]>
+      </test>
+      <result>
+        <assert-xml><![CDATA[<pos name="JJ"><lexeme>natural</lexeme><lexeme>simple</lexeme><lexeme>preferable</lexeme></pos><pos name="NN"><lexeme>bride</lexeme><lexeme>taste</lexeme><lexeme>simplicity</lexeme><lexeme>style</lexeme><lexeme>dress</lexeme></pos><pos name="RB"><lexeme>so</lexeme><lexeme>infinitely</lexeme></pos><pos name="VB"><lexeme>appear</lexeme><lexeme>finery</lexeme></pos>]]></assert-xml>
+      </result>
+   </test-case> 
+   
+   <test-case name="UseCaseNLP-005" covers="fn-json-doc postfix-lookup">
+      <description>Use case Natural Language Processing: Trigrams</description>
+      <created by="Carla Spruit" on="2014-12-30"/>
+      <environment ref="speech-representation.json"/>      
+      <dependency type="spec" value="XQ31+"/>      
+      <test>
+        <![CDATA[
+          declare function local:words-only($s)
+          {
+            for $w in $s
+            where not($w(2) = (".", ",", ";", ":"))
+            return $w(1)
+          };
+          
+          for sliding window $w in local:words-only(json-doc('speech-representation.json')?*)
+              start at $i when true()
+              only end at $j when $j - $i eq 2
+          return 
+              array { $w }
+        ]]>
+      </test>
+      <result>
+         <assert-deep-eq>
+           <![CDATA[
+            ([ "A", "bride", "you" ], 
+            [ "bride", "you", "know" ], 
+            [ "you", "know", "must" ], 
+            [ "know", "must", "appear" ], 
+            [ "must", "appear", "like" ], 
+            [ "appear", "like", "a" ], 
+            [ "like", "a", "bride" ], 
+            [ "a", "bride", "but" ], 
+            [ "bride", "but", "my" ], 
+            [ "but", "my", "natural" ], 
+            [ "my", "natural", "taste" ], 
+            [ "natural", "taste", "is" ], 
+            [ "taste", "is", "all" ], 
+            [ "is", "all", "for" ], 
+            [ "all", "for", "simplicity" ], 
+            [ "for", "simplicity", "a" ], 
+            [ "simplicity", "a", "simple" ], 
+            [ "a", "simple", "style" ], 
+            [ "simple", "style", "of" ], 
+            [ "style", "of", "dress" ], 
+            [ "of", "dress", "is" ], 
+            [ "dress", "is", "so" ], 
+            [ "is", "so", "infinitely" ], 
+            [ "so", "infinitely", "preferable" ], 
+            [ "infinitely", "preferable", "to" ], 
+            [ "preferable", "to", "finery" ])
+          ]]>
+        </assert-deep-eq>
+      </result>
+   </test-case>  
+   
+   <test-case name="UseCaseNLP-006a" covers="fn-json-doc postfix-lookup">
+      <description>Use case Natural Language Processing: Partitioning using filters</description>
+      <created by="Carla Spruit" on="2014-12-30"/>
+      <modified by="Michael Dyck" on="2015-01-19" change="Remove XP31+ from spec-dependency due to FunctionDeclaration"/>
+      <environment ref="speech-representation.json"/>      
+      <dependency type="spec" value="XQ31+"/>      
+      <test>
+        <![CDATA[
+          declare function local:filter($s as item()*, $p as function(item()) as xs:boolean)
+          {
+            array { $s[$p(.)] },   array { $s[not($p(.))] }
+          };
+          
+          let $f := function($a) { starts-with($a(2), "VB") }
+          return
+            local:filter(json-doc('speech-representation.json')?*, $f)			  
+        ]]>
+      </test>
+      <result>
+         <assert-deep-eq>
+           <![CDATA[
+            [["know", "VBP"], ["appear", "VB"], ["is", "VBZ"], ["is", "VBZ"], ["finery", "VB"]],
+             [["A", "DT"], ["bride", "NN"], [",", ","], ["you", "PRP"], [",", ","], ["must", "MD"], 
+              ["like", "IN"], ["a", "DT"], ["bride", "NN"], [",", ","], ["but", "CC"], ["my", "PRP$"], 
+              ["natural", "JJ"], ["taste", "NN"], ["all", "DT"], ["for", "IN"], ["simplicity", "NN"], 
+              [";", ":"], ["a", "DT"], ["simple", "JJ"], ["style", "NN"], ["of", "IN"], ["dress", "NN"], 
+              ["so", "RB"], ["infinitely", "RB"], ["preferable", "JJ"], ["to", "TO"], [".", "."]]
+          ]]>
+        </assert-deep-eq>
+      </result>
+   </test-case>        
+
+   <test-case name="UseCaseNLP-006b" covers="fn-json-doc postfix-lookup array-curly-constructor">
+      <description>Use case Natural Language Processing: Partitioning using filters</description>
+      <created by="Carla Spruit" on="2014-12-30"/>
+      <modified by="Michael Dyck" on="2015-01-19" change="Remove XP31+ from spec-dependency due to FunctionDeclaration"/>
+      <environment ref="speech-representation.json"/>      
+      <dependency type="spec" value="XQ31+"/>      
+      <test>
+        <![CDATA[
+          declare function local:filter($s as item()*, $p as function(item()) as xs:boolean)
+          {
+           map {
+              true() : array { $s[$p(.)] },   
+              false() : array { $s[not($p(.))] }
+            }
+          };					
+          let $f := function($a) { starts-with($a(2), "VB") }
+          return
+            local:filter(json-doc('speech-representation.json')?*, $f)
+  			  ]]>
+			</test>
+      <result>
+         <assert-deep-eq>
+           <![CDATA[
+              map { 
+              true() : 
+                         [ [ "know", "VBP" ], [ "appear", "VB" ], [ "is", "VBZ" ],
+                           ["is", "VBZ" ], [ "finery", "VB" ] ],
+              
+              false() :  
+              
+                         [ [ "A", "DT" ], ["bride", "NN" ], [ ",", "," ], 
+                           [ "you", "PRP" ], [ ",", "," ], [ "must", "MD" ], 
+                           [ "like", "IN" ], [ "a", "DT" ], [ "bride", "NN" ], 
+                           [ ",", "," ], [ "but", "CC" ], [ "my", "PRP$" ], 
+                           [ "natural", "JJ" ], [ "taste", "NN" ], [ "all", "DT"],
+                           [ "for", "IN" ], [ "simplicity", "NN" ], [ ";", ":" ],
+                           [ "a", "DT" ], [ "simple", "JJ" ], [ "style", "NN" ], 
+                           [ "of", "IN" ], [ "dress", "NN" ], [ "so", "RB" ], 
+                           [ "infinitely", "RB" ], [ "preferable", "JJ" ], 
+                           [ "to", "TO" ], [ ".", "." ] ] 
+              }
+          ]]>
+        </assert-deep-eq>
+      </result>
+   </test-case>        
+      
+</test-set>

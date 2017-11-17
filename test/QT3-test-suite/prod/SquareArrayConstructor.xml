@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-SquareArrayConstructor">
+    <description>Tests for the SquareArrayConstructor production: arrays in XPath 3.1 and XQuery 3.1</description>
+    
+    <!-- tests migrated from the ArrayTest test-set, and renamed s/ArrayTest/SquareArray/ 2016-09-06 -->
+    
+    <test-case name="SquareArray-001" covers="array-square-constructor">
+        <description>empty square array constructor</description>
+        <created by="Carla Spruit" on="2014-10-28"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>[]</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert-type>array(empty-sequence())</assert-type>
+                <assert-type>array(xs:string)</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="SquareArray-003" covers="array-square-constructor">
+        <description>square array constructor, number of members </description>
+        <created by="Carla Spruit" on="2014-10-28"/>
+        <environment ref="array"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>array:size([(), ('A', 'B', 'C'), 'D'])</test>
+        <result>
+            <all-of>
+                <assert-eq>3</assert-eq>
+                <assert-type>xs:integer</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="SquareArray-005" covers="array-square-constructor">
+        <description>square array constructor, number of members </description>
+        <created by="Carla Spruit" on="2014-10-28"/>
+        <environment ref="array"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>declare function local:fun() {1 to 5}; array:size([local:fun()])</test>
+        <result>
+            <all-of>
+                <assert-eq>1</assert-eq>
+                <assert-type>xs:integer</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="SquareArray-007" covers="array-square-constructor">
+        <description>square array constructor, lookup </description>
+        <created by="Carla Spruit" on="2014-10-28"/>
+        <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+        <modified by="Michael Kay" on="2015-11-26" change="add HOF dependency (dynamic function call)"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>declare function local:fun() {1 to 5}; [local:fun()](1)</test>
+        <result>
+            <assert-deep-eq>(1, 2, 3, 4, 5)</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="SquareArray-009" covers="array-square-constructor">
+        <description>square array constructor, lookup </description>
+        <created by="Carla Spruit" on="2014-10-28"/>
+        <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>declare function local:fun() {1 to 5}; [local:fun()]?1</test>
+        <result>
+            <assert-deep-eq>(1, 2, 3, 4, 5)</assert-deep-eq>
+        </result>
+    </test-case>
+    
+</test-set>

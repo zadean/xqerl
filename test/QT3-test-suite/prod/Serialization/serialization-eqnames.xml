@@ -1,0 +1,9 @@
+<output:serialization-parameters
+   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+   <output:method value="xml"/>
+   <output:indent value="yes"/>
+   <output:cdata-section-elements 
+      xmlns:b="http://example.com/b" 
+      xmlns="http://example.com/d" 
+      value="Q{http://example.com/a}e b:e Q{http://example.com/c}e e"/>
+</output:serialization-parameters>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<changes>
+    <spec name="XP30">
+        <change id="named-function-ref">Named function references</change>
+        <change id="inline-function" owner="John Snelson">Inline function expressions</change>
+        <change id="dynamic-function-call" owner="Mary Holstege">Dynamic function calls</change>
+        <change id="function-item-coercion" owner="John Snelson">Function item coercion</change>
+        <change id="partial-function-application" owner="Mary Holstege">Partial function application</change>
+        <change id="sequence-type-relationships" owner="Jonathan Robie">Sequence type subtype relationships moved from Formal Semantics</change>
+        <change id="type-derivation-with-unions" ref="bug7749" owner="Mike Kay">Type derivation involving union types</change>
+        <change id="let-in-xpath">Let expressions now in XPath</change>
+        <change id="eqnames">EQNames</change>
+        <change id="wildcard-uri-literals" owner="Mike Kay">Wildcard syntax Q{uri}*</change>
+        <change id="xsd11">XSD 1.1 support</change>
+        <change id="union-as-sequence-type" owner="Mike Kay">Union types as Sequence Type</change>
+        <change id="reserved-namespaces" ref="bug10700" owner="Jonathan Robie">Consistency constraints on reserved namespaces</change>
+        <change id="substitution-groups" ref="bug10065 bug10207" owner="Mike Kay">Abstract and blocked elements in substitution groups</change>
+        <change id="concat-operator">String concatenation operator ('||')</change>
+        <change id="bang-operator">Simple mapping operator ('!')</change>
+        <change id="cast-to-qname-errors" ref="bug11964" owner="Ghislain Fourny">Error codes for errors casting to namespace-sensitive types</change>
+    </spec>
+    <spec name="XQ30">
+        <change id="group-by" owner="Andy Coleman">"group by" in FLWOR expression</change>
+        <change id="windows">Tumbling and sliding windows</change>
+        <change id="count-clause">Count clause in FLWOR expression</change>
+        <change id="allowing-empty">"allowing empty" in FLWOR expression</change>
+        <change id="try-catch">Try/Catch</change>
+        <change id="private-functions">Private functions</change>
+        <change id="private-variables">Private variables</change>
+        <change id="switch">Switch expression</change>
+        <change id="computed-namespace">Computed namespace constructors</change>
+        <change id="output-decl">Output declarations and serialization parameter files</change>
+        <change id="annotations">Function and variable annotations</change>
+        <change id="flwor-generalization"  owner="Andy Coleman">Removed restrictions on FLWOR expressions, eg multiple where clauses</change>
+        <change id="validate-by-type" owner="Mary Holstege">Validate by type</change>
+        <change id="default-external-var">Default values for external variables</change>
+        <change id="context-item-decl">Context item declaration</change>
+        <change id="version-decl-30">Version declaration specifies XQuery 3.0</change>
+        <change id="decimal-decl" owner="Michael Dyck">Decimal format declarations</change>
+        <change id="annotation-assertions">Annotation assertions in function tests</change>
+        <change id="validation-notation" owner="Mary Holstege">Validation checks that NOTATION values are declared</change>
+        <change id="module-cycles" owner="Matthias Brantner">Cycles in module import are not prohibited provided functions and variables have no circular dependencies</change>
+        <change id="error-XQST0118">Error code XQST0118 for start tag / end tag mismatch</change>
+        <!-- <change id="require-and-prohibit-feature" owner="Ghislain Fourny">Declarations to indicate required and prohibited features</change> -->
+        <change id="typeswitch-union-cases">Typeswitch cases can now name a set of types</change>
+        <change id="forwards-references">Forwards references to global variables are allowed</change>
+        <change id="declaration-cycles">Cycles among global variables are now detected as a dynamic error</change>
+    </spec>
+    <spec name="FO30">
+        <change id="fn-round">Add fn:round#2 overload</change>
+        <change id="fn-string-join" owner="Mike Kay">Add fn:string-join#1 overload</change>
+        <change id="fn-format-date">Move fn:format-date from XSLT</change>
+        <change id="fn-format-dateTime">Move fn:format-dateTime from XSLT</change>
+        <change id="fn-format-time">Move fn:format-time from XSLT</change>
+        <change id="fn-format-number">Move fn:format-number from XSLT</change>
+        <change id="fn-generate-id">Move fn:generate-id from XSLT</change>
+        <change id="fn-unparsed-text">Move fn:unparsed-text from XSLT</change>
+        <change id="fn-unparsed-text-available">Move fn:unparsed-text-available from XSLT</change>
+        <change id="fn-unparsed-text-lines">Add fn:unparsed-text-lines</change>
+        <change id="fn-format-integer">Add fn:format-integer</change>
+        <change id="math-pi">Add math:pi function</change>
+        <change id="math-exp">Add math:exp function</change>
+        <change id="math-exp10">Add math:exp10 function</change>
+        <change id="math-log">Add math:log function</change>
+        <change id="math-log10">Add math:log10 function</change>
+        <change id="math-pow">Add math:pow function</change>
+        <change id="math-sqrt">Add math:sqrt function</change>
+        <change id="math-sin">Add math:sin function</change>
+        <change id="math-cos">Add math:cos function</change>
+        <change id="math-tan">Add math:tan function</change>
+        <change id="math-asin">Add math:asin function</change>
+        <change id="math-acos">Add math:acos function</change>
+        <change id="math-atan">Add math:atan function</change>
+        <change id="math-atan2">Add math:atan2 function</change>
+        <change id="fn-parse-xml">Add fn:parse-xml function</change>
+        <change id="fn-parse-xml-fragment">Add fn:parse-xml-fragment function</change>
+        <change id="fn-serialize">Add fn:serialize function</change>
+        <change id="fn-analyze-string">Add fn:analyze-string function</change>
+        <change id="fn-for-each">Add fn:for-each function</change>
+        <change id="fn-filter">Add fn:filter function</change>
+        <change id="fn-for-each-pair">Add fn:map-pair function</change>
+        <change id="fn-fold-left">Add fn:fold-left function</change>
+        <change id="fn-fold-right">Add fn:fold-right function</change>
+        <change id="fn-error" owner="Ghislain Fourny">Change rules for fn:error in the light of try/catch</change>
+        <change id="fn-head">Add fn:head function</change>
+        <change id="fn-tail">Add fn:tail function</change>
+        <change id="fn-data" owner="Mike Kay">Add fn:data#0 overload</change>
+        <change id="fn-document-uri" owner="Liam Quin">Add fn:document-uri#0 overload</change>
+        <change id="fn-node-name" owner="Zhen Hua Liu">Add fn:node-name#0 overload</change>
+        <change id="fn-base-uri" owner="Liam Quin">Add fn:base-uri#0 overload</change>
+        <change id="fn-nilled" owner="Mike Kay">Add fn:nilled#0 overload</change>
+        <change id="fn-uri-collection" owner="Josh Spiegel">Add fn:uri-collection function</change>
+        <change id="fn-has-children">Add fn:has-children function</change>
+        <change id="fn-innermost">Add fn:innermost function</change>
+        <change id="fn-outermost">Add fn:outermost function</change>
+        <change id="fn-path">Add fn:path function</change>
+        <change id="fn-resolve-uri" owner="Norman Walsh">Change rules for fn:resolve-uri function</change>
+        <change id="fn-available-environment-variables">Add fn:available-environment-variables function</change>
+        <change id="fn-environment-variable">Ann fn:environment-variable function</change>
+        <change id="fn-collection" owner="Josh Spiegel">Change error codes returned by fn:collection</change>
+        <change id="fn-function-name">Add fn:function-name function</change>
+        <change id="fn-function-lookup">Add fn:function-lookup function</change>
+        <change id="fn-function-arity">Add fn:function-arity function</change>
+        <change id="fn-namespace-uri-for-prefix" ref="Bug 11590 / 12553" owner="josh Spiegel">Change fn:namespace-uri-for-prefix to return empty sequence if prefix="" or () and there is no default namespace</change>
+        <change id="regex-non-capturing" owner="Tim Mills">Add regex non-capturing groups</change>
+        <change id="regex-q-flag" owner="Tim Mills">Add q flag to regex functions</change>
+        <change id="regex-dot-matching-cr" owner="Tim Mills">In regex, "." does not match CR</change>
+        <change id="cast-to-qname" owner="O'Neil Delpratt">Allow casting from variable string to QName or NOTATION</change>
+        <change id="cast-to-union">Allow casting to a union type</change>
+        <change id="cast-to-list">Allow casting from string to a list type</change>        
+    </spec>
+    <spec name="SE30">
+        <change id="html-output" owner="Henry Zongaro">HTML output method including HTML5</change>
+        <change id="xml-xhtml-output" owner="Andrew Coleman">XML and XHTML output methods</change>
+    </spec>
+
+    <spec name="XQ31">
+        <change id="version-decl-31">Version declaration specifies XQuery 3.1</change>
+        <change id="string-template">String templates</change>
+        <change id="empty-enclosed-expr" ref="Bug 29258">Empty enclosed expression in content</change>
+        <change id="pragma-no-namespace" ref="Bug 29225">pragmas in no namespace: change to allow the content expression to be absent in 3.22 Extension Expressions</change>
+    </spec>
+    <spec name="XP31">
+        <change id="array-square-constructor">Array Square Constructor</change>
+        <change id="array-curly-constructor">Array Curly Constructor</change>
+        <change id="exponent-separator">Exponent separator</change>
+        <change id="arrow-operator">Arrow operator (=>)</change>
+        <change id="xs-numeric-type">New built in type numeric</change>
+        <change id="error-FOTY0013">The error err:FOTY0013 when atomizing a function, map or array</change>
+        <change id="unary-lookup">Added the Unary Lookup operator ('?') for maps and arrays</change>
+        <change id="postfix-lookup">Added the Postfix Lookup operator ('?') for maps and arrays</change>
+        <change id="array-general">General features of Arrays: Atomization, instanceof, mixed content</change>
+        <change id="map-constructor">Add map constructor syntax</change>
+        <change id="map-general">General features of Map: map type, instanceof</change>
+
+    </spec>
+    <spec name="FO31">
+        <change id="fn-boolean">Extend the fn:boolean function to handle arrays and maps</change>
+        <change id="fn-string">Extend the fn:string function to handle arrays and maps</change>
+        <change id="fn-string-join">Changed the first argument of fn:string-join to xs:anyAtomicType*</change>
+        <change id="fn-data">Extend the fn:data function to handle arrays and maps</change>
+        <change id="fn-deep-equal">Extend the fn:deep-equal function to handle arrays and maps</change>
+        <change id="fn-doc-available">The fn-doc-available function now returns false, rather than raising an error, when an invalid URI is supplied</change>
+        <change id="fn-parse-ietf-date" owner="Liam Quin">Add fn:parse-ietf-date function</change>
+        <change id="fn-sort" owner="Liam Quin">Add fn:sort function</change>
+        <change id="fn-error-FOER0000">fn:error can be empty sequence - FOER0000</change>
+        <change id="fn-format-number" owner="Jim Milton">fn:format-number formatting using scientific notation</change>
+        <change id="fn-apply" owner="Christian Gruen">Add fn:apply function</change>
+        <change id="fn-contains-token">Add fn:contains-token function</change>
+        <change id="fn-default-language">Add fn:default-language function</change>
+        <change id="fn-json-doc">Add fn:json-doc function</change>
+        <change id="fn-json-to-xml">Add fn:json-to-xml function</change>
+        <change id="fn-parse-json">Add fn:parse-json function</change>
+        <change id="fn-transform" owner="O'Neil Delpratt">Add fn:transform function</change>
+        <change id="fn-collation-key">Add fn:collation-key function</change>
+        <change id="fn-collection">Generalised fn:collection function to allow other resources to be retrieved</change>
+        <change id="fn-load-xquery-module" owner="Adam Retter">Add fn:load-xquery-module</change>
+        <change id="fn-random-number-generator">Add fn:random-number-generator</change>
+        <change id="fn-trace#1">Introduced a one argument version of the fn:trace function</change>
+        <change id="fn-max-type">Stricter rules for the dynamic types of fn:max</change>
+        <change id="fn-min-type">Stricter rules for the dynamic types of fn:min</change>
+        <change id="fn-serialize">The fn:serialize function signature  that accepts the $params arguments has its type changed to Item()?</change>
+        <change id="fn-tokenize#1">Add a one arugment fn:tokenize function</change>
+        <change id="fn-xml-to-json">Add fn:xml-to-json function</change>
+        <change id="uca-collation" owner="John Lumley">Unicode Collation Algorithm</change>
+        <change id="map-for-each">Add map:for-each function</change>
+        <change id="map-get">Add map:get function</change>
+        <change id="map-entry">Add map:entry function</change>
+        <change id="map-contains">Add map:contains</change>
+        <change id="op-base64Binary-greater-than">Add base64Binary-greater-than() operator</change>
+        <change id="op-base64Binary-less-than">Add base64Binary-less-than() operator</change>
+        <change id="op-hexBinary-greater-than">Add op:hexBinary-greater-than() operator</change>
+        <change id="op-hexBinary-less-than">Add op:hexBinary-less-than() operator</change>
+        <change id="op-same-key">Add op:same-key() operator</change>
+        <change id="map-merge">Add the map function map:merge</change>
+        <change id="map-remove">Add the map function map:remove</change>
+        <change id="map-put">Add the map function map:put</change>
+        <change id="map-size">Add the map:size function</change>
+        <change id="map-keys">Add the map:keys function</change>
+        <change id="map-find">Add the map:find function</change>
+        <change id="array-append">Add the array:append function</change>
+        <change id="array-filter">Add the array:filter function</change>
+        <change id="array-flatten">Add the array:flatten function</change>
+        <change id="array-fold-left">Add the array:fold-left function</change>
+        <change id="array-fold-right">Add the array:fold-right function</change>
+        <change id="array-for-each">Add the array:for-each function</change>
+        <change id="array-for-each-pair">Add the array:for-each-pair function</change>
+        <change id="array-get">Add the array:get function</change>
+        <change id="array-put">Add the array:put function</change>
+        <change id="array-head">Add the array:head function</change>
+        <change id="array-insert-before">Add the array:insert-before function</change>
+        <change id="array-join">Add the array:join function</change>
+        <change id="array-reverse">Add the array:reverse function</change>
+        <change id="array-remove">Add the array:remove function</change>
+        <change id="array-size">Add the array:size function</change>
+        <change id="array-sort">Add the array:sort function</change>
+        <change id="array-subarray">Add the array:subarray function</change>
+        <change id="array-tail">Add the array:tail function</change>
+        <change id="html-ascii-case-insensitive">Add the collation URI for the HTML ASCII-case-insensitive comparison rules</change>
+        <change id="format-ms">Changed formatting of milliseconds</change>
+
+
+    </spec>
+    <spec name="SE31">
+        <change id="json-output" owner="Andrew Coleman">Add JSON output method</change>
+        <change id="allow-duplicate-names" owner="Andrew Coleman">The allow-duplicate-names parameter to the JSON output method</change>
+        <change id="adaptive-serialization">Adaptive serialization method</change>
+        <change id="serialization-general">General features of the serialization added in 3.1 spec</change>
+    </spec>
+</changes>

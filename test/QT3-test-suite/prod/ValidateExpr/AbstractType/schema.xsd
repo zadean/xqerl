@@ -1,0 +1,20 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myns" xmlns:myns="http://myns"
+attributeFormDefault="unqualified"
+elementFormDefault="qualified">
+
+  <xsd:element type="myns:abstractType" name="object" />
+  
+  <xsd:element type="myns:concreteType" name="concreteObject" />
+  
+  <xsd:complexType name="abstractType" abstract="true"/>
+  <xsd:complexType name="concreteType">
+      <xsd:complexContent>
+          <xsd:extension base="myns:abstractType">
+              <xsd:sequence >
+                  <xsd:element type="xsd:string" name="field" />
+              </xsd:sequence>
+          </xsd:extension>
+      </xsd:complexContent>
+  </xsd:complexType>
+ 
+</xsd:schema>

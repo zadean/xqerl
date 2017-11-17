@@ -1,0 +1,1976 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-serialize" covers-30="fn-serialize">
+    <description>Tests for the fn:serialize() function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-serialize-xml"/>
+
+    <test-case name="serialize-xml-001">
+        <description>serialize test</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(.)</test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-002">
+        <description>serialize test - with invalid attribute node</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize((.//@*)[1])</test>
+        <result>
+            <error code="SENR0001"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-003">
+        <description>serialize test - with list of params as nodes</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-004">
+        <description>serialize test - with list of properties, but no Method set</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-005">
+        <description>serialize test: Error - specified the use-character-map property</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <modified by="Michael Kay, Saxonica" on="2012-07-25" change="Change error code, see bug 14831"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:use-character-maps value="yes"/>   
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-006">
+        <description>serialize test: specified the cdata-section-element property, space separated
+            QNames</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-06"/>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization"
+                   xmlns:p="http://www.saxonica.com">
+                <output:method value="xml"/>   
+                <output:indent value="yes"/>
+                <output:cdata-section-elements value="p:a p:b c"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-007">
+        <description>serialize test: list of properties, but one is an unrecognized name 
+            in a vendor namespace (no error, it is ignored)</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-06"/>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <modified by="Michael Kay, Saxonica" on="2012-07-25" change="Split test into two cases, where the extension
+         is in the standard/vendor namespace respectively; assumes that the spec will reject the former and accept the latter"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>   
+                <output:indent value="yes"/>
+                <output:xindent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-007a">
+        <description>serialize test: list of properties, but one is an unrecognized name (no error,
+            it is ignored)</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-06"/>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <modified by="Michael Kay, Saxonica" on="2012-07-25" change="Split test into two cases, where the extension
+         in in the standard/vendor namespace respectively; assumes that the spec will reject the former and accept (ignore) the latter"/>
+        <modified by="Michael Dyck" on="2012-09-04" change="Fix typo: insert missing slash"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>   
+                <output:indent value="yes"/>
+                <vendor:xindent value="yes" xmlns:vendor="http://vendor.example.com/"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-008">
+        <description>serialize test: New suppress-indentation parameter</description>
+        <created by="Michael Kay, Saxonica" on="2010-10-07"/>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment name="ser008">
+          <source role="." file="serialize/serialize-008-src.xml">
+            <description>File to be serialized</description>
+            <created by="Michael Kay" on="2010-10-07"/>
+          </source>
+        </environment>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>   
+                <output:indent value="yes"/>
+                <output:suppress-indentation value="p"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <all-of>
+                <assert>matches($result,'\n\s+&lt;title>')</assert>
+                <assert>matches($result,'\n\s+&lt;p>')</assert>
+                <assert>not(matches($result,'\n\s+&lt;code>'))</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-009">
+        <description>serialize test: Error - bad value for indent parameter</description>
+        <created by="Michael Kay, Saxonica" on="2010-10-05"/>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <modified by="Michael Kay, Saxonica" on="2012-07-25" change="Change error code, see bug 14831"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>   
+                <output:indent value="maybe"/>
+                <output:suppress-indentation value="p"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-010">
+        <description>Serialize a function item</description>
+        <created by="Michael Kay, Saxonica" on="2013-04-23"/>
+        <modified by="Josh Spiegel" on="2014-05-29" change="added dependency"/>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>serialize(name#1)</test>
+        <result>
+            <error code="SENR0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-011">
+        <description>Serialize an attribute node</description>
+        <created by="Michael Kay, Saxonica" on="2013-04-23"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize((//@*:attr)[1])</test>
+        <result>
+            <error code="SENR0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-012">
+        <description>Serialize a namespace node</description>
+        <created by="Michael Kay, Saxonica" on="2013-04-23"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP30+"/>
+        <test>serialize((//namespace::*)[1])</test>
+        <result>
+            <error code="SENR0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-013">
+        <description>Serialize a namespace node</description>
+        <created by="Michael Kay, Saxonica" on="2013-04-23"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test>serialize(namespace a {"http://www.example.com"})</test>
+        <result>
+            <error code="SENR0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-014">
+        <description>serialize test - with invalid attribute</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:indent value="yes" value2="no"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-015">
+        <description>serialize test - with invalid attribute</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization"
+                    value2="no">
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-016">
+        <description>serialize test - with disallowed element</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:indent value="yes"/>
+                <output:outdent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-017">
+        <description>serialize test - with wrong namespace</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization/wrong">
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-018">
+        <description>serialize test - with wrong outermost element</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters-wrong
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:indent value="yes"/>
+              </output:serialization-parameters-wrong>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-019">
+        <description>serialize test - with duplicated element</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:indent value="yes"/>
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0019"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-020">
+        <description>serialize test - with disallowed no-namespace element</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-021">
+        <description>serialize test - with bad attribute on character map</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:use-character-maps>
+                  <output:character-map character="$" map-string="£" exchange-rate="1.80"/>
+                </output:use-character-maps>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-022">
+        <description>serialize test - with invalid child of character map</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:use-character-maps>
+                  <output:character-map character="$" map-string="£" />
+                  <output:character-mapping character="%" map-string="£"/>
+                </output:use-character-maps>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-023">
+        <description>serialize test - with character map - must be a single character</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:use-character-maps>
+                  <output:character-map character="$$" map-string="£" />
+                </output:use-character-maps>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-024">
+        <description>serialize test - with character map - duplicate mappings</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:use-character-maps>
+                  <output:character-map character="$" map-string="£" />
+                  <output:character-map character="$" map-string="€" />
+                </output:use-character-maps>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0018"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-025">
+        <description>serialize test - with duplicated element in user namespace</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization"
+                   xmlns:my-output="http://example.com/xslt-xquery-serialization">
+                <my-output:indent-spaces value="3"/>
+                <my-output:indent-spaces value="2"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0019"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-026">
+        <description>serialize test - with ignored element in user namespace</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization"
+                   xmlns:my-output="http://example.com/xslt-xquery-serialization">
+                <output:indent value="yes"/>
+                <my-output:indent-spaces value="2"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-027">
+        <description>serialize test - omit-xml-declaration</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:omit-xml-declaration value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>not(contains($result,'&lt;?xml'))</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-028">
+        <description>serialize test - omit-xml-declaration</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:omit-xml-declaration value="no"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'&lt;?xml')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-029">
+        <description>serialize test - standalone</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:omit-xml-declaration value="no"/>
+                <output:standalone value=" no "/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'standalone="no"')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-030">
+        <description>serialize test - standalone</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:omit-xml-declaration value="no"/>
+                <output:standalone value=" yes "/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'standalone="yes"')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-031">
+        <description>serialize test - standalone</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:omit-xml-declaration value="no"/>
+                <output:standalone value=" omit "/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>not(contains($result,'standalone'))</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-032">
+        <description>serialize test - with character map</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-22"/>
+        <environment name="ser032">
+            <source role="." file="serialize/serialize-032-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2015-05-22"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:use-character-maps>
+                  <output:character-map character="$" map-string="£" />
+                </output:use-character-maps>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'£')</assert>
+        </result>
+    </test-case>    
+    
+    <test-case name="serialize-xml-033" >
+        <description>serialize test - item-separator property, with sequence as first arg</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>
+                <output:item-separator value="|"/>
+              </output:serialization-parameters>
+          return serialize(1 to 10, $params)
+        ]]></test>
+        <result>
+            <assert>matches($result,'1\|2\|3\|4\|5\|6\|7\|8\|9\|10')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-034" >
+        <description>serialize test - item-separator property, with sequence of text nodes as first arg</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>
+                <output:omit-xml-declaration value="yes"/>
+                <output:item-separator value="=="/>
+              </output:serialization-parameters>
+          return serialize((1 to 4)!text{.}, $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'1==2==3==4')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-035" >
+        <description>serialize test - XML 1.1 serialization with undeclare-prefixes</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+        <environment name="ser035">
+            <source role="." file="serialize/serialize-035-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XQ30+"/>
+        <dependency type="feature" value="serialization" satisfied="true"/>
+        <dependency type="xml-version" value="1.1"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>
+                <output:version value="1.1"/>
+                <output:undeclare-prefixes value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>matches($result,'section xmlns:p=["'']["'']')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-036" >
+        <description>serialize test - XML 1.1 serialization with undeclare-prefixes</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+        <modified by="Michael Kay" on="2015-07-18" change="force XML declaration to be output"/>
+        <environment name="ser035">
+            <source role="." file="serialize/serialize-035-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XQ30+"/>
+        <dependency type="feature" value="serialization" satisfied="true"/>
+        <dependency type="xml-version" value="1.1"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>
+                <output:omit-xml-declaration value="no"/>
+                <output:version value="1.1"/>
+                <output:undeclare-prefixes value="no"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <all-of>
+                <assert>matches($result,'version\s*=\s*["'']1.1["'']')</assert>
+                <assert>not(matches($result,'section\s+xmlns:p=["'']["'']'))</assert>
+            </all-of>  
+        </result>
+    </test-case>
+    
+    <!-- XPath 3.1 tests with $params supplied as a map -->
+    <test-case name="serialize-xml-101" covers="fn-serialize">
+        <description>serialize test - second argument empty map</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(., map{})
+        </test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-102" covers="fn-serialize">
+        <description>serialize test - params supplied as map: error - indent wrong type</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "indent" : "yes"
+            }          
+            return serialize(., $params)
+        </test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-103" covers="fn-serialize">
+        <description>serialize test - params supplied as map</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "indent" : true() 
+            }          
+          return serialize(., $params)
+        </test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-104" covers="fn-serialize">
+        <description>serialize test - params supplied as map, but no method set (default is used)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map { "indent" : true() }          
+          return serialize(., $params)
+        </test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-105" covers="fn-serialize">
+        <description>serialize test - params supplied as map: Error - use-character-maps value has wrong type</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "use-character-maps" : true(),
+            "indent" : true() 
+            }          
+            return serialize(., $params)
+        </test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-106" covers="fn-serialize">
+        <description>serialize test - params supplied as map: specified the cdata-section-element property, 
+            sequence of QNames</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "indent" : true(),
+            "cdata-section-elements" : 
+                (QName("http://www.saxonica.com", "a"), QName("http://www.saxonica.com", "b"), QName("", "c"))
+            }          
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-106a" covers="fn-serialize">
+        <description>serialize test - params supplied as map: specified the cdata-section-element property, 
+            array of QNames</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "indent" : true(),
+            "cdata-section-elements" : 
+                [QName("http://www.saxonica.com", "a"), QName("http://www.saxonica.com", "b"), QName("", "c")] 
+            }          
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-107" covers="fn-serialize">
+        <description>serialize test - params supplied as map: list of properties, but one is an unrecognized name 
+            in the standard namespace (no error, by option parameter conventions it is ignored)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "indent" : true(),
+            "xindent" : true() 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-107a" covers="fn-serialize">
+        <description>serialize test - params supplied as map: list of properties, but one is an unrecognized name 
+            in a vendor namespace (no error, by option parameter conventions it is ignored)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "indent" : true(),
+            QName("http://vendor.example.com/","xindent") : true() 
+            }
+            return serialize(., $params)
+       </test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-108" covers="fn-serialize">
+        <description>serialize test - params supplied as map: suppress-indentation parameter</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment name="ser008">
+          <source role="." file="serialize/serialize-008-src.xml">
+            <description>File to be serialized</description>
+            <created by="Michael Kay" on="2010-10-07"/>
+          </source>
+        </environment>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "indent" : true(),
+            "suppress-indentation" : QName("","p") 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <all-of>
+                <assert>matches($result,'\n\s+&lt;title>')</assert>
+                <assert>matches($result,'\n\s+&lt;p>')</assert>
+                <assert>not(matches($result,'\n\s+&lt;code>'))</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-109" covers="fn-serialize">
+        <description>serialize test - params supplied as map: Error - indent value has wrong type</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "indent" : "maybe",
+            "suppress-indentation" : "p" 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-110" covers="fn-serialize">
+        <description>serialize test - params supplied as map: cdata-section-elements property with lexical QName</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+        <environment name="ser110">
+            <source role="." file="serialize/serialize-110-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "cdata-section-elements" : 
+            (QName("", "b"), QName("http://www.example.org/ns/p", "b")),
+            "suppress-indentation" : QName("", "para")
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <all-of>
+                <assert>contains($result, 'CDATA[bold]')</assert>
+                <assert>contains($result, 'CDATA[BOLD]')</assert>
+                <assert>not(contains($result, 'CDATA[italic]'))</assert>
+                <assert>not(contains($result, 'CDATA[ITALIC]'))</assert>
+            </all-of>  
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-119" covers="fn-serialize">
+        <description>serialize test - params supplied as map: error - duplicated entry</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "indent" : true(),
+            "indent" : true() 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <error code="XQDY0137"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-120" covers="fn-serialize">
+        <description>serialize test - params supplied as map: error - disallowed no-namespace entry</description>
+        <!-- The key of the entry is an xs:string value in the cases of parameter names defined in 
+            these specifications, or an xs:QName (with non-absent namespace) in the case of 
+            implementation-defined serialization parameters. -->
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <modified by="Josh Spiegel" on="2016-05-19" change="bug 29373"/>
+        <modified by="Michael Kay" on="2016-06-15" change="test requires XQuery"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[let $params := map { QName("","indent") : true() }
+            return contains(serialize(<e><f/></e>, $params), " ")
+        ]]>
+        </test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-123" covers="fn-serialize">
+        <description>serialize test - params supplied as map: error - character map key must be a single character</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-08-06" change="Changed error code, see bug #29030"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "use-character-maps" : map { "$$":"£" } 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <error code="SEPM0016"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-124" covers="fn-serialize">
+        <description>serialize test - params supplied as map: error - character map duplicate keys</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "use-character-maps" : map { "$":"£", "$":"€" } 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <error code="XQDY0137"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-125" covers="fn-serialize">
+        <description>serialize test - params supplied as map: error - duplicated element in user namespace</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            QName("http://example.com/xslt-xquery-serialization","indent-spaces") : "3",
+            QName("http://example.com/xslt-xquery-serialization","indent-spaces") : "2" 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <error code="XQDY0137"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-126" covers="fn-serialize">
+        <description>serialize test - params supplied as map, with ignored element in user namespace</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "indent" : true(),
+            QName("http://example.com/xslt-xquery-serialization","indent-spaces") : "2" 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-127" covers="fn-serialize">
+        <description>serialize test - params supplied as map, omit-xml-declaration</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map { "omit-xml-declaration" : true() }
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>not(contains($result,'&lt;?xml'))</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-128" covers="fn-serialize">
+        <description>serialize test - params supplied as map, omit-xml-declaration</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map { "omit-xml-declaration" : false() }
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>contains($result,'&lt;?xml')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-129" covers="fn-serialize">
+        <description>serialize test - params supplied as map, standalone</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map { 
+            "omit-xml-declaration" : false(),
+            "standalone" : false() 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>contains($result,'standalone="no"')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-130" covers="fn-serialize">
+        <description>serialize test - params supplied as map, standalone</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "omit-xml-declaration" : false(),
+            "standalone" : true() 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>contains($result,'standalone="yes"')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-131" covers="fn-serialize">
+        <description>serialize test - params supplied as map, standalone</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "omit-xml-declaration" : false(),
+            "standalone" : () 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>not(contains($result,'standalone'))</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-131a" covers="fn-serialize">
+        <description>serialize test - params supplied as map: error - standalone value has wrong type</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "omit-xml-declaration" : false(),
+            "standalone" : " omit " 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-132" covers="fn-serialize">
+        <description>serialize test - params supplied as map, with character map</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-22"/>
+        <environment name="ser032">
+            <source role="." file="serialize/serialize-032-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2015-05-22"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "use-character-maps" : map { "$":"£" } 
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>contains($result,'£')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-133" covers="fn-serialize">
+        <description>serialize test - params supplied as map, item-separator property</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "item-separator" : "|" 
+            }
+            return serialize(1 to 10, $params)
+        </test>
+        <result>
+            <assert>matches($result,'1\|2\|3\|4\|5\|6\|7\|8\|9\|10')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-134" covers="fn-serialize">
+        <description>serialize test - params supplied as map, item-separator property</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+        <modified by="Debbie Lockett" on="2015-08-19" change="Changed dependency to XQuery (i.e. not XPath)"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "omit-xml-declaration" : true(),
+            "item-separator" : "==" 
+            }
+            return serialize((1 to 4)!text{.}, $params)
+        </test>
+        <result>
+            <assert>contains($result,'1==2==3==4')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-135" covers="fn-serialize">
+        <description>serialize test - params supplied as map, XML 1.1 serialization with undeclare-prefixes</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+        <environment name="ser035">
+            <source role="." file="serialize/serialize-035-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="serialization" satisfied="true"/>
+        <dependency type="xml-version" value="1.1"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "version" : "1.1",
+            "undeclare-prefixes" : true()
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>matches($result,'section xmlns:p=["'']["'']')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-136" covers="fn-serialize">
+        <description>serialize test - params supplied as map, XML 1.1 serialization with undeclare-prefixes</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+        <modified by="Michael Kay" on="2015-07-18" change="force XML declaration to be output"/>
+        <environment name="ser035">
+            <source role="." file="serialize/serialize-035-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="serialization" satisfied="true"/>
+        <dependency type="xml-version" value="1.1"/>
+        <test>let $params := map {
+            "method" : "xml",
+            "version" : "1.1",
+            "omit-xml-declaration" : false(),
+            "undeclare-prefixes" : false()
+            }
+            return serialize(., $params)
+        </test>
+        <result>
+            <all-of>                
+                <assert>matches($result,'version\s*=\s*["'']1.1["'']')</assert>
+                <assert>not(matches($result,'section xmlns:p=["'']["'']'))</assert>
+            </all-of>  
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-137" covers="fn-serialize">
+        <description>2nd argument is empty</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+            serialize(<e/>, ())
+        ]]></test>
+        <result>
+            <assert>exists(parse-xml($result)/e)</assert>
+        </result>
+    </test-case>    
+    
+    <test-case name="serialize-xml-138" covers="fn-serialize">
+        <description>Options from JSON</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+            let $json := '
+                {
+                  "method" : "xml",
+                  "indent" : true, 
+                  "use-character-maps" : {
+                     "x" : "j",
+                     "m" : "so",
+                     "l" : "n"
+                  }     
+                }
+            '      
+            return       
+               serialize(<e>xml</e>, parse-json($json))
+        ]]></test>
+        <result>
+            <assert>parse-xml($result)/e/string() eq "json"</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-139" covers="fn-serialize">
+        <description>Strange key in a character mapping (option parameter conventions apply) </description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <modified by="Tim Mills" on="2016-08-09" change="Bug 29740"/>
+        <modified by="Tim Mills" on="2016-09-07" change="Bug 29740"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[   
+               serialize(<e>xml</e>, map { 'use-character-maps' : map { QName("http://example.org","xyz") : "abc" } })
+        ]]></test>
+        <result>
+	      <error code="XPTY0004" />
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-140" covers="fn-serialize">
+        <description>Character mappings and option parameter conventions </description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <modified by="Tim Mills" on="2016-08-09" change="Bug 29740"/>
+        <modified by="Tim Mills" on="2016-09-07" change="Bug 29740"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[  
+               let $options := map {
+                  'use-character-maps' : map {
+                     'x' : xs:untypedAtomic('j'),
+                     'm' : <e>so</e>,
+                     'l' : 'n'
+                  }
+               }
+               return     
+                  serialize(<e>[xml]</e>, $options)
+        ]]></test>
+        <result>
+	      <error code="XPTY0004" />
+        </result>
+    </test-case>     
+      
+    <test-case name="serialize-xml-141" covers="fn-serialize">
+        <description>Character mappings and option parameter conventions (required xs:string, QName given)</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[  
+               let $options := map {
+                  'use-character-maps' : map {
+                     'x' : xs:untypedAtomic('j'),
+                     'm' : <e>so</e>,
+                     'l' : xs:QName('n')
+                  }
+               }
+               return     
+                  serialize(<e>[xml]</e>, $options)
+        ]]></test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-142" covers="fn-serialize">
+        <description>Multiple untypedAtomic conversions in one map</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <modified by="Debbie Lockett" on="2015-08-25" change="Use unescaped characters in result assertion"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[  
+               let $options := map {
+                    'method' : 'xml',
+                    'indent' : xs:untypedAtomic('false'),
+                    'item-separator' : xs:untypedAtomic('  ')     
+               }
+               return     
+                  serialize((<e/>,<f/>), $options)
+        ]]></test>
+        <result>
+            <assert><![CDATA[contains($result,">  <")]]></assert>
+        </result>
+    </test-case>       
+    
+    <!-- XPath 3.1 tests JSON serialization output method -->
+    <test-case name="serialize-json-001" covers="fn-serialize json-output">
+        <description>serialize test - params supplied as map, json output method, $arg is an array</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "json"
+            }       
+            return serialize([ ], $params)
+        </test>
+        <result>
+            <all-of>
+                <assert-type>xs:string</assert-type>
+                <assert>matches($result,'\[\]')</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-002" covers="fn-serialize json-output">
+        <description>serialize test - params supplied as map, json output method, $arg is an array</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "json"
+            },
+            $arg := array { 1, 2 , (3,4,5), 6 }
+            return serialize($arg, $params)
+        </test>
+        <result>
+            <all-of>
+                <assert-type>xs:string</assert-type>
+                <assert>contains($result,'[1,2,3,4,5,6]')</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-003" covers="fn-serialize json-output">
+        <description>serialize test - params supplied as map, json output method, $arg is an array</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "json"
+            },   
+            $arg := [1, 2 , [3,4,5], 6]        
+            return serialize($arg, $params)
+        </test>
+        <result>
+            <all-of>
+                <assert-type>xs:string</assert-type>
+                <assert>contains($result,'[1,2,[3,4,5],6]')</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-004" covers="fn-serialize json-output">
+        <description>serialize test - params supplied as map, json output method, first argument is a map</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-08-06" change="Adapted result assertions, see bug #29029"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "json",
+            "indent" : true() 
+            }          
+            return serialize($params, $params)
+        </test>
+        <result>
+            <all-of>
+                <assert-type>xs:string</assert-type>
+                <assert>parse-json($result)?method eq "json"</assert>
+                <assert>parse-json($result)?indent</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-005" covers="fn-serialize json-output">
+        <description>serialize test - params supplied as map, json output method, $arg is a map</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-08-06" change="Adapted result assertions, see bug #29029"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "json",
+            "indent" : true() 
+            },         
+            $arg := parse-json('{"abc":true}')
+            return serialize($arg, $params)
+        </test>
+        <result>
+            <all-of>
+                <assert-type>xs:string</assert-type>
+                <assert>parse-json($result)?abc</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-006" covers="fn-serialize json-output">
+        <description>serialize test - params supplied as map, json output method, $arg is an empty sequence</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "json"
+            }       
+            return serialize((), $params)
+        </test>
+        <result>
+            <all-of>
+                <assert-type>xs:string</assert-type>
+                <assert>matches($result,'null')</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-007" covers="fn-serialize json-output">
+        <description>serialize test - error: params supplied as map, json output method, 
+            $arg is a sequence of length greater than one</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map {
+            "method" : "json",
+            "item-separator" : "|" 
+            }
+            return serialize(1 to 10, $params)
+        </test>
+        <result>
+            <error code="SERE0023"/>
+        </result>
+    </test-case>
+     
+    <test-case name="serialize-json-008" covers="fn-serialize json-output">
+        <description>serialize test - params supplied as map, json output method, $arg is a comment node</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edit dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>let $params := map {
+            "method" : "json",
+            "json-node-output-method" : "xml"
+            },
+            $s := serialize(comment {" hello world "}, $params)
+            return matches($s, '"&lt;!-- hello world --&gt;"')
+        </test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-009" covers="fn-serialize json-output">
+        <description>serialize test - params supplied as map, json output method, $arg is an array of nodes</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edit dependency to XQuery only"/>
+	<modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>let $params := map {
+            "method" : "json",
+            "json-node-output-method" : "xml"
+            },
+            $s := serialize(array {
+            text { "a" },
+            processing-instruction {"a"} {"b"},
+            comment { "a" },
+            element {"a"} {"b"},
+            document { element {"a"}{"b"} }
+            }, $params)
+            return matches($s, '\["a","&lt;\?a b\?&gt;","&lt;!--a--&gt;","&lt;a&gt;b&lt;\\/a&gt;","&lt;a&gt;b&lt;\\/a&gt;"\]')
+        </test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-010" covers="fn-serialize json-output">
+        <description>allow-duplicate-names default</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>
+            serialize(map { xs:QName("foo") : 1, "foo" : 2 }, map { 'method' : 'json' }) 
+        </test>
+        <result>
+            <error code="SERE0022"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-011" covers="fn-serialize json-output">
+        <description>allow-duplicate-names from map</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>
+          serialize(
+            map { 
+              QName("", "foo") : 1, 
+              "foo" : 2 
+            }, 
+            map { 
+              'method' : 'json', 
+              'allow-duplicate-names' : true()
+            }
+          )
+        </test>
+        <result>
+          <all-of>
+            <assert>
+                let $xml := json-to-xml($result, map { 'duplicates' : 'retain' })
+                return
+                   count($xml/fn:map/fn:number) eq 2
+            </assert>
+            <assert>map:size(parse-json($result)) eq 1</assert>
+          </all-of>
+        </result>
+    </test-case>     
+    
+    <!-- Tests converted from old test set fn-serialize-json (created by Michael Kay, 2011-04-06)
+        for previously defined XSLT 3.0 function serialize-json() -->
+    
+    <test-case name="serialize-json-101" covers="fn-serialize json-output">
+        <description>Empty object</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(map{}, map{'method':'json'})</test>
+        <result>
+            <assert>translate($result,' &#x9;&#xa;&#xd;', '') = '{}'</assert>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-102" covers="fn-serialize json-output">
+        <description>Empty sequence</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize((), map{'method':'json'})</test>
+        <result>
+            <assert>translate($result,' &#x9;&#xa;&#xd;', '') = 'null'</assert>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-103" covers="fn-serialize json-output">
+        <description>Numeric value</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(12.5, map{'method':'json'})</test>
+        <result>
+            <assert>number($result) = 12.5</assert>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-104" covers="fn-serialize json-output">
+        <description>Boolean value</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>normalize-space(serialize(true(), map{'method':'json'}))</test>
+        <result>
+            <assert-string-value>true</assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-105" covers="fn-serialize json-output">
+        <description>Boolean value</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>normalize-space(serialize(false(), map{'method':'json'}))</test>
+        <result>
+            <assert-string-value>false</assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-106" covers="fn-serialize json-output">
+        <description>Singleton object</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(map{'abc':23}, map{'method':'json'})</test>
+        <result>
+            <assert>translate($result,' &#x9;&#xa;&#xd;', '') = '{"abc":23}'</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-107" covers="fn-serialize json-output">
+        <description>Two-entry object</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(map{'abc':23, 'xyz':49}, map{'method':'json'}) return
+            translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <all-of>
+                <assert>starts-with($result, '{')</assert>
+                <assert>contains($result, '"abc":23')</assert>
+                <assert>contains($result, '"xyz":49')</assert>
+                <assert>ends-with($result, '}')</assert>
+                <assert-type>xs:string</assert-type>
+                <assert-count>1</assert-count>
+                <assert>parse-json($result)?abc = 23</assert>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-108" covers="fn-serialize json-output">
+        <description>JSON array</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(parse-json('[1, 2, 3, "four", true, false, null]'),
+            map{'method':'json'}) return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[1,2,3,"four",true,false,null]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-109" covers="fn-serialize json-output">
+        <description>JSON array</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize([1, 2, 3, "four", true(), false()], map{'method':'json'}) return
+            translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[1,2,3,"four",true,false]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-110" covers="fn-serialize json-output">
+        <description>Serialize nested arrays</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(parse-json('[[1, 2], [3, 4], [5, 6], [7], [], [null]]'),
+            map{'method':'json'}) return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[[1,2],[3,4],[5,6],[7],[],[null]]</assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-111" covers="fn-serialize json-output">
+        <description>Serialize a map containing an array</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(map{"abc":array{1 to 10}}, map{'method':'json'}) return translate($r,'
+            &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>{"abc":[1,2,3,4,5,6,7,8,9,10]}</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-112" covers="fn-serialize json-output">
+        <description>Serialize an array of maps</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize([map{"abc":1},map{"def":2},map{"ghi":3}], map{'method':'json'})
+            return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[{"abc":1},{"def":2},{"ghi":3}]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-113" covers="fn-serialize json-output">
+        <description>Nested maps</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <modified by="Debbie Lockett" on="2015-11-09" change="Adapt result assertions, bug #29267"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r :=
+            serialize(map{"abc": map{"abc":map{"abc":1}, "def": map{"def":2}}},
+            map{'method':'json'}) return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <all-of>
+                <assert>starts-with($result, '{"abc":{')</assert>
+                <assert>contains($result, '"abc":{"abc":1}')</assert>
+                <assert>contains($result, '"def":{"def":2}')</assert>
+                <assert>ends-with($result, '}}')</assert>
+                <assert-type>xs:string</assert-type>
+                <assert>parse-json($result)?("abc")?("abc")?("abc") = 1</assert>
+                <assert>parse-json($result)?("abc")?("def")?("def") = 2</assert>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-114" covers="fn-serialize json-output">
+        <description>Non-BMP string</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize('&#x1D11E;', map{'method':'json', 'encoding':'ISO-8859-1'}) return
+            translate(normalize-space($r), 'abcdef', 'ABCDEF')</test>
+        <result>
+            <assert-string-value>"\uD834\uDD1E"</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-115" covers="fn-serialize json-output">
+        <description>String with newline</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize('&#xa;', map{'method':'json'}) return
+            translate(normalize-space($r), 'abcdef', 'ABCDEF')</test>
+        <result>
+            <assert-string-value>"\n"</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-116" covers="fn-serialize json-output">
+        <description>Nested maps with indent="no" - require no optional space</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize([map{"abc":map{"abc":1}},map{"def":map{"def":2}},map{"ghi":map{"ghi":3}}],
+            map{'method':'json', "indent":false()})</test>
+        <result>
+            <assert-string-value>[{"abc":{"abc":1}},{"def":{"def":2}},{"ghi":{"ghi":3}}]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-117" covers="fn-serialize json-output">
+        <description>Nested maps with indent="yes" - (we can't check that it's actually
+            indented)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <modified by="Tim Mills" on="2017-07-29" change="Bug 29753"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r :=
+            serialize([map{"abc":map{"abc":1}},map{"def":map{"def":2}},map{"ghi":map{"ghi":3}}],
+            map{'method':'json', "indent":true()}) return translate($r, codepoints-to-string((32, 9, 10, 13)), '')</test>
+        <result>
+            <assert-string-value>[{"abc":{"abc":1}},{"def":{"def":2}},{"ghi":{"ghi":3}}]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-118" covers="fn-serialize json-output">
+        <description>Decimal number</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>parse-json(serialize(12.34, map{'method':'json'}))</test>
+        <result>
+            <all-of>
+                <assert>$result eq xs:double('12.34')</assert>
+                <assert>$result instance of xs:double</assert>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-119" covers="fn-serialize json-output">
+        <description>Exponential number</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>parse-json(serialize(12.34e-30, map{'method':'json'}))</test>
+        <result>
+            <all-of>
+                <assert>$result eq 12.34e-30</assert>
+                <assert>$result instance of xs:double</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-120" covers="fn-serialize json-output">
+        <description>String with escaping</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize("abc""def", map{'method':'json'})</test>
+        <result>
+            <all-of>
+                <assert>$result eq '"abc\"def"'</assert>
+                <assert>$result instance of xs:string</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-121" covers="fn-serialize json-output">
+        <description>String with escaping</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize("abc\\def", map{'method':'json'})</test>
+        <result>
+            <all-of>
+                <assert>$result eq '"abc\\\\def"'</assert>
+                <assert>$result instance of xs:string</assert>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-122" covers="fn-serialize json-output">
+        <description>Error - can not serialize NaN, INF, -INF with JSON</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize([number('NaN'), number('INF'), number('-INF')],
+            map{'method':'json'}) return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <error code="SERE0020"/>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-123" covers="fn-serialize json-output">
+        <description>untypedAtomic input</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize([0,0,xs:untypedAtomic("abcd")], map{'method':'json'}) return
+            translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[0,0,"abcd"]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-124" covers="fn-serialize json-output">
+        <description>sparse array</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <modified by="Debbie Lockett" on="2015-11-09" change="Adapt result assertions, bug #29267"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(map{1:"a",2:"b",4:"d",10:"j",7:"g"}, map{'method':'json'}) return
+            translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <all-of>
+                <assert>starts-with($result, '{')</assert>
+                <assert>contains($result, '"1":"a"')</assert>
+                <assert>contains($result, '"2":"b"')</assert>
+                <assert>contains($result, '"4":"d"')</assert>
+                <assert>contains($result, '"10":"j"')</assert>
+                <assert>contains($result, '"7":"g"')</assert>
+                <assert>ends-with($result, '}')</assert>
+                <assert-type>xs:string</assert-type>
+                <assert-count>1</assert-count>
+                <assert>parse-json($result)?("1") = "a"</assert>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-125" covers="fn-serialize json-output">
+        <description>JSON serialization converts date to string</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize([0,0,xs:date('2011-04-06')], map{'method':'json'}) 
+            return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[0,0,"2011-04-06"]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-126" covers="fn-serialize json-output">
+        <description>JSON serialization converts date to string</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(map{"a":xs:date('2011-04-06')}, map{'method':'json'}) 
+            return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>{"a":"2011-04-06"}</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-127" covers="fn-serialize json-output">
+        <description>JSON serialization converts nodes to lexical XML</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+	<modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+        <modified by="Tim Mills" on="2017-07-29" change="Bug 29753"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <environment>
+            <source file="serialize/doc001.xml"
+                uri="http://www.w3.org/fots/serialize-json/doc001.xml"/>
+            <param name="uri" as="xs:string"
+                select="'http://www.w3.org/fots/serialize-json/doc001.xml'"/>
+        </environment>
+        <test>let $r := serialize(map{"a":doc($uri)}, map{'method':'json'}) 
+            return translate($r, codepoints-to-string((32, 9, 10, 13)), '')</test>
+        <result>
+            <assert-string-value><![CDATA[{"a":"<a>text<\/a>"}]]></assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-128" covers="fn-serialize json-output">
+        <description>JSON serialization converts URI value to a string</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+	<modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(map{"uri":xs:anyURI('http://www.w3.org/')}, map{'method':'json'})</test>
+        <result>
+            <assert-string-value>{"uri":"http:\/\/www.w3.org\/"}</assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-130" covers="fn-serialize json-output">
+        <description>Error - can not serialize an XDM sequence with JSON output method</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize((1, 2, 3, "four", true(), false()), map{'method':'json'}) return
+            translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <error code="SERE0023"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-131" covers="fn-serialize json-output">
+        <description>Error - can not serialize a sequence (contained in a map)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(map{"abc":(1 to 10)}, map{'method':'json'}) return translate($r,'
+            &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <error code="SERE0023"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-132" covers="fn-serialize json-output">
+        <description>Error - can not serialize a sequence (of maps)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize((map{"abc":1},map{"def":2},map{"ghi":3}), map{'method':'json'})
+            return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <error code="SERE0023"/>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-133" covers="fn-serialize json-output">
+        <description>Indent option wrong type</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize([1,2,3], map{'method':'json', "indent":23})</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-134" covers="fn-serialize json-output">
+        <description>Indent option wrong type</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize([1,2,3], map{'method':'json', "indent":"true"})</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-135" covers="fn-serialize json-output">
+        <description>Indent option wrong type</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize([1,2,3], map{'method':'json', "indent":(true(),false())})</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+</test-set>

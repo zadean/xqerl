@@ -1,0 +1,2018 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-max">
+   <description>Tests for the max() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-max"/>
+
+   <test-case name="fn-maxint1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:int(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:int("-2147483648")))</test>
+      <result>
+         <assert-eq>-2147483648</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxint1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:int(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:int("-1873914410")))</test>
+      <result>
+         <assert-eq>-1873914410</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxint1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:int(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:int("2147483647")))</test>
+      <result>
+         <assert-eq>2147483647</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxintg1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:integer(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:integer("-999999999999999999")))</test>
+      <result>
+         <assert-eq>-999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxintg1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:integer(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:integer("830993497117024304")))</test>
+      <result>
+         <assert-eq>830993497117024304</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxintg1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:integer(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:integer("999999999999999999")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdec1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:decimal(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:decimal("-999999999999999999")))</test>
+      <result>
+         <assert-eq>-999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdec1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:decimal(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:decimal("617375191608514839")))</test>
+      <result>
+         <assert-eq>617375191608514839</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdec1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:decimal(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:decimal("999999999999999999")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdbl1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:double(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:double("-1.7976931348623157E308")))</test>
+      <result>
+         <assert-eq>-1.7976931348623157E308</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdbl1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:double(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:double("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdbl1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:double(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:double("1.7976931348623157E308")))</test>
+      <result>
+         <assert-eq>1.7976931348623157E308</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxflt1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:float(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:float("-3.4028235E38")))</test>
+      <result>
+         <assert-eq>xs:float("-3.4028235E38")</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxflt1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:float(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:float("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxflt1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:float(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:float("3.4028235E38")))</test>
+      <result>
+         <assert-eq>xs:float("3.4028235E38")</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxlng1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:long(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:long("-92233720368547758")))</test>
+      <result>
+         <assert-eq>-92233720368547758</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxlng1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:long(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:long("-47175562203048468")))</test>
+      <result>
+         <assert-eq>-47175562203048468</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxlng1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:long(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:long("92233720368547758")))</test>
+      <result>
+         <assert-eq>92233720368547758</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxusht1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:unsignedShort(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedShort("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxusht1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:unsignedShort(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedShort("44633")))</test>
+      <result>
+         <assert-eq>44633</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxusht1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:unsignedShort(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedShort("65535")))</test>
+      <result>
+         <assert-eq>65535</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnint1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:negativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:negativeInteger("-999999999999999999")))</test>
+      <result>
+         <assert-eq>-999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnint1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:negativeInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:negativeInteger("-297014075999096793")))</test>
+      <result>
+         <assert-eq>-297014075999096793</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnint1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:negativeInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:negativeInteger("-1")))</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxpint1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:positiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:positiveInteger("1")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxpint1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:positiveInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:positiveInteger("52704602390610033")))</test>
+      <result>
+         <assert-eq>52704602390610033</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxpint1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:positiveInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:positiveInteger("999999999999999999")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxulng1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:unsignedLong(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedLong("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxulng1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:unsignedLong(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedLong("130747108607674654")))</test>
+      <result>
+         <assert-eq>130747108607674654</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxulng1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:unsignedLong(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedLong("184467440737095516")))</test>
+      <result>
+         <assert-eq>184467440737095516</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnpi1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:nonPositiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonPositiveInteger("-999999999999999999")))</test>
+      <result>
+         <assert-eq>-999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnpi1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:nonPositiveInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonPositiveInteger("-475688437271870490")))</test>
+      <result>
+         <assert-eq>-475688437271870490</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnpi1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:nonPositiveInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonPositiveInteger("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnni1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:nonNegativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonNegativeInteger("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnni1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:nonNegativeInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonNegativeInteger("303884545991464527")))</test>
+      <result>
+         <assert-eq>303884545991464527</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnni1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:nonNegativeInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonNegativeInteger("999999999999999999")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxsht1args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:short(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:short("-32768")))</test>
+      <result>
+         <assert-eq>-32768</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxsht1args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:short(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:short("-5324")))</test>
+      <result>
+         <assert-eq>-5324</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxsht1args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg = xs:short(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:short("32767")))</test>
+      <result>
+         <assert-eq>32767</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxint2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:int(lower bound) $arg2 = xs:int(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:int("-2147483648"),xs:int("-2147483648")))</test>
+      <result>
+         <assert-eq>-2147483648</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxint2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:int(mid range) $arg2 = xs:int(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:int("-1873914410"),xs:int("-2147483648")))</test>
+      <result>
+         <assert-eq>-1873914410</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxint2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:int(upper bound) $arg2 = xs:int(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:int("2147483647"),xs:int("-2147483648")))</test>
+      <result>
+         <assert-eq>2147483647</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxint2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:int(lower bound) $arg2 = xs:int(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:int("-2147483648"),xs:int("-1873914410")))</test>
+      <result>
+         <assert-eq>-1873914410</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxint2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:int(lower bound) $arg2 = xs:int(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:int("-2147483648"),xs:int("2147483647")))</test>
+      <result>
+         <assert-eq>2147483647</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxintg2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:integer(lower bound) $arg2 = xs:integer(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:integer("-999999999999999999"),xs:integer("-999999999999999999")))</test>
+      <result>
+         <assert-eq>-999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxintg2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:integer(mid range) $arg2 = xs:integer(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:integer("830993497117024304"),xs:integer("-999999999999999999")))</test>
+      <result>
+         <assert-eq>830993497117024304</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxintg2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:integer(upper bound) $arg2 = xs:integer(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:integer("999999999999999999"),xs:integer("-999999999999999999")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxintg2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:integer(lower bound) $arg2 = xs:integer(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:integer("-999999999999999999"),xs:integer("830993497117024304")))</test>
+      <result>
+         <assert-eq>830993497117024304</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxintg2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:integer(lower bound) $arg2 = xs:integer(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:integer("-999999999999999999"),xs:integer("999999999999999999")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdec2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:decimal(lower bound) $arg2 = xs:decimal(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:decimal("-999999999999999999"),xs:decimal("-999999999999999999")))</test>
+      <result>
+         <assert-eq>-999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdec2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:decimal(mid range) $arg2 = xs:decimal(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:decimal("617375191608514839"),xs:decimal("-999999999999999999")))</test>
+      <result>
+         <assert-eq>617375191608514839</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdec2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:decimal(upper bound) $arg2 = xs:decimal(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:decimal("999999999999999999"),xs:decimal("-999999999999999999")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdec2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:decimal(lower bound) $arg2 = xs:decimal(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:decimal("-999999999999999999"),xs:decimal("617375191608514839")))</test>
+      <result>
+         <assert-eq>617375191608514839</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdec2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:decimal(lower bound) $arg2 = xs:decimal(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:decimal("-999999999999999999"),xs:decimal("999999999999999999")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdbl2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:double(lower bound) $arg2 = xs:double(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:double("-1.7976931348623157E308"),xs:double("-1.7976931348623157E308")))</test>
+      <result>
+         <assert-eq>-1.7976931348623157E308</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdbl2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:double(mid range) $arg2 = xs:double(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:double("0"),xs:double("-1.7976931348623157E308")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdbl2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:double(upper bound) $arg2 = xs:double(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:double("1.7976931348623157E308"),xs:double("-1.7976931348623157E308")))</test>
+      <result>
+         <assert-eq>1.7976931348623157E308</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdbl2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:double(lower bound) $arg2 = xs:double(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:double("-1.7976931348623157E308"),xs:double("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxdbl2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:double(lower bound) $arg2 = xs:double(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:double("-1.7976931348623157E308"),xs:double("1.7976931348623157E308")))</test>
+      <result>
+         <assert-eq>1.7976931348623157E308</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxflt2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:float(lower bound) $arg2 = xs:float(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:float("-3.4028235E38"),xs:float("-3.4028235E38")))</test>
+      <result>
+         <assert-eq>xs:float(-3.4028235E38)</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxflt2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:float(mid range) $arg2 = xs:float(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:float("0"),xs:float("-3.4028235E38")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxflt2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:float(upper bound) $arg2 = xs:float(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:float("3.4028235E38"),xs:float("-3.4028235E38")))</test>
+      <result>
+         <assert-eq>xs:float(3.4028235E38)</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxflt2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:float(lower bound) $arg2 = xs:float(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:float("-3.4028235E38"),xs:float("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxflt2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:float(lower bound) $arg2 = xs:float(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:float("-3.4028235E38"),xs:float("3.4028235E38")))</test>
+      <result>
+         <assert-eq>xs:float(3.4028235E38)</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxlng2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:long(lower bound) $arg2 = xs:long(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:long("-92233720368547758"),xs:long("-92233720368547758")))</test>
+      <result>
+         <assert-eq>-92233720368547758</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxlng2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:long(mid range) $arg2 = xs:long(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:long("-47175562203048468"),xs:long("-92233720368547758")))</test>
+      <result>
+         <assert-eq>-47175562203048468</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxlng2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:long(upper bound) $arg2 = xs:long(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:long("92233720368547758"),xs:long("-92233720368547758")))</test>
+      <result>
+         <assert-eq>92233720368547758</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxlng2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:long(lower bound) $arg2 = xs:long(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:long("-92233720368547758"),xs:long("-47175562203048468")))</test>
+      <result>
+         <assert-eq>-47175562203048468</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxlng2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:long(lower bound) $arg2 = xs:long(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:long("-92233720368547758"),xs:long("92233720368547758")))</test>
+      <result>
+         <assert-eq>92233720368547758</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxusht2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:unsignedShort(lower bound) $arg2 = xs:unsignedShort(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedShort("0"),xs:unsignedShort("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxusht2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:unsignedShort(mid range) $arg2 = xs:unsignedShort(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedShort("44633"),xs:unsignedShort("0")))</test>
+      <result>
+         <assert-eq>44633</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxusht2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:unsignedShort(upper bound) $arg2 = xs:unsignedShort(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedShort("65535"),xs:unsignedShort("0")))</test>
+      <result>
+         <assert-eq>65535</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxusht2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:unsignedShort(lower bound) $arg2 = xs:unsignedShort(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedShort("0"),xs:unsignedShort("44633")))</test>
+      <result>
+         <assert-eq>44633</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxusht2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:unsignedShort(lower bound) $arg2 = xs:unsignedShort(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedShort("0"),xs:unsignedShort("65535")))</test>
+      <result>
+         <assert-eq>65535</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnint2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:negativeInteger(lower bound) $arg2 = xs:negativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:negativeInteger("-999999999999999999"),xs:negativeInteger("-999999999999999999")))</test>
+      <result>
+         <assert-eq>-999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnint2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:negativeInteger(mid range) $arg2 = xs:negativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:negativeInteger("-297014075999096793"),xs:negativeInteger("-999999999999999999")))</test>
+      <result>
+         <assert-eq>-297014075999096793</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnint2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:negativeInteger(upper bound) $arg2 = xs:negativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:negativeInteger("-1"),xs:negativeInteger("-999999999999999999")))</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnint2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:negativeInteger(lower bound) $arg2 = xs:negativeInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:negativeInteger("-999999999999999999"),xs:negativeInteger("-297014075999096793")))</test>
+      <result>
+         <assert-eq>-297014075999096793</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnint2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:negativeInteger(lower bound) $arg2 = xs:negativeInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:negativeInteger("-999999999999999999"),xs:negativeInteger("-1")))</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxpint2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:positiveInteger(lower bound) $arg2 = xs:positiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:positiveInteger("1"),xs:positiveInteger("1")))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxpint2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:positiveInteger(mid range) $arg2 = xs:positiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:positiveInteger("52704602390610033"),xs:positiveInteger("1")))</test>
+      <result>
+         <assert-eq>52704602390610033</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxpint2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:positiveInteger(upper bound) $arg2 = xs:positiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:positiveInteger("999999999999999999"),xs:positiveInteger("1")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxpint2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:positiveInteger(lower bound) $arg2 = xs:positiveInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:positiveInteger("1"),xs:positiveInteger("52704602390610033")))</test>
+      <result>
+         <assert-eq>52704602390610033</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxpint2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:positiveInteger(lower bound) $arg2 = xs:positiveInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:positiveInteger("1"),xs:positiveInteger("999999999999999999")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxulng2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:unsignedLong(lower bound) $arg2 = xs:unsignedLong(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedLong("0"),xs:unsignedLong("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxulng2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:unsignedLong(mid range) $arg2 = xs:unsignedLong(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedLong("130747108607674654"),xs:unsignedLong("0")))</test>
+      <result>
+         <assert-eq>130747108607674654</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxulng2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:unsignedLong(upper bound) $arg2 = xs:unsignedLong(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedLong("184467440737095516"),xs:unsignedLong("0")))</test>
+      <result>
+         <assert-eq>184467440737095516</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxulng2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:unsignedLong(lower bound) $arg2 = xs:unsignedLong(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedLong("0"),xs:unsignedLong("130747108607674654")))</test>
+      <result>
+         <assert-eq>130747108607674654</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxulng2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:unsignedLong(lower bound) $arg2 = xs:unsignedLong(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:unsignedLong("0"),xs:unsignedLong("184467440737095516")))</test>
+      <result>
+         <assert-eq>184467440737095516</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnpi2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:nonPositiveInteger(lower bound) $arg2 = xs:nonPositiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonPositiveInteger("-999999999999999999"),xs:nonPositiveInteger("-999999999999999999")))</test>
+      <result>
+         <assert-eq>-999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnpi2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:nonPositiveInteger(mid range) $arg2 = xs:nonPositiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonPositiveInteger("-475688437271870490"),xs:nonPositiveInteger("-999999999999999999")))</test>
+      <result>
+         <assert-eq>-475688437271870490</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnpi2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:nonPositiveInteger(upper bound) $arg2 = xs:nonPositiveInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonPositiveInteger("0"),xs:nonPositiveInteger("-999999999999999999")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnpi2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:nonPositiveInteger(lower bound) $arg2 = xs:nonPositiveInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonPositiveInteger("-999999999999999999"),xs:nonPositiveInteger("-475688437271870490")))</test>
+      <result>
+         <assert-eq>-475688437271870490</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnpi2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:nonPositiveInteger(lower bound) $arg2 = xs:nonPositiveInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonPositiveInteger("-999999999999999999"),xs:nonPositiveInteger("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnni2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:nonNegativeInteger(lower bound) $arg2 = xs:nonNegativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonNegativeInteger("0"),xs:nonNegativeInteger("0")))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnni2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:nonNegativeInteger(mid range) $arg2 = xs:nonNegativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonNegativeInteger("303884545991464527"),xs:nonNegativeInteger("0")))</test>
+      <result>
+         <assert-eq>303884545991464527</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnni2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:nonNegativeInteger(upper bound) $arg2 = xs:nonNegativeInteger(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonNegativeInteger("999999999999999999"),xs:nonNegativeInteger("0")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnni2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:nonNegativeInteger(lower bound) $arg2 = xs:nonNegativeInteger(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonNegativeInteger("0"),xs:nonNegativeInteger("303884545991464527")))</test>
+      <result>
+         <assert-eq>303884545991464527</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxnni2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:nonNegativeInteger(lower bound) $arg2 = xs:nonNegativeInteger(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:nonNegativeInteger("0"),xs:nonNegativeInteger("999999999999999999")))</test>
+      <result>
+         <assert-eq>999999999999999999</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxsht2args-1">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:short(lower bound) $arg2 = xs:short(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:short("-32768"),xs:short("-32768")))</test>
+      <result>
+         <assert-eq>-32768</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxsht2args-2">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:short(mid range) $arg2 = xs:short(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:short("-5324"),xs:short("-32768")))</test>
+      <result>
+         <assert-eq>-5324</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxsht2args-3">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:short(upper bound) $arg2 = xs:short(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:short("32767"),xs:short("-32768")))</test>
+      <result>
+         <assert-eq>32767</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxsht2args-4">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:short(lower bound) $arg2 = xs:short(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:short("-32768"),xs:short("-5324")))</test>
+      <result>
+         <assert-eq>-5324</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-maxsht2args-5">
+      <description> Evaluates The "max" function with the arguments set as follows: $arg1 = xs:short(lower bound) $arg2 = xs:short(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:max((xs:short("-32768"),xs:short("32767")))</test>
+      <result>
+         <assert-eq>32767</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-1">
+      <description> A test whose essence is: `max()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-2">
+      <description> A test whose essence is: `max("a string", "http://www.w3.org/2005/xpath-functions/collation/codepoint", "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max("a string", "http://www.w3.org/2005/xpath-functions/collation/codepoint", "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-3">
+      <description> A test whose essence is: `empty(max(()))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(max(()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-4">
+      <description> A test whose essence is: `max((3, 3, 3, 3, 3, 3)) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((3, 3, 3, 3, 3, 3)) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-5">
+      <description> A test whose essence is: `max((3, 1, 1, 1, 1, 1)) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((3, 1, 1, 1, 1, 1)) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-6">
+      <description> A test whose essence is: `max((1, 1, 1, 1, 1, 3)) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((1, 1, 1, 1, 1, 3)) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-7">
+      <description> A test whose essence is: `max((3, 1, 5, 1, 1, 3)) eq 5`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((3, 1, 5, 1, 1, 3)) eq 5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-8">
+      <description> A test whose essence is: `max((3, -5.0, 5, 1, -3, 3)) eq 5`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((3, -5.0, 5, 1, -3, 3)) eq 5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-9">
+      <description> A test whose essence is: `max(xs:untypedAtomic("3")) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(xs:untypedAtomic("3")) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-10">
+      <description> A test whose essence is: `max(xs:untypedAtomic("3")) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(xs:untypedAtomic("3")) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-11">
+      <description> A test whose essence is: `max((xs:untypedAtomic("3"), 1, 2)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:untypedAtomic("3"), 1, 2)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-12">
+      <description> A test whose essence is: `max((1, xs:float(2), xs:untypedAtomic("3"))) eq 3`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((1, xs:float(2), xs:untypedAtomic("3"))) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-13">
+      <description> A test whose essence is: `max((1, xs:float(2), xs:untypedAtomic("3"))) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((1, xs:float(2), xs:untypedAtomic("3"))) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-14">
+      <description> A test whose essence is: `max((1, xs:float(2), xs:decimal(3))) instance of xs:float`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((1, xs:float(2), xs:decimal(3))) instance of xs:float</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-15">
+      <description> A test whose essence is: `max((1, xs:untypedAtomic("3"), xs:float(2))) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((1, xs:untypedAtomic("3"), xs:float(2))) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-16">
+      <description> A test whose essence is: `string(max((1, xs:untypedAtomic("NaN"), xs:float(2)))) eq "NaN"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(max((1, xs:untypedAtomic("NaN"), xs:float(2)))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-17">
+      <description> A test whose essence is: `string(max((xs:float("NaN"), xs:untypedAtomic("3"), xs:float(2)))) eq "NaN"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(max((xs:float("NaN"), xs:untypedAtomic("3"), xs:float(2)))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-18">
+      <description> A test whose essence is: `max((xs:float("NaN"), xs:untypedAtomic("3"), xs:float(2))) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:float("NaN"), xs:untypedAtomic("3"), xs:float(2))) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-19">
+      <description> A test whose essence is: `max((xs:float("NaN"), 1, 1, 2, xs:double("NaN"))) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:float("NaN"), 1, 1, 2, xs:double("NaN"))) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-20">
+      <description> A test whose essence is: `max((xs:double("NaN"), 1, 1, 2, xs:float("NaN"))) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:double("NaN"), 1, 1, 2, xs:float("NaN"))) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-21">
+      <description> An xs:string cannot be compared to a numeric, even if a value is NaN. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:float("NaN"), 1, "a string"))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-22">
+      <description> An xs:string cannot be compared to a numeric, even if a value is NaN. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(("a string", 1, xs:float("NaN")))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-23">
+      <description> A type error must be reported even if one of other values is NaN. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:float("NaN"), 1, xs:untypedAtomic("one")))</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-24">
+      <description> A type error must be reported even if one of other values is NaN. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:untypedAtomic("one"), 1, xs:float("NaN")))</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-25">
+      <description> A test whose essence is: `string(max((xs:double("NaN"), xs:double("NaN")))) eq "NaN"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(max((xs:double("NaN"), xs:double("NaN")))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-26">
+      <description> A test whose essence is: `string(max((xs:float("NaN"), xs:float("NaN")))) eq "NaN"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(max((xs:float("NaN"), xs:float("NaN")))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-27">
+      <description> A test whose essence is: `string(max((3, xs:double("NaN")))) eq "NaN"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(max((3, xs:double("NaN")))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-28">
+      <description> A test whose essence is: `string(max((3, xs:float("NaN")))) eq "NaN"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(max((3, xs:float("NaN")))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-29">
+      <description> A test whose essence is: `max((3, xs:double("NaN"))) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((3, xs:double("NaN"))) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-30">
+      <description> A test whose essence is: `max((3, xs:float("NaN"))) instance of xs:float`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((3, xs:float("NaN"))) instance of xs:float</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-31">
+      <description> A test whose essence is: `string(max((xs:float(-3), xs:untypedAtomic("3"), xs:double("NaN")))) eq "NaN"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(max((xs:float(-3), xs:untypedAtomic("3"), xs:double("NaN")))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-32">
+      <description> A test whose essence is: `max((xs:float(-3), xs:untypedAtomic("3"), xs:double("NaN"))) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:float(-3), xs:untypedAtomic("3"), xs:double("NaN"))) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-33">
+      <description> A test whose essence is: `string(max(xs:float("NaN"))) eq "NaN"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(max(xs:float("NaN"))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-34">
+      <description> A test whose essence is: `string(max(xs:double("NaN"))) eq "NaN"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(max(xs:double("NaN"))) eq "NaN"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-35">
+      <description> A test whose essence is: `max(xs:untypedAtomic("three"))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(xs:untypedAtomic("three"))</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-36">
+      <description> A test whose essence is: `max((xs:untypedAtomic("3"), "a string"))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:untypedAtomic("3"), "a string"))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-37">
+      <description> A test whose essence is: `max(("a string", xs:untypedAtomic("3")))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(("a string", xs:untypedAtomic("3")))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-38">
+      <description> A test whose essence is: `max(QName("example.com/", "ncname"))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(QName("example.com/", "ncname"))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-39">
+      <description> A test whose essence is: `max(xs:anyURI("example.com/")) eq xs:anyURI("example.com/")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(xs:anyURI("example.com/")) eq xs:anyURI("example.com/")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-40">
+      <description> A test whose essence is: `max((xs:anyURI("example.com/"), xs:anyURI("example.com/"))) eq xs:anyURI("example.com/")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:anyURI("example.com/"), xs:anyURI("example.com/"))) eq xs:anyURI("example.com/")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-41">
+      <description> A test whose essence is: `max(("a string")) eq "a string"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(("a string")) eq "a string"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-42">
+      <description> A test whose essence is: `max(("a string", QName("example.com/", "ncname")))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(("a string", QName("example.com/", "ncname")))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-43">
+      <description> A test whose essence is: `max((5, 5.0e0)) eq 5.0e0`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((5, 5.0e0)) eq 5.0e0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-44">
+      <description> A test whose essence is: `max((5, 5.0e0)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((5, 5.0e0)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-45">
+      <description> A test whose essence is: `max((5, 3.0e0)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((5, 3.0e0)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-46">
+      <description> A test whose essence is: `max((5.0e0, 5)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((5.0e0, 5)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-47">
+      <description> A test whose essence is: `max((3, 5.0e0)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((3, 5.0e0)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-48">
+      <description> A test whose essence is: `max((5.0e0, 3)) instance of xs:double`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((5.0e0, 3)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-49">
+      <description> A test whose essence is: `max((1, 1, 1, 1, 1.0)) instance of xs:decimal`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((1, 1, 1, 1, 1.0)) instance of xs:decimal</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-50">
+      <description> A test whose essence is: `max((1.0, 1, 1, 1, 1)) instance of xs:decimal`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((1.0, 1, 1, 1, 1)) instance of xs:decimal</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-51">
+      <description> A test whose essence is: `max((1.0, 1, 1.0, 1, 1)) instance of xs:decimal`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((1.0, 1, 1.0, 1, 1)) instance of xs:decimal</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-52">
+      <description> A test whose essence is: `max((5.0e0, 5)) eq 5.0e0`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((5.0e0, 5)) eq 5.0e0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-53">
+      <description> A test whose essence is: `max((3, 5.0e0)) eq 5.0e0`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((3, 5.0e0)) eq 5.0e0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-54">
+      <description> A test whose essence is: `max((5.0e0, 3)) eq 5.0e0`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((5.0e0, 3)) eq 5.0e0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-55">
+      <description> Testing max() with current-date(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((current-date(), xs:date("1999-01-01"))) eq current-date()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-56">
+      <description> A test whose essence is: `max((3,4,5)) eq 5`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((3,4,5)) eq 5</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-57">
+      <description> A test whose essence is: `max((5, 5.0e0)) eq 5.0e0`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((5, 5.0e0)) eq 5.0e0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-58">
+      <description> A test whose essence is: `max((3,4, "Zero"))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((3,4, "Zero"))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqMAXFunc-59">
+      <description> A test whose essence is: `max(("a", "b", "c")) eq "c"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(("a", "b", "c")) eq "c"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqMAXFunc-1">
+      <description> Invoke fn:max() on two identical xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:anyURI("http://example.com/A"), xs:anyURI("http://example.com/A"))) eq xs:anyURI("http://example.com/A")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqMAXFunc-2">
+      <description> Invoke fn:max() on two different xs:anyURI values. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:anyURI("http://example.com/B"), xs:anyURI("http://example.com/A"))) eq xs:anyURI("http://example.com/B")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqMAXFunc-3">
+      <description> Invoke fn:max() on two different xs:anyURI values(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max((xs:anyURI("http://example.com/8"), xs:anyURI("http://example.com/4"))) eq xs:anyURI("http://example.com/8")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqMAXFunc-4">
+      <description> Invoke fn:max() with an unsupported collation. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(("str1", "str2"), "http://example.com/UNSUPPORTED_COLLATION")</test>
+      <result>
+         <error code="FOCH0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqMAXFunc-5">
+      <description> Invoke fn:max() with too many arguments. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(("str1", "str2"), "http://www.w3.org/2005/xpath-functions/collation/codepoint", ())</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqMAXFunc-6">
+      <description> Invoke fn:max() with an unsupported collation and one xs:anyURI value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-01-03" change="see bug 27358"/>
+      <test>max(xs:anyURI("str1"), "max://example.com/UNSUPPORTED_COLLATION")</test>
+      <result>
+         <any-of>
+            <assert-eq>xs:anyURI("str1")</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqMAXFunc-7">
+      <description> Ensure the return type is properly inferred. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>max(xs:unsignedShort("1")) instance of xs:unsignedShort</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-1">
+      <description> Evaluation of the fn:max function with argument to sequence of different types. </description>
+      <created by="Carmelo Montanez" on="2005-09-20"/>
+      <test>fn:max((3,4,"Zero"))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-2">
+      <description> Evaluation of type promotion when using mixed typed with fn:max function </description>
+      <created by="Carmelo Montanez" on="2006-03-13"/>
+      <test>fn:max((xs:integer(5000000000),xs:double(3e0)))</test>
+      <result>
+         <assert-eq>5.0E9</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-3">
+      <description> Evaluation of type promotion when using mixed typed with fn:max function Uses drived types promoted to least common type. </description>
+      <created by="Carmelo Montanez" on="2006-07-13"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $var := fn:max((xs:long(20),xs:short(13))) return $var instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-4">
+      <description> Test fn:max on a sequence of xs:dayTimeDuration arguments </description>
+      <created by="Oliver Hallam" on="2010-03-15"/>
+      <test>max((xs:dayTimeDuration("P1D"), xs:dayTimeDuration("PT2H"))) instance of xs:dayTimeDuration</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-5">
+      <description> Test fn:max on a sequence of xs:dayTimeDuration arguments </description>
+      <created by="Oliver Hallam" on="2010-03-15"/>
+      <test>max(for $x in 1 to 10 return xs:dayTimeDuration(concat("PT",$x,"H")))</test>
+      <result>
+         <assert-string-value>PT10H</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-6">
+      <description> Test fn:max on a sequence of xs:yearMonthDuration arguments </description>
+      <created by="Oliver Hallam" on="2010-03-15"/>
+      <test>max((xs:yearMonthDuration("P1Y"), xs:yearMonthDuration("P1M"))) instance of xs:yearMonthDuration</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-7">
+      <description> Test fn:max on a sequence of xs:yearMonthDuration arguments </description>
+      <created by="Oliver Hallam" on="2010-03-15"/>
+      <test>max(for $x in 1 to 10 return xs:yearMonthDuration(concat("P",$x,"M")))</test>
+      <result>
+         <assert-string-value>P10M</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-8">
+      <description> Test fn:max on a sequence of xs:yearMonthDuration and xs:dayTimeDuration arguments </description>
+      <created by="Oliver Hallam" on="2010-03-15"/>
+      <test>max((xs:yearMonthDuration("P1Y"), xs:dayTimeDuration("P1D")))</test>
+      <result>
+         <any-of>
+            <error code="FORG0006"/>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-9">
+      <description> Test fn:max on a sequence of xs:duration arguments </description>
+      <created by="Oliver Hallam" on="2010-03-15"/>
+      <test>max(xs:duration("P1Y1M1D"))</test>
+      <result>
+         <any-of>
+            <error code="FORG0006"/>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-10">
+      <description> Test fn:max on a sequence of numeric arguments </description>
+      <created by="Oliver Hallam" on="2010-03-15"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>for $p in 1 to 4 let $x := (xs:integer(1), xs:decimal(2), xs:float(3), xs:double(4))[position() le $p] return typeswitch (max($x)) case xs:integer return "integer" case xs:decimal return "decimal" case xs:float return "float" case xs:double return "double" default return error()</test>
+      <result>
+         <assert-string-value>integer decimal float double</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-11">
+      <description> Test fn:max on a sequence of strings </description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>max(("a", "b", "c", "d"))</test>
+      <result>
+         <assert-string-value>d</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-max-12">
+      <description> Test fn:max on a sequence of dates </description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>max((xs:date('1066-10-02'), xs:date('1588-08-08'), xs:date('2011-06-29')))</test>
+      <result>
+         <assert-string-value>2011-06-29</assert-string-value>
+      </result>
+   </test-case> 
+   
+   <test-case name="fn-max-13" covers="fn-max-type">
+      <description>Test result type for a mix of string types. Strings are not converted to lowest common type.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>max((xs:NCName('c'), xs:ID('b'), xs:token('a')))</test>
+      <result>
+         <all-of>
+           <assert-eq>"c"</assert-eq>
+           <assert-type>xs:NCName</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-max-14" covers="fn-max-type">
+      <description>Test result type for a mix of integer types. Integers are converted to lowest common type.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>max((xs:positiveInteger(123), xs:unsignedShort(124)))</test>
+      <result>
+         <all-of>
+           <assert-eq>124</assert-eq>
+           <assert-type>xs:nonNegativeInteger</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-max-15" covers="fn-max-type">
+      <description>Test result type for a mix of integer types. In 3.1, the original type is retained.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <modified by="Debbie Lockett" on="2015-02-26" change="added spec XQ31+ dependency"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>max((xs:positiveInteger(123), xs:unsignedShort(124)))</test>
+      <result>
+         <all-of>
+           <assert-eq>124</assert-eq>
+           <assert-type>xs:unsignedShort</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-max-16" covers="fn-max-type">
+      <description>Test result type for a mix of string/URI types. xs:anyURI values are converted to string.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>max((xs:anyURI("http://c.com"), "http://b.com"))</test>
+      <result>
+         <all-of>
+           <assert-eq>"http://c.com"</assert-eq>
+           <assert-type>xs:string</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-max-17" covers="fn-max-type">
+      <description>Test result type for URI types. xs:anyURI values are not converted if no string is present.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>max((xs:anyURI("http://a.com"), xs:anyURI("http://b.com")))</test>
+      <result>
+         <all-of>
+           <assert-eq>"http://b.com"</assert-eq>
+           <assert-type>xs:anyURI</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-max-18" covers="fn-max-type">
+      <description>Test result type for a mix of string/URI types. Strings are not converted.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>max((xs:token("zither"), xs:anyURI("http://b.com")))</test>
+      <result>
+         <all-of>
+           <assert-eq>"zither"</assert-eq>
+           <assert-type>xs:token</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-max-19" covers="array-general">
+      <description> Test fn:max on an array </description>
+      <created by="Michael Kay" on="2014-10-14"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>max([1,2,3,4,5])</test>
+      <result>
+         <assert-eq>5</assert-eq>
+      </result>
+   </test-case>
+           
+   
+   <test-case name="cbcl-max-001">
+      <description> test fn:max on xs:boolean arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { 
+      		if ($x = 0) then true() else false() 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>  
+
+   <test-case name="cbcl-max-002">
+      <description> test fn:max on xs:boolean arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { 
+      		if ($x = 2) then true() else false() 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-max-003">
+      <description> test fn:max on xs:boolean arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { 
+      		if ($x = 3) then $x else false() 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-004">
+      <description> test fn:max with xs:date argument causing type error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:f($x as xs:integer) {
+      		 if ($x < 3) then current-date() else current-time() 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))
+      ]]></test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-005">
+      <description> test fn:max with xs:dateTime arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { 
+      		if ($x = 2) then xs:dateTime("3000-12-01T12:00:00") else current-dateTime() 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-string-value>3000-12-01T12:00:00</assert-string-value>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-006">
+      <description> test fn:max with xs:dateTime argument causing type error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:f($x as xs:integer) { 
+      		if ($x < 3) then current-dateTime() else xs:dayTimeDuration("PT3S") 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))
+      ]]></test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-007">
+      <description> Test fn:max with xs:dayTimeDuration arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { 
+      		if ($x = 2) then xs:dayTimeDuration("P1D") else xs:dayTimeDuration("PT3S") 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-string-value>P1D</assert-string-value>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-008">
+      <description> Test fn:max with xs:dayTimeDuration argument causing type error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) {
+      		 if ($x = 3) then xs:duration("P1D") else xs:dayTimeDuration("PT3S") 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-009">
+      <description> Test fn:max with numeric arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) {
+      		 (xs:decimal(1.1), xs:float(2.2), xs:double(1.4), xs:integer(2))[$x] 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x)) instance of xs:double
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-010">
+      <description> Test fn:max with numeric arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { 
+      		(xs:decimal(1.3), xs:float(1.2), xs:double(1.4), xs:integer(2))[$x] 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x)) instance of xs:double
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-011">
+      <description> Test fn:max with numeric arguments rasing error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) {
+      		 (xs:decimal(1.1), xs:float(1.2), xs:double(0.4), xs:string("2"))[$x] 
+      	}; 
+      	max(for $x in (1,4,2,3) return local:f($x))
+      </test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-012">
+      <description> Test fn:max with numeric arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { 
+      		(xs:decimal(1.1), xs:float(1.2), xs:double(0.4), xs:integer("-3"))[$x] 
+      	}; 
+      	max(for $x in (4,2,1,3) return local:f($x)) instance of xs:double
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-013">
+      <description> test fn:max with xs:time arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { 
+      		if ($x = 2) then xs:time("12:00:00-01:00") else xs:time("12:00:00+01:00") 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-string-value>12:00:00-01:00</assert-string-value>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-014">
+      <description> test fn:max with xs:time argument causing type error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:f($x as xs:integer) { 
+      		if ($x < 3) then current-time() else xs:dayTimeDuration("PT3S") 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))
+      ]]></test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-015">
+      <description> Test fn:max with xs:yearMonthDuration arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { 
+      		if ($x = 2) then xs:yearMonthDuration("P13M") else xs:yearMonthDuration("P1Y") 
+      	};
+      	max(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-string-value>P1Y1M</assert-string-value>
+      </result>
+   </test-case>  
+
+   <test-case name="cbcl-max-016">
+      <description> Test fn:max with xs:yearMonthDuration argument causing type error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/> 
+      <test>
+      	declare function local:f($x as xs:integer) { 
+      		if ($x = 3) then xs:duration("P1Y") else xs:yearMonthDuration("P11M") 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-017">
+      <description> Test fn:max with invalid type for first argument </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) as xs:duration { 
+      		if ($x = 1) then xs:duration("P1Y") else xs:yearMonthDuration("P11M") 
+      	}; 
+      	max(for $x in (1,2,3) return local:f($x))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-018">
+      <description> Test fn:max on a range expression </description>
+      <created by="Oliver Hallam" on="2008-04-22"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+      	declare function local:f($x as xs:integer) as xs:integer { $x }; 
+      	max(local:f(4) to local:f(10))</test>
+      <result>
+         <assert-string-value>10</assert-string-value>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-max-019">
+      <description> Test evaluating effective boolean value of max </description>
+      <created by="Oliver Hallam" on="2008-07-24"/>      
+      <test>if (max(for $x in 1 to 10 return $x mod 9 = 0)) then true() else false()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+</test-set>

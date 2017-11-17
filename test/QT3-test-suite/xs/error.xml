@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" 
+          name="xs-error">
+   <description>Tests for xs:error</description>
+
+   <!-- NOTE: An implementation supporting XSD 1.1 must support xs:error,
+              however it is not an error for an implementation not supporting 
+              XSD 1.1 to support xs:error. -->
+
+   <dependency type="xsd-version" value="1.1"/>
+   <dependency type="spec" value="XP30+ XQ30+"/>
+
+   <test-case name="xs-error-001">
+      <description>Attempts to evaluate the "xs:error" function with no arguments.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>xs:error()</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-002">
+      <description>Attempts to reference the "xs:error" function with arity zero.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>xs:error#0</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-003">
+      <description>Attempts to evaluate the "xs:error" function with two arguments.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>xs:error( (), () )</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-004">
+      <description>Attempts to reference the "xs:error" function with arity two.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>xs:error#2</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-005">
+      <description>Attempts to reference the "xs:error" function with arity one.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>fn:exists( xs:error#1 )</test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-006">
+      <description>Attempts to reference the "xs:error" function with arity one.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>xs:error#1 instance of function(xs:anyAtomicType?) as xs:error?</test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-007">
+      <description>Attempts to reference the "xs:error" function with arity one.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>xs:error#1 instance of function(xs:anyAtomicType?) as empty-sequence()</test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-008">
+      <description>Attempts to invoke the "xs:error" function with $arg as the empty sequence.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>xs:error( () )</test>
+      <result>
+	<any-of>
+	  <assert-empty />
+	  <error code="XPST0005" />
+	</any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="xs-error-009">
+      <description>Attempts to invoke the "xs:error" function with $arg as an untyped atomic value.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error(xs:untypedAtomic(""))</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xs-error-010">
+      <description>Attempts to invoke the "xs:error" function with $arg as a string  value.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error("")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-011">
+      <description>Attempts to invoke the "xs:error" function with $arg as a decimal value.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error(1.0)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-012">
+      <description>Attempts to invoke the "xs:error" function with $arg as a double value.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error(1e0)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-013">
+      <description>Attempts to invoke the "xs:error" function with $arg as an integer value.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error(1)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xs-error-014">
+      <description>Check the return type of xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error(1) instance of xs:error</test>
+      <result>
+	<any-of>
+	  <error code="FORG0001"/>
+	  <assert-true />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-015">
+      <description>xs:error? is identical to empty-sequence().</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>function() as empty-sequence() { () } instance of function() as xs:error?</test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-016">
+      <description>xs:error* is identical to empty-sequence().</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>function() as empty-sequence() { () } instance of function() as xs:error*</test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+   
+   <test-case name="xs-error-017">
+      <description>xs:error in the signature of a function.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:identity($arg as xs:error)
+            {
+              $arg
+            };
+       local:identity(fn:error())
+      </test>
+      <result>
+	 <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-018">
+      <description>xs:error in the signature of a function.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:identity($arg as xs:error)
+            {
+              $arg
+            };
+       local:identity(1)
+      </test>
+      <result>
+	 <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-019">
+      <description>xs:error in the signature of a function.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:constant($arg as xs:error)
+            {
+              fn:true()
+            };
+       local:constant(fn:error())
+      </test>
+      <result>
+	<any-of>
+	  <assert-true />
+	  <error code="XPTY0004"/>
+	  <error code="FOER0000"/>
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-020">
+      <description>xs:error in the signature of a function.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:identity($arg as xs:error?)
+            {
+              $arg
+            };
+       local:identity(())
+      </test>
+      <result>
+         <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-021">
+      <description>xs:error in the signature of a function.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:error() as xs:error
+            {
+               fn:error()
+            };
+       local:error()
+      </test>
+      <result>
+         <error code="FOER0000" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-022">
+      <description>xs:error in the signature of a function.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:error() as xs:error
+            {
+	      1
+            };
+       local:error()
+      </test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-023">
+      <description>xs:error in a variable type declaration.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>let $x as xs:error := fn:error() return $x</test>
+      <result>
+	 <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-024">
+      <description>xs:error in let expression.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>let $x := fn:error() return $x</test>
+      <result>
+	 <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-025">
+      <description>xs:error in a variable type declaration.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>let $x as xs:error := fn:error() return fn:true()</test>
+      <result>
+	<any-of>
+	  <assert-true />
+	  <error code="FOER0000"/>
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-026">
+      <description>xs:error in a variable type declaration.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>let $x := fn:error() return true()</test>
+      <result>
+	<any-of>
+	  <assert-true />
+	  <error code="FOER0000"/>
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-027">
+      <description>xs:error in a variable type declaration.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>let $x as xs:error := 1 return fn:true()</test>
+      <result>
+	<any-of>
+	  <assert-true />
+	  <error code="XPTY0004" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-028">
+      <description>xs:error in a variable type declaration.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>for $x as xs:error in () return fn:true()</test>
+      <result>
+	 <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-029">
+      <description>xs:error in a variable type declaration.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>for $x as xs:error in fn:error() return fn:true()</test>
+      <result>
+	<any-of>
+	  <assert-true />
+	  <error code="FOER0000" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-030">
+      <description>xs:error in a variable type declaration.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>for $x in fn:error() return fn:true()</test>
+      <result>
+	<any-of>
+	  <assert-true />
+	  <error code="FOER0000" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-031">
+      <description>xs:error in a variable type declaration.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>for $x as xs:error in (1, 2, 3) return $x</test>
+      <result>
+	<any-of>
+	  <error code="XPTY0004" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-032">
+      <description>Castablility of xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error(1) castable as xs:error</test>
+      <result>
+	<error code="FORG0001" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-033">
+      <description>Castablility of xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error(1) castable as xs:integer</test>
+      <result>
+	<error code="FORG0001" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-034">
+      <description>Castablility of xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>xs:error(()) castable as xs:error</test>
+      <result>
+	<assert-false />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-035">
+      <description>Castablility of xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>xs:error(()) castable as xs:error?</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-036">
+      <description>Castablility of xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>fn:error() castable as xs:error</test>
+      <result>
+	<error code="FOER0000" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-037">
+      <description>Castablility of xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>() castable as xs:error?</test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-038">
+      <description>Cast to xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error(1) cast as xs:error</test>
+      <result>
+	<error code="FORG0001" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-039">
+      <description>Casting xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error(1) cast as xs:integer</test>
+      <result>
+	<error code="FORG0001" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-040">
+      <description>Cast to xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error(()) cast as xs:error</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-041">
+      <description>Cast to xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>xs:error(()) cast as xs:error?</test>
+      <result>
+	<assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-042">
+      <description>Cast to xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>() cast as xs:error?</test>
+      <result>
+	<assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-043">
+      <description>instance of xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <test>xs:error(1) instance of xs:error</test>
+      <result>
+	<any-of>
+	  <assert-true />
+	  <error code="FORG0001" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-044">
+      <description>instance of xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>fn:error() instance of xs:error</test>
+      <result>
+	<any-of>
+	  <assert-true />
+	  <error code="FOER0000" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-045">
+      <description>typeswitch with xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>typeswitch (xs:error(1)) 
+            case xs:error return fn:true()
+            default return false()</test>
+      <result>
+	<any-of>
+	  <assert-true />
+	  <error code="FORG0001" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-046">
+      <description>typeswitch with xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>typeswitch (fn:error()) 
+            case xs:error return fn:true()
+            default return false()</test>
+      <result>
+	<any-of>
+	  <assert-true />
+	  <error code="FOER0000" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-047">
+      <description>treat as xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>fn:error() treat as xs:error</test>
+      <result>
+	<error code="FOER0000" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-048">
+      <description>treat as xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>1 treat as xs:error</test>
+      <result>
+	<error code="XPDY0050" />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-049">
+      <description>treat as xs:error.</description>
+      <created by="Tim Mills" on="2013-03-25"/>
+      <test>() treat as xs:error?</test>
+      <result>
+	<assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-050">
+      <description>cast as xs:error.</description>
+      <created by="Tim Mills" on="2015-10-12"/>
+      <test>1 cast as xs:error</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-051">
+      <description>cast as xs:error.</description>
+      <created by="Tim Mills" on="2015-10-12"/>
+      <test>"boo" cast as xs:error</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-052">
+      <description>castable as xs:error.</description>
+      <created by="Tim Mills" on="2015-10-12"/>
+      <test>1 castable as xs:error</test>
+      <result>
+	<assert-false />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-053">
+      <description>castable as xs:error.</description>
+      <created by="Tim Mills" on="2015-10-12"/>
+      <test>1 castable as xs:error</test>
+      <result>
+	<assert-false />
+      </result>
+   </test-case>
+
+</test-set>   
+   

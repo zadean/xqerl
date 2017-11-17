@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-CurlyArrayConstructor">
+    <description>Tests for the CurlyArrayConstructor production: arrays in XPath 3.1 and XQuery 3.1</description>
+    
+    <!-- tests migrated from the ArrayTest test-set, and renamed s/ArrayTest/CurlyArray/ 2016-09-06 -->
+    
+    <test-case name="CurlyArray-002" covers="array-curly-constructor">
+        <description>empty curly array constructor</description>
+        <created by="Carla Spruit" on="2014-10-28"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>array{}</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert-type>array(empty-sequence())</assert-type>
+                <assert-type>array(xs:string)</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="CurlyArray-004" covers="array-curly-constructor">
+        <description>curly array constructor, number of members </description>
+        <created by="Carla Spruit" on="2014-10-28"/>
+        <environment ref="array"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>array:size(array{(), ('A', 'B', 'C'), 'D'})</test>
+        <result>
+            <all-of>
+                <assert-eq>4</assert-eq>
+                <assert-type>xs:integer</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="CurlyArray-006" covers="array-curly-constructor">
+        <description>curly array constructor, number of members </description>
+        <created by="Carla Spruit" on="2014-10-28"/>
+        <environment ref="array"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>declare function local:fun() {1 to 5}; array:size(array{local:fun()})</test>
+        <result>
+            <all-of>
+                <assert-eq>5</assert-eq>
+                <assert-type>xs:integer</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="CurlyArray-008" covers="array-curly-constructor">
+        <description>curly array constructor, lookup </description>
+        <created by="Carla Spruit" on="2014-10-28"/>
+        <modified by="Michael Kay" on="2015-11-26" change="add HOF dependency (dynamic function call)"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>declare function local:fun() {1 to 5}; array{local:fun()}(1)</test>
+        <result>
+            <all-of>
+                <assert-eq>1</assert-eq>
+                <assert-type>xs:integer</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="CurlyArray-010" covers="array-curly-constructor">
+        <description>curly array constructor, lookup </description>
+        <created by="Carla Spruit" on="2014-10-28"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>declare function local:fun() {1 to 5}; array{local:fun()}?1</test>
+        <result>
+            <assert-eq>1</assert-eq>
+        </result>
+    </test-case>
+    
+</test-set>

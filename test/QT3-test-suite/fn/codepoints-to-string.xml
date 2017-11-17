@@ -1,0 +1,806 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-codepoints-to-string">
+   <description/>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/"
+         idref="func-codepoints-to-string"/>
+
+   <test-case name="fn-codepoints-to-string1args-1">
+      <description>Test codepoints-to-string with variety of characters </description>
+      <created by="Joanne Tong" on="2005-09-23"/>
+      <test>codepoints-to-string((98,223,1682,12365,63744))</test>
+      <result>
+         <assert-string-value>b&#223;&#1682;&#12365;&#63744;</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string1args-2">
+      <description>Test codepoints-to-string with an empty sequence argument </description>
+      <created by="Joanne Tong" on="2005-09-23"/>
+      <test>codepoints-to-string(())</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string1args-3">
+      <description>Test invalid type in argument for codepoints-to-string </description>
+      <created by="Joanne Tong" on="2005-09-23"/>
+      <test>codepoints-to-string('hello')</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string1args-4">
+      <description>Test incorrect arity for codepoints-to-string </description>
+      <created by="Joanne Tong" on="2005-09-23"/>
+      <test>codepoints-to-string((),())</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-1">
+      <description> Invalid XML character codepoint as part of "code-points-to-string" function. </description>
+      <created by="Carmelo Montanez" on="2005-10-04"/>
+      <test>fn:codepoints-to-string(0)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-2">
+      <description> Invalid XML character codepoint as part of "code-points-to-string" function. </description>
+      <created by="Carmelo Montanez" on="2005-10-24"/>
+      <test>fn:codepoints-to-string(10000000)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-3">
+      <description> Evaluation of an "fn:codepoints-to-string" with argument set to codepoint 49 (single character ('1')). </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:codepoints-to-string(49)</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-4">
+      <description> Evaluation of an "fn-codepoints-to-string" with argument set to codepoint 97 (a single character 'a'). </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:codepoints-to-string(97)</test>
+      <result>
+         <assert-string-value>a</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-5">
+      <description> Evaluation of an "fn:codepoints-to-string" with argument set to codepoints 49, 97 (combination of number/character '1a'). </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:codepoints-to-string((49,97))</test>
+      <result>
+         <assert-string-value>1a</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-6">
+      <description> Evaluation of an "fn:codepoints-to-string" with argument set to the codepoints 35, 42, 94 36 (characters "#*^$"). </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:codepoints-to-string((35, 42, 94, 36))</test>
+      <result>
+         <assert-string-value>#*^$</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-7">
+      <description> Evaluation of an "fn:codepoints-to-string" with argument set to codepoints 
+        99 111 100 101 112 111 105 110 116 115 45 116 111 45 115 116 114 105 110 103 (string "codepoints-to-string"). </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:codepoints-to-string((99,111,100,101,112,111,105,110,116,115,45,116,111,45,115,116,114,105,110,103))</test>
+      <result>
+         <assert-string-value>codepoints-to-string</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-8">
+      <description> Evaluation of an "fn:codepoints-to-string" used as argument to "xs:string()" function and uses 
+        codepoints 65, 32, 83 116, 114, 105, 110, 103 ("A String") . </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>xs:string(fn:codepoints-to-string((65,32,83,116,114,105,110,103)))</test>
+      <result>
+         <assert-string-value>A String</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-9">
+      <description> Evaluation of an "fn:codepoints-to-string" used as argument to the "fn:upper-case" function and use 
+        codepoints 65,32,83,84,82,73,78,71 (string "A STRING"). </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:upper-case(fn:codepoints-to-string((65,32,83,84,82,73,78,71)))</test>
+      <result>
+         <assert-string-value>A STRING</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-10">
+      <description> Evaluation of an "fn:codepoints-to-string" used as argument to the "fn:lower-case" function and use 
+        codepoints 97,32,115,116,114,105,110,103 (String "a string"). </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:lower-case(fn:codepoints-to-string((97,32,115,116,114,105,110,103)))</test>
+      <result>
+         <assert-string-value>a string</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-11">
+      <description> Evaluation of an "fn:codepoints-to-string" that uses xs:integer as argument and codepoints 97. </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:codepoints-to-string(xs:integer(97))</test>
+      <result>
+         <assert-string-value>a</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-12">
+      <description> Evaluation of an "fn:codepoints-to-string" that uses fn:avg/xs:integer function and codepoints 65,32,83,116,114,105,110,103. </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:codepoints-to-string(xs:integer(fn:avg((65,32,83,116,114,105,110,103))))</test>
+      <result>
+         <assert-string-value>[</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-13">
+      <description> Evaluation of an "fn:codepoints-to-string" that is used as argument to fn:concat function. </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:concat(fn:codepoints-to-string((49,97)),"1a")</test>
+      <result>
+         <assert-string-value>1a1a</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-14">
+      <description> Evaluation of an "fn:codepoints-to-string" that is used as argument to fn:string-to-codepoints function. </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:string-to-codepoints(fn:codepoints-to-string((49,97)))</test>
+      <result>
+         <assert-deep-eq>49, 97</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-15">
+      <description> Evaluation of an "fn:codepoints-to-string" that is used as argument to fn:string-length function. </description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:string-length(fn:codepoints-to-string((49,97)))</test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-codepoints-to-string-16">
+      <description> Evaluation of an "fn:codepoints-to-string" that is used as argument to fn:string-join function. </description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:string-join((fn:codepoints-to-string((49,97)),'ab'),'')</test>
+      <result>
+         <assert-string-value>1aab</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-1">
+      <description> A test whose essence is: `codepoints-to-string()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-2">
+      <description> A test whose essence is: `codepoints-to-string((84, 104), "INVALID")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string((84, 104), "INVALID")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-3">
+      <description> A test whose essence is: `codepoints-to-string(()) eq ""`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(()) eq ""</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-4">
+      <description> A test whose essence is: `codepoints-to-string((87, 36, 56, 87, 102, 96)) eq "W$8Wf`"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string((87, 36, 56, 87, 102, 96)) eq "W$8Wf`"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-5">
+      <description> A test whose essence is: `codepoints-to-string(57343)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(57343)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-6">
+      <description> A test whose essence is: `codepoints-to-string(-500)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(-500)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-7">
+      <description> A test whose essence is: `codepoints-to-string(0)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(0)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-8">
+      <description> Codepoint 8 is invalid in XML 1.0 but valid in XML 1.1. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2016-04-19" change="Added XML 1.0 dependency" />
+      <dependency type="xml-version" value="1.0" />
+      <test>codepoints-to-string(8)</test>
+      <result>
+         <any-of>
+            <error code="FOCH0001"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-8a">
+         <description>Codepoint 8 is invalid in XML 1.0 but valid in XML 1.1. Test created according to bug issue 29405</description>
+         <created by="Frans Englich" on="2007-11-26"/>
+	 <modified by="Tim Mills" on="2016-04-28" change="See bug 29405" />
+	 <modified by="Josh Spiegel" on="2016-04-28" change="See bug 29405" />
+         <dependency type="xml-version" value="1.1" />
+         <test>codepoints-to-string(8)</test>
+         <result>
+            <assert>string-to-codepoints($result) eq 8</assert>
+         </result>
+      </test-case>
+
+   <test-case name="K-CodepointToStringFunc-9">
+      <description> A test whose essence is: `codepoints-to-string(9) eq "&amp;#x9;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(9) eq "	"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-10">
+      <description> A test whose essence is: `codepoints-to-string(10) eq "&amp;#xA;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(10) eq "
+"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-11">
+      <description> Codepoint 11 is invalid in XML 1.0 but valid in XML 1.1. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>codepoints-to-string(11)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-11b">
+      <description> Codepoint 11 is invalid in XML 1.0 but valid in XML 1.1. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>string-to-codepoints(codepoints-to-string(11))</test>
+      <result>
+         <assert-eq>11</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-12">
+      <description> Codepoint 12 is invalid in XML 1.0 but valid in XML 1.1. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>codepoints-to-string(12)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-12b">
+      <description> Codepoint 12 is invalid in XML 1.0 but valid in XML 1.1. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>string-to-codepoints(codepoints-to-string(12))</test>
+      <result>
+         <assert-eq>12</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-13">
+      <description> A test whose essence is: `codepoints-to-string(13) eq "&amp;#xd;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2011-09-06" change="wrapped test in a CDATA Section to prevent changing query by XML CRLF handling" />
+      <modified by="Michael Kay" on="2011-11-09" change="Add dependency on XQuery because of use of XML character reference" />      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[codepoints-to-string(13) eq "&#xD;"]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-14">
+      <description> Codepoint 14 is invalid in XML 1.0 but valid in XML 1.1. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string-to-codepoints(codepoints-to-string(14))</test>
+      <result>
+         <any-of>
+            <assert-eq>14</assert-eq>
+            <error code="FOCH0001"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-15">
+      <description> Codepoint 31 is invalid in XML 1.0 but valid in XML 1.1. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string-to-codepoints(codepoints-to-string(31))</test>
+      <result>
+         <any-of>
+            <assert-eq>31</assert-eq>
+            <error code="FOCH0001"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-16">
+      <description> A test whose essence is: `codepoints-to-string(32) eq "&amp;#x20;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(32) eq " "</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-17">
+      <description> A test whose essence is: `codepoints-to-string(27637) eq "&amp;#x6bf5;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(27637) eq "&#27637;"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-18">
+      <description> A test whose essence is: `codepoints-to-string(55295) eq "&amp;#xD7FF;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(55295) eq "&#55295;"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-19">
+      <description> A test whose essence is: `codepoints-to-string(55296)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(55296)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-20">
+      <description> A test whose essence is: `codepoints-to-string(57343)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(57343)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-21">
+      <description> A test whose essence is: `codepoints-to-string(57344) eq "&amp;#xE000;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(57344) eq "&#57344;"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-22">
+      <description> A test whose essence is: `codepoints-to-string(61438) eq "&amp;#xEFFE;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(61438) eq "&#61438;"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-23">
+      <description> A test whose essence is: `codepoints-to-string(65533) eq "&amp;#xFFFD;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(65533) eq "&#65533;"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-24">
+      <description> A test whose essence is: `codepoints-to-string(65534)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(65534)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-25">
+      <description> A test whose essence is: `codepoints-to-string(65535)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(65535)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-26">
+      <description> A test whose essence is: `codepoints-to-string(65536) eq "&amp;#x10000;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(65536) eq "&#65536;"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-27">
+      <description> A test whose essence is: `codepoints-to-string(589823) eq "&amp;#x8FFFF;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(589823) eq "&#589823;"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-28">
+      <description> A test whose essence is: `codepoints-to-string(1114111) eq "&amp;#x10FFFF;"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(1114111) eq "&#1114111;"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CodepointToStringFunc-29">
+      <description> A test whose essence is: `codepoints-to-string(1114112)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoints-to-string(1114112)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+  <test-case name="cbcl-codepoints-to-string-001">
+      <description> test fn:codepoints-to-string with invalid control character </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+        declare function local:test($test as xs:integer) as xs:integer? { 
+          if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
+        }; 
+        fn:codepoints-to-string( local:test(1) to 32 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-002">
+      <description> test fn:codepoints-to-string with invalid control character </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <modified by="Michael Kay" on="2016-11-12" change="Added dependency, See bug 30001"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="xsd-version" value="1.0"/>      
+      <test>
+        declare function local:test($test as xs:integer) as xs:integer? { 
+          if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
+        }; 
+        fn:codepoints-to-string( local:test(2) to 32 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-003">
+      <description> test fn:codepoints-to-string with invalid control character </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <modified by="Michael Kay" on="2016-11-12" change="Added dependency, See bug 30001"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="xsd-version" value="1.0"/> 
+      <test>
+      declare function local:test($test as xs:integer) as xs:integer? { 
+        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 )else if ($test = 4) then ( 16 ) else () 
+      }; 
+      fn:codepoints-to-string( local:test(3) to 32 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-004">
+      <description> test fn:codepoints-to-string with invalid control character </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <modified by="Michael Kay" on="2016-11-12" change="Added dependency, See bug 30001"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="xsd-version" value="1.0"/>       
+      <test>declare function local:test($test as xs:integer) as xs:integer? { 
+        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
+      }; 
+      fn:codepoints-to-string( local:test(4) to 32 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-005">
+      <description> test fn:codepoints-to-string with codepoints above 0x10FFFF </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:codepoints-to-string( 65536 to 1114112 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-006">
+      <description> test fn:codepoints-to-string spanning surrogate characters </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:codepoints-to-string( 55295 to 55297 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-007">
+      <description> test fn:codepoints-to-string spanning surrogate characters </description>
+      <created by="Tim Mills" on="2008-04-11"/>     
+      <test>fn:codepoints-to-string( 55296 to 57343 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-008">
+      <description> test fn:codepoints-to-string spanning surrogate characters </description>
+      <created by="Tim Mills" on="2008-04-11"/>     
+      <test>fn:codepoints-to-string( 65535 to 70000 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-009">
+      <description> test fn:codepoints-to-string spanning surrogate characters </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:codepoints-to-string( 65530 to 70000 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-010">
+      <description> test fn:boolean on fn:codepoints-to-string </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:boolean(fn:codepoints-to-string( 65 to 76 ))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-011">
+      <description> test fn:boolean on fn:codepoints-to-string </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:boolean(fn:codepoints-to-string( 0 ))</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-012">
+      <description> test fn:boolean on fn:codepoints-to-string </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:boolean(fn:codepoints-to-string( 999999999 ))</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-013">
+      <description> test fn:boolean on fn:codepoints-to-string </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:boolean(fn:codepoints-to-string( 65 ))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-014">
+      <description> test fn:boolean on fn:codepoints-to-string </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:boolean(fn:codepoints-to-string( () ))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-015">
+      <description> fn:codepoints-to-string on multibyte ranges </description>
+      <created by="Oliver Hallam" on="2008-04-15"/>      
+      <test>deep-equal( fn:string-to-codepoints(fn:codepoints-to-string(65536 to 66000)), 65536 to 66000 )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-016">
+      <description> fn:codepoints-to-string on multibyte ranges </description>
+      <created by="Oliver Hallam" on="2008-04-15"/>      
+      <test>deep-equal( fn:string-to-codepoints(fn:codepoints-to-string(65536 to 100000)), 65536 to 100000 )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-017">
+      <description> Test codepoints to string on a range, returning a boolean </description>
+      <created by="Nick Jones" on="2008-06-12"/>
+      <test>for $x in 32 to 64 return boolean(codepoints-to-string($x to $x + 10))</test>
+      <result>
+         <assert-string-value>true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-018">
+      <description> Tries to force evaluate to item on codepoint-to-string </description>
+      <created by="Nick Jones" on="2008-06-13"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[if(5 < exactly-one((1 to 10)[. div 2 = 5])) then codepoints-to-string(32 to exactly-one((1 to 100)[. div 2 = 40])) else ()]]></test>
+      <result>
+         <assert-string-value> !"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOP</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-019">
+      <description> Tests for calling EvaluateToOptionalItem </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>for $x in 65 to 75 return string-length(codepoints-to-string($x to $x+10))</test>
+      <result>
+         <assert-string-value>11 11 11 11 11 11 11 11 11 11 11</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-020">
+      <description> Tests false returns from TryArguments </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>for $x in 65 to 75 return boolean(codepoints-to-string($x[. mod 2 = 0] to ($x+9)[. mod 2 = 0]))</test>
+      <result>
+         <assert-string-value>false false false false false false false false false false false</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-021">
+      <description> Tests overflows </description>
+      <created by="Nick Jones" on="2008-06-16"/>   
+      <modified by="Michael Kay" on="2015-01-03" change="See bug 27719"/>       
+      <dependency type="spec" value="XQ10+ XP30+"/>
+      <dependency type="problem" value="HUGE RANGE"/>
+      <test>let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string(65 to $x)</test>
+      <result>
+         <any-of>
+            <error code="FOCH0001"/>
+            <error code="XPDY0130"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-022">
+      <description> Tests overflows </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <dependency type="problem" value="HUGE RANGE"/>
+      <dependency type="spec" value="XQ10+ XP30+"/>
+      <test>let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string($x to $x+10)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-023">
+      <description> Tests invalid codepoint 0xB </description>
+      <created by="Nick Jones" on="2008-06-16"/>
+      <modified by="Michael Kay" on="2013-03-19" change="add dependency"/>
+      <dependency type="xml-version" value="1.0"/>      
+      <test>for $x in 9 to 15 return codepoints-to-string($x to $x)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-024">
+      <description> Tests invalid codepoint 0xE </description>
+      <created by="Nick Jones" on="2008-06-16"/>
+      <modified by="Michael Kay" on="2013-03-19" change="add dependency, correct description"/>
+      <dependency type="xml-version" value="1.0"/>      
+      <test>for $x in 13 to 15 return codepoints-to-string($x to $x)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-025">
+      <description> Tests valid codepoints 0x9, 0xA </description>
+      <created by="Nick Jones" on="2008-06-16"/>
+      <test>for $x in 9 to 9 return codepoints-to-string($x to $x+1)</test>
+      <result>
+         <assert-eq>'&#x9;&#xa;'</assert-eq>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-026">
+      <description> Tests valid codepoint 0xD </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>for $x in 13 to 13 return codepoints-to-string($x to $x)</test>
+      <result>
+         <assert-string-value>&#xD;</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-027">
+      <description> Tests last lower codepoint case </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>for $x in (13), $y in (13,9,10) return codepoints-to-string($x to $y)</test>
+      <result>
+         <assert-string-value>&#xD;  </assert-string-value>
+      </result>
+   </test-case>   
+</test-set>

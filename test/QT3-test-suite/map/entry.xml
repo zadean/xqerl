@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="map-entry"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="map-entry">
+    <description>Tests for the map:entry function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-map-get"/>
+    <dependency type="spec" value="XP31+ XQ31+ XT30+"/>
+
+    <test-case name="map-entry-001-hof">
+        <description>Integer key, singleton value</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <modified by="Tim Mills" on="2016-06-21" change="See Bug 29676" />
+        <environment ref="map"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>map:entry(3, 5)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert-type>function(xs:anyAtomicType) as xs:integer?</assert-type>
+                <assert>$result(3) eq 5</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:size(map:remove($result, 3)) eq 0</assert>
+                <assert>map:size(map:remove($result, 1)) eq 1</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-001">
+        <description>Integer key, singleton value</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <modified by="Michael Kay" on="2015-11-26" change="remove dependency on HOF in assertions"/>
+        <environment ref="map"/>
+        <test>map:entry(3, 5)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert>$result?3 eq 5</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:size(map:remove($result, 3)) eq 0</assert>
+                <assert>map:size(map:remove($result, 1)) eq 1</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-002">
+        <description>Integer key, empty value</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay" on="2015-11-26" change="remove dependency on HOF in assertions"/>
+        <environment ref="map"/>
+        <test>map:entry(3, ())</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, empty-sequence())</assert-type>
+                <assert>empty($result?3)</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:size(map:remove($result, 3)) eq 0</assert>
+                <assert>map:size(map:remove($result, 1)) eq 1</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-003">
+        <description>String key, sequence value</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay" on="2015-11-26" change="remove dependency on HOF in assertions"/>
+        <environment ref="map"/>
+        <test>map:entry("foo", ("x", "y", "z"))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:string*)</assert-type>
+                <assert>empty($result?bar)</assert>
+                <assert>count($result?foo) eq 3</assert>
+                <assert>map:get($result, "foo") = "z"</assert>
+                <assert>map:get($result, xs:untypedAtomic("foo")) = "z"</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:size(map:remove($result, "foo")) eq 0</assert>
+                <assert>map:size(map:remove($result, "bar")) eq 1</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-004">
+        <description>Untyped atomic key, map as value</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-05-16" change="xs:untypedAtomics no longer converted to xs:string"/>
+        <modified by="Michael Kay" on="2015-11-26" change="remove dependency on HOF in assertions"/>
+        <environment ref="map"/>
+        <test>map:entry(xs:untypedAtomic("foo"), map{})</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:untypedAtomic, map(*))</assert-type>
+                <assert>empty($result?bar)</assert>
+                <assert>count($result?foo) eq 1</assert>
+                <assert>empty($result?foo?bar)</assert>
+                <assert>empty($result?(xs:untypedAtomic("foo"))?("bar"))</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-005">
+        <description>Double NaN as key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-05-16" change="NaN can now be stored in the map"/>
+        <modified by="Michael Kay" on="2015-11-26" change="remove dependency on HOF in assertions"/>
+        <environment ref="map"/>
+        <test>map:entry(number('NaN'), 'NaN')</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert>map:size($result) eq 1</assert>
+                <assert>exists($result?(number('NaN')))</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-006">
+        <description>Float NaN as key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-05-16" change="NaN can now be stored in the map"/>
+        <modified by="Michael Kay" on="2015-11-26" change="remove dependency on HOF in assertions"/>
+        <environment ref="map"/>
+        <test>map:entry(xs:float('NaN'), 'NaN')</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert>map:size($result) eq 1</assert>
+                <assert>exists($result?(number('NaN')))</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-007-hof">
+        <description>Integer key, singleton value (map-entry-001 adapted)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-02-27"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <modified by="Michael Kay" on="2015-11-26" change="remove dependency on HOF in assertions"/>
+        <environment ref="map"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>map:entry(3, 5)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert-type>function(xs:anyAtomicType) as item()*</assert-type>
+                <assert>$result?3 eq 5</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:size(map:remove($result, 3)) eq 0</assert>
+                <assert>map:size(map:remove($result, 1)) eq 1</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-entry-007">
+        <description>Integer key, singleton value (map-entry-001 adapted)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-02-27"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <modified by="Michael Kay" on="2015-11-26" change="remove dependency on HOF in assertions"/>
+        <environment ref="map"/>
+        <test>map:entry(3, 5)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert>$result?3 eq 5</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:size(map:remove($result, 3)) eq 0</assert>
+                <assert>map:size(map:remove($result, 1)) eq 1</assert>
+            </all-of>
+        </result>
+    </test-case>
+ 
+
+</test-set>

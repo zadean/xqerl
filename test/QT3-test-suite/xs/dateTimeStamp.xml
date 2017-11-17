@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="xs-dateTimeStamp" covers-30="xsd11">
+   <description>Tests for the xs:dateTimeStamp values</description>
+
+   <dependency type="xsd-version" value="1.1"/>
+
+   <test-case name="xs-dateTimeStamp-1">
+      <description>Make sure the value returned by current-dateTime() includes a timezone</description>
+      <created by="Norman Walsh" on="2011-07-28"/>
+      <test>exists(fn:timezone-from-dateTime(fn:current-dateTime()))</test>
+      <result>
+         <assert-eq>true()</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xs-dateTimeStamp-2">
+      <description>Make sure xs:dateTimeStamp() has a timezone</description>
+      <created by="Norman Walsh" on="2011-07-28"/>
+      <modified by="Michael Kay" on="2011-07-29" change="add hyphens to date part"/>
+      <test>exists(fn:timezone-from-dateTime(xs:dateTimeStamp("2011-07-28T12:34:56-08:00")))</test>
+      <result>
+         <assert-eq>true()</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xs-dateTimeStamp-3">
+      <description>Make sure an attempt to create an xs:dateTimeStamp() w/o a timezone fails</description>
+      <created by="Norman Walsh" on="2011-07-28"/>
+      <modified by="Michael Kay" on="2011-07-29" change="make test name unique, change expected error"/>
+      <test>xs:dateTimeStamp("2011-07-28T12:34:56")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+
+
+
+</test-set>

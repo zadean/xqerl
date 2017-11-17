@@ -1,0 +1,37 @@
+<gnt>
+<s>
+ <w pos="PP">I</w>
+ <w pos="V" lemma="go">go</w>
+ <pu>.</pu>
+</s>
+<s>
+ <w pos="PP">She</w>
+ <w pos="V" lemma="go">went</w>
+ <pu>.</pu>
+</s>
+<s>
+ <w pos="PP">He</w>
+ <w pos="V" lemma="go">goes</w>
+ <pu>.</pu>
+</s>
+<s>
+ <w pos="PP">I</w>
+ <w pos="V" lemma="see">see</w>
+ <pu>.</pu>
+</s>
+<s>
+ <w pos="PP">She</w>
+ <w pos="V" lemma="see">sees</w>
+ <pu>.</pu>
+</s>
+<s>
+ <w pos="PP">I</w>
+ <w pos="V" lemma="have">have</w>
+ <pu>.</pu>
+</s>
+<s>
+ <w pos="PP">She</w>
+ <w pos="V" lemma="have">has</w>
+ <pu>.</pu>
+</s>
+</gnt>

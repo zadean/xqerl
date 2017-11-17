@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<far-north xmlns="http://example.com/default-ns">
+  <north xmlns="http://example.com/north-ns">
+    <nn:near-north xmlns:nn="http://example.com/north-ns" xmlns="">
+      <far-west/>
+      <west/>
+      <near-west/>
+      <center/>
+      <near-east/>
+      <east/>
+      <far-east/>
+    </nn:near-north>
+  </north>
+</far-north>

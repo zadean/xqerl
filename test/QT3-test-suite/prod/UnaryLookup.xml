@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-UnaryLookup" covers="unary-lookup">
+   <description>Tests for the Unary Lookup operator on maps and arrays in XQuery 3.1</description>
+             
+
+   <test-case name="UnaryLookup-001">
+      <description>Integer subscript into an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])[?1 eq 'c']</test>
+      <result>
+         <assert-deep-eq>['c', 'd']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-002">
+      <description>Variable subscript into an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $i := 1 return (['a', 'b'], ['c', 'd'])[?($i) eq 'c']</test>
+      <result>
+         <assert-deep-eq>['c', 'd']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-003">
+      <description>Integer subscript into an array: leading zeroes allowed</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])[ ? 001 eq 'c']</test>
+      <result>
+         <assert-deep-eq>['c', 'd']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-004">
+      <description>Integer subscript into an array: minus sign not allowed</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])[ ? -1 eq 'c']</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-005">
+      <description>Integer subscript into an array: array index too low</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])[ ?0 eq 'c']</test>
+      <result>
+         <error code="FOAY0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-006">
+      <description>Integer subscript into an array: array index too high</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'], ['e'])[ ?2 eq 'b']</test>
+      <result>
+         <error code="FOAY0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-007">
+      <description>Integer subscript into an array: range of subscripts</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ ?(1 to 2) = 'b']</test>
+      <result>
+         <assert-deep-eq>['a', 'b', 'c'], ['b', 'c', 'd']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-008">
+      <description>Integer subscript into an array: variable range of subscripts</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $i := (1, 3) return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ ?($i) = 'b']</test>
+      <result>
+         <assert-deep-eq>['b', 'c', 'd'], ['e', 'f', 'b']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-009">
+      <description>Name lookup into an array: type error</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ ?first = 'b']</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-010">
+      <description>Variable lookup into an array: type error</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $d := current-date() return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ ?($d) = 'b']</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-011">
+      <description>Unary lookup with no context item</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>let $d := function($x) {$x + ?2} return $d(12)</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-012">
+      <description>Unary lookup when context item is not an array or map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(1 to 10)[?1 = 3]</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-013">
+      <description>Unary lookup when context item is a function but not an array or map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>(floor#1, ceiling#1, round#1, abs#1)[?1 = 1]</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-014">
+      <description>Unary lookup selecting all items of an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ ?* = 'c']</test>
+      <result>
+         <assert-deep-eq>['a', 'b', 'c'], ['b', 'c', 'd']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-015">
+      <description>Result of Unary lookup is atomized</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>([1, [2], [3]], [[2], 2, [4]])[ ?1 = ?2 ]</test>
+      <result>
+         <assert-deep-eq>[[2], 2, [4]]</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-016">
+      <description>No syntactic confusion with place-markers</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(?1, ?, 'http://www.w3.org/2005/xpath-functions/collation/codepoint')('a')]</test>
+      <result>
+         <assert-deep-eq>['a', 'b', 'c']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-017">
+      <description>No syntactic confusion with place-markers</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(?1, ?)('a')]</test>
+      <result>
+         <assert-deep-eq>['a', 'b', 'c']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-018">
+      <description>Decimal literal not allowed</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <modified by="Michael Dyck" on="2014-12-10" change="change expected error from XPST0001 to XPST0003"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[?1.0 = 'a']</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-019">
+      <description>Decimal literal not allowed in parentheses</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[?(1.0) = 'a']</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-020">
+      <description>Subscript is atomized</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+        let $x := (validate type xs:integer {<x>1</x>}, validate type xs:integer {<y>2</y>}) return
+        (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[?($x) = 'b']
+      ]]></test>
+      <result>
+         <assert-deep-eq>(['a', 'b', 'c'], ['b', 'c', 'd'])</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-021">
+      <description>Subscript is atomized, and untypedAtomic is converted to xs:integer</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        let $x := (<x>1</x>, <y>2</y>) return
+        (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[?($x) = 'b']
+      ]]></test>
+      <result>
+         <assert-deep-eq>(['a', 'b', 'c'], ['b', 'c', 'd'])</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-022">
+      <description>Filtering a sequence of arrays produced using ?*</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']]?*[?1 = 'a']</test>
+      <result>
+         <assert-deep-eq>['a', 'b', 'c']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-023">
+      <description>Unary lookup on rhs of "!"</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']]!?*!?1</test>
+      <result>
+         <assert-deep-eq>'a', 'b', 'e'</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-024">
+      <description>Unary lookup on rhs of "/". Must fail because context item can only be a node.</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        let $x := (<x>1</x>, <y>2</y>) return $x / ?1
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-025">
+      <description>Select nothing from an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[exists(?())]</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-040">
+      <description>Lookup by name in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{'a':1, 'b':2, 'c':3},  map{'a':2, 'b':3, 'c':4})[?b eq 3]</test>
+      <result>
+         <assert-deep-eq>map{'a':2, 'b':3, 'c':4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-041">
+      <description>Lookup by number in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[?2 eq 3]</test>
+      <result>
+         <assert-deep-eq>map{1:2, 2:3, 3:4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-042">
+      <description>Lookup by range of values in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[?(1 to 2) = 3]</test>
+      <result>
+         <assert-deep-eq>map{1:2, 2:3, 3:4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-043">
+      <description>Lookup by hyphenated name in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})[?b-1 eq 3]</test>
+      <result>
+         <assert-deep-eq>map{'a-1':2, 'b-1':3, 'c-1':4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-044">
+      <description>Comment appearing after "?"</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})[? (:confusing?:) b-1 eq 3]</test>
+      <result>
+         <assert-deep-eq>map{'a-1':2, 'b-1':3, 'c-1':4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-045">
+      <description>Get all entries in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[?* = 3]</test>
+      <result>
+         <assert-deep-eq>map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-046">
+      <description>Select nothing from a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[exists(?())]</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-047">
+      <description>Decimal literal not allowed for maps</description>
+      <created by="Debbie Lockett" on="2015-07-17"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1.1:1, 2.2:2, 3.3:3},  map{1.1:2, 2.2:3, 3.3:4})[?2.2 = 3]</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-048">
+      <description>Decimal literal allowed in parentheses for maps</description>
+      <created by="Debbie Lockett" on="2015-07-17"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1.1:1, 2.2:2, 3.3:3},  map{1.1:2, 2.2:3, 3.3:4})[?(2.2) = 3]?(3.3)</test>
+      <result>
+         <assert-eq>4</assert-eq>
+      </result>
+   </test-case>
+
+</test-set>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<foo 
+	xmlns="http://test.com/QNameComparisonTest" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.w3.org/XQueryTest/QNameComparisonTest qischema080.xsd">
+	<x xmlns:iso1="http://www.xbrl.org/2003/iso4217">iso1:GBP</x>
+	<x xmlns:iso2="http://www.xbrl.org/2003/iso4217">iso2:GBP</x>
+	</foo>

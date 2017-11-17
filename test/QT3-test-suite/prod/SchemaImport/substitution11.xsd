@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<!-- Element in more than one substitution group - requires XSD 1.1 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.w3.org/XQueryTest/substitution11"
+           elementFormDefault="qualified"
+           xmlns:s="http://www.w3.org/XQueryTest/substitution11">
+
+  <xs:complexType name="Ht" block="extension">
+  <xs:sequence>
+    <xs:element name="string" type="xs:string" minOccurs="0"/>
+    <xs:element name="decimal" type="xs:decimal" minOccurs="0"/>
+  </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="HtR">
+  <xs:complexContent>
+    <xs:restriction base="s:Ht">
+      <xs:sequence>
+        <xs:element name="string" type="xs:string" minOccurs="1"/>
+        <xs:element name="decimal" type="xs:decimal" minOccurs="1"/>
+      </xs:sequence>  
+    </xs:restriction>
+  </xs:complexContent>
+</xs:complexType>
+  
+  <xs:complexType name="HtRR">
+    <xs:complexContent>
+      <xs:restriction base="s:HtR">
+        <xs:sequence>
+          <xs:element name="string" type="xs:NCName" minOccurs="1"/>
+          <xs:element name="decimal" type="xs:decimal" minOccurs="1"/>
+        </xs:sequence>  
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>  
+
+<xs:complexType name="HtE">
+  <xs:complexContent>
+    <xs:extension base="s:Ht">
+      <xs:sequence>
+        <xs:element name="date" type="xs:date" minOccurs="0"/>
+      </xs:sequence>
+    </xs:extension>
+  </xs:complexContent>
+</xs:complexType>          
+           
+<xs:element name="H1" type="s:Ht" nillable="true"/>
+  
+<xs:element name="H2" type="s:Ht" nillable="true"/>  
+
+<xs:element name="A" abstract="true" substitutionGroup="s:H1 s:H2" nillable="true"/>
+
+<xs:element name="B" abstract="false" substitutionGroup="s:A" nillable="true"/> 
+  
+<xs:element name="C" abstract="false" substitutionGroup="s:A" nillable="false"/>   
+
+
+
+<xs:element name="cuckoo">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element name="A" type="s:Ht"/>
+      <xs:element name="B" type="s:Ht"/>
+      <xs:element name="C" type="s:Ht" nillable="true"/>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>      
+
+</xs:schema>

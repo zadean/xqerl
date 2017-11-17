@@ -1,0 +1,78 @@
+<xs:schema
+   xmlns:xs = "http://www.w3.org/2001/XMLSchema"
+   xmlns:cd = "http://www.cbcl.co.uk/XQueryTest/complexData"
+   targetNamespace = "http://www.cbcl.co.uk/XQueryTest/complexData"
+    elementFormDefault = "qualified">
+  
+  <xs:simpleType name="shortString">
+    <xs:restriction base="xs:string">
+      <xs:length value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="smallInt">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="3" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="union">
+    <xs:union memberTypes="cd:shortString cd:smallInt" />
+  </xs:simpleType>
+
+  <xs:simpleType name="list">
+    <xs:list itemType="cd:smallInt" />
+  </xs:simpleType>
+
+  <xs:simpleType name="unionWithList">
+    <xs:union memberTypes="cd:shortString cd:list" />
+  </xs:simpleType>
+
+  <xs:simpleType name="listOfUnion">
+    <xs:list itemType="cd:union" />
+  </xs:simpleType>
+
+  <xs:complexType name="complexTypeWithSimpleUnionContent">
+    <xs:simpleContent>
+      <xs:extension base="cd:unionWithList" />
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="complexTypeWithSimpleListContent">
+    <xs:simpleContent>
+      <xs:extension base="cd:list" />
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="restrictedComplexTypeWithSimpleUnionContent">
+    <xs:simpleContent>
+      <xs:restriction base="cd:complexTypeWithSimpleUnionContent" />
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:element name="complexTypeWithSimpleContent">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="cd:shortString">
+          <xs:attribute name="value" type="cd:shortString" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+    
+  <xs:element name="integers" type="cd:complexTypeWithSimpleListContent" />
+  
+  <xs:element name="complexData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cd:complexTypeWithSimpleContent" />
+        <xs:element name="unionType" type="cd:union"/>
+        <xs:element name="listType" type="cd:list"/>
+        <xs:element name="unionWithList" type="cd:unionWithList" />
+        <xs:element name="extendedComplexTypeWithSimpleUnionContent" type="cd:restrictedComplexTypeWithSimpleUnionContent" />
+        <xs:element name="listOfUnion" type="cd:listOfUnion"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

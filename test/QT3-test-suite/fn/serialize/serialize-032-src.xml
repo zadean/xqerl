@@ -1,0 +1,4 @@
+<doc>
+  <title>A document</title>
+  <p>A paragraph containing a character $ which should be mapped to a different one</p>
+</doc>

@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog"
+          name="prod-CompNamespaceConstructor" covers-30="computed-namespace">
+   <description>Tests for the computed namespace constructor expression added in XQuery 3.0</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-prod-CompNamespaceConstructor"/>
+   <link type="spec" document="XQuery 3.0" section-number="3.7.3.7"
+         idref="id-computed-namespaces"/>
+
+   <environment name="cnc-schema" >
+     <schema uri="http://www.w3.org/TestSchemas/cnc" file="CompNamespaceConstructor/schema.xsd">
+       <description>A schema defining a simple types.</description>
+       <created by="Till Westmann" on="2011-11-28"/>
+     </schema>
+   </environment> 
+         
+   <dependency type="spec" value="XQ30+"/>      
+
+   <test-case name="nscons-001">
+      <description>nscons-001 - dynamic namespace constructor - variable content </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "http://saxon.sf.net/"; 
+        declare variable $xsl := "http://www.w3.org/1999/XSL/Transform"; 
+        <e>{ namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl} }</e>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-002">
+      <description>nscons-002 - dynamic namespace constructor - variable name </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "saxon"; 
+        declare variable $xsl := "xsl"; 
+        <e>{ namespace {$s} {"http://saxon.sf.net/"}, 
+             attribute a {23}, 
+             namespace {$xsl} {"http://www.w3.org/1999/XSL/Transform"} }</e>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-003">
+      <description>nscons-003 - dynamic namespace constructor - default namespace </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "saxon"; 
+        declare variable $xsl := "xsl"; 
+        <out> <t:e xmlns:t="http://www.example.com/">{ 
+            namespace {""} {"http://saxon.sf.net/"}, 
+            attribute a {23}, 
+            namespace {$xsl} {"http://www.w3.org/1999/XSL/Transform"}, <f/> }</t:e> </out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><t:e xmlns:t="http://www.example.com/" xmlns="http://saxon.sf.net/"
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"><f xmlns=""/></t:e></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-004" covers-30="reserved-namespaces">
+      <description>nscons-004 - dynamic namespace constructor - xml namespace </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "saxon"; 
+        declare variable $xml := "http://www.w3.org/XML/1998/namespace"; 
+        <out> <t:e xmlns:t="http://www.example.com/" xml:space="preserve">{ 
+            namespace xml {"http://www.w3.org/XML/1998/namespace"}, 
+            attribute a {23}, <f/> }</t:e> </out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><t:e xmlns:t="http://www.example.com/" xml:space="preserve" a="23"><f/></t:e></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-005">
+      <description>nscons-005 - dynamic namespace constructor - with dynamic element constructor </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test>
+        declare variable $s := "http://saxon.sf.net/"; 
+        declare variable $xsl := "http://www.w3.org/1999/XSL/Transform"; 
+        element {QName("http://saxon.sf.net/", "saxon:extension")} { namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl}, element f {42} }
+      </test>
+      <result>
+         <assert-xml><![CDATA[<saxon:extension xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+            a="23"><f>42</f></saxon:extension>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-006">
+      <description>nscons-006 - dynamic namespace constructor - duplicates are OK </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test>
+        declare variable $s := "http://saxon.sf.net/"; 
+        declare variable $xsl := "http://www.w3.org/1999/XSL/Transform"; 
+        element {QName("http://saxon.sf.net/", "saxon:extension")} 
+                { namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl}, namespace saxon {$s}, element f {42} }
+      </test>
+      <result>
+         <assert-xml><![CDATA[<saxon:extension xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                 a="23"><f>42</f></saxon:extension>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-007">
+      <description>nscons-007 - dynamic namespace constructor - error, misuse of xmlns </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "http://saxon.sf.net/"; 
+        declare variable $xsl := "http://www.w3.org/1999/XSL/Transform"; 
+        declare variable $xmlns := "xmlns"; 
+        <e> { namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl}, namespace xmlns {$s}, element f {42} }</e>
+      ]]></test>
+      <result>
+         <error code="XQDY0101"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-008">
+      <description>nscons-008 - dynamic namespace constructor - error, misuse of xml </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "http://saxon.sf.net/"; 
+        declare variable $xsl := "http://www.w3.org/1999/XSL/Transform"; 
+        declare variable $xmlns := "xml"; 
+        <e> { namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl}, namespace {$xmlns} {$s}, element f {42} }</e>
+      ]]></test>
+      <result>
+         <error code="XQDY0101"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-009">
+      <description>nscons-009 - dynamic namespace constructor - error, two bindings of same prefix </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $p1 := "http://example.com/one"; 
+        declare variable $p2 := "http://example.com/two"; 
+        <e> { namespace p {$p1}, namespace p {$p2}, element f {42} }</e>
+      ]]></test>
+      <result>
+         <error code="XQDY0102"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-010">
+      <description>nscons-010 - dynamic namespace constructor - requires renaming of attribute node creates an arbitrary prefix for the attribute, so this test is designed to remove the arbitrariness </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $p1 := "http://example.com/one"; 
+        declare variable $p2 := "http://example.com/two"; 
+        declare variable $r := <e> { namespace p {$p1}, attribute {QName($p2, "p:att")} {93.7}, element f {42} }</e>; 
+        <out> { exists($r/@*:att[prefix-from-QName(node-name(.))!='p']), exists(in-scope-prefixes($r)[.='p']) }</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>true true</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-011">
+      <description>nscons-010 - dynamic namespace constructor - requires renaming of element node creates an arbitrary prefix 
+        for the attribute, so this test is designed to remove the arbitrariness </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $p1 := "http://example.com/one"; 
+        declare variable $p2 := "http://example.com/two"; 
+        declare variable $r := element {QName($p2, 'p:e')} { namespace p {$p1}, element f {42} }; 
+        <out> { exists($r[prefix-from-QName(node-name(.))!='p']), exists(in-scope-prefixes($r)[.='p']) }</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>true true</out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-012">
+      <description>nscons-012 - dynamic namespace constructor - show some properties of the namespace node </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $p1 := "http://example.com/one"; 
+        declare variable $p2 := "http://example.com/two"; 
+        declare function local:f($ns as namespace-node()) as element() { 
+            <namespace name="{name($ns)}" local-name="{local-name($ns)}" 
+                namespace-uri="{namespace-uri($ns)}" string-value="{string($ns)}" typed-value="{data($ns)}" 
+                is-untyped="{data($ns) instance of xs:untypedAtomic}" parent-exists="{exists($ns/..)}" 
+                is-namespace="{$ns instance of namespace-node()}" 
+                is-node="{$ns instance of node()}" is-item="{$ns instance of item()}" 
+                same-as-self="{$ns is $ns}"/> 
+        }; 
+        <out>{ 
+            local:f(namespace p {"http://example.com/one"}), 
+            local:f(namespace {""} {"http://example.com/two"}) }</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><namespace 
+              same-as-self="true" is-namespace="true" namespace-uri="" is-item="true"
+              typed-value="http://example.com/one"
+              is-untyped="false"
+              string-value="http://example.com/one"
+              local-name="p"
+              parent-exists="false"
+              name="p"
+              is-node="true"/><namespace 
+              same-as-self="true" is-namespace="true" namespace-uri="" is-item="true"
+              typed-value="http://example.com/two"
+              is-untyped="false"
+              string-value="http://example.com/two"
+              local-name=""
+              parent-exists="false"
+              name=""
+              is-node="true"/></out>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-013">
+      <description>nscons-013 - dynamic namespace constructor - atomization of prefix expression</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        let $pre := <prefix>z</prefix>,
+            $uri := "http://www.zorba-xquery.com/"
+        return
+          <e>{ namespace { $pre } { $uri } }</e>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:z="http://www.zorba-xquery.com/"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-014">
+      <description>nscons-014 - dynamic namespace constructor - prefix from string</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        let $pre := "z",
+            $uri := "http://www.zorba-xquery.com/"
+        return
+          <e>{ namespace { $pre } { $uri } }</e>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:z="http://www.zorba-xquery.com/"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-015">
+      <description>nscons-015 - dynamic namespace constructor - prefix expression is empty</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        declare namespace z="http://www.zorba-xquery.com/";
+        <z:e>{ namespace { <a/>/* } { "http://www.w3.org/" } }</z:e>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<z:e xmlns:z="http://www.zorba-xquery.com/" xmlns="http://www.w3.org/" />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-016">
+      <description>nscons-016 - dynamic namespace constructor - untypedAtomic prefix expression can not be cast to ncname</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        let $pre := <prefix>z:z</prefix>,
+            $uri := "http://www.zorba-xquery.com/"
+        return
+          <e>{ namespace { $pre } { $uri } }</e>
+      ]]></test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-017">
+      <description>nscons-017 - dynamic namespace constructor - string prefix expression can not be cast to ncname</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        let $pre := "z z",
+            $uri := "http://www.zorba-xquery.com/"
+        return
+          <e>{ namespace { $pre } { $uri } }</e>
+      ]]></test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-018">
+      <description>nscons-018 - dynamic namespace constructor - prefix expression is not string/untypedAtomic</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        let $pre := 1,
+            $uri := "http://www.zorba-xquery.com/"
+        return
+          <e>{ namespace { $pre } { $uri } }</e>
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-019" covers-30="reserved-namespaces">
+      <description>nscons-019 - dynamic namespace constructor - bind a prefix other than xml to the namespace URI http://www.w3.org/XML/1998/namespace</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        let $uri := "http://www.w3.org/XML/1998/namespace"
+        return
+          <e>{ namespace x { $uri } }</e>
+      ]]></test>
+      <result>
+         <error code="XQDY0101"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-020" covers-30="reserved-namespaces">
+      <description>nscons-020 - dynamic namespace constructor - bind a prefix to the namespace URI http://www.w3.org/2000/xmlns/</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        let $uri := "http://www.w3.org/2000/xmlns/"
+        return
+          <e>{ namespace x { $uri } }</e>
+      ]]></test>
+      <result>
+         <error code="XQDY0101"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-021">
+      <description>nscons-021 - dynamic namespace constructor - bind any prefix to a zero-length namespace URI</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        <e>{ namespace x { "" } }</e>
+      ]]></test>
+      <result>
+         <error code="XQDY0101"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-022">
+      <description>nscons-022 - dynamic namespace constructor - added to the element's in-scope namespaces</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        let $elem := <e>{ namespace z { "http://www.zorba-xquery.com/" } }</e>
+        return
+          element { resolve-QName("z:f", $elem) } {}
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<z:f xmlns:z="http://www.zorba-xquery.com/" />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-023">
+      <description>nscons-023 - dynamic namespace constructor - no effect on the statically known namespaces</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        <z:e>{ namespace z { "http://www.zorba-xquery.com/" } }</z:e>
+      ]]></test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-024">
+      <description>nscons-024 - dynamic namespace constructor - no effect on the statically known namespaces</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        <e>{ namespace z { "http://www.zorba-xquery.com/" }, element z:e {} }</e>
+      ]]></test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-025">
+      <description>nscons-025 - dynamic namespace constructor - no effect on the statically known namespaces</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        element e { attribute z:a {},  namespace z { "http://www.zorba-xquery.com/" } }
+      ]]></test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-026">
+      <description>nscons-026 - dynamic namespace constructor - no effect on the statically known namespaces</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        <e>{ namespace z { "http://www.zorba-xquery.com/" }, element { xs:QName("z:e") } { } }</e>
+      ]]></test>
+      <result>
+         <error code="FONS0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-027">
+      <description>nscons-027 - dynamic namespace constructor - return namespace node from module</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <module uri="http://www.w3.org/TestModules/cnc-module" file="CompNamespaceConstructor/cnc-module.xq"/>
+      <test><![CDATA[
+        import module namespace mod1="http://www.w3.org/TestModules/cnc-module";
+        let $elem := <e>{ mod1:one() }</e>
+        return
+          element { resolve-QName("z:f", $elem) } {}
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<z:f xmlns:z="http://www.zorba-xquery.com/" />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-028">
+      <description>nscons-028 - dynamic namespace constructor - node equality and modules</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <module uri="http://www.w3.org/TestModules/cnc-module" file="CompNamespaceConstructor/cnc-module.xq"/>
+      <test><![CDATA[
+        import module namespace mod1="http://www.w3.org/TestModules/cnc-module";
+        let $ns := mod1:one()
+        return ($ns is $ns, $ns is mod1:one())
+      ]]></test>
+      <result>
+        <assert-string-value>true false</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-029">
+      <description>nscons-029 - dynamic namespace constructor - serialization of namespace node</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        serialize( namespace z { "http://www.zorba-xquery.com/" } )
+      ]]></test>
+      <result>
+         <error code="SENR0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-030">
+      <description>nscons-030 - dynamic namespace constructor - serialization of element with namespace node</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        serialize( element e { namespace z { "http://www.zorba-xquery.com/" } } )
+      ]]></test>
+      <result>
+        <all-of>
+            <assert>contains($result,'xmlns:z')</assert>
+            <assert>contains($result,'"http://www.zorba-xquery.com/"')</assert>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-031">
+      <description>nscons-031 - dynamic namespace constructor - copy namespaces mode</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        declare copy-namespaces preserve, inherit;
+        let $nested := 
+            element outer { 
+              namespace out { "http://out.zorba-xquery.com/" },
+              element inner {
+                namespace in { "http://in.zorba-xquery.com/" }
+              } 
+            },
+            $elem := element e { namespace new { "http://new.zorba-xquery.com/" }, $nested }
+        return
+          $elem/outer/inner
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" xmlns:out="http://out.zorba-xquery.com/" xmlns:in="http://in.zorba-xquery.com/" />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-032">
+      <description>nscons-032 - dynamic namespace constructor - copy namespaces mode</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        declare copy-namespaces preserve, no-inherit;
+        let $nested := 
+            element outer { 
+              namespace out { "http://out.zorba-xquery.com/" },
+              element inner { namespace in { "http://in.zorba-xquery.com/" } } 
+            },
+            $elem := element e { namespace new { "http://new.zorba-xquery.com/" }, $nested }
+        return
+          $elem/outer/inner
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<inner xmlns:in="http://in.zorba-xquery.com/" />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-033">
+      <description>nscons-033 - dynamic namespace constructor - copy namespaces mode</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        declare copy-namespaces no-preserve, inherit;
+        let $nested := 
+            element outer { 
+              namespace out { "http://out.zorba-xquery.com/" },
+              element inner { namespace in { "http://in.zorba-xquery.com/" } } 
+            },
+            $elem := element e { namespace new { "http://new.zorba-xquery.com/" }, $nested }
+        return
+          $elem/outer/inner
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-034">
+      <description>nscons-034 - dynamic namespace constructor - copy namespaces mode</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        declare copy-namespaces no-preserve, no-inherit;
+        let $nested := 
+            element outer { 
+              namespace out { "http://out.zorba-xquery.com/" },
+              element inner { namespace in { "http://in.zorba-xquery.com/" } } 
+            },
+            $elem := element e { namespace new { "http://new.zorba-xquery.com/" }, $nested }
+        return
+          $elem/outer/inner
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<inner/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-035">
+      <description>nscons-035 - dynamic namespace constructor - copy namespaces mode and modules</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <module uri="http://www.w3.org/TestModules/cnc-module" file="CompNamespaceConstructor/cnc-module.xq"/>
+      <test><![CDATA[
+        import module namespace mod1="http://www.w3.org/TestModules/cnc-module";
+        declare copy-namespaces preserve, inherit;
+        let $nested := mod1:nested(),
+            $elem := element e { namespace new { "http://new.zorba-xquery.com/" }, $nested }
+        return
+          $elem/outer/inner
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" xmlns:out="http://out.zorba-xquery.com/" xmlns:in="http://in.zorba-xquery.com/" />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-036">
+      <description>nscons-036 - dynamic namespace constructor - copy namespaces mode and modules</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <module uri="http://www.w3.org/TestModules/cnc-module" file="CompNamespaceConstructor/cnc-module.xq"/>
+      <test><![CDATA[
+        import module namespace mod1="http://www.w3.org/TestModules/cnc-module";
+        declare copy-namespaces preserve, no-inherit;
+        let $nested := mod1:nested(),
+            $elem := element e { namespace new { "http://new.zorba-xquery.com/" }, $nested }
+        return
+          $elem/outer/inner
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<inner xmlns:in="http://in.zorba-xquery.com/" xmlns:out="http://out.zorba-xquery.com/" />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-037">
+      <description>nscons-037 - dynamic namespace constructor - copy namespaces mode and modules</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <module uri="http://www.w3.org/TestModules/cnc-module" file="CompNamespaceConstructor/cnc-module.xq"/>
+      <test><![CDATA[
+        import module namespace mod1="http://www.w3.org/TestModules/cnc-module";
+        declare copy-namespaces no-preserve, inherit;
+        let $nested := mod1:nested(),
+            $elem := element e { namespace new { "http://new.zorba-xquery.com/" }, $nested }
+        return
+          $elem/outer/inner
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-038">
+      <description>nscons-038 - dynamic namespace constructor - copy namespaces mode and modules</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <module uri="http://www.w3.org/TestModules/cnc-module" file="CompNamespaceConstructor/cnc-module.xq"/>
+      <test><![CDATA[
+        import module namespace mod1="http://www.w3.org/TestModules/cnc-module";
+        declare copy-namespaces no-preserve, no-inherit;
+        let $nested := mod1:nested(),
+            $elem := element e { namespace new { "http://new.zorba-xquery.com/" }, $nested }
+        return
+          $elem/outer/inner
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<inner/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-039">
+      <description>nscons-039 - dynamic namespace constructor - recursively inherit namespaces</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <test><![CDATA[
+        declare copy-namespaces preserve, inherit;
+        
+        declare function local:rec-add($level as xs:integer) as element() {
+          if ($level > 0) then
+            element { concat("e", $level) } { 
+              namespace { concat("pre", $level) } { concat("uri", $level) },
+              local:rec-add($level - 1)
+            }
+          else
+            element e0 {}       
+        };
+
+        local:rec-add(2)/e1/e0
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<e0 xmlns:pre2="uri2" xmlns:pre1="uri1" />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-040">
+      <description>nscons-040 - dynamic namespace constructor - use during validation</description>      
+      <created by="Till Westmann" on="2011-11-28"/>
+      <environment ref="cnc-schema"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import schema namespace cnc="http://www.w3.org/TestSchemas/cnc";
+
+        validate { 
+          <cnc:value xsi:type="xs:int" >{ 10 }</cnc:value>
+        }
+      ]]></test>
+      <result>
+        <error code="XQDY0027"/>
+      </result>
+   </test-case>
+   
+   <test-case name="nscons-041">
+      <description>nscons-041 - dynamic namespace constructor - use during validation</description>
+      <created by="Till Westmann" on="2011-11-28"/>
+      <environment ref="cnc-schema"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import schema namespace cnc="http://www.w3.org/TestSchemas/cnc";
+
+        let $xs  := namespace xs { "http://www.w3.org/2001/XMLSchema" },
+            $val := validate { 
+                      <cnc:value xsi:type="xs:int" >{ $xs, 10 }</cnc:value>
+                    }
+        return
+          data($val) instance of xs:int
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="nscons-042">
+      <description>
+      	nscons-042 - dynamic namespace constructor - add default namespace to element in no namespace.
+      	See spec bug 22032. 
+      </description>
+      <created by="Michael Kay" on="2013-05-14"/>
+      <modified by="Michael Kay" on="2013-05-21" change="confirmed error code"/>
+      <test>
+        element e { namespace {''} {'http://example.com/uri'} }
+      </test>
+      <result>
+         <error code="XQDY0102"/>
+      </result>
+   </test-case>
+   
+   <test-case name="nscons-043">
+      <description>nscons-043 - dynamic namespace constructor - prefix expression is not string/untypedAtomic</description>
+      <created by="Michael Kay" on="2014-08-17"/>
+      <test><![CDATA[
+        let $pre := xs:anyURI('ns'),
+            $uri := "http://www.zorba-xquery.com/"
+        return
+          <e>{ namespace { $pre } { $uri } }</e>
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="nscons-044">
+      <description>nscons-044 - dynamic namespace constructor - prefix expression is not string/untypedAtomic</description>
+      <created by="Michael Kay" on="2014-08-17"/>
+      <test><![CDATA[
+        let $pre := xs:duration('P1D'),
+            $uri := "http://www.zorba-xquery.com/"
+        return
+          <e>{ namespace { $pre } { $uri } }</e>
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   
+</test-set>

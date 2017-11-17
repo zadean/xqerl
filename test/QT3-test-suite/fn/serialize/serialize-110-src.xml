@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<doc>
+<chapter xmlns:p="http://www.example.org/ns/p"><section><para><b>bold</b><i>italic</i><p:b>BOLD</p:b><p:i>ITALIC</p:i></para></section></chapter>
+</doc>

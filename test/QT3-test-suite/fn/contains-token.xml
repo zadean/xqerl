@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-contains-token" covers="fn-contains-token">
+   <description>Tests the fn:contains-token() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+         idref="func-contains-token"/>
+
+   <test-case name="fn-contains-token-09">
+      <description> contains-token#2, empty string </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("", "")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-10">
+      <description> contains-token#2, empty sequence </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token((), "")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-11">
+      <description> contains-token#2, all-space string </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("   ", "   ")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-12">
+      <description> contains-token#2, various whitespace chars </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(codepoints-to-string((9, 10, 13, 32, 13, 10, 9)), "")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-13">
+      <description> contains-token#2, single token </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("abc", "abc")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-14">
+      <description> contains-token#2, single token with surrounding whitespace</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(" abc ", "abc")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-15">
+      <description> contains-token#2, single token with surrounding whitespace</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(codepoints-to-string((9, 10, 97, 98, 99, 13, 32)), "abc")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-16">
+      <description> contains-token#2, two tokens </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("abc def", "def")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-17">
+      <description> contains-token#2, two tokens, multiple whitespace separator </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(codepoints-to-string((97, 98, 99, 13, 32, 10, 100, 101, 102)), "def")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-18">
+      <description> contains-token#2, two tokens, multiple whitespace in separator and surrounding </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(codepoints-to-string((9, 9, 97, 98, 99, 13, 32, 10, 100, 101, 102, 10, 10)), "abc")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-19">
+      <description> contains-token#2, many tokens </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(" the quick brown fox jumped over the lazy dog ", 'fox')</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-20">
+      <description> contains-token#2, form-feed is not a separator </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>contains-token(codepoints-to-string((97, 98, 99, 12, 100, 101, 102)), "def")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-21">
+      <description> contains-token#2, nbsp is not a separator </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(codepoints-to-string((97, 98, 99, 160, 100, 101, 102)), "abc")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-22">
+      <description> contains-token#2, dynamic call </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>(contains-token#2, starts-with#2, ends-with#2)!.("abc def", "def")</test>
+      <result>
+	    <assert-deep-eq>true(), false(), true()</assert-deep-eq>
+      </result>
+   </test-case>
+
+
+   
+   <test-case name="fn-contains-token-39">
+      <description> contains-token#2, empty string </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("", "zz")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-40">
+      <description> contains-token#2, empty sequence </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token((), "zz")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-41">
+      <description> contains-token#2, all-space string </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("   ", "zz")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-42">
+      <description> contains-token#2, various whitespace chars </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(codepoints-to-string((9, 10, 13, 32, 13, 10, 9)), "zz")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-43">
+      <description> contains-token#2, single token </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("abc", "zz")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-44">
+      <description> contains-token#2, single token with surrounding whitespace</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(" abc ", "zz")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-45">
+      <description> contains-token#2, single token with surrounding whitespace</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(codepoints-to-string((9, 10, 97, 98, 99, 13, 32)), "zz")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-46">
+      <description> contains-token#2, two tokens </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("abc def", "zz")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-47">
+      <description> contains-token#2, two tokens, multiple whitespace separator </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(codepoints-to-string((97, 98, 99, 13, 32, 10, 100, 101, 102)), "zz")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-48">
+      <description> contains-token#2, two tokens, multiple whitespace in separator and surrounding </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(codepoints-to-string((9, 9, 97, 98, 99, 13, 32, 10, 100, 101, 102, 10, 10)), "zz")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-49">
+      <description> contains-token#2, many tokens </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(" the quick brown fox jumped over the lazy dog ", 'zz')</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-50">
+      <description> contains-token#2, form-feed is not a separator </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>contains-token(codepoints-to-string((97, 98, 99, 12, 100, 101, 102)), "abc")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-51">
+      <description> contains-token#2, nbsp is not a separator </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(codepoints-to-string((97, 98, 99, 160, 100, 101, 102)), "abc")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-52">
+      <description> contains-token#2, dynamic call </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>(contains-token#2, substring-before#2, substring-after#2)[1]("abc def", "zz")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-60">
+      <description> contains-token#2, arg0 is sequence </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(("abc", "def"), "")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-61">
+      <description> contains-token#2, arg0 is sequence, all-space string </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(("abc", "def"), " abc  ")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-62">
+      <description> contains-token#2, arg0 is sequence, various whitespace chars </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(("abc", "def"), codepoints-to-string((9, 10, 13, 97, 98, 99, 32, 13, 10, 9)))</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-63">
+      <description> contains-token#2, arg0 is sequence, multiple token </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(("abc def", "ghi"), "abc")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-64">
+      <description> contains-token#2, arg0 is sequence, multiple token with surrounding whitespace</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token((" abc def ", "ghi"), "def")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-65">
+      <description> contains-token#2, arg0 is sequence, single token with surrounding whitespace</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token(codepoints-to-string((9, 10, 97, 98, 99, 13, 32)), "abc")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-70">
+      <description> contains-token#2, HTML5 collation </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("the quick brown fox", "Fox", "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-71">
+      <description> contains-token#2, HTML5 collation </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("the quick brown fox", " QUICK ", "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+      <result>
+	    <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-72">
+      <description> contains-token#2, HTML5 collation </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("the quick brown fox", "qui&#xe7;k", "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+      <result>
+	    <assert-false/>
+      </result>
+   </test-case>
+   
+
+</test-set>

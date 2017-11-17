@@ -31,6 +31,9 @@ The output from the main module will be in an internal format understood by xqer
 
 To see what it would look like as XML or text, the debugging function `xqerl_node:to_xml(Response)` can be used.
 
+### Testing
+The test suites use absolute paths for files. To run the tests locally, you can rebuild them using the XQuery script test/~test-case-builder.xq. 
+
 ### Building
 The normal way :) but there are .xrl for leex and .yrl for yecc to build.
 I am using eclipse, so there is currently no makefile or rebar config (coming soon).

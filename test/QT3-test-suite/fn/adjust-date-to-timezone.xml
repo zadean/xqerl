@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog"
+          name="fn-adjust-date-to-timezone">
+   <description>Tests for the adjust-date-to-timezone() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-adjust-date-to-timezone"/>
+
+   <test-case name="fn-adjust-date-to-timezone1args-1">
+      <description> Evaluates The "adjust-date-to-timezone" function with the arguments set as follows: $arg = xs:date(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:adjust-date-to-timezone(xs:date("1970-01-01Z"),xs:dayTimeDuration("-PT10H"))</test>
+      <result>
+         <assert-string-value>1969-12-31-10:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone1args-2">
+      <description> Evaluates The "adjust-date-to-timezone" function with the arguments set as follows: $arg = xs:date(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:adjust-date-to-timezone(xs:date("1983-11-17Z"),xs:dayTimeDuration("-PT10H"))</test>
+      <result>
+         <assert-string-value>1983-11-16-10:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone1args-3">
+      <description> Evaluates The "adjust-date-to-timezone" function with the arguments set as follows: $arg = xs:date(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:adjust-date-to-timezone(xs:date("2030-12-31Z"),xs:dayTimeDuration("-PT10H"))</test>
+      <result>
+         <assert-string-value>2030-12-30-10:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-1">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function as per example 1 (for this function) of the F&amp;O specs. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:adjust-date-to-timezone(xs:date("2002-03-07-05:00"),xs:dayTimeDuration("-PT5H0M"))</test>
+      <result>
+         <assert-string-value>2002-03-07-05:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-2">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function as per example 2 (for this function) of the F&amp;O specs. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:adjust-date-to-timezone(xs:date("2002-03-07-07:00"),xs:dayTimeDuration("-PT5H0M"))</test>
+      <result>
+         <assert-string-value>2002-03-07-05:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-3">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function as per example 3 (for this function) of the F&amp;O specs. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $tz := xs:dayTimeDuration("-PT10H") 
+         return fn:adjust-date-to-timezone(xs:date("2002-03-07"), $tz)</test>
+      <result>
+         <assert-string-value>2002-03-07-10:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-4">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function as per example 4 (for this function) of the F&amp;O specs. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $tz := xs:dayTimeDuration("-PT10H") 
+         return fn:adjust-date-to-timezone(xs:date("2002-03-07-07:00"), $tz)</test>
+      <result>
+         <assert-string-value>2002-03-06-10:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-5">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function as per example 5 (for this function) of the F&amp;O specs. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:adjust-date-to-timezone(xs:date("2002-03-07"), ())</test>
+      <result>
+         <assert-string-value>2002-03-07</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-6">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function as per example 6 (for this function) of the F&amp;O specs. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:adjust-date-to-timezone(xs:date("2002-03-07-07:00"), ())</test>
+      <result>
+         <assert-string-value>2002-03-07</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-7">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function using the empty sequence as a value to the first argument. Uses "fn:count" to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:count(fn:adjust-date-to-timezone(()))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-9">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function as part of a subtraction expression, whicg results on a negative number. Uses two adjust-date-to-timezone functions. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:adjust-date-to-timezone(xs:date("2002-03-07-07:00")) - fn:adjust-date-to-timezone(xs:date("2006-03-07-07:00"))</test>
+      <result>
+         <assert-string-value>-P1461D</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-10">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function as part of an subtraction expression. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:adjust-date-to-timezone(xs:date("2002-03-07-07:00")) - fn:adjust-date-to-timezone(xs:date("2002-03-07-07:00"))</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-11">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function as an argument to a string function. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:string(fn:adjust-date-to-timezone(xs:date("2002-03-07-04:00"),()))</test>
+      <result>
+         <assert-string-value>2002-03-07</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-12">
+      <description>Test Description: Evaluates the string value The "adjust-date-to-timezone" function as an argument to a boolean function. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:boolean(fn:string(fn:adjust-date-to-timezone(xs:date("2002-03-07-04:00"),())))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-13">
+      <description>Test Description: Evaluates The string value of "adjust-date-to-timezone" function as an argument to the "fn:not" function. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:not(fn:string(fn:adjust-date-to-timezone(xs:date("2002-03-07-04:00"),())))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-14">
+      <description>Test Description: Evaluates The string value of "adjust-date-to-timezone" function as part of a boolean (or) expression and the fn:true function. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:string(fn:adjust-date-to-timezone(xs:date("2002-03-07-04:00"),())) or fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-15">
+      <description>Test Description: Evaluates The string value of "adjust-date-to-timezone" function as part of a boolean (or) expression and the fn:false function. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:string(fn:adjust-date-to-timezone(xs:date("2002-03-07-04:00"),())) or fn:false()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-16">
+      <description>Test Description: Evaluates The string value of "adjust-date-to-timezone" function as part of a boolean (and) expression and the fn:true function. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:string(fn:adjust-date-to-timezone(xs:date("2002-03-07-04:00"),())) and fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-17">
+      <description>Test Description: Evaluates The string value of "adjust-date-to-timezone" function as part of a boolean (and) expression and the fn:false function. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:string(fn:adjust-date-to-timezone(xs:date("2002-03-07-04:00"),())) and fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-18">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function as part of a subtraction expression, which results on a negative number. Uses one adjust-date-to-timezone function and one xs:date constructor. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $tz := xs:dayTimeDuration("PT10H") 
+         return fn:adjust-date-to-timezone(xs:date("2002-03-07Z"),$tz) - xs:date("2006-03-07Z")
+      </test>
+      <result>
+         <assert-string-value>-P1461DT10H</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-19">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function where an xs:date value is subtracted. </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $tz := xs:dayTimeDuration("PT10H") 
+         return fn:adjust-date-to-timezone(xs:date("2004-03-07Z"),$tz) - xs:date("2001-03-07Z")
+      </test>
+      <result>
+         <assert-string-value>P1095DT14H</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-adjust-date-to-timezone-20">
+      <description>Test Description: Evaluates The "adjust-date-to-timezone" function as part of a comparisson expression (ge operator). </description>
+      <created by="Carmelo Montanez" on="2005-09-10"/>
+      <test>fn:adjust-date-to-timezone(xs:date("2002-03-07-04:00")) ge fn:adjust-date-to-timezone(xs:date("2005-03-07-04:00"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-adjust-date-to-timezone-21">
+      <description>First argument is dynamically empty</description>
+      <created by="Michael Kay" on="2016-04-06"/>
+      <test>fn:adjust-date-to-timezone(current-date()[. lt xs:date('2000-01-01')])</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-1">
+      <description> A test whose essence is: `adjust-date-to-timezone()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-2">
+      <description> A test whose essence is: `adjust-date-to-timezone((), (), "WRONG PARAM")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone((), (), "WRONG PARAM")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-3">
+      <description> A test whose essence is: `empty(adjust-date-to-timezone(()))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(adjust-date-to-timezone(()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-4">
+      <description> A test whose essence is: `empty(adjust-date-to-timezone((), ()))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(adjust-date-to-timezone((), ()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-5">
+      <description> A test whose essence is: `adjust-date-to-timezone(()) instance of xs:date?`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone(()) instance of xs:date?</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-6">
+      <description> Passing a too large xs:dayTimeDuration as timezone to adjust-date-to-timezone(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone(xs:date("2001-02-03"), xs:dayTimeDuration("PT14H1M"))</test>
+      <result>
+         <error code="FODT0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-7">
+      <description> Passing a too small xs:dayTimeDuration as timezone to adjust-date-to-timezone(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone(xs:date("2001-02-03"), xs:dayTimeDuration("-PT14H1M"))</test>
+      <result>
+         <error code="FODT0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-8">
+      <description> Passing a xs:dayTimeDuration as timezone to adjust-date-to-timezone() which isn't an integral number of minutes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone(xs:date("2001-02-03"), xs:dayTimeDuration("PT14H0M0.001S"))</test>
+      <result>
+         <error code="FODT0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-9">
+      <description> Example from F&amp;O. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone(xs:date("2002-03-07"), xs:dayTimeDuration("-PT5H0M")) eq xs:date("2002-03-07-05:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-10">
+      <description> Example from F&amp;O. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone(xs:date("2002-03-07-07:00"), xs:dayTimeDuration("-PT5H0M")) eq xs:date("2002-03-07-05:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-11">
+      <description> Example from F&amp;O. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone(xs:date("2002-03-07"), xs:dayTimeDuration("-PT10H")) eq xs:date("2002-03-07-10:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-12">
+      <description> Example from F&amp;O. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone(xs:date("2002-03-07-07:00"), xs:dayTimeDuration("-PT10H")) eq xs:date("2002-03-06-10:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-13">
+      <description> Example from F&amp;O. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone(xs:date("2002-03-07"), ()) eq xs:date("2002-03-07")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-AdjDateToTimezoneFunc-14">
+      <description> Example from F&amp;O. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>adjust-date-to-timezone(xs:date("2002-03-07-07:00"), ()) eq xs:date("2002-03-07")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-adjust-date-to-timezone-001">
+      <description>Check optimization codepath in adjust-date-to-timezone </description>
+      <created by="Oliver Hallam" on="2008-04-10"/>
+      <test>adjust-date-to-timezone(current-date(), implicit-timezone()) eq current-date()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-adjust-date-to-timezone-002">
+      <description> Test that adjust-date-to-timezone underflows nicely. </description>
+      <created by="Oliver Hallam" on="2008-04-10"/>
+      <test>adjust-date-to-timezone(xs:date("-25252734927766555-06-07+02:00"), xs:dayTimeDuration("PT0S"))</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-adjust-date-to-timezone-003">
+      <description> A query testing that adjust-date-to-timezone overflows nicely. </description>
+      <created by="Oliver Hallam" on="2008-04-10"/>
+      <test>adjust-date-to-timezone(xs:date("25252734927766555-07-28-12:00"), xs:dayTimeDuration("PT12H"))</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-adjust-date-to-timezone-004">
+      <description>Check optimization codepath in adjust-date-to-timezone </description>
+      <created by="Oliver Hallam" on="2008-04-10"/>
+      <test>adjust-date-to-timezone(current-date(), xs:dayTimeDuration("PT12H")) eq adjust-date-to-timezone(current-date(), xs:dayTimeDuration("-PT12H"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+</test-set>

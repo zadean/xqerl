@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" 
+          name="fn-environment-variable" covers-30="fn-environment-variable">
+   <description>Tests for the environment-variable() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-environment-variable"/>
+
+     <!--* some of these tests require two environment variables:
+	 * QTTEST, if set, must equal th string value "42"
+	 * QTTEST2 must equal "other"
+	 * QTTESTEMPTY must be the empty string.
+	 *
+	 * For example, in Linux
+	 * QTTEST="42" QTTEST2="other" QTTESTEMPTY= ./test-harness
+	 * will do the right thing.
+	 *
+	 * If available-environment-variables returns the empty sequence,
+	 * these tests assume access is disabled, and the tests will
+	 * pass even if those variables are not found, but on
+	 * systems where it makes sense, users will want the feature.
+	 *-->
+   <test-case name="environment-variable-001">
+      <description>Check that the function exists</description>
+      <created by="Liam Quin" on="2012-02-17"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:exists(environment-variable#1)</test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="environment-variable-002">
+      <description>Check that we can look the function up</description>
+      <created by="Liam Quin" on="2012-02-17"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>not(fn:empty(fn:function-lookup(
+	  fn:QName('http://www.w3.org/2005/xpath-functions',
+	  'environment-variable') , 1)))</test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="environment-variable-003">
+      <description>Check that it has arity 1, not 0</description>
+      <created by="Liam Quin" on="2012-02-17"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:environment-variables#0</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="environment-variable-004">
+      <description>Check that it has arity 1, not 2</description>
+      <created by="Liam Quin" on="2012-02-17"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19881 - Added HOF dependency" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:environment-variables#2</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <!--* This test is essentally a duplicate from
+       * available-environment-variables, to test the
+       * simple case of getting a value before we test
+       * more complex cases.
+       *-->
+   <test-case name="environment-variable-005">
+      <description>Check that we get back () or $QTTEST = 42</description>
+      <created by="Liam Quin" on="2012-02-17"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>let $all := fn:available-environment-variables()
+	  return empty($all) or ($all = "QTTEST" and fn:environment-variable("QTTEST") eq "42")
+      </test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="environment-variable-006">
+      <description>Check that $QTTEST2 is "other"</description>
+      <!--* this test also checks that s1 eq s2 works plausibly
+	   * by comparing two constant strings! *-->
+      <created by="Liam Quin" on="2012-02-17"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>let $all := fn:available-environment-variables()
+	  return empty($all) or
+	      ($all = "QTTEST2"
+	       and (fn:environment-variable("QTTEST2") eq "other")
+	       and (not("other" eq "42")))
+      </test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="environment-variable-007">
+      <description>Check we can distinguish an unset variable from an empty one</description>
+      <created by="Liam Quin" on="2012-05-18"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>let $all := fn:available-environment-variables()
+	  return empty($all) or ($all = "QTTESTEMPTY" and fn:environment-variable("QTTESTEMPTY") eq "")
+      </test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <!--* some argument checking *-->
+   <test-case name="environment-variable-008">
+      <description>environment-variable arg must be supplied</description>
+      <created by="Liam Quin" on="2012-05-18"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+	  fn:environment-variable()
+      </test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="environment-variable-009">
+      <description>environment-variable arg must be a string</description>
+      <created by="Liam Quin" on="2012-05-18"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+	  fn:environment-variable(1)
+      </test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="environment-variable-010">
+      <description>environment-variable arg must be a string</description>
+      <created by="Liam Quin" on="2012-05-18"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+	  fn:environment-variable(())
+      </test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="environment-variable-011">
+      <description>environment-variable arg must be a string</description>
+      <created by="Liam Quin" on="2012-05-18"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+	  fn:environment-variable(true())
+      </test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="environment-variable-012">
+      <description>check for overflow by constructing a one-megabyte name</description>
+      <created by="Liam Quin" on="2012-05-18"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+	let $var := string-join(
+	  for $i in (1 to (1024 * 1024)) return "x"
+	) 
+	return empty(fn:environment-variable($var))
+      </test>
+      <result>
+	  <assert-true/>
+      </result>
+   </test-case>
+</test-set>
