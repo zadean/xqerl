@@ -391,7 +391,8 @@ set_copy_namespaces_mode(Value) ->
    erlang:put('copy-namespaces-mode', Value).
 
 get_static_base_uri() ->
-   code:lib_dir(xqerl, lib).
+   "http://xqerl.org".
+   %code:lib_dir(xqerl, lib).
    %erlang:get('static-base-uri').
 set_static_base_uri(Value) ->
    erlang:put('static-base-uri', Value).
@@ -616,16 +617,21 @@ set_context_size(Ctx, Value) ->
 get_available_documents() ->
    erlang:get('available-documents').
 get_available_document(Id) ->
-   All = get_available_documents(),
-   gb_trees:get(Id, All).
+   {ok,Doc} = xqerl_ds:lookup_doc(Id),
+   Doc.
+
+%%    All = get_available_documents(),
+%%    gb_trees:get(Id, All).
 add_available_document(Id, Tree) ->
-   NewAll = case get_available_documents() of
-               undefined ->
-                  gb_trees:enter(Id, Tree, gb_trees:empty());
-               All ->
-                  gb_trees:enter(Id, Tree, All)
-            end,
-   erlang:put('available-documents', NewAll).
+   xqerl_ds:insert_doc(Id, Tree).
+
+%%    NewAll = case get_available_documents() of
+%%                undefined ->
+%%                   gb_trees:enter(Id, Tree, gb_trees:empty());
+%%                All ->
+%%                   gb_trees:enter(Id, Tree, All)
+%%             end,
+%%    erlang:put('available-documents', NewAll).
 
 get_available_text_resources() ->
    erlang:get('available-text-resources').
@@ -633,13 +639,14 @@ get_available_text_resource(Uri) ->
    All = get_available_text_resources(),
    gb_trees:get(Uri, All).
 add_available_text_resource(Uri, Tree) ->
-   NewAll = case get_available_text_resources() of
-               undefined ->
-                  gb_trees:enter(Uri, Tree, gb_trees:empty());
-               All ->
-                  gb_trees:enter(Uri, Tree, All)
-            end,
-   erlang:put('available-text-resources', NewAll).
+   xqerl_ds:insert_res(Uri, Tree).
+%%    NewAll = case get_available_text_resources() of
+%%                undefined ->
+%%                   gb_trees:enter(Uri, Tree, gb_trees:empty());
+%%                All ->
+%%                   gb_trees:enter(Uri, Tree, All)
+%%             end,
+%%    erlang:put('available-text-resources', NewAll).
 
 get_variable_values() ->
    erlang:get('variable-values').
@@ -747,8 +754,9 @@ get_local_timezone(RawCdt) ->
 
 
 add_default_static_values({_, RawCdt} = Key) ->
-   {ok, Home} = init:get_argument(home),
-   set_static_base_uri(lists:flatten(Home)),
+   %{ok, Home} = init:get_argument(home),
+   set_static_base_uri("http://xqerl.org"),
+   %set_static_base_uri(lists:flatten(Home)),
 %%    set_ordering_mode('ordered'),
    set_implicit_timezone(get_local_timezone(RawCdt)),
    set_default_element_type_namespace('no-namespace'),

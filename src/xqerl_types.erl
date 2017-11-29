@@ -34,7 +34,7 @@
 -export([construct_as/2]).
 -export([cast_as/2]).
 -export([cast_as/3]).
--export([as_seq/2]).
+%% -export([as_seq/2]).
 -export([cast_as_seq/2]).
 -export([treat_as_seq/2]).
 -export([cast_as_seq/3]).
@@ -101,16 +101,8 @@ atomize(_) ->
 
 
 return_value([]) -> ?seq:empty();
-return_value(#xqNode{frag_id = FragId,identity = Id}) ->
-   Doc = xqerl_context:get_available_document(FragId),
-   case xqerl_node:new_fragment({Id,Doc}) of
-      #xqNode{frag_id = NewFragId,identity = _NewId} ->
-         NewDoc = xqerl_context:get_available_document(NewFragId),
-         {0,NewDoc};
-         %{NewId,NewDoc};
-      X ->
-         X
-   end;
+return_value(#xqNode{}= Node) ->
+   Node;
 return_value(#xqAtomicValue{} = A) -> A;
 return_value(#array{} = A) -> A;
 return_value(#xqFunction{body = Fun} = F) when is_function(Fun) -> F;
@@ -130,10 +122,8 @@ string_value([]) -> [];
 string_value([H|T]) when is_integer(H) -> [H|T];
 string_value(#xqError{} = E) -> E;
 string_value([V]) when not is_integer(V) -> string_value(V);
-string_value({Id,Doc}) when is_integer(Id) ->
-   _ = xqerl_context:add_available_document(Id, Doc),
-   Node = #xqNode{frag_id = Id,identity = 1},
-   string_value(Node);
+string_value({Doc,Node}) when is_map(Doc), is_binary(Node) ->
+   xqerl_xdm:dm_string_value(Doc, Node);
 string_value({Error,_}) ->
    {Error};
 %% string_value([At]) ->
@@ -207,12 +197,12 @@ type(Seq) ->
    #xqSeqType{type = T, occur = _One} = ?seq:get_seq_type(Seq),
    T.
 
-as_seq({Id,Doc}, SeqType) -> % new document fragment
-   _ = xqerl_context:add_available_document(Id, Doc),
-   Node = #xqNode{frag_id = Id,identity = 1},
-   as_seq(?seq:singleton(Node), SeqType);
-as_seq(Vals, _) ->
-   Vals.
+%% as_seq({Id,Doc}, SeqType) -> % new document fragment
+%%    _ = xqerl_context:add_available_document(Id, Doc),
+%%    Node = #xqNode{frag_id = Id,identity = 1},
+%%    as_seq(?seq:singleton(Node), SeqType);
+%% as_seq(Vals, _) ->
+%%    Vals.
 
 % this function is for promoting/checking sequences for their types
 cast_as_seq([Vals], SeqType) ->
@@ -863,73 +853,82 @@ check_return_type(_Type, any) -> true;
 check_return_type(Type, ReturnType) -> true.
 
 %% #xqKindTest{kind = 'document-node',    test = Test} where test is undefined | element-test, schema-element-test
-instance_of1(Node, #xqKindTest{kind = 'document-node', test = #xqKindTest{kind = element, name = #qname{} = Q1}}) ->
-   %?dbg("Node",Node),
-   case catch xqerl_node:get_node_type(Node) of
-      'document-node' ->
-         %?dbg("Node",ok),
-         case xqerl_node:get_node_children(Node) of
+instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = 'document-node', test = #xqKindTest{kind = element, name = #qname{} = Q1}}) ->
+   case catch xqerl_xdm:dm_node_kind(Doc, Node) of
+      'document' ->
+         case xqerl_xdm:dm_children(Doc, Node) of
             [Element] ->
-               Q2 = xqerl_node:get_node_name(Node#xqNode{identity = Element}),
+               {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Element),
+               Q2 = #qname{namespace = Ns, local_name = Ln},
                has_name(Q2, Q1);
             _ ->
                false
          end;
-      O ->
+      _O ->
          %?dbg("Node",O),
          false
    end;
-instance_of1(Node, #xqKindTest{kind = 'document-node'}) ->
-   case catch xqerl_node:get_node_type(Node) of
-      'document-node' ->
+instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = 'document-node'}) ->
+   case xqerl_xdm:dm_node_kind(Doc, Node) of
+      document ->
+         true;
+      _ ->
+         false
+   end;
+instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = 'namespace'}) ->
+   case xqerl_xdm:dm_node_kind(Doc, Node) of
+      namespace ->
          true;
       _ ->
          false
    end;
 %% #xqKindTest{kind = 'element',          name = undefined | WQName, type = undefined | #xqSeqType{type = BType, occur = one|zero_or_one}.
-instance_of1(Node, #xqKindTest{kind = element, name = #qname{} = Q1, type = #xqSeqType{type = Type}}) ->
-   case catch xqerl_node:get_node_type(Node) of
+instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = element, name = #qname{} = Q1, type = #xqSeqType{type = Type}}) ->
+   case catch xqerl_xdm:dm_node_kind(Doc, Node) of
       element ->
-         Q2 = xqerl_node:get_node_name(Node),
+         {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
+         Q2 = #qname{namespace = Ns, local_name = Ln},
          case has_name(Q2, Q1) of
             true ->
-               #xqElementNode{type = EType} = xqerl_node:get_node(Node),
+               EType = xqerl_xdm:dm_type_name(Doc, Node),
                %?dbg("EType,Type",{EType,Type}),
-               EType == Type;
+               EType == Type orelse (Type == 'xs:anyType');
             _ ->
                false
          end;
       _ ->
          false
    end;
-instance_of1(Node, #xqKindTest{kind = element, name = #qname{} = Q1}) ->
-   case catch xqerl_node:get_node_type(Node) of
+instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = element, name = #qname{} = Q1}) ->
+   case catch xqerl_xdm:dm_node_kind(Doc, Node) of
       element ->
-         Q2 = xqerl_node:get_node_name(Node),
+         {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
+         Q2 = #qname{namespace = Ns, local_name = Ln},
          has_name(Q2, Q1);
       _ ->
          false
    end;
-instance_of1(Node, #xqKindTest{kind = element}) ->
+instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = element}) ->
    %?dbg("Node",Node),
-   case catch xqerl_node:get_node_type(Node) of
+   case xqerl_xdm:dm_node_kind(Doc, Node) of
       element ->
          true;
       _ ->
          false
    end;
 %% #xqKindTest{kind = 'attribute',        name = undefined | WQName, type = undefined | #xqSeqType{type = BType, occur = one}}.
-instance_of1(Node, #xqKindTest{kind = attribute, name = #qname{} = Q1}) ->
-   case catch xqerl_node:get_node_type(Node) of
+instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = attribute, name = #qname{} = Q1}) ->
+   case xqerl_xdm:dm_node_kind(Doc, Node) of
       attribute ->
-         Q2 = xqerl_node:get_node_name(Node),
+         {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
+         Q2 = #qname{namespace = Ns, local_name = Ln},
          has_name(Q2, Q1);
       _ ->
          false
    end;
-instance_of1(Node, #xqKindTest{kind = attribute}) ->
+instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = attribute}) ->
    %?dbg("Node",Node),
-   case catch xqerl_node:get_node_type(Node) of
+   case xqerl_xdm:dm_node_kind(Doc, Node) of
       attribute ->
          true;
       _ ->
@@ -3137,28 +3136,21 @@ has_name(undefined, _) ->
    true;
 has_name(_, undefined) ->
    true;
-has_name(#qname{} = Name, #qname{namespace = Ns, prefix = Px, local_name = Loc}) ->
-   (Px  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
+has_name(#qname{} = Name, #qname{namespace = Ns, local_name = Loc}) ->
+   (Ns  == "*" orelse Ns  == Name#qname.namespace )    andalso 
    (Loc == "*" orelse Loc == Name#qname.local_name);
 has_name(#xqElementNode{name = _Name}, #qname{namespace = undefined,prefix = Px}) when Px =/= "*" ->
    % non-expandable QName
    xqerl_error:error('XPST0081');
-has_name(#xqElementNode{name = Name}, #qname{namespace = Ns, prefix = Px, local_name = Loc}) ->
-   (Px  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
+has_name(#xqElementNode{name = Name}, #qname{namespace = Ns, local_name = Loc}) ->
+   (Ns  == "*" orelse Ns  == Name#qname.namespace )    andalso 
    (Loc == "*" orelse Loc == Name#qname.local_name);
 has_name(#xqAttributeNode{name = _Name}, undefined) ->
    true;
-has_name(#xqAttributeNode{name = Name}, #qname{namespace = Ns, prefix = Px, local_name = Loc}) ->
-   (Px  == "*" orelse unmask_ns(Ns)  == Name#qname.namespace )    andalso 
+has_name(#xqAttributeNode{name = Name}, #qname{namespace = Ns, local_name = Loc}) ->
+   (Ns  == "*" orelse Ns  == Name#qname.namespace )    andalso 
    (Loc == "*" orelse Loc == Name#qname.local_name).
 
-unmask_ns("xqerl_fn") -> "http://www.w3.org/2005/xpath-functions";
-unmask_ns("xqerl_xs") -> "http://www.w3.org/2001/XMLSchema";
-unmask_ns("xqerl_math") -> "http://www.w3.org/2005/xpath-functions/math";
-unmask_ns("xqerl_map") -> "http://www.w3.org/2005/xpath-functions/map";
-unmask_ns("xqerl_array") -> "http://www.w3.org/2005/xpath-functions/array";
-unmask_ns("xqerl_error") -> "http://www.w3.org/2005/xqt-errors";
-unmask_ns(Ns) -> Ns.
 
 
 

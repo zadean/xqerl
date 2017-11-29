@@ -114,7 +114,7 @@ if_empty(Value,_Default) -> Value.
    
 
 xml_to_json(State, #xqNode{} = Doc) ->
-   Tree = xqerl_node:get_doc(Doc),
+   Tree = xqerl_node:node_to_content(Doc),
    % Attributes are in 'expr', not in 'attributes'
    case xml_to_json(State, Tree) of
       {_K,V,_EscKey0} -> % key with no map, internal node

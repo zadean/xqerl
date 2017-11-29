@@ -213,7 +213,8 @@ handle_tree(#xqModule{version = {Version,Encoding},
    
    % here do the variable and function bodies
    {VarFunPart,State4} = lists:mapfoldl(fun(Node,IState1) ->
-                             IState = handle_node(IState1, Node),
+                             % reset the context type for each fun
+                             IState = handle_node(IState1#state{context_item_type = CtxItemType}, Node),
                              %?dbg("Node",Node),
                              {get_statement(IState), IState}
                        end, State3, lists:reverse(FunVarSorted) ++ [Body]),
@@ -361,7 +362,8 @@ handle_node(State, Nodes) when is_list(Nodes) ->
    set_static_count(set_statement_and_type(State, Statements, Type), Counts1);
 %% 3.1 Primary Expressions
 handle_node(State, #xqQuery{query = Qry} )-> 
-   Statements = lists:map(fun(Q) ->
+  ?dbg("IfSt",State#state.context_item_type),
+  Statements = lists:map(fun(Q) ->
                                 get_statement(handle_node(State, Q))
                           end, Qry),
    set_statement(State, #xqQuery{query = Statements});
@@ -1760,8 +1762,7 @@ handle_node(State, #xqGroupBy{grp_variable = #xqVarRef{} = Var, collation = Coll
    NewColl =  if Coll == default ->
                      DefColl;
                   true ->
-                     {absolute, NC} = xqerl_lib:resolve_against_base_uri(BaseUri, Coll),
-                     NC
+                     xqerl_lib:resolve_against_base_uri(BaseUri, Coll)
                end,
    Ok = lists:member(NewColl, Collations),
    if Ok ->
@@ -1787,8 +1788,7 @@ handle_node(State, {order, OExpr, {modifier,Dir,{empty,Empty},{collation,Collati
    NewColl =  if Collation == default ->
                      DefColl;
                   true ->
-                     {absolute, NC} = xqerl_lib:resolve_against_base_uri(BaseUri, Collation),
-                     NC
+                     xqerl_lib:resolve_against_base_uri(BaseUri, Collation)
                end,
    NewEmptO =  if Empty == default ->
                      EmptOrd;
@@ -1817,6 +1817,7 @@ handle_node(State, {'unordered-expr', Expr}) ->
    set_statement_and_type(State, Statement, Type);
 %% 3.14 Conditional Expressions
 handle_node(State, {'if-then-else', If, Then, Else}) -> 
+   ?dbg("IfSt",State#state.context_item_type),
    IfS1 = handle_node(State, If),
    ThS1 = handle_node(State, Then),
    ElS1 = handle_node(State, Else),
@@ -2187,6 +2188,8 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
    SimArgSt = get_statement(SimArgS),
    StatCnt  = get_static_count(SimArgS),
    ok = check_occurance_match(SimArgT, TargetType1, StatCnt), % 1st arg
+   %?dbg("CtxType",CtxType),
+   %?dbg("TargetType2",TargetType2),
    ok = check_occurance_match(CtxType, TargetType2, 1), % ctx item
    % now check the types
    NoCastA = check_type_match(SimArgT, TargetType1),

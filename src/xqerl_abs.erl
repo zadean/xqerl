@@ -1656,21 +1656,21 @@ expr_do(_Ctx, Expr) ->
 
 % return clause end loop and returns {NewCtx,Internal,Global}
 flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,Inline) ->
-   ?dbg("get_variable_tuple(Ctx)",get_variable_tuple(Ctx)),
-   ?dbg("{Inline,TupleVar}",{Inline,TupleVar}),
+   %?dbg("get_variable_tuple(Ctx)",get_variable_tuple(Ctx)),
+   %?dbg("{Inline,TupleVar}",{Inline,TupleVar}),
    FunctionName = glob_fun_name({return,RetId}),
    CurrContext = get_context_variable_name(Ctx),
    NextTupleVar = next_var_tuple_name(),
    {NewCtx,FunAbs} = return_part(Ctx, {RetId,Return}),
    %?dbg("variables",maps:get(variables, NewCtx)),
    if Inline == true ->
-         ?dbg("Internal",Internal),
+         %?dbg("Internal",Internal),
          NewCtx1 = set_variable_tuple_name(NewCtx, TupleVar),
          {NewCtx1,Internal,FunAbs ++ Global};
       true ->
          NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
          NewInt = Internal ++ [{call,?L,{atom,?L,FunctionName},[{var,?L,CurrContext},{var,?L, TupleVar}]}],
-         ?dbg("NewInt",NewInt),
+         %?dbg("NewInt",NewInt),
          {NewCtx1,NewInt,FunAbs ++ Global}
    end;
 
@@ -2684,10 +2684,10 @@ step_expr_do(Ctx, #xqAxisStep{direction = Direction, axis = Axis, node_test = #x
    if Axis == namespace andalso Kind == 'namespace';
       Axis == self andalso Kind == 'namespace' ->
          ok;
-      Axis == child andalso Kind == 'namespace' ->
-         xqerl_error:error('XQST0134');
-      Kind == 'namespace' ->
-         xqerl_error:error('XPST0005');
+      %Axis == child andalso Kind == 'namespace' ->
+      %   xqerl_error:error('XQST0134');
+      %Kind == 'namespace' ->
+      %   xqerl_error:error('XPST0005');
       true ->
          ok
    end,

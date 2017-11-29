@@ -204,8 +204,12 @@
          value = undefined :: term() | []
         }).
 -record(xqNode, {
-      frag_id      = 0 :: integer() | string(),
-      identity     = -1 :: integer()
+      node  :: binary(),
+      doc   :: term()
+   }).
+-record(xqNodeSeq, {
+      doc   :: term(),
+      nodes :: [binary()]
    }).
 
 -record(qname, 

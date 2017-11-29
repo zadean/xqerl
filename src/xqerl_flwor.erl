@@ -465,15 +465,29 @@ reverse(List) ->
 
 % Clauses are funs that take an entire VarStream tuple
 orderbyclause(VarStream, Clauses) ->
-   lists:sort(fun(A,B) ->
-                    do_order(A,B,Clauses)
-              end, VarStream).
+   %?dbg("orderbyclause 1",erlang:system_time()),
+   F = fun(Tuple) ->
+             Cs = lists:map(fun({C,D,E}) ->
+                             V = C(Tuple),
+                             {V,D,E}
+                       end, Clauses),
+             {Tuple,Cs}
+       end,
+   %?dbg("orderbyclause 2",erlang:system_time()),
+   Set = lists:map(F, VarStream),
+   %?dbg("orderbyclause 3",erlang:system_time()),
+   Sorted = lists:sort(fun(A,B) ->
+                             do_order(A,B)
+                       end, Set),
+   %?dbg("orderbyclause 4",erlang:system_time()),
+   lists:map(fun({T,_}) ->
+                   T
+             end, Sorted).
 
-do_order(_A,_B,[]) ->
+
+do_order({_,[]},{_,[]}) ->
    true;
-do_order(A,B,[{Fun,descending,Empty}|Funs]) ->
-   ValA = Fun(A),
-   ValB = Fun(B),
+do_order({TA,[{ValA,descending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
    if ValA == [] andalso ValB == [] -> % stable sort by empty function
          true;
       Empty == greatest andalso ValA == [] ->
@@ -497,18 +511,13 @@ do_order(A,B,[{Fun,descending,Empty}|Funs]) ->
             _ ->
                case val(xqerl_operators:equal(ValA, ValB)) of
                   true ->
-                     do_order(A,B,Funs);
+                     do_order({TA,RestA},{TB,RestB});
                   _ ->
                      false                           
                end
          end
    end;
-do_order(A,B,[{Fun,ascending,Empty}|Funs]) ->
-   %?dbg("A",A),
-   ValA = Fun(A), %W
-   %?dbg("ValA",ValA),
-   ValB = Fun(B), %V
-   %?dbg("ValB",ValB),
+do_order({TA,[{ValA,ascending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
    if ValA == [] andalso ValB == [] -> % stable sort by empty function
          true;
       Empty == greatest andalso ValA == [] ->
@@ -532,7 +541,7 @@ do_order(A,B,[{Fun,ascending,Empty}|Funs]) ->
             _ ->
                case val(xqerl_operators:equal(ValA, ValB)) of
                   true ->
-                     do_order(A,B,Funs);
+                     do_order({TA,RestA},{TB,RestB});
                   _ ->
                      false                           
                end

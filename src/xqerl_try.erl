@@ -24,7 +24,7 @@
 
 init() ->
     xqerl_context:init(),
-    #{'base-uri' => {xqAtomicValue, 'xs:anyURI', "/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"},
+    #{'base-uri' => {xqAtomicValue, 'xs:anyURI', "http://xqerl.org"},
       'construction-mode' => preserve,
       'copy-namespaces' => {'no-preserve', 'no-inherit'},
       'default-collation' =>
@@ -1214,7 +1214,7 @@ init() ->
        [{xqSeqType, {xqKindTest, node, undefined, undefined, undefined}, one},
         {xqSeqType, 'xs:string', one}]}],
       namespaces =>
-     [{xqNamespace, 'no-namespace', []},
+     [{xqNamespace, "http://www.w3.org/2000/svg", []},
       {xqNamespace, "http://www.w3.org/2005/xquery-local-functions", "local"},
       {xqNamespace, "http://www.w3.org/2005/xpath-functions", "fn"},
       {xqNamespace, "http://www.w3.org/2001/XMLSchema-instance", "xsi"},
@@ -1223,183 +1223,49 @@ init() ->
       {xqNamespace, "http://www.w3.org/2005/xpath-functions/math", "math"},
       {xqNamespace, "http://www.w3.org/2005/xpath-functions/map", "map"},
       {xqNamespace, "http://www.w3.org/2005/xpath-functions/array", "array"},
-      {xqNamespace, "http://www.w3.org/2005/xqt-errors", "err"}]}.
+      {xqNamespace, "http://www.w3.org/2005/xqt-errors", "err"},
+      {xqNamespace, "http://www.SDMX.org/resources/SDMXML/schemas/v1_0/message", "msg"},
+      {xqNamespace, "http://www.newyorkfed.org/xml/schemas/FX/utility", "frbny"}]}.
+
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 
 main(Options) ->
-    Ctx0 = maps:merge(init(), Options),
+    Ctx0 = xqerl_context:merge(init(), Options),
     Ctx = begin
-       Local__3 = maps:get(context_item, Options, []),
-       xqerl_context:set_context_item(Ctx0, Local__3, 1,
-                  {xqAtomicValue, 'xs:integer', xqerl_seq3:size(Local__3)})
+       Local__1 = xqerl_fn:doc(Ctx0,
+                {xqAtomicValue, 'xs:string',
+                 "file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/xml-to-jso"
+                 "n/xml-to-json-D.xsl"}),
+       xqerl_context:set_context_item(Ctx0, Local__1, 1,
+                  {xqAtomicValue, 'xs:integer', xqerl_seq3:size(Local__1)})
      end,
     begin
-      Query = xqerl_seq3:flatten(begin VarTup__1 = let__1(Ctx, new) end),
+       Step1 = xqerl_step:any_root(Ctx,xqerl_context:get_context_item(Ctx)),
+       Step2 = xqerl_step:forward(Ctx,Step1,'descendant-or-self',{xqKindTest, node,undefined, undefined,undefined},[]),
+       Step3 = xqerl_step:forward(Ctx,Step2,child, {qname, "*", "*", "template"},
+                                       [fun (Ctx__2) ->
+                                           xqerl_operators:general_compare('=',
+                                                       xqerl_step:forward(Ctx__2,
+                                                           xqerl_context:get_context_item(Ctx__2),
+                                                           attribute,
+                                                           {qname,
+                                                            'no-namespace',
+                                                            [],
+                                                            "name"},
+                                                           []),
+                                                       {xqAtomicValue,
+                                                   'xs:string',
+                                                   "t511"})
+                                        end]),
+       Step4 = xqerl_step:forward(Ctx,Step3,child, {qname, "*", "*", "variable"}, []),
+       XML = xqerl_step:forward(Ctx,Step4,child, {qname, "*", "*", "*"}, []),
+       %?dbg("Step1",Step1),
+       %?dbg("Step2",Step2),
+       ?dbg("Step3",Step3),
+       ?dbg("Step4",Step4),
+       ?dbg("XML",XML),
+      Query = xqerl_fn:'xml-to-json'(Ctx, XML),
       xqerl_types:return_value(Query)
     end.
-
--compile({inline, {return__2, 2}}).
-
-return__2(_, []) -> [];
-return__2(Ctx, List) when erlang:is_list(List) ->
-    [return__2(Ctx, T) || T <- List];
-return__2(Ctx, {XQ__var_1}) ->
-   ?dbg("XQ__var_1",XQ__var_1),
-    xqerl_seq3:val_map(
-     fun (Local__2) when erlang:is_map(Local__2) ->
-            xqerl_operators:lookup(Ctx, Local__2,
-                        xqerl_seq3:val_map(fun (Local__1) when erlang:is_map(Local__1) ->
-                               xqerl_operators:lookup(Ctx, Local__1,
-                                       {xqAtomicValue, 'xs:string',
-                                        "the cat sat on the mat"});
-                                ([Local__1]) when erlang:is_map(Local__1) ->
-                               xqerl_operators:lookup(Ctx, Local__1,
-                                       {xqAtomicValue, 'xs:string',
-                                        "the cat sat on the mat"});
-                                ({array, _} = Local__1) ->
-                               xqerl_operators:lookup(Ctx, Local__1,
-                                       {xqAtomicValue, 'xs:string',
-                                        "the cat sat on the mat"});
-                                (Ctx__1) ->
-                               Local__1 = xqerl_types:value(XQ__var_1),
-                               if erlang:is_function(Local__1) ->
-                                 Local__1(Ctx,
-                                     {xqAtomicValue, 'xs:string',
-                                      "the cat sat on the mat"},
-                                     {xqAtomicValue, 'xs:string', "\\s+"});
-                                  true ->
-                                 xqerl_operators:lookup(Ctx, Local__1,
-                                              {xqAtomicValue, 'xs:string',
-                                          "the cat sat on the mat"})
-                               end
-                            end,
-                            XQ__var_1));
-            ([Local__2]) when erlang:is_map(Local__2) ->
-                xqerl_operators:lookup(Ctx, Local__2,
-                        xqerl_seq3:val_map(fun (Local__1) when erlang:is_map(Local__1) ->
-                               xqerl_operators:lookup(Ctx, Local__1,
-                                       {xqAtomicValue, 'xs:string',
-                                        "the cat sat on the mat"});
-                                ([Local__1]) when erlang:is_map(Local__1) ->
-                               xqerl_operators:lookup(Ctx, Local__1,
-                                       {xqAtomicValue, 'xs:string',
-                                        "the cat sat on the mat"});
-                                ({array, _} = Local__1) ->
-                               xqerl_operators:lookup(Ctx, Local__1,
-                                       {xqAtomicValue, 'xs:string',
-                                        "the cat sat on the mat"});
-                                (Ctx__1) ->
-                               Local__1 = xqerl_types:value(XQ__var_1),
-                               if erlang:is_function(Local__1) ->
-                                 Local__1(Ctx,
-                                     {xqAtomicValue, 'xs:string',
-                                      "the cat sat on the mat"},
-                                     {xqAtomicValue, 'xs:string', "\\s+"});
-                                  true ->
-                                 xqerl_operators:lookup(Ctx, Local__1,
-                                              {xqAtomicValue, 'xs:string',
-                                          "the cat sat on the mat"})
-                               end
-                            end,
-                            XQ__var_1));
-            ({array, _} = Local__2) ->
-                xqerl_operators:lookup(Ctx, Local__2,
-                        xqerl_seq3:val_map(fun (Local__1) when erlang:is_map(Local__1) ->
-                               xqerl_operators:lookup(Ctx, Local__1,
-                                       {xqAtomicValue, 'xs:string',
-                                        "the cat sat on the mat"});
-                                ([Local__1]) when erlang:is_map(Local__1) ->
-                               xqerl_operators:lookup(Ctx, Local__1,
-                                       {xqAtomicValue, 'xs:string',
-                                        "the cat sat on the mat"});
-                                ({array, _} = Local__1) ->
-                               xqerl_operators:lookup(Ctx, Local__1,
-                                       {xqAtomicValue, 'xs:string',
-                                        "the cat sat on the mat"});
-                                (Ctx__1) ->
-                               Local__1 = xqerl_types:value(XQ__var_1),
-                               if erlang:is_function(Local__1) ->
-                                 Local__1(Ctx,
-                                     {xqAtomicValue, 'xs:string',
-                                      "the cat sat on the mat"},
-                                     {xqAtomicValue, 'xs:string', "\\s+"});
-                                  true ->
-                                 xqerl_operators:lookup(Ctx, Local__1,
-                                              {xqAtomicValue, 'xs:string',
-                                          "the cat sat on the mat"})
-                               end
-                            end,
-                            XQ__var_1));
-            (Ctx__2) ->
-                Local__2 = xqerl_types:value([]),
-                if erlang:is_function(Local__2) ->
-                  Local__2(Ctx,
-                      xqerl_seq3:val_map(fun (Local__1) when erlang:is_map(Local__1) ->
-                             xqerl_operators:lookup(Ctx, Local__1,
-                                     {xqAtomicValue, 'xs:string',
-                                      "the cat sat on the mat"});
-                              ([Local__1]) when erlang:is_map(Local__1) ->
-                             xqerl_operators:lookup(Ctx, Local__1,
-                                     {xqAtomicValue, 'xs:string',
-                                      "the cat sat on the mat"});
-                              ({array, _} = Local__1) ->
-                             xqerl_operators:lookup(Ctx, Local__1,
-                                     {xqAtomicValue, 'xs:string',
-                                      "the cat sat on the mat"});
-                              (Ctx__1) ->
-                             Local__1 = xqerl_types:value(XQ__var_1),
-                             if erlang:is_function(Local__1) ->
-                               Local__1(Ctx,
-                                   {xqAtomicValue, 'xs:string',
-                                    "the cat sat on the mat"},
-                                   {xqAtomicValue, 'xs:string', "\\s+"});
-                                true ->
-                               xqerl_operators:lookup(Ctx, Local__1,
-                                       {xqAtomicValue, 'xs:string',
-                                        "the cat sat on the mat"})
-                             end
-                          end,
-                          XQ__var_1));
-              true ->
-                  xqerl_operators:lookup(Ctx, Local__2,
-                          xqerl_seq3:val_map(fun (Local__1) when erlang:is_map(Local__1) ->
-                                 xqerl_operators:lookup(Ctx, Local__1,
-                                              {xqAtomicValue, 'xs:string',
-                                          "the cat sat on the mat"});
-                                  ([Local__1]) when erlang:is_map(Local__1) ->
-                                 xqerl_operators:lookup(Ctx, Local__1,
-                                              {xqAtomicValue, 'xs:string',
-                                          "the cat sat on the mat"});
-                                  ({array, _} = Local__1) ->
-                                 xqerl_operators:lookup(Ctx, Local__1,
-                                              {xqAtomicValue, 'xs:string',
-                                          "the cat sat on the mat"});
-                                  (Ctx__1) ->
-                                 Local__1 = xqerl_types:value(XQ__var_1),
-                                 if erlang:is_function(Local__1) ->
-                                        Local__1(Ctx,
-                                       {xqAtomicValue, 'xs:string',
-                                        "the cat sat on the mat"},
-                                       {xqAtomicValue, 'xs:string',
-                                        "\\s+"});
-                                    true ->
-                                        xqerl_operators:lookup(Ctx, Local__1,
-                                                {xqAtomicValue,
-                                                 'xs:string',
-                                                 "the cat sat on the mat"})
-                                 end
-                              end,
-                              XQ__var_1))
-                end
-             end,
-             []).
-
--compile({inline, {let__1, 2}}).
-
-let__1(Ctx, List) when erlang:is_list(List) ->
-    lists:flatten([let__1(Ctx, T) || T <- List]);
-let__1(Ctx, _) ->
-    XQ__var_1 = xqerl_seq3:ensure_zero_or_more(fun xqerl_fn:tokenize/3),
-    return__2(Ctx, {XQ__var_1}).

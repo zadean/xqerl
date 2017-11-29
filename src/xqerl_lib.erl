@@ -251,53 +251,34 @@ pct_encode3([H|T]) ->
    string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode3(T).
 
 resolve_against_base_uri(Base,[]) -> 
-   case filename:pathtype(Base) of
-      absolute ->
-         {absolute,Base};
-      _ ->
-         case http_uri:parse(Base) of
-            {ok,_} ->
-               {absolute,Base};
-            _ ->
-               {relative, Base}
-         end
-   end;
-resolve_against_base_uri(Base,Path) ->
-   case filename:pathtype(Path) of
-      absolute ->
-         %?dbg("Path",Path),
-         {absolute,Path};
-      relative ->
-         %?dbg("Base",Base),
-         %?dbg("Path",Path),
-         case http_uri:parse(Path) of
-            {ok,_} ->
-               %?dbg("parse",http),
-               {absolute,Path};
-            _ ->
-               case filename:pathtype(Base) of
-                  absolute ->
-                     Dir = filename:dirname(Base),
-                     case filename:safe_relative_path(Path) of
-                        unsafe ->
-                           %?dbg("parse",unsafe),
-                           {absolute, Dir ++ "/" ++ Path};
-                        O ->
-                           %?dbg("safe",O),
-                           {absolute,Dir ++ "/" ++ O}
-                     end;
-                  _ ->
-                     case http_uri:parse(Base) of
-                        {ok,_} ->
-                           %?dbg("parse",http),
-                           {absolute,Base ++ Path};
-                        _ ->
-                           %?dbg("relative",Base ++ Path),
-                           {relative, filename:join(Base,Path)}
-                     end
-               end
+   Base;
+resolve_against_base_uri(Base,RelPath) ->
+   Opts = [{scheme_defaults,[{file,1}|http_uri:scheme_defaults()]}],
+   {ok, {Scheme, _UserInfo, Host, _Port, Path, _Query}} = http_uri:parse(Base,Opts),
+   case http_uri:parse(RelPath,Opts) of
+      % not absolute
+      {error,_} ->
+         PathDir = filename:dirname(tl(Path)),
+         Joined = filename:absname_join(PathDir,RelPath),
+         case filename:pathtype(Joined) of
+            absolute -> % windows file
+               [Vol|Rest] = filename:split(Joined),
+               NonAbs = filename:join(Rest),
+               Safe = filename:safe_relative_path(NonAbs),
+               atom_to_list(Scheme) ++ ":///" ++ Vol ++ Safe;
+            relative ->
+               Safe = filename:safe_relative_path(Joined),
+               atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Safe;
+            volumerelative ->
+               {error,unsafe}
          end;
-      volumerelative ->
-         ?dbg(?LINE,Path),
-         {relative, filename:join(Base,Path)}
+      % RelPath is absolute and becomes new base
+      {ok,_} ->
+         RelPath
    end.
+
+
+
+
+
+

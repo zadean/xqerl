@@ -933,60 +933,18 @@ avg1([H|T], Sum, Count) ->
 %% Returns the base URI of a node. 
 'base-uri'(Ctx) -> 'base-uri'(Ctx,xqerl_context:get_context_item(Ctx)).
 'base-uri'(_Ctx,[]) -> ?seq:empty();
-'base-uri'(_Ctx,Arg1) -> 
-   case ?seq:is_sequence(Arg1) andalso ?seq:is_empty(Arg1) of
-      true ->
-         Arg1;
-      _ ->
-         Node = ?seq:singleton_value(Arg1),
-         case Node of
-            #xqNode{frag_id = F} ->
-               case xqerl_node:get_node(Node) of
-                  #xqElementNode{base_uri = Base} ->
-                     %?dbg("base-uri",Base),
-                     if Base == [] -> ?seq:empty();
-                        true -> 
-                           case ?seq:is_sequence(Base) of
-                              true ->
-                                 Base;
-                              _ ->
-                                 ?seq:singleton(Base)
-                           end
-                     end;
-                  #xqProcessingInstructionNode{base_uri = Base} ->
-                     if Base == [] -> ?seq:empty();
-                        true -> 
-                           case ?seq:is_sequence(Base) of
-                              true ->
-                                 Base;
-                              _ ->
-                                 ?seq:singleton(Base)
-                           end
-                     end;
-                  #xqDocumentNode{base_uri = Base} ->
-                     if Base == [] -> ?seq:empty();
-                        true -> 
-                           case ?seq:is_sequence(Base) of
-                              true ->
-                                 Base;
-                              _ ->
-                                 ?seq:singleton(Base)
-                           end
-                     end;
-                  #xqAttributeNode{parent_node = P} ->
-                     'base-uri'([],#xqNode{frag_id = F, identity = P});
-                  #xqCommentNode{parent_node = P} ->
-                     'base-uri'([],#xqNode{frag_id = F, identity = P});
-                  #xqTextNode{parent_node = P} ->
-                     'base-uri'([],#xqNode{frag_id = F, identity = P});
-                  O ->
-                    %?dbg("base-uri",O),
-                    ?seq:empty()
-               end;
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end
-   end.
+'base-uri'(Ctx,[N]) -> 'base-uri'(Ctx,N);
+'base-uri'(#{'base-uri' := SBU},#xqNode{doc = Doc, node = Node}) ->
+   case xqerl_xdm:dm_base_uri(Doc, Node) of
+      [] ->
+         [];
+      BaseUri ->
+         %SBUValue = xqerl_types:value(SBU),
+         %Resolved = xqerl_lib:resolve_against_base_uri(SBUValue, BaseUri),
+         ?atm('xs:anyURI',BaseUri)
+         %?atm('xs:anyURI',Resolved)
+   end;
+'base-uri'(_,_) -> ?err('XPTY0004').
 
 %% Computes the effective boolean value of the sequence $arg. 
 % 1
@@ -1388,57 +1346,51 @@ val_reverse([{_,V}|T], Acc) ->
    try
       Uri = xqerl_types:value(Uri0),
       BaseUri = xqerl_types:value(BaseUri0),
-      {_, ResVal} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-      case catch xqerl_context:get_available_document(ResVal) of
-               {'EXIT',_} ->
-                  Doc = xqerl_doc:read_http(ResVal),
-                  ?seq:singleton(xqerl_doc:doc_to_node(Doc));
-               _ ->
-                  ?seq:singleton(#xqNode{frag_id = ResVal, identity = 1})
-            end
+      %?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
+      ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+      case xqerl_ds:exists_doc(ResVal) of
+         true ->
+            Doc = xqerl_doc:retrieve_doc(ResVal),
+            #xqNode{doc = Doc, node = xqerl_xdm:root(Doc)};
+         _ ->
+            _ = xqerl_doc:read_http(ResVal),
+            Doc = xqerl_doc:retrieve_doc(ResVal),
+            #xqNode{doc = Doc, node = xqerl_xdm:root(Doc)}
+      end
    catch 
       _:#xqError{} = E ->
          exit(E);
       _:_ ->
+         ?dbg("FODC0005",erlang:get_stacktrace()),
          ?err('FODC0005')
    end.
 
 
 %% The function returns true if and only if the function call fn:doc($uri) would return a document node. 
-'doc-available'(_Ctx,Arg1) -> 
-   Uri = xqerl_types:value(Arg1),
-   case catch xqerl_context:get_available_document(Uri) of
-            {'EXIT',_} ->
-               ?bool(false);
-            _ ->
-               ?bool(true)
-         end.
+'doc-available'(#{'base-uri' := BaseUri0},Uri0) -> 
+   Uri = xqerl_types:value(Uri0),
+   BaseUri = xqerl_types:value(BaseUri0),
+   ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+   case xqerl_ds:exists_doc(ResVal) of
+      true ->
+         ?bool(true);
+      _ ->
+         ?bool(false)
+   end.
 
 %% Returns the URI of a resource where a document can be found, if available. 
 'document-uri'(Ctx) ->
    Ci = xqerl_context:get_context_item(Ctx),
    'document-uri'(Ctx,Ci).
-'document-uri'(_Ctx,Arg1) -> 
-   Node = case ?seq:is_sequence(Arg1) of
-             true ->
-                ?seq:singleton_value(Arg1);
-             _ ->
-                Arg1
-          end,
-   if Node == [] ->
-         ?seq:empty();
+'document-uri'(_,[]) -> [];
+'document-uri'(Ctx,[Node]) ->
+   'document-uri'(Ctx,Node);
+'document-uri'(_Ctx,#xqNode{doc = Doc, node = Node}) -> 
+   DUri = xqerl_xdm:dm_document_uri(Doc, Node),
+   if DUri == [] ->
+         [];
       true ->
-         case xqerl_node:get_node_type(Node) of
-            'document-node' ->
-               #xqNode{frag_id = Uri} = Node,
-               if is_integer(Uri) ->
-                     ?seq:empty();
-                  true ->
-                     ?atm('xs:anyURI', Uri)
-               end;
-            _ ->
-               ?seq:empty()
-         end
+         ?atm('xs:anyURI', DUri)
    end.
 
 %% Returns the sequence of element nodes that have an ID value matching the value of one or more of the IDREF values supplied in $arg. 
@@ -1478,7 +1430,7 @@ val_reverse([{_,V}|T], Acc) ->
    Str2 = xqerl_types:string_value(Arg2),
    Uri = xqerl_types:value(Collation),
    BaseUri = xqerl_types:value(BaseUri0),
-   {_, Coll} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+   Coll = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
    if Str2 == [] ->
          ?bool(true);
       Str1 == [] ->
@@ -1884,7 +1836,7 @@ unmask_static_mod_ns(T) -> T.
    if Item == [] ->
          ?str("");
       true ->
-         Hash = xqerl_node:get_node_id(Item),
+         Hash = xqerl_node:get_node_hash(Item),
          ?str( "ID" ++ erlang:integer_to_list(Hash) )
    end.
 
@@ -1892,23 +1844,15 @@ unmask_static_mod_ns(T) -> T.
 'has-children'(Ctx) ->
    'has-children'(Ctx, xqerl_context:get_context_item(Ctx)).
 
-'has-children'(_Ctx,Arg1) -> 
-   Seq = case ?seq:is_sequence(Arg1) of
-            true ->
-               Arg1;
-            _ ->
-               ?seq:singleton(Arg1)
-         end,
-   case ?seq:is_empty(Seq) of
-      true ->
+'has-children'(_Ctx,[]) -> ?bool(false);
+'has-children'(Ctx,[Arg1]) ->
+   'has-children'(Ctx,Arg1);
+'has-children'(_Ctx,#xqNode{doc = Doc, node = Node}) ->
+   case xqerl_xdm:dm_children(Doc, Node) of
+      [] ->
          ?bool(false);
       _ ->
-         case xqerl_node:get_node_children(?seq:singleton_value(Seq)) of
-            [] ->
-               ?bool(false);
-            _ ->
-               ?bool(true)
-         end
+         ?bool(true)
    end.
 
 %% Returns the first item in a sequence. 
@@ -1945,48 +1889,23 @@ unmask_static_mod_ns(T) -> T.
 
 'id'(Ctx,Refs,Node) when not is_list(Refs) ->
    'id'(Ctx,[Refs],Node);
-'id'(Ctx,Refs,Node) -> 
-   %?dbg("Refs", Refs ),
-   %?dbg("Node", Node ),
-   RefToks = ?seq:val_map(fun(Val) ->
-                                'tokenize'(Ctx, 'normalize-space'(Ctx, ?seq:singleton(Val)))
+'id'(Ctx,Refs,[Node]) ->
+   'id'(Ctx,Refs,Node);
+'id'(Ctx,Refs,#xqNode{} = Node) -> 
+   RefToks = lists:flatmap(fun(Val) ->
+                                 Norm = 'normalize-space'(Ctx, ?seq:singleton(Val)),
+                                 'tokenize'(Ctx, Norm)
                           end, Refs),
-   %?dbg("id RefToks", RefToks ),
    try
       Root = xqerl_step:root(Ctx,Node),
-      %?dbg("Root",Root),
       Desc = xqerl_step:forward(Ctx,Root, 'descendant-or-self', #qname{namespace = "*", local_name = "*"}, []),
-      %?dbg("Desc",Desc),
-      Atts = xqerl_step:forward(Ctx,Desc, attribute, #qname{namespace = "*", local_name = "*"}, 
-                                [fun(CtxLoc) ->
-                                       Ci = ?seq:singleton_value(xqerl_context:get_context_item(CtxLoc)),
-                                       Att = xqerl_node:get_node(Ci),
-                                       At = Att#xqAttributeNode.expr,
-                                       %?dbg("At",At),
-                                       Ty = xqerl_types:type(At), 
-                                       %?dbg("Ty",Ty),
-                                       if Ty == 'xs:ID' ->
-                                             Str = xqerl_types:value(At),
-                                             %?dbg("Str",Str),
-                                             Match = ?seq:singleton_value(
-                                                       xqerl_operators:general_compare('=',
-                                                                                       #xqAtomicValue{type = 'xs:string', value = Str},
-                                                                                       RefToks)),
-                                             %?dbg("Match",Match),
-                                             ?bool(Match == #xqAtomicValue{type = 'xs:boolean', value = true});
-                                          true ->
-                                             ?bool(false)
-                                       end
-                                         
-                                 end]),
-      %?dbg("id Refs", Refs),
-      %?dbg("id Refs1", Refs1),
-      %?dbg("id Node", Node),
-      %?dbg("id Root", Root),
-      %?dbg("id Desc", Desc),
-      %?dbg("id Atts", Atts),
-      Elems = xqerl_step:reverse(Ctx,Atts, parent, #xqKindTest{kind = element},[]),
-      Elems
+      Atts = xqerl_step:ids(Ctx, Desc),
+      %?dbg("Node",Node),
+      Filtered = lists:filter(
+                   fun(A) ->
+                         xqerl_operators:general_compare('=',A,RefToks) == ?bool(true)
+                   end, Atts),
+      xqerl_step:reverse(Ctx,Filtered, parent, #xqKindTest{kind = element},[])
    catch 
       
       _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPDY0050"})} ->
@@ -2076,21 +1995,19 @@ unmask_static_mod_ns(T) -> T.
                       [])).
 
 %% Returns the prefixes of the in-scope namespaces for an element node. 
-'in-scope-prefixes'(_Ctx,Arg1) -> 
-   #xqElementNode{inscope_ns = Ns} = xqerl_node:get_node(?seq:singleton_value(Arg1)),
-   %?dbg("in-scope-prefixes",Ns),
-   List = lists:filtermap(fun(#xqNamespace{prefix = P}) when is_atom(P) ->
-                                false;
-                             (#xqNamespace{namespace = [], prefix = []}) -> % reset default
-                                false;
-                             (#xqNamespace{namespace = 'no-namespace'}) ->
-                                false;
-                             (#xqNamespace{prefix = []}) ->
-                                {true,#xqAtomicValue{type = 'xs:string', value = []}};
-                             (#xqNamespace{prefix = P}) ->
-                                {true,#xqAtomicValue{type = 'xs:NCName', value = P}}
-                          end, Ns),
-   ?seq:from_list(lists:usort(List)).
+'in-scope-prefixes'(Ctx, [Arg1]) ->
+   'in-scope-prefixes'(Ctx, Arg1);
+'in-scope-prefixes'(_Ctx, #xqNode{doc = Doc, node = Node}) -> 
+   InScopeNs = xqerl_xdm:inscope_namespaces(Doc, Node),
+   %?dbg("in-scope-prefixes",InScopeNs),
+   lists:usort(
+   lists:filtermap(fun({'no-namespace',_}) ->
+                   false;
+                ({_,[]}) ->
+                   {true,#xqAtomicValue{type = 'xs:string', value = []}};
+                ({_,P}) ->
+                   {true,#xqAtomicValue{type = 'xs:NCName', value = P}}
+             end, InScopeNs)).
 
 %% Returns a sequence constructed by inserting an item or a sequence of items at a given position within an existing sequence. 
 'insert-before'(_Ctx,Target,Position,Inserts) ->
@@ -2128,29 +2045,28 @@ unmask_static_mod_ns(T) -> T.
 'lang'(Ctx,Arg1) -> 
    Ci = xqerl_context:get_context_item(Ctx),
    'lang'(Ctx,Arg1,Ci).
-'lang'(Ctx,Testlang0,Node) -> 
+
+'lang'(_,[],_) -> ?bool(false);
+'lang'(Ctx,Testlang0,[Node]) ->
+   'lang'(Ctx,Testlang0,Node);
+'lang'(Ctx,Testlang0,#xqNode{} = XNode) -> 
    try
-      Testlang = xqerl_types:string_value(Testlang0),
-      Ances = xqerl_step:reverse(Ctx,Node, 'ancestor-or-self', #qname{namespace = "*", local_name = "*"}, []),
+      Ances = xqerl_step:reverse(Ctx,XNode, 'ancestor-or-self', #qname{namespace = "*", local_name = "*"}, []),
       Atts = xqerl_step:forward(Ctx,Ances, attribute, #qname{namespace = "http://www.w3.org/XML/1998/namespace",
                                                              prefix = "xml", 
                                                              local_name = "lang"},[]),
-      LastIx = ?seq:size(Atts),
-      Lang = ?seq:filter(Ctx, #xqAtomicValue{type = 'xs:integer', value = LastIx},Atts),
-      Exists = xqerl_step:forward(Ctx,Lang, self, #qname{namespace = "*",
-                                                         prefix = "*", 
-                                                         local_name = "*"}, 
-                                   [fun(CtxLoc) ->
-                                          Ci = ?seq:singleton_value(xqerl_context:get_context_item(CtxLoc)),
-                                          Att = xqerl_node:get_node(Ci),
-                                          Raw = xqerl_types:string_value(Att#xqAttributeNode.expr),
-                                          At = hd(string:tokens(Raw,"-")),
-                                          %?dbg("Testlang",Testlang),
-                                          %?dbg("At",At),
-                                          ?bool(string:lowercase(At) == string:lowercase(Testlang)
-                                                orelse string:lowercase(Testlang) == string:lowercase(Raw))
-                                    end]),
-      ?MODULE:exists([], Exists)
+      if Atts == [] ->
+            ?bool(false);
+         true ->
+            #xqNode{doc = Doc, node = Lang} = lists:last(Atts),
+            Str = string:lowercase(xqerl_xdm:dm_string_value(Doc, Lang)),
+            Testlang = string:lowercase(xqerl_types:string_value(Testlang0)),
+            Match = Str == Testlang orelse string:prefix(Str, Testlang ++ "-") =/= nomatch,
+            %?dbg("Str",Str),
+            %?dbg("Testlang",Testlang),
+            %?dbg("Match",Match),
+            ?bool(Match)
+      end
    catch 
       _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPDY0050"}} ->
             xqerl_error:error('FODC0001');
@@ -2168,12 +2084,11 @@ unmask_static_mod_ns(T) -> T.
 
 %% Returns the local part of the name of $arg as an xs:string that is either the zero-length string, or has the lexical form of an xs:NCName. 
 'local-name'(Ctx) -> 
-   QName = ?seq:singleton_value('node-name'(Ctx)),
-   #qname{local_name = L} = xqerl_types:value(QName),
-   ?str(L).
+   Ci = xqerl_context:get_context_item(Ctx),
+   'local-name'(Ctx, Ci).
 
 'local-name'(Ctx,Arg1) -> 
-   QName = ?seq:singleton_value('node-name'(Ctx,Arg1)),
+   QName = 'node-name'(Ctx,Arg1),
    case xqerl_types:value(QName) of
       #qname{local_name = L} ->
          ?str(L);
@@ -2487,17 +2402,12 @@ compare_convert_seq([H|T], Acc, SeqType) ->
 
 %% Returns the name of a node, as an xs:string that is either the zero-length string, or has the lexical form of an xs:QName. 
 'name'(Ctx) -> 
-   Q = 'node-name'(Ctx),
-   S = xqerl_types:cast_as( Q, 'xs:string' ),
-   if S == [] ->
-         ?str("");
-      true ->
-         ?seq:singleton(S)
-   end.
+   Ci = xqerl_context:get_context_item(Ctx),
+   'name'(Ctx, Ci).
+
 'name'(Ctx,Arg1) -> 
    Q = 'node-name'(Ctx,Arg1),
    %?dbg("Q",Q),
-   %?dbg("Arg1",Arg1),
    S = xqerl_types:cast_as( Q, 'xs:string' ),
    if S == [] ->
          ?str("");
@@ -2511,35 +2421,30 @@ compare_convert_seq([H|T], Acc, SeqType) ->
    'namespace-uri'(Ctx,Item).
 'namespace-uri'(_Ctx,[]) -> ?atm('xs:anyURI',"");
 'namespace-uri'(_Ctx,Arg1) ->
-   Node = ?seq:singleton_value(Arg1),
-   %?dbg("Node",Node),
-   case xqerl_node:get_node_name(Node) of
-      #qname{namespace = 'no-namespace'} ->
+   #xqNode{doc = Doc, node = Node} = ?seq:singleton_value(Arg1),
+   case xqerl_xdm:dm_node_name(Doc, Node) of
+      {'no-namespace',_} ->
          ?atm('xs:anyURI',"");
-      #qname{namespace = Uri} ->
-         ?atm('xs:anyURI',Uri);
-      #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = 'no-namespace'}} ->
+      {"",_} ->
          ?atm('xs:anyURI',"");
-      #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = Uri}} ->
-         ?atm('xs:anyURI',Uri);
       [] ->
-         ?atm('xs:anyURI',"")
+         ?atm('xs:anyURI',"");
+      {Uri,_} ->
+         ?atm('xs:anyURI',Uri)
    end.
 
 %% Returns the namespace URI of one of the in-scope namespaces for $element, identified by its namespace prefix. 
-'namespace-uri-for-prefix'(_Ctx,Prefix,Element) -> 
+'namespace-uri-for-prefix'(Ctx,Prefix,[Element]) ->
+   'namespace-uri-for-prefix'(Ctx,Prefix,Element);
+'namespace-uri-for-prefix'(_Ctx,Prefix,#xqNode{doc = Doc, node = Node}) -> 
    P1 = xqerl_types:string_value(Prefix),
-   Node = ?seq:singleton_value(Element),
-   %?dbg("Node",Node),
-   #xqElementNode{inscope_ns = InScopeNamespaces} = xqerl_node:get_node(Node),
-   %?dbg("namespace-uri-for-prefix", P1),
-   %?dbg("namespace-uri-for-prefix", InScopeNamespaces),
-   case lists:keyfind(P1, 3, InScopeNamespaces) of
+   InScopeNs = xqerl_xdm:inscope_namespaces(Doc, Node),
+   case lists:keyfind(P1, 2, InScopeNs) of
       false ->
          ?seq:empty();
-      #xqNamespace{namespace = 'no-namespace'} ->
+      {'no-namespace',_} ->
          ?seq:empty();
-      #xqNamespace{namespace = Ns} ->
+      {Ns,_} ->
          ?atm('xs:anyURI', Ns)
    end.
 
@@ -2564,77 +2469,71 @@ compare_convert_seq([H|T], Acc, SeqType) ->
    end.   
 
 %% Returns true for an element that is nilled. 
-'nilled'(Ctx) ->
-   Ci = xqerl_context:get_context_item(Ctx),
-   'nilled'(Ctx,Ci).
-'nilled'(Ctx,Node) -> 
-   % since schema validation is not implemented, this will always be false
-   Self = xqerl_step:forward(Ctx, Node, self, 
-                             #xqKindTest{kind = element, 
-                                         name = #qname{namespace = "*",
-                                                       prefix = "*",local_name = "*"}},[]),
-   case ?seq:is_empty(Self) of
-      true ->
-         ?seq:empty();
-      _ ->
-         ?bool(false)
-%%          Atts = xqerl_step:forward(Ctx,Node, attribute, #qname{namespace = "http://www.w3.org/2001/XMLSchema-instance",
-%%                                                                prefix = "xsi", 
-%%                                                                local_name = "nil"},[]),
-%%          case ?seq:is_empty(Atts) of
-%%             true ->
-%%                ?bool(false);
-%%             _ ->
-%%                ?bool(xqerl_types:string_value(Atts) == "true" )
-%%          end
-   end.
+'nilled'(_) ->
+   ?bool(false).
+'nilled'(_,_) -> 
+   ?bool(false).
+
+%%    % since schema validation is not implemented, this will always be false
+%%    Self = xqerl_step:forward(Ctx, Node, self, 
+%%                              #xqKindTest{kind = element, 
+%%                                          name = #qname{namespace = "*",
+%%                                                        prefix = "*",local_name = "*"}},[]),
+%%    case ?seq:is_empty(Self) of
+%%       true ->
+%%          ?seq:empty();
+%%       _ ->
+%%          ?bool(false)
+%% %%          Atts = xqerl_step:forward(Ctx,Node, attribute, #qname{namespace = "http://www.w3.org/2001/XMLSchema-instance",
+%% %%                                                                prefix = "xsi", 
+%% %%                                                                local_name = "nil"},[]),
+%% %%          case ?seq:is_empty(Atts) of
+%% %%             true ->
+%% %%                ?bool(false);
+%% %%             _ ->
+%% %%                ?bool(xqerl_types:string_value(Atts) == "true" )
+%% %%          end
+%%    end.
 
 %% Returns the name of a node, as an xs:QName. 
 'node-name'(Ctx) ->
    'node-name'(Ctx, xqerl_context:get_context_item(Ctx)).
 
+'node-name'(Ctx, [Arg]) ->
+   'node-name'(Ctx, Arg);
 'node-name'(_Ctx, #xqAtomicValue{}) -> xqerl_error:error('XPTY0004');
-'node-name'(_Ctx, #xqNode{frag_id = F, identity = I}) ->
-   Doc = xqerl_context:get_available_document(F),
-   Q = xqerl_node:get_node_name({I,Doc}),
-   %?dbg("Q",Q),
-   if Q == [] ->
-         ?seq:empty();
-         %?str("");
-      true ->
-         ?seq:singleton(#xqAtomicValue{type = 'xs:QName', value = Q})
+'node-name'(_Ctx, #xqNode{doc = Doc, node = Node}) ->
+   case xqerl_xdm:dm_node_name(Doc, Node) of
+      [] ->
+         [];
+      {Ns,Ln} ->
+         Px = xqerl_xdm:prefix(Doc, Node),
+         Q = #qname{namespace = Ns, prefix = Px, local_name = Ln},
+         ?atm('xs:QName',Q);
+      {Ns,Px, Ln} ->
+         Q = #qname{namespace = Ns, prefix = Px, local_name = Ln},
+         ?atm('xs:QName',Q)
    end;
-'node-name'(_Ctx, N) when is_record(N, xqElementNode);
-                          is_record(N, xqDocumentNode);
-                          is_record(N, xqAttributeNode);
-                          is_record(N, xqCommentNode);
-                          is_record(N, xqTextNode);
-                          is_record(N, xqProcessingInstructionNode);
-                          is_record(N, xqNamespaceNode) ->
-   Q = xqerl_node:get_node_name(N),
-   if Q == [] ->
-         ?seq:empty();
-      true ->
-         Q
-   end;
-'node-name'(Ctx, Arg1) ->
-   case ?seq:is_empty(Arg1) of
-      true ->
-         ?seq:empty();
-      _ ->
-         'node-name'(Ctx, ?seq:singleton_value(Arg1))
-   end.
+%% 'node-name'(_Ctx, N) when is_record(N, xqElementNode);
+%%                           is_record(N, xqDocumentNode);
+%%                           is_record(N, xqAttributeNode);
+%%                           is_record(N, xqCommentNode);
+%%                           is_record(N, xqTextNode);
+%%                           is_record(N, xqProcessingInstructionNode);
+%%                           is_record(N, xqNamespaceNode) ->
+%%    Q = xqerl_node:get_node_name(N),
+%%    if Q == [] ->
+%%          ?seq:empty();
+%%       true ->
+%%          Q
+%%    end;
+'node-name'(_Ctx, []) ->
+   [].
 
 %% Returns the value of $arg with leading and trailing whitespace removed, and sequences of internal whitespace reduced to a single space character. 
 'normalize-space'(Ctx) -> 
    Ci = xqerl_context:get_context_item(Ctx),
    'normalize-space'(Ctx, Ci).
-%%    case ?seq:is_sequence(Ci) of 
-%%       true ->
-%%          'normalize-space'(Ctx, Ci);
-%%       _ ->
-%%          'normalize-space'(Ctx, ?seq:singleton(Ci))
-%%    end.
 'normalize-space'(_Ctx,Arg1) -> 
    case ?seq:is_empty(Arg1) of
       true ->
@@ -3058,9 +2957,14 @@ string_value(At) -> xqerl_types:string_value(At).
 %% 
 %% fn:resolve-QName($qname as xs:string?, $element as element()) as xs:QName? 
 'resolve-QName'(_Ctx,[],_Element) -> [];
-'resolve-QName'(_Ctx,String,Element) -> 
-   #xqElementNode{inscope_ns = IsNs} = xqerl_node:get_node(?seq:singleton_value(Element)),
-   %?dbg("IsNs",IsNs),
+'resolve-QName'(Ctx,String,[Element]) ->
+   'resolve-QName'(Ctx,String,Element);
+'resolve-QName'(#{namespaces := SNS},String,#xqNode{doc = Doc, node = Node}) -> 
+   InScopeNs = xqerl_xdm:inscope_namespaces(Doc, Node),
+   IsNs = lists:map(fun({U,P}) ->
+                        #xqNamespace{namespace = U, prefix = P}
+                    end, InScopeNs) ++ SNS,
+   %?dbg("in-scope-prefixes",IsNs),
    try
       xqerl_types:cast_as(String, 'xs:QName', IsNs)
    catch 
@@ -3077,20 +2981,19 @@ string_value(At) -> xqerl_types:string_value(At).
 'resolve-uri'(_Ctx,Relative,Base) -> 
    try
       UriRel = xqerl_types:cast_as(Relative, 'xs:anyURI'),
-      %?dbg("UriRel",UriRel),
       UriBas = xqerl_types:cast_as(Base, 'xs:anyURI'),
-      %?dbg("UriBas",UriBas),
       RelVal = xqerl_types:value(UriRel),
-      %?dbg("RelVal",RelVal),
       BasVal = xqerl_types:value(UriBas),
-      %?dbg("BasVal",BasVal),
-      {absolute, ResVal} = xqerl_lib:resolve_against_base_uri(BasVal, RelVal),
-      %?dbg("ResVal",ResVal),
-      ?atm('xs:anyURI',ResVal)
+      case xqerl_lib:resolve_against_base_uri(BasVal, RelVal) of
+         {error,unsafe} ->
+            ?err('FORG0002');
+         ResVal ->
+            ?atm('xs:anyURI',ResVal)
+      end
    catch 
       _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "FORG0001"}}} -> ?err('FORG0002');
-      _:{badmatch, {relative,_}} -> ?err('FORG0002'); % relative base
-      _:_E -> %?dbg("E",E), 
+      _:{badmatch, _} -> ?err('FORG0002');
+      _:_ ->  
          ?err('FORG0009')
    end.
 
@@ -3269,7 +3172,7 @@ sort1(Ctx,A,B,Coll) ->
    Str2 = xqerl_types:string_value(Arg2),
    Uri = xqerl_types:value(Collation),
    BaseUri = xqerl_types:value(BaseUri0),
-   {_, Coll} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+   Coll = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
    if Str2 == [] ->
          ?bool(true);
       Str1 == [] ->
@@ -3466,7 +3369,7 @@ sort1(Ctx,A,B,Coll) ->
 'substring-after'(#{'base-uri' := BaseUri0},Arg1,Arg2,Collation) ->
    Uri = xqerl_types:value(Collation),
    BaseUri = xqerl_types:value(BaseUri0),
-   {_, Coll} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+   Coll = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
 
    StrVal = xqerl_types:string_value(Arg1),
    SplVal = xqerl_types:string_value(Arg2),
@@ -3494,7 +3397,7 @@ sort1(Ctx,A,B,Coll) ->
 'substring-before'(#{'base-uri' := BaseUri0},Arg1,Arg2,Collation) ->
    Uri = xqerl_types:value(Collation),
    BaseUri = xqerl_types:value(BaseUri0),
-   {_, Coll} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+   Coll = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
 
    StrVal = xqerl_types:string_value(Arg1),
    SplVal = xqerl_types:string_value(Arg2),
@@ -3701,31 +3604,14 @@ zip_map_trans([H|T],[TH|TT]) ->
    try
       Uri = xqerl_types:value(Uri0),
       BaseUri = xqerl_types:value(BaseUri0),
-      {_, ResVal} = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-      case lists:member($#, ResVal) of
+      ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+      Enc = xqerl_types:string_value(Encoding),
+      {ok,Binary} = xqerl_ds:lookup_res(ResVal),
+      if Encoding == [] ->
+            ?str( xqerl_file:bin_to_utf8(Binary));
          true ->
-            ?err('FOUT1170');
-         _ ->
-            ok
-      end,
-      %?dbg("ResVal",ResVal),
-      case catch xqerl_context:get_available_text_resource(ResVal) of
-               {'EXIT',_} ->
-                  %?dbg("All",xqerl_context:get_available_text_resources()),
-                  Binary = xqerl_doc:read_text(ResVal),
-                  _ = xqerl_context:add_available_text_resource(ResVal, Binary),
-                  if Encoding == [] ->
-                        ?str( xqerl_file:bin_to_utf8(Binary));
-                     true ->
-                        ?str( xqerl_file:bin_to_utf8(Binary, xqerl_types:string_value(Encoding)))
-                  end;
-               Binary ->
-                  if Encoding == [] ->
-                        ?str( xqerl_file:bin_to_utf8(Binary));
-                     true ->
-                        ?str( xqerl_file:bin_to_utf8(Binary, xqerl_types:string_value(Encoding)))
-                  end
-            end
+            ?str( xqerl_file:bin_to_utf8(Binary, Enc))
+      end
    catch 
       _:#xqError{} = E ->
          exit(E);
