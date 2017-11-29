@@ -114,7 +114,7 @@ if_empty(Value,_Default) -> Value.
    
 
 xml_to_json(State, #xqNode{} = Doc) ->
-   Tree = xqerl_node:get_doc(Doc),
+   Tree = xqerl_node:node_to_content(Doc),
    % Attributes are in 'expr', not in 'attributes'
    case xml_to_json(State, Tree) of
       {_K,V,_EscKey0} -> % key with no map, internal node
@@ -314,6 +314,7 @@ json_to_xml(State, Key, {array, Values}) ->
                        end, Values),
    #xqElementNode{name = ?qn("array"),
                   attributes = att_key(Key, State#state.escape),
+                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = Content};
 json_to_xml(#state{duplicates = Dupes} = State, Key, {object, Members}) ->
@@ -341,25 +342,30 @@ json_to_xml(#state{duplicates = Dupes} = State, Key, {object, Members}) ->
        end, #{}, Members),
    #xqElementNode{name = ?qn("map"),
                   attributes = att_key(Key, State#state.escape),
+                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = Content};
 json_to_xml(State, Key, true) -> 
    #xqElementNode{name = ?qn("boolean"),
                   attributes = att_key(Key, State#state.escape),
+                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = #xqAtomicValue{type = 'xs:boolean', value = true}};
 json_to_xml(State, Key, false) -> 
    #xqElementNode{name = ?qn("boolean"),
                   attributes = att_key(Key, State#state.escape),
+                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = #xqAtomicValue{type = 'xs:boolean', value = false}};
 json_to_xml(State, Key, null) -> 
    #xqElementNode{name = ?qn("null"),
+                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
                   type = 'xs:untyped',
                   attributes = att_key(Key, State#state.escape)};
 json_to_xml(State, Key, Val) when is_float(Val) ->
    #xqElementNode{name = ?qn("number"),
                   attributes = att_key(Key, State#state.escape),
+                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = #xqAtomicValue{type = 'xs:double', value = Val}};
 json_to_xml(State, Key, Val) ->
@@ -367,6 +373,7 @@ json_to_xml(State, Key, Val) ->
    Esc = att_esc(Norm, State#state.escape),
    #xqElementNode{name = ?qn("string"),
                   attributes = [Esc|att_key(Key, State#state.escape)],
+                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = #xqAtomicValue{type = 'xs:string', 
                                         value = normalize_string(State, Val)}}.

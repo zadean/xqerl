@@ -196,7 +196,7 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -205,10 +205,10 @@ environment('empty') ->
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
@@ -217,10 +217,10 @@ environment('atomic') ->
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -229,10 +229,10 @@ environment('atomic-xq') ->
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -241,10 +241,10 @@ environment('works-mod') ->
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -253,10 +253,10 @@ environment('works') ->
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -265,11 +265,11 @@ environment('staff') ->
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -278,10 +278,10 @@ environment('works-and-staff') ->
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -295,10 +295,10 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
@@ -310,7 +310,7 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
@@ -322,7 +322,7 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
@@ -334,7 +334,7 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
@@ -346,7 +346,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -1257,7 +1257,7 @@ environment('array-and-map') ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<e attr=\" &#xD;&#xA;&#x9;&#xD;&#xD;&#xD;&#xD;      &#xD; &#xD;     &#xD;&#xA; &#xD;&#xA; &#xD;&#xA;\"/>") of 
+   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirectConstructor/K2-DirectConOther-49.out"}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -1321,12 +1321,7 @@ string literal
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<e>a 
-
-
- 
-string literal 
-</e>") of 
+   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirectConstructor/K2-DirectConOther-52.out"}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -1350,12 +1345,7 @@ string literal
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<e><!--a 
-
-
- 
-string literal 
---></e>") of 
+   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirectConstructor/K2-DirectConOther-53.out"}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -1379,12 +1369,7 @@ string literal
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<e><?target a 
-
-
- 
-string literal 
-?></e>") of 
+   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirectConstructor/K2-DirectConOther-54.out"}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 

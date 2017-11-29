@@ -112,8 +112,8 @@
 
 lookup(Ctx,[Sing],Value) ->
    lookup(Ctx,Sing,Value);
-lookup(Ctx,Fun,Value) when is_function(Fun) ->
-   Fun(Ctx, Value);
+%lookup(Ctx,Fun,Value) when is_function(Fun) -> should not be able to call as lookup
+%   Fun(Ctx, Value);
 lookup(_Ctx,Map,all) when is_map(Map) ->
    xqerl_map:values(Map);
 lookup(_Ctx,Map,Values) when is_map(Map), is_list(Values) ->
@@ -756,77 +756,73 @@ node_before([], _) ->
    ?seq:empty();
 node_before(_,[]) ->
    ?seq:empty();
-node_before(#xqNode{frag_id = F1,identity = I1}, #xqNode{frag_id = F2,identity = I2}) ->
-   ?bool((I1 < I2 andalso F1 == F2) orelse F1 < F2);
-node_before(Seq1,#xqNode{} = N2) ->
-   node_before(?seq:singleton_value(Seq1),N2);
-node_before(#xqNode{} = N1, Seq2) ->
-   node_before(N1, ?seq:singleton_value(Seq2));
+node_before(#xqNode{doc = Doc1, node = Node1}, 
+            #xqNode{doc = Doc2, node = Node2}) ->
+   U1 = xqerl_xdm:uri(Doc1),
+   U2 = xqerl_xdm:uri(Doc2),
+   if U1 < U2 ->
+         ?bool(true);
+      U1 > U2 ->
+         ?bool(false);
+      true ->
+         ?bool(xqerl_xdm:uid(Node1) < xqerl_xdm:uid(Node2))
+   end;
+node_before([Seq1],[Seq2]) ->
+   node_before(Seq1,Seq2);
+node_before([Seq1],#xqNode{} = N2) ->
+   node_before(Seq1,N2);
+node_before(#xqNode{} = N1, [Seq2]) ->
+   node_before(N1, Seq2);
 node_before(Seq1, Seq2) ->
-   %?dbg("node_before(Seq1, Seq2)",{Seq1, Seq2}),
-   Nd1 = case ?seq:singleton_value(Seq1) of
-            #xqNode{} = N1 ->
-               N1;
-            [] ->
-               [];
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end,
-   Nd2 = case ?seq:singleton_value(Seq2) of
-            #xqNode{} = N2 ->
-               N2;
-            [] ->
-               [];
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end,
-   node_before(Nd1,Nd2).
+   ?dbg("node_before(Seq1, Seq2)",{Seq1, Seq2}),
+   xqerl_error:error('XPTY0004').
 
 node_after([], _) ->
    ?seq:empty();
 node_after(_,[]) ->
    ?seq:empty();
-node_after(#xqNode{frag_id = F1,identity = I1}, #xqNode{frag_id = F2,identity = I2}) ->
-   ?bool((I1 > I2 andalso F1 == F2) orelse F1 > F2);
-node_after(Seq1,#xqNode{} = N2) ->
-   node_after(?seq:singleton_value(Seq1),N2);
-node_after(#xqNode{} = N1, Seq2) ->
-   node_after(N1, ?seq:singleton_value(Seq2));
+node_after(#xqNode{doc = Doc1, node = Node1}, 
+           #xqNode{doc = Doc2, node = Node2}) ->
+   U1 = xqerl_xdm:uri(Doc1),
+   U2 = xqerl_xdm:uri(Doc2),
+   if U1 > U2 ->
+         ?bool(true);
+      U1 < U2 ->
+         ?bool(false);
+      true ->
+         ?bool(xqerl_xdm:uid(Node1) > xqerl_xdm:uid(Node2))
+   end;
+node_after([Seq1],[Seq2]) ->
+   node_after(Seq1,Seq2);
+node_after([Seq1],#xqNode{} = N2) ->
+   node_after(Seq1,N2);
+node_after(#xqNode{} = N1, [Seq2]) ->
+   node_after(N1, Seq2);
 node_after(Seq1, Seq2) ->
-   Nd1 = case ?seq:singleton_value(Seq1) of
-            #xqNode{} = N1 ->
-               N1;
-            [] ->
-               [];
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end,
-   Nd2 = case ?seq:singleton_value(Seq2) of
-            #xqNode{} = N2 ->
-               N2;
-            [] ->
-               [];
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end,
-   node_after(Nd1,Nd2).
+   ?dbg("node_after(Seq1, Seq2)",{Seq1, Seq2}),
+   xqerl_error:error('XPTY0004').
 
 node_is([], _) -> ?seq:empty();
 node_is(_, []) -> ?seq:empty();
 node_is(#xqNode{} = A, #xqNode{} = A) -> #xqAtomicValue{type = 'xs:boolean', value = true};
-node_is(#xqNode{frag_id = F1,identity = I1}, #xqNode{frag_id = F2,identity = I2}) ->
-   #xqAtomicValue{type = 'xs:boolean', value = I1 == I2 andalso F1 == F2};
-node_is(Seq1,#xqNode{} = N2) ->
-   node_is(?seq:singleton_value(Seq1),N2);
-node_is(#xqNode{} = N1, Seq2) ->
-   node_is(N1, ?seq:singleton_value(Seq2));
-node_is(O1, O2) ->
-   case ?seq:is_sequence(O1) of
+node_is(#xqNode{doc = Doc1, node = Node1}, 
+        #xqNode{doc = Doc2, node = Node2}) ->
+   U1 = xqerl_xdm:uri(Doc1),
+   U2 = xqerl_xdm:uri(Doc2),
+   if U1 == U2 ->
+         ?bool(xqerl_xdm:uid(Node1) == xqerl_xdm:uid(Node2));
       true ->
-         node_is(?seq:singleton_value(O1),O2);
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end.
+         ?bool(false)
+   end;
+node_is([Seq1],[Seq2]) ->
+   node_is(Seq1,Seq2);
+node_is([Seq1],#xqNode{} = N2) ->
+   node_is(Seq1,N2);
+node_is(#xqNode{} = N1, [Seq2]) ->
+   node_is(N1, Seq2);
+node_is(O1, O2) ->
+   ?dbg("node_is(O1, O2)",{O1, O2}),
+   xqerl_error:error('XPTY0004').
 
 
 % returns xs:boolean
@@ -1258,7 +1254,7 @@ numeric_equal(#xqAtomicValue{type = TypeA, value = ValA},
              ?decimal(TypeB) andalso TypeA == 'xs:double' ->
                 xqerl_numeric:double(ValB) == ValA;
              TypeA == 'xs:float' andalso TypeB == 'xs:double' ->
-                ?dbg("equal",{ValA,ValB}),
+                %?dbg("equal",{ValA,ValB}),
                 ValA == ValB;
              TypeB == 'xs:float' andalso TypeA == 'xs:double' ->
                 ValA == ValB;
@@ -1514,7 +1510,7 @@ add_dayTimeDurations(#xqAtomicValue{type = 'xs:dayTimeDuration',
    SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
    SecB = (SdB + (MiB * 60) + (HrB * 3600) + (DyB * 86400)) * (if SnB =:= '-' -> -1; true -> 1 end),
    SecC = erlang:float(SecA + SecB),
-   ?dbg("SecA,SecB,SecC",{SecA,SecB,SecC,SnA,SnB}),
+   %?dbg("SecA,SecB,SecC",{SecA,SecB,SecC,SnA,SnB}),
    Str = case xqerl_numeric:less_than(SecC, 0) of
             true -> "-";
             _ -> ""
@@ -2296,7 +2292,7 @@ key_val(Val) ->
       #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = N,local_name = L}} ->
          {N,L};
       #xqAtomicValue{type = Type, value = Value} ->
-         ?dbg("{Type,Value}",{Type,Value}),
+         %?dbg("{Type,Value}",{Type,Value}),
          {Type,Value};
       _ ->
          xqerl_error:error('XPTY0004')

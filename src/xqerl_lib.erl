@@ -30,6 +30,11 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
+-export([lnew/0,
+         lget/1,
+         lput/2]).
+
+
 -export([is_xsname_start_char/1]).
 -export([is_xsname_char/1]).
 -export([is_xschar/1]).
@@ -41,6 +46,8 @@
 -export([encode_for_uri/1]).
 -export([pct_encode3/1]).
 -export([resolve_against_base_uri/2]).
+
+-export([next_comp_prefix/1]).
 
 -define(space, 32).
 -define(cr,    13).
@@ -251,53 +258,74 @@ pct_encode3([H|T]) ->
    string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode3(T).
 
 resolve_against_base_uri(Base,[]) -> 
-   case filename:pathtype(Base) of
-      absolute ->
-         {absolute,Base};
-      _ ->
-         case http_uri:parse(Base) of
-            {ok,_} ->
-               {absolute,Base};
-            _ ->
-               {relative, Base}
-         end
-   end;
-resolve_against_base_uri(Base,Path) ->
-   case filename:pathtype(Path) of
-      absolute ->
-         %?dbg("Path",Path),
-         {absolute,Path};
-      relative ->
-         %?dbg("Base",Base),
-         %?dbg("Path",Path),
-         case http_uri:parse(Path) of
-            {ok,_} ->
-               %?dbg("parse",http),
-               {absolute,Path};
-            _ ->
-               case filename:pathtype(Base) of
-                  absolute ->
-                     Dir = filename:dirname(Base),
-                     case filename:safe_relative_path(Path) of
-                        unsafe ->
-                           %?dbg("parse",unsafe),
-                           {absolute, Dir ++ "/" ++ Path};
-                        O ->
-                           %?dbg("safe",O),
-                           {absolute,Dir ++ "/" ++ O}
-                     end;
-                  _ ->
-                     case http_uri:parse(Base) of
-                        {ok,_} ->
-                           %?dbg("parse",http),
-                           {absolute,Base ++ Path};
-                        _ ->
-                           %?dbg("relative",Base ++ Path),
-                           {relative, filename:join(Base,Path)}
-                     end
-               end
+   Base;
+resolve_against_base_uri(Base,RelPath) ->
+   Opts = [{scheme_defaults,[{file,1}|http_uri:scheme_defaults()]}],
+   case http_uri:parse(RelPath,Opts) of
+      % not absolute
+      {error,_} ->
+         {ok, {Scheme, _UserInfo, Host, _Port, Path, _}} = http_uri:parse(Base,Opts), % fragments not allowed
+         PathDir = filename:dirname(tl(Path)),
+         Joined = filename:absname_join(PathDir,RelPath),
+         case filename:pathtype(Joined) of
+            absolute -> % windows file
+               [Vol|Rest] = filename:split(Joined),
+               NonAbs = filename:join(Rest),
+               Safe = filename:safe_relative_path(NonAbs),
+               atom_to_list(Scheme) ++ ":///" ++ Vol ++ Safe;
+            relative ->
+               Safe = filename:safe_relative_path(Joined),
+               atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Safe;
+            volumerelative ->
+               {error,unsafe}
          end;
-      volumerelative ->
-         ?dbg(?LINE,Path),
-         {relative, filename:join(Base,Path)}
+      % RelPath is absolute and becomes new base
+      {ok,_} ->
+         RelPath
    end.
+
+
+lnew() ->
+%%    catch ets:delete(local_data),
+%%    _ = ets:new(local_data, [set, private, named_table]),
+   ok.
+
+lget(Key) ->
+   case erlang:get(Key) of
+      undefined ->
+         [];
+      Val ->
+         Val
+   end.
+%%    case ets:lookup(local_data, Key) of
+%%       [{_,Val}] ->
+%%          Val;
+%%       _ ->
+%%          []
+%%    end.
+
+lput(Key,Val) ->
+   %ets:insert(local_data, {Key, Val}),
+   _ = erlang:put(Key, Val),
+   ok.
+
+
+next_comp_prefix(Namespaces) ->
+   Pxs = [P || #xqNamespace{prefix = P} <- Namespaces],
+   F = fun("ns_"++SNum, Max) ->
+            case catch list_to_integer(SNum) of
+               Int when is_integer(Int) ->
+                  erlang:max(Max,Int);
+               _ ->
+                  Max
+            end;
+          (_,Max) ->
+             Max
+       end,
+   Last = lists:foldl(F, 0, Pxs),
+   "ns_" ++ integer_to_list(Last + 1).
+
+
+
+
+

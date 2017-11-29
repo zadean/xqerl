@@ -599,7 +599,7 @@ scan_token(Str = "namespace-node" ++ T, A) ->
 scan_token(Str = "namespace-u" ++ _T, _A) ->  scan_name(Str);
 scan_token(Str = "``[" ++ _T, _A) ->  
    {Toks, T1} = scan_str_const(Str, [], []),
-   {Toks, T1};
+   {lists:flatten(Toks), T1};
 scan_token("]``" ++ T, _A) ->  {{']``', ?L, ']``'}, T};
 scan_token(Str = "(#" ++ _T, _A) ->  
    {Toks, T1} = scan_pragma(Str, [], []),
@@ -1296,7 +1296,9 @@ scan_token(Str = "div" ++ T, A) ->
    end;
 
 scan_token("else" ++ T, A) -> 
+   ?dbg("A",lookback(A)),
    qname_if_path("else", T, lookback(A));
+
 scan_token(Str = "cast" ++ T, A) -> 
     case lookforward_is_paren(T) of
        true ->
@@ -1964,8 +1966,10 @@ lookback(A) ->
          X;
       [[{'NCName',_,_},_,_]|_] -> % function call w/ prefix
          'NCName';
-       _O ->
-          %?dbg("lookback",O),
+      [[{'``[',_,_}|_]|_] -> % string constructor
+         '``[';
+      _O ->
+         %?dbg("lookback",O),
          []
    end.
 
@@ -2320,10 +2324,13 @@ scan_str_const("`{" ++ T, A, L) ->
    {Int, T1} = scan_str_const_interp(T, []),
    Chars = {'StringConstructorChars', ?L, lists:reverse(A)},
    scan_str_const(T1, [], [Int,New,Chars|L]);
-scan_str_const("``[" ++ T, A, L) ->
-   scan_str_const(T, A, [{'``[', ?L, '``['}|L]);
+scan_str_const("``[" ++ T, A, []) ->
+   scan_str_const(T, A, [{'``[', ?L, '``['}]);
+%% scan_str_const("``[" ++ T, A, L) ->
+%%    scan_str_const(T, A, [{'``[', ?L, '``['}|L]);
 scan_str_const("]``" ++ T, A, L) ->
    List = lists:reverse([{']``', ?L, ']``'},{'StringConstructorChars', ?L, lists:reverse(A)} |L]),
+   ?dbg("T",T),
    {List, T};
 scan_str_const([H|T], A, L) ->
    scan_str_const(T, [H|A], L).
@@ -2332,6 +2339,12 @@ scan_str_const([H|T], A, L) ->
 scan_str_const_interp([], _A) -> 
    ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
+scan_str_const_interp(Str = "``[" ++ _, A) ->
+   {Toks,Tail} = scan_str_const(Str, [], []),
+   {IToks,ITail} = scan_str_const_interp(Tail, A),
+   ?dbg("Toks",Toks),
+   ?dbg("IToks",IToks),
+   {Toks++IToks,ITail};
 scan_str_const_interp("}`" ++ T, A) ->
    Expr = lists:reverse(A),
    Toks = tokens_encl(Expr, []),

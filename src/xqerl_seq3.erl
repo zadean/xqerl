@@ -129,6 +129,10 @@ tail(_) -> [].
 reverse(Seq) ->
    lists:reverse(Seq).
 
+union(Seq1, []) when is_list(Seq1) ->
+   lists:usort(Seq1);
+union([], Seq2) when is_list(Seq2) ->
+   lists:usort(Seq2);
 union(Seq1, Seq2) when is_list(Seq1), is_list(Seq2)  ->
    set_fun1(Seq1, Seq2, union);
 union(Seq1, Seq2) when is_list(Seq1) ->
@@ -215,9 +219,9 @@ insert(Seq1,Seq2,Pos) when is_list(Seq1), is_list(Seq2) ->
           end,
    Head = subsequence(Seq1, 1, Pos1 - 1),
    Tail = subsequence(Seq1, Pos1, length(Seq1)),
-   ?dbg("Head",Head),
-   ?dbg("Seq2",Seq2),
-   ?dbg("Tail",Tail),
+   %?dbg("Head",Head),
+   %?dbg("Seq2",Seq2),
+   %?dbg("Tail",Tail),
    Head ++ Seq2 ++ Tail;
 insert(Seq1,Seq2,Pos) when is_list(Seq1) ->
    insert(Seq1,[Seq2],Pos);
@@ -353,13 +357,18 @@ node_map(Ctx, Fun, Seq) ->
       true ->
          %?dbg("All node",Seq),
          Nodes = map(Ctx, Fun, Seq),
-         case all_node(Nodes) orelse all_not_node(Nodes) of
+         case all_node(Nodes) of
             true ->
                %?dbg("OK",Nodes),
-               from_list(Nodes);
+               from_list(lists:usort(Nodes));
             _ ->
-               % mixed
-               xqerl_error:error('XPTY0018')
+               case all_not_node(Nodes) of
+                  true ->
+                     from_list(Nodes);
+                  _ ->
+                     % mixed
+                     xqerl_error:error('XPTY0018')
+               end
          end;
       _ ->
          ?dbg("NOT All node",Seq),
@@ -409,13 +418,17 @@ flatten(List) ->
    [List].
 
 from_list(List) when is_list(List) ->
-   Flat = lists:flatten(List),
-   case all_xqnode(Flat) of
-      true ->
-         union(Flat, []);
-      _ ->
-         Flat
-   end;
+   lists:flatten(List);
+
+%%    lists:flatten(List);
+
+%%    Flat = lists:flatten(List),
+%%    case all_xqnode(Flat) of
+%%       true ->
+%%          union(Flat, []);
+%%       _ ->
+%%          Flat
+%%    end;
 from_list(List) ->
    [List].
 
@@ -447,10 +460,6 @@ range1(_Curr,_Max) ->
    [].
 
 % thing to append to end is first arg
-append({Id,Doc}, Seq) when not is_atom(Id) -> % new document fragment
-   _ = xqerl_context:add_available_document(Id, Doc),
-   Node = #xqNode{frag_id = Id,identity = 1},
-   append(Node, Seq);
 append([],Seq) -> Seq;
 append(Seq1, []) ->
    Seq1;

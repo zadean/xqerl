@@ -112,9 +112,9 @@ declare function local:print-result($result)
     "   end"
   else if ($name = "assert-xml") then
     let $ec := if ($result/@file) then
-                local:absolute-path($result/@file, $result) =>
-                file:read-text() =>
-                local:mask-string()
+                let $path := local:absolute-path($result/@file, $result) 
+                return
+                "{file, """||$path||"""}"
                else
                  local:mask-string($result/data())
     return
@@ -313,7 +313,7 @@ declare function local:print-environment($env)
   (
     for $res in $schemas
     return
-    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@uri||"""}"
+    "{"""||(: local:absolute-path( :)$res/@file(: , $res) :)||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{collections, ["||
@@ -323,7 +323,7 @@ declare function local:print-environment($env)
     "{"""||$res/@uri||""",["||(
       for $s in $res/*:source
       return
-      """"||local:absolute-path($s/@file, $s)||""""
+      """"||(: local:absolute-path( :)$s/@file(: , $s) :)||""""
     ) => string-join(","||'&#10;')
     ||"]}"
   ) => string-join(","||'&#10;')
@@ -370,7 +370,7 @@ declare function local:print-environment($env)
   (
     for $res in $modules
     return
-    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@uri||"""}"
+    "{"""||(: local:absolute-path( :)$res/@file(: , $res) :)||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]}" || '&#10;' ||
   "]"
@@ -423,7 +423,7 @@ declare function local:print-local-environment($env as item()*) as item()*
   (
     for $res in $schemas
     return
-    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@uri||"""}"
+    "{"""||(: local:absolute-path( :)$res/@file(: , $res) :)||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{collections, ["||
@@ -473,14 +473,14 @@ declare function local:print-local-environment($env as item()*) as item()*
   (
     for $res in $resources
     return
-    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@uri||"""}"
+    "{"""||(: local:absolute-path( :)$res/@file(: , $res) :)||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]}," || '&#10;' ||
   "{modules, ["||
   (
     for $res in $modules
     return
-    "{"""||local:absolute-path($res/@file, $res)||""","""||$res/@uri||"""}"
+    "{"""||(: local:absolute-path( :)$res/@file(: , $res) :)||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]}" || '&#10;' ||
   "]")
@@ -501,7 +501,9 @@ declare function local:mask-string($text)
 
 declare function local:absolute-path($path as xs:string, $base) as xs:string
 {
-  substring-after(resolve-uri($path, base-uri($base)),"file:///")
+  (: substring-after( :)
+    resolve-uri($path, base-uri($base))
+    (: ,"file:///") :)
 };
 
 (: Erlang SUITE :)

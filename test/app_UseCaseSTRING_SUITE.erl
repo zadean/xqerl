@@ -22,7 +22,7 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -31,10 +31,10 @@ environment('empty') ->
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
@@ -43,10 +43,10 @@ environment('atomic') ->
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -55,10 +55,10 @@ environment('atomic-xq') ->
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -67,10 +67,10 @@ environment('works-mod') ->
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -79,10 +79,10 @@ environment('works') ->
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -91,11 +91,11 @@ environment('staff') ->
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -104,10 +104,10 @@ environment('works-and-staff') ->
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -121,10 +121,10 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
@@ -136,7 +136,7 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
@@ -148,7 +148,7 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
@@ -160,7 +160,7 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
@@ -172,7 +172,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -182,10 +182,10 @@ environment('array-and-map') ->
 ];
 environment('string') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/string.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/string.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -194,11 +194,11 @@ environment('string') ->
 ];
 environment('string-and-company-data') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/string.xml","$string",""},
-{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/company-data.xml","$company-data",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/string.xml","$string",""},
+{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/company-data.xml","$company-data",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -211,9 +211,7 @@ environment('string-and-company-data') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<title>Foobar Corporation releases its new line of Foo products
-   today</title><title>Foobar Corporation is suing Gorilla Corporation for
-   patent infringement </title>") of 
+   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseSTRING/string-queries-results-q1.out"}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -254,9 +252,7 @@ environment('string-and-company-data') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<news_item><title> Gorilla Corporation acquires YouNameItWeIntegrateIt.com </title><date>1-20-2000</date></news_item><news_item><title>Foobar Corporation releases its new line of Foo products
-   today</title><date>1-20-2000</date></news_item><news_item><title>Foobar Corporation is suing Gorilla Corporation for
-   patent infringement </title><date>1-20-2000</date></news_item>") of 
+   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseSTRING/string-queries-results-q2.out"}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -280,55 +276,7 @@ environment('string-and-company-data') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<news_item>
-   <title> Gorilla Corporation acquires YouNameItWeIntegrateIt.com </title>
-   <content>
-      <par> Today, Gorilla Corporation announced that it will purchase
-          YouNameItWeIntegrateIt.com. The shares of
-          YouNameItWeIntegrateIt.com dropped $3.00 as a result of this
-          announcement.
-      </par>
-
-      <par> As a result of this acquisition, the CEO of
-          YouNameItWeIntegrateIt.com Bill Smarts resigned. He did not
-          announce what he will do next.  Sources close to
-          YouNameItWeIntegrateIt.com hint that Bill Smarts might be
-          taking a position in Foobar Corporation.
-      </par>
-
-      <par>YouNameItWeIntegrateIt.com is a leading systems integrator
-          that enables <quote>brick and mortar</quote> companies to
-          have a presence on the web.
-      </par>
-
-   </content>
-   <date>1-20-2000</date>
-   <author>Mark Davis</author>
-   <news_agent>News Online</news_agent>
-</news_item><news_item> <title>Foobar Corporation is suing Gorilla Corporation for
-   patent infringement </title>
-   <content>
-      <par> In surprising developments today, Foobar Corporation
-         announced that it is suing Gorilla Corporation for patent
-         infringement. The patents that were mentioned as part of the
-         lawsuit are considered to be the basis of Foobar
-         Corporation's <quote>Wireless Foo</quote> line of products.
-      </par>
-      <par>The tension between Foobar and Gorilla Corporations has
-         been increasing ever since the Gorilla Corporation acquired
-         more than 40 engineers who have left Foobar Corporation,
-         TheAppCompany Inc. and YouNameItWeIntegrateIt.com over the
-         past 3 months. The engineers who have left the Foobar
-         corporation and its partners were rumored to be working on
-         the next generation of server products and applications which
-         will directly compete with Foobar's Foo 20.9 servers. Most of
-         the engineers have relocated to Hawaii where the Gorilla
-         Corporation's server development is located.
-      </par>
-   </content>
-   <date>1-20-2000</date>
-   <news_agent>Reliable News Corporation</news_agent>
-</news_item>") of 
+   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseSTRING/string-queries-results-q4.out"}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -349,17 +297,7 @@ environment('string-and-company-data') ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<item_summary> Gorilla Corporation acquires YouNameItWeIntegrateIt.com . 1-20-2000.  Today, Gorilla Corporation announced that it will purchase
-          YouNameItWeIntegrateIt.com. The shares of
-          YouNameItWeIntegrateIt.com dropped $3.00 as a result of this
-          announcement.
-      </item_summary><item_summary>Foobar Corporation is suing Gorilla Corporation for
-   patent infringement . 1-20-2000.  In surprising developments today, Foobar Corporation
-         announced that it is suing Gorilla Corporation for patent
-         infringement. The patents that were mentioned as part of the
-         lawsuit are considered to be the basis of Foobar
-         Corporation's Wireless Foo line of products.
-      </item_summary>") of 
+   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseSTRING/string-queries-results-q5.out"}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 

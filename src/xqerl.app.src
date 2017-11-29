@@ -1,11 +1,12 @@
 {application, xqerl,
  [
-  {description, ""},
-  {vsn, "1"},
+  {description, "XQuery 3.1 Processor"},
+  {vsn, "0.1.0"},
   {registered, []},
   {applications, [
                   kernel,
-                  stdlib
+                  stdlib,
+                  xqerl_ds
                  ]},
   {mod, { xqerl_app, []}},
   {env, []}

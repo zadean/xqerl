@@ -38,7 +38,7 @@ assert(Result, QueryString) ->
                 " as item()"
           end,
    NewQueryString = "declare variable $result" ++ Type ++ " external; " ++ QueryString,
-   ?dbg("NewQueryString",NewQueryString),
+   %?dbg("NewQueryString",NewQueryString),
    %?dbg("Result",Result),
    case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
@@ -68,7 +68,7 @@ assert_empty(Result) ->
    end.
 %% assert_type            (: result instance of type :)
 assert_type(Result, TypeString) ->
-   NewQueryString = "declare variable $result as item() external; ($result) instance of " ++ TypeString,
+   NewQueryString = "declare variable $result as item()* external; ($result) instance of " ++ TypeString,
    case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
          {false, {assert_type,Res}};
@@ -81,6 +81,21 @@ assert_type(Result, TypeString) ->
          end
    end.
 %% assert_xml             (: fn:deep-equal(result, run test query) :)
+assert_xml(Result, {file, FileLoc}) ->
+   _ = xqerl_doc:read_http(FileLoc),
+   try
+      NewQueryString = "declare variable $result external; " ++ "fn:deep-equal($result , fn:doc('" ++ FileLoc ++ "')/* )",
+      Res1 = xqerl:run(NewQueryString, #{"result" => Result}),
+      StrVal = string_value(Res1),
+      if StrVal == "true" ->
+            true;
+         true ->
+            {false, {assert_xml,Res1}}
+      end
+   catch 
+      _:_ ->
+         {false, {assert_xml,FileLoc}}
+   end;
 assert_xml(Result, QueryString) ->
    ResXml = xqerl_node:to_xml(Result),
    case ResXml == QueryString of
@@ -242,7 +257,8 @@ string_value(Seq) ->
    xqerl_types:string_value(Seq).
 
 run_suite(Suite) ->
-   ct:run_test([{},{suite, Suite},{dir, "../test"},{logdir, "../test/logs"}])
+   ok = application:ensure_started(xqerl_ds),
+   ct:run_test([{suite, Suite},{dir, "../test"},{logdir, "../test/logs"}])
 .
 
 run(misc) ->
@@ -262,7 +278,7 @@ run(misc) ->
    run_suite(method_xhtml_SUITE),
    run_suite(method_xml_SUITE),
    run_suite(app_CatalogCheck_SUITE),
-   run_suite(app_Demos_SUITE),
+   %run_suite(app_Demos_SUITE), bin copy good... map copy bad...
    run_suite(app_FunctxFn_SUITE),
    run_suite(app_FunctxFunctx_SUITE),
    run_suite(app_UseCaseCompoundValues_SUITE),
@@ -722,62 +738,51 @@ handle_environment(List) ->
 %%                                   body = S1}
    _ = lists:foreach(
                   fun({File,Uri}) ->
-                        case catch xqerl_context:get_available_text_resource(Uri) of
-                           {'EXIT',_} ->
-                              ?dbg("{File,Uri}",{File,Uri}),
-                              Binary = xqerl_doc:read_text(File),
-                              ?dbg("Binary",Binary),
-                              _ = xqerl_context:add_available_text_resource(Uri, Binary),
+                        case xqerl_ds:exists_res(Uri) of
+                           true ->
                               ok;
-                           _Binary ->
-                              ok
+                           _ ->
+                              _ = xqerl_doc:read_text(File,Uri)
                         end
                   end, Resources),
    
    Sources1 = lists:map(fun({File,Role,Uri}) ->
-                              if Uri == [] ->
-                                 case catch xqerl_context:get_available_document(File) of
-                                          {'EXIT',_} ->
-                                             Doc = xqerl_doc:read_http(File, File),
-                                             ?seq:singleton(xqerl_doc:doc_to_node(Doc));
-                                          _ ->
-                                             ?seq:singleton(#xqNode{frag_id = File, identity = 1})
-                                       end;
+                              Uri2 = if Uri == [] ->
+                                           File;
+                                        true ->
+                                           Uri
+                                     end,
+                              case xqerl_ds:exists_doc(Uri2) of
                                  true ->
-                                 case catch xqerl_context:get_available_document(Uri) of
-                                          {'EXIT',_} ->
-                                             Doc = xqerl_doc:read_http(File, Uri),
-                                             ?seq:singleton(xqerl_doc:doc_to_node(Doc));
-                                          _ ->
-                                             ?seq:singleton(#xqNode{frag_id = Uri, identity = 1})
-                                       end
-                              end,
-                                    
+                                    ok;
+                                 _ ->
+                                    try
+                                    _ = xqerl_doc:read_http(File, Uri2)
+                                    catch _:_ ->
+                                             ok
+                                    end,
+                                    ok
+                              end,                                    
                               if Role == "." ->
-                         if Uri == [] ->
-                               "declare context item := Q{http://www.w3.org/2005/xpath-functions}doc('"++File++"');\n";
-                            true ->
-                               "declare context item := Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri++"');\n"
-                         end;
-                      true ->
-                         if Role == [] -> "";
-                            true ->
-                               "declare variable "++Role++" := Q{http://www.w3.org/2005/xpath-functions}doc('"++File++"');\n"
-                         end
-                   end
-             end, Sources),
+                                    "declare context item := Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"');\n";
+                                 Role == "" ->
+                                    "";
+                                 true ->
+                                    "declare variable "++Role++" := Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"');\n"
+                              end
+                        end, Sources),
    Schemas1 = lists:map(fun({File,Uri}) ->
                               "import schema default element namespace '"++Uri++"' at '"++File++"';\n"
              end, Schemas),
    _ = lists:foreach(fun({File,_Uri}) ->
                            xqerl:compile(File)
              end, Modules),
-   _ = lists:foreach(fun({Uri,Docs}) ->
-                           lists:foreach(fun(File) ->
-                                               xqerl_doc:read_http(File)
-                                         end, Docs),
-                           xqerl_context:add_available_collection(Uri,Docs)
-                     end, Collections),
+%%    _ = lists:foreach(fun({Uri,Docs}) ->
+%%                            lists:foreach(fun(File) ->
+%%                                                xqerl_doc:read_http(File)
+%%                                          end, Docs),
+%%                            xqerl_context:add_available_collection(Uri,Docs)
+%%                      end, Collections),
    
    DecFormats1 = lists:map(fun({"",Values}) ->
                                  "declare default decimal-format \n" ++
@@ -808,12 +813,21 @@ handle_environment(List) ->
                                    NewNs = lists:keystore(Prefix, 1, Ns, {Prefix,Uri}),
                                    Map#{namespaces => NewNs}
                            end, Params1, Namespaces),
+   Namespaces2 = lists:map(fun({Uri,""}) ->
+                                   "declare default element namespace '"++Uri++"';\n";
+                              % block statically known 
+                              ({"http://www.w3.org/2005/xpath-functions/math","math"}) -> "";
+                              ({"http://www.w3.org/2005/xpath-functions/array","array"}) -> "";
+                              ({"http://www.w3.org/2005/xpath-functions/map","map"}) -> "";
+                              ({Uri,Prefix}) ->
+                                 "declare namespace "++Prefix++" = '"++Uri++"';\n"
+                           end, Namespaces),
    Vars1   = lists:map(fun({Name,"",Value}) ->
                              "declare variable $"++Name++" := "++Value++";\n";
                           ({Name,As,Value}) ->
                              "declare variable $"++Name++" as "++As++" := "++Value++";\n"
                        end, Vars),
-   {BaseUri1++Sources1++Schemas1++DecFormats1++Vars1, Namespaces1}.
+   {BaseUri1++Sources1++Schemas1++DecFormats1++Namespaces2++Vars1, Namespaces1}.
 
 
 
