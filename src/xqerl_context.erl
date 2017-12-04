@@ -583,6 +583,9 @@ set_context_item(Ctx, CI, Pos, Size) ->
         'context-position' => Pos,
         'context-item-count' => Size}.
 
+set_context_item(#{'context-item' := _} = Ctx, CI, Pos) ->
+   Ctx#{'context-item' := CI,
+        'context-position' := Pos};
 set_context_item(Ctx, CI, Pos) ->
    Ctx#{'context-item' => CI,
         'context-position' => Pos}.

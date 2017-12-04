@@ -3,8 +3,8 @@
    <description>Tests for Natural Language Processing</description>
    
    <environment name="speech-representation.json">
-   <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseNLP/"/>
-      <resource file="UseCaseNLP/speech-representation.json" media-type="application/json" uri="speech-representation.json">
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseNLP/speech-representation.json" media-type="application/json" uri="http://xqerl.org/speech-representation.json">
          <created by="Carla Spruit" on="2014-12-30"/>
       </resource> 
    </environment>

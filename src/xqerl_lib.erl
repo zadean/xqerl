@@ -30,6 +30,11 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
+-export([lnew/0,
+         lget/1,
+         lput/2]).
+
+
 -export([is_xsname_start_char/1]).
 -export([is_xsname_char/1]).
 -export([is_xschar/1]).
@@ -41,6 +46,8 @@
 -export([encode_for_uri/1]).
 -export([pct_encode3/1]).
 -export([resolve_against_base_uri/2]).
+
+-export([next_comp_prefix/1]).
 
 -define(space, 32).
 -define(cr,    13).
@@ -254,10 +261,10 @@ resolve_against_base_uri(Base,[]) ->
    Base;
 resolve_against_base_uri(Base,RelPath) ->
    Opts = [{scheme_defaults,[{file,1}|http_uri:scheme_defaults()]}],
-   {ok, {Scheme, _UserInfo, Host, _Port, Path, _Query}} = http_uri:parse(Base,Opts),
    case http_uri:parse(RelPath,Opts) of
       % not absolute
       {error,_} ->
+         {ok, {Scheme, _UserInfo, Host, _Port, Path, _}} = http_uri:parse(Base,Opts), % fragments not allowed
          PathDir = filename:dirname(tl(Path)),
          Joined = filename:absname_join(PathDir,RelPath),
          case filename:pathtype(Joined) of
@@ -277,6 +284,46 @@ resolve_against_base_uri(Base,RelPath) ->
          RelPath
    end.
 
+
+lnew() ->
+%%    catch ets:delete(local_data),
+%%    _ = ets:new(local_data, [set, private, named_table]),
+   ok.
+
+lget(Key) ->
+   case erlang:get(Key) of
+      undefined ->
+         [];
+      Val ->
+         Val
+   end.
+%%    case ets:lookup(local_data, Key) of
+%%       [{_,Val}] ->
+%%          Val;
+%%       _ ->
+%%          []
+%%    end.
+
+lput(Key,Val) ->
+   %ets:insert(local_data, {Key, Val}),
+   _ = erlang:put(Key, Val),
+   ok.
+
+
+next_comp_prefix(Namespaces) ->
+   Pxs = [P || #xqNamespace{prefix = P} <- Namespaces],
+   F = fun("ns_"++SNum, Max) ->
+            case catch list_to_integer(SNum) of
+               Int when is_integer(Int) ->
+                  erlang:max(Max,Int);
+               _ ->
+                  Max
+            end;
+          (_,Max) ->
+             Max
+       end,
+   Last = lists:foldl(F, 0, Pxs),
+   "ns_" ++ integer_to_list(Last + 1).
 
 
 

@@ -266,23 +266,23 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> erlang:erase().
 init_per_suite(Config) -> ok
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/moduleDefs-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/test1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib1.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib2.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib3.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib4.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib5.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib6.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib7.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0046_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0047_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0048_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0059_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0070_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0088_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0093_lib1.xq") catch _:_ -> ok end
-, try  xqerl:compile("C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0093_lib2.xq") catch _:_ -> ok end,Config.
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/moduleDefs-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/test1-lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib1.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib2.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib3.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib4.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib5.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib6.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib7.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0046_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0047_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0048_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0059_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0070_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0088_lib.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0093_lib1.xq") catch _:_ -> ok end
+, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0093_lib2.xq") catch _:_ -> ok end,Config.
 all() -> [
    'combined-errors-1',
    'combined-errors-2',
@@ -548,7 +548,7 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -557,10 +557,10 @@ environment('empty') ->
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
@@ -569,10 +569,10 @@ environment('atomic') ->
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -581,10 +581,10 @@ environment('atomic-xq') ->
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -593,10 +593,10 @@ environment('works-mod') ->
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -605,10 +605,10 @@ environment('works') ->
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -617,11 +617,11 @@ environment('staff') ->
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -630,10 +630,10 @@ environment('works-and-staff') ->
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -647,10 +647,10 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
@@ -662,7 +662,7 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
@@ -674,7 +674,7 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
@@ -686,7 +686,7 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
@@ -698,7 +698,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -708,10 +708,10 @@ environment('array-and-map') ->
 ];
 environment('orderdata') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/prod/OrderByClause/orderData.xml",".",""}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/prod/OrderByClause/orderData.xsd","http://www.w3.org/XQueryTestOrderBy"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/OrderByClause/orderData.xml",".",""}]},
+{schemas, [{"../prod/OrderByClause/orderData.xsd","http://www.w3.org/XQueryTestOrderBy"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -720,10 +720,10 @@ environment('orderdata') ->
 ];
 environment('namespace-sensitive') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/namespace-sensitive.xml",".",""}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/namespace-sensitive.xsd","http://www.xqsharp.com/test/namespace-sensitive"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/namespace-sensitive.xml",".",""}]},
+{schemas, [{"CombinedErrorCodes/namespace-sensitive.xsd","http://www.xqsharp.com/test/namespace-sensitive"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -733,9 +733,9 @@ environment('namespace-sensitive') ->
 environment('xqst0036') ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036.xsd","http://www.example.org/2007/schema/XQST0036"}]},
+{schemas, [{"CombinedErrorCodes/XQST0036.xsd","http://www.example.org/2007/schema/XQST0036"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -745,9 +745,9 @@ environment('xqst0036') ->
 environment('foty0012') ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/FOTY0012.xsd","http://www.example.org/2007/schema/FOTY0012"}]},
+{schemas, [{"CombinedErrorCodes/FOTY0012.xsd","http://www.example.org/2007/schema/FOTY0012"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -757,9 +757,9 @@ environment('foty0012') ->
 environment('xqdy0027') ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQDY0027.xsd","http://www.example.org/2007/schema/XQDY0027"}]},
+{schemas, [{"CombinedErrorCodes/XQDY0027.xsd","http://www.example.org/2007/schema/XQDY0027"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -769,9 +769,9 @@ environment('xqdy0027') ->
 environment('xqdy0084') ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQDY0084.xsd","http://www.example.org/2007/schema/XQDY0084"}]},
+{schemas, [{"CombinedErrorCodes/XQDY0084.xsd","http://www.example.org/2007/schema/XQDY0084"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},

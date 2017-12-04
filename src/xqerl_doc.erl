@@ -314,12 +314,12 @@ handle_event({characters, String}, _Ln, #state{counter = C,
    Val1 = if Flag ->
                 String;
              true ->
-                case string:trim(String) of
-                   [] ->
-                      " ";
-                   _ ->
+                %case string:trim(String) of
+                %   [] ->
+                %      " ";
+                %   _ ->
                       String
-                end
+                %end
           end,
    {TxId, State1} = get_text_id(State, Val1),
    Record = #nodes{id = C, 
@@ -329,9 +329,12 @@ handle_event({characters, String}, _Ln, #state{counter = C,
    State2 = add_node(State1, Record),
    State2#state{counter = C +1};   
 
+%% % TODO not sure if this should happen
+%% handle_event({ignorableWhitespace, _String}, _Ln, State) -> %State;
+%%    handle_event({characters, " "}, _Ln, State);
 % TODO not sure if this should happen
-handle_event({ignorableWhitespace, _String}, _Ln, State) -> %State;
-   handle_event({characters, " "}, _Ln, State);
+handle_event({ignorableWhitespace, String}, _Ln, State) -> %State;
+   handle_event({characters, String}, _Ln, State);
 
 % ignore the xml PI if any
 handle_event({processingInstruction, "xml", _Data}, _Ln, State) -> State;

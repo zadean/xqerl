@@ -435,8 +435,8 @@ round_half_even(#xsDecimal{int = Int, scf = Scf} = D, Prec) when Prec >= 0 ->
              true ->
                 Low + 1
           end,
-   LowVal = #xsDecimal{int = Low, scf = Prec},
-   HighVal = #xsDecimal{int = High, scf = Prec},
+   LowVal = simplify(#xsDecimal{int = Low, scf = Prec}),
+   HighVal = simplify(#xsDecimal{int = High, scf = Prec}),
    #xsDecimal{int = Diff, scf = P} = simplify(subtract(D, LowVal)),
    %?dbg("{Diff,P,Prec}",{Diff,P,Prec}),
    if (P - Prec) == 1, abs(Diff) == 5 ->

@@ -56,6 +56,9 @@
 -export([stream_to_list/1]).
 
 -export([allow_empty/2]).
+
+% internal use
+%-export([int_order_1/2]).
    
 allow_empty(Seq,true) ->
    case ?seq:is_empty(Seq) of
@@ -463,6 +466,14 @@ reverse(List) ->
                   lists:flatten(lists:reverse(lists:nth(I, List)))
              end, lists:seq(1, Sz)).
 
+%% int_order_1(Tuple,Clauses) ->
+%%    Cs = lists:map(fun({C,D,E}) ->
+%%                    V = C(Tuple),
+%%                    {V,D,E}
+%%              end, Clauses),
+%%    {Tuple,Cs}.
+
+
 % Clauses are funs that take an entire VarStream tuple
 orderbyclause(VarStream, Clauses) ->
    %?dbg("orderbyclause 1",erlang:system_time()),
@@ -474,6 +485,7 @@ orderbyclause(VarStream, Clauses) ->
              {Tuple,Cs}
        end,
    %?dbg("orderbyclause 2",erlang:system_time()),
+%%    Set = rpc:pmap({?MODULE,int_order_1}, [Clauses], VarStream),
    Set = lists:map(F, VarStream),
    %?dbg("orderbyclause 3",erlang:system_time()),
    Sorted = lists:sort(fun(A,B) ->

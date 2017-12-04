@@ -39,7 +39,7 @@
 %% NAME:             NCName ID, used for Element, Attribute PI, and the prefix of namespaces
 %% TEXT ID:          text value ID
 %% OFFSET TO PARENT: the number of node-widths to look back and find the parent node
-%% I:                ID flag for attribute
+%% ID:               ID flag for attribute - 1 = ID 2 = IDREF
 
 %% DOCUMENT
 %% |============== DOK ================|000|                                                                    |======== NODE SIZE ================|   
@@ -54,7 +54,7 @@
 %% *00000000*00000000*00000000*00000000*000|00000*00000000*00000000*00000000*00000000*00000000*00000000*00000000*00000000*00000000*00000000*00000000*
 %% 
 %% ATTRIBUTE
-%% |============== DOK ================|011|I |   |= NSP ==|===== NAME ======|======== TEXT ID ==================|======== OFFSET TO PARENT =========|   
+%% |============== DOK ================|011|ID|   |= NSP ==|===== NAME ======|======== TEXT ID ==================|======== OFFSET TO PARENT =========|   
 %% *00000000*00000000*00000000*00000000*000|00|000*00000000*00000000*00000000*00000000*00000000*00000000*00000000*00000000*00000000*00000000*00000000*
 %% 
 %% TEXT
@@ -87,7 +87,10 @@
          path_to_root/2,
          inscope_namespaces/2,
          node_root/2,
-         root/1]).
+         root/1,
+         %
+         copy/2
+         ]).
 
 % node "constructors"
 -export([document_node/2,
@@ -143,9 +146,11 @@ pi_node(Nsp,Name,Value, Offset, Id) ->
 %% Node comparison and access functions
 %% ====================================================================
 
-% size of the node
+% name id in this doc for Name
 name_id(#{names := Names},Name) ->
    lookup_by_key(Names,Name).
+
+% namespace id in this doc for Namespace
 namespace_id(#{namsp := Namsp},Namespace) ->
    lookup_by_key(Namsp,Namespace).
 
@@ -158,13 +163,19 @@ prefix(Doc, Node) ->
    prefix(Doc, Node, Namespace).
 
 prefix(_, [], _) -> [];
-% special case stand-alone attribute
+% special case stand-alone attribute, attribute at position 2
 prefix(#{nodes := Nodes} = Doc, <<2:32,3:3,_:5,_:56,0:32>>, _) ->
    Namespace = binary_part(Nodes,0,?BS),
-   {_,P} = dm_node_name(Doc, Namespace), 
-   P;
+   case dm_node_name(Doc, Namespace) of
+      [] ->
+         [];
+      {_,P} ->
+         P
+   end;
+% always statically known
 prefix(_Doc, _Node, "http://www.w3.org/XML/1998/namespace") ->
    "xml";
+% else walk up the parent axis for inscope prefix for namespace
 prefix(Doc, Node, Namespace) ->
    Namespaces = dm_namespace_nodes(Doc, Node),
    Match = [P || Ns <- Namespaces,
@@ -175,9 +186,14 @@ prefix(Doc, Node, Namespace) ->
          Parent = dm_parent(Doc, Node),
          prefix(Doc, Parent, Namespace);
       [P] ->
-         P
+         P;
+      P ->
+         hd(P)
    end.
 
+%% Walks up the parent axis for all inscope namespaces, 
+%% adding only what is not already in-scope.
+%% returns [{Namespace,Prefix}] 
 inscope_namespaces(Doc, Node) ->
    inscope_namespaces(Doc, Node,[{"http://www.w3.org/XML/1998/namespace","xml"}]).
 
@@ -203,8 +219,10 @@ inscope_namespaces(Doc, Node, Acc) ->
 merge_insp_ns(Matches, Acc) ->
    New = lists:filter(fun({_,[]}) ->
                             not lists:keymember([], 2, Acc);
-                         ({U,_}) ->
-                            not lists:keymember(U, 1, Acc)
+                         ({_,P}) ->
+                            not lists:keymember(P, 2, Acc)
+%%                          ({U,_}) ->
+%%                             not lists:keymember(U, 1, Acc)
                       end, Matches),
    New ++ Acc.
 
@@ -219,6 +237,8 @@ after_id(L,_CId) ->
    L.
 
 % the URI for this file, or ID for locally built docs
+uri({doc, File}) ->
+   File;
 uri(#{file := File}) ->
    File.
 
@@ -337,6 +357,7 @@ dm_children(#{nodes := Nodes},<<Id:32,0:64,Size:32>>) ->
 dm_children(#{nodes := Nodes},<<Id:32,1:3,_AtNsSize:5,_Nsp:8,_Name:16,_Offset:32,Size:32>>) ->
    Possible = binary_part(Nodes, Id * ?BS, Size * ?BS),
    %?dbg("Possible",Possible),
+   %?dbg("Nodes",Nodes),
    %Possible = binary_part(Nodes, (Id * ?BS) + (AtNsSize * ?BS), (Size - AtNsSize) * ?BS),
    get_children_1(Possible);
 dm_children(#{nodes := _Nodes},_Node) ->
@@ -469,21 +490,198 @@ dm_unparsed_entity_public_id(_,_) ->
 dm_unparsed_entity_system_id(_,_) ->
    [].
 
-
 %% ====================================================================
 %% Merge and Extract functions for XML trees
 %% ====================================================================
 
-% Creates a copy of this node and it's tree. Doc shrinks to only what is in use.
-% Document URI is cleared, base URI is that of this node
-% namespaces that are in-scope outside this node are copied in as children of the root element
-% if the root is an attribute in a namespace, node 1 is its namespace, node 2 is the attribute (special case).
-copy(#{names := Names,
-       namsp := Namsp,
-       texts := Texts,
-       nodes := Nodes} = Doc,Node) ->
-   NewBaseUri = dm_base_uri(Doc, Node),
-   InScopeNs = inscope_namespaces(Doc, Node),
+empty_doc() ->
+   #{file  => "",
+     base  => "",
+     names => #{},
+     namsp => #{},
+     texts => #{},
+     nodes => <<>>}.
+
+
+% Creates a copy of this node and it's sub-tree as its own node. 
+% Doc shrinks to only what is in use.
+% Document URI is cleared, base URI is that of this node.
+% Namespaces that are in-scope outside this node are copied in as children of the root element (if any).
+% If the root is an attribute or processing-instruction, node 1 is its namespace, node 2 is the attribute (special case).
+%  This means that PI has no-namespace as namespace and attribute has whatever it is.
+copy(Doc,Node) ->
+   NodeKind = dm_node_kind(Doc, Node),
+   EmptyDoc = empty_doc(),
+   if NodeKind == attribute ->
+         {ANs,ALn} = dm_node_name(Doc, Node),
+         APx = prefix(Doc, Node, ANs),
+         AVal = dm_string_value(Doc, Node),
+         
+         {ANsId,Doc1} = get_namespace_id(EmptyDoc, ANs),
+         {APxId,Doc2} = get_local_name_id(Doc1, APx),
+         {ALnId,Doc3} = get_local_name_id(Doc2, ALn),
+         {AVlId,Doc4} = get_text_id(Doc3, AVal),
+
+         AId    = case dm_is_id(Doc, Node) of true -> 1; _ -> 0 end,
+         AIdRef = case dm_is_idrefs(Doc, Node) of true -> 2; _ -> 0 end,
+         
+         NewNs = namespace_node(ANsId, APxId, 0, 1),
+         NewAt = attribute_node(ANsId, ALnId, AVlId, AId + AIdRef, 0, 2),
+         NewNodes = erlang:iolist_to_binary([NewNs,NewAt]),
+         Doc5 = add_text_lookup(Doc4),
+         {Doc5#{nodes := NewNodes},NewAt};
+      NodeKind == document ->
+         {Doc#{file := ""},Node};
+      NodeKind == 'processing-instruction' ->
+         {ANs,ALn} = dm_node_name(Doc, Node),
+         AVal = dm_string_value(Doc, Node),
+         {ANsId,Doc1} = get_namespace_id(EmptyDoc, ANs),
+         {ALnId,Doc2} = get_local_name_id(Doc1, ALn),
+         {AVlId,Doc3} = get_text_id(Doc2, AVal),
+         NewPi = pi_node(ANsId, ALnId, AVlId, 0, 1),
+         Doc4 = add_text_lookup(Doc3),
+         {Doc4#{nodes := NewPi},NewPi};
+      NodeKind == namespace ->
+         Prefix = case dm_node_name(Doc, Node) of
+                     [] ->
+                        [];
+                     {_,P} ->
+                        P
+                  end,
+         Uri = dm_string_value(Doc, Node),
+         {ANsId,Doc1} = get_namespace_id(EmptyDoc, Uri),
+         {APxId,Doc2} = get_local_name_id(Doc1, Prefix),
+         NewNs = namespace_node(ANsId, APxId, 0, 1),
+         {Doc2#{nodes := NewNs},NewNs};
+      NodeKind == text ->
+         AVal = dm_string_value(Doc, Node),
+         {AVlId,Doc1} = get_text_id(EmptyDoc, AVal),
+         NewTx = text_node(AVlId, 0, 1),
+         Doc2 = add_text_lookup(Doc1),
+         {Doc2#{nodes := NewTx},NewTx};
+      NodeKind == comment ->
+         AVal = dm_string_value(Doc, Node),
+         {AVlId,Doc1} = get_text_id(EmptyDoc, AVal),
+         NewCt = comment_node(AVlId, 0, 1),
+         Doc2 = add_text_lookup(Doc1),
+         {Doc2#{nodes := NewCt},NewCt};
+      NodeKind == element ->
+         case uid(Node)of
+            1 ->{Doc#{file := ""},Node};
+            _ ->
+               NewBaseUri = dm_base_uri(Doc, Node),
+               InScopeNs = inscope_namespaces(Doc, Node),
+               {Doc1,Ct} = copy(Doc, Node, 1, EmptyDoc#{base  := NewBaseUri}, InScopeNs),
+               Doc2 = add_text_lookup(Doc1),
+               {Doc2,Ct}
+         end
+   end.
+
+copy(OldDoc,Node, Position, NewDoc, OuterNamespaces) ->
+   OuterNamespaces1 = lists:keydelete('no-namespace',1,
+                        lists:keydelete("xml", 2, OuterNamespaces)),
+   NsFold = fun({Ns,Px},{Doc,Dist}) ->
+                  {NsId,Doc1} = get_namespace_id(Doc, Ns),
+                  {PxId,Doc2} = get_local_name_id(Doc1, Px),
+                  NewNs = namespace_node(NsId, PxId, Dist, Dist + Position),
+                  {NewNs,{Doc2,Dist + 1}}               
+            end,
+   {NSNodes,{Doc1,Dist1}} = lists:mapfoldl(NsFold, {NewDoc,1}, OuterNamespaces1),
+   AtFold = fun(<<_:32,3:3,IdFlag:2,0:3,_:8,_:16,_:32,_:32>> = ANode,{Doc,Dist}) ->
+                  {Ns,Px} = dm_node_name(OldDoc, ANode),
+                  Val = dm_string_value(OldDoc, ANode),
+                  {NsId,Doc1a} = get_namespace_id(Doc, Ns),
+                  {NmId,Doc2a} = get_local_name_id(Doc1a, Px),
+                  {TxId,Doc3a} = get_text_id(Doc2a, Val),
+                  NewAtt = attribute_node(NsId, NmId, TxId, IdFlag, Dist, Dist + Position),
+                  {NewAtt,{Doc3a,Dist + 1}}
+            end,
+   {AtNodes,{Doc2,Dist2}} = lists:mapfoldl(AtFold, {Doc1,Dist1}, dm_attributes(OldDoc, Node)),
+   ChFold = fun(CNode,{Doc,Pos}) ->
+                  copy(OldDoc,CNode, {Position,Pos}, Doc)
+            end,
+   {ChNodes,{Doc3,_}} = lists:mapfoldl(ChFold, {Doc2,Position + Dist2}, dm_children(OldDoc, Node)),
+   All = lists:flatten([NSNodes, AtNodes, ChNodes]),
+   Size = length(All),
+   {ENs,EPx} = dm_node_name(OldDoc, Node),
+   {ENsId,Doc4} = get_namespace_id(Doc3, ENs),
+   {ENmId,Doc5} = get_local_name_id(Doc4, EPx),
+   Elem = element_node(max(31,Dist2), ENsId, ENmId, 0, Size, 1),
+   NewNodes = erlang:iolist_to_binary([Elem|All]),
+   {Doc5#{nodes := NewNodes}, Elem}.
+
+% 'processing-instruction'
+copy(OldDoc, <<_:32,6:3,_:93>> = Node, {ParentPos,Position}, NewDoc) ->
+   Offset = Position - ParentPos,
+   {Namespace,Name} = dm_node_name(OldDoc, Node),
+   {NmId,Doc1} = get_local_name_id(NewDoc, Name),
+   {NsId,Doc2} = get_namespace_id(Doc1, Namespace),
+   Text = dm_string_value(OldDoc, Node),
+   {TxId,Doc3} = get_text_id(Doc2, Text),
+   NewNode = pi_node(NsId, NmId, TxId, Offset, Position),
+   {NewNode,{Doc3,Position + 1}};
+% comment
+copy(OldDoc, <<_:32,5:3,_:93>> = Node, {ParentPos,Position}, NewDoc) ->
+   Offset = Position - ParentPos,
+   Text = dm_string_value(OldDoc, Node),
+   {TxId,Doc1} = get_text_id(NewDoc, Text),
+   NewNode = comment_node(TxId, Offset, Position),
+   {NewNode,{Doc1,Position + 1}};
+% text
+copy(OldDoc, <<_:32,4:3,_:93>> = Node, {ParentPos,Position}, NewDoc) ->
+   Offset = Position - ParentPos,
+   Text = dm_string_value(OldDoc, Node),
+   {TxId,Doc1} = get_text_id(NewDoc, Text),
+   NewNode = text_node(TxId, Offset, Position),
+   {NewNode,{Doc1,Position + 1}};
+% element
+copy(OldDoc, <<_:32,1:3,_:93>> = Node, {ParentPos,Position}, NewDoc) ->
+   Offset = Position - ParentPos,
+   NsFold = fun(NsNode,{Doc,Dist}) ->
+                  Ns = dm_string_value(OldDoc, NsNode),
+                  Px = case dm_node_name(OldDoc, NsNode) of
+                          [] ->
+                             [];
+                          {_,P} ->
+                             P
+                       end,
+                  {NsId,Doc1} = get_namespace_id(Doc, Ns),
+                  {PxId,Doc2} = get_local_name_id(Doc1, Px),
+                  NewNs = namespace_node(NsId, PxId, Dist, Dist + Position),
+                  {NewNs,{Doc2,Dist + 1}}               
+            end,
+   {NSNodes,{Doc1,Dist1}} = lists:mapfoldl(NsFold, {NewDoc,1}, dm_namespace_nodes(OldDoc, Node)),
+   AtFold = fun(<<_:32,3:3,IdFlag:2,0:3,_:8,_:16,_:32,_:32>> = ANode,{Doc,Dist}) ->
+                  {Ns,Px} = dm_node_name(OldDoc, ANode),
+                  Val = dm_string_value(OldDoc, ANode),
+                  {NsId,Doc1a} = get_namespace_id(Doc, Ns),
+                  {NmId,Doc2a} = get_local_name_id(Doc1a, Px),
+                  {TxId,Doc3a} = get_text_id(Doc2a, Val),
+                  NewAtt = attribute_node(NsId, NmId, TxId, IdFlag, Dist, Dist + Position),
+                  {NewAtt,{Doc3a,Dist + 1}}
+            end,
+   {AtNodes,{Doc2,Dist2}} = lists:mapfoldl(AtFold, {Doc1,Dist1}, dm_attributes(OldDoc, Node)),
+   ChFold = fun(CNode,{Doc,Pos}) ->
+                  copy(OldDoc,CNode, {Position,Pos}, Doc)
+            end,
+   {ChNodes,{Doc3,_}} = lists:mapfoldl(ChFold, {Doc2,Position + Dist2}, dm_children(OldDoc, Node)),
+   All = lists:flatten([NSNodes,AtNodes,ChNodes]),
+   Size = length(All),
+   {ENs,EPx} = dm_node_name(OldDoc, Node),
+   {ENsId,Doc4} = get_namespace_id(Doc3, ENs),
+   {ENmId,Doc5} = get_local_name_id(Doc4, EPx),
+   Elem = element_node(max(31,Dist2), ENsId, ENmId, Offset, Size, Position),
+   {[Elem|All],{Doc5,Position + Size + 1}}.
+
+
+% inserts INode (with sub-tree from IDoc) at Pos into this Doc
+% Namespace copy mode?
+insert(_Doc,_IDoc,_INode,_Pos) ->
+   ok.
+
+% removes Node (and sub-tree) from Doc
+% removes no namespaces, texts, or names from the doc - just faster
+remove(_Doc,_Node) ->
    ok.
 
 
@@ -555,7 +753,14 @@ get_children_1(<<_:32,1:3,_:5,_:8,_:16,_:32,Size:32,_/binary>> = Bin) when Size 
    [Child|get_children_1(Next)];
 get_children_1(<<_:32,1:3,_:5,_:8,_:16,_:32,0:32,Rest/binary>> = Bin) ->
    Child = binary_part(Bin, {0,?BS}),
+   %?dbg("Child",Child),
    [Child|get_children_1(Rest)];
+get_children_1(<<_:32,N:3,_:93>> = Bin) when N == 4;
+                                             N == 5;
+                                             N == 6 ->
+   Child = binary_part(Bin, {0,?BS}),
+   %?dbg("Child",Child),
+   [Child];
 get_children_1(<<_:32,N:3,_:93,Rest/binary>> = Bin) when N == 4;
                                                          N == 5;
                                                          N == 6 ->
@@ -566,9 +771,10 @@ get_children_1(<<_:32,N:3,_:93,Rest/binary>> = Bin) when N == 4;
 get_children_1(<<_:32,N:3,_:93,Rest/binary>>) when N == 0;
                                                    N == 2;
                                                    N == 3 ->
-   %?dbg("Rest",Rest),
+   %?dbg("Rest",N),
    get_children_1(Rest);
 get_children_1(_) ->
+   %?dbg("O",O),
    [].
 
 get_attribute_by_eqname(<<_:32,3:3,0:5,NsId:8,LnId:16,_:32,_:32,_/binary>> = Bin,NsId,LnId) ->
@@ -585,3 +791,38 @@ get_size(<<_:32,N:3,_:61,Size:32>>) when N == 0;
    Size;
 get_size(_) ->
    0.
+
+get_local_name_id(#{names := Names} = Doc, Val) ->
+   case maps:find(Val, Names) of
+      {ok, Id} ->
+         {Id,Doc};
+      error ->
+         Cnt = maps:size(Names) + 1,
+         NewNames = maps:put(Val, Cnt, Names),
+         {Cnt, Doc#{names := NewNames}}
+   end.
+
+get_namespace_id(#{namsp := Names} = Doc, Val) ->
+   case maps:find(Val, Names) of
+      {ok, Id} ->
+         {Id,Doc};
+      error ->
+         Cnt = maps:size(Names) + 1,
+         NewNames = maps:put(Val, Cnt, Names),
+         {Cnt, Doc#{namsp := NewNames}}
+   end.
+
+get_text_id(#{texts := Names} = Doc, Val) ->
+   case maps:find(Val, Names) of
+      {ok, Id} ->
+         {Id,Doc};
+      error ->
+         Cnt = maps:size(Names) + 1,
+         NewNames = maps:put(Val, Cnt, Names),
+         {Cnt, Doc#{texts := NewNames}}
+   end.
+
+add_text_lookup(#{texts := Texts} = Doc) ->
+   F = fun(K,V,AccIn) -> AccIn#{V => K} end,
+   TextLu = maps:fold(F,#{},Texts),
+   Doc#{texts := TextLu}.

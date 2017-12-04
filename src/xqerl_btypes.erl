@@ -240,6 +240,7 @@ get_type('node'                    ) ->  11529215046068469760 ;
 get_type('attribute'               ) ->  11538222245323210752 ;
 get_type('comment'                 ) ->  11547229444577951744 ;
 get_type('document-node'           ) ->  11565243843087433728 ;
+get_type('document'                ) ->  11565243843087433728 ;
 get_type('element'                 ) ->  11601272640106397696 ;
 get_type('namespace'               ) ->  11673330234144325632 ;
 get_type('processing-instruction'  ) ->  11817445422220181504 ;

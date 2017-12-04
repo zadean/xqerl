@@ -1444,10 +1444,10 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [177]    StringConstructor    ::=      "``[" StringConstructorContent "]``"   /* ws: explicit */
 'StringConstructor'      -> '``[' 'StringConstructorContent' ']``' : {'string-constructor', '$2'}.
 % [178]    StringConstructorContent      ::=      StringConstructorChars (StringConstructorInterpolation StringConstructorChars)*  /* ws: explicit */
-'StringConstructorContent'-> 'StringConstructorChars' : value_of('$1').
-'StringConstructorContent'-> 'StringConstructorChars' 'StringConstContents' : {value_of('$1'), '$2'}.
-'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' : {'$1', value_of('$2')}.
-'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' 'StringConstContents': [{'$1', value_of('$2')}|'$3'].
+'StringConstructorContent'-> 'StringConstructorChars'                                 : [#xqAtomicValue{type = 'xs:string', value = value_of('$1')}].
+'StringConstructorContent'-> 'StringConstructorChars'        'StringConstContents'    : [#xqAtomicValue{type = 'xs:string', value = value_of('$1')}|'$2'].
+'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' : '$1' ++ [#xqAtomicValue{type = 'xs:string', value = value_of('$2')}].
+'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' 'StringConstContents': '$1'++[#xqAtomicValue{type = 'xs:string', value = value_of('$2')}|'$3'].
 % [179]    StringConstructorChars     ::=      (Char* - (Char* ('`{' | ']``') Char*)) /* ws: explicit */
 %% done in scanner
 % [180]    StringConstructorInterpolation      ::=      "`{" Expr? "}`"   

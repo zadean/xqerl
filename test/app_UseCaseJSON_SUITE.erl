@@ -40,7 +40,7 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -49,10 +49,10 @@ environment('empty') ->
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
@@ -61,10 +61,10 @@ environment('atomic') ->
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -73,10 +73,10 @@ environment('atomic-xq') ->
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -85,10 +85,10 @@ environment('works-mod') ->
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -97,10 +97,10 @@ environment('works') ->
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -109,11 +109,11 @@ environment('staff') ->
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -122,10 +122,10 @@ environment('works-and-staff') ->
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -139,10 +139,10 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
@@ -154,7 +154,7 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
@@ -166,7 +166,7 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
@@ -178,7 +178,7 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
@@ -190,7 +190,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -203,11 +203,11 @@ environment('mildred.json') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"}]},
+{'static-base-uri', [{"http://xqerl.org"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/mildred.json","mildred.json"}]},
+{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/mildred.json","http://xqerl.org/mildred.json"}]},
 {modules, []}
 ];
 environment('employees.json') ->
@@ -215,11 +215,11 @@ environment('employees.json') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"}]},
+{'static-base-uri', [{"http://xqerl.org"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/employees.json","employees.json"}]},
+{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/employees.json","http://xqerl.org/employees.json"}]},
 {modules, []}
 ];
 environment('bookinfo.json') ->
@@ -227,11 +227,11 @@ environment('bookinfo.json') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"}]},
+{'static-base-uri', [{"http://xqerl.org"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/bookinfo.json","bookinfo.json"}]},
+{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/bookinfo.json","http://xqerl.org/bookinfo.json"}]},
 {modules, []}
 ];
 environment('users.json') ->
@@ -239,11 +239,11 @@ environment('users.json') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"}]},
+{'static-base-uri', [{"http://xqerl.org"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/users.json","users.json"}]},
+{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/users.json","http://xqerl.org/users.json"}]},
 {modules, []}
 ];
 environment('sales.json') ->
@@ -251,13 +251,13 @@ environment('sales.json') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"}]},
+{'static-base-uri', [{"http://xqerl.org"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/sales.json","sales.json"},
-{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/products.json","products.json"},
-{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/stores.json","stores.json"}]},
+{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/sales.json","http://xqerl.org/sales.json"},
+{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/products.json","http://xqerl.org/products.json"},
+{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/stores.json","http://xqerl.org/stores.json"}]},
 {modules, []}
 ];
 environment('satellites.json') ->
@@ -265,11 +265,11 @@ environment('satellites.json') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"}]},
+{'static-base-uri', [{"http://xqerl.org"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/satellites.json","satellites.json"}]},
+{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/satellites.json","http://xqerl.org/satellites.json"}]},
 {modules, []}
 ];
 environment('colors.json') ->
@@ -277,11 +277,11 @@ environment('colors.json') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"}]},
+{'static-base-uri', [{"http://xqerl.org"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/colors.json","colors.json"}]},
+{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/colors.json","http://xqerl.org/colors.json"}]},
 {modules, []}
 ];
 environment('incoming.json') ->
@@ -289,11 +289,11 @@ environment('incoming.json') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"}]},
+{'static-base-uri', [{"http://xqerl.org"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/incoming.json","incoming.json"}]},
+{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/incoming.json","http://xqerl.org/incoming.json"}]},
 {modules, []}
 ];
 environment('table.json') ->
@@ -301,19 +301,19 @@ environment('table.json') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"}]},
+{'static-base-uri', [{"http://xqerl.org"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/table.json","table.json"}]},
+{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/table.json","http://xqerl.org/table.json"}]},
 {modules, []}
 ];
 environment('Wikipedia-Origami.xml') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/Wikipedia-Origami.xml",".","http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/Wikipedia-Origami.xml"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/Wikipedia-Origami.xml",".","http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/Wikipedia-Origami.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"}]},
+{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]},
 {params, []},
 {vars, [{"uri","xs:string","'Wikipedia-Origami.xml'"}]},
 {namespaces, []},

@@ -30,8 +30,6 @@
 
 compile(FileName) ->
    % saving the docs between runs to not have to reparse
-   Docs = erlang:get('available-documents'),
-   Txts = erlang:get('available-text-resources'),
    erlang:erase(),
    {ok, Bin} = file:read_file(FileName),
    Str = binary_to_list(Bin),
@@ -73,8 +71,6 @@ compile(FileName) ->
          Other
    end,
    erlang:erase(),
-   erlang:put('available-documents', Docs),
-   erlang:put('available-text-resources', Txts),
    ok.   
 
 %%  f() ->
@@ -101,7 +97,9 @@ run(Str, Options) ->
       Abstract = scan_tree(Static),
       _ = compile_abstract(Abstract),
       erlang:erase(),
-      xqerl_main:main(Options)
+      Res = xqerl_main:main(Options),
+      erlang:erase(),
+      Res
    catch
       _:#xqError{} = E ->
          ?dbg("run",E),

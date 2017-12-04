@@ -362,7 +362,7 @@ handle_node(State, Nodes) when is_list(Nodes) ->
    set_static_count(set_statement_and_type(State, Statements, Type), Counts1);
 %% 3.1 Primary Expressions
 handle_node(State, #xqQuery{query = Qry} )-> 
-  ?dbg("IfSt",State#state.context_item_type),
+  %?dbg("IfSt",State#state.context_item_type),
   Statements = lists:map(fun(Q) ->
                                 get_statement(handle_node(State, Q))
                           end, Qry),
@@ -489,6 +489,12 @@ handle_node(State, {'partial-function', Name, Arity, Args}) ->
 %% 3.1.5.2 Function Conversion Rules
 %% 3.1.5.3 Function Coercion
 %% 3.1.6 Named Function References
+handle_node(State, {'function-ref', #qname{namespace = "http://www.w3.org/2005/xpath-functions", 
+                                           local_name = "concat"} = Name, Arity}) -> 
+   #xqFunction{type = T} = F = get_static_function(State, {Name, Arity}),
+   NewP = lists:duplicate(Arity, {xqSeqType,'xs:anyAtomicType',zero_or_one}),   
+   Type = #xqFunTest{kind = function, params = NewP, type = T} ,
+   set_statement_and_type(State, F, #xqSeqType{type = Type, occur = one});
 handle_node(State, {'function-ref', #qname{} = Name, Arity}) -> 
    #xqFunction{params = P, type = T} = F = get_static_function(State, {Name, Arity}),
    Type = #xqFunTest{kind = function, params = P, type = T} ,
@@ -1041,6 +1047,7 @@ handle_node(State, {range, Expr1, Expr2}) ->
          end,
    S3 = set_statement(State, {range, St1, St2}),
    Atomics = both_atomics(St1, St2),
+   %?dbg("{St1, St2}",{St1, St2}),
    if Atomics ->
          #xqAtomicValue{value = Diff} = xqerl_operators:subtract(St2, St1),
          if Diff < 0 ->
@@ -1051,7 +1058,7 @@ handle_node(State, {range, Expr1, Expr2}) ->
                   set_statement_type(S3, #xqSeqType{type = 'xs:integer', occur = one_or_many}), Diff + 1)
          end;
       true ->
-         set_statement_type(S3, #xqSeqType{type = 'xs:integer', occur = zero_or_many})
+         set_statement_and_type(S3,{range, St1, St2}, #xqSeqType{type = 'xs:integer', occur = zero_or_many})
    end;
          
 %% 3.4.2 Combining Node Sequences
@@ -1409,7 +1416,9 @@ handle_node(State, {comp_cons, Cons} = _Node) ->
          set_statement_and_type(State, NewSt, #xqSeqType{type = Typ, occur = one})
    end;
 %% 3.10 String Constructors
-handle_node(State, {'string-constructor', Expr} = Node) -> default_return(State, Node);
+handle_node(State, {'string-constructor', Expr}) -> 
+   S1 = get_statement(handle_node(State, Expr)),
+   set_statement_and_type(State, {'string-constructor', S1}, #xqSeqType{type = 'xs:string', occur = zero_or_one});
 %% 3.11 Maps and Arrays
 %% 3.11.1 Maps
 %% 3.11.1.1 Map Constructors
@@ -1817,7 +1826,7 @@ handle_node(State, {'unordered-expr', Expr}) ->
    set_statement_and_type(State, Statement, Type);
 %% 3.14 Conditional Expressions
 handle_node(State, {'if-then-else', If, Then, Else}) -> 
-   ?dbg("IfSt",State#state.context_item_type),
+   %?dbg("IfSt",State#state.context_item_type),
    IfS1 = handle_node(State, If),
    ThS1 = handle_node(State, Then),
    ElS1 = handle_node(State, Else),
@@ -2367,8 +2376,8 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
    Type = #xqSeqType{type = 'xs:integer', occur = one},
    ArgSt = get_statement(SimpArg),
    ArgCt = get_static_count(SimpArg),
-   ?dbg("ArgCt",ArgCt),
-   ?dbg("ArgSt",ArgSt),
+   %?dbg("ArgCt",ArgCt),
+   %?dbg("ArgSt",ArgSt),
    if ArgCt == undefined ->
          set_statement_and_type(State, {'function-call',F#xqFunction{params = [ArgSt], type = Type}}, Type);
       true ->
@@ -2629,7 +2638,12 @@ handle_node(State, {content_expr, Expr}) ->
    ST = handle_node(State, Expr),
    S1 = get_statement(ST),
    ST1 = get_statement_type(ST),
-   set_statement_and_type(State, {content_expr, S1}, ST1);
+   case S1 of 
+      #xqAtomicValue{value = []} ->
+         set_statement(State, 'empty-sequence');
+      _ ->
+         set_statement_and_type(State, {content_expr, S1}, ST1)
+   end;
 
 handle_node(State, {lookup, Expr}) -> 
    handle_predicate(State, {lookup, Expr});
@@ -3202,12 +3216,14 @@ pro_namespaces(Prolog,ModNsPx,DefElNs) ->
                        [ModNsPx|Namespaces]
                  end,
    % check for dup prefixes
-   _ = lists:foldl(fun({_,Px},Dict) ->
+   _ = lists:foldl(fun({N1,Px},Dict) ->
                          case dict:is_key(Px, Dict) of
                             true ->
+                               ?dbg("N1",N1),
+                               ?dbg("Px",Px),
                                ?err('XQST0033');
                             _ ->
-                               dict:append(Px, Px, Dict)
+                               dict:store(Px, N1, Dict)
                          end
                    end, dict:new(), Namespaces1),
    % check for overwritten namespaces
@@ -3811,6 +3827,10 @@ handle_element_content(State, Content) ->
                 get_statement(handle_direct_constructor(State, C))
           end,
    Content3 = lists:map(CFun, Content2), 
+   %?dbg("Content ",Content),
+   %?dbg("Content1",Content1),
+   %?dbg("Content2",Content2),
+   %?dbg("Content3",Content3),
    set_statement(State, Content3).
 
 handle_attribute_content(State, Content) ->
@@ -3837,42 +3857,69 @@ maybe_strip_whitespace(#state{boundary_space = strip}, {content_expr, Expr}) -> 
 maybe_strip_whitespace(#state{boundary_space = strip}, Content) ->
    Content1 = remove_empty_head(Content),
    Content2 = remove_empty_head(lists:reverse(Content1)),
+   %?dbg("Content ",Content),
+   %?dbg("Content1",Content1),
+   %?dbg("Content2",Content2),
    lists:reverse(Content2).
 
+is_whitespace(Str) ->
+   string:trim(Str) == [].
+
+-define(IS_BOUNDARY(I), element(1,I) == content_expr orelse
+                        is_record(I, xqElementNode)).
+-define(IS_NONBOUNDARY(I), element(1,I) == char_ref orelse
+                           element(1,I) == entity_ref orelse
+                           is_record(I, xqTextNode)).
+
+%% Here, boundary whitespace is any whitespace that occurs between the beginning of the 
+%% content and the end, or any cdata, or any character reference, or any content expression 
 remove_empty_head([]) -> [];
-remove_empty_head([{content_expr, _} = C1,#xqAtomicValue{type = 'xs:string', value = Val} = S|T]) -> 
-   case string:trim(Val) of
-      [] ->
-         remove_empty_head([C1|T]);
+remove_empty_head([H1,#xqAtomicValue{type = 'xs:string', value = Str} = H2,H3|T]) when (?IS_BOUNDARY(H1)) andalso (?IS_BOUNDARY(H3)) ->
+   case is_whitespace(Str) of
+      true ->
+         [H1|remove_empty_head([H3|T])];
       _ ->
-         [C1|remove_empty_head([S|T])]
+         [H1,H2|remove_empty_head([H3|T])]
    end;
-%% remove_empty_head([{content_expr, _} = C1,#xqAtomicValue{type = 'xs:string', value = Val} = S,{content_expr, _} = C2|T]) -> 
-%%    case string:trim(Val) of
-%%       [] ->
-%%          remove_empty_head([C1,C2|T]);
-%%       _ ->
-%%          [C1|remove_empty_head([S,C2|T])]
-%%    end;
-remove_empty_head([{content_expr, _}|_] = All) -> All;
-remove_empty_head([#xqAtomicValue{} = H1,{char_ref, _} = H2|T]) ->
-   [H1|remove_empty_head([H2|T])];
-remove_empty_head([#xqAtomicValue{} = H1,{entity_ref, _} = H2|T]) ->
-   [H1|remove_empty_head([H2|T])];
-remove_empty_head([{char_ref, _} = H1,#xqAtomicValue{} = H2|T]) ->
-   [H1,H2|remove_empty_head(T)];
-remove_empty_head([{entity_ref, _} = H1,#xqAtomicValue{} = H2|T]) ->
-   [H1,H2|remove_empty_head(T)];
-remove_empty_head([#xqAtomicValue{} = H1,#xqTextNode{} = H2|T]) ->
-   [H1|remove_empty_head([H2|T])];
-remove_empty_head([#xqTextNode{} = H1,#xqAtomicValue{} = H2|T]) ->
-   [H1,H2|remove_empty_head(T)];
-remove_empty_head([#xqAtomicValue{type = 'xs:string', value = Val} = H|T]) ->
-   case string:trim(Val) of
-      [] ->
-         remove_empty_head(T);
+remove_empty_head([#xqAtomicValue{type = 'xs:string', value = Str} = H2,H3]) when ?IS_BOUNDARY(H3) ->
+   case is_whitespace(Str) of
+      true ->
+         [H3];
       _ ->
-         [H|remove_empty_head(T)]
+         [H2,H3]
+   end;
+remove_empty_head([H1,#xqAtomicValue{type = 'xs:string', value = Str} = H2]) when ?IS_BOUNDARY(H1) ->
+   case is_whitespace(Str) of
+      true ->
+         [H1];
+      _ ->
+         [H1,H2]
+   end;
+remove_empty_head([#xqAtomicValue{type = 'xs:string'} = H1,H2|T]) when ?IS_NONBOUNDARY(H2) ->
+   [H1|remove_empty_head([H2|T])];
+remove_empty_head([H1,#xqAtomicValue{type = 'xs:string'} = H2,H3|T]) when (?IS_NONBOUNDARY(H1)) andalso (?IS_BOUNDARY(H3)) ->
+   [H1,H2|remove_empty_head([H3|T])];
+remove_empty_head([H1,#xqAtomicValue{type = 'xs:string'} = H2,H3|T]) when (?IS_BOUNDARY(H1)) andalso (?IS_NONBOUNDARY(H3)) ->
+   [H1,H2|remove_empty_head([H3|T])];
+remove_empty_head([H1,#xqAtomicValue{type = 'xs:string'} = H2,H3|T]) when (?IS_NONBOUNDARY(H1)) andalso (?IS_BOUNDARY(H3)) ->
+   [H1,H2|remove_empty_head([H3|T])];
+remove_empty_head([#xqAtomicValue{type = 'xs:string', value = Str} = H2,H3|T]) when ?IS_BOUNDARY(H3) ->
+   case is_whitespace(Str) of
+      true ->
+         remove_empty_head([H3|T]);
+      _ ->
+         [H2|remove_empty_head([H3|T])]
+   end;
+remove_empty_head([H1,#xqAtomicValue{type = 'xs:string'} = H2|T]) when ?IS_NONBOUNDARY(H1) ->
+   [H1,H2|remove_empty_head(T)];
+remove_empty_head([#xqAtomicValue{type = 'xs:string'} = H2,H3|T]) when ?IS_NONBOUNDARY(H3) ->
+   [H2|remove_empty_head([H3|T])];
+remove_empty_head([#xqAtomicValue{type = 'xs:string', value = Str} = H2]) ->
+   case is_whitespace(Str) of
+      true ->
+         [];
+      _ ->
+         [H2]
    end;
 remove_empty_head([H|T]) -> [H|remove_empty_head(T)].
 
@@ -3998,6 +4045,7 @@ check_fun_arg_types(State, Args, ArgTypes) ->
    Arg_ArgTypes = lists:zip(Args, ArgTypes),
    Fun = fun({Arg, ArgType}) ->
                %?dbg("ArgS",get_statement(Arg)),
+               %?dbg("ArgType",ArgType),
                %?dbg("ArgT",get_statement_type(Arg)),
                S1 = check_fun_arg_type(State, Arg, ArgType),
                Cnt = get_static_count(S1),

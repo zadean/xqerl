@@ -357,13 +357,18 @@ node_map(Ctx, Fun, Seq) ->
       true ->
          %?dbg("All node",Seq),
          Nodes = map(Ctx, Fun, Seq),
-         case all_node(Nodes) orelse all_not_node(Nodes) of
+         case all_node(Nodes) of
             true ->
                %?dbg("OK",Nodes),
-               from_list(Nodes);
+               from_list(lists:usort(Nodes));
             _ ->
-               % mixed
-               xqerl_error:error('XPTY0018')
+               case all_not_node(Nodes) of
+                  true ->
+                     from_list(Nodes);
+                  _ ->
+                     % mixed
+                     xqerl_error:error('XPTY0018')
+               end
          end;
       _ ->
          ?dbg("NOT All node",Seq),
@@ -413,7 +418,7 @@ flatten(List) ->
    [List].
 
 from_list(List) when is_list(List) ->
-   List;
+   lists:flatten(List);
 
 %%    lists:flatten(List);
 

@@ -38,7 +38,7 @@ assert(Result, QueryString) ->
                 " as item()"
           end,
    NewQueryString = "declare variable $result" ++ Type ++ " external; " ++ QueryString,
-   ?dbg("NewQueryString",NewQueryString),
+   %?dbg("NewQueryString",NewQueryString),
    %?dbg("Result",Result),
    case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
@@ -81,6 +81,21 @@ assert_type(Result, TypeString) ->
          end
    end.
 %% assert_xml             (: fn:deep-equal(result, run test query) :)
+assert_xml(Result, {file, FileLoc}) ->
+   _ = xqerl_doc:read_http(FileLoc),
+   try
+      NewQueryString = "declare variable $result external; " ++ "fn:deep-equal($result , fn:doc('" ++ FileLoc ++ "')/* )",
+      Res1 = xqerl:run(NewQueryString, #{"result" => Result}),
+      StrVal = string_value(Res1),
+      if StrVal == "true" ->
+            true;
+         true ->
+            {false, {assert_xml,Res1}}
+      end
+   catch 
+      _:_ ->
+         {false, {assert_xml,FileLoc}}
+   end;
 assert_xml(Result, QueryString) ->
    ResXml = xqerl_node:to_xml(Result),
    case ResXml == QueryString of
@@ -243,7 +258,7 @@ string_value(Seq) ->
 
 run_suite(Suite) ->
    ok = application:ensure_started(xqerl_ds),
-   ct:run_test([{},{suite, Suite},{dir, "../test"},{logdir, "../test/logs"}])
+   ct:run_test([{suite, Suite},{dir, "../test"},{logdir, "../test/logs"}])
 .
 
 run(misc) ->
@@ -800,6 +815,10 @@ handle_environment(List) ->
                            end, Params1, Namespaces),
    Namespaces2 = lists:map(fun({Uri,""}) ->
                                    "declare default element namespace '"++Uri++"';\n";
+                              % block statically known 
+                              ({"http://www.w3.org/2005/xpath-functions/math","math"}) -> "";
+                              ({"http://www.w3.org/2005/xpath-functions/array","array"}) -> "";
+                              ({"http://www.w3.org/2005/xpath-functions/map","map"}) -> "";
                               ({Uri,Prefix}) ->
                                  "declare namespace "++Prefix++" = '"++Uri++"';\n"
                            end, Namespaces),

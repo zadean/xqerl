@@ -3,72 +3,71 @@
    <description>Tests for the UseCaseJSON</description>
             
    <environment name="mildred.json">
-      <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"/>
-      <resource file="UseCaseJSON/mildred.json" media-type="application/json" uri="mildred.json">
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/mildred.json" media-type="application/json" uri="http://xqerl.org/mildred.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
    </environment>      
    <environment name="employees.json">      
-      <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"/>
-      <resource file="UseCaseJSON/employees.json" media-type="application/json" uri="employees.json">      
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/employees.json" media-type="application/json" uri="http://xqerl.org/employees.json">      
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
    </environment>      
    <environment name="bookinfo.json">            
-      <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"/>
-      <resource file="UseCaseJSON/bookinfo.json" media-type="application/json" uri="bookinfo.json">
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/bookinfo.json" media-type="application/json" uri="http://xqerl.org/bookinfo.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
    </environment>      
    <environment name="users.json">      
-      <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"/>
-      <resource file="UseCaseJSON/users.json" media-type="application/json" uri="users.json">
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/users.json" media-type="application/json" uri="http://xqerl.org/users.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
    </environment>      
    <environment name="sales.json">            
-      <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"/>
-      <resource file="UseCaseJSON/sales.json" media-type="application/json" uri="sales.json">
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/sales.json" media-type="application/json" uri="http://xqerl.org/sales.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
-      <resource file="UseCaseJSON/products.json" media-type="application/json" uri="products.json">
+      <resource file="UseCaseJSON/products.json" media-type="application/json" uri="http://xqerl.org/products.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
-      <resource file="UseCaseJSON/stores.json" media-type="application/json" uri="stores.json">
+      <resource file="UseCaseJSON/stores.json" media-type="application/json" uri="http://xqerl.org/stores.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource>       
    </environment>      
    <environment name="satellites.json">                  
-      <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"/>
-      <resource file="UseCaseJSON/satellites.json" media-type="application/json" uri="satellites.json">
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/satellites.json" media-type="application/json" uri="http://xqerl.org/satellites.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource>    
       <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
    </environment>      
    <environment name="colors.json">                           
-      <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"/>
-      <resource file="UseCaseJSON/colors.json" media-type="application/json" uri="colors.json">
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/colors.json" media-type="application/json" uri="http://xqerl.org/colors.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource>  
    </environment>      
    <environment name="incoming.json">                                            
-      <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"/>
-      <resource file="UseCaseJSON/incoming.json" media-type="application/json" uri="incoming.json">
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/incoming.json" media-type="application/json" uri="http://xqerl.org/incoming.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource>   
       <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
    </environment>      
    <environment name="table.json">                                                 
-      <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"/>
-      <resource file="UseCaseJSON/table.json" media-type="application/json" uri="table.json">
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/table.json" media-type="application/json" uri="http://xqerl.org/table.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource>                   
    </environment>       
    
    <environment name="Wikipedia-Origami.xml">
       <source role="." file="UseCaseJSON/Wikipedia-Origami.xml" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/Wikipedia-Origami.xml"/>
-      <static-base-uri uri="C:/git/zadean/xquery-3.1/QT3-test-suite/app/UseCaseJSON/"/>
-      <!-- <static-base-uri uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/" /> -->
+      <static-base-uri uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/" />
       <param name="uri" as="xs:string" select="'Wikipedia-Origami.xml'"/>
    </environment>
 

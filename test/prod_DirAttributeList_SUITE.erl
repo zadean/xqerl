@@ -282,7 +282,7 @@ environment('empty') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -291,10 +291,10 @@ environment('empty') ->
 ];
 environment('atomic') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
@@ -303,10 +303,10 @@ environment('atomic') ->
 ];
 environment('atomic-xq') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -315,10 +315,10 @@ environment('atomic-xq') ->
 ];
 environment('works-mod') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -327,10 +327,10 @@ environment('works-mod') ->
 ];
 environment('works') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -339,10 +339,10 @@ environment('works') ->
 ];
 environment('staff') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -351,11 +351,11 @@ environment('staff') ->
 ];
 environment('works-and-staff') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
+{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, []},
@@ -364,10 +364,10 @@ environment('works-and-staff') ->
 ];
 environment('auction') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -381,10 +381,10 @@ environment('auction') ->
 ];
 environment('qname') ->
 [{'decimal-formats', []},
-{sources, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
+{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
@@ -396,7 +396,7 @@ environment('math') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
@@ -408,7 +408,7 @@ environment('array') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
@@ -420,7 +420,7 @@ environment('map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
@@ -432,7 +432,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -2306,19 +2306,7 @@ text {\"a text node\"}
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<e attribute=\"abc def ghi 1 2 3 abc a text node a text node def ghi FF abc def ghi textNode xs:string textNode xs:string textNode xs:string text a text node, xs:string xs:stringtextnode\" name=\"a text node a text node abc def a text node ghi 1 2 a text node 3 abc def a text node ghi FF abc def ghi xs:string ghi xs:string xs:string xs:string ghi\">a text nodea text nodeabc defa text nodeghi 1 2a text node3 abca text nodedef ghi FF abc def ghi
-textNode
-xs:string
-textNode
-xs:string
-textNode
-xs:stringxs:stringxs:string
-text a text node,
-text a text node,
-text a text node,
-text a text node,
-
-<!--abc def ghi 1 2 3 abc def ghi FF abc def ghi xs:string xs:string ghi xs:string a text node a text node xs:string ghi xs:string--><?target abc def ghi 1 2 3 abc def ghi a text node a text node FF abc def ghi xs:string xs:string ghi xs:string xs:string ghi a text node xs:string?>a text node a text node a text node a text node abc def ghi 1 2 a text node 3 abc a text node def ghi FF abc def ghi xs:string xs:string ghi xs:string xs:string ghi xs:string a text node</e>") of 
+   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirAttributeList/K2-DirectConElemAttr-75.out"}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 

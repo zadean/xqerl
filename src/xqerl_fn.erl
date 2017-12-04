@@ -223,7 +223,7 @@
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","for-each"},{xqSeqType, item, zero_or_many}, [], 
  {'for-each', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, "http://www.w3.org/2005/xpath-functions", "fn","for-each"},[{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},zero_or_many}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","for-each-pair"},{xqSeqType, item, zero_or_many}, [], 
- {'for-each-pair', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, "http://www.w3.org/2005/xpath-functions", "fn","for-each-pair"},[{xqSeqType, item, one},{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},zero_or_many}]},
+ {'for-each-pair', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, "http://www.w3.org/2005/xpath-functions", "fn","for-each-pair"},[{xqSeqType, item, one},{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-date"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'format-date', 3}, 2,[{xqSeqType, 'xs:date', zero_or_one},{xqSeqType, 'xs:string', one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-date"},{xqSeqType, 'xs:string', zero_or_one}, [],
@@ -934,7 +934,10 @@ avg1([H|T], Sum, Count) ->
 'base-uri'(Ctx) -> 'base-uri'(Ctx,xqerl_context:get_context_item(Ctx)).
 'base-uri'(_Ctx,[]) -> ?seq:empty();
 'base-uri'(Ctx,[N]) -> 'base-uri'(Ctx,N);
-'base-uri'(#{'base-uri' := SBU},#xqNode{doc = Doc, node = Node}) ->
+'base-uri'(Ctx,#xqNode{doc = {doc,File}, node = Node}) ->
+   Doc = ?get({doc,File}),
+   'base-uri'(Ctx,#xqNode{doc = Doc, node = Node});
+'base-uri'(_Ctx,#xqNode{doc = Doc, node = Node}) ->
    case xqerl_xdm:dm_base_uri(Doc, Node) of
       [] ->
          [];
@@ -1348,14 +1351,21 @@ val_reverse([{_,V}|T], Acc) ->
       BaseUri = xqerl_types:value(BaseUri0),
       %?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
       ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-      case xqerl_ds:exists_doc(ResVal) of
-         true ->
-            Doc = xqerl_doc:retrieve_doc(ResVal),
-            #xqNode{doc = Doc, node = xqerl_xdm:root(Doc)};
-         _ ->
-            _ = xqerl_doc:read_http(ResVal),
-            Doc = xqerl_doc:retrieve_doc(ResVal),
-            #xqNode{doc = Doc, node = xqerl_xdm:root(Doc)}
+      case ?get({doc,ResVal}) of
+         [] ->
+            case xqerl_ds:exists_doc(ResVal) of
+               true ->
+                  Doc = xqerl_doc:retrieve_doc(ResVal),
+                  ?put({doc,ResVal},Doc),
+                  #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)};
+               _ ->
+                  _ = xqerl_doc:read_http(ResVal),
+                  Doc = xqerl_doc:retrieve_doc(ResVal),
+                  ?put({doc,ResVal},Doc),
+                  #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)}
+            end;
+         Doc ->
+            #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)}
       end
    catch 
       _:#xqError{} = E ->
@@ -1385,6 +1395,9 @@ val_reverse([{_,V}|T], Acc) ->
 'document-uri'(_,[]) -> [];
 'document-uri'(Ctx,[Node]) ->
    'document-uri'(Ctx,Node);
+'document-uri'(_Ctx,#xqNode{doc = {doc,File}, node = Node}) -> 
+   Doc = ?get({doc,File}),
+   'document-uri'(_Ctx,#xqNode{doc = Doc, node = Node});
 'document-uri'(_Ctx,#xqNode{doc = Doc, node = Node}) -> 
    DUri = xqerl_xdm:dm_document_uri(Doc, Node),
    if DUri == [] ->
@@ -1826,19 +1839,12 @@ unmask_static_mod_ns(T) -> T.
 'generate-id'(Ctx) ->
    Item = xqerl_context:get_context_item(Ctx),
    'generate-id'(Ctx, Item).
+'generate-id'(_Ctx,[Arg1]) -> 
+   'generate-id'(_Ctx,Arg1);
+'generate-id'(_Ctx,[]) -> ?str("");
 'generate-id'(_Ctx,Arg1) ->
-   Item = case ?seq:is_sequence(Arg1) of
-             true ->
-                ?seq:singleton_value(Arg1);
-             _ ->
-               Arg1
-          end,
-   if Item == [] ->
-         ?str("");
-      true ->
-         Hash = xqerl_node:get_node_hash(Item),
-         ?str( "ID" ++ erlang:integer_to_list(Hash) )
-   end.
+   Hash = xqerl_node:get_node_hash(Arg1),
+   ?str( "ID" ++ erlang:integer_to_list(Hash) ).
 
 %% Returns true if the supplied node has one or more child nodes (of any kind). 
 'has-children'(Ctx) ->
@@ -1847,6 +1853,9 @@ unmask_static_mod_ns(T) -> T.
 'has-children'(_Ctx,[]) -> ?bool(false);
 'has-children'(Ctx,[Arg1]) ->
    'has-children'(Ctx,Arg1);
+'has-children'(_Ctx,#xqNode{doc = {doc,File}, node = Node}) ->
+   Doc = ?get({doc,File}),
+   'has-children'(_Ctx,#xqNode{doc = Doc, node = Node});
 'has-children'(_Ctx,#xqNode{doc = Doc, node = Node}) ->
    case xqerl_xdm:dm_children(Doc, Node) of
       [] ->
@@ -1900,14 +1909,12 @@ unmask_static_mod_ns(T) -> T.
       Root = xqerl_step:root(Ctx,Node),
       Desc = xqerl_step:forward(Ctx,Root, 'descendant-or-self', #qname{namespace = "*", local_name = "*"}, []),
       Atts = xqerl_step:ids(Ctx, Desc),
-      %?dbg("Node",Node),
       Filtered = lists:filter(
                    fun(A) ->
                          xqerl_operators:general_compare('=',A,RefToks) == ?bool(true)
                    end, Atts),
       xqerl_step:reverse(Ctx,Filtered, parent, #xqKindTest{kind = element},[])
    catch 
-      
       _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPDY0050"})} ->
             xqerl_error:error('FODC0001');
       _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPTY0020"})} ->
@@ -1997,9 +2004,12 @@ unmask_static_mod_ns(T) -> T.
 %% Returns the prefixes of the in-scope namespaces for an element node. 
 'in-scope-prefixes'(Ctx, [Arg1]) ->
    'in-scope-prefixes'(Ctx, Arg1);
+'in-scope-prefixes'(_Ctx, #xqNode{doc = {doc,File}, node = Node}) -> 
+   Doc = ?get({doc,File}),
+   'in-scope-prefixes'(_Ctx, #xqNode{doc = Doc, node = Node});
 'in-scope-prefixes'(_Ctx, #xqNode{doc = Doc, node = Node}) -> 
    InScopeNs = xqerl_xdm:inscope_namespaces(Doc, Node),
-   %?dbg("in-scope-prefixes",InScopeNs),
+   ?dbg("in-scope-prefixes",InScopeNs),
    lists:usort(
    lists:filtermap(fun({'no-namespace',_}) ->
                    false;
@@ -2059,7 +2069,13 @@ unmask_static_mod_ns(T) -> T.
             ?bool(false);
          true ->
             #xqNode{doc = Doc, node = Lang} = lists:last(Atts),
-            Str = string:lowercase(xqerl_xdm:dm_string_value(Doc, Lang)),
+            Doc1 = case Doc of 
+                      {doc,File} ->
+                         ?get({doc,File});
+                      O ->
+                         O
+                   end,
+            Str = string:lowercase(xqerl_xdm:dm_string_value(Doc1, Lang)),
             Testlang = string:lowercase(xqerl_types:string_value(Testlang0)),
             Match = Str == Testlang orelse string:prefix(Str, Testlang ++ "-") =/= nomatch,
             %?dbg("Str",Str),
@@ -2420,8 +2436,12 @@ compare_convert_seq([H|T], Acc, SeqType) ->
    Item = xqerl_context:get_context_item(Ctx),
    'namespace-uri'(Ctx,Item).
 'namespace-uri'(_Ctx,[]) -> ?atm('xs:anyURI',"");
-'namespace-uri'(_Ctx,Arg1) ->
-   #xqNode{doc = Doc, node = Node} = ?seq:singleton_value(Arg1),
+'namespace-uri'(_Ctx,[Arg1]) ->
+   'namespace-uri'(_Ctx,Arg1);
+'namespace-uri'(_Ctx,#xqNode{doc = {doc,File}, node = Node}) ->
+   Doc = ?get({doc,File}),
+   'namespace-uri'(_Ctx,#xqNode{doc = Doc, node = Node});
+'namespace-uri'(_Ctx,#xqNode{doc = Doc, node = Node}) ->
    case xqerl_xdm:dm_node_name(Doc, Node) of
       {'no-namespace',_} ->
          ?atm('xs:anyURI',"");
@@ -2436,6 +2456,9 @@ compare_convert_seq([H|T], Acc, SeqType) ->
 %% Returns the namespace URI of one of the in-scope namespaces for $element, identified by its namespace prefix. 
 'namespace-uri-for-prefix'(Ctx,Prefix,[Element]) ->
    'namespace-uri-for-prefix'(Ctx,Prefix,Element);
+'namespace-uri-for-prefix'(_Ctx,Prefix,#xqNode{doc = {doc,File}, node = Node}) -> 
+   Doc = ?get({doc,File}),
+   'namespace-uri-for-prefix'(_Ctx,Prefix,#xqNode{doc = Doc, node = Node});
 'namespace-uri-for-prefix'(_Ctx,Prefix,#xqNode{doc = Doc, node = Node}) -> 
    P1 = xqerl_types:string_value(Prefix),
    InScopeNs = xqerl_xdm:inscope_namespaces(Doc, Node),
@@ -2469,10 +2492,19 @@ compare_convert_seq([H|T], Acc, SeqType) ->
    end.   
 
 %% Returns true for an element that is nilled. 
+'nilled'(#{'context-item' := Ci}) ->
+   'nilled'(#{},Ci);
 'nilled'(_) ->
-   ?bool(false).
-'nilled'(_,_) -> 
-   ?bool(false).
+   ?err('XPDY0002').
+'nilled'(_,[]) -> [];
+'nilled'(C,[Node]) -> 'nilled'(C,Node);
+'nilled'(_,Node) ->
+   case xqerl_node:get_node_type(Node) of
+      element ->
+         ?bool(false);
+      _ ->
+         []
+   end.
 
 %%    % since schema validation is not implemented, this will always be false
 %%    Self = xqerl_step:forward(Ctx, Node, self, 
@@ -2502,10 +2534,17 @@ compare_convert_seq([H|T], Acc, SeqType) ->
 'node-name'(Ctx, [Arg]) ->
    'node-name'(Ctx, Arg);
 'node-name'(_Ctx, #xqAtomicValue{}) -> xqerl_error:error('XPTY0004');
+'node-name'(Ctx, #xqNode{doc = {doc,File}, node = Node}) ->
+   Doc = ?get({doc,File}),
+   'node-name'(Ctx, #xqNode{doc = Doc, node = Node});
 'node-name'(_Ctx, #xqNode{doc = Doc, node = Node}) ->
    case xqerl_xdm:dm_node_name(Doc, Node) of
       [] ->
          [];
+      {[],Ln} ->
+         Px = xqerl_xdm:prefix(Doc, Node),
+         Q = #qname{namespace = 'no-namespace', prefix = Px, local_name = Ln},
+         ?atm('xs:QName',Q);
       {Ns,Ln} ->
          Px = xqerl_xdm:prefix(Doc, Node),
          Q = #qname{namespace = Ns, prefix = Px, local_name = Ln},
@@ -2847,6 +2886,9 @@ map_options_to_list(Ctx, Map) ->
                            end,
          if Prefix =/= "" andalso StrUri == 'no-namespace' ->
                xqerl_error:error('FOCA0002');
+            Prefix == "" andalso StrUri == 'no-namespace' ->
+               Q = #qname{namespace = StrUri, prefix = Prefix, local_name = Local},
+               ?atm('xs:QName',Q);
             true ->
                Prefix1 = if Prefix == [] ->
                                Namespaces = maps:get(namespaces, Ctx),
@@ -2959,6 +3001,10 @@ string_value(At) -> xqerl_types:string_value(At).
 'resolve-QName'(_Ctx,[],_Element) -> [];
 'resolve-QName'(Ctx,String,[Element]) ->
    'resolve-QName'(Ctx,String,Element);
+
+'resolve-QName'(Ctx,String,#xqNode{doc = {doc,File}, node = Node}) -> 
+   Doc = ?get({doc,File}),
+   'resolve-QName'(Ctx,String,#xqNode{doc = Doc, node = Node});
 'resolve-QName'(#{namespaces := SNS},String,#xqNode{doc = Doc, node = Node}) -> 
    InScopeNs = xqerl_xdm:inscope_namespaces(Doc, Node),
    IsNs = lists:map(fun({U,P}) ->
@@ -2978,16 +3024,25 @@ string_value(At) -> xqerl_types:string_value(At).
    Base = maps:get('base-uri', Ctx),
    'resolve-uri'(Ctx,Relative,Base).
 'resolve-uri'(_Ctx,[],_Base) -> ?seq:empty();
-'resolve-uri'(_Ctx,Relative,Base) -> 
+'resolve-uri'(Ctx,Relative,Base) ->
+   Base1 = case xqerl_types:value(Base) of
+              [] ->
+                 maps:get('base-uri', Ctx);
+              _ ->
+                 Base
+           end,
    try
+      %?dbg("{Relative, Base1}",{Relative, Base1}),
       UriRel = xqerl_types:cast_as(Relative, 'xs:anyURI'),
-      UriBas = xqerl_types:cast_as(Base, 'xs:anyURI'),
+      UriBas = xqerl_types:cast_as(Base1, 'xs:anyURI'),
+      %?dbg("{UriRel, UriBas}",{UriRel, UriBas}),
       RelVal = xqerl_types:value(UriRel),
       BasVal = xqerl_types:value(UriBas),
       case xqerl_lib:resolve_against_base_uri(BasVal, RelVal) of
          {error,unsafe} ->
             ?err('FORG0002');
          ResVal ->
+            %?dbg("ResVal",ResVal),
             ?atm('xs:anyURI',ResVal)
       end
    catch 
@@ -3606,6 +3661,7 @@ zip_map_trans([H|T],[TH|TT]) ->
       BaseUri = xqerl_types:value(BaseUri0),
       ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
       Enc = xqerl_types:string_value(Encoding),
+      %?dbg("ResVal",ResVal),
       {ok,Binary} = xqerl_ds:lookup_res(ResVal),
       if Encoding == [] ->
             ?str( xqerl_file:bin_to_utf8(Binary));
@@ -3616,6 +3672,7 @@ zip_map_trans([H|T],[TH|TT]) ->
       _:#xqError{} = E ->
          exit(E);
       _:_ ->
+         ?dbg("E",erlang:get_stacktrace()),
          ?err('FOUT1170')
    end.
 
@@ -3635,7 +3692,9 @@ zip_map_trans([H|T],[TH|TT]) ->
 'unparsed-text-lines'(Ctx,Arg1) -> 
    'unparsed-text-lines'(Ctx,Arg1,[]).
 'unparsed-text-lines'(Ctx,Arg1,Arg2) ->
-   #xqAtomicValue{value = Str} = 'unparsed-text'(Ctx,Arg1,Arg2),
+   UParsed = 'unparsed-text'(Ctx,Arg1,Arg2),
+   %?dbg("UParsed",UParsed),
+   #xqAtomicValue{value = Str} = UParsed,
    {ok,MP} = re:compile("\\r\\n|\\r|\\n",[unicode]),
    List = re:split(Str, MP,[{return,list}]),
    List1 = case List =/= [] andalso lists:last(List) of

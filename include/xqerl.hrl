@@ -11,6 +11,9 @@
 %% An additional variable is available only in XQuery 3.1:
 %% - err:additional - further implementation-defined information about the error
 
+-define(put(Key,Val),xqerl_lib:lput(Key,Val)).
+-define(get(Key),xqerl_lib:lget(Key)).
+
 
 -define(dbg(M,P), io:format("~s ~p ~p: ~p~n", [?MODULE,?LINE, M,P])).
 -define(seq, xqerl_seq3).

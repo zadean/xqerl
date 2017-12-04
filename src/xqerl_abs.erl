@@ -303,7 +303,7 @@ body_function(ContextMap, Body) ->
    BodyAbs = alist(expr_do(maps:put(ctx_var, 'Ctx',ContextMap), Body)),
    VarSetFun = fun({_N,_,_,{V,_}}, CtxVar) ->
                      {
-                      {call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,put}},[{atom,?L,V},{call,?L,{atom,?L,V},[{var,?L,CtxVar}]} ]},
+                      {call,?L,{remote,?L,{atom,?L,xqerl_lib},{atom,?L,lput}},[{atom,?L,V},{call,?L,{atom,?L,V},[{var,?L,CtxVar}]} ]},
                       CtxVar
                      };
                   ({'context-item',V}, _CtxVar) ->
@@ -675,7 +675,7 @@ expr_do(Ctx, {array, {expr, Expr}} )->
    };
 % this is a constructor
 expr_do(Ctx, {array, [{content_expr, Expr}]} ) ->
-   ?dbg("array",Expr),
+   %?dbg("array",Expr),
    {call,?L,{remote,?L,{atom,?L,xqerl_array},{atom,?L,from_list}},[
     {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,flatten}},
      [lists:foldr(fun(E,Acc) ->
@@ -692,7 +692,7 @@ expr_do(Ctx, {array, [{content_expr, Expr}]} ) ->
      ]
    }]};
 expr_do(Ctx, {array, Expr} ) ->
-   ?dbg("array",Expr),
+   %?dbg("array",Expr),
    {call,?L,{remote,?L,{atom,?L,xqerl_array},{atom,?L,from_list}},
     [lists:foldr(fun(E,Acc) ->
                        Ex = expr_do(Ctx, E),
@@ -710,6 +710,7 @@ expr_do(Ctx, {array, Expr} ) ->
 expr_do(Ctx, #xqQuery{query = Qry} )->
    {block,?L,
     [{match,?L,{var,?L,'Query'},expr_do(Ctx, Qry)},
+     %{match,?L,{var,?L,'_'},{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,erase}},[]}}, % cleanup
      {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,return_value}},[{var,?L,'Query'}]}
      ]};
    
@@ -720,6 +721,17 @@ expr_do(_Ctx, #xqAtomicValue{} = A) ->
    %?dbg("A",A),
    %?dbg("Ab",Ab),
    Ab;
+
+expr_do(Ctx, {'string-constructor', Expr}) ->
+   {tuple,?L,
+    [{atom,?L,xqAtomicValue},
+     {atom,?L,'xs:string'},
+     {call,?L,{remote,?L,{atom,?L,lists},{atom,?L,flatten}},
+      [lists:foldr(fun(I,Abs) ->
+                      {cons,?L,{call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,string_value}},[expr_do(Ctx,I)]},Abs}
+                end, {nil,?L}, alist(Expr))]
+     }
+     ]};
 
 expr_do(Ctx, 'context-item') ->
    CtxName = get_context_variable_name(Ctx),
@@ -1050,7 +1062,7 @@ expr_do(Ctx, #xqAxisStep{} = Step) ->
    step_expr_do(Ctx, Step, Base);
 
 expr_do(_Ctx, {variable, {Name,_}}) when is_atom(Name) ->
-   {call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,get}},[{atom,?L,Name}]};
+   {call,?L,{remote,?L,{atom,?L,xqerl_lib},{atom,?L,lget}},[{atom,?L,Name}]};
 expr_do(_Ctx, {variable, Name}) when is_atom(Name) ->
    {var,?L,Name};
 
@@ -1794,7 +1806,9 @@ flwor(Ctx, [#xqWindow{win_variable = #xqVar{id = Id}} = F|T], RetId, Return, Int
    CurrContext = get_context_variable_name(Ctx),
    ThisFun = glob_fun_name({window,Id}),
    {NewCtx,FunAbs} = window_loop(Ctx, F, []),
-   NewInternal = if Inline == false andalso TupleVar =/= [] ->
+   NewInternal = if Internal == [] ->
+                       Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},Vars]}}];
+                    Inline == false andalso TupleVar =/= [] ->
                        Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},{var,?L,TupleVar}]}}];
                     true ->
                        Internal ++ [{match,?L,{var,?L,NextTupleVar},{call,?L,{atom,?L,ThisFun},[{var,?L,CurrContext},Vars]}}]
@@ -1834,7 +1848,7 @@ flwor(Ctx, [{group_by,Id,_} = F|T], RetId, Return, Internal, Global,TupleVar,_In
 
 % order
 flwor(Ctx, [{order_by,Exprs}|T], RetId, Return, Internal, Global,TupleVar,_Inline) ->
-   ?dbg("Exprs",Exprs),
+   %?dbg("Exprs",Exprs),
    NextTupleVar = next_var_tuple_name(),
    VarTup = get_variable_tuple(Ctx),
    Funs = lists:foldr(fun({order, Expr, {modifier,{_,Dir},{_,Empty},{_,_Collation}}},Acc) ->
@@ -1962,7 +1976,7 @@ group_part(#{grp_variables := GrpVars,
    AllInScopeVars = [N || {_,_,_,N} <- Vars, is_atom(N)],
    GroupVars      = [N || {_,_,_,N} <- GrpVars],
    OuterVars      = AllInScopeVars -- GroupVars,
-   ?dbg("{AllInScopeVars,GroupVars,OuterVars}",{AllInScopeVars,GroupVars,OuterVars}),
+   %?dbg("{AllInScopeVars,GroupVars,OuterVars}",{AllInScopeVars,GroupVars,OuterVars}),
    % 2. split key/vals
    KeyNames = [ Name || #xqGroupBy{grp_variable = {variable, Name}} <- alist(Clauses)],
    OK = lists:all(fun(N) ->
@@ -1975,7 +1989,7 @@ group_part(#{grp_variables := GrpVars,
    end,
    KeyTuples   = [{tuple,?L,[{var,?L,Name},{string,?L,Coll}]} || #xqGroupBy{grp_variable = {variable, Name}, collation = Coll} <- alist(Clauses)],
    KeyNamesTup = [{var,?L,Name} || #xqGroupBy{grp_variable = {variable, Name}} <- alist(Clauses)],
-   ?dbg("{KeyNames,Clauses,KeyTuples}",{KeyNames,Clauses,KeyTuples}),
+   %?dbg("{KeyNames,Clauses,KeyTuples}",{KeyNames,Clauses,KeyTuples}),
    KeyTuple    = if KeyTuples == [] ->
                        {nil,?L};
                     true ->
@@ -2569,7 +2583,7 @@ step_expr_do(Ctx, #xqVarRef{name = Name}, Source) -> % variables aren't step, bu
 step_expr_do(Ctx, {variable, {Name,_}}, Source) -> % variables aren't step, but can be dupes
    CtxVar = get_context_variable_name(Ctx),
    NextCtxVar = next_ctx_var_name(),
-   VarAbs = {call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,get}},[{atom,?L,Name}]},
+   VarAbs = {call,?L,{remote,?L,{atom,?L,xqerl_lib},{atom,?L,lget}},[{atom,?L,Name}]},
    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,node_map}},
     [{var,?L,CtxVar},
      {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}],[],
@@ -3113,8 +3127,8 @@ get_variable_ref(#qname{namespace = Ns, prefix = Px, local_name = Ln}, Map) ->
             2 ->
                {{call,?L,
                  {remote,?L,
-                  {atom,?L,erlang},
-                  {atom,?L,get}},
+                  {atom,?L,xqerl_lib},
+                  {atom,?L,lget}},
                 [{atom,?L,element(1, Loc)}]},Typ};
             3 ->
                {{call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_variable_value}},

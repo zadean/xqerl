@@ -112,8 +112,8 @@
 
 lookup(Ctx,[Sing],Value) ->
    lookup(Ctx,Sing,Value);
-lookup(Ctx,Fun,Value) when is_function(Fun) ->
-   Fun(Ctx, Value);
+%lookup(Ctx,Fun,Value) when is_function(Fun) -> should not be able to call as lookup
+%   Fun(Ctx, Value);
 lookup(_Ctx,Map,all) when is_map(Map) ->
    xqerl_map:values(Map);
 lookup(_Ctx,Map,Values) when is_map(Map), is_list(Values) ->
