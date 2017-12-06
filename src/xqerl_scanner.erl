@@ -170,14 +170,26 @@ scan_dc_token("?>" ++ T, _A, 0) -> {computed, T};
 scan_dc_token("?>" ++ T, _A, _Depth) -> {rescan, T};
 % direct element can trigger direct scanning, T should start with a QName and no whitespace
 scan_dc_token("</" ++ [H|T], _A, Depth) when ?notws(H) -> 
-   {QName, T1} = scan_name([H|T]), 
+   {QName, T1} = if H == $Q ->
+                       {Tok1,T2} = scan_QName([H|T]),
+                       {Tok2,T3} = scan_name(T2),
+                       {lists:flatten([Tok1,Tok2]),T3};
+                    true ->
+                       scan_name([H|T])
+                 end,
    A1 = {'</', ?L, '</'},
    A2 = [A1, QName],
-   {A2, T1, Depth -1};
+   {A2, strip_ws(T1), Depth -1};
 scan_dc_token("<" ++ [H|T], _A, Depth) when ?notws(H) -> 
-   {QName, T1} = scan_name([H|T]),
-   {Atts, T2} = scan_dir_attr_list(T1, []),
-   {[{'<', ?L, '<'},QName, Atts  ], T2, Depth +1};
+   {QName, T1} = if H == $Q ->
+                       {Tok1,T2} = scan_QName([H|T]),
+                       {Tok2,T3} = scan_name(T2),
+                       {lists:flatten([Tok1,Tok2]),T3};
+                    true ->
+                       scan_name([H|T])
+                 end,
+   {Atts, T4} = scan_dir_attr_list(T1, []),
+   {[{'<', ?L, '<'},QName, Atts  ], strip_ws(T4), Depth +1};
 
 scan_dc_token(Str = "/>" ++ _, _A, 1) -> {computed, Str};
 scan_dc_token("/>" ++ T, _A, Depth) ->
@@ -186,6 +198,8 @@ scan_dc_token("/>" ++ T, _A, Depth) ->
 scan_dc_token(Str = ">" ++ _, _A, 0) -> {computed, Str};
 scan_dc_token(">" ++ T, A, Depth) ->
    case lookback(A) of 
+      %'S' ->
+      %   {{'>', ?L, '>'}, T, Depth };
       'NCName' ->
          {{'>', ?L, '>'}, T, Depth };
       {'</',_,_} ->
@@ -1080,7 +1094,13 @@ scan_token(Str = "option" ++ T, A) ->
          scan_name(Str)
    end;
 scan_token("module" ++ T, A) -> qname_if_path("module", T, lookback(A));
-scan_token("import" ++ T, A) -> qname_if_path("import", T, lookback(A));
+scan_token("import" ++ T, A) -> 
+   case A of
+      [] ->
+         {{'import',1,'import'}, T};
+      _ ->
+         qname_if_path("import", T, lookback(A))
+   end;
 scan_token("except" ++ T, A) -> qname_if_path("except", T, lookback(A));
 scan_token("where" ++ T, A) -> qname_if_path("where", T, lookback(A));
 scan_token("union" ++ T, A) -> qname_if_path("union", T, lookback(A));
@@ -1143,7 +1163,7 @@ scan_token(Str = "text" ++ T, _A) ->
          scan_name(Str)
    end;
 scan_token("quot" ++ T, A) -> qname_if_path("quot", T, lookback(A));
-scan_token("plus" ++ T, A) -> qname_if_path("plus", T, lookback(A));
+%scan_token("plus" ++ T, A) -> qname_if_path("plus", T, lookback(A));
 scan_token(Str = "node" ++ T, _A) -> % done
    case lookforward_is_paren(T) of
       true ->

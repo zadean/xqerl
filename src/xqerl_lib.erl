@@ -39,6 +39,9 @@
 -export([is_xsname_char/1]).
 -export([is_xschar/1]).
 -export([is_xsncname_start_char/1]).
+
+-export([decode_string/1]).
+
 -export([escape_uri/1]).
 -export([shrink_spaces/1]).
 -export([normalize_spaces/1]).
@@ -241,7 +244,7 @@ encode_for_uri([H|T]) when H >= $a, H =< $z ->
 encode_for_uri([H|T]) when H >= $0, H =< $9 ->
    [H|encode_for_uri(T)];
 encode_for_uri([H|T]) ->
-   string:to_upper(edoc_lib:escape_uri([H])) ++ encode_for_uri(T).
+   string:uppercase(edoc_lib:escape_uri([H])) ++ encode_for_uri(T).
 
 
 pct_encode3([]) ->
@@ -251,33 +254,92 @@ pct_encode3([H|T]) when H == $< ;H == $>;
                         H == ${ ;H == $};
                         H == $| ;H == $\\;
                         H == $^ ;H == $` ->
-   string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode3(T);
+   string:uppercase(xqerl_lib:escape_uri([H])) ++ pct_encode3(T);
 pct_encode3([H|T]) when H >= 32, H =< 126 ->
    [H|pct_encode3(T)];
 pct_encode3([H|T]) ->
-   string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode3(T).
+   string:uppercase(xqerl_lib:escape_uri([H])) ++ pct_encode3(T).
+
+decode_string(Str) ->
+   decode_string(Str,[]).
+
+decode_string([], Acc) ->
+   lists:reverse(Acc);
+decode_string("&apos;" ++ T, Acc) ->
+   decode_string(T, [$'|Acc]);
+decode_string("&quot;" ++ T, Acc) ->
+   decode_string(T, [$"|Acc]);
+decode_string("&amp;" ++ T, Acc) ->
+   decode_string(T, [$&|Acc]);
+decode_string("&gt;" ++ T, Acc) ->
+   decode_string(T, [$>|Acc]);
+decode_string("&lt;" ++ T, Acc) ->
+   decode_string(T, [$<|Acc]);
+decode_string("&#x" ++ T, Acc) ->
+   {CP,T1} = scan_hex_char_ref(T, []),
+   decode_string(T1, [CP|Acc]);
+decode_string("&#" ++ T, Acc) ->
+   {CP,T1} = scan_dec_char_ref(T, []),
+   decode_string(T1, [CP|Acc]);
+decode_string([H|T], Acc) ->
+    decode_string(T, [H|Acc]).
+
+scan_dec_char_ref([H|T], Acc) when H >= $0, H =< $9  ->
+  scan_dec_char_ref(T, [H|Acc]);
+scan_dec_char_ref([H|T], Acc) when H == $; ->
+   {list_to_integer(lists:reverse(Acc)),T}.
+
+scan_hex_char_ref([H|T], Acc) when H >= $0, H =< $9  ->
+   scan_hex_char_ref(T, [H|Acc]);
+scan_hex_char_ref([H|T], Acc) when H >= $a, H =< $f  ->
+   scan_hex_char_ref(T, [H|Acc]);
+scan_hex_char_ref([H|T], Acc) when H >= $A, H =< $F  ->
+   scan_hex_char_ref(T, [H|Acc]);
+scan_hex_char_ref([H|T], Acc) when H == $; ->
+   Hex = lists:reverse(Acc),
+   {list_to_integer(Hex, 16),T}.
+
+check_bad_percent([$%,$%|_T]) -> ?err('XQST0046');
+check_bad_percent([_|T]) -> 
+   check_bad_percent(T);
+check_bad_percent([]) -> ok.
 
 resolve_against_base_uri(Base,[]) -> 
    Base;
 resolve_against_base_uri(Base,RelPath) ->
-   Opts = [{scheme_defaults,[{file,1}|http_uri:scheme_defaults()]}],
+   ok = check_bad_percent(RelPath),                                  
+   Opts = [{scheme_defaults,[{file,1},{urn,2}|http_uri:scheme_defaults()]},{fragment,true}],
    case http_uri:parse(RelPath,Opts) of
       % not absolute
       {error,_} ->
-         {ok, {Scheme, _UserInfo, Host, _Port, Path, _}} = http_uri:parse(Base,Opts), % fragments not allowed
-         PathDir = filename:dirname(tl(Path)),
-         Joined = filename:absname_join(PathDir,RelPath),
-         case filename:pathtype(Joined) of
-            absolute -> % windows file
-               [Vol|Rest] = filename:split(Joined),
-               NonAbs = filename:join(Rest),
-               Safe = filename:safe_relative_path(NonAbs),
-               atom_to_list(Scheme) ++ ":///" ++ Vol ++ Safe;
-            relative ->
-               Safe = filename:safe_relative_path(Joined),
-               atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Safe;
-            volumerelative ->
-               {error,unsafe}
+         NonHeir = lists:member($:, RelPath),
+         if NonHeir , RelPath == ":" ->
+               {error,malformed};
+            NonHeir ->
+               RelPath;
+            true ->
+               % leading slash on relative does not mean root
+               RelPath1 = if hd(RelPath) == $/ ->
+                                tl(RelPath);
+                             true ->
+                                RelPath
+                          end,
+               {ok, {Scheme, _UserInfo, Host, _Port, Path, _Query, []}} = http_uri:parse(Base,Opts), % fragments not allowed
+               PathDir = filename:dirname(tl(Path)),
+               Joined = filename:absname_join(PathDir,RelPath1),
+               case filename:pathtype(Joined) of
+                  absolute -> % windows file
+                     [Vol|Rest] = filename:split(Joined),
+                     NonAbs = filename:join(Rest),
+                     Safe = filename:safe_relative_path(NonAbs),
+                     atom_to_list(Scheme) ++ ":///" ++ Vol ++ Safe;
+                  relative ->
+                     Safe = filename:safe_relative_path(Joined),
+                     atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Safe;
+                  volumerelative ->
+                     ?dbg("Joined",Joined),
+                     {error,unsafe}
+               end
          end;
       % RelPath is absolute and becomes new base
       {ok,_} ->

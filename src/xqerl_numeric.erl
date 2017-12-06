@@ -585,16 +585,19 @@ decimal_to_string([H|T], 0, Acc) ->
 decimal_to_string([], _, Acc) ->
    Acc;
 decimal_to_string([H|T], Scf, Acc) ->
-   decimal_to_string(T, Scf - 1, [H|Acc]);
-decimal_to_string(L, S, A) ->
-   ?dbg("BAD",{L, S, A}).
+   decimal_to_string(T, Scf - 1, [H|Acc]).
 
 format_double(Val) when abs(Val) < 1000000 andalso trunc(Val) == Val ->
    integer_to_list(trunc(Val));
 format_double(Val) when abs(Val) >= 0.000001, abs(Val) < 1000000 ->
-   string:trim(
-     lists:flatten(
-       io_lib:format("~.6f",[Val])), trailing, "0");
+   %string(decimal(Val));
+   W = lists:flatten(io_lib:format("~w",[Val])),
+   case lists:member($e, W) of
+      true ->
+         string:trim(lists:flatten(io_lib:format("~f",[Val])), trailing, "0");
+      _ ->
+         string:trim(W, trailing, "0")
+   end;
 format_double(0.0) ->
     "0.0";
 format_double(Float) when is_float(Float) ->

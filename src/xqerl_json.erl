@@ -98,15 +98,20 @@ string_to_xml(String, Options) ->
           end,  
    Frag = json_to_xml(State, [], Term),
    Doc = #xqDocumentNode{expr = Frag},
-   xqerl_node:new_fragment(#{namespaces => [#xqNamespace{namespace = "http://www.w3.org/2005/xpath-functions",
-                                                         prefix = []}],
-                             'base-uri' => [],
+   xqerl_node:new_fragment(#{namespaces => [],
+                             %namespaces => [#xqNamespace{namespace = "http://www.w3.org/2005/xpath-functions",
+                             %                            prefix = []}],
+                             'base-uri' => get_base_uri(Options),
                              'copy-namespaces' => {preserve,'no-inherit'}}, Doc ).
 
 
 %% ====================================================================
 %% Internal functions
 %% ====================================================================
+
+get_base_uri(Options) ->
+   proplists:get_value('base-uri', Options).
+
 
 if_empty([],Default) -> Default;
 if_empty(Value,_Default) -> Value.
@@ -201,11 +206,14 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "n
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "number"},
                                   expr = Expr})->
    try
-      {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
+      {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
       %?dbg("Expr",{Key, EscKey, Esc, Rest}),
       Txt = xqerl_node:atomize_nodes(Rest),
       %?dbg("Txt",Txt),
-      NumTxt = xqerl_types:string_value(xqerl_types:cast_as(Txt,'xs:double')),
+      Dbl = xqerl_types:cast_as(Txt,'xs:double'),
+      NumTxt = xqerl_types:string_value(Dbl),
+      %?dbg("Txt",Txt),
+      %?dbg("Dbl",Dbl),
       %?dbg("Num",NumTxt),
       if NumTxt == "INF";
          NumTxt == "-INF";
@@ -321,7 +329,12 @@ json_to_xml(#state{duplicates = Dupes} = State, Key, {object, Members}) ->
    {Content,_} = 
      lists:mapfoldl(
        fun({K,V},Map) ->
-               NormKey = normalize_string(State, K),
+               NormKey = case normalize_string(State, K) of
+                            [] ->
+                               empty;
+                            O ->
+                               O
+                         end,
                if Dupes == reject ->
                      case maps:is_key(NormKey, Map) of
                         true ->
@@ -336,8 +349,11 @@ json_to_xml(#state{duplicates = Dupes} = State, Key, {object, Members}) ->
                         _ ->
                            {json_to_xml(State, NormKey, V),Map#{NormKey => []}}
                      end;
+                  Dupes == retain ->
+                     {json_to_xml(State, NormKey, V),Map#{NormKey => []}};
                   true ->
-                     {json_to_xml(State, NormKey, V),Map#{NormKey => []}}
+                     ?dbg("Dupes",Dupes),
+                     ?err('FOJS0005')
                end                            
        end, #{}, Members),
    #xqElementNode{name = ?qn("map"),
@@ -376,7 +392,7 @@ json_to_xml(State, Key, Val) ->
                   inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = #xqAtomicValue{type = 'xs:string', 
-                                        value = normalize_string(State, Val)}}.
+                                        value = Norm}}.
 
 json_to_map(State, {array, Values}) ->
    {array,lists:map(fun(V) ->
@@ -401,9 +417,11 @@ json_to_map(#state{duplicates = Dupes} = State, {object, Members}) ->
                                  ATString = #xqAtomicValue{type = 'xs:string', value = NormKey},
                                  Map#{NormKey => {ATString,json_to_map(State,V)}}
                            end;
-                        true ->
+                        Dupes == use_last ->
                            ATString = #xqAtomicValue{type = 'xs:string', value = NormKey},
-                           Map#{NormKey => {ATString,json_to_map(State,V)}}
+                           Map#{NormKey => {ATString,json_to_map(State,V)}};
+                        true ->
+                           ?err('FOJS0005')
                      end                            
                end, #{}, Members);
 json_to_map(_State, true) -> #xqAtomicValue{type = 'xs:boolean', value = true};
@@ -412,7 +430,10 @@ json_to_map(_State, null) -> [];
 json_to_map(_State, Val) when is_float(Val) ->
    #xqAtomicValue{type = 'xs:double', value = Val};
 json_to_map(State, Val) ->
-   #xqAtomicValue{type = 'xs:string', value = normalize_string(State, Val)}.
+   Norm = normalize_string(State, Val),
+   %?dbg("Val",Val),
+   %?dbg("Norm",Norm),
+   #xqAtomicValue{type = 'xs:string', value = Norm}.
 
 normalize_string(#state{escape = Escape, fallback = Fallback}, String) ->
    if Escape == true ->
@@ -480,8 +501,8 @@ escape_non_json([H|T]) ->
 escape([], _Fallback) -> [];
 %% escape([$\\, $u, A,B,C,D | T],Fallback) ->
 %%    [$\\, $u] ++ string:uppercase([A,B,C,D]) ++ escape(T, Fallback);
-escape([$"|T], Fallback) ->
-   [$\\,$"|escape(T, Fallback)];
+% escape([$"|T], Fallback) ->
+%    [$\\,$"|escape(T, Fallback)];
 escape([$/|T], Fallback) ->
    [$\\,$/|escape(T, Fallback)];
 escape([$\\|T], Fallback) ->
@@ -506,11 +527,15 @@ escape([$\\|_], _Fallback) ->
 escape([H|T], Fallback) ->
    case xqerl_lib:is_xschar(H) of
       true ->
+         %?dbg("H",H),
          [H|escape(T, Fallback)];
       _ when H =< 65535 ->
          Str = [$\\, $u | lists:flatten(string:pad(integer_to_list(H,16), 4, leading, $0))],
-         NewStr = Fallback(#xqAtomicValue{type = 'xs:string', value = Str}),
-         xqerl_types:string_value(NewStr) ++ escape(T, Fallback);
+         %NewStr = Fallback(#xqAtomicValue{type = 'xs:string', value = Str}),
+         %?dbg("Str",Str),
+         %?dbg("NewStr",NewStr),
+         Str ++ escape(T, Fallback);
+         %xqerl_types:string_value(NewStr) ++ escape(T, Fallback);
       _ ->
          NewStr = Fallback(#xqAtomicValue{type = 'xs:string', value = [H]}),
          xqerl_types:string_value(NewStr) ++ escape(T, Fallback) % invalid XML, but valid JSON
@@ -606,6 +631,8 @@ att_esc(Key, Esc) ->
    end.
 
 att_key([],_) -> [];
+att_key(empty, _) -> 
+   [?key([])];
 att_key(Key, Esc) -> 
    case Esc andalso lists:member($\\, Key) of
       true ->

@@ -66,15 +66,15 @@ new_context(Ctx) ->
         frag_id => next_frag_id(),
         nodes => #{}}.
 
-new_fragment(#xqNode{doc = #{file := ""} = Doc } = Node) -> 
+new_fragment(#xqNode{doc = Doc } = Node) -> 
    Node#xqNode{doc = Doc#{file := next_frag_id()}}.
 
 % return document {RootId, Doc}
 new_fragment(Ctx0, Content) when is_list(Content) ->
    %?dbg("Content",Content),
-   DefaultNs = [#xqNamespace{namespace = 'no-namespace', prefix = []}],
+   %DefaultNs = [#xqNamespace{namespace = 'no-namespace', prefix = []}],
    %DefaultNs = [],
-   %DefaultNs = [Ns || #xqNamespace{prefix = Px,namespace = U} = Ns <- maps:get(namespaces, Ctx0), Px == [], U =/= 'no-namespace'],
+   DefaultNs = [Ns || #xqNamespace{prefix = Px} = Ns <- maps:get(namespaces, Ctx0), Px == []],
    Ctx = new_context(Ctx0),
    {Id,Ctx1} = next_id(Ctx),
    Doc = #xqXmlFragment{identity = Id},
@@ -186,7 +186,8 @@ ensure_qname(#qname{namespace = Ns, prefix = Px, local_name = Ln} = QName, InSco
 
 ensure_qname(#xqNode{} = Node, InScopeNamespaces) -> 
    try
-      xqerl_types:value(xqerl_types:cast_as(Node,'xs:QName',InScopeNamespaces))
+      Q = xqerl_types:cast_as(Node,'xs:QName',InScopeNamespaces),
+      xqerl_types:value(Q)
    catch
       _:E ->
          ?dbg("E",E),
@@ -433,7 +434,7 @@ handle_content(#{'base-uri' := BU,
    %?dbg("{AttributeNodes2,InScopeNs3}",{AttributeNodes2,InScopeNs3}),
    AttributeNodes2 = [X || X <- Content3, is_record(X, xqAttributeNode)],
    ok = check_attribute_names(AttributeNodes2),
-   Content4 = [C || C <- Content3, not is_record(C, xqElementNode)],
+   %Content4 = [C || C <- Content3, not is_record(C, xqElementNode)],
 %%    MaybeDefault = if Parent == 0 andalso
 %%                        ElemQName#qname.prefix == [] andalso
 %%                        ElemQName#qname.namespace =/= 'no-namespace' ->
@@ -441,7 +442,11 @@ handle_content(#{'base-uri' := BU,
 %%                      true ->
 %%                         []
 %%                   end,
-   NewNss = lists:filter(fun(#xqNamespace{prefix = [],namespace = Ns}) ->
+   NewNss = lists:filter(fun(#xqNamespace{namespace = Ns}) when Parent == 0, Ns =/= 'no-namespace' ->
+                               not lists:any(fun(#xqNamespaceNode{name = #qname{namespace = ImNs}}) ->
+                                                   ImNs == Ns
+                                             end, NamespaceNodes);                               
+                            (#xqNamespace{prefix = [],namespace = Ns}) ->
                                not lists:keymember(Ns, #xqNamespace.namespace, InScopeNs0);
                             (#xqNamespace{prefix = P1}) ->
                                not lists:keymember(P1, #xqNamespace.prefix, InScopeNs0)                            
@@ -451,7 +456,7 @@ handle_content(#{'base-uri' := BU,
                                                           InnerNs == ImNs andalso InnerPx == ImPx;
                                                        (_) ->
                                                           false
-                                                    end,Content4),
+                                                    end,Content3 ++ NamespaceNodes),
                                           if Done ->
                                                 false;
                                              true ->
@@ -491,7 +496,7 @@ handle_content(#{'base-uri' := BU,
                           attributes = undefined, 
                           inscope_ns = InScopeNs3},
    Ctx2 = (add_node(Ctx1, Id, Node)),
-   {Children, Sz1, Ctx3} = handle_contents(Ctx2#{'base-uri' := BU1}, Id, ImplNamespaces ++ Content3, InScopeNs3, 0),
+   {Children, Sz1, Ctx3} = handle_contents(Ctx2#{'base-uri' := BU1}, Id, ImplNamespaces ++ NamespaceNodes ++ Content3, InScopeNs3, 0),
    Ctx4 = (set_node_children(Ctx3, Id, Children, Sz1)),
    {Id, Sz1 + Sz + 1,Ctx4};
 
@@ -632,7 +637,8 @@ handle_content(Ctx, Parent, #xqTextNode{expr = Content, cdata = C} = N, _INs, Sz
    Content1 = maybe_merge_text_seq(Content),
    Content2 = merge_text_content(Content1),
    case Content2 == [] of
-      true when Parent > 0 ->
+      %true when Parent > 0 ->
+      true ->
          {[], Sz, Ctx};
       _ when C == true ->
          {Id,Ctx1} = next_id(Ctx),
@@ -873,6 +879,8 @@ maybe_merge_text_seq([#xqAtomicValue{type = Type} = H|T], Acc) when Type =/= 'xs
    maybe_merge_text_seq([xqerl_types:cast_as(H, 'xs:untypedAtomic')|T],Acc);
 maybe_merge_text_seq([H|T], Acc) ->
    case is_list(H) of
+      true when H == [], Acc == [] ->
+         maybe_merge_text_seq(T, Acc);
       true when H == [] ->
          maybe_merge_text_seq([?untyp("")|T], Acc);
       true ->
@@ -1104,13 +1112,15 @@ nodes_equal(Doc1, Node1,Doc2, Node2,Collation) ->
          Name1 == Name2
             andalso
          begin
-            Val1 = xqerl_xdm:dm_string_value(Doc1, Node1),
-            Val2 = xqerl_xdm:dm_string_value(Doc2, Node2),
+            Val1 = xqerl_lib:decode_string(xqerl_xdm:dm_string_value(Doc1, Node1)),
+            Val2 = xqerl_lib:decode_string(xqerl_xdm:dm_string_value(Doc2, Node2)),
+            ?dbg("Val1",Val1),
+            ?dbg("Val2",Val2),
             xqerl_operators:equal(?str(Val1),?str(Val2),Collation) == ?bool(true)
          end;
       Type1 == text andalso Type2 == text ->
-         Val1 = xqerl_xdm:dm_string_value(Doc1, Node1),
-         Val2 = xqerl_xdm:dm_string_value(Doc2, Node2),
+         Val1 = xqerl_lib:decode_string(xqerl_xdm:dm_string_value(Doc1, Node1)),
+         Val2 = xqerl_lib:decode_string(xqerl_xdm:dm_string_value(Doc2, Node2)),
          xqerl_operators:equal(?str(Val1),?str(Val2),Collation) == ?bool(true);
       Type1 == comment andalso Type2 == comment ->
          Val1 = xqerl_xdm:dm_string_value(Doc1, Node1),

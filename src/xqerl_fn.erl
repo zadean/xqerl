@@ -382,7 +382,7 @@
  {'parse-json', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-json"},{xqSeqType, item, zero_or_one}, [], 
  {'parse-json', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-xml"},{xqSeqType, {is_document, {xqKindTest,element,undefined,undefined,undefined}}, one}, [],
+{{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-xml"},{xqSeqType, {xqKindTest,'document-node',undefined,{xqKindTest,'element',undefined,undefined,undefined},undefined}, one}, [],
  {'parse-xml', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-xml-fragment"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, zero_or_one}, [],
  {'parse-xml-fragment', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
@@ -881,17 +881,18 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
    xqerl_operators:lookup(Ctx, Function, Args);
 'apply'(Ctx,Function,#array{data = Args}) when is_function(Function) ->
    try
-      erlang:apply(Function, [Ctx|Args])
+      case Function == fun ?MODULE:concat/2 of
+         true ->
+            erlang:apply(Function, [Ctx,Args]);
+         _ ->
+            erlang:apply(Function, [Ctx|Args])
+      end
    catch
       _:{badarity,_} ->
          ?err('FOAP0001')
    end;
-'apply'(Ctx,#xqFunction{params = Params, body = Function},#array{data = Args}) when is_function(Function) -> 
-   if length(Params) == length(Args) ->
-         erlang:apply(Function, [Ctx|Args]);
-      true ->
-         ?err('FOAP0001')
-    end.
+'apply'(Ctx,#xqFunction{body = Function},Args) when is_function(Function) -> 
+   ?MODULE:apply(Ctx,Function,Args).
 
 %% Returns a list of environment variable names that are suitable for passing to fn:environment-variable, as a (possibly empty) sequence of strings. 
 'available-environment-variables'(_Ctx) -> 
@@ -1343,49 +1344,49 @@ val_reverse([{_,V}|T], Acc) ->
    
 
 %% Retrieves a document using a URI supplied as an xs:string, and returns the corresponding document node. 
-% TODO check for valid Uri else FODC0005
 'doc'(_Ctx,[]) -> [];
 'doc'(#{'base-uri' := BaseUri0},Uri0) -> 
-   try
-      Uri = xqerl_types:value(Uri0),
-      BaseUri = xqerl_types:value(BaseUri0),
-      %?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
-      ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-      case ?get({doc,ResVal}) of
-         [] ->
-            case xqerl_ds:exists_doc(ResVal) of
-               true ->
-                  Doc = xqerl_doc:retrieve_doc(ResVal),
-                  ?put({doc,ResVal},Doc),
-                  #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)};
-               _ ->
-                  _ = xqerl_doc:read_http(ResVal),
-                  Doc = xqerl_doc:retrieve_doc(ResVal),
-                  ?put({doc,ResVal},Doc),
-                  #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)}
-            end;
-         Doc ->
-            #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)}
-      end
-   catch 
-      _:#xqError{} = E ->
-         exit(E);
-      _:_ ->
-         ?dbg("FODC0005",erlang:get_stacktrace()),
-         ?err('FODC0005')
+   Uri = xqerl_types:value(Uri0),
+   BaseUri = xqerl_types:value(BaseUri0),
+   %?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
+   try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
+      {error,unsafe} ->
+         ?err('FODC0005');
+      ResVal ->
+         ?dbg("ResVal",ResVal),
+         case ?get({doc,ResVal}) of
+            [] ->
+               case xqerl_doc:exists_doc(ResVal) of
+                  true ->
+                     Doc = xqerl_doc:retrieve_doc(ResVal),
+                     ?put({doc,ResVal},Doc),
+                     #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)};
+                  _ ->
+                     ?err('FODC0002')
+               end;
+            Doc ->
+               #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)}
+         end
+   catch _:_ ->
+            ?err('FODC0005')
    end.
+
 
 
 %% The function returns true if and only if the function call fn:doc($uri) would return a document node. 
 'doc-available'(#{'base-uri' := BaseUri0},Uri0) -> 
    Uri = xqerl_types:value(Uri0),
    BaseUri = xqerl_types:value(BaseUri0),
-   ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-   case xqerl_ds:exists_doc(ResVal) of
-      true ->
-         ?bool(true);
-      _ ->
-         ?bool(false)
+   try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
+      ResVal ->
+         case xqerl_doc:exists_doc(ResVal) of
+            true ->
+               ?bool(true);
+            _ ->
+               ?bool(false)
+         end
+   catch _:_ ->
+      ?err('FODC0005')
    end.
 
 %% Returns the URI of a resource where a document can be found, if available. 
@@ -1407,9 +1408,9 @@ val_reverse([{_,V}|T], Acc) ->
    end.
 
 %% Returns the sequence of element nodes that have an ID value matching the value of one or more of the IDREF values supplied in $arg. 
-%% Validation Environment
-'element-with-id'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
-'element-with-id'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
+%% Behaves like fn:id, since no validation.
+'element-with-id'(Ctx,Arg1) -> id(Ctx,Arg1).
+'element-with-id'(Ctx,Arg1,Arg2) -> id(Ctx,Arg1,Arg2).
 
 %% Returns true if the argument is the empty sequence. 
 'empty'(_Ctx,[]) -> ?bool(true);
@@ -1554,15 +1555,40 @@ pct_encode3([H|T]) ->
 %% Returns those items from the sequence $seq for which the supplied function $f returns true. 
 'filter'(Ctx,Seq,#xqFunction{body = F}) ->
    'filter'(Ctx,Seq,F);
+'filter'(Ctx,Seq,#array{} = A) ->
+   lists:filter(fun(S) ->
+                   case xqerl_operators:lookup(Ctx, A, S) of
+                      #xqAtomicValue{type = 'xs:boolean', value = true} ->
+                         true;
+                      #xqAtomicValue{type = 'xs:boolean', value = false} ->
+                         false;
+                      O ->
+                         ?dbg("O",O),
+                         xqerl_error:error('XPTY0004')
+                   end
+             end, Seq);
+'filter'(Ctx,Seq,Map) when is_map(Map) ->
+   lists:filter(fun(S) ->
+                   case xqerl_operators:lookup(Ctx, Map, S) of
+                      #xqAtomicValue{type = 'xs:boolean', value = true} ->
+                         true;
+                      #xqAtomicValue{type = 'xs:boolean', value = false} ->
+                         false;
+                      O ->
+                         ?dbg("O",O),
+                         xqerl_error:error('XPTY0004')
+                   end
+             end, Seq);
+
 'filter'(Ctx,Seq,F) ->
-   ?seq:map(Ctx, fun(S) ->
-                  Val = xqerl_context:get_context_item(S),
-                  case ?seq:singleton_value(F(Ctx,Val)) of
+   lists:filter(fun(Val) ->
+                  case catch ?seq:singleton_value(F(Ctx,Val)) of
                      #xqAtomicValue{type = 'xs:boolean', value = true} ->
-                        ?seq:singleton(Val);
+                        true;
                      #xqAtomicValue{type = 'xs:boolean', value = false} ->
-                        ?seq:empty();
-                     _ ->
+                        false;
+                     O ->
+                        ?dbg("O",O),
                         xqerl_error:error('XPTY0004')
                   end
             end, Seq).
@@ -1777,6 +1803,7 @@ unmask_static_mod_ns(T) -> T.
 %% Returns the name of the function identified by a function item. 
 %% fn:function-name($func as function(*)) as xs:QName? 
 'function-name'(Ctx,Arg1) when is_function(Arg1) ->
+   ?dbg("Arg1",Arg1),
    {_,N} = erlang:fun_info(Arg1,name),
    {_,M} = erlang:fun_info(Arg1,module),
    {_,T} = erlang:fun_info(Arg1,type),
@@ -1816,24 +1843,15 @@ unmask_static_mod_ns(T) -> T.
          Qn = #qname{namespace = Ns, prefix = Px, local_name = N2},
          ?atm('xs:QName',Qn)
    end;
-'function-name'(_Ctx,[]) ->
-   xqerl_error:error('XPTY0004');
+'function-name'(_Ctx,#xqFunction{name = undefined}) ->
+   [];
 'function-name'(_Ctx,#xqFunction{name = Name}) ->
+   ?dbg("Name",Name),
    ?atm('xs:QName',Name);
-'function-name'(Ctx,Arg1) ->
-   case ?seq:is_empty(Arg1) of
-      true ->
-         xqerl_error:error('XPTY0004');
-      _ ->
-         case ?seq:singleton_value(Arg1) of
-            Fx when is_function(Fx) ->
-               'function-name'(Ctx,Fx);
-            #xqFunction{name = Name} ->
-               ?atm('xs:QName',Name);
-            _ ->
-               xqerl_error:error('XPTY0004')
-         end
-   end.
+'function-name'(Ctx,[Arg1]) ->
+   'function-name'(Ctx,Arg1);
+'function-name'(_Ctx,_) ->
+   xqerl_error:error('XPTY0004').
 
 %% This function returns a string that uniquely identifies a given node. 
 'generate-id'(Ctx) ->
@@ -1862,7 +1880,8 @@ unmask_static_mod_ns(T) -> T.
          ?bool(false);
       _ ->
          ?bool(true)
-   end.
+   end;
+'has-children'(_,_) -> ?err('XPTY0004').
 
 %% Returns the first item in a sequence. 
 'head'(_Ctx,Arg1) -> 
@@ -1939,11 +1958,11 @@ unmask_static_mod_ns(T) -> T.
       _Root = xqerl_step:root(Ctx,Node),
       ?seq:empty()
    catch 
-      _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPDY0050"}} ->
+      _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XPDY0050"}}} ->
             xqerl_error:error('FODC0001');
-      _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPTY0019"}} ->
+      _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XPTY0019"}}} ->
             xqerl_error:error('XPTY0004');
-      _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPTY0020"}} ->
+      _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XPTY0020"}}} ->
             xqerl_error:error('XPTY0004');
       _:E ->
          throw(E)
@@ -1961,23 +1980,18 @@ unmask_static_mod_ns(T) -> T.
 'index-of'(_Ctx,[],_Arg2) -> ?seq:empty();
 'index-of'(_Ctx,_Seq,[]) -> xqerl_error:error('XPTY0004');
 'index-of'(_Ctx,Seq,Arg2) -> 
-   case ?seq:is_empty(Arg2) of
-      true ->
-         xqerl_error:error('XPTY0004');
-      _ ->
-         %{index,counter}
-         Fun = fun(Elem,{List,Counter}) ->
-                     case catch ?seq:singleton_value(xqerl_operators:equal(Elem, Arg2)) of
-                        #xqAtomicValue{type = 'xs:boolean', value = true} ->
-                           Int = #xqAtomicValue{type = 'xs:integer', value = Counter},
-                           {0,{[Int|List], Counter + 1}};
-                        _ ->
-                           {0,{List, Counter + 1}}
-                     end
-               end,
-         {_,{Indexes,_}} = lists:mapfoldl(Fun, {[],1}, ?seq:to_list(Seq)),
-         ?seq:from_list(lists:reverse(Indexes))
-   end.
+   %{index,counter}
+   Fun = fun(Elem,{List,Counter}) ->
+               case catch ?seq:singleton_value(xqerl_operators:equal(Elem, Arg2)) of
+                  #xqAtomicValue{type = 'xs:boolean', value = true} ->
+                     Int = #xqAtomicValue{type = 'xs:integer', value = Counter},
+                     {0,{[Int|List], Counter + 1}};
+                  _ ->
+                     {0,{List, Counter + 1}}
+               end
+         end,
+   {_,{Indexes,_}} = lists:mapfoldl(Fun, {[],1}, ?seq:to_list(Seq)),
+   ?seq:from_list(lists:reverse(Indexes)).
 
 %TODO collation
 'index-of'(Ctx,Seq,Arg2,Collation) -> 
@@ -2037,19 +2051,38 @@ unmask_static_mod_ns(T) -> T.
 %% Reads an external resource containing JSON, and returns the result of parsing the resource as JSON. 
 'json-doc'(Ctx,Arg1) -> 
    'json-doc'(Ctx,Arg1,#{}).
+'json-doc'(_Ctx,[],_Arg2) -> [];
+% ignore validate option
+'json-doc'(Ctx,Arg1,#{"validate" := _} = Arg2) ->
+   'json-doc'(Ctx,Arg1,maps:remove("validate",Arg2));
 'json-doc'(Ctx,Arg1,Arg2) -> 
+   ok = check_json_doc_opts(Arg2),
    'parse-json'(
      Ctx,
      'unparsed-text'(Ctx,Arg1),
      Arg2).
+
+check_json_doc_opts(#{"escape" := {_,?bool(true)},
+                      "fallback" := _}) ->
+   ?err('FOJS0005');
+check_json_doc_opts(_) ->
+   ok.
+
 
 %% Parses a string supplied in the form of a JSON text, returning the results in the form of an XML document node. 
 'json-to-xml'(Ctx,Arg1) -> 
    'json-to-xml'(Ctx,Arg1,#{}).
 'json-to-xml'(_Ctx,[],_Arg2) -> [];
 'json-to-xml'(Ctx,#xqAtomicValue{value = JSON},Arg2) -> 
+   ok = check_json_to_xml_opts(Arg2),
    Options = map_options_to_list(Ctx, Arg2),
    xqerl_json:string_to_xml(JSON, Options).
+
+check_json_to_xml_opts(#{"escape" := {_,?bool(true)},
+                         "fallback" := _}) ->
+   ?err('FOJS0005');
+check_json_to_xml_opts(_) ->
+   ok.
 
 %% This function tests whether the language of $node, or the context item if the second argument is omitted, as specified by xml:lang attributes is the same as, or is a sublanguage of, the language specified by $testlang. 
 'lang'(Ctx,Arg1) -> 
@@ -2084,9 +2117,9 @@ unmask_static_mod_ns(T) -> T.
             ?bool(Match)
       end
    catch 
-      _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPDY0050"}} ->
+      _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XPDY0050"}}} ->
             xqerl_error:error('FODC0001');
-      _:#xqError{value = _, location = _, description =_, name = #qname{namespace = _, prefix = "err", local_name = "XPTY0019"}} ->
+      _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XPTY0019"}}} ->
             xqerl_error:error('XPTY0004')
    end.
 
@@ -2131,28 +2164,23 @@ unmask_static_mod_ns(T) -> T.
    end.
 
 %% Converts a string to lower case. 
+'lower-case'(_Ctx,[]) -> #xqAtomicValue{type = 'xs:string', value = ""};
 'lower-case'(_Ctx,Arg1) ->
-   Out = 
-   case ?seq:is_empty(Arg1) of
-      true ->
-         #xqAtomicValue{type = 'xs:string', value = ""};
-      _ ->
-         case ?seq:singleton_value(Arg1) of
+   Out = case ?seq:singleton_value(Arg1) of
             #xqNode{} ->
                Str = string_value(Arg1),
-               Upp = string:to_lower(Str),
+               Upp = string:lowercase(Str),
                #xqAtomicValue{type = 'xs:string', value = Upp};
             #xqAtomicValue{type = Type} ->
                case xqerl_types:subtype_of(Type, 'xs:string') of
                   true ->
                      Str = string_value(Arg1),
-                     Upp = string:to_lower(Str),
+                     Upp = string:lowercase(Str),
                      #xqAtomicValue{type = 'xs:string', value = Upp};
                   _ ->
                      xqerl_error:error('XPTY0004')
                end
-         end
-   end,
+         end,
    ?seq:singleton(Out).   
 
 %% Returns true if the supplied string matches a given regular expression. 
@@ -2740,17 +2768,19 @@ get_bool(_) ->
 
 get_str(#xqAtomicValue{type = 'xs:string', value = B}) ->
    B;
+get_str(#xqNode{} = N) ->
+   xqerl_types:string_value(N);
 get_str(_) ->
    ?err('XPTY0004').
 
-map_options_to_list(Ctx, Map) ->
+map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
    Liberal    = maps:get("liberal", Map, []),
    Duplicates = maps:get("duplicates", Map, []),
    Escape     = maps:get("escape", Map, []),
    Fallback   = maps:get("fallback", Map, []),
    Validate   = maps:get("validate", Map, []),
    Indent     = maps:get("indent", Map, []),
-   [
+   [{'base-uri', BaseUri},
     if Liberal == [] ->
           [];
        true ->
@@ -2767,7 +2797,9 @@ map_options_to_list(Ctx, Map) ->
           [];
        true ->
           Dup = get_str(element(2, Duplicates)),
-          if Dup == "reject" ->
+          if Dup == "retain" ->
+                {duplicates, retain};
+             Dup == "reject" ->
                 {duplicates, reject};
              Dup == "use-first" ->
                 {duplicates, use_first};
@@ -2799,7 +2831,7 @@ map_options_to_list(Ctx, Map) ->
                       {fallback, fun(C) -> Fbk(Ctx,C) end};
                    %{arity,1} ->
                    %   {fallback, fun(C) -> Fbk(C) end};
-                   A ->
+                   _A ->
                       %?dbg("A",A),
                       ?err('XPTY0004')
                 end;
@@ -2813,7 +2845,8 @@ map_options_to_list(Ctx, Map) ->
        true ->
           Val = get_bool(element(2, Validate)),
           if Val == true ->
-                ?err('FOJS0004');
+                [];
+                %?err('FOJS0004');
              Val == false ->
                 {validate, false};
              true ->
@@ -2837,10 +2870,23 @@ map_options_to_list(Ctx, Map) ->
    
 
 %% This function takes as input an XML document represented as a string, and returns the document node at the root of an XDM tree representing the parsed document. 
-'parse-xml'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
+'parse-xml'(#{'base-uri' := BaseUri},Arg1) ->
+   String = xqerl_types:string_value(Arg1),
+   BaseUri1 = xqerl_types:string_value(BaseUri),
+   try
+      Doc = xqerl_doc:read_stream(String,BaseUri1),
+      Doc1 = xqerl_doc:doc_to_xqnode_doc(Doc),
+      Doc2 = #xqNode{doc = Doc1, node = xqerl_xdm:root(Doc1)},
+      xqerl_node:new_fragment(Doc2)
+   catch 
+      _:E ->
+         ?dbg("E",E),
+         ?err('FODC0006')
+   end.
 
 %% This function takes as input an XML external entity represented as a string, and returns the document node at the root of an XDM tree representing the parsed document fragment. 
-'parse-xml-fragment'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
+'parse-xml-fragment'(Ctx,Arg1) -> 
+   'parse-xml'(Ctx,Arg1).
 
 %% Returns a path expression that can be used to select the supplied node relative to the root of its containing document. 
 'path'(_Ctx) -> exit({not_implemented,?LINE}).
@@ -2922,14 +2968,16 @@ map_options_to_list(Ctx, Map) ->
    {Num,S2} = rand:uniform_s(S),
    Permute = #xqFunction{params = [#xqSeqType{type = item, occur = zero_or_many}], 
                          type = #xqSeqType{type = item, occur = zero_or_many},
-                         body = fun(_,List) ->
-                                      {List1,_} = lists:mapfoldl(fun(I,S3) ->
-                                        {Num1,S4} = rand:uniform_s(S3),
-                                        {{Num1,I},S4}
-                                end, S2, List),
-                           List2 = lists:keysort(1, List1),
-                           [I || {_,I} <- List2]
-                           end},
+                         body = fun(_,List0) ->
+                                      List = if is_list(List0) -> List0; true -> [List0] end,
+                                      {List1,_} = lists:mapfoldl(
+                                                    fun(I,S3) ->
+                                                          {Num1,S4} = rand:uniform_s(S3),
+                                                          {{Num1,I},S4}
+                                                    end, S2, List),
+                                      List2 = lists:keysort(1, List1),
+                                      [I || {_,I} <- List2]
+                                end},
    xqerl_map:construct(
      Ctx, 
      [{?str("number"), ?atm('xs:double',Num)},
@@ -3032,14 +3080,10 @@ string_value(At) -> xqerl_types:string_value(At).
                  Base
            end,
    try
-      %?dbg("{Relative, Base1}",{Relative, Base1}),
-      UriRel = xqerl_types:cast_as(Relative, 'xs:anyURI'),
-      UriBas = xqerl_types:cast_as(Base1, 'xs:anyURI'),
-      %?dbg("{UriRel, UriBas}",{UriRel, UriBas}),
-      RelVal = xqerl_types:value(UriRel),
-      BasVal = xqerl_types:value(UriBas),
+      RelVal = xqerl_types:value(Relative),
+      BasVal = xqerl_types:value(Base1),
       case xqerl_lib:resolve_against_base_uri(BasVal, RelVal) of
-         {error,unsafe} ->
+         {error,_} ->
             ?err('FORG0002');
          ResVal ->
             %?dbg("ResVal",ResVal),
@@ -3047,8 +3091,10 @@ string_value(At) -> xqerl_types:string_value(At).
       end
    catch 
       _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "FORG0001"}}} -> ?err('FORG0002');
+      _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "FORG0002"}}} -> ?err('FORG0002');
       _:{badmatch, _} -> ?err('FORG0002');
-      _:_ ->  
+      _:E ->
+         ?dbg("E",E),
          ?err('FORG0009')
    end.
 
@@ -3256,6 +3302,7 @@ sort1(Ctx,A,B,Coll) ->
    Ci = xqerl_context:get_context_item(Ctx),
    'string'(Ctx, Ci).
 
+'string'(_Ctx,#xqFunction{}) -> ?err('FOTY0014');
 'string'(_Ctx,Fx) when is_function(Fx) -> ?err('FOTY0014');
 'string'(_Ctx,Fx) when is_map(Fx) -> ?err('FOTY0014');
 'string'(_Ctx,#array{}) -> ?err('FOTY0014');
@@ -3669,6 +3716,8 @@ zip_map_trans([H|T],[TH|TT]) ->
             ?str( xqerl_file:bin_to_utf8(Binary, Enc))
       end
    catch 
+      _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XQST0046"}}} ->
+            xqerl_error:error('FOUT1170');
       _:#xqError{} = E ->
          exit(E);
       _:_ ->
@@ -3708,26 +3757,21 @@ zip_map_trans([H|T],[TH|TT]) ->
              end, List1).
 
 %% Converts a string to upper case. 
+'upper-case'(_Ctx,[]) -> #xqAtomicValue{type = 'xs:string', value = ""};
 'upper-case'(_Ctx,Arg1) ->
-   Out = 
-   case ?seq:is_empty(Arg1) of
-      true ->
-         #xqAtomicValue{type = 'xs:string', value = ""};
-      _ ->
-         case ?seq:singleton_value(Arg1) of
+   Out = case ?seq:singleton_value(Arg1) of
             #xqNode{} ->
                Str = string_value(Arg1),
-               Upp = string:to_upper(Str),
+               Upp = string:uppercase(Str),
                #xqAtomicValue{type = 'xs:string', value = Upp};
             #xqAtomicValue{type = Type} when ?string(Type);
                                              Type == 'xs:anyURI' ->
                Str = string_value(Arg1),
-               Upp = string:to_upper(Str),
+               Upp = string:uppercase(Str),
                #xqAtomicValue{type = 'xs:string', value = Upp};
             _ ->
                xqerl_error:error('XPTY0004')
-         end
-   end,
+         end,
    ?seq:singleton(Out).   
 
 %% Returns a sequence of xs:anyURI values representing the URIs in a URI collection. 

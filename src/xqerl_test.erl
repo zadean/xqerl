@@ -98,7 +98,7 @@ assert_xml(Result, {file, FileLoc}) ->
    end;
 assert_xml(Result, QueryString) ->
    ResXml = xqerl_node:to_xml(Result),
-   case ResXml == QueryString of
+   case catch xqerl_lib:decode_string(ResXml) == xqerl_lib:decode_string(QueryString) of
       true ->
          true;
       _ ->
@@ -226,12 +226,17 @@ assert_norm_string_value(Result, String) ->
 %% assert_error
 assert_error(Result, ErrorCode) ->
    case Result of 
-      #xqError{name = #xqAtomicValue{value = #qname{local_name = Err}}} ->
+      #xqError{name = #xqAtomicValue{value = #qname{namespace = ErrNs, local_name = Err}}} ->
          if Err == ErrorCode;
             ErrorCode == "*" ->
                true;
             true ->
-               {false,{Err,ErrorCode}}
+               case "Q{}"++Err == ErrorCode andalso ErrNs == 'no-namespace' of
+                  true ->
+                     true;
+                  _ ->
+                     {false,{Err,ErrorCode}}
+               end
          end;
       _ ->
          StrVal = string_value(Result),

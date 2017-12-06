@@ -980,18 +980,65 @@ expr_do(Ctx, {'function-call', #xqFunction{params = Params, body = {M,F,_A}}}) -
      {atom,?L,F}},
     [{var,?L,CtxName}|NewArgs]};
 
-expr_do(_Ctx, #xqFunction{body = {M,F,A}}) ->
-   {'fun',?L,
-    {'function',
-     {atom,?L,M},
-     {atom,?L,F},
-     {integer,?L,A}}};
+%% -record(xqFunction, {
+%%    id                = 0 :: integer(),
+%%    annotations       = [] :: [ #annotation{} ],
+%%    name              = undefined :: #qname{} | undefined,
+%%    arity             = 0 :: integer(),
+%%    params            = [],
+%%    type              = #xqSeqType{} :: any | #xqSeqType{},
+%%    body              = undefined :: term()
+%% }).
+expr_do(_Ctx, #xqFunction{annotations = Annos, 
+                          name = Name, 
+                          arity = Ay, 
+                          params = Params,
+                          type = Type,
+                          body = {xqerl_fn,concat,_}}) ->
+   {tuple,?L,
+    [{atom,?L,xqFunction},
+     {integer,?L,0},      % id
+     erl_term_abs(Annos), % annotations
+     erl_term_abs(Name),  % name
+     erl_term_abs(Ay),    % arity
+     erl_term_abs(Params),% params
+     erl_term_abs(Type),  % Type
+     {'fun',?L,{'function',{atom,?L,xqerl_fn},{atom,?L,concat},{integer,?L,2}}}
+     ]};
+expr_do(_Ctx, #xqFunction{annotations = Annos, 
+                          name = Name, 
+                          arity = Ay, 
+                          params = Params,
+                          type = Type,
+                          body = {M,F,A}} = Fn) ->
+   ?dbg("Fn",Fn),
+   {tuple,?L,
+    [{atom,?L,xqFunction},
+     {integer,?L,0},      % id
+     erl_term_abs(Annos), % annotations
+     erl_term_abs(Name),  % name
+     erl_term_abs(Ay),    % arity
+     erl_term_abs(Params),% params
+     erl_term_abs(Type),  % Type
+     {'fun',?L,{'function',{atom,?L,M},{atom,?L,F},{integer,?L,A}}}
+     ]};
 
-expr_do(_Ctx, #xqFunction{body = {F,A}}) ->
-   {'fun',?L,
-    {'function',
-     F,
-     A}};
+expr_do(_Ctx, #xqFunction{annotations = Annos, 
+                          name = Name, 
+                          arity = Ay, 
+                          params = Params,
+                          type = Type,
+                          body = {F,A}}) ->
+   {tuple,?L,
+    [{atom,?L,xqFunction},
+     {integer,?L,0},      % id
+     erl_term_abs(Annos), % annotations
+     erl_term_abs(Name),  % name
+     erl_term_abs(Ay),    % arity
+     erl_term_abs(Params),% params
+     erl_term_abs(Type),  % Type
+     {'fun',?L,{'function',F,A}}
+     ]};
 
 %OK
 expr_do(Ctx, {'function-call', #xqFunction{params = Params, body = {F,_A}}}) ->
@@ -1411,7 +1458,21 @@ expr_do(Ctx, {postfix, Base, Preds }) when is_list(Preds) ->
                                                    {'if',?L,
                                                     [{clause,?L,[],
                                                       [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_function}},[{var,?L,NextVar2}]}]],
-                                                      [{call,?L,{var,?L,NextVar2},[{var,?L,CtxVar}|ArgAbs]}]},
+                                                         [{'case',?L,{op,?L,'==', 
+                                                                      {var,?L,NextVar2}, 
+                                                                      {'fun',?L,{function,{atom,?L,xqerl_fn},{atom,?L,concat},{integer,?L,2}}}},
+                                                           [{clause,?L,
+                                                             [{atom,?L,true}],
+                                                             [],
+                                                             [{call,?L,{var,?L,NextVar2},
+                                                               [{var,?L,CtxVar},
+                                                                from_list_to_seq(ArgAbs)
+                                                               ]}]},
+                                                            {clause,?L,
+                                                             [{var,?L,'_'}],
+                                                             [],
+                                                             [{call,?L,{var,?L,NextVar2},[{var,?L,CtxVar}|ArgAbs]}]}]
+                                                            }]},
                                                      {clause,?L,[],
                                                       [[{atom,?L,true}]],
                                                       [{call,?L,{remote,?L,{atom,?L,xqerl_operators},{atom,?L,lookup}},

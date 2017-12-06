@@ -41,6 +41,9 @@
 -export([read_files/1]).
 
 -export([retrieve_doc/1]).
+-export([exists_doc/1]).
+
+-export([doc_to_xqnode_doc/1]).
 
 -include("xqerl.hrl").
 -define(at(T,V), #xqAtomicValue{type = T, value = V}).
@@ -164,8 +167,11 @@ read_stream(Xml, Name) ->
    read_stream(Xml, Name, #state{filename = Name}).
 
 read_stream(Xml, Name, State) ->
-   case xmerl_sax_parser:stream(Xml, [{event_fun, fun(A,B,C) -> handle_event(A,B,C) end },
-                                      {event_state, State}]) of
+   %?dbg("IntName",IntName),
+   %?dbg("CurrLoc",CurrLoc),
+   case catch xmerl_sax_parser:stream(Xml, [{current_location, Name},
+                                            {event_fun, fun(A,B,C) -> handle_event(A,B,C) end },
+                                            {event_state, State}]) of
       {ok, State1, R} ->
          case R of
             [] ->
@@ -179,15 +185,23 @@ read_stream(Xml, Name, State) ->
             _ ->
                read_stream(R, Name, State1)
          end;
-      {fatal_error,_Line, _Reason, _EndTags, State2} -> % trailing content in a document
-          #{file  => Name,
-            base  => Name,
-            nodes => map_to_bin(State2#state.nodes),
-            texts => State2#state.texts,
-            names => State2#state.names,
-            namsp => State2#state.namsp,
-            att_types => State2#state.att_types};
+      {fatal_error,_Line, Reason, _EndTags, State2} -> % trailing content in a document
+         ?dbg("Reason",Reason),
+         case maps:size(State2#state.nodes) of
+            1 -> % invalid document
+               {error,Reason};
+            _ ->
+               %?dbg("State2",State2),
+                #{file  => Name,
+                  base  => Name,
+                  nodes => map_to_bin(State2#state.nodes),
+                  texts => State2#state.texts,
+                  names => State2#state.names,
+                  namsp => State2#state.namsp,
+                  att_types => State2#state.att_types}
+         end;
       Other ->
+         ?dbg("Other",Other),
          {error,Other}
    end.
 
@@ -196,6 +210,7 @@ read_stream(Xml, Name, State) ->
 handle_event(startDocument, _Ln, #state{counter = C, 
                                         inscope_ns = IsNs, 
                                         filename = FileName} = State) -> 
+   ?dbg("startDocument",_Ln),
    if C == 1 ->
          Record = #nodes{id = C, tp = document},
          NewIsNs = IsNs#{[] => 1,
@@ -214,9 +229,12 @@ handle_event(startDocument, _Ln, #state{counter = C,
                      element_stack = [Record]}
    end;
 
-handle_event(endDocument, _Ln, #state{element_stack = []} = State) -> State; % empty document
+handle_event(endDocument, _Ln, #state{element_stack = []} = State) -> 
+   ?dbg("endDocument",_Ln),
+   State; % empty document
 handle_event(endDocument, _Ln, #state{counter = C,
                                       element_stack = [Record|ElemStk]} = State) -> 
+   ?dbg("endDocument",_Ln),
    NewRec = Record#nodes{sz = C - 2},
    State1 = add_node(State, NewRec),
    State1#state{counter = C, element_stack = ElemStk};
@@ -252,7 +270,12 @@ handle_event({startElement, Uri, LocalName, {Prefix,_}, Attributes}, _Ln, #state
                                                                                  counter = C, 
                                                                                  stack = [P|_] = S, 
                                                                                  element_stack = ElemStk} = State) ->
-   Uri1 = if Uri == [] -> 'no-namespace'; true -> Uri end,
+   Uri1 = if Uri == [], Prefix == [] -> 
+                'no-namespace'; 
+             Uri == [] -> 
+                throw({error,unknown_namespace}); 
+             true -> Uri 
+          end,
    % first any namespaces
    AddNs = fun(Ns, #state{counter = C1} = St) ->
                  C2 = C1 + 1,
@@ -365,24 +388,25 @@ handle_event({comment, String}, _Ln, #state{counter = C,
 handle_event(startCDATA, _Ln, State) -> State#state{cdata_flag = true};
 handle_event(endCDATA, _Ln, State) -> State#state{cdata_flag = false};
 
-handle_event({startDTD, _Name, _PublicId, _SystemId}, _Ln, State) -> State;
-handle_event(endDTD, _Ln, State) -> State;
-handle_event({startEntity, _SysId}, _Ln, State) -> State;
-handle_event({endEntity, _SysId}, _Ln, State) -> State;
-handle_event({elementDecl, _Name, _Model}, _Ln, State) -> State;
 handle_event({attributeDecl, ElementName, AttributeName, Type, _Mode, _Value}, _Ln, #state{att_types = AttTypeMap} = State) -> 
    % expecting only local names for attribute types (namespaces in DTDs ?)
    AttTypeMap1 = maps:put({ElementName, AttributeName}, list_to_atom("xs:"++Type), AttTypeMap),
    ?dbg("AttTypeMap1",AttTypeMap1),
    State#state{att_types = AttTypeMap1};
-handle_event({internalEntityDecl, _Name, _Value}, _Ln, State) -> State;
-handle_event({externalEntityDecl, _Name, _PublicId, _SystemId}, _Ln, State) -> State;
-handle_event({unparsedEntityDecl, _Name, _PublicId, _SystemId, _Ndata}, _Ln, State) -> State;
-handle_event({notationDecl, _Name, _PublicId, _SystemId}, _Ln, State) -> State;
+
+%% handle_event({startDTD, _Name, _PublicId, _SystemId}, _Ln, State) -> State;
+%% handle_event(endDTD, _Ln, State) -> State;
+%% handle_event({startEntity, _SysId}, _Ln, State) -> State;
+%% handle_event({endEntity, _SysId}, _Ln, State) -> State;
+%% handle_event({elementDecl, _Name, _Model}, _Ln, State) -> State;
+%% handle_event({internalEntityDecl, _Name, _Value}, _Ln, State) -> State;
+%% handle_event({externalEntityDecl, _Name, _PublicId, _SystemId}, _Ln, State) -> State;
+%% handle_event({unparsedEntityDecl, _Name, _PublicId, _SystemId, _Ndata}, _Ln, State) -> State;
+%% handle_event({notationDecl, _Name, _PublicId, _SystemId}, _Ln, State) -> State;
 
 handle_event(Event, _Ln, State) -> 
-   ?dbg("Event?",Event),
-   ?dbg("State?",State),
+   ?dbg(Event,_Ln),
+   %?dbg("State?",State),
    State.
 
 get_local_name_id(#state{names = Names} = State, Val) ->
@@ -437,6 +461,9 @@ doc_to_binary(#{file := Uri} = Doc) ->
    Bin = erlang:term_to_binary(Doc1, [compressed]),
    {Uri, Bin}.
 
+doc_to_xqnode_doc(Doc) ->
+   add_text_lookup(Doc).
+
 binary_to_doc(Bin) ->
    erlang:binary_to_term(Bin).
 
@@ -460,9 +487,12 @@ add_node(#state{nodes = Nodes} = State, #nodes{id = K} = Rec) ->
 
 store_doc(Uri, Doc) ->
    BinDoc = doc_to_binary(Doc),
-   xqerl_ds:insert_doc(Uri, BinDoc).
+   xqerl_ds:insert_doc(string:lowercase(Uri), BinDoc).
 
 retrieve_doc(Uri) ->
-   {ok, {_,BinDoc}} = xqerl_ds:lookup_doc(Uri),
+   {ok, {_,BinDoc}} = xqerl_ds:lookup_doc(string:lowercase(Uri)),
    binary_to_doc(BinDoc).
+
+exists_doc(Uri) ->
+   xqerl_ds:exists_doc(string:lowercase(Uri)).
 

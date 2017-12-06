@@ -261,7 +261,12 @@ zip_with1(_Ctx, _Fun, {_List1,[]}, _Pos, Acc ) -> Acc;
 zip_with1(Ctx, Fun, {[H1|List1],[H2|List2]}, Pos,  Acc ) ->
    try
       Ctx1 = xqerl_context:set_context_item(Ctx, H1, Pos),
-      OutputSeq = Fun(Ctx1, singleton(H1), singleton(H2)),
+      OutputSeq = case Fun == fun xqerl_fn:concat/2 of
+                     true ->
+                        Fun(Ctx1, [H1, H2]);
+                     _ ->
+                        Fun(Ctx1, H1, H2)
+                  end,
       NewSeq = [OutputSeq|Acc],
       zip_with1(Ctx, Fun, {List1,List2}, Pos+1, NewSeq)
    catch 
@@ -409,6 +414,7 @@ foldr1(Ctx,Fun,Acc,[H|T]) ->
 empty() ->
    [].
 
+to_list(#array{} = A) -> xqerl_array:flatten([], A);
 to_list(List) when is_list(List) -> List;
 to_list(A) -> [A].
 

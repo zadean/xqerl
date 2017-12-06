@@ -252,6 +252,30 @@ cast_as_seq(Vals, []) ->
    Vals;
 cast_as_seq(Vals, _SeqType) when is_function(Vals) ->
    Vals;
+cast_as_seq(Vals, #xqSeqType{type = #xqFunTest{kind = function}}) when is_list(Vals) ->
+   All = lists:all(fun(Fn) when is_function(Fn) ->
+                         true;
+                      (#xqFunction{body = Fn}) when is_function(Fn) ->
+                         true;
+                      (_) ->
+                         false
+             end, Vals),
+   if All ->
+         Vals;
+      true ->
+         xqerl_error:error('XPTY0004')
+   end;
+cast_as_seq(Vals, #xqSeqType{type = #xqFunTest{kind = array}}) when is_list(Vals) ->
+   All = lists:all(fun(#array{}) ->
+                         true;
+                      (_) ->
+                         false
+             end, Vals),
+   if All ->
+         Vals;
+      true ->
+         xqerl_error:error('XPTY0004')
+   end;
 cast_as_seq(Seq, #xqSeqType{type = 'xs:anyAtomicType'}) when is_list(Seq) ->
    lists:map(fun(#xqAtomicValue{} = Av) ->
                    Av;
@@ -850,7 +874,11 @@ instance_of(Seq,TType) ->
 check_param_types(_Params, any) -> true;
 check_param_types(Params, Params) -> true;
 check_param_types(Params, TargetParams) -> 
-   lists:all(fun({P,#xqSeqType{type = T}}) ->
+   lists:all(fun({#xqSeqType{type = #xqKindTest{}} = P,
+                  #xqSeqType{type = #xqKindTest{}} = T}) ->
+                   kind_test_match(P, T);
+                ({#xqSeqType{type = P},
+                  #xqSeqType{type = T}}) ->
                    P == T
              end, lists:zip(Params, TargetParams)).
 
@@ -1883,7 +1911,12 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val1},
    cast_as( #xqAtomicValue{type = 'xs:string', value = Val1},'xs:double' );
 cast_as( #xqAtomicValue{type = 'xs:string', value = Val1}, 
          'xs:double' ) -> % MAYBE castable
-   Val = string:trim(Val1),
+   Val = case string:trim(Val1) of
+            [$.|T] ->
+               [$0,$.|T];
+            V ->
+               V
+         end,
    %?dbg("Val",Val),
    case string:find(Val, "--") of
       nomatch ->

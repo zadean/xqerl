@@ -740,7 +740,8 @@ unary_plus(#xqNode{} = Arg1) ->
 unary_plus(#xqAtomicValue{type = T} = Arg1) when ?numeric(T) ->
    ?sing(numeric_unary_plus(Arg1));
 unary_plus(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1) ->
-   ?sing(numeric_unary_plus(xqerl_types:cast_as(Arg1, 'xs:double') )).
+   ?sing(numeric_unary_plus(xqerl_types:cast_as(Arg1, 'xs:double') ));
+unary_plus(_) -> ?err('XPTY0004').
 
 unary_minus([]) -> ?seq:empty();
 unary_minus([Arg1]) ->
@@ -750,7 +751,8 @@ unary_minus(#xqNode{} = Arg1) ->
 unary_minus(#xqAtomicValue{type = T} = Arg1) when ?numeric(T) ->
    ?sing(numeric_unary_minus(Arg1));
 unary_minus(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1) ->
-   ?sing(numeric_unary_minus(xqerl_types:cast_as(Arg1, 'xs:double') )).
+   ?sing(numeric_unary_minus(xqerl_types:cast_as(Arg1, 'xs:double') ));
+unary_minus(_) -> ?err('XPTY0004').
 
 node_before([], _) ->
    ?seq:empty();

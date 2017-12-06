@@ -50,17 +50,17 @@
 %% 21    : xs:double
 %% 22-31 : xs:decimal                          1000000000
 %%            xs:integer                       1100000000
-%%               xs:nonPositiveInteger         1100100000
+%%               xs:nonPositiveInteger         1100100000*
 %%                  xs:negativeInteger         1100110000
-%%               xs:long                       1101000000
-%%                  xs:int                     1101000100
-%%                     xs:short                1101001000
-%%                        xs:byte              1101010000
-%%               xs:nonNegativeInteger         1110000000
+%%               xs:long                       1101000000*
+%%                  xs:int                     1101010000
+%%                     xs:short                1101011000
+%%                        xs:byte              1101011100
+%%               xs:nonNegativeInteger         1110000000*
 %%                  xs:unsignedLong            1110001000
-%%                     xs:unsignedInt          1110001001
-%%                        xs:unsignedShort     1110001010
-%%                           xs:unsignedByte   1110001100
+%%                     xs:unsignedInt          1110001100
+%%                        xs:unsignedShort     1110001110
+%%                           xs:unsignedByte   1110001111
 %%                  xs:positiveInteger         1110010000
 %% 32    : xs:gYearMonth
 %% 33    : xs:gYear
@@ -124,14 +124,14 @@
 %% xs:nonPositiveInteger   1 001 0000000 0 00 0 0 000 0 0 1100100000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% xs:negativeInteger      1 001 0000000 0 00 0 0 000 0 0 1100110000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% xs:long                 1 001 0000000 0 00 0 0 000 0 0 1101000000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
-%% xs:int                  1 001 0000000 0 00 0 0 000 0 0 1101000100 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
-%% xs:short                1 001 0000000 0 00 0 0 000 0 0 1101001000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
-%% xs:byte                 1 001 0000000 0 00 0 0 000 0 0 1101010000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
+%% xs:int                  1 001 0000000 0 00 0 0 000 0 0 1101010000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
+%% xs:short                1 001 0000000 0 00 0 0 000 0 0 1101011000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
+%% xs:byte                 1 001 0000000 0 00 0 0 000 0 0 1101011100 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% xs:nonNegativeInteger   1 001 0000000 0 00 0 0 000 0 0 1110000000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% xs:unsignedLong         1 001 0000000 0 00 0 0 000 0 0 1110001000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
-%% xs:unsignedInt          1 001 0000000 0 00 0 0 000 0 0 1110001001 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
-%% xs:unsignedShort        1 001 0000000 0 00 0 0 000 0 0 1110001010 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
-%% xs:unsignedByte         1 001 0000000 0 00 0 0 000 0 0 1110001100 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
+%% xs:unsignedInt          1 001 0000000 0 00 0 0 000 0 0 1110001100 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
+%% xs:unsignedShort        1 001 0000000 0 00 0 0 000 0 0 1110001110 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
+%% xs:unsignedByte         1 001 0000000 0 00 0 0 000 0 0 1110001111 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% xs:positiveInteger      1 001 0000000 0 00 0 0 000 0 0 1110010000 0 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% xs:gYearMonth           1 001 0000000 0 00 0 0 000 0 0 0000000000 1 0 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
 %% xs:gYear                1 001 0000000 0 00 0 0 000 0 0 0000000000 0 1 0 0 0 0000000000 0 0 0 0 0 0 0 0 0000000000
@@ -267,14 +267,14 @@ get_type('xs:integer'              ) ->  10376300138531389440 ;
 get_type('xs:nonPositiveInteger'   ) ->  10376300413409296384 ;
 get_type('xs:negativeInteger'      ) ->  10376300550848249856 ;
 get_type('xs:long'                 ) ->  10376300688287203328 ;
-get_type('xs:int'                  ) ->  10376300722646941696 ;
-get_type('xs:short'                ) ->  10376300757006680064 ;
-get_type('xs:byte'                 ) ->  10376300825726156800 ;
+get_type('xs:int'                  ) ->  10376300825726156800 ;
+get_type('xs:short'                ) ->  10376300894445633536 ;
+get_type('xs:byte'                 ) ->  10376300928805371904 ;
 get_type('xs:nonNegativeInteger'   ) ->  10376301238043017216 ;
 get_type('xs:unsignedLong'         ) ->  10376301306762493952 ;
-get_type('xs:unsignedInt'          ) ->  10376301315352428544 ;
-get_type('xs:unsignedShort'        ) ->  10376301323942363136 ;
-get_type('xs:unsignedByte'         ) ->  10376301341122232320 ;
+get_type('xs:unsignedInt'          ) ->  10376301341122232320 ;
+get_type('xs:unsignedShort'        ) ->  10376301358302101504 ;
+get_type('xs:unsignedByte'         ) ->  10376301366892036096 ;
 get_type('xs:positiveInteger'      ) ->  10376301375481970688 ;
 get_type('xs:gYearMonth'           ) ->  10376293545756590080 ;
 get_type('xs:gYear'                ) ->  10376293543609106432 ;
@@ -333,14 +333,14 @@ get_type(10376300138531389440 ) ->  'xs:integer'              ;
 get_type(10376300413409296384 ) ->  'xs:nonPositiveInteger'   ;
 get_type(10376300550848249856 ) ->  'xs:negativeInteger'      ;
 get_type(10376300688287203328 ) ->  'xs:long'                 ;
-get_type(10376300722646941696 ) ->  'xs:int'                  ;
-get_type(10376300757006680064 ) ->  'xs:short'                ;
-get_type(10376300825726156800 ) ->  'xs:byte'                 ;
+get_type(10376300825726156800 ) ->  'xs:int'                  ;
+get_type(10376300894445633536 ) ->  'xs:short'                ;
+get_type(10376300928805371904 ) ->  'xs:byte'                 ;
 get_type(10376301238043017216 ) ->  'xs:nonNegativeInteger'   ;
 get_type(10376301306762493952 ) ->  'xs:unsignedLong'         ;
-get_type(10376301315352428544 ) ->  'xs:unsignedInt'          ;
-get_type(10376301323942363136 ) ->  'xs:unsignedShort'        ;
-get_type(10376301341122232320 ) ->  'xs:unsignedByte'         ;
+get_type(10376301341122232320 ) ->  'xs:unsignedInt'          ;
+get_type(10376301358302101504 ) ->  'xs:unsignedShort'        ;
+get_type(10376301366892036096 ) ->  'xs:unsignedByte'         ;
 get_type(10376301375481970688 ) ->  'xs:positiveInteger'      ;
 get_type(10376293545756590080 ) ->  'xs:gYearMonth'           ;
 get_type(10376293543609106432 ) ->  'xs:gYear'                ;

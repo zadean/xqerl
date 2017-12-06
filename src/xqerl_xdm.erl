@@ -221,8 +221,6 @@ merge_insp_ns(Matches, Acc) ->
                             not lists:keymember([], 2, Acc);
                          ({_,P}) ->
                             not lists:keymember(P, 2, Acc)
-%%                          ({U,_}) ->
-%%                             not lists:keymember(U, 1, Acc)
                       end, Matches),
    New ++ Acc.
 

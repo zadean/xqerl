@@ -1245,40 +1245,40 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'DirectConstructor'      -> 'DirCommentConstructor' : '$1'.
 'DirectConstructor'      -> 'DirPIConstructor'      : '$1'.
 % [142]    DirElemConstructor      ::=      "<" QName DirAttributeList ("/>" | (">" DirElemContent* "</" QName S? ">"))   /* ws: explicit */
-'DirElemConstructor'     -> '<' 'QName' 'DirAttributeList' '/>' 
+'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '/>' 
                               : #xqElementNode{attributes = '$3', name = qname(other,'$2')}.
-'DirElemConstructor'     -> '<' 'QName' 'DirAttributeList' '>' 'DirElemContents' '</' 'QName' '>' 
+'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' 'DirElemContents' '</' 'EQName' '>' 
                               : if '$2' == '$7' ->
                                  #xqElementNode{attributes = '$3', name = qname(other,'$2'), expr = '$5'};
                                  true -> xqerl_error:error('XQST0118')
                                 end. 
-'DirElemConstructor'     -> '<' 'QName' 'DirAttributeList' '>' 'DirElemContents' '</' 'QName' 'S' '>' 
+'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' 'DirElemContents' '</' 'EQName' 'S' '>' 
                               : if '$2' == '$7' ->
                                  #xqElementNode{attributes = '$3', name = qname(other,'$2'), expr = '$5'};
                                  true -> xqerl_error:error('XQST0118')
                                 end. 
-'DirElemConstructor'     -> '<' 'QName' 'DirAttributeList' '>' '</' 'QName' '>' 
+'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' '</' 'EQName' '>' 
                               : if '$2' == '$6' ->
                                  #xqElementNode{attributes = '$3', name = qname(other,'$2')};
                                  true -> xqerl_error:error('XQST0118')
                                 end.  
-'DirElemConstructor'     -> '<' 'QName' 'DirAttributeList' '>' '</' 'QName' 'S' '>' 
+'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' '</' 'EQName' 'S' '>' 
                               : if '$2' == '$6' ->
                                  #xqElementNode{attributes = '$3', name = qname(other,'$2')};
                                  true -> xqerl_error:error('XQST0118')
                                 end.  
-'DirElemConstructor'     -> '<' 'QName' '/>' 
+'DirElemConstructor'     -> '<' 'EQName' '/>' 
                               : #xqElementNode{name = qname(other,'$2')}.
-'DirElemConstructor'     -> '<' 'QName' '>' 'DirElemContents' '</' 'QName' '>' 
+'DirElemConstructor'     -> '<' 'EQName' '>' 'DirElemContents' '</' 'EQName' '>' 
                               : #xqElementNode{name = qname(other,'$2'), expr = '$4'}. 
-'DirElemConstructor'     -> '<' 'QName' '>' 'DirElemContents' '</' 'QName' 'S' '>' 
+'DirElemConstructor'     -> '<' 'EQName' '>' 'DirElemContents' '</' 'EQName' 'S' '>' 
                               : #xqElementNode{name = qname(other,'$2'), expr = '$4'}. 
-'DirElemConstructor'     -> '<' 'QName' '>' '</' 'QName' '>' 
+'DirElemConstructor'     -> '<' 'EQName' '>' '</' 'EQName' '>' 
                               : if '$2' == '$5' ->
                                  #xqElementNode{name = qname(other,'$2')};
                                  true -> xqerl_error:error('XQST0118')
                                 end.  
-'DirElemConstructor'     -> '<' 'QName' '>' '</' 'QName' 'S' '>' 
+'DirElemConstructor'     -> '<' 'EQName' '>' '</' 'EQName' 'S' '>' 
                               : if '$2' == '$5' ->
                                  #xqElementNode{name = qname(other,'$2')};
                                  true -> xqerl_error:error('XQST0118')

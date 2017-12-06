@@ -193,10 +193,10 @@ msg('XQST0033') -> "It is a static error if a module contains multiple bindings 
 msg('XQST0034') -> "It is a static error if multiple functions declared or imported by a module have the same number of arguments and their expanded QNames are equal (as defined by the eq operator).";
 msg('XQST0035') -> "It is a static error to import two schema components that both define the same name in the same symbol space and in the same scope.";
 msg('XQST0038') -> "It is a static error if a Prolog contains more than one default collation declaration, or the value specified by a default collation declaration is not present in statically known collations.";
-msg('XPST0039') -> "It is a static error for a function declaration or an inline function expression to have more than one parameter with the same name.";
+msg('XQST0039') -> "It is a static error for a function declaration or an inline function expression to have more than one parameter with the same name.";
 msg('XQST0040') -> "It is a static error if the attributes specified by a direct element constructor do not have distinct expanded QNames.";
 msg('XQST0045') -> "It is a static error if the name of a variable annotation, a function annotation, or the function name in a function declaration is in a reserved namespace.";
-msg('XPST0046') -> "An implementation MAYMAY raise a static error if the value of a URILiteral or a BracedURILiteral is of nonzero length and is not in the lexical space of xs:anyURIneither an absolute URI nor a relative URI.";
+msg('XQST0046') -> "An implementation MAYMAY raise a static error if the value of a URILiteral or a BracedURILiteral is of nonzero length and is not in the lexical space of xs:anyURIneither an absolute URI nor a relative URI.";
 msg('XQST0047') -> "It is a static error if multiple module imports in the same Prolog specify the same target namespace.";
 msg('XQST0048') -> "It is a static error if a function or variable declared in a library module is not in the target namespace of the library module.";
 msg('XQST0049') -> "It is a static error if two or more variables declared or imported by a module have equal expanded QNames (as defined by the eq operator.)";

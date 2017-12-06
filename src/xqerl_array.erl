@@ -194,7 +194,12 @@ flatten1([H|T]) ->
    'for-each-pair'(_Ctx,Arr1,Arr2,Function);
 'for-each-pair'(Ctx,#array{data = D1},#array{data = D2},Function) when is_function(Function) ->
    try
-      #array{data = for_each_pair1(Ctx,D1, D2, Function)}
+      case Function == fun xqerl_fn:concat/2 of
+         true ->
+            #array{data = for_each_pair2(Ctx,D1, D2, Function)};
+         _ ->
+            #array{data = for_each_pair1(Ctx,D1, D2, Function)}
+      end
    catch 
       _:{badarity,_} ->
          xqerl_error:error('XPTY0004');
@@ -214,6 +219,17 @@ for_each_pair1(Ctx,[H1|T1],[H2|T2],Fun) ->
              E
        end,   
    [R|for_each_pair1(Ctx,T1,T2,Fun)].
+
+for_each_pair2(_Ctx,[],_,_) -> [];
+for_each_pair2(_Ctx,_,[],_) -> [];
+for_each_pair2(Ctx,[H1|T1],[H2|T2],Fun) ->
+   R = case Fun(Ctx,[H1,H2]) of
+          [E] ->
+             E;
+          E ->
+             E
+       end,   
+   [R|for_each_pair2(Ctx,T1,T2,Fun)].
 
 
 %% Returns the value at the specified position in the supplied array (counting from 1). 
