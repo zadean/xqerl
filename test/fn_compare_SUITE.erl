@@ -101,9 +101,13 @@
 -export(['K2-CompareFunc-8'/1]).
 -export(['K2-CompareFunc-9'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-compare2args-1',
    'fn-compare2args-2',
@@ -201,97 +205,97 @@ all() -> [
    'K2-CompareFunc-7',
    'K2-CompareFunc-8',
    'K2-CompareFunc-9'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -303,60 +307,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -364,11 +368,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'fn-compare2args-1'(_Config) ->
+'fn-compare2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -377,11 +383,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare2args-2'(_Config) ->
+'fn-compare2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -390,11 +398,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare2args-3'(_Config) ->
+'fn-compare2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -403,11 +413,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare2args-4'(_Config) ->
+'fn-compare2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -416,11 +428,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare2args-5'(_Config) ->
+'fn-compare2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -429,11 +443,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-1'(_Config) ->
+'fn-compare-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"\",\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -442,11 +458,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-2'(_Config) ->
+'fn-compare-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"\",\"A Character String\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -455,11 +473,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-3'(_Config) ->
+'fn-compare-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"A Character String\",\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -468,11 +488,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-4'(_Config) ->
+'fn-compare-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:compare((),\"\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -481,11 +503,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-5'(_Config) ->
+'fn-compare-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:compare(\"\",()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -494,11 +518,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-6'(_Config) ->
+'fn-compare-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:compare(\"A Character String\",()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -507,11 +533,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-7'(_Config) ->
+'fn-compare-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:compare((),\"A Character String\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -520,11 +548,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-8'(_Config) ->
+'fn-compare-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"AAAAABBBBBCCCCC\",\"BBBBB\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -533,11 +563,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-9'(_Config) ->
+'fn-compare-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"AAAAABBBBB\",\" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -546,11 +578,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-10'(_Config) ->
+'fn-compare-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\" \",\"AAAAABBBBB\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -559,11 +593,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-11'(_Config) ->
+'fn-compare-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:not(fn:compare(\"A\",\"A\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -572,11 +608,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-12'(_Config) ->
+'fn-compare-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:not(fn:compare(\"A\",\"B\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -585,11 +623,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-13'(_Config) ->
+'fn-compare-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(xs:string(\"A\"),\"A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -598,11 +638,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-14'(_Config) ->
+'fn-compare-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"A\",xs:string(\"A\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -611,11 +653,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-15'(_Config) ->
+'fn-compare-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"A\",\"a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -624,11 +668,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-16'(_Config) ->
+'fn-compare-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"a\",\"A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -637,11 +683,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-17'(_Config) ->
+'fn-compare-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"compare\",\"compare\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -650,11 +698,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-18'(_Config) ->
+'fn-compare-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"comparecompare\",\"compare\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -663,11 +713,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-19'(_Config) ->
+'fn-compare-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"****\",\"***\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -676,11 +728,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-20'(_Config) ->
+'fn-compare-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"12345\",\"1234\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -689,11 +743,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-21'(_Config) ->
+'fn-compare-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"compare\",\"erapmoc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -702,11 +758,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-compare-22'(_Config) ->
+'fn-compare-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"a\",\"a\",\"CollationA\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-compare-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -715,11 +773,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-1'(_Config) ->
+'K-compareFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoint-equal()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -728,11 +788,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-2'(_Config) ->
+'K-compareFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoint-equal(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -741,11 +803,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-3'(_Config) ->
+'K-compareFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoint-equal((), (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -754,11 +818,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-4'(_Config) ->
+'K-compareFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(codepoint-equal((), \"a string\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -767,11 +833,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-5'(_Config) ->
+'K-compareFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(codepoint-equal(\"a string\", ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -780,11 +848,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-6'(_Config) ->
+'K-compareFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoint-equal(\"a string\", \"a string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -793,11 +863,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-7'(_Config) ->
+'K-compareFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(codepoint-equal(\"cow\", \"a string\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -806,11 +878,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-8'(_Config) ->
+'K-compareFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -819,11 +893,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-9'(_Config) ->
+'K-compareFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -832,11 +908,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-10'(_Config) ->
+'K-compareFunc-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare((), (), \"http://www.w3.org/2005/xpath-functions/collation/codepoint\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -845,11 +923,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-11'(_Config) ->
+'K-compareFunc-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(compare((), \"a string\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -858,11 +938,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-12'(_Config) ->
+'K-compareFunc-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(compare(\"a string\", ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -871,11 +953,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-13'(_Config) ->
+'K-compareFunc-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(compare(\"a string\", (), \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -884,11 +968,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-14'(_Config) ->
+'K-compareFunc-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"str\", \"str\") instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -897,11 +983,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-compareFunc-15'(_Config) ->
+'K-compareFunc-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(compare(\"a string\", \"a string\", \"http://www.example.com/COLLATION/NOT/SUPPORTED\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-compareFunc-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -918,11 +1006,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-001'(_Config) ->
+'compare-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"a\", \"b\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -939,11 +1029,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-002'(_Config) ->
+'compare-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"b\", \"a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -952,11 +1044,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-003'(_Config) ->
+'compare-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"b\", \"b\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -965,11 +1059,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-004'(_Config) ->
+'compare-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"b\", ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -978,11 +1074,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-005'(_Config) ->
+'compare-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare((), \"b\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -991,11 +1089,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-006'(_Config) ->
+'compare-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare((), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1004,11 +1104,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-007'(_Config) ->
+'compare-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"𐀁\", \"𐀂\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1017,11 +1119,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-008'(_Config) ->
+'compare-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"𐀁\", \"￰\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1030,11 +1134,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-009'(_Config) ->
+'compare-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"𐀁\", \"￰\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1043,13 +1149,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-010'(_Config) ->
+'compare-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"non_unicode_codepoint_collation"}.
-'compare-011'(_Config) ->
+'compare-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(123, 456)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1058,11 +1167,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-012'(_Config) ->
+'compare-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(xs:anyURI('http://www.example.com/'), 'http://www.example.com/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1071,11 +1182,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-013'(_Config) ->
+'compare-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(xs:untypedAtomic('http://www.example.com/'), 'http://www.example.com/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1084,13 +1197,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-014'(_Config) ->
+'compare-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"a\", \"A\", \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1099,7 +1213,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-014.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1108,13 +1223,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-015'(_Config) ->
+'compare-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"123 - ; ^ a\", \"123 -  ; ^ a\", \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\") eq 0",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1123,7 +1239,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-015.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1132,13 +1249,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-016'(_Config) ->
+'compare-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"Á\", \"á\", \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\") eq 0",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1147,7 +1265,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-016.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1156,11 +1275,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-017'(_Config) ->
+'compare-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"DATABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1169,11 +1290,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-018'(_Config) ->
+'compare-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1182,11 +1305,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-019'(_Config) ->
+'compare-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1195,11 +1320,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-020'(_Config) ->
+'compare-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"Databases\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1208,11 +1335,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-021'(_Config) ->
+'compare-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"databases\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1221,11 +1350,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-022'(_Config) ->
+'compare-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"DATABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1234,11 +1365,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-023'(_Config) ->
+'compare-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\") != 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1247,11 +1380,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-024'(_Config) ->
+'compare-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1260,11 +1395,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-025'(_Config) ->
+'compare-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"Databases\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1273,11 +1410,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-026'(_Config) ->
+'compare-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"databases\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1286,11 +1425,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-027'(_Config) ->
+'compare-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"dâtabase\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\") = 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1299,11 +1440,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-028'(_Config) ->
+'compare-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"DATABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\") = 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1312,11 +1455,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-029'(_Config) ->
+'compare-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1325,11 +1470,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-030'(_Config) ->
+'compare-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1338,13 +1485,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-031'(_Config) ->
+'compare-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"advanced-uca-fallback"}.
-'compare-032'(_Config) ->
+'compare-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"databases\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1353,11 +1503,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-033'(_Config) ->
+'compare-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"dâtabases\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1366,15 +1518,19 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-034'(_Config) ->
+'compare-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"advanced-uca-fallback"}.
-'compare-035'(_Config) ->
+'compare-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"advanced-uca-fallback"}.
-'compare-036'(_Config) ->
+'compare-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"DATABASE\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;caseLevel=yes\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-036.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1383,13 +1539,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-037'(_Config) ->
+'compare-037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"advanced-uca-fallback"}.
-'compare-038'(_Config) ->
+'compare-038'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"DATABÃSE\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-038.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1398,17 +1557,22 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-039'(_Config) ->
+'compare-039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"advanced-uca-fallback"}.
-'compare-040'(_Config) ->
+'compare-040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"advanced-uca-fallback"}.
-'compare-041'(_Config) ->
+'compare-041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"advanced-uca-fallback"}.
-'compare-042'(_Config) ->
+'compare-042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=identical\") = 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-042.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1417,13 +1581,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-043'(_Config) ->
+'compare-043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"advanced-uca-fallback"}.
-'compare-044'(_Config) ->
+'compare-044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=quaternary\") = 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-044.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1432,11 +1599,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'compare-045'(_Config) ->
+'compare-045'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=identical\") = 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "compare-045.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1445,11 +1614,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CompareFunc-1'(_Config) ->
+'K2-CompareFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"a\", \"a\", (\"http://www.w3.org/2005/xpath-functions/collation/codepoint\", ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CompareFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1458,11 +1629,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CompareFunc-2'(_Config) ->
+'K2-CompareFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"a\", \"a\", ((), \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CompareFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1471,11 +1644,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CompareFunc-3'(_Config) ->
+'K2-CompareFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare(\"a\", \"a\", ((), \"http://www.w3.org/2005/xpath-functions/collation/codepoint\", ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CompareFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1484,13 +1659,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CompareFunc-4'(_Config) ->
+'K2-CompareFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $vA := (\"B STRING\", current-time())[1] treat as xs:string, 
         $vB  := (\"b string\", current-time())[1] treat as xs:string
         return compare(lower-case($vA), lower-case($vB))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CompareFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1499,13 +1676,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CompareFunc-5'(_Config) ->
+'K2-CompareFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $vA := (\"B STRING\", current-time())[1] treat as xs:string, 
                 $vB  := (\"b string\", current-time())[1] treat as xs:string 
         return compare(upper-case($vA), upper-case($vB))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CompareFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1514,13 +1693,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CompareFunc-6'(_Config) ->
+'K2-CompareFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $vA  := (\"B STRING\", current-time())[1] treat as xs:string, 
                 $vB  := (\"no match\", current-time())[1] treat as xs:string 
         return compare(lower-case($vA), lower-case($vB))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CompareFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1529,13 +1710,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CompareFunc-7'(_Config) ->
+'K2-CompareFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $vA  := (\"B STRING\", current-time())[1] treat as xs:string, 
                 $vB  := (\"no match\", current-time())[1] treat as xs:string 
         return compare(upper-case($vA), upper-case($vB))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CompareFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1544,13 +1727,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CompareFunc-8'(_Config) ->
+'K2-CompareFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $vA  := (\"B STRING\", current-time())[1] treat as xs:string, 
                 $vB  := (\"no match\", current-time())[1] treat as xs:string 
         return compare(upper-case($vA), lower-case($vB))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CompareFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1559,13 +1744,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CompareFunc-9'(_Config) ->
+'K2-CompareFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $vA  := (\"B STRING\", current-time())[1] treat as xs:string, 
                 $vB  := (\"no match\", current-time())[1] treat as xs:string 
         return compare(lower-case($vA), upper-case($vB))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CompareFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 

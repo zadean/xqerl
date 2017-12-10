@@ -63,9 +63,13 @@
 -export(['cbcl-exists-004'/1]).
 -export(['cbcl-exists-005'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-existsint1args-1',
    'fn-existsint1args-2',
@@ -125,97 +129,97 @@ all() -> [
    'cbcl-exists-003',
    'cbcl-exists-004',
    'cbcl-exists-005'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -227,60 +231,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -288,11 +292,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'fn-existsint1args-1'(_Config) ->
+'fn-existsint1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:int(\"-2147483648\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsint1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -301,11 +307,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsint1args-2'(_Config) ->
+'fn-existsint1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:int(\"-1873914410\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsint1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -314,11 +322,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsint1args-3'(_Config) ->
+'fn-existsint1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:int(\"2147483647\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsint1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -327,11 +337,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsintg1args-1'(_Config) ->
+'fn-existsintg1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:integer(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsintg1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -340,11 +352,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsintg1args-2'(_Config) ->
+'fn-existsintg1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:integer(\"830993497117024304\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsintg1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -353,11 +367,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsintg1args-3'(_Config) ->
+'fn-existsintg1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:integer(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsintg1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -366,11 +382,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsdec1args-1'(_Config) ->
+'fn-existsdec1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:decimal(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsdec1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -379,11 +397,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsdec1args-2'(_Config) ->
+'fn-existsdec1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:decimal(\"617375191608514839\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsdec1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -392,11 +412,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsdec1args-3'(_Config) ->
+'fn-existsdec1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:decimal(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsdec1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -405,11 +427,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsdbl1args-1'(_Config) ->
+'fn-existsdbl1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:double(\"-1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsdbl1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -418,11 +442,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsdbl1args-2'(_Config) ->
+'fn-existsdbl1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:double(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsdbl1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -431,11 +457,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsdbl1args-3'(_Config) ->
+'fn-existsdbl1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:double(\"1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsdbl1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -444,11 +472,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsflt1args-1'(_Config) ->
+'fn-existsflt1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:float(\"-3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsflt1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -457,11 +487,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsflt1args-2'(_Config) ->
+'fn-existsflt1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:float(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsflt1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -470,11 +502,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsflt1args-3'(_Config) ->
+'fn-existsflt1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:float(\"3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsflt1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -483,11 +517,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existslng1args-1'(_Config) ->
+'fn-existslng1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:long(\"-92233720368547758\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existslng1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -496,11 +532,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existslng1args-2'(_Config) ->
+'fn-existslng1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:long(\"-47175562203048468\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existslng1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -509,11 +547,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existslng1args-3'(_Config) ->
+'fn-existslng1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:long(\"92233720368547758\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existslng1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -522,11 +562,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsusht1args-1'(_Config) ->
+'fn-existsusht1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:unsignedShort(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsusht1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -535,11 +577,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsusht1args-2'(_Config) ->
+'fn-existsusht1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:unsignedShort(\"44633\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsusht1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -548,11 +592,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsusht1args-3'(_Config) ->
+'fn-existsusht1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:unsignedShort(\"65535\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsusht1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -561,11 +607,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsnint1args-1'(_Config) ->
+'fn-existsnint1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:negativeInteger(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsnint1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -574,11 +622,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsnint1args-2'(_Config) ->
+'fn-existsnint1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:negativeInteger(\"-297014075999096793\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsnint1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -587,11 +637,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsnint1args-3'(_Config) ->
+'fn-existsnint1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:negativeInteger(\"-1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsnint1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -600,11 +652,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existspint1args-1'(_Config) ->
+'fn-existspint1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:positiveInteger(\"1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existspint1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -613,11 +667,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existspint1args-2'(_Config) ->
+'fn-existspint1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:positiveInteger(\"52704602390610033\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existspint1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -626,11 +682,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existspint1args-3'(_Config) ->
+'fn-existspint1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:positiveInteger(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existspint1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -639,11 +697,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsulng1args-1'(_Config) ->
+'fn-existsulng1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:unsignedLong(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsulng1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -652,11 +712,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsulng1args-2'(_Config) ->
+'fn-existsulng1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:unsignedLong(\"130747108607674654\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsulng1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -665,11 +727,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsulng1args-3'(_Config) ->
+'fn-existsulng1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:unsignedLong(\"184467440737095516\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsulng1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -678,11 +742,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsnpi1args-1'(_Config) ->
+'fn-existsnpi1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:nonPositiveInteger(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsnpi1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -691,11 +757,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsnpi1args-2'(_Config) ->
+'fn-existsnpi1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:nonPositiveInteger(\"-475688437271870490\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsnpi1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -704,11 +772,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsnpi1args-3'(_Config) ->
+'fn-existsnpi1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:nonPositiveInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsnpi1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -717,11 +787,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsnni1args-1'(_Config) ->
+'fn-existsnni1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:nonNegativeInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsnni1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -730,11 +802,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsnni1args-2'(_Config) ->
+'fn-existsnni1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:nonNegativeInteger(\"303884545991464527\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsnni1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -743,11 +817,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existsnni1args-3'(_Config) ->
+'fn-existsnni1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:nonNegativeInteger(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existsnni1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -756,11 +832,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existssht1args-1'(_Config) ->
+'fn-existssht1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:short(\"-32768\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existssht1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -769,11 +847,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existssht1args-2'(_Config) ->
+'fn-existssht1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:short(\"-5324\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existssht1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -782,11 +862,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-existssht1args-3'(_Config) ->
+'fn-existssht1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists((xs:short(\"32767\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-existssht1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -795,11 +877,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-1'(_Config) ->
+'K-SeqExistsFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -808,11 +892,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-2'(_Config) ->
+'K-SeqExistsFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -821,11 +907,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-3'(_Config) ->
+'K-SeqExistsFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(exists(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -834,11 +922,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-4'(_Config) ->
+'K-SeqExistsFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -847,11 +937,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-5'(_Config) ->
+'K-SeqExistsFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists((1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -860,11 +952,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-6'(_Config) ->
+'K-SeqExistsFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists((1, 2, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -873,11 +967,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-7'(_Config) ->
+'K-SeqExistsFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(exists(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -886,11 +982,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-8'(_Config) ->
+'K-SeqExistsFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(exists( ((), (), (), ()) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -899,11 +997,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-9'(_Config) ->
+'K-SeqExistsFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(reverse((1, 2, 3)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -912,11 +1012,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-10'(_Config) ->
+'K-SeqExistsFunc-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(timezone-from-dateTime(current-dateTime()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -925,11 +1027,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-11'(_Config) ->
+'K-SeqExistsFunc-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(timezone-from-date(current-date()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -938,11 +1042,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-12'(_Config) ->
+'K-SeqExistsFunc-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(timezone-from-time(current-time()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -951,11 +1057,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-13'(_Config) ->
+'K-SeqExistsFunc-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(remove(current-time(), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -964,11 +1072,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExistsFunc-14'(_Config) ->
+'K-SeqExistsFunc-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(empty(remove((current-time(), 1), 1)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExistsFunc-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -977,13 +1087,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-exists-001'(_Config) ->
+'cbcl-exists-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) { if ($arg = 0) then (1, 2, 3) else $arg }; 
       	fn:exists( ( (), local:generate( () ), local:generate( 0 ), (1 to 10000000), local:generate( () ), local:generate(1)) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-exists-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -992,11 +1104,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-exists-002'(_Config) ->
+'cbcl-exists-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(for $x in (1 to 10)[. mod 2 = 0] return \"blah\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-exists-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1005,11 +1119,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-exists-003'(_Config) ->
+'cbcl-exists-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(text {(1 to 10)[. mod 2 = 0]})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-exists-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1018,11 +1134,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-exists-004'(_Config) ->
+'cbcl-exists-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(for $x in (1 to 10)[. mod 2 = 0] return true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-exists-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1031,11 +1149,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-exists-005'(_Config) ->
+'cbcl-exists-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(for $x in (1 to 10)[. mod 2 = 0] return floor($x))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-exists-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 

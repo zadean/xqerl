@@ -19,9 +19,13 @@
 -export(['bang-13'/1]).
 -export(['bang-14'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "op")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'bang-1',
    'bang-2',
@@ -37,97 +41,97 @@ all() -> [
    'bang-12',
    'bang-13',
    'bang-14'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -139,60 +143,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -200,11 +204,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'bang-1'(_Config) ->
+'bang-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1 to 10)!(.*.)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 4, 9, 16, 25, 36, 49, 64, 81, 100") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -213,11 +219,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-2'(_Config) ->
+'bang-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(\"red\", \"blue\", \"green\")!string-length()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -226,11 +234,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-3'(_Config) ->
+'bang-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(\"red\", \"blue\", \"green\")!position()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -239,11 +249,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-4'(_Config) ->
+'bang-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(\"red\", \"blue\", \"green\")!(position() = last())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"false(), false(), true()") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -252,11 +264,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-5'(_Config) ->
+'bang-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(\"red\", \"blue\", \"green\") ! string-length() ! (.+1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"4, 5, 6") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -265,12 +279,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-6'(_Config) ->
+'bang-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[2], /works/employee[1], /works/employee[2]) ! @name ! string()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-6.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"John Doe 2\", \"Jane Doe 1\", \"John Doe 2\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -279,12 +295,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-7'(_Config) ->
+'bang-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/ works ! employee[2] ! hours[2] ! number()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-7.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"20") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -293,12 +311,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-8'(_Config) ->
+'bang-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "2 + (/ works ! employee[2] ! hours[2]) ! number() ! (-.)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-8.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-18") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -307,11 +327,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-9'(_Config) ->
+'bang-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-2!(.+1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -320,12 +342,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-10'(_Config) ->
+'bang-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1 to 5) ! (1 to .)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-10.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -334,12 +358,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-11'(_Config) ->
+'bang-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1 to 5) ! ((1 to .) ! position())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-11.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 1,2, 1,2,3, 1,2,3,4, 1,2,3,4,5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -348,12 +374,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-12'(_Config) ->
+'bang-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1 to 5) ! (1 to .) ! position()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-12.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1 to 15") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -362,12 +390,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-13'(_Config) ->
+'bang-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/ works ! employee[4] ! preceding-sibling::*[1] ! string(@name) ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-13.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"Jane Doe 3\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -376,12 +406,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'bang-14'(_Config) ->
+'bang-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(/ ! works)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "bang-14.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 

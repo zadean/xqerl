@@ -50,9 +50,13 @@
 -export(['K2-XQueryComment-4'/1]).
 -export(['K2-XQueryComment-5'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'XQueryComment001',
    'XQueryComment002',
@@ -99,97 +103,97 @@ all() -> [
    'K2-XQueryComment-3',
    'K2-XQueryComment-4',
    'K2-XQueryComment-5'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -201,60 +205,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -262,31 +266,32 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('fsx_NS') ->
+environment('fsx_NS',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ForClause/fsx_NS.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "ForClause/fsx_NS.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/filesystem","fs"}]},
 {resources, []},
 {modules, []}
 ];
-environment('TreeEmpty') ->
+environment('TreeEmpty',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/TreeEmpty.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/TreeEmpty.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'XQueryComment001'(_Config) ->
+'XQueryComment001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment001 :)
 (: Description: Simple use case for XQuery comments :)
 
@@ -297,7 +302,8 @@ environment('TreeEmpty') ->
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -306,7 +312,8 @@ environment('TreeEmpty') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment002'(_Config) ->
+'XQueryComment002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment002 :)
 (: Description: Simple use case for XQuery comments :)
 
@@ -316,10 +323,11 @@ environment('TreeEmpty') ->
 (: This is a comment :)
 (//fs:Folder)[1]/fs:File[1]/fs:FileName
 ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -328,7 +336,8 @@ environment('TreeEmpty') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment003'(_Config) ->
+'XQueryComment003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment003 :)
 (: Description: Simple use case for XQuery comment containing '-' :)
 
@@ -338,7 +347,8 @@ environment('TreeEmpty') ->
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -347,7 +357,8 @@ environment('TreeEmpty') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment004'(_Config) ->
+'XQueryComment004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment004 :)
 (: Description: Empty comment :)
 
@@ -357,7 +368,8 @@ environment('TreeEmpty') ->
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -366,7 +378,8 @@ environment('TreeEmpty') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment005'(_Config) ->
+'XQueryComment005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment004 :)
 (: Description: Comment containing only '-' :)
 
@@ -376,7 +389,8 @@ environment('TreeEmpty') ->
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -385,7 +399,8 @@ environment('TreeEmpty') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment006'(_Config) ->
+'XQueryComment006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment006 :)
 (: Description: Comment containing ':' :)
 
@@ -395,7 +410,8 @@ environment('TreeEmpty') ->
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -404,7 +420,8 @@ environment('TreeEmpty') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment007'(_Config) ->
+'XQueryComment007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment007 :)
 (: Description: Comment containing ')' :)
 
@@ -414,7 +431,8 @@ environment('TreeEmpty') ->
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -423,7 +441,8 @@ environment('TreeEmpty') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment008'(_Config) ->
+'XQueryComment008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment008 :)
 (: Description: Simple example of embedded comments :)
 
@@ -433,7 +452,8 @@ environment('TreeEmpty') ->
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -442,7 +462,8 @@ environment('TreeEmpty') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment009'(_Config) ->
+'XQueryComment009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment009 :)
 (: Description: Comments inside a conditional expression :)
 
@@ -452,10 +473,11 @@ if (:test (: yada (: neato :) :) :) (/fs:MyComputer)
 	then (: yada :) \"true\"
 	else \"false\"
 ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment009.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -464,7 +486,8 @@ if (:test (: yada (: neato :) :) :) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment010'(_Config) ->
+'XQueryComment010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 (: Name: XQueryComment010 :)
 (: Description: Comments inside a conditional expression :)
@@ -474,10 +497,11 @@ then (: this is the then case :) ( true() )
 else (: this is the else case :) ( false() )
 
 ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment010.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -486,7 +510,8 @@ else (: this is the else case :) ( false() )
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment011'(_Config) ->
+'XQueryComment011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment011 :)
 (: Description: Comments inside a conditional expression :)
 
@@ -497,10 +522,11 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 	else \"false\"
 
 ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment011.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -509,7 +535,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment012'(_Config) ->
+'XQueryComment012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment012 :)
 (: Description: Comments that looks like a function call :)
 
@@ -517,10 +544,11 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 /south(: test :)
 
 ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment012.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<south mark=\"s0\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -529,7 +557,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment013'(_Config) ->
+'XQueryComment013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment013 :)
 (: Description: Comments inside a sequence expression :)
 
@@ -539,7 +568,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -548,7 +578,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment014'(_Config) ->
+'XQueryComment014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment014 :)
 (: Description: Comments inside a cast expression :)
 
@@ -558,7 +589,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -567,7 +599,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment015'(_Config) ->
+'XQueryComment015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment015 :)
 (: Description: Incorrect comment syntax :)
 
@@ -576,7 +609,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 <empty/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -585,7 +619,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment016'(_Config) ->
+'XQueryComment016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment016 :)
 (: Description: Invalid comment :)
 
@@ -594,7 +629,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 <empty/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -603,7 +639,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment017'(_Config) ->
+'XQueryComment017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment017 :)
 (: Description: Invalid comment :)
 
@@ -612,7 +649,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 <empty/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -621,7 +659,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment018'(_Config) ->
+'XQueryComment018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment018 :)
 (: Description: Invalid comment :)
 
@@ -630,7 +669,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 <empty/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -639,7 +679,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment019'(_Config) ->
+'XQueryComment019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment019 :)
 (: Description: Old style comment syntax :)
 
@@ -648,7 +689,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 <empty/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -657,7 +699,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQueryComment020'(_Config) ->
+'XQueryComment020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: XQueryComment020 :)
 (: Description: Comment containing an enclosed expression :)
 
@@ -666,7 +709,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 <result/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQueryComment020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -675,7 +719,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-1'(_Config) ->
+'K-XQueryComment-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-1                               :)
 (: Written by: Frans Englich                             :)
@@ -685,7 +730,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 (3(: comment inbetween :)- 1) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -694,7 +740,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-2'(_Config) ->
+'K-XQueryComment-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-2                               :)
 (: Written by: Frans Englich                             :)
@@ -704,7 +751,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 1 (: a (: nested :) comment :) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -713,7 +761,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-3'(_Config) ->
+'K-XQueryComment-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-3                               :)
 (: Written by: Frans Englich                             :)
@@ -723,7 +772,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 1 (: comment (: inside :) comment :) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -732,7 +782,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-4'(_Config) ->
+'K-XQueryComment-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-4                               :)
 (: Written by: Frans Englich                             :)
@@ -743,7 +794,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 		    \"reminds of a comment :)\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -752,7 +804,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-5'(_Config) ->
+'K-XQueryComment-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-5                               :)
 (: Written by: Frans Englich                             :)
@@ -762,7 +815,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 5 instance (: strange place for a comment :) of item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -771,7 +825,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-6'(_Config) ->
+'K-XQueryComment-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-6                               :)
 (: Written by: Frans Englich                             :)
@@ -781,7 +836,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 1 (: simple comment :) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -790,7 +846,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-7'(_Config) ->
+'K-XQueryComment-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-7                               :)
 (: Written by: Frans Englich                             :)
@@ -801,7 +858,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 				NEW LINE comment :) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -810,7 +868,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-8'(_Config) ->
+'K-XQueryComment-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-8                               :)
 (: Written by: Frans Englich                             :)
@@ -821,7 +880,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 	balanced, this one is not :)\" :)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -830,7 +890,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-9'(_Config) ->
+'K-XQueryComment-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-9                               :)
 (: Written by: Frans Englich                             :)
@@ -840,7 +901,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 1 eq (::)1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -849,7 +911,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-10'(_Config) ->
+'K-XQueryComment-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-10                              :)
 (: Written by: Frans Englich                             :)
@@ -859,7 +922,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 (::) 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -868,7 +932,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-11'(_Config) ->
+'K-XQueryComment-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-11                              :)
 (: Written by: Frans Englich                             :)
@@ -878,7 +943,8 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
 true()(::)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -887,7 +953,8 @@ true()(::)",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-12'(_Config) ->
+'K-XQueryComment-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-12                              :)
 (: Written by: Frans Englich                             :)
@@ -897,7 +964,8 @@ true()(::)",
 for (: set up loop :) $i in 3 return $i eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -906,7 +974,8 @@ for (: set up loop :) $i in 3 return $i eq 3",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-13'(_Config) ->
+'K-XQueryComment-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-13                              :)
 (: Written by: Frans Englich                             :)
@@ -916,7 +985,8 @@ for (: set up loop :) $i in 3 return $i eq 3",
 if((: comment inbetween :)) then 1 else 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -925,7 +995,8 @@ if((: comment inbetween :)) then 1 else 1",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-14'(_Config) ->
+'K-XQueryComment-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-14                              :)
 (: Written by: Frans Englich                             :)
@@ -935,7 +1006,8 @@ if((: comment inbetween :)) then 1 else 1",
 1(: this comment does not end:",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -944,7 +1016,8 @@ if((: comment inbetween :)) then 1 else 1",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-15'(_Config) ->
+'K-XQueryComment-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-15                              :)
 (: Written by: Frans Englich                             :)
@@ -954,7 +1027,8 @@ if((: comment inbetween :)) then 1 else 1",
 1(: content (: this comment does not end :)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -963,7 +1037,8 @@ if((: comment inbetween :)) then 1 else 1",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-16'(_Config) ->
+'K-XQueryComment-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-16                              :)
 (: Written by: Frans Englich                             :)
@@ -973,7 +1048,8 @@ if((: comment inbetween :)) then 1 else 1",
 1(: content this comment does not start properly :) :)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -982,7 +1058,8 @@ if((: comment inbetween :)) then 1 else 1",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-17'(_Config) ->
+'K-XQueryComment-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-17                              :)
 (: Written by: Frans Englich                             :)
@@ -992,7 +1069,8 @@ if((: comment inbetween :)) then 1 else 1",
 1(: ((( : )) ))ladl:  :(): ()()(dahsi ()()( dad: ) :) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1001,7 +1079,8 @@ if((: comment inbetween :)) then 1 else 1",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-18'(_Config) ->
+'K-XQueryComment-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-18                              :)
 (: Written by: Frans Englich                             :)
@@ -1012,7 +1091,8 @@ if((: comment inbetween :)) then 1 else 1",
 			   eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1021,7 +1101,8 @@ if((: comment inbetween :)) then 1 else 1",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-19'(_Config) ->
+'K-XQueryComment-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-19                              :)
 (: Written by: Frans Englich                             :)
@@ -1031,7 +1112,8 @@ if((: comment inbetween :)) then 1 else 1",
 1(:(:(:(:(:(:(:(::):):):):):):):) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1040,7 +1122,8 @@ if((: comment inbetween :)) then 1 else 1",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-XQueryComment-20'(_Config) ->
+'K-XQueryComment-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-20                              :)
 (: Written by: Frans Englich                             :)
@@ -1050,7 +1133,8 @@ if((: comment inbetween :)) then 1 else 1",
 : :) 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-XQueryComment-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1059,7 +1143,8 @@ if((: comment inbetween :)) then 1 else 1",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-XQueryComment-1'(_Config) ->
+'K2-XQueryComment-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-XQueryComment-1                              :)
 (: Written by: Frans Englich                             :)
@@ -1074,7 +1159,8 @@ let $i := <e>
                               return $i/b(:  ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-XQueryComment-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1083,7 +1169,8 @@ let $i := <e>
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-XQueryComment-2'(_Config) ->
+'K2-XQueryComment-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-XQueryComment-2                              :)
 (: Written by: Frans Englich                             :)
@@ -1098,7 +1185,8 @@ let $i := <e>
                               return $i/b(: some : content (:some content  ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-XQueryComment-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1107,7 +1195,8 @@ let $i := <e>
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-XQueryComment-3'(_Config) ->
+'K2-XQueryComment-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-XQueryComment-3                              :)
 (: Written by: Frans Englich                             :)
@@ -1122,7 +1211,8 @@ let $i := <e>
                                         return $i/b/comment(: some : content (:some content:):){\"content\"}  ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-XQueryComment-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--content--><!--content--><!--content-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1131,7 +1221,8 @@ let $i := <e>
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-XQueryComment-4'(_Config) ->
+'K2-XQueryComment-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-XQueryComment-4                              :)
 (: Written by: Frans Englich                             :)
@@ -1146,7 +1237,8 @@ let $i := <e>
                                         return $i/(: some : content (:some content:):)<!--content-->  ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-XQueryComment-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--content-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1155,7 +1247,8 @@ let $i := <e>
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-XQueryComment-5'(_Config) ->
+'K2-XQueryComment-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-XQueryComment-5                              :)
 (: Written by: Frans Englich                             :)
@@ -1170,7 +1263,8 @@ let $i := <e>
                                         return $i/b/(: some : content (:some content:):)<!--content-->  ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-XQueryComment-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--content--><!--content--><!--content-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 

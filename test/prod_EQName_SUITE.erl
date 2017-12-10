@@ -54,9 +54,13 @@
 -export(['eqname-912'/1]).
 -export(['eqname-913'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'eqname-001',
    'eqname-002',
@@ -107,97 +111,97 @@ all() -> [
    'eqname-911',
    'eqname-912',
    'eqname-913'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -209,60 +213,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -270,11 +274,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'eqname-001'(_Config) ->
+'eqname-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{ (<my:a xmlns:my=\"http://www.example.com/ns/my\"><my:b>42</my:b></my:a>) / Q{http://www.example.com/ns/my}b }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><my:b xmlns:my=\"http://www.example.com/ns/my\">42</my:b></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -283,13 +289,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-002'(_Config) ->
+'eqname-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
             declare variable $Q{http://www.example.com/ns/my}var := 12; 
             <out>{$Q{http://www.example.com/ns/my}var}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>12</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -298,13 +306,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-003'(_Config) ->
+'eqname-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function Q{http://www.example.com/ns/my}fn ($a as xs:integer) as xs:integer { $a + 2 }; 
         <out>{Q{http://www.example.com/ns/my}fn(12)}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>14</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -313,11 +323,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-004'(_Config) ->
+'eqname-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:fn ($a as Q{http://www.w3.org/2001/XMLSchema}integer) as element(Q{http://www.example.com/ns/my}e) { <e xmlns=\"http://www.example.com/ns/my\">{$a}</e> }; <out>{local:fn(12)}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><e xmlns=\"http://www.example.com/ns/my\">12</e></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -326,11 +338,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-005'(_Config) ->
+'eqname-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare option Q{http://www.example.com/ns}option \"ignore me\"; <a/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -339,11 +353,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-006'(_Config) ->
+'eqname-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(# Q{http://www.example.com/ns}pragma ignore me #) {<a/>}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -352,14 +368,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-007'(_Config) ->
+'eqname-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare decimal-format Q{http://www.example.com/ns}format grouping-separator=\"'\"; 
         <a xmlns:ex=\"http://www.example.com/ns\">{format-number(1e9, \"#'###'###'##0.00\", 'ex:format')}</a>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a xmlns:ex=\"http://www.example.com/ns\">1'000'000'000.00</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -368,11 +386,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-008'(_Config) ->
+'eqname-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{ (<a xmlns:ex=\"http://www.example.com/ns\"><ex:b>93.7</ex:b></a>) /Q{http://www&#x2e;example&#x2E;com/ns}b }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><ex:b xmlns:ex=\"http://www.example.com/ns\">93.7</ex:b></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -381,11 +401,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-009'(_Config) ->
+'eqname-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{ (<a xmlns:ex=\"http://www.example.com/ ns\"><ex:b>93.7</ex:b></a>) /Q{ http://www.example.com/ ns }b/namespace-uri() }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>http://www.example.com/ ns</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -394,11 +416,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-010'(_Config) ->
+'eqname-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{ (<a xmlns:ex=\"http://www.example.com/ns?p='23'\"><ex:b>93.7</ex:b></a>) /Q{http://www.example.com/ns?p='23'}b }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><ex:b xmlns:ex=\"http://www.example.com/ns?p='23'\">93.7</ex:b></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -407,11 +431,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-011'(_Config) ->
+'eqname-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{ (<a xmlns:ex=\"http://www.example.com/ns?p='23'\"><ex:b>93.7</ex:b></a>) /Q{http://www.example.com/ns?p='23'}b }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><ex:b xmlns:ex=\"http://www.example.com/ns?p='23'\">93.7</ex:b></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -420,11 +446,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-012'(_Config) ->
+'eqname-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{ (<my:a xmlns:my=\"http://www.example.com/ns/my\"><my:b>42</my:b></my:a>) / Q{http://www.example.com/ns/my}* + 5 }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>47</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -433,11 +461,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-013'(_Config) ->
+'eqname-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out xmlns=\"http://www.example.com/one\">{ (<my:a xmlns:my=\"http://www.example.com/ns/my\"><my:b>42</my:b><b xmlns=\"\">93</b></my:a>) / Q{}* + 5 }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out xmlns=\"http://www.example.com/one\">98</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -446,12 +476,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-014'(_Config) ->
+'eqname-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string((//Q{http://www.example.com/AuctionWatch}Start)[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-014.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3.00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -460,12 +492,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-015'(_Config) ->
+'eqname-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $Q{http://example.com/ns}x in 1 to 10 return $Q{http://example.com/ns}x + 1",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-015.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 3 4 5 6 7 8 9 10 11") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -474,11 +508,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-016'(_Config) ->
+'eqname-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-join(<a foo=\"3\" bar=\"5\" xml:space=\"preserve\"/> / @Q{}*, '.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"3.5\"") of 
       true -> {comment, "Equal"};
@@ -495,11 +531,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-017'(_Config) ->
+'eqname-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-join(<a foo=\"3\" bar=\"5\" xml:space=\"preserve\"/> / @Q{http://www.w3.org/XML/1998/namespace}*, '.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"preserve\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -508,13 +546,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-018'(_Config) ->
+'eqname-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'eqname-019'(_Config) ->
+'eqname-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<?alpha?>, <?beta?>, <?gamma?>)/processing-instruction(Q{}alpha)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -523,11 +564,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-020'(_Config) ->
+'eqname-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "Q{  http://www.w3.org/2005/xpath-functions/math}pi()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"math:pi()") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -536,11 +579,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-021'(_Config) ->
+'eqname-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "Q{http://www.w3.org/2005/xpath-functions/math   }pi()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"math:pi()") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -549,13 +594,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-022'(_Config) ->
+'eqname-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "Q{  
          http://www.w3.org/2005/xpath-functions/math
          }pi()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"math:pi()") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -564,13 +611,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-023'(_Config) ->
+'eqname-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'eqname-024'(_Config) ->
+'eqname-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $Q{ urn:foo bar }x in 1 to 5 return $Q{urn:foo   bar}x + $Q{urn:foo bar}x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 4 6 8 10") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -579,11 +629,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-025'(_Config) ->
+'eqname-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $Q{}T in 1 to 5 return $Q{  }T + $T",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 4 6 8 10") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -592,12 +644,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-026'(_Config) ->
+'eqname-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string((//Q{  http://www.example.com/AuctionWatch  }Start)[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-026.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3.00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -606,15 +660,17 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-027'(_Config) ->
+'eqname-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(
          /Q{  http://www.example.com/AuctionWatch}AuctionWatchList/
          Q{   http://www.example.com/AuctionWatch}Auction[2]/
          @Q{  http://www.example.com/auctioneers#yabadoo}ID)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-027.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "13143816") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -623,16 +679,18 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-028'(_Config) ->
+'eqname-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          /Q{  http://www.example.com/AuctionWatch}AuctionWatchList/
          Q{   http://www.example.com/AuctionWatch}Auction[2]/
          @Q{  http://www.example.com/auctioneers
          #yabadoo}ID",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-028.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -641,11 +699,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-029'(_Config) ->
+'eqname-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "Q{http:&#x2F;&#x2F;www.w3.org&#x2F;2005&#x2F;xpath-functions&#x2F;math}pi()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"math:pi()") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -654,16 +714,19 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-029p'(_Config) ->
+'eqname-029p'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'eqname-030'(_Config) ->
+'eqname-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $f := function($Q{''}a, $Q{http:}a) { $Q{''}a + $Q{http:}a }
          return $f(15, 27)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"42") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -672,14 +735,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-031'(_Config) ->
+'eqname-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $Q{t:e:s:t}f := function($Q{''}a, $Q{http:}a) { $Q{''}a + $Q{http:}a }
          return $Q{t:e:s:t}f(15, 27)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"42") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -688,14 +753,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-032'(_Config) ->
+'eqname-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $Q{%7D}a := 12, $Q{}b := 13
          return $Q{%7D}a + $b
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"25") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -704,14 +771,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-033'(_Config) ->
+'eqname-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $Q{foo%20bar}a := 12, $Q{foo bar}a := 13
          return $Q{foo%20bar}a + $Q{  foo   bar  }a
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"25") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -720,14 +789,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-034'(_Config) ->
+'eqname-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $Q{$Q}a := 12, $Q{//}a := 13, $Q{*}a := 14
          return $Q{$Q}a + $Q{//}a + $Q{*}a
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-034.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -744,11 +815,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-901'(_Config) ->
+'eqname-901'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{ (<a xmlns:ex=\"http://www.example.com/ns?p='23'\"><ex:b>93.7</ex:b></a>) /Q{http://www.example.com/ns?p='23'}:b }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-901.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -757,11 +830,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-902'(_Config) ->
+'eqname-902'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{ (<a xmlns:ex=\"http://www.example.com/ns?p='23'\"><ex:b>93.7</ex:b></a>) /Q{http://www.example.com/ns?p='23'}}b }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-902.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -770,11 +845,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-903'(_Config) ->
+'eqname-903'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{ <Q{http://www.example.com/ns}/> }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-903.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -783,11 +860,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-904'(_Config) ->
+'eqname-904'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{ (<a xmlns:ex=\"http://www.example.com/ns?p='23'\"><ex:b>93.7</ex:b></a>) /Q{http://www.example.com/ns?p='23'}:b }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-904.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -796,11 +875,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-905'(_Config) ->
+'eqname-905'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "Q{http://www.w3.org/2005/xpath-functions/math}}pi()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-905.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -809,11 +890,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-906'(_Config) ->
+'eqname-906'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "Q{{http://www.w3.org/2005/xpath-functions/math}pi()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-906.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -822,11 +905,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-907'(_Config) ->
+'eqname-907'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "Q{http://www.w3.org/2005/xpath-functions/math pi()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-907.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -835,11 +920,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-908'(_Config) ->
+'eqname-908'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "Q{http://www.w3.org/2005/ xpath-functions/math}pi()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-908.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -848,11 +935,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-909'(_Config) ->
+'eqname-909'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "Q{&#x7D;http://www.w3.org/2005/xpath-functions/math}pi()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-909.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -869,14 +958,17 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-909p'(_Config) ->
+'eqname-909p'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'eqname-910'(_Config) ->
+'eqname-910'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/Q{ http://www.w3.org/2000/xmlns/}AuctionWatchList",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-910.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0070") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -885,12 +977,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-911'(_Config) ->
+'eqname-911'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/Q{###}SomeElement",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-911.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -907,12 +1001,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-912'(_Config) ->
+'eqname-912'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/Q{%gg}SomeElement",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-912.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -929,14 +1025,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'eqname-913'(_Config) ->
+'eqname-913'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $f := function($Q{ }a, $a) { 15 }
          return $f(1, 2)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "eqname-913.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0039") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

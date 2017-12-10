@@ -27,9 +27,13 @@
 -export(['Comp-notation-21'/1]).
 -export(['Comp-notation-22'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "op")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'Comp-notation-1',
    'Comp-notation-2',
@@ -53,97 +57,97 @@ all() -> [
    'Comp-notation-20',
    'Comp-notation-21',
    'Comp-notation-22'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -155,60 +159,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -216,59 +220,81 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('notation') ->
+environment('notation',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/NOTATION-equal/notation.xml",".",""}]},
-{schemas, [{"NOTATION-equal/notationschema.xsd","http://www.example.com/notation"}]},
+{sources, [{filename:join(BaseDir, "NOTATION-equal/notation.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "NOTATION-equal/notationschema.xsd"),"http://www.example.com/notation"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'Comp-notation-1'(_Config) ->
+'Comp-notation-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-2'(_Config) ->
+'Comp-notation-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-3'(_Config) ->
+'Comp-notation-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-4'(_Config) ->
+'Comp-notation-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-5'(_Config) ->
+'Comp-notation-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-6'(_Config) ->
+'Comp-notation-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-7'(_Config) ->
+'Comp-notation-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-8'(_Config) ->
+'Comp-notation-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-9'(_Config) ->
+'Comp-notation-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-10'(_Config) ->
+'Comp-notation-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-11'(_Config) ->
+'Comp-notation-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-12'(_Config) ->
+'Comp-notation-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-13'(_Config) ->
+'Comp-notation-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-14'(_Config) ->
+'Comp-notation-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-15'(_Config) ->
+'Comp-notation-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-16'(_Config) ->
+'Comp-notation-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-17'(_Config) ->
+'Comp-notation-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-18'(_Config) ->
+'Comp-notation-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-19'(_Config) ->
+'Comp-notation-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-20'(_Config) ->
+'Comp-notation-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-21'(_Config) ->
+'Comp-notation-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'Comp-notation-22'(_Config) ->
+'Comp-notation-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.

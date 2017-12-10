@@ -112,9 +112,13 @@
 -export(['cbcl-numeric-multiply-026'/1]).
 -export(['cbcl-numeric-multiply-027'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "op")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'op-numeric-multiplydec2args-1',
    'op-numeric-multiplydec2args-2',
@@ -223,97 +227,97 @@ all() -> [
    'cbcl-numeric-multiply-025',
    'cbcl-numeric-multiply-026',
    'cbcl-numeric-multiply-027'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -325,60 +329,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -386,11 +390,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'op-numeric-multiplydec2args-1'(_Config) ->
+'op-numeric-multiplydec2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.0000000000\") * xs:decimal(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplydec2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -399,11 +405,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplydec2args-2'(_Config) ->
+'op-numeric-multiplydec2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"617375191608514839\") * xs:decimal(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplydec2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -412,11 +420,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplydec2args-3'(_Config) ->
+'op-numeric-multiplydec2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"999999999999999999\") * xs:decimal(\"-1.0000000000\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplydec2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -425,11 +435,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplydec2args-4'(_Config) ->
+'op-numeric-multiplydec2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"0\") * xs:decimal(\"617375191608514839\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplydec2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -438,11 +450,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplydec2args-5'(_Config) ->
+'op-numeric-multiplydec2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.0000000000\") * xs:decimal(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplydec2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -451,11 +465,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplydbl2args-1'(_Config) ->
+'op-numeric-multiplydbl2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"-1.0000000000\") * xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplydbl2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1.7976931348623157E308") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -464,11 +480,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplydbl2args-2'(_Config) ->
+'op-numeric-multiplydbl2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"0\") * xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplydbl2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -477,11 +495,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplydbl2args-3'(_Config) ->
+'op-numeric-multiplydbl2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1.7976931348623157E308\") * xs:double(\"-1.0000000000\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplydbl2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1.7976931348623157E308") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -490,11 +510,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplydbl2args-4'(_Config) ->
+'op-numeric-multiplydbl2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"-1.7976931348623157E308\") * xs:double(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplydbl2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -503,11 +525,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplydbl2args-5'(_Config) ->
+'op-numeric-multiplydbl2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"-1.0000000000\") * xs:double(\"1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplydbl2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1.7976931348623157E308") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -516,11 +540,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyflt2args-1'(_Config) ->
+'op-numeric-multiplyflt2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-1.0000000000\") * xs:float(\"-3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyflt2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float(3.4028235E38)") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -529,11 +555,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyflt2args-2'(_Config) ->
+'op-numeric-multiplyflt2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"0\") * xs:float(\"-3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyflt2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -542,11 +570,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyflt2args-3'(_Config) ->
+'op-numeric-multiplyflt2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"3.4028235E38\") * xs:float(\"-1.0000000000\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyflt2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float(-3.4028235E38)") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -555,11 +585,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyflt2args-4'(_Config) ->
+'op-numeric-multiplyflt2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-3.4028235E38\") * xs:float(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyflt2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -568,11 +600,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyflt2args-5'(_Config) ->
+'op-numeric-multiplyflt2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-1.0000000000\") * xs:float(\"3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyflt2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float(-3.4028235E38)") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -581,11 +615,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyusht2args-1'(_Config) ->
+'op-numeric-multiplyusht2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") * xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyusht2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -594,11 +630,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyusht2args-2'(_Config) ->
+'op-numeric-multiplyusht2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(\"44633\") * xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyusht2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -607,11 +645,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyusht2args-3'(_Config) ->
+'op-numeric-multiplyusht2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(\"65535\") * xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyusht2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -620,11 +660,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyusht2args-4'(_Config) ->
+'op-numeric-multiplyusht2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") * xs:unsignedShort(\"44633\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyusht2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -633,11 +675,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyusht2args-5'(_Config) ->
+'op-numeric-multiplyusht2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") * xs:unsignedShort(\"65535\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyusht2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -646,11 +690,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplypint2args-1'(_Config) ->
+'op-numeric-multiplypint2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") * xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplypint2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -659,11 +705,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplypint2args-2'(_Config) ->
+'op-numeric-multiplypint2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(\"52704602390610033\") * xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplypint2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"52704602390610033") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -672,11 +720,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplypint2args-3'(_Config) ->
+'op-numeric-multiplypint2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(\"999999999999999999\") * xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplypint2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -685,11 +735,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplypint2args-4'(_Config) ->
+'op-numeric-multiplypint2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") * xs:positiveInteger(\"52704602390610033\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplypint2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"52704602390610033") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -698,11 +750,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplypint2args-5'(_Config) ->
+'op-numeric-multiplypint2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") * xs:positiveInteger(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplypint2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -711,11 +765,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyulng2args-1'(_Config) ->
+'op-numeric-multiplyulng2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") * xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyulng2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -724,11 +780,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyulng2args-2'(_Config) ->
+'op-numeric-multiplyulng2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(\"130747108607674654\") * xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyulng2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -737,11 +795,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyulng2args-3'(_Config) ->
+'op-numeric-multiplyulng2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(\"184467440737095516\") * xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyulng2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -750,11 +810,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyulng2args-4'(_Config) ->
+'op-numeric-multiplyulng2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") * xs:unsignedLong(\"130747108607674654\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyulng2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -763,11 +825,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplyulng2args-5'(_Config) ->
+'op-numeric-multiplyulng2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") * xs:unsignedLong(\"184467440737095516\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplyulng2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -776,11 +840,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplynpi2args-1'(_Config) ->
+'op-numeric-multiplynpi2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"0\") * xs:nonPositiveInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplynpi2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -789,11 +855,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplynpi2args-2'(_Config) ->
+'op-numeric-multiplynpi2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-999999999999999999\") * xs:nonPositiveInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplynpi2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -802,11 +870,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplynni2args-1'(_Config) ->
+'op-numeric-multiplynni2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") * xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplynni2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -815,11 +885,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplynni2args-2'(_Config) ->
+'op-numeric-multiplynni2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"303884545991464527\") * xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplynni2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -828,11 +900,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplynni2args-3'(_Config) ->
+'op-numeric-multiplynni2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"999999999999999999\") * xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplynni2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -841,11 +915,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplynni2args-4'(_Config) ->
+'op-numeric-multiplynni2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") * xs:nonNegativeInteger(\"303884545991464527\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplynni2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -854,11 +930,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplynni2args-5'(_Config) ->
+'op-numeric-multiplynni2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") * xs:nonNegativeInteger(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplynni2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -867,11 +945,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplymix2args-1'(_Config) ->
+'op-numeric-multiplymix2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 * ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplymix2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -888,11 +968,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplymix2args-2'(_Config) ->
+'op-numeric-multiplymix2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 * '1'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplymix2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -901,11 +983,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplymix2args-3'(_Config) ->
+'op-numeric-multiplymix2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 * xs:integer('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplymix2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -914,11 +998,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplymix2args-4'(_Config) ->
+'op-numeric-multiplymix2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 * <a> 2 </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplymix2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -927,11 +1013,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplymix2args-5'(_Config) ->
+'op-numeric-multiplymix2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 * <a> <b> 2 </b> </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplymix2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -940,11 +1028,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplymix2args-6'(_Config) ->
+'op-numeric-multiplymix2args-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 * <a> <b> 2</b> <c> 2</c> </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplymix2args-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -953,11 +1043,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplymix2args-7'(_Config) ->
+'op-numeric-multiplymix2args-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> 1 </a> * <b> 2 </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplymix2args-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -966,11 +1058,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplymix2args-8'(_Config) ->
+'op-numeric-multiplymix2args-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 * <a> x </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplymix2args-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -979,11 +1073,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiplymix2args-9'(_Config) ->
+'op-numeric-multiplymix2args-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 * <a/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiplymix2args-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -992,11 +1088,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-1'(_Config) ->
+'K-NumericMultiply-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(6) * xs:double(2) eq 12",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1005,11 +1103,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-2'(_Config) ->
+'K-NumericMultiply-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(6) * xs:decimal(2) eq 12",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1018,11 +1118,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-3'(_Config) ->
+'K-NumericMultiply-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(6) * xs:integer(2) eq 12",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1031,11 +1133,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-4'(_Config) ->
+'K-NumericMultiply-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(6) * xs:float(2) eq 12",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1044,11 +1148,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-5'(_Config) ->
+'K-NumericMultiply-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:decimal(6) * xs:integer(2)) instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1057,11 +1163,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-6'(_Config) ->
+'K-NumericMultiply-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:integer(6) * xs:decimal(2)) instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1070,11 +1178,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-7'(_Config) ->
+'K-NumericMultiply-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:integer(6) * xs:integer(2)) instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1083,11 +1193,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-8'(_Config) ->
+'K-NumericMultiply-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:decimal(6) * xs:decimal(2)) instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1096,11 +1208,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-9'(_Config) ->
+'K-NumericMultiply-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:decimal(6) * xs:float(2)) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1109,11 +1223,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-10'(_Config) ->
+'K-NumericMultiply-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:float(6) * xs:decimal(2)) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1122,11 +1238,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-11'(_Config) ->
+'K-NumericMultiply-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:float(6) * xs:integer(2)) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1135,11 +1253,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-12'(_Config) ->
+'K-NumericMultiply-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:integer(6) * xs:float(2)) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1148,11 +1268,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-13'(_Config) ->
+'K-NumericMultiply-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:float(6) * xs:float(2)) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1161,11 +1283,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-14'(_Config) ->
+'K-NumericMultiply-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:decimal(6) * xs:double(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1174,11 +1298,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-15'(_Config) ->
+'K-NumericMultiply-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:double(6) * xs:decimal(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1187,11 +1313,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-16'(_Config) ->
+'K-NumericMultiply-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:double(6) * xs:float(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1200,11 +1328,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-17'(_Config) ->
+'K-NumericMultiply-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:float(6) * xs:double(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1213,11 +1343,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-18'(_Config) ->
+'K-NumericMultiply-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:double(6) * xs:integer(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1226,11 +1358,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-19'(_Config) ->
+'K-NumericMultiply-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:integer(6) * xs:double(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1239,11 +1373,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-20'(_Config) ->
+'K-NumericMultiply-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:double(6) * xs:double(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1252,11 +1388,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-21'(_Config) ->
+'K-NumericMultiply-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(xs:float(\"NaN\") * 3) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1265,11 +1403,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-22'(_Config) ->
+'K-NumericMultiply-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(xs:double(\"NaN\") * 3) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1278,11 +1418,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-23'(_Config) ->
+'K-NumericMultiply-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(3 * xs:float(\"NaN\")) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1291,11 +1433,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-24'(_Config) ->
+'K-NumericMultiply-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(3 * xs:double(\"NaN\")) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1304,11 +1448,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-25'(_Config) ->
+'K-NumericMultiply-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/*5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1317,11 +1463,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-26'(_Config) ->
+'K-NumericMultiply-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/ * 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1330,11 +1478,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-27'(_Config) ->
+'K-NumericMultiply-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "4 + / * 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1343,11 +1493,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-28'(_Config) ->
+'K-NumericMultiply-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"3\" * \"3\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1356,11 +1508,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-29'(_Config) ->
+'K-NumericMultiply-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 * \"3\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1369,11 +1523,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-30'(_Config) ->
+'K-NumericMultiply-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(3 * xs:untypedAtomic(3)) eq 9",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1382,11 +1538,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-31'(_Config) ->
+'K-NumericMultiply-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:untypedAtomic(3) * 3) eq 9",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1395,11 +1553,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-32'(_Config) ->
+'K-NumericMultiply-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(() * ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1416,11 +1576,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NumericMultiply-33'(_Config) ->
+'K-NumericMultiply-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(() * 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericMultiply-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1437,7 +1599,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-numeric-multiply-1'(_Config) ->
+'op-numeric-multiply-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          for $x in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5)) 
          for $y in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5))
@@ -1445,7 +1608,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-multiply-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result[1] instance of xs:integer") of 
       true -> {comment, "Correct results"};
@@ -1554,13 +1718,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-001'(_Config) ->
+'cbcl-numeric-multiply-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
       	xs:double('NaN') * local:square(7)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1569,13 +1735,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-002'(_Config) ->
+'cbcl-numeric-multiply-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
       	local:square(7) * xs:double('NaN')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1584,13 +1752,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-003'(_Config) ->
+'cbcl-numeric-multiply-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
       	local:square(7) * 1e0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1599,13 +1769,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-004'(_Config) ->
+'cbcl-numeric-multiply-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
       	1e0 * local:square(7)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1614,13 +1786,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-005'(_Config) ->
+'cbcl-numeric-multiply-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
       	local:square(7) * -1e0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1629,13 +1803,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-006'(_Config) ->
+'cbcl-numeric-multiply-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
       	-1e0 * local:square(7)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1644,13 +1820,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-007'(_Config) ->
+'cbcl-numeric-multiply-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
       	xs:float('NaN') * local:square(7)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1659,13 +1837,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-008'(_Config) ->
+'cbcl-numeric-multiply-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
       	local:square(7) * xs:float('NaN')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1674,13 +1854,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-009'(_Config) ->
+'cbcl-numeric-multiply-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
       	local:square(7) * xs:float(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1689,13 +1871,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-010'(_Config) ->
+'cbcl-numeric-multiply-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
       	xs:float(1) * local:square(7)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1704,13 +1888,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-011'(_Config) ->
+'cbcl-numeric-multiply-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
       	local:square(7) * xs:float(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1719,13 +1905,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-012'(_Config) ->
+'cbcl-numeric-multiply-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
       	xs:float(-1) * local:square(7)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1734,13 +1922,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-013'(_Config) ->
+'cbcl-numeric-multiply-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
       	local:square(2.0) * 0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1749,13 +1939,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-014'(_Config) ->
+'cbcl-numeric-multiply-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
       	0.0 * local:square(7.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1764,13 +1956,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-015'(_Config) ->
+'cbcl-numeric-multiply-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
       	local:square(7.0) * 1.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1779,13 +1973,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-016'(_Config) ->
+'cbcl-numeric-multiply-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
       	1.0 * local:square(7.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1794,13 +1990,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-017'(_Config) ->
+'cbcl-numeric-multiply-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
       	local:square(7.0) * -1.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1809,13 +2007,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-018'(_Config) ->
+'cbcl-numeric-multiply-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
       	-1.0 * local:square(7.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1824,13 +2024,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-019'(_Config) ->
+'cbcl-numeric-multiply-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
       	local:square(2) * 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1839,13 +2041,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-020'(_Config) ->
+'cbcl-numeric-multiply-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
       	0 * local:square(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1854,13 +2058,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-021'(_Config) ->
+'cbcl-numeric-multiply-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
       	local:square(7) * 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1869,13 +2075,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-022'(_Config) ->
+'cbcl-numeric-multiply-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
       	1 * local:square(7)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1884,13 +2092,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-023'(_Config) ->
+'cbcl-numeric-multiply-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
       	local:square(7) * -1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1899,13 +2109,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-024'(_Config) ->
+'cbcl-numeric-multiply-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
       	-1 * local:square(7)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-49") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1914,13 +2126,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-025'(_Config) ->
+'cbcl-numeric-multiply-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
       	local:square(9223372036854775808.1) gt 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1937,13 +2151,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-026'(_Config) ->
+'cbcl-numeric-multiply-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
       	local:square(9223372036854775808) gt 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1960,13 +2176,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-numeric-multiply-027'(_Config) ->
+'cbcl-numeric-multiply-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:integer($x as xs:decimal) { if ($x mod 1 eq 0) then xs:integer($x) else $x }; 
       	(local:integer(2) * local:integer(2)) instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-numeric-multiply-027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 

@@ -256,9 +256,13 @@
 -export(['cbcl-fn-format-number-051'/1]).
 -export(['cbcl-fn-format-number-052'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'numberformat01',
    'numberformat02',
@@ -511,97 +515,97 @@ all() -> [
    'cbcl-fn-format-number-050',
    'cbcl-fn-format-number-051',
    'cbcl-fn-format-number-052'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -613,60 +617,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -674,11 +678,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'numberformat01'(_Config) ->
+'numberformat01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(2392.14*36.58,'000,000.000000')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat01.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "087,504.481200") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -687,11 +693,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat02'(_Config) ->
+'numberformat02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(12792.14*96.58,'##,###,000.000###')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat02.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1,235,464.8812") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -700,11 +708,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat03'(_Config) ->
+'numberformat03'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(2792.14*(-36.58),'000,000.000###')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat03.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-102,136.4812") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -713,11 +723,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat04'(_Config) ->
+'numberformat04'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(2392.14*(-36.58),'000,000.000###;###,###.000###')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat04.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "87,504.4812") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -726,11 +738,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat05'(_Config) ->
+'numberformat05'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(0.4857,'###.###%')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat05.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "48.57%") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -739,11 +753,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat06'(_Config) ->
+'numberformat06'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(0.4857,'###.###‰')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat06.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "485.7‰") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -752,11 +768,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat07'(_Config) ->
+'numberformat07'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(95.4857,'¤###.####')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat07.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "¤95.4857") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -765,11 +783,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat08'(_Config) ->
+'numberformat08'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(2.14*86.58,'PREFIX##00.000###SUFFIX')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat08.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PREFIX185.2812SUFFIX") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -778,14 +798,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat09'(_Config) ->
+'numberformat09'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(931.4857,'000.000|###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',"|"},
 {'grouping-separator',"."}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -794,7 +815,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat09.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "000.931|486") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -803,14 +825,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat11'(_Config) ->
+'numberformat11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(26931.4,'+!!!,!!!.!!!\\-!!,!!!.!!!')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'pattern-separator',"\\"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -819,7 +842,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat11.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "+26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -828,14 +852,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat12'(_Config) ->
+'numberformat12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(-26931.4,'+!!,!!!.!!!\\-!!!,!!!.!!!')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'pattern-separator',"\\"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -844,7 +869,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat12.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -853,14 +879,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat13'(_Config) ->
+'numberformat13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(-26931.4,'!!!,!!!.!!!')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'pattern-separator',"\\"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -869,7 +896,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat13.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -878,13 +906,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat14'(_Config) ->
+'numberformat14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1 div 0e0,'###############################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"off-the-scale"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -893,7 +922,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat14.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "off-the-scale") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -902,15 +932,17 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat15'(_Config) ->
+'numberformat15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"xpath-1.0-compatibility"}.
-'numberformat16'(_Config) ->
+'numberformat16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(0.4857,'###.###m')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'per-mille',"m"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -919,7 +951,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat16.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "485.7m") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -928,13 +961,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat17'(_Config) ->
+'numberformat17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(-26931.4,'+###,###.###;-###,###.###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -943,7 +977,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat17.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -952,13 +987,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat18'(_Config) ->
+'numberformat18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(-26931.4,'###,###.###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -967,7 +1003,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat18.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "_26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -976,14 +1013,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat19'(_Config) ->
+'numberformat19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "concat(format-number(-26931.4,'###,###.###','myminus'), '/',
             format-number(-42857.1,'###,###.###'))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"myminus",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -992,7 +1030,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat19.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "_26,931.4/-42,857.1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1001,7 +1040,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat20'(_Config) ->
+'numberformat20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1234.567,'#*###*###!###','foo:decimal1')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://foo.ns}decimal1",[{'decimal-separator',"!"},
 {'grouping-separator',"*"}]},
@@ -1010,7 +1050,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, [{"http://foo.ns","foo"}]},
@@ -1019,7 +1059,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat20.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1*234!567") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1028,14 +1069,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat26'(_Config) ->
+'numberformat26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(7654321.4857,'### ### ###,#####')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',","},
 {'grouping-separator'," "}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1044,7 +1086,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat26.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "7 654 321,4857") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1053,7 +1096,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat27'(_Config) ->
+'numberformat27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-join((format-number(2392.14*36.58,'000,000.000000','myminus'),
                         format-number(2392.14*36.58,'000,000.000000;###,###.000###'),
                         format-number(2392.14*36.58,'000,000.000000;###,###.000###','myminus')), ' ')
@@ -1062,7 +1106,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1071,7 +1115,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat27.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "087,504.481200 087,504.481200 087,504.481200") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1080,13 +1125,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat28'(_Config) ->
+'numberformat28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(2392.14*(-36.58),'000,000.000###;-###,###.000###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1095,7 +1141,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat28.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-87,504.4812") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1104,13 +1151,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat29'(_Config) ->
+'numberformat29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(-26931.4,'+###,###.###;_###,###.###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1119,7 +1167,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat29.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "_26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1128,7 +1177,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat30'(_Config) ->
+'numberformat30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-join((
                 format-number(-26931.4,'-###,###.###'),
                 format-number(-26931.4,'zzz-###,###.###','myminus'),
@@ -1137,7 +1187,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1146,7 +1196,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat30.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "--26,931.4 _zzz-26,931.4 __26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1155,13 +1206,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat31'(_Config) ->
+'numberformat31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(-26931.4,'###,###.###;###,###.###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1170,7 +1222,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat31.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "26,931.4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1179,13 +1232,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat32'(_Config) ->
+'numberformat32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(0.4857,'###.###c')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'percent',"c"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1194,7 +1248,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat32.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "48.57c") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1203,14 +1258,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat34'(_Config) ->
+'numberformat34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(4030201.0506,'#!!!,!!!,٠٠٠.٠٠٠٠٠٠0')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'zero-digit',"٠"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1219,7 +1275,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat34.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "#٤,٠٣٠,٢٠١.٠٥٠٦٠٠0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1228,13 +1285,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat35'(_Config) ->
+'numberformat35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(987654321,'###,##0,00.00')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1243,7 +1301,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat35.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "9876,543,21.00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1252,13 +1311,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat36'(_Config) ->
+'numberformat36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(239236.588,'00000.00')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1267,7 +1327,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat36.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "239236.59") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1276,13 +1337,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat37'(_Config) ->
+'numberformat37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1 div 0e0,'###############################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1291,7 +1353,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat37.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Infinity") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1300,15 +1363,17 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat38'(_Config) ->
+'numberformat38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"xpath-1.0-compatibility"}.
-'numberformat39'(_Config) ->
+'numberformat39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(-1 div 0e0,'###############################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1317,7 +1382,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat39.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-Infinity") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1326,13 +1392,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat40'(_Config) ->
+'numberformat40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(-1 div 0e0,'###############################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"huge"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1341,7 +1408,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat40.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-huge") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1350,15 +1418,19 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat41'(_Config) ->
+'numberformat41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"xpath-1.0-compatibility"}.
-'numberformat42'(_Config) ->
+'numberformat42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"xpath-1.0-compatibility"}.
-'numberformat60a'(_Config) ->
+'numberformat60a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E25,'#,######')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10,000000,000000,000000,000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1367,11 +1439,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60b'(_Config) ->
+'numberformat60b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E10,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60b.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1380,11 +1454,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60c'(_Config) ->
+'numberformat60c'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E11,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60c.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1393,11 +1469,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60d'(_Config) ->
+'numberformat60d'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E12,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60d.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1406,11 +1484,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60e'(_Config) ->
+'numberformat60e'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E13,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60e.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1419,11 +1499,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60f'(_Config) ->
+'numberformat60f'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E14,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60f.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1432,11 +1514,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60g'(_Config) ->
+'numberformat60g'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E15,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60g.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1445,11 +1529,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60h'(_Config) ->
+'numberformat60h'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E16,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60h.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1458,11 +1544,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60i'(_Config) ->
+'numberformat60i'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E17,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60i.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1471,11 +1559,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60j'(_Config) ->
+'numberformat60j'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E18,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60j.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1000000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1484,11 +1574,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60k'(_Config) ->
+'numberformat60k'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E19,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60k.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10000000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1497,11 +1589,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60l'(_Config) ->
+'numberformat60l'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E20,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60l.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100000000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1510,11 +1604,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60m'(_Config) ->
+'numberformat60m'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E25,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60m.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10000000000000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1523,11 +1619,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60n'(_Config) ->
+'numberformat60n'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E30,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60n.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1000000000000000000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1536,11 +1634,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60o'(_Config) ->
+'numberformat60o'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E35,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60o.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100000000000000000000000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1549,11 +1649,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60p'(_Config) ->
+'numberformat60p'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E100,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60p.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1562,11 +1664,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat60q'(_Config) ->
+'numberformat60q'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1E100 div 3,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat60q.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3333333333333333000000000000000000000000000000000000000000000000000000000000000000000000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1575,13 +1679,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat61'(_Config) ->
+'numberformat61'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number((),'###.###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1590,7 +1695,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat61.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1599,13 +1705,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat63'(_Config) ->
+'numberformat63'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(000123456789012345678901234567890.123456789012345678900000,     '##0.0####################################################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1614,7 +1721,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat63.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "123456789012345678901234567890.1234567890123456789") of 
       true -> {comment, "String correct"};
@@ -1631,13 +1739,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat64'(_Config) ->
+'numberformat64'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(000123456789012345678901234567890123456789012345678900000,     '# #0.0####################################################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'grouping-separator'," "}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1646,7 +1755,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat64.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 00 00.0") of 
       true -> {comment, "String correct"};
@@ -1663,14 +1773,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat65'(_Config) ->
+'numberformat65'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "concat(format-number(1234e0, '0000.####'), '|',
                     format-number(1234.00, '0000.####'))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'grouping-separator'," "}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1679,7 +1790,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat65.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1234|1234") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1688,14 +1800,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat70'(_Config) ->
+'numberformat70'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1234567890.123456,'𚶱000𚶰000')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',"𚶰"},
 {'grouping-separator',"𚶱"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1704,7 +1817,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat70.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1𚶱234𚶱567𚶱890𚶰123") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1713,13 +1827,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat71'(_Config) ->
+'numberformat71'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1234567890.123456,'##########𐒠.𐒠#####')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'zero-digit',"𐒠"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1728,7 +1843,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat71.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "𐒡𐒢𐒣𐒤𐒥𐒦𐒧𐒨𐒩𐒠.𐒡𐒢𐒣𐒤𐒥𐒦") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1737,13 +1853,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat72'(_Config) ->
+'numberformat72'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1234567890.123456,'000.000')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1752,7 +1869,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat72.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1234567890.123") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1761,13 +1879,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat80'(_Config) ->
+'numberformat80'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(12.34, '##.##')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1776,7 +1895,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat80.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12.34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1785,14 +1905,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat81'(_Config) ->
+'numberformat81'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(12.34, '0.000,00', ' b:test ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
 {'grouping-separator',"."}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, [{"http://a.ns/","a"},
@@ -1802,7 +1923,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat81.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.012,34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1811,7 +1933,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat82'(_Config) ->
+'numberformat82'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(12.34, '0.000,00', if (current-date() gt xs:date('1900-01-01')) then 'two' else 'one')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"one",[{'decimal-separator',"."},
 {'grouping-separator',","}]},
@@ -1820,7 +1943,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1829,7 +1952,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat82.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.012,34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1838,7 +1962,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat83'(_Config) ->
+'numberformat83'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(12.34, '0.000,00', concat(if (current-date() lt xs:date('1900-01-01')) then ' a' else ' b', ':one '))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}one",[{'decimal-separator',"."},
 {'grouping-separator',","}]},
@@ -1847,7 +1972,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, [{"http://a.ns/","a"},
@@ -1857,7 +1982,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat83.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.012,34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1866,13 +1992,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat84'(_Config) ->
+'numberformat84'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(123456789.34, '#,###.##')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1881,7 +2008,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat84.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123,456,789.34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1890,7 +2018,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat85'(_Config) ->
+'numberformat85'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-join((
                 format-number(0, '#'),
                 format-number(0.0, '#'),
@@ -1902,7 +2031,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1911,7 +2040,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat85.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0|0|0|0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1920,11 +2050,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat86'(_Config) ->
+'numberformat86'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(0.4857,'###.###%', ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat86.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "48.57%") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1933,14 +2065,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat87'(_Config) ->
+'numberformat87'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(12.34, '0.000,00', 'Q{http://a.ns/}test ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
 {'grouping-separator',"."}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1949,7 +2082,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat87.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.012,34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1958,14 +2092,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat88'(_Config) ->
+'numberformat88'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(12.34, '0.000,00', if (current-date() lt xs:date('1900-01-01')) then () else ' Q{http://a.ns/}test')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
 {'grouping-separator',"."}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1974,7 +2109,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat88.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.012,34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1983,11 +2119,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat89'(_Config) ->
+'numberformat89'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(12.34, '9,999.99')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat89.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0,012.34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1996,11 +2134,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat90'(_Config) ->
+'numberformat90'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(12.34, '#,##9.99')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat90.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12.34") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2009,11 +2149,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat91'(_Config) ->
+'numberformat91'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(42, '001')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat91.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "042") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2022,13 +2164,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat92'(_Config) ->
+'numberformat92'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '9.')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat92.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12346") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2037,13 +2181,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat93'(_Config) ->
+'numberformat93'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.000, '99999.')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat93.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2052,13 +2198,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat94'(_Config) ->
+'numberformat94'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '.9')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat94.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345.7") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2067,13 +2215,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat95'(_Config) ->
+'numberformat95'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat95.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2082,11 +2232,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat101'(_Config) ->
+'numberformat101'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(12345.678, '9.9999e999')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat101.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2346e004") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2095,11 +2247,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat102'(_Config) ->
+'numberformat102'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(12345.678, '9.9999E999')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat102.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2108,7 +2262,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat103'(_Config) ->
+'numberformat103'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare default decimal-format exponent-separator=\"E\";
       let $x := fn:format-number(12345.678, '9.9999E999')
@@ -2116,7 +2271,8 @@ environment('array-and-map') ->
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat103.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2346E004") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2125,7 +2281,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat104'(_Config) ->
+'numberformat104'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare default decimal-format exponent-separator=\"E\";
       let $x := fn:format-number(12345.678, '9.9999e999')
@@ -2133,7 +2290,8 @@ environment('array-and-map') ->
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat104.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2142,7 +2300,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat105'(_Config) ->
+'numberformat105'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare decimal-format exp-E exponent-separator=\"E\";
       let $x := fn:format-number(12345.678, '9.9999E999', 'exp-E')
@@ -2150,7 +2309,8 @@ environment('array-and-map') ->
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat105.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2346E004") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2159,7 +2319,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat106'(_Config) ->
+'numberformat106'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare decimal-format exp-e exponent-separator=\"e\";
       let $x := fn:format-number(12345.678, '9.9999E999', 'exp-e')
@@ -2167,7 +2328,8 @@ environment('array-and-map') ->
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat106.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2176,14 +2338,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat107'(_Config) ->
+'numberformat107'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345.678, '9.9999E999', 'BadFormat')
       return $x
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat107.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1280") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2192,14 +2356,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat108'(_Config) ->
+'numberformat108'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345.678, '9.99e99e99')
       return $x
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat108.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2208,7 +2374,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat109'(_Config) ->
+'numberformat109'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare decimal-format exp-bizarre exponent-separator=\"✐\";
       let $x := fn:format-number(12345.678, '9.9999✐999', 'exp-bizarre')
@@ -2216,7 +2383,8 @@ environment('array-and-map') ->
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat109.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2346✐004") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2225,14 +2393,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat110'(_Config) ->
+'numberformat110'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345.678, '9.9999e999%')
       return $x
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat110.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2241,7 +2411,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat111'(_Config) ->
+'numberformat111'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare decimal-format exp-p exponent-separator=\"%\";
       let $x := fn:format-number(12345.678, '9.9999%999', 'exp-p')
@@ -2249,7 +2420,8 @@ environment('array-and-map') ->
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat111.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0098") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2258,7 +2430,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat112'(_Config) ->
+'numberformat112'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare decimal-format exp-p percent=\"!\" exponent-separator=\"%\";
       let $x := fn:format-number(12345.678, '9.9999%999', 'exp-p')
@@ -2266,7 +2439,8 @@ environment('array-and-map') ->
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat112.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2346%004") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2275,14 +2449,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat113'(_Config) ->
+'numberformat113'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345.678, '9.9999eDog')
       return $x
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat113.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345.6780eDog") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2291,14 +2467,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat114'(_Config) ->
+'numberformat114'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345.678, '9.9999e,')
       return $x
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat114.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2307,14 +2485,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat115'(_Config) ->
+'numberformat115'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345, '9.9999e99')
       return $x
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat115.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2345e04") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2323,14 +2503,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat116'(_Config) ->
+'numberformat116'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $x := fn:format-number(5, '9.9999e99')
       return $x
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat116.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "5.0000e00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2339,14 +2521,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat117'(_Config) ->
+'numberformat117'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $x := fn:format-number(.05, '9.9999e99')
       return $x
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat117.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "5.0000e-02") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2355,14 +2539,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat118'(_Config) ->
+'numberformat118'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $x := fn:format-number(123.45E7, '9.9999e99')
       return $x
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat118.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2345e09") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2371,13 +2557,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat119'(_Config) ->
+'numberformat119'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.900001000020000345, '9.99999999999999999e99')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat119.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "9.00001000020000345e-01") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2386,13 +2574,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat120'(_Config) ->
+'numberformat120'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(123456789012345678, '9.99999999999999999e99')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat120.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.23456789012345678e17") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2401,7 +2591,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat121'(_Config) ->
+'numberformat121'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:timesTenToThe($n as xs:decimal, $exp as xs:integer) as xs:decimal {
         if ($exp eq 0)
@@ -2415,7 +2606,8 @@ environment('array-and-map') ->
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat121.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1.0000e5000") of 
       true -> {comment, "String correct"};
@@ -2432,7 +2624,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat122'(_Config) ->
+'numberformat122'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:timesTenToThe($n as xs:decimal, $exp as xs:integer) as xs:decimal {
         if ($exp eq 0)
@@ -2446,7 +2639,8 @@ environment('array-and-map') ->
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat122.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1.0000e-5000") of 
       true -> {comment, "String correct"};
@@ -2463,13 +2657,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat123'(_Config) ->
+'numberformat123'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1.0,'𐒠.𐒠e𐒠')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'zero-digit',"𐒠"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -2478,7 +2673,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat123.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "𐒡.𐒠e𐒠") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2487,14 +2683,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat124'(_Config) ->
+'numberformat124'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare decimal-format exp-E exponent-separator=\"x10^\";
       fn:format-number(12345.678, '9.9999x10^999', 'exp-E')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat124.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0097") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2503,14 +2701,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat125'(_Config) ->
+'numberformat125'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare decimal-format exp-E exponent-separator=\"e\" exponent-separator=\"E\";
       fn:format-number(12345.678, '9.9999E999', 'exp-E')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat125.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0114") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2519,14 +2719,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat126'(_Config) ->
+'numberformat126'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare decimal-format exp-E exponent-separator=\"#\";
       fn:format-number(12345.678, '9.9999#999', 'exp-E')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat126.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0098") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2535,17 +2737,21 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat127'(_Config) ->
+'numberformat127'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ30"}.
-'numberformat128'(_Config) ->
+'numberformat128'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ30 XP30"}.
-'numberformat129'(_Config) ->
+'numberformat129'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '999.99e99')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat129.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123.46e02") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2554,13 +2760,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat130'(_Config) ->
+'numberformat130'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#99.99e99')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat130.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12.35e03") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2569,13 +2777,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat131'(_Config) ->
+'numberformat131'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#.99e99')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat131.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.12e05") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2584,13 +2794,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat132'(_Config) ->
+'numberformat132'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0045.234, '#.#e99')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat132.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.5e02") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2599,13 +2811,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat133'(_Config) ->
+'numberformat133'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.#e9')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat133.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2614,13 +2828,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat134'(_Config) ->
+'numberformat134'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.999e9')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat134.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".200e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2629,13 +2845,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat135'(_Config) ->
+'numberformat135'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.e9')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat135.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2644,13 +2862,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat136'(_Config) ->
+'numberformat136'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '9e9')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat136.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2e-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2659,13 +2879,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat137'(_Config) ->
+'numberformat137'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '999.e99')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat137.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123e02") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2674,13 +2896,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat138'(_Config) ->
+'numberformat138'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '999e9')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat138.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123e2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2689,13 +2913,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat139'(_Config) ->
+'numberformat139'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '.e99')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat139.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2704,13 +2930,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat140'(_Config) ->
+'numberformat140'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(-12345.678, '999.99e99')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat140.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-123.46e02") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2719,13 +2947,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat141'(_Config) ->
+'numberformat141'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.00012345678, '9.99e99')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat141.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.23e-04") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2734,13 +2964,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat142'(_Config) ->
+'numberformat142'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(-0.00012345678, '9.99e99')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat142.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-1.23e-04") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2749,13 +2981,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat143'(_Config) ->
+'numberformat143'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '9.9999e99end')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat143.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2346e04end") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2764,13 +2998,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat144'(_Config) ->
+'numberformat144'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '9.9999e99e')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat144.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2346e04e") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2779,13 +3015,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat145'(_Config) ->
+'numberformat145'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '9.9999e99dog')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat145.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2346e04dog") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2794,13 +3032,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat146'(_Config) ->
+'numberformat146'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, 'end9.9999e99end')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat146.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "end1.2346e04end") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2809,13 +3049,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat150'(_Config) ->
+'numberformat150'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#,.##')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat150.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2824,13 +3066,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat151'(_Config) ->
+'numberformat151'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#.,##')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat151.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2839,13 +3083,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat152'(_Config) ->
+'numberformat152'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#,')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat152.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2854,13 +3100,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat153'(_Config) ->
+'numberformat153'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#,,###')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat153.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2869,14 +3117,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat154'(_Config) ->
+'numberformat154'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare default decimal-format zero-digit = \"٠\";
       format-number(1, '٠')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat154.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "١") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2885,14 +3135,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat155'(_Config) ->
+'numberformat155'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare default decimal-format zero-digit = \"٠\";
       format-number(1, '٠')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat155.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "١") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2901,13 +3153,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat156'(_Config) ->
+'numberformat156'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#.#,,#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat156.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2916,13 +3170,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat157'(_Config) ->
+'numberformat157'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.6789012345, '#.#,##,#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat157.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345.6,78,9") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2931,13 +3187,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat158'(_Config) ->
+'numberformat158'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(12345.6789012345, '#.##,##,##')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat158.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345.67,89,01") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2946,13 +3204,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat201'(_Config) ->
+'numberformat201'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat201.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2961,13 +3221,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat202'(_Config) ->
+'numberformat202'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat202.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2976,13 +3238,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat203'(_Config) ->
+'numberformat203'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat203.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2991,13 +3255,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat204'(_Config) ->
+'numberformat204'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat204.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3006,13 +3272,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat205'(_Config) ->
+'numberformat205'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat205.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3021,13 +3289,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat206'(_Config) ->
+'numberformat206'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '.#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat206.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3036,13 +3306,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat207'(_Config) ->
+'numberformat207'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat207.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3051,13 +3323,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat208'(_Config) ->
+'numberformat208'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '.0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat208.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3066,13 +3340,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat209'(_Config) ->
+'numberformat209'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat209.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3081,13 +3357,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat210'(_Config) ->
+'numberformat210'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat210.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3096,13 +3374,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat211'(_Config) ->
+'numberformat211'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat211.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3111,13 +3391,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat212'(_Config) ->
+'numberformat212'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat212.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3126,13 +3408,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat213'(_Config) ->
+'numberformat213'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat213.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3141,13 +3425,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat214'(_Config) ->
+'numberformat214'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat214.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3156,13 +3442,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat215'(_Config) ->
+'numberformat215'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat215.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3171,13 +3459,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat216'(_Config) ->
+'numberformat216'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat216.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3186,13 +3476,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat217'(_Config) ->
+'numberformat217'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat217.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3201,13 +3493,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat218'(_Config) ->
+'numberformat218'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat218.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3216,13 +3510,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat219'(_Config) ->
+'numberformat219'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat219.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3231,13 +3527,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat220'(_Config) ->
+'numberformat220'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat220.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3246,13 +3544,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat221'(_Config) ->
+'numberformat221'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, 'this.#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat221.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3261,13 +3561,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat222'(_Config) ->
+'numberformat222'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, 'this.#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat222.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this1.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3276,13 +3578,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat223'(_Config) ->
+'numberformat223'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, 'this.0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat223.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3291,13 +3595,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat224'(_Config) ->
+'numberformat224'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, 'this.0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat224.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this1.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3306,13 +3612,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat225'(_Config) ->
+'numberformat225'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.suffix')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat225.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0suffix") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3321,13 +3629,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat226'(_Config) ->
+'numberformat226'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.suffix')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat226.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1suffix") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3336,13 +3646,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat227'(_Config) ->
+'numberformat227'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '000.0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat227.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "000.2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3351,13 +3663,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat228'(_Config) ->
+'numberformat228'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0, '#.#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat228.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3366,13 +3680,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat229'(_Config) ->
+'numberformat229'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0, '.#')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat229.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3381,13 +3697,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat230'(_Config) ->
+'numberformat230'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(xs:integer(0), '###.###')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat230.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3396,13 +3714,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat231'(_Config) ->
+'numberformat231'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat231.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3411,13 +3731,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat232'(_Config) ->
+'numberformat232'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat232.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.1e1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3426,13 +3748,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat233'(_Config) ->
+'numberformat233'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat233.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2e-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3441,13 +3765,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat234'(_Config) ->
+'numberformat234'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat234.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3456,13 +3782,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat235'(_Config) ->
+'numberformat235'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat235.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3471,13 +3799,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat236'(_Config) ->
+'numberformat236'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '.#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat236.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".1e1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3486,13 +3816,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat237'(_Config) ->
+'numberformat237'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat237.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3501,13 +3833,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat238'(_Config) ->
+'numberformat238'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat238.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".1e1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3516,13 +3850,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat239'(_Config) ->
+'numberformat239'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat239.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3531,13 +3867,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat240'(_Config) ->
+'numberformat240'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat240.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.1e1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3546,13 +3884,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat241'(_Config) ->
+'numberformat241'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat241.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2.0e-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3561,13 +3901,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat242'(_Config) ->
+'numberformat242'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat242.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3576,13 +3918,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat243'(_Config) ->
+'numberformat243'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat243.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2e-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3591,13 +3935,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat244'(_Config) ->
+'numberformat244'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat244.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3606,13 +3952,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat245'(_Config) ->
+'numberformat245'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat245.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3621,13 +3969,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat246'(_Config) ->
+'numberformat246'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat246.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.1e1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3636,13 +3986,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat247'(_Config) ->
+'numberformat247'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat247.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3651,13 +4003,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat248'(_Config) ->
+'numberformat248'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat248.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.1e1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3666,13 +4020,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat249'(_Config) ->
+'numberformat249'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat249.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2e-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3681,13 +4037,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat250'(_Config) ->
+'numberformat250'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat250.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3696,13 +4054,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat251'(_Config) ->
+'numberformat251'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, 'this.#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat251.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this.2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3711,13 +4071,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat252'(_Config) ->
+'numberformat252'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, 'this.#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat252.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this.1e1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3726,13 +4088,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat253'(_Config) ->
+'numberformat253'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, 'this.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat253.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this.2e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3741,13 +4105,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat254'(_Config) ->
+'numberformat254'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(1.2, 'this.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat254.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this.1e1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3756,13 +4122,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat255'(_Config) ->
+'numberformat255'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '000.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat255.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "200.0e-3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3771,13 +4139,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat261'(_Config) ->
+'numberformat261'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.002, '.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat261.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".2e-2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3786,13 +4156,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat262'(_Config) ->
+'numberformat262'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.002, '.000e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat262.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".200e-2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3801,13 +4173,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat263'(_Config) ->
+'numberformat263'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.002, '#.###e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat263.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.2e-2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3816,13 +4190,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat301'(_Config) ->
+'numberformat301'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.99999999, '.#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat301.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.0e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3831,13 +4207,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat302'(_Config) ->
+'numberformat302'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.99999999, '.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat302.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.0e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3846,13 +4224,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat303'(_Config) ->
+'numberformat303'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.99999999, '#.#e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat303.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1e0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3861,13 +4241,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat304'(_Config) ->
+'numberformat304'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       fn:format-number(0.99999999, '0.0e0')
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat304.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10.0e-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3876,13 +4258,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat901err'(_Config) ->
+'numberformat901err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare default decimal-format decimal-separator=\"!\" grouping-separator=\"!\";
         format-number(931.4857,'###!###!###')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat901err.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0098") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3891,13 +4275,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat902err'(_Config) ->
+'numberformat902err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(931.4857,'000.##0')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -3906,7 +4291,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat902err.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3915,14 +4301,15 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat905err'(_Config) ->
+'numberformat905err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(931.4857,'fred.ginger', 'q')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"q",[{'decimal-separator',"."},
 {'grouping-separator',","}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -3931,7 +4318,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat905err.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1310") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3940,13 +4328,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat906InputErr'(_Config) ->
+'numberformat906InputErr'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number('abc','000.##0')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -3955,7 +4344,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat906InputErr.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3964,13 +4354,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformat907InputErr'(_Config) ->
+'numberformat907InputErr'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(931.45, 931.45)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -3979,7 +4370,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformat907InputErr.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3988,13 +4380,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformatFODF1280'(_Config) ->
+'numberformatFODF1280'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(931.45, '000.##0', 'foo:bar')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -4003,7 +4396,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformatFODF1280.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODF1280") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4012,13 +4406,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'numberformatNaN'(_Config) ->
+'numberformatNaN'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(number(\"abc\"),'#############')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -4027,7 +4422,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "numberformatNaN.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4036,13 +4432,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-001'(_Config) ->
+'cbcl-fn-format-number-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(number(\"abc\"),'PREFIX#SUFFIX')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -4051,7 +4448,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-001.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4060,13 +4458,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-002'(_Config) ->
+'cbcl-fn-format-number-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(0 div xs:double(\"INF\"), '#')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -4075,7 +4474,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4084,13 +4484,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-003'(_Config) ->
+'cbcl-fn-format-number-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(0 div xs:double(\"-INF\"), '#')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -4099,7 +4500,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-003.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4108,13 +4510,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-004'(_Config) ->
+'cbcl-fn-format-number-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1 div 0e0,'PREFIX#SUFFIX')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -4123,7 +4526,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PREFIXINFSUFFIX") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4132,13 +4536,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-005'(_Config) ->
+'cbcl-fn-format-number-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -4147,7 +4552,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-005.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-PREFIXINFSUFFIX") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4156,13 +4562,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-006'(_Config) ->
+'cbcl-fn-format-number-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX;prefix#suffix')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -4171,7 +4578,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-006.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "prefixINFsuffix") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4180,13 +4588,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-007'(_Config) ->
+'cbcl-fn-format-number-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX;prefix#suffix')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -4195,7 +4604,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-007.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "prefixINFsuffix") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4204,13 +4614,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-008'(_Config) ->
+'cbcl-fn-format-number-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(1e2,'#,000')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -4219,7 +4630,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4228,13 +4640,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-009'(_Config) ->
+'cbcl-fn-format-number-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(100,'#,000')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -4243,7 +4656,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-009.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4252,11 +4666,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-010'(_Config) ->
+'cbcl-fn-format-number-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0.9952832031249997'), '###,##0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4265,11 +4681,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-011'(_Config) ->
+'cbcl-fn-format-number-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '#,#')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1,2,3,4,5,6,7,8,9") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4278,11 +4696,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-012'(_Config) ->
+'cbcl-fn-format-number-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '#,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4291,11 +4711,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-013'(_Config) ->
+'cbcl-fn-format-number-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '##,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4304,11 +4726,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-014'(_Config) ->
+'cbcl-fn-format-number-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '#,##,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4317,11 +4741,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-015'(_Config) ->
+'cbcl-fn-format-number-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '###,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345,67,89") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4330,11 +4756,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-016'(_Config) ->
+'cbcl-fn-format-number-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '####,###,##,0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123,456,78,9") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4343,11 +4771,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-017'(_Config) ->
+'cbcl-fn-format-number-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('79228162514264337593543950335'), '0%')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0001") of 
       true -> {comment, "Correct error"};
@@ -4368,11 +4798,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-018'(_Config) ->
+'cbcl-fn-format-number-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '.#')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4381,11 +4813,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-019'(_Config) ->
+'cbcl-fn-format-number-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '#.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4394,11 +4828,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-020'(_Config) ->
+'cbcl-fn-format-number-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '.0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4407,11 +4843,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-021'(_Config) ->
+'cbcl-fn-format-number-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '0.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4420,12 +4858,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-022'(_Config) ->
+'cbcl-fn-format-number-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('1.10203040506070809'), 
                                      '0.00000000000000000%')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "110.20304050607080900%") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4434,11 +4874,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-023'(_Config) ->
+'cbcl-fn-format-number-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '#,#')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1,2,3,4,5,6,7,8,9") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4447,11 +4889,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-024'(_Config) ->
+'cbcl-fn-format-number-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '#,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4460,11 +4904,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-025'(_Config) ->
+'cbcl-fn-format-number-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '##,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4473,11 +4919,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-026'(_Config) ->
+'cbcl-fn-format-number-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '#,##,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1,23,45,67,89") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4486,11 +4934,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-027'(_Config) ->
+'cbcl-fn-format-number-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '###,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345,67,89") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4499,11 +4949,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-028'(_Config) ->
+'cbcl-fn-format-number-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '####,###,##,0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123,456,78,9") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4512,11 +4964,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-029'(_Config) ->
+'cbcl-fn-format-number-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '####,###,##,0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123,456,78,9") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4525,11 +4979,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-030'(_Config) ->
+'cbcl-fn-format-number-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0'), '.#')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4538,11 +4994,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-031'(_Config) ->
+'cbcl-fn-format-number-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0'), '#.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4551,11 +5009,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-032'(_Config) ->
+'cbcl-fn-format-number-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0'), '.0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4564,11 +5024,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-033'(_Config) ->
+'cbcl-fn-format-number-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0'), '0.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4577,11 +5039,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-034'(_Config) ->
+'cbcl-fn-format-number-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('1e308'), '0%')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-034.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Infinity%") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4590,7 +5054,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-035'(_Config) ->
+'cbcl-fn-format-number-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "substring-after(
               format-number(xs:double('1.102030405060708090'),
                                     '0.00000000000000000‰'),
@@ -4598,7 +5063,8 @@ environment('array-and-map') ->
                                     '0.00000000000000000')) eq '‰'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-035.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4607,11 +5073,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-036'(_Config) ->
+'cbcl-fn-format-number-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('-1e308'), '0%')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-036.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-Infinity%") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4620,11 +5088,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-037'(_Config) ->
+'cbcl-fn-format-number-037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('-79228162514264337593543950335'), '0%')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-037.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0001") of 
       true -> {comment, "Correct error"};
@@ -4645,11 +5115,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-038'(_Config) ->
+'cbcl-fn-format-number-038'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0.1'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-038.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.10") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4658,11 +5130,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-039'(_Config) ->
+'cbcl-fn-format-number-039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0.01'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-039.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.01") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4671,11 +5145,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-040'(_Config) ->
+'cbcl-fn-format-number-040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0'), '#.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-040.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4684,11 +5160,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-041'(_Config) ->
+'cbcl-fn-format-number-041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0'), '#.##')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-041.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4697,11 +5175,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-042'(_Config) ->
+'cbcl-fn-format-number-042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-042.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4710,11 +5190,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-043'(_Config) ->
+'cbcl-fn-format-number-043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0.1'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-043.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.10") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4723,11 +5205,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-044'(_Config) ->
+'cbcl-fn-format-number-044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0.01'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-044.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.01") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4736,11 +5220,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-045'(_Config) ->
+'cbcl-fn-format-number-045'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0.01'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-045.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.01") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4749,11 +5235,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-046'(_Config) ->
+'cbcl-fn-format-number-046'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0.01'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-046.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.01") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4762,11 +5250,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-047'(_Config) ->
+'cbcl-fn-format-number-047'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0'), '#.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-047.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4775,11 +5265,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-048'(_Config) ->
+'cbcl-fn-format-number-048'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '#.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-048.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4788,11 +5280,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-049'(_Config) ->
+'cbcl-fn-format-number-049'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '###,###.##')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-049.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4801,11 +5295,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-050'(_Config) ->
+'cbcl-fn-format-number-050'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0'), '###,###.##')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-050.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4814,11 +5310,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-051'(_Config) ->
+'cbcl-fn-format-number-051'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:decimal('0.1'), '###,###.##')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-051.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4827,11 +5325,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-format-number-052'(_Config) ->
+'cbcl-fn-format-number-052'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-number(xs:double('0.1'), '###,###.##')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-format-number-052.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

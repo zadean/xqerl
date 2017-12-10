@@ -133,9 +133,13 @@
 -export(['cbcl-round-half-to-even-013'/1]).
 -export(['cbcl-round-half-to-even-014'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-round-half-to-evenint1args-1',
    'fn-round-half-to-evenint1args-2',
@@ -265,97 +269,97 @@ all() -> [
    'cbcl-round-half-to-even-012',
    'cbcl-round-half-to-even-013',
    'cbcl-round-half-to-even-014'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -367,60 +371,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -428,11 +432,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'fn-round-half-to-evenint1args-1'(_Config) ->
+'fn-round-half-to-evenint1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:int(\"-2147483648\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenint1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-2147483648") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -441,11 +447,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenint1args-2'(_Config) ->
+'fn-round-half-to-evenint1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:int(\"-1873914410\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenint1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1873914410") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -454,11 +462,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenint1args-3'(_Config) ->
+'fn-round-half-to-evenint1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:int(\"2147483647\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenint1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2147483647") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -467,11 +477,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenintg1args-1'(_Config) ->
+'fn-round-half-to-evenintg1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:integer(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenintg1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -480,11 +492,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenintg1args-2'(_Config) ->
+'fn-round-half-to-evenintg1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:integer(\"830993497117024304\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenintg1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"830993497117024304") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -493,11 +507,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenintg1args-3'(_Config) ->
+'fn-round-half-to-evenintg1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:integer(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenintg1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -506,11 +522,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evendec1args-1'(_Config) ->
+'fn-round-half-to-evendec1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:decimal(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evendec1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -519,11 +537,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evendec1args-2'(_Config) ->
+'fn-round-half-to-evendec1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:decimal(\"617375191608514839\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evendec1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"617375191608514839") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -532,11 +552,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evendec1args-3'(_Config) ->
+'fn-round-half-to-evendec1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:decimal(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evendec1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -545,11 +567,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evendbl1args-1'(_Config) ->
+'fn-round-half-to-evendbl1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:double(\"-1.7976931348623157E308\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evendbl1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1.7976931348623157E308") of 
       true -> {comment, "Equal"};
@@ -566,11 +590,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evendbl1args-2'(_Config) ->
+'fn-round-half-to-evendbl1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:double(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evendbl1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -579,11 +605,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evendbl1args-3'(_Config) ->
+'fn-round-half-to-evendbl1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:double(\"1.7976931348623157E308\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evendbl1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1.7976931348623157E308") of 
       true -> {comment, "Equal"};
@@ -600,11 +628,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenflt1args-1'(_Config) ->
+'fn-round-half-to-evenflt1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:float(\"-3.4028235E38\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenflt1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"xs:float(\"-3.4028235E38\")") of 
       true -> {comment, "Equal"};
@@ -621,11 +651,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenflt1args-2'(_Config) ->
+'fn-round-half-to-evenflt1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:float(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenflt1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -634,11 +666,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenflt1args-3'(_Config) ->
+'fn-round-half-to-evenflt1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:float(\"3.4028235E38\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenflt1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"xs:float(\"3.4028235E38\")") of 
       true -> {comment, "Equal"};
@@ -655,11 +689,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenlng1args-1'(_Config) ->
+'fn-round-half-to-evenlng1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:long(\"-92233720368547758\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenlng1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-92233720368547758") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -668,11 +704,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenlng1args-2'(_Config) ->
+'fn-round-half-to-evenlng1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:long(\"-47175562203048468\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenlng1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-47175562203048468") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -681,11 +719,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenlng1args-3'(_Config) ->
+'fn-round-half-to-evenlng1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:long(\"92233720368547758\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenlng1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -694,11 +734,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenusht1args-1'(_Config) ->
+'fn-round-half-to-evenusht1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:unsignedShort(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenusht1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -707,11 +749,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenusht1args-2'(_Config) ->
+'fn-round-half-to-evenusht1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:unsignedShort(\"44633\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenusht1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"44633") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -720,11 +764,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenusht1args-3'(_Config) ->
+'fn-round-half-to-evenusht1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:unsignedShort(\"65535\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenusht1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"65535") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -733,11 +779,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evennint1args-1'(_Config) ->
+'fn-round-half-to-evennint1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:negativeInteger(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evennint1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -746,11 +794,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evennint1args-2'(_Config) ->
+'fn-round-half-to-evennint1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:negativeInteger(\"-297014075999096793\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evennint1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-297014075999096793") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -759,11 +809,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evennint1args-3'(_Config) ->
+'fn-round-half-to-evennint1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:negativeInteger(\"-1\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evennint1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -772,11 +824,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenpint1args-1'(_Config) ->
+'fn-round-half-to-evenpint1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:positiveInteger(\"1\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenpint1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -785,11 +839,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenpint1args-2'(_Config) ->
+'fn-round-half-to-evenpint1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:positiveInteger(\"52704602390610033\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenpint1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"52704602390610033") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -798,11 +854,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenpint1args-3'(_Config) ->
+'fn-round-half-to-evenpint1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:positiveInteger(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenpint1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -811,11 +869,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenulng1args-1'(_Config) ->
+'fn-round-half-to-evenulng1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:unsignedLong(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenulng1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -824,11 +884,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenulng1args-2'(_Config) ->
+'fn-round-half-to-evenulng1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:unsignedLong(\"130747108607674654\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenulng1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"130747108607674654") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -837,11 +899,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evenulng1args-3'(_Config) ->
+'fn-round-half-to-evenulng1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:unsignedLong(\"184467440737095516\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evenulng1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"184467440737095516") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -850,11 +914,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evennpi1args-1'(_Config) ->
+'fn-round-half-to-evennpi1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:nonPositiveInteger(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evennpi1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -863,11 +929,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evennpi1args-2'(_Config) ->
+'fn-round-half-to-evennpi1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:nonPositiveInteger(\"-475688437271870490\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evennpi1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-475688437271870490") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -876,11 +944,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evennpi1args-3'(_Config) ->
+'fn-round-half-to-evennpi1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:nonPositiveInteger(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evennpi1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -889,11 +959,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evennni1args-1'(_Config) ->
+'fn-round-half-to-evennni1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:nonNegativeInteger(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evennni1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -902,11 +974,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evennni1args-2'(_Config) ->
+'fn-round-half-to-evennni1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:nonNegativeInteger(\"303884545991464527\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evennni1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"303884545991464527") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -915,11 +989,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evennni1args-3'(_Config) ->
+'fn-round-half-to-evennni1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:nonNegativeInteger(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evennni1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -928,11 +1004,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evensht1args-1'(_Config) ->
+'fn-round-half-to-evensht1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:short(\"-32768\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evensht1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-32768") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -941,11 +1019,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evensht1args-2'(_Config) ->
+'fn-round-half-to-evensht1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:short(\"-5324\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evensht1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-5324") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -954,11 +1034,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-evensht1args-3'(_Config) ->
+'fn-round-half-to-evensht1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:short(\"32767\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-evensht1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"32767") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -967,11 +1049,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundEvenFunc-1'(_Config) ->
+'K-RoundEvenFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundEvenFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -980,11 +1064,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundEvenFunc-2'(_Config) ->
+'K-RoundEvenFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(1.1, 3, \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundEvenFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -993,11 +1079,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundEvenFunc-3'(_Config) ->
+'K-RoundEvenFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(round-half-to-even(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundEvenFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1006,11 +1094,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundEvenFunc-4'(_Config) ->
+'K-RoundEvenFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(round-half-to-even((), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundEvenFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1019,11 +1109,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundEvenFunc-5'(_Config) ->
+'K-RoundEvenFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(\"a string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundEvenFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1032,11 +1124,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-1'(_Config) ->
+'K2-RoundEvenFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(1) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1045,11 +1139,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-2'(_Config) ->
+'K2-RoundEvenFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(1.0) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1058,11 +1154,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-3'(_Config) ->
+'K2-RoundEvenFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(0.5) eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1071,11 +1169,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-4'(_Config) ->
+'K2-RoundEvenFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(1.5) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1084,11 +1184,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-5'(_Config) ->
+'K2-RoundEvenFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(2.5) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1097,11 +1199,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-6'(_Config) ->
+'K2-RoundEvenFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(3.567812E+3, 2) eq 3567.81E0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1110,11 +1214,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-7'(_Config) ->
+'K2-RoundEvenFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(4.7564E-3, 2) eq 0.0E0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1123,11 +1229,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-8'(_Config) ->
+'K2-RoundEvenFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(35612.25, -2) eq 35600",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1136,11 +1244,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-9'(_Config) ->
+'K2-RoundEvenFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:double(\"-0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1149,11 +1259,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-10'(_Config) ->
+'K2-RoundEvenFunc-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:float(\"-0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1162,11 +1274,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-11'(_Config) ->
+'K2-RoundEvenFunc-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1175,11 +1289,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-12'(_Config) ->
+'K2-RoundEvenFunc-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1188,11 +1304,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-13'(_Config) ->
+'K2-RoundEvenFunc-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1201,11 +1319,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-14'(_Config) ->
+'K2-RoundEvenFunc-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1214,11 +1334,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-15'(_Config) ->
+'K2-RoundEvenFunc-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1227,11 +1349,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-16'(_Config) ->
+'K2-RoundEvenFunc-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1240,11 +1364,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-17'(_Config) ->
+'K2-RoundEvenFunc-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:unsignedShort(\"0\")) instance of xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1261,11 +1387,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-18'(_Config) ->
+'K2-RoundEvenFunc-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:unsignedLong(\"0\")) instance of xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1282,11 +1410,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-19'(_Config) ->
+'K2-RoundEvenFunc-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:unsignedInt(\"0\")) instance of xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1303,11 +1433,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-20'(_Config) ->
+'K2-RoundEvenFunc-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:unsignedByte(\"0\")) instance of xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1324,11 +1456,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-21'(_Config) ->
+'K2-RoundEvenFunc-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:positiveInteger(\"1\")) instance of xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1345,11 +1479,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-22'(_Config) ->
+'K2-RoundEvenFunc-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:nonPositiveInteger(\"0\")) instance of xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1366,11 +1502,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-23'(_Config) ->
+'K2-RoundEvenFunc-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:nonNegativeInteger(\"0\")) instance of xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1387,11 +1525,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-24'(_Config) ->
+'K2-RoundEvenFunc-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:negativeInteger(\"-1\")) instance of xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1408,11 +1548,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-25'(_Config) ->
+'K2-RoundEvenFunc-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:long(\"0\")) instance of xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1429,11 +1571,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-26'(_Config) ->
+'K2-RoundEvenFunc-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:int(\"0\")) instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1450,11 +1594,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-27'(_Config) ->
+'K2-RoundEvenFunc-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:short(\"0\")) instance of xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1471,11 +1617,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundEvenFunc-28'(_Config) ->
+'K2-RoundEvenFunc-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:byte(\"0\")) instance of xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundEvenFunc-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1492,7 +1640,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-1'(_Config) ->
+'fn-round-half-to-even-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in (1, xs:decimal(2), xs:float(3), xs:double(4)) 
             return if ((round-half-to-even($x)) instance of xs:integer) then \"integer\" 
            else if ((round-half-to-even($x)) instance of xs:decimal) then \"decimal\" 
@@ -1501,7 +1650,8 @@ environment('array-and-map') ->
            else error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"integer\", \"decimal\", \"float\", \"double\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1510,7 +1660,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-2'(_Config) ->
+'fn-round-half-to-even-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in (1, xs:decimal(2), xs:float(3), xs:double(4)) 
             return if ((round-half-to-even($x,1)) instance of xs:integer) then \"integer\" 
            else if ((round-half-to-even($x,1)) instance of xs:decimal) then \"decimal\" 
@@ -1519,7 +1670,8 @@ environment('array-and-map') ->
            else error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"integer\", \"decimal\", \"float\", \"double\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1528,11 +1680,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-3'(_Config) ->
+'fn-round-half-to-even-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(1.234567, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1.23") of 
       true -> {comment, "Equal"};
@@ -1549,11 +1703,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-4'(_Config) ->
+'fn-round-half-to-even-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(1.000005e0, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1570,11 +1726,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-5'(_Config) ->
+'fn-round-half-to-even-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:float('1.000005e0'), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1591,11 +1749,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-6'(_Config) ->
+'fn-round-half-to-even-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(4561.234567, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"4600") of 
       true -> {comment, "Equal"};
@@ -1612,11 +1772,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-7'(_Config) ->
+'fn-round-half-to-even-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(4561.000005e0, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"4600") of 
       true -> {comment, "Equal"};
@@ -1633,11 +1795,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-8'(_Config) ->
+'fn-round-half-to-even-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:float('4561.000005e0'), -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"4600") of 
       true -> {comment, "Equal"};
@@ -1654,11 +1818,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-9'(_Config) ->
+'fn-round-half-to-even-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(4561234567, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"4561234600") of 
       true -> {comment, "Equal"};
@@ -1675,11 +1841,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-10'(_Config) ->
+'fn-round-half-to-even-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(4561.234567, 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"4561") of 
       true -> {comment, "Equal"};
@@ -1696,11 +1864,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-11'(_Config) ->
+'fn-round-half-to-even-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(4561.000005e0, 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"4561") of 
       true -> {comment, "Equal"};
@@ -1717,11 +1887,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-12'(_Config) ->
+'fn-round-half-to-even-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:float('4561.000005e0'), 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"4561") of 
       true -> {comment, "Equal"};
@@ -1738,11 +1910,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-13'(_Config) ->
+'fn-round-half-to-even-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(4561234567, 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"4561234567") of 
       true -> {comment, "Equal"};
@@ -1759,11 +1933,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-14'(_Config) ->
+'fn-round-half-to-even-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:float('0.05'), 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"xs:float(0.1)") of 
       true -> {comment, "Equal"};
@@ -1780,11 +1956,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-15'(_Config) ->
+'fn-round-half-to-even-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:float('-0.05'), 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"xs:float(-0.1)") of 
       true -> {comment, "Equal"};
@@ -1801,11 +1979,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-16'(_Config) ->
+'fn-round-half-to-even-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(xs:float('3.75'), 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"xs:float(3.8)") of 
       true -> {comment, "Equal"};
@@ -1822,11 +2002,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-17'(_Config) ->
+'fn-round-half-to-even-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(123.355, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"123.36") of 
       true -> {comment, "Equal"};
@@ -1843,11 +2025,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-18'(_Config) ->
+'fn-round-half-to-even-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(123.365, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"123.36") of 
       true -> {comment, "Equal"};
@@ -1864,11 +2048,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-19'(_Config) ->
+'fn-round-half-to-even-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(123.375, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"123.38") of 
       true -> {comment, "Equal"};
@@ -1885,11 +2071,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-20'(_Config) ->
+'fn-round-half-to-even-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(123.385, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"123.38") of 
       true -> {comment, "Equal"};
@@ -1906,11 +2094,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-21'(_Config) ->
+'fn-round-half-to-even-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-123.355, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-123.36") of 
       true -> {comment, "Equal"};
@@ -1927,11 +2117,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-22'(_Config) ->
+'fn-round-half-to-even-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-123.365, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-123.36") of 
       true -> {comment, "Equal"};
@@ -1948,11 +2140,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-23'(_Config) ->
+'fn-round-half-to-even-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-123.375, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-123.38") of 
       true -> {comment, "Equal"};
@@ -1969,11 +2163,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-24'(_Config) ->
+'fn-round-half-to-even-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-123.385, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-123.38") of 
       true -> {comment, "Equal"};
@@ -1990,11 +2186,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-24a'(_Config) ->
+'fn-round-half-to-even-24a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(12350.00, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-24a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12400") of 
       true -> {comment, "Equal"};
@@ -2011,11 +2209,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-25'(_Config) ->
+'fn-round-half-to-even-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-12350.00, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12400") of 
       true -> {comment, "Equal"};
@@ -2032,11 +2232,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-26'(_Config) ->
+'fn-round-half-to-even-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(12450.00, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12400") of 
       true -> {comment, "Equal"};
@@ -2053,11 +2255,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-27'(_Config) ->
+'fn-round-half-to-even-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-12450.00, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12400") of 
       true -> {comment, "Equal"};
@@ -2074,11 +2278,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-28'(_Config) ->
+'fn-round-half-to-even-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(12550.00, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12600") of 
       true -> {comment, "Equal"};
@@ -2095,11 +2301,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-29'(_Config) ->
+'fn-round-half-to-even-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-12550.00, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12600") of 
       true -> {comment, "Equal"};
@@ -2116,11 +2324,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-30'(_Config) ->
+'fn-round-half-to-even-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(12350, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12400") of 
       true -> {comment, "Equal"};
@@ -2137,11 +2347,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-31'(_Config) ->
+'fn-round-half-to-even-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-12350, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12400") of 
       true -> {comment, "Equal"};
@@ -2158,11 +2370,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-32'(_Config) ->
+'fn-round-half-to-even-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(12450, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12400") of 
       true -> {comment, "Equal"};
@@ -2179,11 +2393,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-33'(_Config) ->
+'fn-round-half-to-even-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-12450, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12400") of 
       true -> {comment, "Equal"};
@@ -2200,11 +2416,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-34'(_Config) ->
+'fn-round-half-to-even-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(12550, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12600") of 
       true -> {comment, "Equal"};
@@ -2221,11 +2439,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-35'(_Config) ->
+'fn-round-half-to-even-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-12550, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12600") of 
       true -> {comment, "Equal"};
@@ -2242,11 +2462,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-36'(_Config) ->
+'fn-round-half-to-even-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(12350e0, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12400") of 
       true -> {comment, "Equal"};
@@ -2263,11 +2485,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-37'(_Config) ->
+'fn-round-half-to-even-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-12350e0, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12400") of 
       true -> {comment, "Equal"};
@@ -2284,11 +2508,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-38'(_Config) ->
+'fn-round-half-to-even-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(12450e0, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12400") of 
       true -> {comment, "Equal"};
@@ -2305,11 +2531,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-39'(_Config) ->
+'fn-round-half-to-even-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-12450e0, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12400") of 
       true -> {comment, "Equal"};
@@ -2326,11 +2554,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-40'(_Config) ->
+'fn-round-half-to-even-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(12550e0, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12600") of 
       true -> {comment, "Equal"};
@@ -2347,11 +2577,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-half-to-even-41'(_Config) ->
+'fn-round-half-to-even-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round-half-to-even(-12550e0, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-half-to-even-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12600") of 
       true -> {comment, "Equal"};
@@ -2368,11 +2600,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-001'(_Config) ->
+'cbcl-round-half-to-even-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(3.567812E+3, 4294967296)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3567.812") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2381,11 +2615,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-002'(_Config) ->
+'cbcl-round-half-to-even-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(12345, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2394,11 +2630,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-003'(_Config) ->
+'cbcl-round-half-to-even-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(12345, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12300") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2407,11 +2645,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-004'(_Config) ->
+'cbcl-round-half-to-even-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:short(12345), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2420,11 +2660,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-005'(_Config) ->
+'cbcl-round-half-to-even-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:short(12345), -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12300") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2433,11 +2675,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-006'(_Config) ->
+'cbcl-round-half-to-even-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(12345.6, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345.6") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2446,11 +2690,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-007'(_Config) ->
+'cbcl-round-half-to-even-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(12345.6, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12300") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2459,11 +2705,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-008'(_Config) ->
+'cbcl-round-half-to-even-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:float(12345.6), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345.6") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2472,11 +2720,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-009'(_Config) ->
+'cbcl-round-half-to-even-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(xs:float(12345.6), -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12300") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2485,11 +2735,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-010'(_Config) ->
+'cbcl-round-half-to-even-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(123456e-2, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1234.56") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2498,11 +2750,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-011'(_Config) ->
+'cbcl-round-half-to-even-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(123456e-2, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1200") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2511,11 +2765,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-012'(_Config) ->
+'cbcl-round-half-to-even-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(3.567812, 4294967296)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3.567812") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2524,11 +2780,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-013'(_Config) ->
+'cbcl-round-half-to-even-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:boolean(fn:round-half-to-even(5, 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2537,11 +2795,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-round-half-to-even-014'(_Config) ->
+'cbcl-round-half-to-even-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round-half-to-even(123456e-2, \"two\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-round-half-to-even-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

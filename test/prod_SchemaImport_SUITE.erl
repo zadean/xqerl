@@ -144,11 +144,15 @@
 -export(['cbcl-fixed-attribute-1'/1]).
 -export(['cbcl-fixed-attribute-2'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/SchemaImport/context-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/SchemaImport/xmod040a.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/SchemaImport/xmod043a.xq") catch _:_ -> ok end,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+, try  xqerl_module:compile(filename:join(BaseDir, "SchemaImport/context-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "SchemaImport/xmod040a.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "SchemaImport/xmod043a.xq")) catch _:_ -> ok end
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'schema-import-1',
    'schema-import-2',
@@ -289,97 +293,97 @@ all() -> [
    'cbcl-default-attribute-2',
    'cbcl-fixed-attribute-1',
    'cbcl-fixed-attribute-2'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -391,60 +395,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -452,413 +456,552 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('hats') ->
+environment('hats',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"SchemaImport/hats.xsd","http://www.w3.org/XQueryTest/hats"}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('abf') ->
+environment('abf',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"SchemaImport/abf.xsd","http://www.w3.org/XQueryTest/abf"}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/abf.xsd"),"http://www.w3.org/XQueryTest/abf"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('abf-emptydoc') ->
+environment('abf-emptydoc',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/emptydoc.xml",".",""}]},
-{schemas, [{"SchemaImport/abf.xsd","http://www.w3.org/XQueryTest/abf"}]},
+{sources, [{filename:join(BaseDir, "../docs/emptydoc.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/abf.xsd"),"http://www.w3.org/XQueryTest/abf"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('mini-fpml') ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{"SchemaImport/mini-fpml.xsd","http://www.fpml.org/2005/FpML-4-2"}]},
-{collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('addresses') ->
+environment('mini-fpml',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"SchemaImport/addresses.xsd","http://www.w3.org/XQueryTest/addresses"}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/mini-fpml.xsd"),"http://www.fpml.org/2005/FpML-4-2"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('money') ->
+environment('addresses',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"SchemaImport/money.xsd","http://www.w3.org/XQueryTest/money"}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/addresses.xsd"),"http://www.w3.org/XQueryTest/addresses"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('QNameComparisonTest') ->
+environment('money',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"SchemaImport/QNameComparisonTest.xsd","http://www.w3.org/XQueryTest/QNameComparisonTest"}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/money.xsd"),"http://www.w3.org/XQueryTest/money"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('emptydoc') ->
+environment('QNameComparisonTest',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/emptydoc.xml","$emptydoc1",""}]},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "SchemaImport/QNameComparisonTest.xsd"),"http://www.w3.org/XQueryTest/QNameComparisonTest"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('emptydoc',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../docs/emptydoc.xml"), "$emptydoc1",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('substitution') ->
+environment('substitution',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"SchemaImport/substitution.xsd","http://www.w3.org/XQueryTest/substitution"}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/substitution.xsd"),"http://www.w3.org/XQueryTest/substitution"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('substitution11') ->
+environment('substitution11',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"SchemaImport/substitution11.xsd","http://www.w3.org/XQueryTest/substitution11"}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/substitution11.xsd"),"http://www.w3.org/XQueryTest/substitution11"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('validate') ->
+environment('validate',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/nilled/validate.xml",".",""}]},
-{schemas, [{"../fn/nilled/validate.xsd","http://www.w3.org/XQueryTest/testcases"}]},
+{sources, [{filename:join(BaseDir, "../fn/nilled/validate.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../fn/nilled/validate.xsd"),"http://www.w3.org/XQueryTest/testcases"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'schema-import-1'(_Config) ->
+'schema-import-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'schema-import-2'(_Config) ->
+'schema-import-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'schema-import-3'(_Config) ->
+'schema-import-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'schema-import-4'(_Config) ->
+'schema-import-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-5'(_Config) ->
+'schema-import-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-6'(_Config) ->
+'schema-import-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-7'(_Config) ->
+'schema-import-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-8'(_Config) ->
+'schema-import-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-9'(_Config) ->
+'schema-import-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-10'(_Config) ->
+'schema-import-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-11'(_Config) ->
+'schema-import-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-12'(_Config) ->
+'schema-import-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-13'(_Config) ->
+'schema-import-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-14'(_Config) ->
+'schema-import-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-15'(_Config) ->
+'schema-import-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-16'(_Config) ->
+'schema-import-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-17'(_Config) ->
+'schema-import-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-18'(_Config) ->
+'schema-import-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-19'(_Config) ->
+'schema-import-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-20'(_Config) ->
+'schema-import-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-21'(_Config) ->
+'schema-import-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-22'(_Config) ->
+'schema-import-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-23'(_Config) ->
+'schema-import-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-25'(_Config) ->
+'schema-import-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-26'(_Config) ->
+'schema-import-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-27'(_Config) ->
+'schema-import-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-28'(_Config) ->
+'schema-import-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-29'(_Config) ->
+'schema-import-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-30'(_Config) ->
+'schema-import-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'modules-schema-context'(_Config) ->
+'modules-schema-context'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'schema-import-31'(_Config) ->
+'schema-import-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema001'(_Config) ->
+'qischema001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema002'(_Config) ->
+'qischema002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema003'(_Config) ->
+'qischema003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema004'(_Config) ->
+'qischema004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema005'(_Config) ->
+'qischema005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema006'(_Config) ->
+'qischema006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema007'(_Config) ->
+'qischema007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema008'(_Config) ->
+'qischema008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema009'(_Config) ->
+'qischema009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema010'(_Config) ->
+'qischema010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema011'(_Config) ->
+'qischema011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema012'(_Config) ->
+'qischema012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema016'(_Config) ->
+'qischema016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema030'(_Config) ->
+'qischema030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema031'(_Config) ->
+'qischema031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema032'(_Config) ->
+'qischema032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema032a'(_Config) ->
+'qischema032a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema032b'(_Config) ->
+'qischema032b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema032c'(_Config) ->
+'qischema032c'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema040'(_Config) ->
+'qischema040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema040a'(_Config) ->
+'qischema040a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema041'(_Config) ->
+'qischema041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema042'(_Config) ->
+'qischema042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema043'(_Config) ->
+'qischema043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema044'(_Config) ->
+'qischema044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema061'(_Config) ->
+'qischema061'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema062'(_Config) ->
+'qischema062'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema063'(_Config) ->
+'qischema063'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema063q02-err'(_Config) ->
+'qischema063q02-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema064'(_Config) ->
+'qischema064'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema065'(_Config) ->
+'qischema065'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema070'(_Config) ->
+'qischema070'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema072-01'(_Config) ->
+'qischema072-01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema072-02'(_Config) ->
+'qischema072-02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema072-03'(_Config) ->
+'qischema072-03'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema072-04'(_Config) ->
+'qischema072-04'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema072-05'(_Config) ->
+'qischema072-05'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema072-06'(_Config) ->
+'qischema072-06'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema080'(_Config) ->
+'qischema080'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema083'(_Config) ->
+'qischema083'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema265'(_Config) ->
+'qischema265'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema266'(_Config) ->
+'qischema266'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90007'(_Config) ->
+'qischema90007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90008'(_Config) ->
+'qischema90008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90031-err'(_Config) ->
+'qischema90031-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90041-err'(_Config) ->
+'qischema90041-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90042-err'(_Config) ->
+'qischema90042-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90051-err'(_Config) ->
+'qischema90051-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90061-err'(_Config) ->
+'qischema90061-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90071-err'(_Config) ->
+'qischema90071-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90081-err'(_Config) ->
+'qischema90081-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90082-err'(_Config) ->
+'qischema90082-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90101-err'(_Config) ->
+'qischema90101-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90102-err'(_Config) ->
+'qischema90102-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90131-err'(_Config) ->
+'qischema90131-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90151-err'(_Config) ->
+'qischema90151-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90171-err'(_Config) ->
+'qischema90171-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema90172-err'(_Config) ->
+'qischema90172-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema90401-err'(_Config) ->
+'qischema90401-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90431-err'(_Config) ->
+'qischema90431-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90611-err'(_Config) ->
+'qischema90611-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90612-err'(_Config) ->
+'qischema90612-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90613-err'(_Config) ->
+'qischema90613-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90614-err'(_Config) ->
+'qischema90614-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema90621-err'(_Config) ->
+'qischema90621-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'qischema90631-err'(_Config) ->
+'qischema90631-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90701-err'(_Config) ->
+'qischema90701-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90702-err'(_Config) ->
+'qischema90702-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'qischema90703-err'(_Config) ->
+'qischema90703-err'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-001'(_Config) ->
+'substitution-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-002'(_Config) ->
+'substitution-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-003'(_Config) ->
+'substitution-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-004'(_Config) ->
+'substitution-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-005'(_Config) ->
+'substitution-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-006'(_Config) ->
+'substitution-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-007'(_Config) ->
+'substitution-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-008'(_Config) ->
+'substitution-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-009'(_Config) ->
+'substitution-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-010'(_Config) ->
+'substitution-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-011'(_Config) ->
+'substitution-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-020'(_Config) ->
+'substitution-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-021'(_Config) ->
+'substitution-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-022'(_Config) ->
+'substitution-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-023'(_Config) ->
+'substitution-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-024'(_Config) ->
+'substitution-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-025'(_Config) ->
+'substitution-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-030'(_Config) ->
+'substitution-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-031'(_Config) ->
+'substitution-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'substitution-032'(_Config) ->
+'substitution-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-schema-element-1'(_Config) ->
+'cbcl-schema-element-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-schema-element-2'(_Config) ->
+'cbcl-schema-element-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-schema-element-3'(_Config) ->
+'cbcl-schema-element-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-schema-element-4'(_Config) ->
+'cbcl-schema-element-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-schema-element-5'(_Config) ->
+'cbcl-schema-element-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-schema-element-6'(_Config) ->
+'cbcl-schema-element-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-schema-element-7'(_Config) ->
+'cbcl-schema-element-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-schema-element-8'(_Config) ->
+'cbcl-schema-element-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-schema-element-9'(_Config) ->
+'cbcl-schema-element-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validated-schema-element-1'(_Config) ->
+'cbcl-validated-schema-element-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validated-schema-element-2'(_Config) ->
+'cbcl-validated-schema-element-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validated-schema-element-3'(_Config) ->
+'cbcl-validated-schema-element-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validated-schema-element-4'(_Config) ->
+'cbcl-validated-schema-element-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-schema-attribute-1'(_Config) ->
+'cbcl-schema-attribute-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-schema-attribute-2'(_Config) ->
+'cbcl-schema-attribute-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-default-attribute-1'(_Config) ->
+'cbcl-default-attribute-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-default-attribute-2'(_Config) ->
+'cbcl-default-attribute-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-fixed-attribute-1'(_Config) ->
+'cbcl-fixed-attribute-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-fixed-attribute-2'(_Config) ->
+'cbcl-fixed-attribute-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.

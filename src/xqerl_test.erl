@@ -779,8 +779,9 @@ handle_environment(List) ->
    Schemas1 = lists:map(fun({File,Uri}) ->
                               "import schema default element namespace '"++Uri++"' at '"++File++"';\n"
              end, Schemas),
-   _ = lists:foreach(fun({File,_Uri}) ->
-                           xqerl:compile(File)
+   _ = lists:foreach(fun({File,Uri}) ->
+                           xqerl_module:compile(File),
+                           xqerl_module:load(Uri)
              end, Modules),
 %%    _ = lists:foreach(fun({Uri,Docs}) ->
 %%                            lists:foreach(fun(File) ->

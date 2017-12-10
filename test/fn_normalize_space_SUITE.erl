@@ -44,9 +44,13 @@
 -export(['K-NormalizeSpaceFunc-8'/1]).
 -export(['K-NormalizeSpaceFunc-9'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-normalize-space1args-1',
    'fn-normalize-space1args-2',
@@ -87,97 +91,97 @@ all() -> [
    'K-NormalizeSpaceFunc-7',
    'K-NormalizeSpaceFunc-8',
    'K-NormalizeSpaceFunc-9'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -189,60 +193,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -250,11 +254,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'fn-normalize-space1args-1'(_Config) ->
+'fn-normalize-space1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"This is a charac\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This is a charac") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -263,11 +269,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space1args-2'(_Config) ->
+'fn-normalize-space1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"This is a ch\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This is a ch") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -276,11 +284,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space1args-3'(_Config) ->
+'fn-normalize-space1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"This is a charac\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This is a charac") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -289,11 +299,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space1args-4'(_Config) ->
+'fn-normalize-space1args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-space(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space1args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -314,13 +326,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space0args-1'(_Config) ->
+'fn-normalize-space0args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "//doc/normalize-space(zero-or-one(a[normalize-space() = 'Hello, How are you?']))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/normalize-space/textWithSpaces.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "normalize-space/textWithSpaces.xml"),".","file:///"++filename:join(BaseDir, "")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -329,7 +342,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space0args-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Hello, How are you?") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -338,11 +352,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-1'(_Config) ->
+'fn-normalize-space-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\" The wealthy curled darlings of our nation. \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "The wealthy curled darlings of our nation.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -351,12 +367,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-2'(_Config) ->
+'fn-normalize-space-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -365,11 +383,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-3'(_Config) ->
+'fn-normalize-space-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"This	text should contains no tabs\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This text should contains no tabs") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -378,12 +398,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-4'(_Config) ->
+'fn-normalize-space-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"This text should contains
 no newline characters.\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This text should contains no newline characters.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -392,11 +414,13 @@ no newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-5'(_Config) ->
+'fn-normalize-space-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"This	text	should	contains	no	tab	characters.\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This text should contains no tab characters.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -405,7 +429,8 @@ no newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-6'(_Config) ->
+'fn-normalize-space-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"This
 text
 should
@@ -415,7 +440,8 @@ newline
 characters.\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This text should contains no newline characters.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -424,12 +450,14 @@ characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-7'(_Config) ->
+'fn-normalize-space-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"This text	should contains no tabs or
 newline characters.\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This text should contains no tabs or newline characters.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -438,12 +466,14 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-8'(_Config) ->
+'fn-normalize-space-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"This	 text	 should	 contains
  no tabs or newline characters.\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This text should contains no tabs or newline characters.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -452,11 +482,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-9'(_Config) ->
+'fn-normalize-space-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"    \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -473,11 +505,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-10'(_Config) ->
+'fn-normalize-space-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -494,11 +528,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-11'(_Config) ->
+'fn-normalize-space-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -515,11 +551,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-12'(_Config) ->
+'fn-normalize-space-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"	\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -536,11 +574,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-13'(_Config) ->
+'fn-normalize-space-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"		\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -557,12 +597,14 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-14'(_Config) ->
+'fn-normalize-space-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"
 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -579,13 +621,15 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-15'(_Config) ->
+'fn-normalize-space-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"
 
 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -602,11 +646,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-16'(_Config) ->
+'fn-normalize-space-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\" 	  	 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -623,12 +669,14 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-17'(_Config) ->
+'fn-normalize-space-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"   
  \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -645,12 +693,14 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-18'(_Config) ->
+'fn-normalize-space-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"	
 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -667,11 +717,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-19'(_Config) ->
+'fn-normalize-space-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(\"	12345\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -680,11 +732,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-20'(_Config) ->
+'fn-normalize-space-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(fn:string(\" ABC \"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ABC") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -693,11 +747,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-21'(_Config) ->
+'fn-normalize-space-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-space(fn:normalize-space(\" ABC\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-space-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ABC") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -706,19 +762,25 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-space-23'(_Config) ->
+'fn-normalize-space-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-normalize-space-24'(_Config) ->
+'fn-normalize-space-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-normalize-space-25'(_Config) ->
+'fn-normalize-space-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-normalize-space-26'(_Config) ->
+'fn-normalize-space-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'K-NormalizeSpaceFunc-1'(_Config) ->
+'K-NormalizeSpaceFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-space(\"a string\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeSpaceFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -727,11 +789,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeSpaceFunc-2'(_Config) ->
+'K-NormalizeSpaceFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if(false()) then normalize-space() else true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeSpaceFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -748,11 +812,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeSpaceFunc-3'(_Config) ->
+'K-NormalizeSpaceFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-space(\"foo\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeSpaceFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -761,11 +827,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeSpaceFunc-4'(_Config) ->
+'K-NormalizeSpaceFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-space(\" foo\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeSpaceFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -774,11 +842,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeSpaceFunc-5'(_Config) ->
+'K-NormalizeSpaceFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-space(\"foo \") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeSpaceFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -787,11 +857,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeSpaceFunc-6'(_Config) ->
+'K-NormalizeSpaceFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-space(()) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeSpaceFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -800,11 +872,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeSpaceFunc-7'(_Config) ->
+'K-NormalizeSpaceFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-space(\"f o o \") eq \"f o o\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeSpaceFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -813,11 +887,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeSpaceFunc-8'(_Config) ->
+'K-NormalizeSpaceFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-space(\" 143 1239 fhjkls \") eq \"143 1239 fhjkls\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeSpaceFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -826,11 +902,13 @@ newline characters.\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeSpaceFunc-9'(_Config) ->
+'K-NormalizeSpaceFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-space(normalize-space((\"foo\", current-time())[1])) eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeSpaceFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};

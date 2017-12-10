@@ -49,9 +49,13 @@
 -export(['nscons-043'/1]).
 -export(['nscons-044'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/CompNamespaceConstructor/cnc-module.xq") catch _:_ -> ok end,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+, try  xqerl_module:compile(filename:join(BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:_ -> ok end
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'nscons-001',
    'nscons-002',
@@ -97,97 +101,97 @@ all() -> [
    'nscons-042',
    'nscons-043',
    'nscons-044'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -199,60 +203,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -260,19 +264,20 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('cnc-schema') ->
+environment('cnc-schema',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"CompNamespaceConstructor/schema.xsd","http://www.w3.org/TestSchemas/cnc"}]},
+{schemas, [{filename:join(BaseDir, "CompNamespaceConstructor/schema.xsd"),"http://www.w3.org/TestSchemas/cnc"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'nscons-001'(_Config) ->
+'nscons-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $s := \"http://saxon.sf.net/\"; 
         declare variable $xsl := \"http://www.w3.org/1999/XSL/Transform\"; 
@@ -280,7 +285,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xmlns:saxon=\"http://saxon.sf.net/\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" a=\"23\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -289,7 +295,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-002'(_Config) ->
+'nscons-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $s := \"saxon\"; 
         declare variable $xsl := \"xsl\"; 
@@ -299,7 +306,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xmlns:saxon=\"http://saxon.sf.net/\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" a=\"23\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -308,7 +316,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-003'(_Config) ->
+'nscons-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $s := \"saxon\"; 
         declare variable $xsl := \"xsl\"; 
@@ -319,7 +328,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><t:e xmlns:t=\"http://www.example.com/\" xmlns=\"http://saxon.sf.net/\"
         xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" a=\"23\"><f xmlns=\"\"/></t:e></out>") of 
       true -> {comment, "XML Deep equal"};
@@ -329,7 +339,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-004'(_Config) ->
+'nscons-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $s := \"saxon\"; 
         declare variable $xml := \"http://www.w3.org/XML/1998/namespace\"; 
@@ -339,7 +350,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><t:e xmlns:t=\"http://www.example.com/\" xml:space=\"preserve\" a=\"23\"><f/></t:e></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -348,7 +360,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-005'(_Config) ->
+'nscons-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $s := \"http://saxon.sf.net/\"; 
         declare variable $xsl := \"http://www.w3.org/1999/XSL/Transform\"; 
@@ -356,7 +369,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<saxon:extension xmlns:saxon=\"http://saxon.sf.net/\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" 
             a=\"23\"><f>42</f></saxon:extension>") of 
       true -> {comment, "XML Deep equal"};
@@ -366,7 +380,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-006'(_Config) ->
+'nscons-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $s := \"http://saxon.sf.net/\"; 
         declare variable $xsl := \"http://www.w3.org/1999/XSL/Transform\"; 
@@ -375,7 +390,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<saxon:extension xmlns:saxon=\"http://saxon.sf.net/\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"
                  a=\"23\"><f>42</f></saxon:extension>") of 
       true -> {comment, "XML Deep equal"};
@@ -385,7 +401,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-007'(_Config) ->
+'nscons-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $s := \"http://saxon.sf.net/\"; 
         declare variable $xsl := \"http://www.w3.org/1999/XSL/Transform\"; 
@@ -394,7 +411,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0101") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -403,7 +421,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-008'(_Config) ->
+'nscons-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $s := \"http://saxon.sf.net/\"; 
         declare variable $xsl := \"http://www.w3.org/1999/XSL/Transform\"; 
@@ -412,7 +431,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0101") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -421,7 +441,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-009'(_Config) ->
+'nscons-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $p1 := \"http://example.com/one\"; 
         declare variable $p2 := \"http://example.com/two\"; 
@@ -429,7 +450,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0102") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -438,7 +460,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-010'(_Config) ->
+'nscons-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $p1 := \"http://example.com/one\"; 
         declare variable $p2 := \"http://example.com/two\"; 
@@ -447,7 +470,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>true true</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -456,7 +480,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-011'(_Config) ->
+'nscons-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $p1 := \"http://example.com/one\"; 
         declare variable $p2 := \"http://example.com/two\"; 
@@ -465,7 +490,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>true true</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -474,7 +500,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-012'(_Config) ->
+'nscons-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $p1 := \"http://example.com/one\"; 
         declare variable $p2 := \"http://example.com/two\"; 
@@ -492,7 +519,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><namespace 
               same-as-self=\"true\" is-namespace=\"true\" namespace-uri=\"\" is-item=\"true\"
               typed-value=\"http://example.com/one\"
@@ -517,7 +545,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-013'(_Config) ->
+'nscons-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $pre := <prefix>z</prefix>,
             $uri := \"http://www.zorba-xquery.com/\"
@@ -526,7 +555,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xmlns:z=\"http://www.zorba-xquery.com/\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -535,7 +565,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-014'(_Config) ->
+'nscons-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $pre := \"z\",
             $uri := \"http://www.zorba-xquery.com/\"
@@ -544,7 +575,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xmlns:z=\"http://www.zorba-xquery.com/\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -553,14 +585,16 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-015'(_Config) ->
+'nscons-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace z=\"http://www.zorba-xquery.com/\";
         <z:e>{ namespace { <a/>/* } { \"http://www.w3.org/\" } }</z:e>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<z:e xmlns:z=\"http://www.zorba-xquery.com/\" xmlns=\"http://www.w3.org/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -569,7 +603,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-016'(_Config) ->
+'nscons-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $pre := <prefix>z:z</prefix>,
             $uri := \"http://www.zorba-xquery.com/\"
@@ -578,7 +613,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -587,7 +623,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-017'(_Config) ->
+'nscons-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $pre := \"z z\",
             $uri := \"http://www.zorba-xquery.com/\"
@@ -596,7 +633,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -605,7 +643,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-018'(_Config) ->
+'nscons-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $pre := 1,
             $uri := \"http://www.zorba-xquery.com/\"
@@ -614,7 +653,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -623,7 +663,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-019'(_Config) ->
+'nscons-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $uri := \"http://www.w3.org/XML/1998/namespace\"
         return
@@ -631,7 +672,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0101") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -640,7 +682,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-020'(_Config) ->
+'nscons-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $uri := \"http://www.w3.org/2000/xmlns/\"
         return
@@ -648,7 +691,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0101") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -657,13 +701,15 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-021'(_Config) ->
+'nscons-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <e>{ namespace x { \"\" } }</e>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0101") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -672,7 +718,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-022'(_Config) ->
+'nscons-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $elem := <e>{ namespace z { \"http://www.zorba-xquery.com/\" } }</e>
         return
@@ -680,7 +727,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<z:f xmlns:z=\"http://www.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -689,13 +737,15 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-023'(_Config) ->
+'nscons-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <z:e>{ namespace z { \"http://www.zorba-xquery.com/\" } }</z:e>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -704,13 +754,15 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-024'(_Config) ->
+'nscons-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <e>{ namespace z { \"http://www.zorba-xquery.com/\" }, element z:e {} }</e>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -719,13 +771,15 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-025'(_Config) ->
+'nscons-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         element e { attribute z:a {},  namespace z { \"http://www.zorba-xquery.com/\" } }
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -734,13 +788,15 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-026'(_Config) ->
+'nscons-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <e>{ namespace z { \"http://www.zorba-xquery.com/\" }, element { xs:QName(\"z:e\") } { } }</e>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FONS0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -749,7 +805,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-027'(_Config) ->
+'nscons-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         let $elem := <e>{ mod1:one() }</e>
@@ -758,7 +815,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<z:f xmlns:z=\"http://www.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -767,7 +825,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-028'(_Config) ->
+'nscons-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         let $ns := mod1:one()
@@ -775,7 +834,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -784,13 +844,15 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-029'(_Config) ->
+'nscons-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         serialize( namespace z { \"http://www.zorba-xquery.com/\" } )
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -799,13 +861,15 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-030'(_Config) ->
+'nscons-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         serialize( element e { namespace z { \"http://www.zorba-xquery.com/\" } } )
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"contains($result,'xmlns:z')") of 
       true -> {comment, "Correct results"};
@@ -822,7 +886,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-031'(_Config) ->
+'nscons-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare copy-namespaces preserve, inherit;
         let $nested := 
@@ -838,7 +903,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<inner xmlns:new=\"http://new.zorba-xquery.com/\" xmlns:out=\"http://out.zorba-xquery.com/\" xmlns:in=\"http://in.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -847,7 +913,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-032'(_Config) ->
+'nscons-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare copy-namespaces preserve, no-inherit;
         let $nested := 
@@ -861,7 +928,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<inner xmlns:in=\"http://in.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -870,7 +938,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-033'(_Config) ->
+'nscons-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare copy-namespaces no-preserve, inherit;
         let $nested := 
@@ -884,7 +953,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<inner xmlns:new=\"http://new.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -893,7 +963,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-034'(_Config) ->
+'nscons-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare copy-namespaces no-preserve, no-inherit;
         let $nested := 
@@ -907,7 +978,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-034.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<inner/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -916,7 +988,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-035'(_Config) ->
+'nscons-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         declare copy-namespaces preserve, inherit;
@@ -927,7 +1000,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-035.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<inner xmlns:new=\"http://new.zorba-xquery.com/\" xmlns:out=\"http://out.zorba-xquery.com/\" xmlns:in=\"http://in.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -936,7 +1010,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-036'(_Config) ->
+'nscons-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         declare copy-namespaces preserve, no-inherit;
@@ -947,7 +1022,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-036.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<inner xmlns:in=\"http://in.zorba-xquery.com/\" xmlns:out=\"http://out.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -956,7 +1032,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-037'(_Config) ->
+'nscons-037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         declare copy-namespaces no-preserve, inherit;
@@ -967,7 +1044,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-037.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<inner xmlns:new=\"http://new.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -976,7 +1054,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-038'(_Config) ->
+'nscons-038'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         declare copy-namespaces no-preserve, no-inherit;
@@ -987,7 +1066,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-038.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<inner/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -996,7 +1076,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-039'(_Config) ->
+'nscons-039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare copy-namespaces preserve, inherit;
         
@@ -1014,7 +1095,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-039.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e0 xmlns:pre2=\"uri2\" xmlns:pre1=\"uri1\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1023,17 +1105,21 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-040'(_Config) ->
+'nscons-040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'nscons-041'(_Config) ->
+'nscons-041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'nscons-042'(_Config) ->
+'nscons-042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         element e { namespace {''} {'http://example.com/uri'} }
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-042.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0102") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1042,7 +1128,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-043'(_Config) ->
+'nscons-043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $pre := xs:anyURI('ns'),
             $uri := \"http://www.zorba-xquery.com/\"
@@ -1051,7 +1138,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-043.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1060,7 +1148,8 @@ environment('cnc-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'nscons-044'(_Config) ->
+'nscons-044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $pre := xs:duration('P1D'),
             $uri := \"http://www.zorba-xquery.com/\"
@@ -1069,7 +1158,8 @@ environment('cnc-schema') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nscons-044.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

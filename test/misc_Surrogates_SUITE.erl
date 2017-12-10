@@ -37,9 +37,13 @@
 -export(['surrogates15a'/1]).
 -export(['surrogates16a'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "misc")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'surrogates01',
    'surrogates02',
@@ -73,97 +77,97 @@ all() -> [
    'surrogates14a',
    'surrogates15a',
    'surrogates16a'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -175,60 +179,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -236,11 +240,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'surrogates01'(_Config) ->
+'surrogates01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-length(\"abc&#x1D156;def\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates01.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -249,11 +255,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates02'(_Config) ->
+'surrogates02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "substring(\"abc&#x1D156;def\", 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates02.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "def") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -262,11 +270,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates03'(_Config) ->
+'surrogates03'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "substring(\"abc&#x1D156;def\", 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates03.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "𝅖def") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -275,11 +285,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates04'(_Config) ->
+'surrogates04'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "translate(\"abc&#x1D156;def\", \"&#x1D156;\", \"#\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates04.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc#def") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -288,11 +300,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates05'(_Config) ->
+'surrogates05'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "translate(\"abc&#x1D156;def\", \"&#x1D156;de\", \"#DE\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates05.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc#DEf") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -301,11 +315,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates06'(_Config) ->
+'surrogates06'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "translate(\"abc&#x1D156;def\", \"def\", \"&#x1D156;EF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates06.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc𝅖𝅖EF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -314,11 +330,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates07'(_Config) ->
+'surrogates07'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-to-codepoints(\"abc&#x1D156;def\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates07.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "97 98 99 119126 100 101 102") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -327,11 +345,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates08'(_Config) ->
+'surrogates08'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string((97, 98, 99, 119126, 100, 101, 102))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates08.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc𝅖def") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -340,11 +360,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates09'(_Config) ->
+'surrogates09'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "substring-before(\"abc&#x1D156;def\", \"&#x1D156;\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates09.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -353,11 +375,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates10'(_Config) ->
+'surrogates10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "substring-before(\"abc&#x1D156;def\", \"f\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc𝅖de") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -366,11 +390,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates11'(_Config) ->
+'surrogates11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "substring-after(\"abc&#x1D156;def\", \"&#x1D156;\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "def") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -379,11 +405,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates12'(_Config) ->
+'surrogates12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"abc&#x1D157;def\", \"abc[&#x1D156;-&#x1D158;]def\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -392,11 +420,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates13'(_Config) ->
+'surrogates13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"abc&#x1D157;def\", \"abc.def\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -405,11 +435,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates14'(_Config) ->
+'surrogates14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "replace(\"abc&#119130;def\", \"[&#119120;-&#119135;]\", \"&#119135;\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc𝅘𝅥def") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -418,11 +450,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates15'(_Config) ->
+'surrogates15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "replace(\"abc&#x1D157;def\", \"[^a-f]\", \"###\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc###def") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -431,11 +465,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates16'(_Config) ->
+'surrogates16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-to-codepoints(substring(\"&#x10FC00;A\", 2, 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"65") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -444,25 +480,34 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates01a'(_Config) ->
+'surrogates01a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates02a'(_Config) ->
+'surrogates02a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates03a'(_Config) ->
+'surrogates03a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates04a'(_Config) ->
+'surrogates04a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates05a'(_Config) ->
+'surrogates05a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates06a'(_Config) ->
+'surrogates06a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates07a'(_Config) ->
+'surrogates07a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates08a'(_Config) ->
+'surrogates08a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string((97, 98, 99, 119126, 100, 101, 102))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "surrogates08a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc𝅖def") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -471,19 +516,27 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'surrogates09a'(_Config) ->
+'surrogates09a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates10a'(_Config) ->
+'surrogates10a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates11a'(_Config) ->
+'surrogates11a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates12a'(_Config) ->
+'surrogates12a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates13a'(_Config) ->
+'surrogates13a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates14a'(_Config) ->
+'surrogates14a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates15a'(_Config) ->
+'surrogates15a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'surrogates16a'(_Config) ->
+'surrogates16a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.

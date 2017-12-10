@@ -127,65 +127,69 @@
 -export(['cbcl-module-003'/1]).
 -export(['cbcl-module-004'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/test1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris2-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-urisi1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris3-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris4-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris5-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris6-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris7-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris8-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris9-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris10-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris11-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris12-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris13-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris14-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris15-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris16-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris17-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris18-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris19-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris20-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-uris21-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/test1collide1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/test1collide2-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/emptyns-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/test1c1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/test2c1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/moduleDefs-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/test2-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/modulesdiffns-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module2-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module3-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module4-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/modules-recursive1.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/modules-recursive2.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata6-module1.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata6-module2.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata6-module4.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata6-module5.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata6-module6.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata6-module7.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata8-module1a.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata8-module1b.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata8-module2a.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata8-module2b.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata8-module3a.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/errata8-module3b.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-pub-priv.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-pub-priv3.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module-pub-priv2.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/schemalib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/baseuri-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/variabledeclaration-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/variablereference-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/contextitem-lib.xq") catch _:_ -> ok end,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test1-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris1-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris2-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-urisi1-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris3-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris4-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris5-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris6-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris7-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris8-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris9-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris10-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris11-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris12-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris13-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris14-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris15-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris16-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris17-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris18-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris19-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris20-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris21-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test1collide1-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test1collide2-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/emptyns-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test1c1-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test2c1-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/moduleDefs-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test2-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/modulesdiffns-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module1-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module2-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module3-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module4-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/modules-recursive1.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/modules-recursive2.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module1.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module2.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module4.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module5.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module6.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module7.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module1a.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module1b.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module2a.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module2b.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module3a.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module3b.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-pub-priv3.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-pub-priv2.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/schemalib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/baseuri-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/variabledeclaration-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/variablereference-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/contextitem-lib.xq")) catch _:_ -> ok end
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'K2-ModuleProlog-1',
    'modules-simple',
@@ -309,97 +313,97 @@ all() -> [
    'cbcl-module-002',
    'cbcl-module-003',
    'cbcl-module-004'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -411,60 +415,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -472,59 +476,61 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('simple-schema') ->
+environment('simple-schema',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"ModuleImport/simple.xsd","http://www.w3.org/XQueryTest/simple"}]},
+{schemas, [{filename:join(BaseDir, "ModuleImport/simple.xsd"),"http://www.w3.org/XQueryTest/simple"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('attribute-schema') ->
+environment('attribute-schema',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"ModuleImport/attribute.xsd","http://www.w3.org/XQueryTest/sample"}]},
+{schemas, [{filename:join(BaseDir, "ModuleImport/attribute.xsd"),"http://www.w3.org/XQueryTest/sample"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('complexData') ->
+environment('complexData',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/data/complexData.xml",".",""}]},
-{schemas, [{"../fn/data/complexData.xsd","http://www.cbcl.co.uk/XQueryTest/complexData"}]},
+{sources, [{filename:join(BaseDir, "../fn/data/complexData.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../fn/data/complexData.xsd"),"http://www.cbcl.co.uk/XQueryTest/complexData"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('user-defined-types') ->
+environment('user-defined-types',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"../docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'K2-ModuleProlog-1'(_Config) ->
+'K2-ModuleProlog-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "module namespace example = \"http://example.com/\"; \"an expression\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ModuleProlog-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -533,13 +539,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-simple'(_Config) ->
+'modules-simple'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-simple.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -548,14 +556,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-bad-ns'(_Config) ->
+'modules-bad-ns'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test2=\"http://www.w3.org/TestModules/test2\";
         <result>{test2:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-bad-ns.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0059") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -564,14 +574,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-1'(_Config) ->
+'module-URIs-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"  http://www.w3.org/TestModules/test \";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -580,14 +592,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-2'(_Config) ->
+'module-URIs-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"&#x20;&#x9;&#xA;&#xD;http://www.w3.org/TestModules/test&#x20;&#x9;&#xA;&#xD;\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -596,14 +610,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-3'(_Config) ->
+'module-URIs-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/Test&#x20;&#x20;&#x20;&#x20;Modules/test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -612,14 +628,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-4'(_Config) ->
+'module-URIs-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/test/../../TestModules/./test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0059") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -628,14 +646,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-7'(_Config) ->
+'module-URIs-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules./test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -644,14 +664,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-8'(_Config) ->
+'module-URIs-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/.TestModules/test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -660,14 +682,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-9'(_Config) ->
+'module-URIs-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules../test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -676,14 +700,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-10'(_Config) ->
+'module-URIs-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/..TestModules/test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -692,14 +718,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-11'(_Config) ->
+'module-URIs-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/&#xd0a4;/test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -708,14 +736,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-12'(_Config) ->
+'module-URIs-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/&#x3c;&#x3d;&#x3e;&#x40;/test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -724,14 +754,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-13'(_Config) ->
+'module-URIs-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"urn:example:animal:ferret:nose\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -740,14 +772,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-14'(_Config) ->
+'module-URIs-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"ftp://www.w3.org/TestModules/test;type=A\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -756,14 +790,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-15'(_Config) ->
+'module-URIs-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/test?hello=world\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -772,14 +808,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-16'(_Config) ->
+'module-URIs-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/test#world\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -788,14 +826,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-17'(_Config) ->
+'module-URIs-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"ftp://www.w3.org/TestModules/test;type=A?hello=world&amp;q#world\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -804,14 +844,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-18'(_Config) ->
+'module-URIs-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"#1\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -820,14 +862,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-19'(_Config) ->
+'module-URIs-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http:test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -836,14 +880,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-20'(_Config) ->
+'module-URIs-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"ftp://user@www.w3.org/TestModules/test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -852,14 +898,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-21'(_Config) ->
+'module-URIs-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/TestModules/test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -868,14 +916,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-22'(_Config) ->
+'module-URIs-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org:7334/TestModules/test\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -884,14 +934,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-23'(_Config) ->
+'module-URIs-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"mailto:jane.doe@w3c.org\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -900,14 +952,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-24'(_Config) ->
+'module-URIs-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"fax:+1-234-567-890\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -916,14 +970,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'module-URIs-25'(_Config) ->
+'module-URIs-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test=\"ldap://[2001:db8::7]/c=GB?objectClass?one\";
         <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "module-URIs-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -932,7 +988,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-two-import'(_Config) ->
+'modules-two-import'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         import module namespace test2=\"http://www.w3.org/TestModules/test1\"; 
@@ -940,7 +997,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-two-import.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0047") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -949,14 +1007,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-two-import-ok'(_Config) ->
+'modules-two-import-ok'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-two-import-ok.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -965,13 +1025,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-collide-var-001'(_Config) ->
+'modules-collide-var-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-collide-var-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -980,7 +1042,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-collide-var-002'(_Config) ->
+'modules-collide-var-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         declare variable $test1:flag := 1; 
@@ -988,7 +1051,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-collide-var-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -997,14 +1061,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-collide-fn-001'(_Config) ->
+'modules-collide-fn-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-collide-fn-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0034") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1013,7 +1079,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-collide-fn-002'(_Config) ->
+'modules-collide-fn-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         declare function test1:ok () { \"ok\" }; 
@@ -1021,7 +1088,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-collide-fn-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0034") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1030,14 +1098,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-emptyns'(_Config) ->
+'modules-emptyns'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1= \"\"; 
         <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-emptyns.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0088") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1046,14 +1116,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-circular'(_Config) ->
+'modules-circular'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-circular.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ok") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1062,14 +1134,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-1'(_Config) ->
+'modules-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         <foo:anElement>some Content</foo:anElement>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1078,7 +1152,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-2'(_Config) ->
+'modules-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         declare namespace foo = \"http://example.org\"; 
@@ -1086,7 +1161,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<foo:anElement xmlns:foo=\"http://example.org\">some Content</foo:anElement>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1095,14 +1171,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-3'(_Config) ->
+'modules-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         let $var := $test1:flag + 1 return $var
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1111,14 +1189,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-4'(_Config) ->
+'modules-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         let $var := $defs:var1+ 1 return $var
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1127,14 +1207,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-5'(_Config) ->
+'modules-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         let $var := $defs:var2 + 1 return $var
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1143,7 +1225,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-6'(_Config) ->
+'modules-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         declare namespace foo = \"http://example.org\"; 
@@ -1152,7 +1235,8 @@ environment('user-defined-types') ->
         return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1161,14 +1245,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-7'(_Config) ->
+'modules-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         let $var := fn:concat(xs:string($test1:flag),xs:string(test1:ok())) 
         return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1ok") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1177,7 +1263,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-8'(_Config) ->
+'modules-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         declare namespace foo = \"http://example.org\"; 
@@ -1186,7 +1273,8 @@ environment('user-defined-types') ->
         return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "okok") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1195,13 +1283,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-9'(_Config) ->
+'modules-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         fn:upper-case(test1:ok())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "OK") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1210,14 +1300,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-10'(_Config) ->
+'modules-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         fn:lower-case(test1:ok())
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ok") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1226,13 +1318,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-11'(_Config) ->
+'modules-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         fn:string-length(test1:ok())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1241,14 +1335,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-12'(_Config) ->
+'modules-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\";
         $test1:flag + $test1:flag
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1257,14 +1353,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-13'(_Config) ->
+'modules-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         $test1:flag - $test1:flag
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1273,14 +1371,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-14'(_Config) ->
+'modules-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         xs:integer($test1:flag)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1289,14 +1389,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-15'(_Config) ->
+'modules-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace test2=\"http://www.w3.org/TestModules/test2\"; 
         \"aaa\"
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0088") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1305,14 +1407,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-16'(_Config) ->
+'modules-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace xml=\"http://www.w3.org/TestModules/test1\"; 
         xs:string($xml:flag)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0070") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1321,14 +1425,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-17'(_Config) ->
+'modules-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/diffns\"; 
         \"abc\"
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0048") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1337,14 +1443,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-18'(_Config) ->
+'modules-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/module1\"; 
         import module namespace mod2=\"http://www.w3.org/TestModules/module2\"; 
         mod1:x(),mod2:y()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "x y x y") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1353,34 +1461,46 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-19'(_Config) ->
+'modules-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'modules-20'(_Config) ->
+'modules-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'modules-21'(_Config) ->
+'modules-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'modules-22'(_Config) ->
+'modules-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'modules-23'(_Config) ->
+'modules-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'modules-24'(_Config) ->
+'modules-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'modules-25'(_Config) ->
+'modules-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'modules-26'(_Config) ->
+'modules-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'modules-27'(_Config) ->
+'modules-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'modules-28'(_Config) ->
+'modules-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'modules-28a'(_Config) ->
+'modules-28a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs1 = \"http://www.w3.org/TestModules/defs1\"; 
         $defs1:var
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-28a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0054") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1389,14 +1509,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-29'(_Config) ->
+'modules-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace xmlns=\"http://www.w3.org/TestModules/test\"; 
         xmlns:ok ()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0070") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1405,11 +1527,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ModuleImport-1'(_Config) ->
+'K-ModuleImport-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import(::)module \"\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ModuleImport-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0088") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1418,11 +1542,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ModuleImport-2'(_Config) ->
+'K-ModuleImport-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import(::)module \"\" at \"http://example.com/\", \"http://example.com/2\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ModuleImport-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0088") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1431,11 +1557,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ModuleImport-3'(_Config) ->
+'K-ModuleImport-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module namespace NCName := \"http://example.com/Dummy\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ModuleImport-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1444,11 +1572,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ModuleImport-1'(_Config) ->
+'K2-ModuleImport-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import ne import",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ModuleImport-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1457,30 +1587,40 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'errata6-001'(_Config) ->
+'errata6-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'errata6-002'(_Config) ->
+'errata6-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'errata6-003'(_Config) ->
+'errata6-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'errata6-004'(_Config) ->
+'errata6-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'errata6-005'(_Config) ->
+'errata6-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'errata6-006'(_Config) ->
+'errata6-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'errata6-007'(_Config) ->
+'errata6-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'errata8-001'(_Config) ->
+'errata8-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'errata8-001a'(_Config) ->
+'errata8-001a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace errata8_1a=\"http://www.w3.org/TestModules/errata8_1a\"; 
         errata8_1a:fun()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "errata8-001a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0054") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1489,15 +1629,18 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'errata8-002'(_Config) ->
+'errata8-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'errata8-002a'(_Config) ->
+'errata8-002a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace errata8_2a=\"http://www.w3.org/TestModules/errata8_2a\"; 
         errata8_2a:fun()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "errata8-002a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1506,14 +1649,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'errata8-003'(_Config) ->
+'errata8-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace errata8_3a=\"http://www.w3.org/TestModules/errata8_3a\"; 
         errata8_3a:fun()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "errata8-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1522,14 +1667,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-1'(_Config) ->
+'modules-pub-priv-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g(42)}</a>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>65</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1538,14 +1685,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-2'(_Config) ->
+'modules-pub-priv-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         defs:f()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1554,14 +1703,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-3'(_Config) ->
+'modules-pub-priv-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g($defs:one)}</a>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>24</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1570,14 +1721,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-4'(_Config) ->
+'modules-pub-priv-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g($defs:two)}</a>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1586,7 +1739,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-5'(_Config) ->
+'modules-pub-priv-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %public function local:inc($i as xs:integer) {
             $i + 1
@@ -1595,7 +1749,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1604,7 +1759,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-6'(_Config) ->
+'modules-pub-priv-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %private function local:inc($i as xs:integer) {
             $i + 1
@@ -1613,7 +1769,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1622,14 +1779,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-7'(_Config) ->
+'modules-pub-priv-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %public variable $i := 1;
         <a>{$i+1}</a>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1638,14 +1797,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-8'(_Config) ->
+'modules-pub-priv-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %private variable $i := 1;
         <a>{$i+1}</a>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1654,7 +1815,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-9'(_Config) ->
+'modules-pub-priv-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %public function local:inc($i as xs:integer) {
             $i + 1
@@ -1667,7 +1829,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1676,7 +1839,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-10'(_Config) ->
+'modules-pub-priv-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %private function local:inc($i as xs:integer) {
             $i + 1
@@ -1689,7 +1853,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1698,7 +1863,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-11'(_Config) ->
+'modules-pub-priv-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %public variable $i := 1;
         
@@ -1709,7 +1875,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1718,7 +1885,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-12'(_Config) ->
+'modules-pub-priv-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %private variable $i := 1;
         
@@ -1729,7 +1897,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1738,7 +1907,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-13'(_Config) ->
+'modules-pub-priv-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         declare function local:test() {
@@ -1748,7 +1918,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>65</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1757,7 +1928,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-14'(_Config) ->
+'modules-pub-priv-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         declare function local:test() {
@@ -1767,7 +1939,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1776,7 +1949,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-15'(_Config) ->
+'modules-pub-priv-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         declare function local:test() {
@@ -1786,7 +1960,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>1</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1795,7 +1970,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-16'(_Config) ->
+'modules-pub-priv-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         declare function local:test() {
@@ -1805,7 +1981,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1814,7 +1991,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-17'(_Config) ->
+'modules-pub-priv-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %public function local:inc($i as xs:integer) {
             $i + 1
@@ -1826,7 +2004,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1835,7 +2014,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-18'(_Config) ->
+'modules-pub-priv-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %private function local:inc($i as xs:integer) {
             $i + 1
@@ -1847,7 +2027,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1856,7 +2037,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-19'(_Config) ->
+'modules-pub-priv-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %public variable $i := 1;
         
@@ -1866,7 +2048,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1875,7 +2058,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-20'(_Config) ->
+'modules-pub-priv-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %private variable $i := 1;
         
@@ -1885,7 +2069,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1894,7 +2079,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-21'(_Config) ->
+'modules-pub-priv-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -1904,7 +2090,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>65</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1913,7 +2100,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-22'(_Config) ->
+'modules-pub-priv-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -1923,7 +2111,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1932,7 +2121,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-23'(_Config) ->
+'modules-pub-priv-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -1942,7 +2132,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>1</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1951,7 +2142,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-24'(_Config) ->
+'modules-pub-priv-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -1961,7 +2153,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1970,7 +2163,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-25'(_Config) ->
+'modules-pub-priv-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -1978,7 +2172,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>65</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1987,7 +2182,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-26'(_Config) ->
+'modules-pub-priv-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -1995,7 +2191,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>90</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2004,14 +2201,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-27'(_Config) ->
+'modules-pub-priv-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv3\"; 
         <a>{defs:f(42)}</a>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>65</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2020,14 +2219,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-28'(_Config) ->
+'modules-pub-priv-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv2\"; 
         <a>{defs:fails()}</a>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2036,14 +2237,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-29'(_Config) ->
+'modules-pub-priv-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %private %public function local:foo() { () };
         local:foo()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0106") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2052,7 +2255,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-30'(_Config) ->
+'modules-pub-priv-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace xq=\"http://www.w3.org/2012/xquery\";
         declare %private %xq:public function local:foo() { () };
@@ -2060,7 +2264,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0106") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2069,14 +2274,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-31'(_Config) ->
+'modules-pub-priv-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %public %public function local:foo() { () };
         local:foo()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0106") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2085,14 +2292,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-32'(_Config) ->
+'modules-pub-priv-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %private %private function local:foo() { () };
         local:foo()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0106") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2101,14 +2310,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-33'(_Config) ->
+'modules-pub-priv-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %private %public variable $foo := ();
         $foo
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0116") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2117,7 +2328,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-34'(_Config) ->
+'modules-pub-priv-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace xq=\"http://www.w3.org/2012/xquery\";
         declare %private %xq:public variable $foo := ();
@@ -2125,7 +2337,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0116") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2134,14 +2347,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-35'(_Config) ->
+'modules-pub-priv-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %private %private variable $foo := ();
         $foo
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0116") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2150,14 +2365,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-36'(_Config) ->
+'modules-pub-priv-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare %public %public variable $foo := ();
         $foo
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0116") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2166,14 +2383,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-37'(_Config) ->
+'modules-pub-priv-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         defs:f#0()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2182,14 +2401,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'modules-pub-priv-38'(_Config) ->
+'modules-pub-priv-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g#1(42)}</a>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "modules-pub-priv-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>65</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2198,9 +2419,11 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-module-001'(_Config) ->
+'cbcl-module-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-module-002'(_Config) ->
+'cbcl-module-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	import module namespace lib=\"http://www.xqsharp.com/test/baseuri-lib\"; 
       	declare base-uri \"http://www.example.org/wrong/\"; 
@@ -2208,7 +2431,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-module-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.org/correct/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2217,7 +2441,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-module-003'(_Config) ->
+'cbcl-module-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	import module namespace foo=\"http://www.xqsharp.com/test/variabledeclaration\"; 
       	import module namespace bar=\"http://www.xqsharp.com/test/variablereference\"; 
@@ -2225,7 +2450,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-module-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2234,5 +2460,6 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-module-004'(_Config) ->
+'cbcl-module-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.

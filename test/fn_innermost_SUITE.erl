@@ -63,9 +63,13 @@
 -export(['fn-innermost-057'/1]).
 -export(['fn-innermost-058'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-innermost-001',
    'fn-innermost-002',
@@ -125,97 +129,97 @@ all() -> [
    'fn-innermost-056',
    'fn-innermost-057',
    'fn-innermost-058'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -227,60 +231,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -288,25 +292,27 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('innermost') ->
+environment('innermost',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/innermost/innermost.xml",".",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/innermost/doc1.xml","$doc1",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/innermost/doc2.xml","$doc2",""}]},
+{sources, [{filename:join(BaseDir, "innermost/innermost.xml"), ".",""},
+{filename:join(BaseDir, "innermost/doc1.xml"), "$doc1",""},
+{filename:join(BaseDir, "innermost/doc2.xml"), "$doc2",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'fn-innermost-001'(_Config) ->
+'fn-innermost-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -315,11 +321,13 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-002'(_Config) ->
+'fn-innermost-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost#0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -328,11 +336,13 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-003'(_Config) ->
+'fn-innermost-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( (), 1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -341,11 +351,13 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-004'(_Config) ->
+'fn-innermost-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost#2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -354,11 +366,13 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-005'(_Config) ->
+'fn-innermost-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:exists( fn:innermost#1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -367,11 +381,13 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-006'(_Config) ->
+'fn-innermost-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( 1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -380,11 +396,13 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-007'(_Config) ->
+'fn-innermost-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( fn:dateTime#2 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -393,16 +411,18 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-008'(_Config) ->
+'fn-innermost-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( if ( fn:current-dateTime() eq
                                     fn:dateTime( fn:current-date(),
                                                  fn:current-time() ))
                                then .
                                else 1 )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -411,17 +431,19 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-009'(_Config) ->
+'fn-innermost-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:innermost( if (current-date() eq xs:date('1900-01-01'))
                                  then .
                                  else 1 ),
               fn:innermost( if (current-date() eq xs:date('1900-01-01'))
                                  then 1
                                  else . ) )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-009.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -430,16 +452,18 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-010'(_Config) ->
+'fn-innermost-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( if ( fn:current-dateTime() eq
                                     fn:dateTime( fn:current-date(),
                                                  fn:current-time() ))
                                then .
                                else fn:dateTime#2 )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-010.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -448,17 +472,19 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-011'(_Config) ->
+'fn-innermost-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:innermost( if (current-date() eq xs:date('1900-01-01'))
                                  then .
                                  else fn:dateTime#2 ),
               fn:innermost( if (current-date() eq xs:date('1900-01-01'))
                                  then fn:dateTime#2
                                  else . ) )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-011.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -467,12 +493,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-012'(_Config) ->
+'fn-innermost-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( / )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-012.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -481,12 +509,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-013'(_Config) ->
+'fn-innermost-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal(fn:innermost( / ), / )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-013.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -495,12 +525,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-014'(_Config) ->
+'fn-innermost-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( //*/@* )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-014.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "7") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -509,12 +541,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-015'(_Config) ->
+'fn-innermost-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( //*/@* ) ! string()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-015.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('0a','00a','000a','01a','010a','02a','020a')") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -523,12 +557,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-016'(_Config) ->
+'fn-innermost-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal(fn:innermost( //*/@* ), //*/@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-016.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -537,24 +573,32 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-017'(_Config) ->
+'fn-innermost-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'fn-innermost-018'(_Config) ->
+'fn-innermost-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'fn-innermost-019'(_Config) ->
+'fn-innermost-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'fn-innermost-020'(_Config) ->
+'fn-innermost-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'fn-innermost-021'(_Config) ->
+'fn-innermost-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'fn-innermost-022'(_Config) ->
+'fn-innermost-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'fn-innermost-023'(_Config) ->
+'fn-innermost-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( //processing-instruction() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-023.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "7") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -563,12 +607,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-024'(_Config) ->
+'fn-innermost-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( //processing-instruction() ) ! local-name() ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-024.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('level-0','level-00','level-000','level-01','level-010','level-02','level-020')") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -577,13 +623,15 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-025'(_Config) ->
+'fn-innermost-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( //processing-instruction() ), 
                           //processing-instruction() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-025.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -592,12 +640,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-026'(_Config) ->
+'fn-innermost-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( //comment() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-026.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "7") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -606,12 +656,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-027'(_Config) ->
+'fn-innermost-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( //comment() ) ! string()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-027.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('0c','00c','000c','01c','010c','02c','020c')") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -620,13 +672,15 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-028'(_Config) ->
+'fn-innermost-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( //comment() ),
                            //comment() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-028.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -635,12 +689,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-029'(_Config) ->
+'fn-innermost-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( //text() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-029.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "14") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -649,12 +705,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-030'(_Config) ->
+'fn-innermost-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( //text() ) ! string() ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-030.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('0t',' ',
                          '00t',' ','000t',' ',
                          '01t',' ','010t',' ',
@@ -666,13 +724,15 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-031'(_Config) ->
+'fn-innermost-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( //text() ),
                            //text() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-031.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -681,12 +741,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-032'(_Config) ->
+'fn-innermost-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( //* )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-032.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "14") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -695,12 +757,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-033'(_Config) ->
+'fn-innermost-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( //* ) ! local-name(.)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-033.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('empty-level-0',   'non-empty-level-0',
                          'empty-level-00',  'non-empty-level-00',
                          'empty-level-000', 'non-empty-level-000',
@@ -715,14 +779,16 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-034'(_Config) ->
+'fn-innermost-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( //* ), 
                            let $nodes := //*
                            return $nodes except $nodes/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-034.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -731,12 +797,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-035'(_Config) ->
+'fn-innermost-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( //node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-035.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "35") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -745,14 +813,16 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-036'(_Config) ->
+'fn-innermost-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( //node() ), 
                            let $nodes := //node()
                            return $nodes except $nodes/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-036.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -761,12 +831,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-037'(_Config) ->
+'fn-innermost-037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( /root/node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-037.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "8") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -775,14 +847,16 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-038'(_Config) ->
+'fn-innermost-038'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/node() ), 
                            let $nodes := /root/node()
                            return $nodes except $nodes/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-038.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -791,12 +865,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-039'(_Config) ->
+'fn-innermost-039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( /root/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-039.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "35") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -805,14 +881,16 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-040'(_Config) ->
+'fn-innermost-040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/descendant::node() ), 
                            let $nodes := /root/descendant::node()
                            return $nodes except $nodes/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-040.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -821,12 +899,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-041'(_Config) ->
+'fn-innermost-041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( /root/level[1]/level[1]/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-041.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -835,14 +915,16 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-042'(_Config) ->
+'fn-innermost-042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[1]/ancestor::node() ), 
                            let $nodes := /root/level[1]/level[1]/ancestor::node()
                            return $nodes except $nodes/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-042.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -851,12 +933,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-043'(_Config) ->
+'fn-innermost-043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( /root/level[1]/level[last()]/preceding-sibling::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-043.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "5") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -865,14 +949,16 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-044'(_Config) ->
+'fn-innermost-044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[last()]/preceding-sibling::node() ), 
                            let $nodes := /root/level[1]/level[last()]/preceding-sibling::node()
                            return $nodes except $nodes/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-044.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -881,12 +967,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-045'(_Config) ->
+'fn-innermost-045'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( /root/level[1]/level[last()]/preceding::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-045.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "10") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -895,14 +983,16 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-046'(_Config) ->
+'fn-innermost-046'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[last()]/preceding::node() ), 
                            let $nodes := /root/level[1]/level[last()]/preceding::node()
                            return $nodes except $nodes/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-046.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -911,12 +1001,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-047'(_Config) ->
+'fn-innermost-047'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( /root/level[1]/following-sibling::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-047.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "2") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -925,14 +1017,16 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-048'(_Config) ->
+'fn-innermost-048'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/following-sibling::node() ), 
                            let $nodes := /root/level[1]/following-sibling::node()
                            return $nodes except $nodes/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-048.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -941,12 +1035,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-049'(_Config) ->
+'fn-innermost-049'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( /root/level[1]/level[1]/following::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-049.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "20") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -955,14 +1051,16 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-050'(_Config) ->
+'fn-innermost-050'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[1]/following::node() ), 
                            let $nodes := /root/level[1]/level[1]/following::node()
                            return $nodes except $nodes/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-050.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -971,12 +1069,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-051'(_Config) ->
+'fn-innermost-051'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( /root/node()/.. )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-051.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -985,14 +1085,16 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-052'(_Config) ->
+'fn-innermost-052'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/node()/.. ), 
                            let $nodes := /root/node()/..
                            return $nodes except $nodes/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-052.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1001,12 +1103,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-053'(_Config) ->
+'fn-innermost-053'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:innermost( ($doc1//node(), $doc2//node()) )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-053.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "26") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -1015,14 +1119,16 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-054'(_Config) ->
+'fn-innermost-054'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( ($doc1//node(), $doc2//node()) ),
                            let $nodes := ($doc1//node(), $doc2//node())
                            return $nodes except $nodes/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-054.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1031,13 +1137,15 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-055'(_Config) ->
+'fn-innermost-055'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $in := for $x in //* order by local-name($x) return $x
             return deep-equal(fn:innermost($in)/local-name(), fn:innermost(//*)/local-name())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-055.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1046,13 +1154,15 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-056'(_Config) ->
+'fn-innermost-056'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $in := for $x in //* order by local-name($x) return $x
             return deep-equal(fn:innermost(($in, $in))/local-name(), fn:innermost(//*)/local-name())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-056.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1061,12 +1171,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-057'(_Config) ->
+'fn-innermost-057'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "innermost(//rubbish)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-057.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1075,12 +1187,14 @@ environment('innermost') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-innermost-058'(_Config) ->
+'fn-innermost-058'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "innermost(//*) except //*",
-   {Env,Opts} = xqerl_test:handle_environment(environment('innermost')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-innermost-058.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 

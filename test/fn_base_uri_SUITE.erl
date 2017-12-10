@@ -87,9 +87,13 @@
 -export(['cbcl-base-uri-003'/1]).
 -export(['cbcl-base-uri-004'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-base-uri-1',
    'fn-base-uri-2',
@@ -173,97 +177,97 @@ all() -> [
    'cbcl-base-uri-002',
    'cbcl-base-uri-003',
    'cbcl-base-uri-004'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -275,60 +279,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -336,23 +340,25 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('TopMany') ->
+environment('TopMany',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../prod/AxisStep/TopMany.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'fn-base-uri-1'(_Config) ->
+'fn-base-uri-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace eg = \"http://example.org\"; declare function eg:noContextFunction() { fn:base-uri() }; declare variable $input-context1 external; eg:noContextFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -361,11 +367,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-2'(_Config) ->
+'fn-base-uri-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1 to 100)[fn:base-uri()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -374,11 +382,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-3'(_Config) ->
+'fn-base-uri-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:base-uri(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -387,11 +397,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-4'(_Config) ->
+'fn-base-uri-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:base-uri(<!-- A comment -->)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -400,11 +412,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-5'(_Config) ->
+'fn-base-uri-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:base-uri(comment {\"A Comment Node \"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -413,11 +427,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-6'(_Config) ->
+'fn-base-uri-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:base-uri(text {\"A Text Node\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -426,11 +442,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-7'(_Config) ->
+'fn-base-uri-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:base-uri(element anElement {\"An Element Node\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -447,11 +465,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-8'(_Config) ->
+'fn-base-uri-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:base-uri(<anElement>Element content</anElement>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -468,11 +488,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-9'(_Config) ->
+'fn-base-uri-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string(fn:base-uri(<anElement xml:base=\"http://example.com/examples\">Element content</anElement>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com/examples") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -481,11 +503,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-10'(_Config) ->
+'fn-base-uri-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string(fn:base-uri(<anElement xml:base=\"http://www.example.com\">Element content</anElement>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -494,11 +518,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-11'(_Config) ->
+'fn-base-uri-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:base-uri(document {<aDocument>some content</aDocument>}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -515,12 +541,14 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-12'(_Config) ->
+'fn-base-uri-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
             fn:string(fn:base-uri(document {<aDocument>some content</aDocument>}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.org") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -529,11 +557,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-13'(_Config) ->
+'fn-base-uri-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; fn:string(fn:base-uri(<anElement>some content</anElement>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.org") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -542,11 +572,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-14'(_Config) ->
+'fn-base-uri-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:base-uri(attribute anAttribute{\"attribute value\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -555,11 +587,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-15'(_Config) ->
+'fn-base-uri-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:base-uri(<?format role=\"output\" ?>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -568,11 +602,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-16'(_Config) ->
+'fn-base-uri-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:base-uri(processing-instruction {\"PItarget\"} {\"PIcontent\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -581,13 +617,15 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-17'(_Config) ->
+'fn-base-uri-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare base-uri \"http://example.org\"; 
          fn:base-uri(processing-instruction {\"PItarget\"} {\"PIcontent\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -596,13 +634,15 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-18'(_Config) ->
+'fn-base-uri-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <anElement>With some contexnt</anElement> 
         return fn:string(fn:base-uri($var))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.org") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -611,12 +651,14 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-19'(_Config) ->
+'fn-base-uri-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
         return fn:string(fn:base-uri($var))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.examples.com") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -625,13 +667,15 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-20'(_Config) ->
+'fn-base-uri-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
         return fn:string(fn:base-uri($var))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.examples.com") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -640,12 +684,14 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-21'(_Config) ->
+'fn-base-uri-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <!-- A Comment --> return fn:base-uri($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -654,13 +700,15 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-22'(_Config) ->
+'fn-base-uri-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace eg = \"http://example.org\"; 
         declare function eg:noContextFunction() { fn:base-uri(.) }; 
         eg:noContextFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -669,11 +717,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-23'(_Config) ->
+'fn-base-uri-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string(fn:base-uri(<anElement xml:base=\"http://example.com/examples\">Element content</anElement>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com/examples") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -682,11 +732,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-24'(_Config) ->
+'fn-base-uri-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<!-- A comment -->)/base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -695,11 +747,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-25'(_Config) ->
+'fn-base-uri-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(comment {\"A Comment Node \"})/fn:base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -708,11 +762,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-26'(_Config) ->
+'fn-base-uri-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(text {\"A Text Node\"})/fn:base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -721,11 +777,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-27'(_Config) ->
+'fn-base-uri-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count((element anElement {\"An Element Node\"})/base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -742,11 +800,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-28'(_Config) ->
+'fn-base-uri-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count((<anElement>Element content</anElement>)/fn:base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -763,11 +823,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-29'(_Config) ->
+'fn-base-uri-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string((<anElement xml:base=\"http://example.com/examples\">Element content</anElement>)/fn:base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com/examples") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -776,11 +838,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-30'(_Config) ->
+'fn-base-uri-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string((<anElement xml:base=\"http://www.example.com\">Element content</anElement>)/base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -789,11 +853,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-31'(_Config) ->
+'fn-base-uri-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count((document {<aDocument>some content</aDocument>})/base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -810,12 +876,14 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-32'(_Config) ->
+'fn-base-uri-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
             fn:string((document {<aDocument>some content</aDocument>})/base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.org") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -824,11 +892,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-33'(_Config) ->
+'fn-base-uri-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; fn:string((<anElement>some content</anElement>)/fn:base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.org") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -837,11 +907,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-34'(_Config) ->
+'fn-base-uri-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(attribute anAttribute{\"attribute value\"})/fn:base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -850,11 +922,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-35'(_Config) ->
+'fn-base-uri-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<?format role=\"output\" ?>)/fn:base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -863,11 +937,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-36'(_Config) ->
+'fn-base-uri-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(processing-instruction {\"PItarget\"} {\"PIcontent\"})/base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -876,13 +952,15 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-37'(_Config) ->
+'fn-base-uri-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare base-uri \"http://example.org\"; 
          (processing-instruction {\"PItarget\"} {\"PIcontent\"})/base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -891,13 +969,15 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-38'(_Config) ->
+'fn-base-uri-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <anElement>With some contexnt</anElement> 
         return fn:string(($var)/base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.org") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -906,12 +986,14 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-39'(_Config) ->
+'fn-base-uri-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
         return fn:string(($var)/base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.examples.com") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -920,13 +1002,15 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-40'(_Config) ->
+'fn-base-uri-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
         return fn:string(($var)/base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.examples.com") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -935,12 +1019,14 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-41'(_Config) ->
+'fn-base-uri-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <!-- A Comment --> return ($var)/base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -949,13 +1035,15 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-42'(_Config) ->
+'fn-base-uri-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace eg = \"http://example.org\"; 
         declare function eg:noContextFunction() { fn:base-uri() }; 
         eg:noContextFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -964,11 +1052,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-base-uri-43'(_Config) ->
+'fn-base-uri-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string((<anElement xml:base=\"http://example.com/examples\">Element content</anElement>)/fn:base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-base-uri-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com/examples") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -977,11 +1067,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-BaseURIFunc-1'(_Config) ->
+'K-BaseURIFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "base-uri((), \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-BaseURIFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -990,11 +1082,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-BaseURIFunc-2'(_Config) ->
+'K-BaseURIFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(base-uri(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-BaseURIFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1003,11 +1097,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-1'(_Config) ->
+'K2-BaseURIFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(document-uri(<!-- comment -->))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1016,11 +1112,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-2'(_Config) ->
+'K2-BaseURIFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(document-uri(attribute name {\"content\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1029,11 +1127,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-3'(_Config) ->
+'K2-BaseURIFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(document-uri(<?target data?>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1042,11 +1142,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-4'(_Config) ->
+'K2-BaseURIFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(document-uri(processing-instruction name {123}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1055,11 +1157,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-5'(_Config) ->
+'K2-BaseURIFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(document-uri(text {123}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1068,11 +1172,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-6'(_Config) ->
+'K2-BaseURIFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(document-uri(<elem/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1081,11 +1187,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-7'(_Config) ->
+'K2-BaseURIFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(document-uri(<elem attr=\"f\"/>/@attr))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1094,11 +1202,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-8'(_Config) ->
+'K2-BaseURIFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(document-uri(document {1}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1107,12 +1217,14 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-9'(_Config) ->
+'K2-BaseURIFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i := <e xml:base=\"http://www.example.com/\"><?target data?></e> 
         return base-uri($i/processing-instruction()[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1121,11 +1233,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-10'(_Config) ->
+'K2-BaseURIFunc-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i := <e xml:base=\"http://www.example.com/\">{processing-instruction target {\"data\"}}</e> return base-uri($i/processing-instruction()[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1134,11 +1248,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-11'(_Config) ->
+'K2-BaseURIFunc-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i := <e xml:base=\"http://www.example.com/\"><!-- content --></e> return base-uri($i/comment()[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1147,11 +1263,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-12'(_Config) ->
+'K2-BaseURIFunc-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i := <e xml:base=\"http://www.example.com/\">{comment {\"content\"}}</e> return base-uri($i/comment()[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1160,11 +1278,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-13'(_Config) ->
+'K2-BaseURIFunc-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; empty(base-uri(comment {\"content\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1173,11 +1293,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-14'(_Config) ->
+'K2-BaseURIFunc-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; empty(base-uri(<!-- comment -->))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1186,11 +1308,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-15'(_Config) ->
+'K2-BaseURIFunc-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; empty(base-uri(processing-instruction target {\"data\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1199,11 +1323,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-16'(_Config) ->
+'K2-BaseURIFunc-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; empty(base-uri(<?target data?>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1212,11 +1338,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-17'(_Config) ->
+'K2-BaseURIFunc-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; empty(base-uri(attribute name {\"data\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1225,11 +1353,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-18'(_Config) ->
+'K2-BaseURIFunc-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; let $i := <e attr=\"foo\"></e> return base-uri($i/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1238,11 +1368,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-19'(_Config) ->
+'K2-BaseURIFunc-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/\"; let $i := <e xml:base = \"foo/../xml\" attr=\"foo\"> </e> return base-uri($i/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com/xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1251,11 +1383,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-20'(_Config) ->
+'K2-BaseURIFunc-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/\"; let $i := <e xml:base = \"foo/../xml\" attr=\"foo\"> </e> return base-uri($i/@xml:base)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com/xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1264,16 +1398,18 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-21'(_Config) ->
+'K2-BaseURIFunc-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $i in (1, base-uri(.), 3) return 
         typeswitch($i) 
         case xs:anyURI return \"xs:anyURI\" 
         case xs:integer return \"xs:integer\" 
         default return \"FAILURE\"",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-21.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xs:integer xs:anyURI xs:integer") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1282,11 +1418,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-22'(_Config) ->
+'K2-BaseURIFunc-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/baseURI\"; empty(base-uri(<?target data?>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1295,11 +1433,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-23'(_Config) ->
+'K2-BaseURIFunc-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/baseURI\"; empty(base-uri(processing-instruction target {\"data\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1308,11 +1448,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-24'(_Config) ->
+'K2-BaseURIFunc-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(base-uri(<?target data?>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1321,11 +1463,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-25'(_Config) ->
+'K2-BaseURIFunc-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(base-uri(processing-instruction target {\"data\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1334,11 +1478,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-26'(_Config) ->
+'K2-BaseURIFunc-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(base-uri(attribute name {\"value\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1347,11 +1493,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-27'(_Config) ->
+'K2-BaseURIFunc-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/BASEURI\"; base-uri(document {()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com/BASEURI") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1360,11 +1508,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-28'(_Config) ->
+'K2-BaseURIFunc-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/\"; let $i := document {()} return (\"Base URI:\", base-uri($i), \"Document URI:\", document-uri($i))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Base URI: http://example.com/ Document URI:") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1373,11 +1523,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-29'(_Config) ->
+'K2-BaseURIFunc-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i := fn:base-uri(<anElement xml:base=\"http:\\\\example.com\\\\examples\">Element content</anElement>) return $i eq \"http:\\\\example.com\\\\examples\" or empty($i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1386,11 +1538,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-30'(_Config) ->
+'K2-BaseURIFunc-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:base-uri(<anElement xml:base=\"http://example.com/examples\"><b xml:base=\"\"/>Element content</anElement>/b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com/examples") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1399,11 +1553,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-31'(_Config) ->
+'K2-BaseURIFunc-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:base-uri(exactly-one(<anElement xml:base=\"http://example.com/examples\"><?target data?></anElement>/processing-instruction()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com/examples") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1412,11 +1568,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-32'(_Config) ->
+'K2-BaseURIFunc-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:base-uri(exactly-one(<anElement xml:base=\"http://example.com/examples\"><!-- a comment --></anElement>/comment()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com/examples") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1425,11 +1583,13 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-BaseURIFunc-33'(_Config) ->
+'K2-BaseURIFunc-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e xml:base=\"http://example.com/ABC/\"> <a xml:base=\"../\"> <b xml:base=\"DEF/file.test\"/> </a> </e>/a/b/base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-BaseURIFunc-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com/DEF/file.test") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1438,14 +1598,16 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-base-uri-001'(_Config) ->
+'cbcl-base-uri-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	let $d := document { <root xml:base=\"http://www.w3.org/\"><implicit-base><child /></implicit-base><explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base></root> } 
       	return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/explicit-base } </copy> return fn:base-uri(($y/explicit-base)[1])
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-base-uri-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/TR/xquery") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1454,7 +1616,8 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-base-uri-002'(_Config) ->
+'cbcl-base-uri-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } 
       return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/explicit-base } </copy> 
@@ -1462,7 +1625,8 @@ environment('TopMany') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-base-uri-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/TR/xquery") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1471,7 +1635,8 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-base-uri-003'(_Config) ->
+'cbcl-base-uri-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } 
       return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/implicit-base } </copy> 
@@ -1479,7 +1644,8 @@ environment('TopMany') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-base-uri-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.org") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1488,7 +1654,8 @@ environment('TopMany') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-base-uri-004'(_Config) ->
+'cbcl-base-uri-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } 
       return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/implicit-base } </copy> 
@@ -1496,7 +1663,8 @@ environment('TopMany') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-base-uri-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.org") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

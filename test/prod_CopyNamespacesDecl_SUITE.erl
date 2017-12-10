@@ -41,9 +41,13 @@
 -export(['K2-CopyNamespacesProlog-8'/1]).
 -export(['K2-CopyNamespacesProlog-9'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'copynamespace-1',
    'copynamespace-2',
@@ -81,97 +85,97 @@ all() -> [
    'K2-CopyNamespacesProlog-7',
    'K2-CopyNamespacesProlog-8',
    'K2-CopyNamespacesProlog-9'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -183,60 +187,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -244,11 +248,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'copynamespace-1'(_Config) ->
+'copynamespace-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces preserve, no-inherit; declare copy-namespaces no-preserve, no-inherit; declare variable $input-context1 external; \"aaa\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0055") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -257,7 +263,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-2'(_Config) ->
+'copynamespace-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces preserve,no-inherit; 
       	declare default element namespace \"http://example.org/names\";
@@ -266,7 +273,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<original xmlns=\"http://www.example.com/mynamespace\">Original Content</original>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -275,7 +283,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-3'(_Config) ->
+'copynamespace-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace foo = \"http://example.org\"; 
         declare copy-namespaces preserve,no-inherit; 
@@ -285,7 +294,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"\"\", \"xml\"") of 
       true -> {comment, "Correct permutation"};
       {false, F} -> F 
@@ -294,7 +304,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-4'(_Config) ->
+'copynamespace-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare namespace foo = \"http://example.org\"; 
       	declare copy-namespaces preserve,inherit; 
@@ -306,7 +317,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " foo xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -315,7 +327,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-5'(_Config) ->
+'copynamespace-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare namespace foo = \"http://example.org\"; 
       	declare copy-namespaces preserve,no-inherit; 
@@ -327,7 +340,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " foo xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -336,7 +350,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-6'(_Config) ->
+'copynamespace-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare namespace foo = \"http://example.org\"; 
       	declare copy-namespaces preserve,inherit; 
@@ -348,7 +363,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " foo xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -357,7 +373,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-7'(_Config) ->
+'copynamespace-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces no-preserve,no-inherit; 
       	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
@@ -367,7 +384,8 @@ environment('array-and-map') ->
       	return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -376,7 +394,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-8'(_Config) ->
+'copynamespace-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces preserve,no-inherit; 
       	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
@@ -387,7 +406,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "existingNamespace xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -396,7 +416,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-9'(_Config) ->
+'copynamespace-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces no-preserve,inherit; 
       	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
@@ -406,7 +427,8 @@ environment('array-and-map') ->
       	return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "newNamespace xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -415,7 +437,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-10'(_Config) ->
+'copynamespace-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces preserve,inherit; 
       	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
@@ -426,7 +449,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "existingNamespace newNamespace xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -435,7 +459,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-11'(_Config) ->
+'copynamespace-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces preserve,inherit; 
       	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
@@ -446,7 +471,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "existingNamespace xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -455,7 +481,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-12'(_Config) ->
+'copynamespace-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces preserve,inherit; 
       	declare variable $existingElement := <existingElement xmlns:existingNamespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
@@ -466,7 +493,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "existingNamespace newNamespace xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -475,7 +503,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-13'(_Config) ->
+'copynamespace-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces preserve,inherit; 
       	declare variable $existingElement := <existingElement>{\"Existing Content\"}</existingElement>; 
@@ -485,7 +514,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -494,7 +524,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-14'(_Config) ->
+'copynamespace-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces preserve,inherit; 
       	declare variable $existingElement := <existingElement xmlns:somespace=\"http://www.existingnamespace.com\">{\"Existing Content\"}</existingElement>; 
@@ -505,7 +536,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "SOMESPACE somespace xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -514,7 +546,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-15'(_Config) ->
+'copynamespace-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces preserve,inherit; 
       	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
@@ -526,7 +559,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "namespace1 namespace2 namespace3 xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -535,7 +569,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-16'(_Config) ->
+'copynamespace-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces no-preserve,inherit; 
       	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
@@ -547,7 +582,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "namespace3 xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -556,7 +592,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-17'(_Config) ->
+'copynamespace-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces no-preserve,no-inherit; 
       	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
@@ -568,7 +605,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -577,7 +615,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-18'(_Config) ->
+'copynamespace-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces preserve,no-inherit; 
       	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
@@ -589,7 +628,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "namespace1 xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -598,7 +638,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-19'(_Config) ->
+'copynamespace-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces preserve,inherit; 
       	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
@@ -610,7 +651,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "namespace2 namespace3 xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -619,7 +661,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-20'(_Config) ->
+'copynamespace-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces no-preserve,inherit; 
       	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
@@ -631,7 +674,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "namespace3 xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -640,7 +684,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-21'(_Config) ->
+'copynamespace-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces no-preserve,no-inherit; 
       	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
@@ -652,7 +697,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -661,7 +707,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'copynamespace-22'(_Config) ->
+'copynamespace-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare copy-namespaces preserve,no-inherit; 
       	declare variable $element1 := <element1 xmlns:namespace1=\"http://www.namespace1.com\"></element1>; 
@@ -673,7 +720,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "copynamespace-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "namespace2 xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -682,11 +730,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CopyNamespacesProlog-1'(_Config) ->
+'K-CopyNamespacesProlog-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces preserve, no-inherit; declare copy-namespaces no-preserve, no-inherit; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CopyNamespacesProlog-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0055") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -695,11 +745,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CopyNamespacesProlog-2'(_Config) ->
+'K-CopyNamespacesProlog-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces no-preserve, no-inherit; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CopyNamespacesProlog-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -708,11 +760,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CopyNamespacesProlog-3'(_Config) ->
+'K-CopyNamespacesProlog-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces preserve, inherit; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CopyNamespacesProlog-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -721,11 +775,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CopyNamespacesProlog-4'(_Config) ->
+'K-CopyNamespacesProlog-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces no-inherit, no-preserve; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CopyNamespacesProlog-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -734,11 +790,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CopyNamespacesProlog-5'(_Config) ->
+'K-CopyNamespacesProlog-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces inherit, preserve; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CopyNamespacesProlog-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -747,11 +805,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CopyNamespacesProlog-1'(_Config) ->
+'K2-CopyNamespacesProlog-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces no-preserve, inherit; <doc> <a>{<b xmlns:p=\"http://example.com/\"/>}</a> <a><b xmlns:p=\"http://example.com/\"/></a> </doc>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CopyNamespacesProlog-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<doc><a><b/></a><a><b xmlns:p=\"http://example.com/\"/></a></doc>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -760,11 +820,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CopyNamespacesProlog-2'(_Config) ->
+'K2-CopyNamespacesProlog-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "copy-namespaces lt copy-namespaces",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CopyNamespacesProlog-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -773,11 +835,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CopyNamespacesProlog-3'(_Config) ->
+'K2-CopyNamespacesProlog-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "namespace lt namespace",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CopyNamespacesProlog-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -786,11 +850,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CopyNamespacesProlog-4'(_Config) ->
+'K2-CopyNamespacesProlog-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces preserve, no-inherit; <e xmlns=\"http://example.com/\"> { <b/> } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CopyNamespacesProlog-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xmlns=\"http://example.com/\"><b/></e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -799,11 +865,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CopyNamespacesProlog-5'(_Config) ->
+'K2-CopyNamespacesProlog-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces no-preserve, no-inherit; <e xmlns:appearsUnused=\"http://example.com/\"> { <b> <appearsUnused:c/> </b> } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CopyNamespacesProlog-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xmlns:appearsUnused=\"http://example.com/\"><b><appearsUnused:c xmlns:appearsUnused=\"http://example.com/\"/></b></e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -812,11 +880,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CopyNamespacesProlog-6'(_Config) ->
+'K2-CopyNamespacesProlog-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace ns = \"http://example.com/\"; <e xmlns:appearsUnused=\"http://example.com/\"> { <b> <appearsUnused:c/> </b> } </e>/(for $n in (., b, b/ns:c), $i in in-scope-prefixes($n) order by $i return ($i, '|'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CopyNamespacesProlog-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "appearsUnused | appearsUnused | appearsUnused | xml | xml | xml |") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -825,11 +895,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CopyNamespacesProlog-7'(_Config) ->
+'K2-CopyNamespacesProlog-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces no-preserve, no-inherit; <e> { <b> <c xmlns:unused=\"http://example.com\"/> </b> } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CopyNamespacesProlog-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e><b><c/></b></e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -838,11 +910,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CopyNamespacesProlog-8'(_Config) ->
+'K2-CopyNamespacesProlog-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces no-preserve,inherit; <a> { <b>{()}</b> } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CopyNamespacesProlog-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a><b/></a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -851,11 +925,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-CopyNamespacesProlog-9'(_Config) ->
+'K2-CopyNamespacesProlog-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces preserve, no-inherit; declare variable $e1 := <e1 xmlns:namespace1=\"http://www.namespace1.com\"/>; declare variable $e2 := <e2 xmlns:namespace2=\"http://www.namespace2.com\">{$e1}</e2>; for $n in <e3 xmlns:namespace3=\"http://www.namespace3.com\">{$e2}</e3>/e2/e1, $ps in in-scope-prefixes($n) order by $ps return $ps, '|', for $n in <e3 xmlns:namespace3=\"http://www.namespace3.com\">{<e2 xmlns:namespace2=\"http://www.namespace2.com\">{<e1 xmlns:namespace1=\"http://www.namespace1.com\"/>}</e2>}</e3>/e2/e1, $ps in in-scope-prefixes($n) order by $ps return $ps",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-CopyNamespacesProlog-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "namespace1 xml | namespace1 namespace2 namespace3 xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

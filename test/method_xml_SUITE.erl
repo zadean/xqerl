@@ -47,9 +47,13 @@
 -export(['Serialization-xml-01'/1]).
 -export(['Serialization-xml-02'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "ser")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'K2-Serialization-1',
    'K2-Serialization-2',
@@ -93,97 +97,97 @@ all() -> [
    'K2-Serialization-39',
    'Serialization-xml-01',
    'Serialization-xml-02'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -195,60 +199,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -256,87 +260,129 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'K2-Serialization-1'(_Config) ->
+'K2-Serialization-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-2'(_Config) ->
+'K2-Serialization-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-3'(_Config) ->
+'K2-Serialization-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-4'(_Config) ->
+'K2-Serialization-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-5'(_Config) ->
+'K2-Serialization-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-6'(_Config) ->
+'K2-Serialization-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-7'(_Config) ->
+'K2-Serialization-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-7a'(_Config) ->
+'K2-Serialization-7a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-8'(_Config) ->
+'K2-Serialization-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-8a'(_Config) ->
+'K2-Serialization-8a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-9'(_Config) ->
+'K2-Serialization-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-10'(_Config) ->
+'K2-Serialization-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-11'(_Config) ->
+'K2-Serialization-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-12'(_Config) ->
+'K2-Serialization-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'K2-Serialization-13'(_Config) ->
+'K2-Serialization-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-14'(_Config) ->
+'K2-Serialization-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-15'(_Config) ->
+'K2-Serialization-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-16'(_Config) ->
+'K2-Serialization-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-17'(_Config) ->
+'K2-Serialization-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-18'(_Config) ->
+'K2-Serialization-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-20'(_Config) ->
+'K2-Serialization-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-21'(_Config) ->
+'K2-Serialization-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-22'(_Config) ->
+'K2-Serialization-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-23'(_Config) ->
+'K2-Serialization-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-24'(_Config) ->
+'K2-Serialization-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-25'(_Config) ->
+'K2-Serialization-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-26'(_Config) ->
+'K2-Serialization-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-27'(_Config) ->
+'K2-Serialization-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-28'(_Config) ->
+'K2-Serialization-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-29'(_Config) ->
+'K2-Serialization-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-30'(_Config) ->
+'K2-Serialization-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-31'(_Config) ->
+'K2-Serialization-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-32'(_Config) ->
+'K2-Serialization-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-33'(_Config) ->
+'K2-Serialization-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-34'(_Config) ->
+'K2-Serialization-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-35'(_Config) ->
+'K2-Serialization-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-36'(_Config) ->
+'K2-Serialization-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-37'(_Config) ->
+'K2-Serialization-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-38'(_Config) ->
+'K2-Serialization-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'K2-Serialization-39'(_Config) ->
+'K2-Serialization-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-xml-01'(_Config) ->
+'Serialization-xml-01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-xml-02'(_Config) ->
+'Serialization-xml-02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.

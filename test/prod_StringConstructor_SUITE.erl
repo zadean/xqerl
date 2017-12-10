@@ -49,9 +49,13 @@
 -export(['string-constructor-917'/1]).
 -export(['string-constructor-918'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'string-constructor-001',
    'string-constructor-002',
@@ -97,97 +101,97 @@ all() -> [
    'string-constructor-916',
    'string-constructor-917',
    'string-constructor-918'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -199,60 +203,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -260,14 +264,16 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'string-constructor-001'(_Config) ->
+'string-constructor-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n}` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -284,14 +290,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-002'(_Config) ->
+'string-constructor-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were 10 green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -308,7 +316,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-003'(_Config) ->
+'string-constructor-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         declare variable $thing as xs:string external := ``[wall]``;
@@ -316,7 +325,8 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -333,14 +343,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-004'(_Config) ->
+'string-constructor-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were &lt; `{$n}` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -357,14 +369,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-005'(_Config) ->
+'string-constructor-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[\"{}\"'[`]'\\\\<> `{$n}`]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -381,14 +395,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-006'(_Config) ->
+'string-constructor-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[`{$n}``{$n+1}``{$n+2}`]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -405,14 +421,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-007'(_Config) ->
+'string-constructor-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[ `{$n}` `{$n+1}` `{$n+2}` ]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -429,14 +447,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-008'(_Config) ->
+'string-constructor-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n external := <e>10</e>; 
         ``[There were `{$n}` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -453,14 +473,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-009'(_Config) ->
+'string-constructor-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n external := <e>10</e>; 
         ``[There were `{``[at least `{$n}`]``}` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -477,14 +499,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-010'(_Config) ->
+'string-constructor-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n external := <e>10</e>; 
         <a>{``[There were `{$n}` green bottles]``}</a>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>There were 10 green bottles</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -493,14 +517,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-011'(_Config) ->
+'string-constructor-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n external := <e>10</e>; 
         <a text=\"{``[There were `{$n}` green bottles]``}\"/>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a text=\"There were 10 green bottles\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -509,14 +535,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-012'(_Config) ->
+'string-constructor-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         if ($n lt 20) then ``[There were `{$n}` green bottles]`` else ``[There were many green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -533,14 +561,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-013'(_Config) ->
+'string-constructor-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n}` green bottles]``[$n lt 20]
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -557,7 +587,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-014'(_Config) ->
+'string-constructor-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There
@@ -566,7 +597,8 @@ bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -585,14 +617,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-015'(_Config) ->
+'string-constructor-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         [``[There were `{$n}` green bottles]``]?1
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -609,14 +643,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-016'(_Config) ->
+'string-constructor-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{[$n]}` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -633,14 +669,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-017'(_Config) ->
+'string-constructor-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{array{$n}}` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -657,14 +695,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-018'(_Config) ->
+'string-constructor-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n, ()}` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -681,14 +721,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-019'(_Config) ->
+'string-constructor-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were ``{$n}`` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -705,14 +747,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-020'(_Config) ->
+'string-constructor-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[``[There were `{\"`{\"}``{$n}`}` green bottles`{\"]``\"}`]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -729,13 +773,15 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-021'(_Config) ->
+'string-constructor-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         matches(\"\"\"\", ``[[\"']]``)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -744,11 +790,13 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-022'(_Config) ->
+'string-constructor-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "``[]``",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -757,11 +805,13 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-023'(_Config) ->
+'string-constructor-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "``[` {$n}`]``",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"` {$n}`\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -770,11 +820,13 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-024'(_Config) ->
+'string-constructor-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "``[` *`{}`* `]``",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"` ** `\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -783,11 +835,13 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-025'(_Config) ->
+'string-constructor-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "``[` *`{(:Nothing here:)}`* `]``",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"` ** `\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -796,11 +850,13 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-026'(_Config) ->
+'string-constructor-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "``[ *`{xs:date('2012-05-05')}`* ]``",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\" *2012-05-05* \"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -809,13 +865,15 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-901'(_Config) ->
+'string-constructor-901'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n}` green bottles]`",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-901.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -824,13 +882,15 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-902'(_Config) ->
+'string-constructor-902'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n}` green bottles]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-902.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -839,13 +899,15 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-903'(_Config) ->
+'string-constructor-903'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n}` green bottles",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-903.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -854,13 +916,15 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-904'(_Config) ->
+'string-constructor-904'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n} green ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-904.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -869,13 +933,15 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-905'(_Config) ->
+'string-constructor-905'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-905.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -884,14 +950,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-906'(_Config) ->
+'string-constructor-906'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         `[There were `{$n}` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-906.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -900,14 +968,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-907'(_Config) ->
+'string-constructor-907'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``{There were `{$n}` green bottles}``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-907.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -916,14 +986,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-908'(_Config) ->
+'string-constructor-908'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         unordered{$n}`
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-908.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -932,14 +1004,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-909'(_Config) ->
+'string-constructor-909'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         }`nasty!]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-909.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -948,14 +1022,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-910'(_Config) ->
+'string-constructor-910'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n external := map{'a':10}; 
         ``[There were `{$n}` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-910.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0013") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -964,14 +1040,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-911'(_Config) ->
+'string-constructor-911'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n external := map{'a':10}; 
         ``[There were `{map{'a':10}}` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-911.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0013") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -980,14 +1058,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-912'(_Config) ->
+'string-constructor-912'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{1 to $n}` green bottles]``
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-912.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"There were 1 2 3 4 5 6 7 8 9 10 green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -996,13 +1076,15 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-913'(_Config) ->
+'string-constructor-913'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <a b=``[c]``/>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-913.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1011,14 +1093,16 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-914'(_Config) ->
+'string-constructor-914'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace xsl=``[http://www.w3.org/1999/XSL/Transform]``;
         <xsl:output/>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-914.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1027,7 +1111,8 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-915'(_Config) ->
+'string-constructor-915'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace zzz=\"http://example.com/options\";
         declare option zzz:synonymous = ``[http://www.w3.org/1999/XSL/Transform]``;
@@ -1035,7 +1120,8 @@ bottles\"") of
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-915.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1044,11 +1130,13 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-916'(_Config) ->
+'string-constructor-916'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "processing-instruction(``[pi-action]``)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-916.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1057,11 +1145,13 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-917'(_Config) ->
+'string-constructor-917'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default decimal-format NaN = ``[not-a-number]``; 12",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-917.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1070,11 +1160,13 @@ bottles\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'string-constructor-918'(_Config) ->
+'string-constructor-918'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in (1 to 10)/string() order by $x collation ``[http://www.w3.org/2005/xpath-functions/collation/codepoint]`` return xs:integer($x)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "string-constructor-918.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

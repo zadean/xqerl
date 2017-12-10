@@ -42,9 +42,13 @@
 -export(['extvardef-026'/1]).
 -export(['extvardef-027'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'extvardef-001',
    'extvardef-001a',
@@ -83,97 +87,97 @@ all() -> [
    'extvardef-025',
    'extvardef-026',
    'extvardef-027'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -185,60 +189,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -246,23 +250,25 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('hats') ->
+environment('hats',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"SchemaImport/hats.xsd","http://www.w3.org/XQueryTest/hats"}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'extvardef-001'(_Config) ->
+'extvardef-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $ext external := 0; <a>{$ext}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>0</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -271,13 +277,14 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-001a'(_Config) ->
+'extvardef-001a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $ext external := 0; $ext",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, [{"ext","","5"}]},
 {namespaces, []},
@@ -286,7 +293,8 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-001a.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -295,11 +303,13 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-002'(_Config) ->
+'extvardef-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $ext as xs:integer external := 0; <a>{$ext}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>0</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -308,13 +318,14 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-002a'(_Config) ->
+'extvardef-002a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $ext as xs:integer external := 0; <a>{$ext}</a>",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, [{"ext","","5"}]},
 {namespaces, []},
@@ -323,7 +334,8 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-002a.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>5</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -332,13 +344,14 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-002b'(_Config) ->
+'extvardef-002b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $ext as xs:integer external := 0; <a>{$ext}</a>",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, [{"ext","","xs:date('2008-12-01')"}]},
 {namespaces, []},
@@ -347,7 +360,8 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-002b.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -356,11 +370,13 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-003'(_Config) ->
+'extvardef-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $ext as xs:integer* external := (0,1,2); <a>{sum($ext)}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>3</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -369,13 +385,14 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-003a'(_Config) ->
+'extvardef-003a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $ext as xs:integer* external := (0,1,2); <a>{sum($ext)}</a>",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, [{"ext","","4,5,6"}]},
 {namespaces, []},
@@ -384,7 +401,8 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-003a.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>15</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -393,13 +411,14 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-003b'(_Config) ->
+'extvardef-003b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $ext as xs:integer* external := (0,1,2); <a>{sum($ext)}</a>",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, [{"ext","","42"}]},
 {namespaces, []},
@@ -408,7 +427,8 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-003b.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>42</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -417,11 +437,13 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-004'(_Config) ->
+'extvardef-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $ext as xs:integer* external := 0,1,2; <a>{sum($ext)}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -430,11 +452,13 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-005'(_Config) ->
+'extvardef-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $ext as xs:integer* external := ; <a></a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -443,14 +467,16 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-006'(_Config) ->
+'extvardef-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare variable $var as xs:integer := 17; 
          declare variable $ext as element(a) external := <a>{$var}</a>; 
          <out>{$ext}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><a>17</a></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -459,7 +485,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-006a'(_Config) ->
+'extvardef-006a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $var as xs:integer := 17; 
         declare variable $ext as xs:integer external := $var; 
@@ -469,7 +496,7 @@ environment('hats') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, [{"ext","","862"}]},
 {namespaces, []},
@@ -478,7 +505,8 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-006a.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>862</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -487,7 +515,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-006b'(_Config) ->
+'extvardef-006b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $var as xs:integer := 17; 
         declare variable $ext as xs:integer external := <a>{$var}</a>; 
@@ -497,7 +526,7 @@ environment('hats') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, [{"ext","","862"}]},
 {namespaces, []},
@@ -506,7 +535,8 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-006b.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -523,14 +553,16 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-007'(_Config) ->
+'extvardef-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $ext as xs:date external := current-date() + xs:dayTimeDuration('P30D'); 
         $ext gt xs:date('2008-12-30')
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -539,11 +571,13 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-008'(_Config) ->
+'extvardef-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $x external; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -552,11 +586,13 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-009'(_Config) ->
+'extvardef-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $x external; \"result\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "result") of 
       true -> {comment, "String correct"};
@@ -573,7 +609,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-010'(_Config) ->
+'extvardef-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $a := 1;
         declare variable $x external := $a + $b;
@@ -582,7 +619,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -591,7 +629,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-010a'(_Config) ->
+'extvardef-010a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $a external := 6 + local:foo();
         declare variable $b external := 12;
@@ -600,7 +639,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-010a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"28") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -609,7 +649,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-011'(_Config) ->
+'extvardef-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $a := $x;
         declare variable $x external := $a + 2;
@@ -617,7 +658,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0054") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -626,7 +668,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-011a'(_Config) ->
+'extvardef-011a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $x external := 3 + local:foo();
         declare variable $b external := 2 + local:foo();
@@ -640,7 +683,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-011a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0054") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -649,7 +693,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-012'(_Config) ->
+'extvardef-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:aaa() { 1 };
         declare variable $x external := local:bbb() + local:aaa();
@@ -658,7 +703,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -667,7 +713,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-013'(_Config) ->
+'extvardef-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $y external;
         declare variable $z external := 10;
@@ -680,7 +727,7 @@ environment('hats') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, [{"y","","16"}]},
 {namespaces, []},
@@ -689,7 +736,8 @@ environment('hats') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-013.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"28") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -698,15 +746,17 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-014'(_Config) ->
+'extvardef-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $x external := /works/employee[@name eq \"Jane Doe 1\"];
         fn:count($x)
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-014.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -715,7 +765,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-015'(_Config) ->
+'extvardef-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $y := /works/employee;
         declare context item := $y[9];
@@ -724,7 +775,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -741,7 +793,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-016a'(_Config) ->
+'extvardef-016a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $y := (<a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a>);
         declare context item := $y[3];
@@ -750,7 +803,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-016a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -759,7 +813,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-016b'(_Config) ->
+'extvardef-016b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $y := <root><a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a></root>;
         declare context item := $y;
@@ -768,7 +823,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-016b.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -777,14 +833,16 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-017'(_Config) ->
+'extvardef-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $x as xs:decimal external := xs:integer(10);
         $x
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -793,14 +851,16 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-018'(_Config) ->
+'extvardef-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $x external := $a + 10;
         $x
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -809,7 +869,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-019'(_Config) ->
+'extvardef-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $x external := 10;
         declare variable $y external := 18 + $x;
@@ -817,7 +878,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"28") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -826,7 +888,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-020'(_Config) ->
+'extvardef-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $x external := 5;
         declare variable $a := $x + 2;
@@ -836,7 +899,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"28") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -845,7 +909,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-021'(_Config) ->
+'extvardef-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $x as xs:integer external := xs:int(5);
         declare variable $y as xs:decimal external := $x;
@@ -853,7 +918,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"fn:true()") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -862,7 +928,8 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-022'(_Config) ->
+'extvardef-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:foo() {
           $x
@@ -872,7 +939,8 @@ environment('hats') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardef-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -881,13 +949,18 @@ environment('hats') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'extvardef-023'(_Config) ->
+'extvardef-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'extvardef-024'(_Config) ->
+'extvardef-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'extvardef-025'(_Config) ->
+'extvardef-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'extvardef-026'(_Config) ->
+'extvardef-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'extvardef-027'(_Config) ->
+'extvardef-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.

@@ -72,9 +72,13 @@
 -export(['json-doc-error-031'/1]).
 -export(['json-doc-error-032'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'json-doc-001',
    'json-doc-002',
@@ -143,97 +147,97 @@ all() -> [
    'json-doc-error-030',
    'json-doc-error-031',
    'json-doc-error-032'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -245,60 +249,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -306,116 +310,118 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('json-files') ->
+environment('json-files',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/json","j"}]},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-to-xml/data001.json","http://www.w3.org/qt3/json/data001-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-to-xml/escapeText.json","http://www.w3.org/qt3/json/escapeText-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-to-xml/data005.json","http://www.w3.org/qt3/json/data005-json"}]},
+{resources, [{filename:join(BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"},
+{filename:join(BaseDir, "json-to-xml/escapeText.json"),"http://www.w3.org/qt3/json/escapeText-json"},
+{filename:join(BaseDir, "json-to-xml/data005.json"),"http://www.w3.org/qt3/json/data005-json"}]},
 {modules, []}
 ];
-environment('json-doc-array') ->
+environment('json-doc-array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/arrayEmpty.json","http://www.w3.org/qt3/json/arrayEmpty-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/arrayNumber.json","http://www.w3.org/qt3/json/arrayNumber-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/arrayString.json","http://www.w3.org/qt3/json/arrayString-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/arrayTrue.json","http://www.w3.org/qt3/json/arrayTrue-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/arrayFalse.json","http://www.w3.org/qt3/json/arrayFalse-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/arrayNull.json","http://www.w3.org/qt3/json/arrayNull-json"}]},
+{resources, [{filename:join(BaseDir, "json-doc/arrayEmpty.json"),"http://www.w3.org/qt3/json/arrayEmpty-json"},
+{filename:join(BaseDir, "json-doc/arrayNumber.json"),"http://www.w3.org/qt3/json/arrayNumber-json"},
+{filename:join(BaseDir, "json-doc/arrayString.json"),"http://www.w3.org/qt3/json/arrayString-json"},
+{filename:join(BaseDir, "json-doc/arrayTrue.json"),"http://www.w3.org/qt3/json/arrayTrue-json"},
+{filename:join(BaseDir, "json-doc/arrayFalse.json"),"http://www.w3.org/qt3/json/arrayFalse-json"},
+{filename:join(BaseDir, "json-doc/arrayNull.json"),"http://www.w3.org/qt3/json/arrayNull-json"}]},
 {modules, []}
 ];
-environment('json-doc-map') ->
+environment('json-doc-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/mapEmpty.json","http://www.w3.org/qt3/json/mapEmpty-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/mapDuplicates.json","http://www.w3.org/qt3/json/mapDuplicates-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/mapUnescape.json","http://www.w3.org/qt3/json/mapUnescape-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/mapUnescape10.json","http://www.w3.org/qt3/json/mapUnescape10-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/mapUnescapeUnpaired10.json","http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/mapZeroLength.json","http://www.w3.org/qt3/json/mapZeroLength-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/mapDuplicatesEscape.json","http://www.w3.org/qt3/json/mapDuplicatesEscape-json"}]},
+{resources, [{filename:join(BaseDir, "json-doc/mapEmpty.json"),"http://www.w3.org/qt3/json/mapEmpty-json"},
+{filename:join(BaseDir, "json-doc/mapDuplicates.json"),"http://www.w3.org/qt3/json/mapDuplicates-json"},
+{filename:join(BaseDir, "json-doc/mapUnescape.json"),"http://www.w3.org/qt3/json/mapUnescape-json"},
+{filename:join(BaseDir, "json-doc/mapUnescape10.json"),"http://www.w3.org/qt3/json/mapUnescape10-json"},
+{filename:join(BaseDir, "json-doc/mapUnescapeUnpaired10.json"),"http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json"},
+{filename:join(BaseDir, "json-doc/mapZeroLength.json"),"http://www.w3.org/qt3/json/mapZeroLength-json"},
+{filename:join(BaseDir, "json-doc/mapDuplicatesEscape.json"),"http://www.w3.org/qt3/json/mapDuplicatesEscape-json"}]},
 {modules, []}
 ];
-environment('json-doc-number') ->
+environment('json-doc-number',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/number001.json","http://www.w3.org/qt3/json/number001-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/number002.json","http://www.w3.org/qt3/json/number002-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/number003.json","http://www.w3.org/qt3/json/number003-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/number004.json","http://www.w3.org/qt3/json/number004-json"}]},
+{resources, [{filename:join(BaseDir, "json-doc/number001.json"),"http://www.w3.org/qt3/json/number001-json"},
+{filename:join(BaseDir, "json-doc/number002.json"),"http://www.w3.org/qt3/json/number002-json"},
+{filename:join(BaseDir, "json-doc/number003.json"),"http://www.w3.org/qt3/json/number003-json"},
+{filename:join(BaseDir, "json-doc/number004.json"),"http://www.w3.org/qt3/json/number004-json"}]},
 {modules, []}
 ];
-environment('json-doc-string') ->
+environment('json-doc-string',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/stringUnpaired.json","http://www.w3.org/qt3/json/stringUnpaired-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/stringHex.json","http://www.w3.org/qt3/json/stringHex-json"}]},
+{resources, [{filename:join(BaseDir, "json-doc/stringUnpaired.json"),"http://www.w3.org/qt3/json/stringUnpaired-json"},
+{filename:join(BaseDir, "json-doc/stringHex.json"),"http://www.w3.org/qt3/json/stringHex-json"}]},
 {modules, []}
 ];
-environment('json-doc-error') ->
+environment('json-doc-error',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorToken.json","http://www.w3.org/qt3/json/errorToken-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorExtra.json","http://www.w3.org/qt3/json/errorExtra-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorArray.json","http://www.w3.org/qt3/json/errorArray-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorArrayNumber.json","http://www.w3.org/qt3/json/errorArrayNumber-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorArrayHex.json","http://www.w3.org/qt3/json/errorArrayHex-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorArrayString.json","http://www.w3.org/qt3/json/errorArrayString-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorArrayUnicode.json","http://www.w3.org/qt3/json/errorArrayUnicode-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorMap.json","http://www.w3.org/qt3/json/errorMap-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorArrayComma.json","http://www.w3.org/qt3/json/errorArrayComma-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorNumber01.json","http://www.w3.org/qt3/json/errorNumber01-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorNumber02.json","http://www.w3.org/qt3/json/errorNumber02-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorNumber03.json","http://www.w3.org/qt3/json/errorNumber03-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorNumber04.json","http://www.w3.org/qt3/json/errorNumber04-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorString01.json","http://www.w3.org/qt3/json/errorString01-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorString02.json","http://www.w3.org/qt3/json/errorString02-json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-doc/errorString03.json","http://www.w3.org/qt3/json/errorString03-json"}]},
+{resources, [{filename:join(BaseDir, "json-doc/errorToken.json"),"http://www.w3.org/qt3/json/errorToken-json"},
+{filename:join(BaseDir, "json-doc/errorExtra.json"),"http://www.w3.org/qt3/json/errorExtra-json"},
+{filename:join(BaseDir, "json-doc/errorArray.json"),"http://www.w3.org/qt3/json/errorArray-json"},
+{filename:join(BaseDir, "json-doc/errorArrayNumber.json"),"http://www.w3.org/qt3/json/errorArrayNumber-json"},
+{filename:join(BaseDir, "json-doc/errorArrayHex.json"),"http://www.w3.org/qt3/json/errorArrayHex-json"},
+{filename:join(BaseDir, "json-doc/errorArrayString.json"),"http://www.w3.org/qt3/json/errorArrayString-json"},
+{filename:join(BaseDir, "json-doc/errorArrayUnicode.json"),"http://www.w3.org/qt3/json/errorArrayUnicode-json"},
+{filename:join(BaseDir, "json-doc/errorMap.json"),"http://www.w3.org/qt3/json/errorMap-json"},
+{filename:join(BaseDir, "json-doc/errorArrayComma.json"),"http://www.w3.org/qt3/json/errorArrayComma-json"},
+{filename:join(BaseDir, "json-doc/errorNumber01.json"),"http://www.w3.org/qt3/json/errorNumber01-json"},
+{filename:join(BaseDir, "json-doc/errorNumber02.json"),"http://www.w3.org/qt3/json/errorNumber02-json"},
+{filename:join(BaseDir, "json-doc/errorNumber03.json"),"http://www.w3.org/qt3/json/errorNumber03-json"},
+{filename:join(BaseDir, "json-doc/errorNumber04.json"),"http://www.w3.org/qt3/json/errorNumber04-json"},
+{filename:join(BaseDir, "json-doc/errorString01.json"),"http://www.w3.org/qt3/json/errorString01-json"},
+{filename:join(BaseDir, "json-doc/errorString02.json"),"http://www.w3.org/qt3/json/errorString02-json"},
+{filename:join(BaseDir, "json-doc/errorString03.json"),"http://www.w3.org/qt3/json/errorString03-json"}]},
 {modules, []}
 ].
-'json-doc-001'(_Config) ->
+'json-doc-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/mapEmpty-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-001.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -424,12 +430,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-002'(_Config) ->
+'json-doc-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayEmpty-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -438,12 +446,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-003'(_Config) ->
+'json-doc-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-003.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -452,12 +462,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-004'(_Config) ->
+'json-doc-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayString-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -466,12 +478,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-005'(_Config) ->
+'json-doc-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayTrue-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-005.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[true()]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -480,12 +494,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-006'(_Config) ->
+'json-doc-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayFalse-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-006.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[false()]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -494,12 +510,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-007'(_Config) ->
+'json-doc-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNull-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-007.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[()]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -508,12 +526,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-008'(_Config) ->
+'json-doc-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/data001-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -542,12 +562,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-009'(_Config) ->
+'json-doc-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/data005-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-009.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -584,12 +606,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-010'(_Config) ->
+'json-doc-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/escapeText-json')?key",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-010.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data with \" within it") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -598,12 +622,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-011'(_Config) ->
+'json-doc-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/escapeText-json', map{'escape':false()})?key",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-011.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data with \" within it") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -612,12 +638,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-012'(_Config) ->
+'json-doc-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/escapeText-json', map{'escape':true()})?key",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-files')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-012.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data with \" within it") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -626,14 +654,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-018'(_Config) ->
+'json-doc-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json')
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-018.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":3, \"b\":4}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -642,14 +672,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-019'(_Config) ->
+'json-doc-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape-json', map{'escape':true()})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-019.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\\\\\":3, \"b\\\\\":4}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -658,14 +690,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-020'(_Config) ->
+'json-doc-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape-json', map{'escape':false()})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-020.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\\\":3, \"b\\\":4}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -674,14 +708,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-021'(_Config) ->
+'json-doc-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', map{'escape':true()})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-021.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"\\f\", \"\\u0007\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -690,14 +726,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-022'(_Config) ->
+'json-doc-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', map{'escape':false()})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-022.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"�\", \"�\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -706,14 +744,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-023'(_Config) ->
+'json-doc-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', map{'escape':false()})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-023.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"�\", \"�\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -722,14 +762,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-024'(_Config) ->
+'json-doc-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', map{'escape':true()})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-024.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"\\uDA00\", \"\\uDD00\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -738,15 +780,17 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-025'(_Config) ->
+'json-doc-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', 
          map{'escape':false(), 'fallback':function($s){'??'}})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-025.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"??\", \"??\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -755,15 +799,17 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-026'(_Config) ->
+'json-doc-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', 
          map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-026.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"??\\uDA00??\", \"??\\uDD00??\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -772,15 +818,17 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-027'(_Config) ->
+'json-doc-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', 
          map{'escape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-027.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -789,14 +837,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-028'(_Config) ->
+'json-doc-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc((), 
          map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -805,14 +855,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-029'(_Config) ->
+'json-doc-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-029.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -821,14 +873,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-030'(_Config) ->
+'json-doc-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number001-json')
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-030.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"23E0") of 
       true -> {comment, "Deep equal"};
@@ -845,14 +899,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-031'(_Config) ->
+'json-doc-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number002-json')
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-031.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"0.23e+02") of 
       true -> {comment, "Deep equal"};
@@ -869,14 +925,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-032'(_Config) ->
+'json-doc-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number003-json')
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-032.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -893,14 +951,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-033'(_Config) ->
+'json-doc-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number004-json')
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-033.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"-0") of 
       true -> {comment, "Deep equal"};
@@ -917,14 +977,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-034'(_Config) ->
+'json-doc-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapZeroLength-json')
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-034.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"\":\"\", \"0\":\"0\"}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -933,11 +995,13 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-035'(_Config) ->
+'json-doc-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-035.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -946,14 +1010,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-036'(_Config) ->
+'json-doc-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json', map{'duplicates':'use-first'})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-036.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":3, \"b\":4}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -962,14 +1028,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-039'(_Config) ->
+'json-doc-039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/stringUnpaired-json', map{'fallback':function($s){substring($s, 3)}})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-string')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-string',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-039.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "oh dear DEAD") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -978,14 +1046,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-042'(_Config) ->
+'json-doc-042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicatesEscape-json', map{'escape':true(), 'duplicates':'reject'})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-042.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -994,14 +1064,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-043'(_Config) ->
+'json-doc-043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/stringHex-json')
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-string')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-string',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-043.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\\") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1010,12 +1082,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-044'(_Config) ->
+'json-doc-044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'validate':true()})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-044.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1024,11 +1098,13 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-001'(_Config) ->
+'json-doc-error-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1045,12 +1121,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-002'(_Config) ->
+'json-doc-error-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorToken-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1059,12 +1137,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-003'(_Config) ->
+'json-doc-error-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorExtra-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-003.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1073,12 +1153,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-004'(_Config) ->
+'json-doc-error-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArray-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1087,12 +1169,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-005'(_Config) ->
+'json-doc-error-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayNumber-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-005.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1101,12 +1185,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-006'(_Config) ->
+'json-doc-error-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayHex-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-006.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1115,12 +1201,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-007'(_Config) ->
+'json-doc-error-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayString-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-007.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1129,12 +1217,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-008'(_Config) ->
+'json-doc-error-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayUnicode-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1143,12 +1233,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-009'(_Config) ->
+'json-doc-error-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorMap-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-009.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1157,12 +1249,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-010'(_Config) ->
+'json-doc-error-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorMap-json', map{\"liberal\":false()})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-010.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1171,12 +1265,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-011'(_Config) ->
+'json-doc-error-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayComma-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-011.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1185,12 +1281,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-012'(_Config) ->
+'json-doc-error-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'liberal':()})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-012.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1199,12 +1297,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-013'(_Config) ->
+'json-doc-error-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':()})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-013.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1213,12 +1313,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-014'(_Config) ->
+'json-doc-error-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':(true(),true())})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-014.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1227,12 +1329,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-015'(_Config) ->
+'json-doc-error-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':'EMCA-262'})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-015.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1241,12 +1345,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-016'(_Config) ->
+'json-doc-error-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'fallback':'dummy'})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-016.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1255,12 +1361,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-017'(_Config) ->
+'json-doc-error-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber01-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-017.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1269,12 +1377,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-018'(_Config) ->
+'json-doc-error-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber02-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-018.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1283,12 +1393,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-019'(_Config) ->
+'json-doc-error-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber03-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-019.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1297,12 +1409,14 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-020'(_Config) ->
+'json-doc-error-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber04-json')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-020.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1311,14 +1425,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-021'(_Config) ->
+'json-doc-error-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json', map{'duplicates':'reject'})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-021.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1327,14 +1443,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-022'(_Config) ->
+'json-doc-error-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json', map{'duplicates':'retain'})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-022.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1343,14 +1461,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-023'(_Config) ->
+'json-doc-error-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/errorString01-json')
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-023.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1359,14 +1479,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-024'(_Config) ->
+'json-doc-error-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/errorString02-json')
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-024.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1375,14 +1497,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-025'(_Config) ->
+'json-doc-error-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/errorString03-json')
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-025.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1391,14 +1515,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-026'(_Config) ->
+'json-doc-error-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'fallback':concat#2})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-026.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1407,14 +1533,16 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-027'(_Config) ->
+'json-doc-error-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicatesEscape-json', map{'duplicates':'reject'})
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-027.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1423,11 +1551,13 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-028'(_Config) ->
+'json-doc-error-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc(\"http://www.example.org/#fragment\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1436,11 +1566,13 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-029'(_Config) ->
+'json-doc-error-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc(\"http://www.example.org/%gg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1449,11 +1581,13 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-030'(_Config) ->
+'json-doc-error-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc(\"http://www.w3.org/fots/unparsed-text/does-not-exist.txt\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1462,7 +1596,8 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-031'(_Config) ->
+'json-doc-error-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc(\"unparsed-text/text-plain-utf-8.txt\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1477,7 +1612,8 @@ environment('json-doc-error') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-031.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1486,7 +1622,8 @@ environment('json-doc-error') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'json-doc-error-032'(_Config) ->
+'json-doc-error-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:json-doc(\"does-not-exist.txt\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1501,7 +1638,8 @@ environment('json-doc-error') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-doc-error-032.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

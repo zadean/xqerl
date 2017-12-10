@@ -33,9 +33,13 @@
 -export(['K-LocalNameFromQNameFunc-3'/1]).
 -export(['K-LocalNameFromQNameFunc-4'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'LocalNameFromQNameFunc001',
    'LocalNameFromQNameFunc002',
@@ -65,97 +69,97 @@ all() -> [
    'K-LocalNameFromQNameFunc-2',
    'K-LocalNameFromQNameFunc-3',
    'K-LocalNameFromQNameFunc-4'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -167,60 +171,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -228,33 +232,40 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('fsx') ->
+environment('fsx',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ForClause/fsx.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../prod/ForClause/fsx.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'LocalNameFromQNameFunc001'(_Config) ->
+'LocalNameFromQNameFunc001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc002'(_Config) ->
+'LocalNameFromQNameFunc002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc003'(_Config) ->
+'LocalNameFromQNameFunc003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc004'(_Config) ->
+'LocalNameFromQNameFunc004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc005'(_Config) ->
+'LocalNameFromQNameFunc005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc006'(_Config) ->
+'LocalNameFromQNameFunc006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:local-name-from-QName(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LocalNameFromQNameFunc006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -263,11 +274,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LocalNameFromQNameFunc007'(_Config) ->
+'LocalNameFromQNameFunc007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:local-name-from-QName(((),()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LocalNameFromQNameFunc007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -276,11 +289,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LocalNameFromQNameFunc009'(_Config) ->
+'LocalNameFromQNameFunc009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:local-name-from-QName(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LocalNameFromQNameFunc009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -289,13 +304,16 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LocalNameFromQNameFunc010'(_Config) ->
+'LocalNameFromQNameFunc010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc011'(_Config) ->
+'LocalNameFromQNameFunc011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:local-name-from-QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LocalNameFromQNameFunc011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -304,20 +322,26 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LocalNameFromQNameFunc012'(_Config) ->
+'LocalNameFromQNameFunc012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc013'(_Config) ->
+'LocalNameFromQNameFunc013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc014'(_Config) ->
+'LocalNameFromQNameFunc014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc015'(_Config) ->
+'LocalNameFromQNameFunc015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10 XP20"}.
-'LocalNameFromQNameFunc015a'(_Config) ->
+'LocalNameFromQNameFunc015a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:local-name-from-QName((//Folder)[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LocalNameFromQNameFunc015a.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0117") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -326,11 +350,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LocalNameFromQNameFunc016'(_Config) ->
+'LocalNameFromQNameFunc016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:local-name-from-QName(xs:integer(\"100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LocalNameFromQNameFunc016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -339,11 +365,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LocalNameFromQNameFunc017'(_Config) ->
+'LocalNameFromQNameFunc017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:local-name-from-QName(xs:time(\"12:00:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LocalNameFromQNameFunc017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -352,24 +380,32 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LocalNameFromQNameFunc018'(_Config) ->
+'LocalNameFromQNameFunc018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc019'(_Config) ->
+'LocalNameFromQNameFunc019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc020'(_Config) ->
+'LocalNameFromQNameFunc020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'LocalNameFromQNameFunc021'(_Config) ->
+'LocalNameFromQNameFunc021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-local-name-from-qname-022'(_Config) ->
+'fn-local-name-from-qname-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-local-name-from-qname-023'(_Config) ->
+'fn-local-name-from-qname-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-local-name-from-qname-024'(_Config) ->
+'fn-local-name-from-qname-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:local-name-from-QName(node-name(/*))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-local-name-from-qname-024.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "works") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -378,11 +414,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-LocalNameFromQNameFunc-1'(_Config) ->
+'K-LocalNameFromQNameFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name-from-QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LocalNameFromQNameFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -391,11 +429,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-LocalNameFromQNameFunc-2'(_Config) ->
+'K-LocalNameFromQNameFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name-from-QName(1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LocalNameFromQNameFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -404,11 +444,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-LocalNameFromQNameFunc-3'(_Config) ->
+'K-LocalNameFromQNameFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(local-name-from-QName( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LocalNameFromQNameFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -417,11 +459,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-LocalNameFromQNameFunc-4'(_Config) ->
+'K-LocalNameFromQNameFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name-from-QName( QName(\"example.com/\", \"pre:lname\")) eq \"lname\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LocalNameFromQNameFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 

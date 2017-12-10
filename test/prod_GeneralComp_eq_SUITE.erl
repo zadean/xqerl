@@ -198,9 +198,13 @@
 -export(['GenCompEq-26'/1]).
 -export(['GenCompEq-27'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'generalexpression1',
    'generalexpression2',
@@ -395,97 +399,97 @@ all() -> [
    'GenCompEq-25',
    'GenCompEq-26',
    'GenCompEq-27'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -497,60 +501,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -558,23 +562,25 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('user-defined-types') ->
+environment('user-defined-types',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"../docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'generalexpression1'(_Config) ->
+'generalexpression1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() = ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -583,11 +589,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression2'(_Config) ->
+'generalexpression2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() = 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -596,11 +604,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression3'(_Config) ->
+'generalexpression3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() = (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -609,11 +619,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression4'(_Config) ->
+'generalexpression4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() = (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -622,11 +634,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression5'(_Config) ->
+'generalexpression5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() = <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -635,11 +649,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression6'(_Config) ->
+'generalexpression6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() = (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -648,11 +664,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression7'(_Config) ->
+'generalexpression7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() = (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -661,12 +679,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression8'(_Config) ->
+'generalexpression8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() = (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression8.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -675,12 +695,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression9'(_Config) ->
+'generalexpression9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() = (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression9.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -689,12 +711,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression10'(_Config) ->
+'generalexpression10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() = ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression10.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -703,11 +727,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression11'(_Config) ->
+'generalexpression11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "10000 = ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -716,11 +742,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression12'(_Config) ->
+'generalexpression12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "10000 = ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -729,11 +757,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression13'(_Config) ->
+'generalexpression13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "10000 = (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -742,11 +772,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression14'(_Config) ->
+'generalexpression14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "10000 = <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -755,11 +787,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression15'(_Config) ->
+'generalexpression15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "10000 = (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -768,11 +802,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression16'(_Config) ->
+'generalexpression16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "10000 = (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -781,12 +817,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression17'(_Config) ->
+'generalexpression17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "10000 = (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression17.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -795,12 +833,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression18'(_Config) ->
+'generalexpression18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "10000 = (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression18.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -809,12 +849,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression19'(_Config) ->
+'generalexpression19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "10000 = ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression19.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -823,11 +865,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression20'(_Config) ->
+'generalexpression20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(50000) = ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -836,11 +880,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression21'(_Config) ->
+'generalexpression21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(50000) = 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -849,11 +895,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression22'(_Config) ->
+'generalexpression22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(50000) = (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -862,11 +910,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression23'(_Config) ->
+'generalexpression23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(50000) = (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -875,11 +925,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression24'(_Config) ->
+'generalexpression24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(50000) = <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -888,11 +940,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression25'(_Config) ->
+'generalexpression25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(50000) = (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -901,11 +955,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression26'(_Config) ->
+'generalexpression26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(50000) = (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -914,12 +970,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression27'(_Config) ->
+'generalexpression27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(50000) = (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression27.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -928,12 +986,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression28'(_Config) ->
+'generalexpression28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(50000) = (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression28.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -942,12 +1002,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression29'(_Config) ->
+'generalexpression29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(50000) = ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression29.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -956,11 +1018,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression30'(_Config) ->
+'generalexpression30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10000,50000) = ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -969,11 +1033,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression31'(_Config) ->
+'generalexpression31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10000,50000) = 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -982,11 +1048,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression32'(_Config) ->
+'generalexpression32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10000,50000) = (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -995,11 +1063,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression33'(_Config) ->
+'generalexpression33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10000,50000) = (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1008,11 +1078,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression34'(_Config) ->
+'generalexpression34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10000,50000) = <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1021,11 +1093,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression35'(_Config) ->
+'generalexpression35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10000,50000) = (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1034,11 +1108,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression36'(_Config) ->
+'generalexpression36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10000,50000) = (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1047,12 +1123,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression37'(_Config) ->
+'generalexpression37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10000,50000) = (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression37.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1061,12 +1139,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression38'(_Config) ->
+'generalexpression38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10000,50000) = (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression38.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1075,12 +1155,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression39'(_Config) ->
+'generalexpression39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10000,50000) = ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression39.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1089,11 +1171,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression40'(_Config) ->
+'generalexpression40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a>10000</a> = ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1102,11 +1186,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression41'(_Config) ->
+'generalexpression41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a>10000</a> = 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1115,11 +1201,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression42'(_Config) ->
+'generalexpression42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a>10000</a> = (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1128,11 +1216,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression43'(_Config) ->
+'generalexpression43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a>10000</a> = (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1141,11 +1231,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression44'(_Config) ->
+'generalexpression44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a>10000</a> = <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1154,11 +1246,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression45'(_Config) ->
+'generalexpression45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a>10000</a> = (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1167,11 +1261,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression46'(_Config) ->
+'generalexpression46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a>10000</a> = (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1180,12 +1276,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression47'(_Config) ->
+'generalexpression47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a>10000</a> = (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression47.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1194,12 +1292,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression48'(_Config) ->
+'generalexpression48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a>10000</a> = (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression48.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1208,12 +1308,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression49'(_Config) ->
+'generalexpression49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a>10000</a> = ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression49.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1222,11 +1324,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression50'(_Config) ->
+'generalexpression50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>) = ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1235,11 +1339,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression51'(_Config) ->
+'generalexpression51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>) = 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1248,11 +1354,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression52'(_Config) ->
+'generalexpression52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>) = (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1261,11 +1369,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression53'(_Config) ->
+'generalexpression53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>) = (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1274,11 +1384,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression54'(_Config) ->
+'generalexpression54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>) = <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1287,11 +1399,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression55'(_Config) ->
+'generalexpression55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>) = (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1300,11 +1414,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression56'(_Config) ->
+'generalexpression56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>) = (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1313,12 +1429,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression57'(_Config) ->
+'generalexpression57'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>) = (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression57.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1327,12 +1445,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression58'(_Config) ->
+'generalexpression58'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>) = (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression58.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1341,12 +1461,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression59'(_Config) ->
+'generalexpression59'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>) = ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression59.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1355,11 +1477,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression60'(_Config) ->
+'generalexpression60'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) = ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression60.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1368,11 +1492,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression61'(_Config) ->
+'generalexpression61'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) = 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression61.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1381,11 +1507,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression62'(_Config) ->
+'generalexpression62'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) = (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression62.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1394,11 +1522,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression63'(_Config) ->
+'generalexpression63'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) = (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression63.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1407,11 +1537,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression64'(_Config) ->
+'generalexpression64'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) = <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression64.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1420,11 +1552,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression65'(_Config) ->
+'generalexpression65'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) = (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression65.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1433,11 +1567,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression66'(_Config) ->
+'generalexpression66'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) = (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression66.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1446,12 +1582,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression67'(_Config) ->
+'generalexpression67'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) = (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression67.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1460,12 +1598,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression68'(_Config) ->
+'generalexpression68'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) = (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression68.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1474,12 +1614,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression69'(_Config) ->
+'generalexpression69'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) = ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression69.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1488,12 +1630,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression70'(_Config) ->
+'generalexpression70'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) = ()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression70.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1502,12 +1646,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression71'(_Config) ->
+'generalexpression71'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) = 10000",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression71.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1516,12 +1662,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression72'(_Config) ->
+'generalexpression72'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) = (50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression72.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1530,12 +1678,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression73'(_Config) ->
+'generalexpression73'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) = (10000,50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression73.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1544,12 +1694,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression74'(_Config) ->
+'generalexpression74'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) = <a>10000</a>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression74.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1558,12 +1710,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression75'(_Config) ->
+'generalexpression75'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) = (<a>10000</a>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression75.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1572,12 +1726,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression76'(_Config) ->
+'generalexpression76'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) = (<a>10000</a>,<b>50000</b>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression76.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1586,12 +1742,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression77'(_Config) ->
+'generalexpression77'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) = (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression77.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1600,12 +1758,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression78'(_Config) ->
+'generalexpression78'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) = (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression78.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1614,12 +1774,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression79'(_Config) ->
+'generalexpression79'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1]) = ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression79.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1628,12 +1790,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression80'(_Config) ->
+'generalexpression80'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) = ()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression80.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1642,12 +1806,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression81'(_Config) ->
+'generalexpression81'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) = 10000",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression81.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1656,12 +1822,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression82'(_Config) ->
+'generalexpression82'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) = (50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression82.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1670,12 +1838,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression83'(_Config) ->
+'generalexpression83'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) = (10000,50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression83.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1684,12 +1854,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression84'(_Config) ->
+'generalexpression84'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) = <a>10000</a>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression84.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1698,12 +1870,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression85'(_Config) ->
+'generalexpression85'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) = (<a>10000</a>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression85.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1712,12 +1886,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression86'(_Config) ->
+'generalexpression86'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) = (<a>10000</a>,<b>50000</b>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression86.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1726,12 +1902,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression87'(_Config) ->
+'generalexpression87'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) = (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression87.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1740,12 +1918,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression88'(_Config) ->
+'generalexpression88'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) = (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression88.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1754,13 +1934,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression89'(_Config) ->
+'generalexpression89'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$works/works/employee[6]/hours[1]) = 
          ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression89.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1769,12 +1951,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression90'(_Config) ->
+'generalexpression90'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) = ()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression90.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1783,12 +1967,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression91'(_Config) ->
+'generalexpression91'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) = 10000",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression91.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1797,12 +1983,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression92'(_Config) ->
+'generalexpression92'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) = (50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression92.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1811,12 +1999,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression93'(_Config) ->
+'generalexpression93'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) = (10000,50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression93.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1825,12 +2015,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression94'(_Config) ->
+'generalexpression94'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) = <a>10000</a>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression94.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1839,12 +2031,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression95'(_Config) ->
+'generalexpression95'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) = (<a>10000</a>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression95.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1853,12 +2047,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression96'(_Config) ->
+'generalexpression96'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) = (<a>10000</a>,<b>50000</b>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression96.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1867,13 +2063,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression97'(_Config) ->
+'generalexpression97'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) =
          ($works/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression97.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1882,12 +2080,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression98'(_Config) ->
+'generalexpression98'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) = ($works/works/employee[1]/hours[1],$works/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression98.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1896,12 +2096,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generalexpression99'(_Config) ->
+'generalexpression99'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) = ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression99.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1910,11 +2112,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-1'(_Config) ->
+'K-GenCompEq-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(() = ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1923,11 +2127,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-2'(_Config) ->
+'K-GenCompEq-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((() = ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1936,11 +2142,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-3'(_Config) ->
+'K-GenCompEq-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((() = 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1949,11 +2157,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-4'(_Config) ->
+'K-GenCompEq-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 = ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1962,11 +2172,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-5'(_Config) ->
+'K-GenCompEq-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 == 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1975,11 +2187,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-6'(_Config) ->
+'K-GenCompEq-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2) = (2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1988,11 +2202,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-7'(_Config) ->
+'K-GenCompEq-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(2, 3) = (3, 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2001,11 +2217,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-8'(_Config) ->
+'K-GenCompEq-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((1, 2) = (3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2014,11 +2232,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-9'(_Config) ->
+'K-GenCompEq-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:untypedAtomic(\"1\"), xs:untypedAtomic(\"2\")) = (xs:untypedAtomic(\"2.0\"), 2.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -2035,11 +2255,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-10'(_Config) ->
+'K-GenCompEq-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((xs:untypedAtomic(\"1\"), xs:untypedAtomic(\"2\")) = (xs:untypedAtomic(\"2.0\"), 3.0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -2056,11 +2278,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-11'(_Config) ->
+'K-GenCompEq-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1\") = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2069,11 +2293,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-12'(_Config) ->
+'K-GenCompEq-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(xs:untypedAtomic(\"2\") = 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2082,11 +2308,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-13'(_Config) ->
+'K-GenCompEq-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1\") = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2095,11 +2323,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-14'(_Config) ->
+'K-GenCompEq-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 = xs:untypedAtomic(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2108,11 +2338,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-15'(_Config) ->
+'K-GenCompEq-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 = xs:untypedAtomic(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2121,11 +2353,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-16'(_Config) ->
+'K-GenCompEq-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "error() = 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2134,11 +2368,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-17'(_Config) ->
+'K-GenCompEq-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(error(), 3) = 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2147,11 +2383,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-18'(_Config) ->
+'K-GenCompEq-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 = error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2160,11 +2398,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-19'(_Config) ->
+'K-GenCompEq-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 = (error(), 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2173,11 +2413,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-20'(_Config) ->
+'K-GenCompEq-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(remove(remove((current-time(), 1), 1), 1)) = 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2186,11 +2428,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-21'(_Config) ->
+'K-GenCompEq-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(0 = count((1, 2, timezone-from-time(current-time()))))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2199,11 +2443,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-22'(_Config) ->
+'K-GenCompEq-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "0 != count((1, 2, timezone-from-time(current-time())))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2212,11 +2458,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-23'(_Config) ->
+'K-GenCompEq-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:anyURI(\"example.com/\"), 1, QName(\"example.com\", \"ncname\"), false(), xs:hexBinary(\"FF\")) = (xs:anyURI(\"example.com/NOT\"), 0, QName(\"example.com\", \"p:ncname\"), true(), xs:hexBinary(\"EF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2225,11 +2473,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-24'(_Config) ->
+'K-GenCompEq-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string\" = \"a string\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2238,11 +2488,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-25'(_Config) ->
+'K-GenCompEq-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"a string\") = \"a string\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2251,11 +2503,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-26'(_Config) ->
+'K-GenCompEq-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string\" = xs:untypedAtomic(\"a string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2264,11 +2518,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-27'(_Config) ->
+'K-GenCompEq-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(xs:untypedAtomic(\"a string\") = \"a stringDIFF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2277,11 +2533,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-28'(_Config) ->
+'K-GenCompEq-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(\"a string\" = xs:untypedAtomic(\"a stringDIFF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2290,11 +2548,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-29'(_Config) ->
+'K-GenCompEq-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(\"a string\" = \"a stringDIFF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2303,11 +2563,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-30'(_Config) ->
+'K-GenCompEq-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "remove((6, \"a string\"), 1) = 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2316,11 +2578,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-31'(_Config) ->
+'K-GenCompEq-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "6 = remove((\"a string\", 6), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2329,11 +2593,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-32'(_Config) ->
+'K-GenCompEq-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "remove((6, \"a string\"), 2) = xs:untypedAtomic(\"6\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -2350,11 +2616,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-33'(_Config) ->
+'K-GenCompEq-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"6\") = remove((\"a string\", 6), 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -2371,11 +2639,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-34'(_Config) ->
+'K-GenCompEq-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(remove((xs:untypedAtomic(\"6\"), \"a string\"), 2)) = 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -2392,11 +2662,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-35'(_Config) ->
+'K-GenCompEq-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "6 = (remove((\"a string\", xs:untypedAtomic(\"6\")), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -2413,11 +2685,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-36'(_Config) ->
+'K-GenCompEq-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2426,11 +2700,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-37'(_Config) ->
+'K-GenCompEq-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, 3) = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2439,11 +2715,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-38'(_Config) ->
+'K-GenCompEq-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, 3) = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2452,11 +2730,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-39'(_Config) ->
+'K-GenCompEq-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, 3) = 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2465,11 +2745,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-40'(_Config) ->
+'K-GenCompEq-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "2 = (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2478,11 +2760,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-41'(_Config) ->
+'K-GenCompEq-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 = (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2491,11 +2775,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-42'(_Config) ->
+'K-GenCompEq-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 = (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2504,11 +2790,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-43'(_Config) ->
+'K-GenCompEq-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"false\") = false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2517,11 +2805,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-44'(_Config) ->
+'K-GenCompEq-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "false() = xs:untypedAtomic(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2530,11 +2820,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-45'(_Config) ->
+'K-GenCompEq-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(xs:untypedAtomic(\"true\") = false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2543,11 +2835,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-46'(_Config) ->
+'K-GenCompEq-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(true() = xs:untypedAtomic(\"true\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2556,11 +2850,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-47'(_Config) ->
+'K-GenCompEq-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"1\" = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2569,11 +2865,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-48'(_Config) ->
+'K-GenCompEq-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 = \"1\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2582,11 +2880,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-49'(_Config) ->
+'K-GenCompEq-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "false() = 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2595,11 +2895,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-50'(_Config) ->
+'K-GenCompEq-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "5 = false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2608,11 +2910,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-51'(_Config) ->
+'K-GenCompEq-51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"three\") = 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2621,11 +2925,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-52'(_Config) ->
+'K-GenCompEq-52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"false\") = false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2634,11 +2940,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-53'(_Config) ->
+'K-GenCompEq-53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "false() = xs:string(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2647,11 +2955,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-54'(_Config) ->
+'K-GenCompEq-54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"falseERR\") = false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2660,11 +2970,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-55'(_Config) ->
+'K-GenCompEq-55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:untypedAtomic(\"1\"), xs:anyURI(\"example.com\")) = (xs:untypedAtomic(\"2.0\"), 3.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2673,11 +2985,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-56'(_Config) ->
+'K-GenCompEq-56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "false() = xs:untypedAtomic(\"falseERR\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2686,11 +3000,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-57'(_Config) ->
+'K-GenCompEq-57'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 = xs:untypedAtomic(\"three\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2699,11 +3015,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-58'(_Config) ->
+'K-GenCompEq-58'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"example.com/\") = false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-58.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2712,11 +3030,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-GenCompEq-59'(_Config) ->
+'K-GenCompEq-59'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "false() = xs:anyURI(\"example.com/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompEq-59.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2725,7 +3045,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-GenCompEq-1'(_Config) ->
+'K2-GenCompEq-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
          declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
@@ -2733,7 +3054,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-GenCompEq-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2742,7 +3064,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-GenCompEq-2'(_Config) ->
+'K2-GenCompEq-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
          declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
@@ -2750,7 +3073,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-GenCompEq-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2759,7 +3083,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-GenCompEq-3'(_Config) ->
+'K2-GenCompEq-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
          declare variable $vB as xs:string := (\"no match\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
@@ -2767,7 +3092,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-GenCompEq-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2776,7 +3102,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-GenCompEq-4'(_Config) ->
+'K2-GenCompEq-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
          declare variable $vB as xs:string := (\"no match\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
@@ -2784,7 +3111,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-GenCompEq-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2793,7 +3121,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-GenCompEq-5'(_Config) ->
+'K2-GenCompEq-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
          declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
@@ -2801,7 +3130,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-GenCompEq-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2810,7 +3140,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-GenCompEq-6'(_Config) ->
+'K2-GenCompEq-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare variable $vA as xs:string := (\"B STRING\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
          declare variable $vB as xs:string := (\"b string\", current-time(), string(<e>content</e>))[1] treat as xs:string; 
@@ -2818,7 +3149,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-GenCompEq-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2827,11 +3159,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-GenCompEq-7'(_Config) ->
+'K2-GenCompEq-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x := codepoints-to-string(12) return ($x = $x)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-GenCompEq-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -2848,11 +3182,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-GenCompEq-8'(_Config) ->
+'K2-GenCompEq-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(for $b in <e/> where $b/@id=\"person0\" return ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-GenCompEq-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -2869,11 +3205,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-1'(_Config) ->
+'GenCompEq-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"a string\") = xs:untypedAtomic(\"a stringDIFF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2882,11 +3220,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-2'(_Config) ->
+'GenCompEq-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1\") = xs:NCName(\"string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2895,11 +3235,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-3'(_Config) ->
+'GenCompEq-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT08H34M12.143S\") = xs:untypedAtomic(\"P3DT08H34M12.143S\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2908,11 +3250,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-4'(_Config) ->
+'GenCompEq-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0\") = xs:dayTimeDuration(\"PT0S\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2921,11 +3265,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-5'(_Config) ->
+'GenCompEq-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"P1999Y10M\") = xs:yearMonthDuration(\"P1999Y10M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2934,11 +3280,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-6'(_Config) ->
+'GenCompEq-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1999Y\") = xs:untypedAtomic(\"1999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2947,11 +3295,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-7'(_Config) ->
+'GenCompEq-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "[3, 4, 5] = 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2960,11 +3310,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-8'(_Config) ->
+'GenCompEq-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "[[3, 4], 5] = [4, [5, 6]]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2973,11 +3325,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-9'(_Config) ->
+'GenCompEq-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "[3, 4, 5] = []",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2986,11 +3340,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-10'(_Config) ->
+'GenCompEq-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := 276; $p = (1 to 1000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2999,11 +3355,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-11'(_Config) ->
+'GenCompEq-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := -276; (1 to 1000) = $p",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3012,11 +3370,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-12'(_Config) ->
+'GenCompEq-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := xs:untypedAtomic('000504e0'); $p = (1 to 1000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3025,11 +3385,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-13'(_Config) ->
+'GenCompEq-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := xs:untypedAtomic('4.5'); (1 to 1000) = $p",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3038,11 +3400,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-14'(_Config) ->
+'GenCompEq-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := 17; $p = (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3051,11 +3415,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-15'(_Config) ->
+'GenCompEq-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := -101; (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77) = $p",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3064,11 +3430,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-16'(_Config) ->
+'GenCompEq-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := xs:untypedAtomic('-840'); $p = (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3077,11 +3445,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-17'(_Config) ->
+'GenCompEq-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := xs:untypedAtomic('-022e0'); (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77) = $p",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3090,11 +3460,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-18'(_Config) ->
+'GenCompEq-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := (105, 22e0); $p = (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3103,11 +3475,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-19'(_Config) ->
+'GenCompEq-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := (105, xs:untypedAtomic('22e0')); (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77) = $p",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3116,11 +3490,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-20'(_Config) ->
+'GenCompEq-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := xs:untypedAtomic('000504e0'); $p = (1 to xs:integer(xs:double($p)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3129,11 +3505,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-21'(_Config) ->
+'GenCompEq-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $p external := xs:untypedAtomic('860302'); (1 to xs:integer($p)) = $p",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3142,7 +3520,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-22'(_Config) ->
+'GenCompEq-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace z = \"http://example.com/z\";
         declare variable $p external := xs:untypedAtomic('z:local'); 
@@ -3150,7 +3529,8 @@ environment('user-defined-types') ->
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3159,13 +3539,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-23'(_Config) ->
+'GenCompEq-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $p external := (1 to 10, xs:untypedAtomic('860302'), 83); 
         $p = (35 to 65, xs:untypedAtomic('082'), xs:untypedAtomic('0010'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3174,11 +3556,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-24'(_Config) ->
+'GenCompEq-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "true() = true() = true() = true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3187,11 +3571,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-25'(_Config) ->
+'GenCompEq-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "((true() = true()) = true()) = true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "GenCompEq-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3200,7 +3586,9 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'GenCompEq-26'(_Config) ->
+'GenCompEq-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'GenCompEq-27'(_Config) ->
+'GenCompEq-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.

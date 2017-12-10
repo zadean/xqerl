@@ -34,9 +34,13 @@
 -export(['cbcl-constr-compcomment-001'/1]).
 -export(['cbcl-constr-compcomment-002'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'Constr-compcomment-enclexpr-1',
    'Constr-compcomment-enclexpr-2',
@@ -67,97 +71,97 @@ all() -> [
    'K2-ComputeConComment-5',
    'cbcl-constr-compcomment-001',
    'cbcl-constr-compcomment-002'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -169,60 +173,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -230,23 +234,25 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('DupNode') ->
+environment('DupNode',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/CompAttrConstructor/DupNode.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "CompAttrConstructor/DupNode.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'Constr-compcomment-enclexpr-1'(_Config) ->
+'Constr-compcomment-enclexpr-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-enclexpr-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--1 string 3.14 0.012345 2002-04-02T12:00:00-01:00-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -255,11 +261,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-enclexpr-2'(_Config) ->
+'Constr-compcomment-enclexpr-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-enclexpr-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--123 456 789-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -268,11 +276,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-enclexpr-3'(_Config) ->
+'Constr-compcomment-enclexpr-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {1,'',2}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-enclexpr-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--1  2-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -281,11 +291,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-enclexpr-4'(_Config) ->
+'Constr-compcomment-enclexpr-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {1,<a/>,2}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-enclexpr-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--1  2-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -294,12 +306,14 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-enclexpr-5'(_Config) ->
+'Constr-compcomment-enclexpr-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {/root}",
-   {Env,Opts} = xqerl_test:handle_environment(environment('DupNode')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-enclexpr-5.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--texttext-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -308,12 +322,14 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-doc-1'(_Config) ->
+'Constr-compcomment-doc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {., .}",
-   {Env,Opts} = xqerl_test:handle_environment(environment('DupNode')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-doc-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--texttext texttext-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -322,11 +338,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-parent-1'(_Config) ->
+'Constr-compcomment-parent-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count((comment {'comment'})/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-parent-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -335,11 +353,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-string-1'(_Config) ->
+'Constr-compcomment-string-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string(comment {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-string-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a  b") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -348,11 +368,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-data-1'(_Config) ->
+'Constr-compcomment-data-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:data(comment {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-data-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a  b") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -361,11 +383,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-nested-1'(_Config) ->
+'Constr-compcomment-nested-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {comment {'one', comment {'two'}}, 'three', comment {'four'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-nested-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--one two three four-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -374,11 +398,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-nested-2'(_Config) ->
+'Constr-compcomment-nested-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem>{comment {'one'}}<a>{comment {'two'}}</a>{comment {'three'}}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-nested-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem><!--one--><a><!--two--></a><!--three--></elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -387,11 +413,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-nested-3'(_Config) ->
+'Constr-compcomment-nested-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "document {comment {'one'}, <a/>, comment {'two'}, <b/>, comment {'three'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-nested-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--one--><a/><!--two--><b/><!--three-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -400,11 +428,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-dash-1'(_Config) ->
+'Constr-compcomment-dash-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {'-'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-dash-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -413,11 +443,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-dash-2'(_Config) ->
+'Constr-compcomment-dash-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {'comment-'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-dash-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -426,11 +458,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-dash-3'(_Config) ->
+'Constr-compcomment-dash-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {'comment&#x2D;'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-dash-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -439,13 +473,14 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-dash-4'(_Config) ->
+'Constr-compcomment-dash-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {//*:test-case[@name=\"Constr-compcomment-dash-4\"]/*:description}",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/CompCommentConstructor.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "CompCommentConstructor.xml"),".","file:///"++filename:join(BaseDir, "")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -454,7 +489,8 @@ environment('DupNode') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-dash-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -463,11 +499,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-doubledash-1'(_Config) ->
+'Constr-compcomment-doubledash-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {'--'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-doubledash-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -476,11 +514,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-doubledash-2'(_Config) ->
+'Constr-compcomment-doubledash-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {'com--ment'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-doubledash-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -489,11 +529,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-doubledash-3'(_Config) ->
+'Constr-compcomment-doubledash-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {'com&#x2D;&#x2D;ment'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-doubledash-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -502,13 +544,14 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-doubledash-4'(_Config) ->
+'Constr-compcomment-doubledash-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {//*:test-case[@name=\"Constr-compcomment-doubledash-4\"]/*:description}",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/CompCommentConstructor.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "CompCommentConstructor.xml"),".","file:///"++filename:join(BaseDir, "")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -517,7 +560,8 @@ environment('DupNode') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-doubledash-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -526,11 +570,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-compcomment-doubledash-5'(_Config) ->
+'Constr-compcomment-doubledash-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {'com','-','-','ment'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-compcomment-doubledash-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!--com - - ment-->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -539,11 +585,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ComputeConComment-1'(_Config) ->
+'K2-ComputeConComment-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {\"name\"} {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ComputeConComment-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -552,11 +600,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ComputeConComment-2'(_Config) ->
+'K2-ComputeConComment-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment name {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ComputeConComment-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -565,11 +615,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ComputeConComment-3'(_Config) ->
+'K2-ComputeConComment-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment {()}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ComputeConComment-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!---->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -578,13 +630,16 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ComputeConComment-4'(_Config) ->
+'K2-ComputeConComment-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10 XQ30"}.
-'K2-ComputeConComment-4a'(_Config) ->
+'K2-ComputeConComment-4a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "comment{}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ComputeConComment-4a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result) = 1") of 
       true -> {comment, "Correct results"};
@@ -605,11 +660,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ComputeConComment-5'(_Config) ->
+'K2-ComputeConComment-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "data(comment {\"content\"}) instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ComputeConComment-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -618,11 +675,13 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-constr-compcomment-001'(_Config) ->
+'cbcl-constr-compcomment-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<element> { comment { '-', '-' } } </element>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-constr-compcomment-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -631,14 +690,16 @@ environment('DupNode') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-constr-compcomment-002'(_Config) ->
+'cbcl-constr-compcomment-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:tag($arg) as element() { element { 'tag' } { $arg } }; 
       	<element> { comment { 'comment', local:tag('--') } } </element>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-constr-compcomment-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

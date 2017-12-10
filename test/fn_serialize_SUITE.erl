@@ -122,9 +122,13 @@
 -export(['serialize-json-134'/1]).
 -export(['serialize-json-135'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'serialize-xml-001',
    'serialize-xml-002',
@@ -243,97 +247,97 @@ all() -> [
    'serialize-json-133',
    'serialize-json-134',
    'serialize-json-135'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -345,60 +349,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -406,237 +410,354 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'serialize-xml-001'(_Config) ->
+'serialize-xml-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-002'(_Config) ->
+'serialize-xml-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-003'(_Config) ->
+'serialize-xml-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-004'(_Config) ->
+'serialize-xml-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-005'(_Config) ->
+'serialize-xml-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-006'(_Config) ->
+'serialize-xml-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-007'(_Config) ->
+'serialize-xml-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-007a'(_Config) ->
+'serialize-xml-007a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-008'(_Config) ->
+'serialize-xml-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-009'(_Config) ->
+'serialize-xml-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-010'(_Config) ->
+'serialize-xml-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-011'(_Config) ->
+'serialize-xml-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-012'(_Config) ->
+'serialize-xml-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-013'(_Config) ->
+'serialize-xml-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-014'(_Config) ->
+'serialize-xml-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-015'(_Config) ->
+'serialize-xml-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-016'(_Config) ->
+'serialize-xml-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-017'(_Config) ->
+'serialize-xml-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-018'(_Config) ->
+'serialize-xml-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-019'(_Config) ->
+'serialize-xml-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-020'(_Config) ->
+'serialize-xml-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-021'(_Config) ->
+'serialize-xml-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-022'(_Config) ->
+'serialize-xml-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-023'(_Config) ->
+'serialize-xml-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-024'(_Config) ->
+'serialize-xml-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-025'(_Config) ->
+'serialize-xml-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-026'(_Config) ->
+'serialize-xml-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-027'(_Config) ->
+'serialize-xml-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-028'(_Config) ->
+'serialize-xml-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-029'(_Config) ->
+'serialize-xml-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-030'(_Config) ->
+'serialize-xml-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-031'(_Config) ->
+'serialize-xml-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-032'(_Config) ->
+'serialize-xml-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-033'(_Config) ->
+'serialize-xml-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-034'(_Config) ->
+'serialize-xml-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-035'(_Config) ->
+'serialize-xml-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'serialize-xml-036'(_Config) ->
+'serialize-xml-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'serialize-xml-101'(_Config) ->
+'serialize-xml-101'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-102'(_Config) ->
+'serialize-xml-102'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-103'(_Config) ->
+'serialize-xml-103'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-104'(_Config) ->
+'serialize-xml-104'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-105'(_Config) ->
+'serialize-xml-105'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-106'(_Config) ->
+'serialize-xml-106'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-106a'(_Config) ->
+'serialize-xml-106a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-107'(_Config) ->
+'serialize-xml-107'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-107a'(_Config) ->
+'serialize-xml-107a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-108'(_Config) ->
+'serialize-xml-108'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-109'(_Config) ->
+'serialize-xml-109'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-110'(_Config) ->
+'serialize-xml-110'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-119'(_Config) ->
+'serialize-xml-119'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-120'(_Config) ->
+'serialize-xml-120'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-123'(_Config) ->
+'serialize-xml-123'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-124'(_Config) ->
+'serialize-xml-124'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-125'(_Config) ->
+'serialize-xml-125'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-126'(_Config) ->
+'serialize-xml-126'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-127'(_Config) ->
+'serialize-xml-127'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-128'(_Config) ->
+'serialize-xml-128'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-129'(_Config) ->
+'serialize-xml-129'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-130'(_Config) ->
+'serialize-xml-130'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-131'(_Config) ->
+'serialize-xml-131'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-131a'(_Config) ->
+'serialize-xml-131a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'serialize-xml-132'(_Config) ->
+'serialize-xml-132'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-133'(_Config) ->
+'serialize-xml-133'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-134'(_Config) ->
+'serialize-xml-134'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-135'(_Config) ->
+'serialize-xml-135'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'serialize-xml-136'(_Config) ->
+'serialize-xml-136'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'serialize-xml-137'(_Config) ->
+'serialize-xml-137'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-138'(_Config) ->
+'serialize-xml-138'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-139'(_Config) ->
+'serialize-xml-139'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-140'(_Config) ->
+'serialize-xml-140'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-141'(_Config) ->
+'serialize-xml-141'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-xml-142'(_Config) ->
+'serialize-xml-142'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-001'(_Config) ->
+'serialize-json-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-002'(_Config) ->
+'serialize-json-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-003'(_Config) ->
+'serialize-json-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-004'(_Config) ->
+'serialize-json-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-005'(_Config) ->
+'serialize-json-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-006'(_Config) ->
+'serialize-json-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-007'(_Config) ->
+'serialize-json-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-008'(_Config) ->
+'serialize-json-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-009'(_Config) ->
+'serialize-json-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-010'(_Config) ->
+'serialize-json-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-011'(_Config) ->
+'serialize-json-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-101'(_Config) ->
+'serialize-json-101'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-102'(_Config) ->
+'serialize-json-102'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-103'(_Config) ->
+'serialize-json-103'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-104'(_Config) ->
+'serialize-json-104'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-105'(_Config) ->
+'serialize-json-105'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-106'(_Config) ->
+'serialize-json-106'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-107'(_Config) ->
+'serialize-json-107'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-108'(_Config) ->
+'serialize-json-108'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-109'(_Config) ->
+'serialize-json-109'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-110'(_Config) ->
+'serialize-json-110'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-111'(_Config) ->
+'serialize-json-111'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-112'(_Config) ->
+'serialize-json-112'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-113'(_Config) ->
+'serialize-json-113'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-114'(_Config) ->
+'serialize-json-114'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-115'(_Config) ->
+'serialize-json-115'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-116'(_Config) ->
+'serialize-json-116'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-117'(_Config) ->
+'serialize-json-117'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-118'(_Config) ->
+'serialize-json-118'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-119'(_Config) ->
+'serialize-json-119'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-120'(_Config) ->
+'serialize-json-120'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-121'(_Config) ->
+'serialize-json-121'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-122'(_Config) ->
+'serialize-json-122'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-123'(_Config) ->
+'serialize-json-123'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-124'(_Config) ->
+'serialize-json-124'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-125'(_Config) ->
+'serialize-json-125'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-126'(_Config) ->
+'serialize-json-126'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-127'(_Config) ->
+'serialize-json-127'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-128'(_Config) ->
+'serialize-json-128'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-130'(_Config) ->
+'serialize-json-130'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-131'(_Config) ->
+'serialize-json-131'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-132'(_Config) ->
+'serialize-json-132'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-133'(_Config) ->
+'serialize-json-133'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-134'(_Config) ->
+'serialize-json-134'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'serialize-json-135'(_Config) ->
+'serialize-json-135'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.

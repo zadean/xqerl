@@ -9,110 +9,114 @@
 -export(['itunes'/1]).
 -export(['raytracer'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/Demos/raytracer.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/Demos/scene.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/Demos/vector.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/Demos/shapes.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/Demos/materials.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/Demos/math.xq") catch _:_ -> ok end,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "app")
+, try  xqerl_module:compile(filename:join(BaseDir, "Demos/raytracer.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "Demos/scene.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "Demos/vector.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "Demos/shapes.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "Demos/materials.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "Demos/math.xq")) catch _:_ -> ok end
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'sudoku',
    'currencysvg',
    'itunes',
    'raytracer'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -124,60 +128,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -185,7 +189,8 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'sudoku'(_Config) ->
+'sudoku'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fn = \"sudoku\";
         declare variable $board as xs:integer+ := 
@@ -255,8 +260,9 @@ environment('array-and-map') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/Demos/sudoku-result.xml"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "sudoku.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "Demos/sudoku-result.xml")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -264,7 +270,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'currencysvg'(_Config) ->
+'currencysvg'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: currencysvg :)
 (: Description: Draw an SVG of currency exchange data :)
 (: Author: Nick Jones :)
@@ -377,10 +384,10 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
 </svg>
 ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/Demos/GBPNoon.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "Demos/GBPNoon.xml"),".","file:///"++filename:join(BaseDir, "")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -389,8 +396,9 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/Demos/currencysvg-result.xml"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "currencysvg.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "Demos/currencysvg-result.xml")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -398,9 +406,11 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'itunes'(_Config) ->
+'itunes'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'raytracer'(_Config) ->
+'raytracer'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace raytracer=\"http://www.xqsharp.com/raytracer\";
         import module namespace scene=\"http://www.xqsharp.com/raytracer/scene\";
@@ -420,24 +430,25 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
         			     return string(floor($channel * 255)), \" \") ), \"&#xA;\" )
       ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/Demos/scene.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "Demos/scene.xml"),".","file:///"++filename:join(BaseDir, "")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
 {resources, []},
-{modules, [{"Demos/raytracer.xq","http://www.xqsharp.com/raytracer"},
-{"Demos/scene.xq","http://www.xqsharp.com/raytracer/scene"},
-{"Demos/vector.xq","http://www.xqsharp.com/raytracer/vector"},
-{"Demos/shapes.xq","http://www.xqsharp.com/raytracer/shapes"},
-{"Demos/materials.xq","http://www.xqsharp.com/raytracer/materials"},
-{"Demos/math.xq","http://www.xqsharp.com/raytracer/math"}]}
+{modules, [{filename:join(BaseDir, "Demos/raytracer.xq"),"http://www.xqsharp.com/raytracer"},
+{filename:join(BaseDir, "Demos/scene.xq"),"http://www.xqsharp.com/raytracer/scene"},
+{filename:join(BaseDir, "Demos/vector.xq"),"http://www.xqsharp.com/raytracer/vector"},
+{filename:join(BaseDir, "Demos/shapes.xq"),"http://www.xqsharp.com/raytracer/shapes"},
+{filename:join(BaseDir, "Demos/materials.xq"),"http://www.xqsharp.com/raytracer/materials"},
+{filename:join(BaseDir, "Demos/math.xq"),"http://www.xqsharp.com/raytracer/math"}]}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "raytracer.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"starts-with(normalize-space(string-join($result, ' ')), 'P3 64 64 255 0 0 0')") of 
       true -> {comment, "Correct results"};

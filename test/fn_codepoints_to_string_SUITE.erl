@@ -84,9 +84,13 @@
 -export(['cbcl-codepoints-to-string-026'/1]).
 -export(['cbcl-codepoints-to-string-027'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-codepoints-to-string1args-1',
    'fn-codepoints-to-string1args-2',
@@ -167,97 +171,97 @@ all() -> [
    'cbcl-codepoints-to-string-025',
    'cbcl-codepoints-to-string-026',
    'cbcl-codepoints-to-string-027'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -269,60 +273,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -330,11 +334,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'fn-codepoints-to-string1args-1'(_Config) ->
+'fn-codepoints-to-string1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string((98,223,1682,12365,63744))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "bßڒき豈") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -343,11 +349,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string1args-2'(_Config) ->
+'fn-codepoints-to-string1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -356,11 +364,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string1args-3'(_Config) ->
+'fn-codepoints-to-string1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string('hello')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -369,11 +379,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string1args-4'(_Config) ->
+'fn-codepoints-to-string1args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string((),())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string1args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -382,11 +394,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-1'(_Config) ->
+'fn-codepoints-to-string-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string(0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -395,11 +409,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-2'(_Config) ->
+'fn-codepoints-to-string-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string(10000000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -408,11 +424,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-3'(_Config) ->
+'fn-codepoints-to-string-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string(49)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -421,11 +439,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-4'(_Config) ->
+'fn-codepoints-to-string-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string(97)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -434,11 +454,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-5'(_Config) ->
+'fn-codepoints-to-string-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string((49,97))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1a") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -447,11 +469,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-6'(_Config) ->
+'fn-codepoints-to-string-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string((35, 42, 94, 36))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "#*^$") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -460,11 +484,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-7'(_Config) ->
+'fn-codepoints-to-string-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string((99,111,100,101,112,111,105,110,116,115,45,116,111,45,115,116,114,105,110,103))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "codepoints-to-string") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -473,11 +499,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-8'(_Config) ->
+'fn-codepoints-to-string-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(fn:codepoints-to-string((65,32,83,116,114,105,110,103)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "A String") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -486,11 +514,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-9'(_Config) ->
+'fn-codepoints-to-string-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:upper-case(fn:codepoints-to-string((65,32,83,84,82,73,78,71)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "A STRING") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -499,11 +529,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-10'(_Config) ->
+'fn-codepoints-to-string-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lower-case(fn:codepoints-to-string((97,32,115,116,114,105,110,103)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a string") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -512,11 +544,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-11'(_Config) ->
+'fn-codepoints-to-string-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string(xs:integer(97))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -525,11 +559,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-12'(_Config) ->
+'fn-codepoints-to-string-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string(xs:integer(fn:avg((65,32,83,116,114,105,110,103))))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "[") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -538,11 +574,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-13'(_Config) ->
+'fn-codepoints-to-string-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:concat(fn:codepoints-to-string((49,97)),\"1a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1a1a") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -551,11 +589,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-14'(_Config) ->
+'fn-codepoints-to-string-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string-to-codepoints(fn:codepoints-to-string((49,97)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"49, 97") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -564,11 +604,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-15'(_Config) ->
+'fn-codepoints-to-string-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string-length(fn:codepoints-to-string((49,97)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -577,11 +619,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-codepoints-to-string-16'(_Config) ->
+'fn-codepoints-to-string-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string-join((fn:codepoints-to-string((49,97)),'ab'),'')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-codepoints-to-string-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1aab") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -590,11 +634,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-1'(_Config) ->
+'K-CodepointToStringFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -603,11 +649,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-2'(_Config) ->
+'K-CodepointToStringFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string((84, 104), \"INVALID\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -616,11 +664,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-3'(_Config) ->
+'K-CodepointToStringFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(()) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -629,11 +679,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-4'(_Config) ->
+'K-CodepointToStringFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string((87, 36, 56, 87, 102, 96)) eq \"W$8Wf`\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -642,11 +694,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-5'(_Config) ->
+'K-CodepointToStringFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(57343)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -655,11 +709,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-6'(_Config) ->
+'K-CodepointToStringFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(-500)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -668,11 +724,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-7'(_Config) ->
+'K-CodepointToStringFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -681,11 +739,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-8'(_Config) ->
+'K-CodepointToStringFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(8)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
@@ -698,13 +758,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-8a'(_Config) ->
+'K-CodepointToStringFunc-8a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XML 1.1"}.
-'K-CodepointToStringFunc-9'(_Config) ->
+'K-CodepointToStringFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(9) eq \"	\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -713,12 +776,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-10'(_Config) ->
+'K-CodepointToStringFunc-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(10) eq \"
 \"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -727,11 +792,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-11'(_Config) ->
+'K-CodepointToStringFunc-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(11)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -740,13 +807,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-11b'(_Config) ->
+'K-CodepointToStringFunc-11b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XML 1.1"}.
-'K-CodepointToStringFunc-12'(_Config) ->
+'K-CodepointToStringFunc-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(12)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -755,13 +825,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-12b'(_Config) ->
+'K-CodepointToStringFunc-12b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XML 1.1"}.
-'K-CodepointToStringFunc-13'(_Config) ->
+'K-CodepointToStringFunc-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(13) eq \"&#xD;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -770,11 +843,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-14'(_Config) ->
+'K-CodepointToStringFunc-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-to-codepoints(codepoints-to-string(14))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"14") of 
       true -> {comment, "Equal"};
@@ -791,11 +866,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-15'(_Config) ->
+'K-CodepointToStringFunc-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-to-codepoints(codepoints-to-string(31))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"31") of 
       true -> {comment, "Equal"};
@@ -812,11 +889,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-16'(_Config) ->
+'K-CodepointToStringFunc-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(32) eq \" \"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -825,11 +904,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-17'(_Config) ->
+'K-CodepointToStringFunc-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(27637) eq \"毵\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -838,11 +919,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-18'(_Config) ->
+'K-CodepointToStringFunc-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(55295) eq \"퟿\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -851,11 +934,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-19'(_Config) ->
+'K-CodepointToStringFunc-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(55296)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -864,11 +949,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-20'(_Config) ->
+'K-CodepointToStringFunc-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(57343)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -877,11 +964,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-21'(_Config) ->
+'K-CodepointToStringFunc-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(57344) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -890,11 +979,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-22'(_Config) ->
+'K-CodepointToStringFunc-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(61438) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -903,11 +994,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-23'(_Config) ->
+'K-CodepointToStringFunc-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(65533) eq \"�\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -916,11 +1009,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-24'(_Config) ->
+'K-CodepointToStringFunc-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(65534)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -929,11 +1024,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-25'(_Config) ->
+'K-CodepointToStringFunc-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(65535)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -942,11 +1039,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-26'(_Config) ->
+'K-CodepointToStringFunc-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(65536) eq \"𐀀\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -955,11 +1054,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-27'(_Config) ->
+'K-CodepointToStringFunc-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(589823) eq \"򏿿\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -968,11 +1069,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-28'(_Config) ->
+'K-CodepointToStringFunc-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(1114111) eq \"􏿿\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -981,11 +1084,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CodepointToStringFunc-29'(_Config) ->
+'K-CodepointToStringFunc-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(1114112)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CodepointToStringFunc-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -994,7 +1099,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-001'(_Config) ->
+'cbcl-codepoints-to-string-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:test($test as xs:integer) as xs:integer? { 
           if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
@@ -1002,7 +1108,8 @@ environment('array-and-map') ->
         fn:codepoints-to-string( local:test(1) to 32 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1011,7 +1118,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-002'(_Config) ->
+'cbcl-codepoints-to-string-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:test($test as xs:integer) as xs:integer? { 
           if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
@@ -1019,7 +1127,8 @@ environment('array-and-map') ->
         fn:codepoints-to-string( local:test(2) to 32 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1028,7 +1137,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-003'(_Config) ->
+'cbcl-codepoints-to-string-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:test($test as xs:integer) as xs:integer? { 
         if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 )else if ($test = 4) then ( 16 ) else () 
@@ -1036,7 +1146,8 @@ environment('array-and-map') ->
       fn:codepoints-to-string( local:test(3) to 32 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1045,14 +1156,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-004'(_Config) ->
+'cbcl-codepoints-to-string-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:test($test as xs:integer) as xs:integer? { 
         if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
       }; 
       fn:codepoints-to-string( local:test(4) to 32 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1061,11 +1174,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-005'(_Config) ->
+'cbcl-codepoints-to-string-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string( 65536 to 1114112 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1074,11 +1189,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-006'(_Config) ->
+'cbcl-codepoints-to-string-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string( 55295 to 55297 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1087,11 +1204,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-007'(_Config) ->
+'cbcl-codepoints-to-string-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string( 55296 to 57343 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1100,11 +1219,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-008'(_Config) ->
+'cbcl-codepoints-to-string-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string( 65535 to 70000 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1113,11 +1234,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-009'(_Config) ->
+'cbcl-codepoints-to-string-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:codepoints-to-string( 65530 to 70000 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1126,11 +1249,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-010'(_Config) ->
+'cbcl-codepoints-to-string-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:boolean(fn:codepoints-to-string( 65 to 76 ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1139,11 +1264,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-011'(_Config) ->
+'cbcl-codepoints-to-string-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:boolean(fn:codepoints-to-string( 0 ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1152,11 +1279,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-012'(_Config) ->
+'cbcl-codepoints-to-string-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:boolean(fn:codepoints-to-string( 999999999 ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1165,11 +1294,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-013'(_Config) ->
+'cbcl-codepoints-to-string-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:boolean(fn:codepoints-to-string( 65 ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1178,11 +1309,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-014'(_Config) ->
+'cbcl-codepoints-to-string-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:boolean(fn:codepoints-to-string( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1191,11 +1324,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-015'(_Config) ->
+'cbcl-codepoints-to-string-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal( fn:string-to-codepoints(fn:codepoints-to-string(65536 to 66000)), 65536 to 66000 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1204,11 +1339,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-016'(_Config) ->
+'cbcl-codepoints-to-string-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal( fn:string-to-codepoints(fn:codepoints-to-string(65536 to 100000)), 65536 to 100000 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1217,11 +1354,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-017'(_Config) ->
+'cbcl-codepoints-to-string-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in 32 to 64 return boolean(codepoints-to-string($x to $x + 10))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1230,11 +1369,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-018'(_Config) ->
+'cbcl-codepoints-to-string-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if(5 < exactly-one((1 to 10)[. div 2 = 5])) then codepoints-to-string(32 to exactly-one((1 to 100)[. div 2 = 40])) else ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOP") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1243,11 +1384,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-019'(_Config) ->
+'cbcl-codepoints-to-string-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in 65 to 75 return string-length(codepoints-to-string($x to $x+10))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "11 11 11 11 11 11 11 11 11 11 11") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1256,11 +1399,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-020'(_Config) ->
+'cbcl-codepoints-to-string-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in 65 to 75 return boolean(codepoints-to-string($x[. mod 2 = 0] to ($x+9)[. mod 2 = 0]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false false false false false false false false false false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1269,15 +1414,19 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-021'(_Config) ->
+'cbcl-codepoints-to-string-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip," HUGE RANGE "}.
-'cbcl-codepoints-to-string-022'(_Config) ->
+'cbcl-codepoints-to-string-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip," HUGE RANGE "}.
-'cbcl-codepoints-to-string-023'(_Config) ->
+'cbcl-codepoints-to-string-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in 9 to 15 return codepoints-to-string($x to $x)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1286,11 +1435,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-024'(_Config) ->
+'cbcl-codepoints-to-string-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in 13 to 15 return codepoints-to-string($x to $x)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1299,11 +1450,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-025'(_Config) ->
+'cbcl-codepoints-to-string-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in 9 to 9 return codepoints-to-string($x to $x+1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'	
 '") of 
       true -> {comment, "Equal"};
@@ -1313,11 +1466,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-026'(_Config) ->
+'cbcl-codepoints-to-string-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in 13 to 13 return codepoints-to-string($x to $x)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1326,11 +1481,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-codepoints-to-string-027'(_Config) ->
+'cbcl-codepoints-to-string-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in (13), $y in (13,9,10) return codepoints-to-string($x to $y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "  ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

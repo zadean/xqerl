@@ -59,9 +59,13 @@
 -export(['K-commaOp-2'/1]).
 -export(['K-commaOp-3'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "op")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'sequenceexpressionhc1',
    'sequenceexpressionhc2',
@@ -117,97 +121,97 @@ all() -> [
    'K-commaOp-1',
    'K-commaOp-2',
    'K-commaOp-3'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -219,60 +223,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -280,23 +284,25 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('bib') ->
+environment('bib',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/bib.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/bib.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'sequenceexpressionhc1'(_Config) ->
+'sequenceexpressionhc1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1,2,3,4,5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "sequenceexpressionhc1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -305,11 +311,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'sequenceexpressionhc2'(_Config) ->
+'sequenceexpressionhc2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1,(2,3),4,5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "sequenceexpressionhc2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -318,11 +326,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'sequenceexpressionhc3'(_Config) ->
+'sequenceexpressionhc3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, (), 3, 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "sequenceexpressionhc3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3, 4") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -331,11 +341,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'sequenceexpressionhc4'(_Config) ->
+'sequenceexpressionhc4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2 to 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "sequenceexpressionhc4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -344,11 +356,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'sequenceexpressionhc5'(_Config) ->
+'sequenceexpressionhc5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "sequenceexpressionhc5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 2") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -357,11 +371,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'sequenceexpressionhc6'(_Config) ->
+'sequenceexpressionhc6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count((15 to 10))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "sequenceexpressionhc6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -370,11 +386,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'sequenceexpressionhc7'(_Config) ->
+'sequenceexpressionhc7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:reverse(10 to 15)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "sequenceexpressionhc7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"15, 14, 13, 12, 11, 10") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -383,12 +401,14 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'sequenceexpressionhc8'(_Config) ->
+'sequenceexpressionhc8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "//empnum",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "sequenceexpressionhc8.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -397,12 +417,14 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'sequenceexpressionhc9'(_Config) ->
+'sequenceexpressionhc9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " ($works//empnum,$staff//empname)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "sequenceexpressionhc9.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum><empname>Alice</empname><empname>Betty</empname><empname>Carmen</empname><empname>Don</empname><empname>Ed</empname>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -411,11 +433,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-1'(_Config) ->
+'constSeq-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 1 + 1, 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -424,11 +448,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-2'(_Config) ->
+'constSeq-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 3 - 1, 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2 ,3, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -437,11 +463,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-3'(_Config) ->
+'constSeq-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (1, 2 * 1, 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -450,11 +478,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-4'(_Config) ->
+'constSeq-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (1, 4 div 2, 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -463,11 +493,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-5'(_Config) ->
+'constSeq-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (1, 4 idiv 2, 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -476,11 +508,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-6'(_Config) ->
+'constSeq-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (1, fn:count((1, 2)), 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -489,11 +523,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-7'(_Config) ->
+'constSeq-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (1, fn:string-length(\"AB\"), 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -502,11 +538,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-8'(_Config) ->
+'constSeq-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (fn:true(),fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"true(), true()") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -515,11 +553,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-9'(_Config) ->
+'constSeq-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (fn:false(),fn:false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"false(), false()") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -528,11 +568,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-10'(_Config) ->
+'constSeq-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (fn:not(\"true\"),fn:not(\"false\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"false(), false()") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -541,11 +583,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-11'(_Config) ->
+'constSeq-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (fn:true() and fn:true(), fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"true(), true()") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -554,11 +598,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-12'(_Config) ->
+'constSeq-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (fn:true() or fn:true(), fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"true(), true()") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -567,11 +613,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-13'(_Config) ->
+'constSeq-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (xs:string(\"ABC\"), \"D\", \"E\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"ABC\", \"D\", \"E\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -580,11 +628,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-14'(_Config) ->
+'constSeq-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (xs:integer(1), 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -593,11 +643,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-15'(_Config) ->
+'constSeq-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (xs:decimal(1), 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -606,11 +658,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-16'(_Config) ->
+'constSeq-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (xs:anyURI(\"http://www.example.com\"),xs:anyURI(\"http://www.example1.com\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://www.example.com\", \"http://www.example1.com\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -619,11 +673,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-17'(_Config) ->
+'constSeq-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (xs:float(1.1), 2.2, 3.3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:float('1.1e0'), 2.2, 3.3") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -632,11 +688,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-18'(_Config) ->
+'constSeq-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (xs:double(1.2E2), 2.2E2, 3.3E2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"120, 220, 330") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -645,11 +703,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-19'(_Config) ->
+'constSeq-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (xs:boolean(fn:true()), fn:false(), fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"true(), false(), true()") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -658,11 +718,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-20'(_Config) ->
+'constSeq-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (xs:date(\"2004-12-25Z\"),xs:date(\"2004-12-26Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-25Z 2004-12-26Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -671,11 +733,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-21'(_Config) ->
+'constSeq-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (xs:dateTime(\"1999-11-28T09:00:00Z\"),xs:dateTime(\"1998-11-28T09:00:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1999-11-28T09:00:00Z 1998-11-28T09:00:00Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -684,11 +748,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'constSeq-22'(_Config) ->
+'constSeq-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " (xs:time(\"08:00:00+09:00\"),xs:time(\"08:00:00+10:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "constSeq-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "08:00:00+09:00 08:00:00+10:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -697,11 +763,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-001'(_Config) ->
+'op-concatenate-mix-args-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1) , (2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -710,11 +778,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-002'(_Config) ->
+'op-concatenate-mix-args-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"a\") , xs:string(\"b\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a\", \"b\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -723,11 +793,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-003'(_Config) ->
+'op-concatenate-mix-args-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"a\") , (), \"xyz\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a\", \"xyz\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -736,11 +808,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-004'(_Config) ->
+'op-concatenate-mix-args-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"xyz\" , xs:string(\" \"), \"b\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"xyz\", \" \", \"b\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -749,11 +823,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-005'(_Config) ->
+'op-concatenate-mix-args-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"a\") , xs:anyURI(\"www.example.com\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a\", \"www.example.com\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -762,11 +838,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-006'(_Config) ->
+'op-concatenate-mix-args-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"hello\") , xs:integer(\"100\"), xs:anyURI(\"www.example.com\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"hello\", 100, \"www.example.com\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -775,11 +853,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-007'(_Config) ->
+'op-concatenate-mix-args-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"www.example.com\") , xs:decimal(\"1.01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"www.example.com\", 1.01") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -788,11 +868,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-008'(_Config) ->
+'op-concatenate-mix-args-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"1.01\"), xs:float(\"NaN\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.01 NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -801,11 +883,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-009'(_Config) ->
+'op-concatenate-mix-args-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"INF\") , xs:double(\"NaN\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -814,11 +898,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-010'(_Config) ->
+'op-concatenate-mix-args-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"INF\"), xs:double(\"-INF\"), xs:float(\"-INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF -INF -INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -827,11 +913,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-011'(_Config) ->
+'op-concatenate-mix-args-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") , xs:boolean(\"0\"), xs:integer(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"true(), false(), 0") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -840,11 +928,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-012'(_Config) ->
+'op-concatenate-mix-args-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"false\"), xs:boolean(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"false(), true()") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -853,11 +943,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-013'(_Config) ->
+'op-concatenate-mix-args-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1993-03-31\") , xs:boolean(\"true\"), xs:string(\"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1993-03-31 true abc") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -866,11 +958,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-014'(_Config) ->
+'op-concatenate-mix-args-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1972-12-31T00:00:00Z\") , (())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1972-12-31T00:00:00Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -879,11 +973,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-015'(_Config) ->
+'op-concatenate-mix-args-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"12:30:00Z\") , xs:string(\" \") , xs:decimal(\"2.000000000000002\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12:30:00Z   2.000000000000002") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -892,11 +988,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-016'(_Config) ->
+'op-concatenate-mix-args-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() , xs:string(\" \") , xs:decimal(\"2.000000000000002\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "  2.000000000000002") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -905,11 +1003,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-017'(_Config) ->
+'op-concatenate-mix-args-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1+1), (2-2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2, 0") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -918,11 +1018,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-018'(_Config) ->
+'op-concatenate-mix-args-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1,2,2),(1,2,3),(123,\"\"),(),(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 2, 1, 2, 3, 123, \"\", \"\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -931,12 +1033,14 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-019'(_Config) ->
+'op-concatenate-mix-args-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "//book/price, (), (1)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-019.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result) = 5") of 
       true -> {comment, "Correct results"};
@@ -969,12 +1073,14 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-concatenate-mix-args-020'(_Config) ->
+'op-concatenate-mix-args-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "//book/price, //book/title",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-concatenate-mix-args-020.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>Data on the Web</title><title>The Economics of Technology and Content for Digital TV</title>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -983,11 +1089,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-commaOp-1'(_Config) ->
+'K-commaOp-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal(((1, (2, (3, 4, (5, 6)), 7), 8, (9, 10), 11)), (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-commaOp-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -996,11 +1104,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-commaOp-2'(_Config) ->
+'K-commaOp-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(((), (), ((), (), ((), (), (())), ()), (), (())))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-commaOp-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1009,11 +1119,13 @@ environment('bib') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-commaOp-3'(_Config) ->
+'K-commaOp-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "((), (), ((), (), ((), (), (\"str\")), ()), (), (())) eq \"str\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-commaOp-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 

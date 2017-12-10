@@ -51,9 +51,13 @@
 -export(['K2-NodeLangFunc-6'/1]).
 -export(['cbcl-fn-lang-001'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-lang1args-1',
    'fn-lang1args-2',
@@ -101,97 +105,97 @@ all() -> [
    'K2-NodeLangFunc-5',
    'K2-NodeLangFunc-6',
    'cbcl-fn-lang-001'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -203,60 +207,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -264,48 +268,50 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('emptydoc') ->
+environment('emptydoc',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomicns') ->
+environment('atomicns',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomicns.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/atomicns.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('lang') ->
+environment('lang',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/lang/lang.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "lang/lang.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'fn-lang1args-1'(_Config) ->
+'fn-lang1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(xs:string(\"en\"),/root[1]/time[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang1args-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -314,12 +320,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang1args-2'(_Config) ->
+'fn-lang1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(xs:string(\"EN\"),./root[1]/time[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang1args-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -328,12 +336,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang1args-3'(_Config) ->
+'fn-lang1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(xs:string(\"eN\"),./root[1]/time[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang1args-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -342,16 +352,18 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-1'(_Config) ->
+'fn-lang-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace eg = \"http://example.org\"; 
         declare function eg:noContextFunction() { fn:lang(\"en\") }; 
         eg:noContextFunction()
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -360,12 +372,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-2'(_Config) ->
+'fn-lang-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:lang((), ./langs[1]/para[1]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -374,12 +388,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-3'(_Config) ->
+'fn-lang-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " for $x in /langs/para[1] return $x/fn:lang(\"en\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -388,12 +404,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-4'(_Config) ->
+'fn-lang-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/div[1]/para return $x/fn:lang(\"en\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -402,12 +420,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-5'(_Config) ->
+'fn-lang-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"EN\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-5.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -416,12 +436,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-6'(_Config) ->
+'fn-lang-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " for $x in /langs/para[2] return $x/fn:lang(\"En\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-6.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -430,12 +452,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-7'(_Config) ->
+'fn-lang-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"eN\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-7.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -444,12 +468,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-8'(_Config) ->
+'fn-lang-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"en\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-8.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -458,12 +484,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-9'(_Config) ->
+'fn-lang-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"en-us\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-9.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -472,12 +500,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-10'(_Config) ->
+'fn-lang-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"EN\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-10.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -486,12 +516,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-11'(_Config) ->
+'fn-lang-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"En\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-11.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -500,12 +532,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-12'(_Config) ->
+'fn-lang-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"eN\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-12.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -514,12 +548,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-13'(_Config) ->
+'fn-lang-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"en\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-13.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -528,12 +564,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-14'(_Config) ->
+'fn-lang-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"en-us\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-14.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -542,12 +580,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-15'(_Config) ->
+'fn-lang-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1[fn:lang(\"en-us\")]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-15.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -556,12 +596,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-16'(_Config) ->
+'fn-lang-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"us-us\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-16.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -570,12 +612,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-17'(_Config) ->
+'fn-lang-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"fr\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-17.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -584,12 +628,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-18'(_Config) ->
+'fn-lang-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"en\",fn:exactly-one(/langs/para[1]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-18.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -598,12 +644,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-19'(_Config) ->
+'fn-lang-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"fr\",fn:exactly-one(/langs/para[1]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-19.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -612,12 +660,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-20'(_Config) ->
+'fn-lang-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"en\",fn:exactly-one(/langs/para[3]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-20.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -626,12 +676,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-21'(_Config) ->
+'fn-lang-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"en\",fn:exactly-one(/langs/para[2]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-21.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -640,12 +692,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-22'(_Config) ->
+'fn-lang-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"en\",.)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-22.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -654,12 +708,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-23'(_Config) ->
+'fn-lang-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"de\",fn:exactly-one(/langs/para[4]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-23.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -668,12 +724,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-24'(_Config) ->
+'fn-lang-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"de-DE\",fn:exactly-one(/langs/para[4]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-24.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -682,12 +740,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-25'(_Config) ->
+'fn-lang-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"DE-de\",fn:exactly-one(/langs/para[4]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-25.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -696,12 +756,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-26'(_Config) ->
+'fn-lang-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"de-DE-1996\",fn:exactly-one(/langs/para[4]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-26.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -710,12 +772,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-27'(_Config) ->
+'fn-lang-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"de-DE-1998\",fn:exactly-one(/langs/para[4]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-27.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -724,12 +788,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-28'(_Config) ->
+'fn-lang-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"de-D\",fn:exactly-one(/langs/para[4]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-28.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -738,12 +804,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-29'(_Config) ->
+'fn-lang-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"de-DE-\",fn:exactly-one(/langs/para[4]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-29.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -752,12 +820,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-30'(_Config) ->
+'fn-lang-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"de-DE-1996-x\",fn:exactly-one(/langs/para[4]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-30.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -766,12 +836,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-31'(_Config) ->
+'fn-lang-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $l := /langs/para[4]!fn:lang#1 return /langs/para[1]!$l('en')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-31.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -780,12 +852,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-lang-32'(_Config) ->
+'fn-lang-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $l := /langs/para[4]!fn:lang#1 return /langs/para[1]!$l('de')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('lang')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-lang-32.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -794,12 +868,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NodeLangFunc-1'(_Config) ->
+'K-NodeLangFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "lang()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NodeLangFunc-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -808,12 +884,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NodeLangFunc-2'(_Config) ->
+'K-NodeLangFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if(false()) then lang(\"en\", .) else true()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NodeLangFunc-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -830,12 +908,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NodeLangFunc-3'(_Config) ->
+'K-NodeLangFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if(false()) then lang(\"en\") else true()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NodeLangFunc-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -852,12 +932,14 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NodeLangFunc-4'(_Config) ->
+'K-NodeLangFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "lang(\"en\", 2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NodeLangFunc-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -866,11 +948,13 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-NodeLangFunc-1'(_Config) ->
+'K2-NodeLangFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i := <e xml:lang=\"en\"> <b xml:lang=\"de\"/> </e> return (lang(\"de\", $i/b), lang(\"de\", $i))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeLangFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -879,11 +963,13 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-NodeLangFunc-2'(_Config) ->
+'K2-NodeLangFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i := <e xml:lang=\"en\"> <b xml:lang=\"de\"/> </e> return lang(\"de\", $i/b/@xml:lang)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeLangFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -892,11 +978,13 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-NodeLangFunc-3'(_Config) ->
+'K2-NodeLangFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "lang(\"de\", attribute xml:lang {()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeLangFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -905,11 +993,13 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-NodeLangFunc-4'(_Config) ->
+'K2-NodeLangFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "lang(\"en\", <e xml:lang=\"ene\"/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeLangFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -918,11 +1008,13 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-NodeLangFunc-5'(_Config) ->
+'K2-NodeLangFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"fr\", attribute xml:lang {\"fr\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeLangFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -931,11 +1023,13 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-NodeLangFunc-6'(_Config) ->
+'K2-NodeLangFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lang(\"fr\", attribute xml:lang {()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeLangFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -944,13 +1038,15 @@ environment('lang') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-lang-001'(_Config) ->
+'cbcl-fn-lang-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	if(current-date() > xs:date(\"2000-01-01\")) then lang(\"en\",<a/>) else ()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-lang-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 

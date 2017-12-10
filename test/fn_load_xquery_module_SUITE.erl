@@ -87,41 +87,45 @@
 -export(['fn-load-xquery-module-914'/1]).
 -export(['fn-load-xquery-module-915'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/invalid-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/external-var-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/context-item-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/dynamic-error-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/valid-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/functions-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/functions2-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/external-vars-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/import-func-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/import-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/module2-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/import-vars-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/import-vars2-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/external-vars2-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/import2-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/middle-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/import-vars3-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/import-self-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/test1c1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ModuleImport/test2c1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/load-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/load-self-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/decimal-format-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/empty-least-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/empty-greatest-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/boundary-space1-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/boundary-space2-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/import-schema-hats-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/import-schema-abf-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/import-schema-abf2-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/context-item2-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/main-module.xqm") catch _:_ -> ok end,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/invalid-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/external-var-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/context-item-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/dynamic-error-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/valid-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/functions-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/functions2-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/external-vars-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-func-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "../prod/ModuleImport/module1-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "../prod/ModuleImport/module2-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-vars-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-vars2-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/external-vars2-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import2-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/middle-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-vars3-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-self-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "../prod/ModuleImport/test1c1-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "../prod/ModuleImport/test2c1-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/load-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/load-self-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/decimal-format-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/empty-least-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/empty-greatest-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/boundary-space1-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/boundary-space2-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-schema-hats-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-schema-abf-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-schema-abf2-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/context-item2-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/main-module.xqm")) catch _:_ -> ok end
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-load-xquery-module-001',
    'fn-load-xquery-module-002',
@@ -205,97 +209,97 @@ all() -> [
    'fn-load-xquery-module-913',
    'fn-load-xquery-module-914',
    'fn-load-xquery-module-915'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -307,60 +311,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -368,191 +372,273 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('hats') ->
+environment('hats',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"../prod/SchemaImport/hats.xsd","http://www.w3.org/XQueryTest/hats"}]},
+{schemas, [{filename:join(BaseDir, "../prod/SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('abf') ->
+environment('abf',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"../prod/SchemaImport/abf.xsd","http://www.w3.org/XQueryTest/abf"}]},
+{schemas, [{filename:join(BaseDir, "../prod/SchemaImport/abf.xsd"),"http://www.w3.org/XQueryTest/abf"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'fn-load-xquery-module-001'(_Config) ->
+'fn-load-xquery-module-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-002'(_Config) ->
+'fn-load-xquery-module-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-003'(_Config) ->
+'fn-load-xquery-module-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-004'(_Config) ->
+'fn-load-xquery-module-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-005'(_Config) ->
+'fn-load-xquery-module-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-006'(_Config) ->
+'fn-load-xquery-module-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-007'(_Config) ->
+'fn-load-xquery-module-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-008'(_Config) ->
+'fn-load-xquery-module-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-009'(_Config) ->
+'fn-load-xquery-module-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-010'(_Config) ->
+'fn-load-xquery-module-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-011'(_Config) ->
+'fn-load-xquery-module-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-012'(_Config) ->
+'fn-load-xquery-module-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-013'(_Config) ->
+'fn-load-xquery-module-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-014'(_Config) ->
+'fn-load-xquery-module-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-015'(_Config) ->
+'fn-load-xquery-module-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-016'(_Config) ->
+'fn-load-xquery-module-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-017'(_Config) ->
+'fn-load-xquery-module-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-018'(_Config) ->
+'fn-load-xquery-module-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-019'(_Config) ->
+'fn-load-xquery-module-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-020'(_Config) ->
+'fn-load-xquery-module-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-021'(_Config) ->
+'fn-load-xquery-module-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-022'(_Config) ->
+'fn-load-xquery-module-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-023'(_Config) ->
+'fn-load-xquery-module-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-024'(_Config) ->
+'fn-load-xquery-module-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-025'(_Config) ->
+'fn-load-xquery-module-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-026'(_Config) ->
+'fn-load-xquery-module-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-027'(_Config) ->
+'fn-load-xquery-module-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-028'(_Config) ->
+'fn-load-xquery-module-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-029'(_Config) ->
+'fn-load-xquery-module-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-030'(_Config) ->
+'fn-load-xquery-module-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-031'(_Config) ->
+'fn-load-xquery-module-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-032'(_Config) ->
+'fn-load-xquery-module-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-033'(_Config) ->
+'fn-load-xquery-module-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-034'(_Config) ->
+'fn-load-xquery-module-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-035'(_Config) ->
+'fn-load-xquery-module-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-036'(_Config) ->
+'fn-load-xquery-module-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-037'(_Config) ->
+'fn-load-xquery-module-037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-038'(_Config) ->
+'fn-load-xquery-module-038'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-040'(_Config) ->
+'fn-load-xquery-module-040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-041'(_Config) ->
+'fn-load-xquery-module-041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-042'(_Config) ->
+'fn-load-xquery-module-042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-043'(_Config) ->
+'fn-load-xquery-module-043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-044'(_Config) ->
+'fn-load-xquery-module-044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-045'(_Config) ->
+'fn-load-xquery-module-045'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-046'(_Config) ->
+'fn-load-xquery-module-046'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-050'(_Config) ->
+'fn-load-xquery-module-050'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-051'(_Config) ->
+'fn-load-xquery-module-051'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-052'(_Config) ->
+'fn-load-xquery-module-052'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-053'(_Config) ->
+'fn-load-xquery-module-053'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-054'(_Config) ->
+'fn-load-xquery-module-054'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-055'(_Config) ->
+'fn-load-xquery-module-055'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-056'(_Config) ->
+'fn-load-xquery-module-056'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-057'(_Config) ->
+'fn-load-xquery-module-057'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-060'(_Config) ->
+'fn-load-xquery-module-060'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-061'(_Config) ->
+'fn-load-xquery-module-061'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-062'(_Config) ->
+'fn-load-xquery-module-062'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-063'(_Config) ->
+'fn-load-xquery-module-063'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-064'(_Config) ->
+'fn-load-xquery-module-064'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-065'(_Config) ->
+'fn-load-xquery-module-065'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-066'(_Config) ->
+'fn-load-xquery-module-066'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-067'(_Config) ->
+'fn-load-xquery-module-067'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-068'(_Config) ->
+'fn-load-xquery-module-068'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-069'(_Config) ->
+'fn-load-xquery-module-069'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-070'(_Config) ->
+'fn-load-xquery-module-070'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-071'(_Config) ->
+'fn-load-xquery-module-071'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-072'(_Config) ->
+'fn-load-xquery-module-072'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-073'(_Config) ->
+'fn-load-xquery-module-073'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-901'(_Config) ->
+'fn-load-xquery-module-901'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-902'(_Config) ->
+'fn-load-xquery-module-902'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-903'(_Config) ->
+'fn-load-xquery-module-903'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-904'(_Config) ->
+'fn-load-xquery-module-904'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-905'(_Config) ->
+'fn-load-xquery-module-905'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-906'(_Config) ->
+'fn-load-xquery-module-906'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-907'(_Config) ->
+'fn-load-xquery-module-907'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-908'(_Config) ->
+'fn-load-xquery-module-908'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-909'(_Config) ->
+'fn-load-xquery-module-909'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-910'(_Config) ->
+'fn-load-xquery-module-910'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-911'(_Config) ->
+'fn-load-xquery-module-911'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-912'(_Config) ->
+'fn-load-xquery-module-912'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-913'(_Config) ->
+'fn-load-xquery-module-913'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-914'(_Config) ->
+'fn-load-xquery-module-914'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-load-xquery-module-915'(_Config) ->
+'fn-load-xquery-module-915'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.

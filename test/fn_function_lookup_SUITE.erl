@@ -679,10 +679,14 @@
 -export(['fn-function-lookup-829'/1]).
 -export(['fn-function-lookup-830'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/valid-module.xqm") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/load-xquery-module/context-item-module.xqm") catch _:_ -> ok end,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/valid-module.xqm")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/context-item-module.xqm")) catch _:_ -> ok end
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-function-lookup-001',
    'fn-function-lookup-002',
@@ -1358,97 +1362,97 @@ all() -> [
    'fn-function-lookup-828',
    'fn-function-lookup-829',
    'fn-function-lookup-830'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -1460,60 +1464,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -1521,25 +1525,27 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('function-lookup') ->
+environment('function-lookup',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/function-lookup/function-lookup.xml",".","http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"}]},
+{sources, [{filename:join(BaseDir, "function-lookup/function-lookup.xml"), ".","http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"}]},
 {schemas, []},
-{collections, [{"",["function-lookup/collection-1.xml",
-"function-lookup/collection-2.xml"]}]},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{collections, [{"",[filename:join(BaseDir, "function-lookup/collection-1.xml"),
+filename:join(BaseDir, "function-lookup/collection-2.xml")]}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/unparsed-text/text-plain-utf-8.txt","http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/json-to-xml/data001.json","http://www.w3.org/qt3/json/data001-json"}]},
+{resources, [{filename:join(BaseDir, "unparsed-text/text-plain-utf-8.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"},
+{filename:join(BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"}]},
 {modules, []}
 ].
-'fn-function-lookup-001'(_Config) ->
+'fn-function-lookup-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1548,12 +1554,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-002'(_Config) ->
+'fn-function-lookup-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1562,11 +1570,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-003'(_Config) ->
+'fn-function-lookup-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1575,12 +1585,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-004'(_Config) ->
+'fn-function-lookup-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 1)(/root)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1589,11 +1601,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-005'(_Config) ->
+'fn-function-lookup-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'nilled'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1602,12 +1616,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-006'(_Config) ->
+'fn-function-lookup-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'nilled'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-006.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1616,11 +1632,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-007'(_Config) ->
+'fn-function-lookup-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'nilled'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1629,12 +1647,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-008'(_Config) ->
+'fn-function-lookup-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'nilled'), 1)(/root)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1643,11 +1663,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-009'(_Config) ->
+'fn-function-lookup-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1656,12 +1678,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-010'(_Config) ->
+'fn-function-lookup-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-010.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1670,11 +1694,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-011'(_Config) ->
+'fn-function-lookup-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1683,11 +1709,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-012'(_Config) ->
+'fn-function-lookup-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string'), 1)(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1696,11 +1724,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-013'(_Config) ->
+'fn-function-lookup-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'data'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1709,12 +1739,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-014'(_Config) ->
+'fn-function-lookup-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'data'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-014.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1723,11 +1755,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-015'(_Config) ->
+'fn-function-lookup-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'data'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1736,12 +1770,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-016'(_Config) ->
+'fn-function-lookup-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'data'), 1)(/root/child[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-016.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1750,11 +1786,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-017'(_Config) ->
+'fn-function-lookup-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1763,12 +1801,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-018'(_Config) ->
+'fn-function-lookup-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-018.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1777,11 +1817,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-019'(_Config) ->
+'fn-function-lookup-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1790,12 +1832,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-020'(_Config) ->
+'fn-function-lookup-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 1)(/)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-020.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1804,11 +1848,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-021'(_Config) ->
+'fn-function-lookup-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'document-uri'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1817,12 +1863,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-022'(_Config) ->
+'fn-function-lookup-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'document-uri'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-022.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1831,11 +1879,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-023'(_Config) ->
+'fn-function-lookup-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'document-uri'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1844,12 +1894,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-024'(_Config) ->
+'fn-function-lookup-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'document-uri'), 1)(/)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-024.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/fots/fn/function-lookup/function-lookup.xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1858,11 +1910,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-025'(_Config) ->
+'fn-function-lookup-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'error'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1871,11 +1925,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-026'(_Config) ->
+'fn-function-lookup-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'error'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1884,11 +1940,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-027'(_Config) ->
+'fn-function-lookup-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'error'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1897,11 +1955,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-028'(_Config) ->
+'fn-function-lookup-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'error'), 1)(fn:QName('http://www.w3.org/2005/xqt-errors', 'foo:XXXX0000'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XXXX0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1910,11 +1970,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-029'(_Config) ->
+'fn-function-lookup-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'error'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1923,11 +1985,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-030'(_Config) ->
+'fn-function-lookup-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'error'), 2)(fn:QName('http://www.w3.org/2005/xqt-errors', 'foo:XXXX0000'), 'string')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XXXX0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1936,11 +2000,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-031'(_Config) ->
+'fn-function-lookup-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'error'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1949,11 +2015,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-032'(_Config) ->
+'fn-function-lookup-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'error'), 3)(fn:QName('http://www.w3.org/2005/xqt-errors', 'foo:XXXX0000'), 'string', (1, true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XXXX0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1962,11 +2030,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-033'(_Config) ->
+'fn-function-lookup-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'trace'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1975,11 +2045,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-034'(_Config) ->
+'fn-function-lookup-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'trace'), 2)(1, 'label')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-034.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1988,11 +2060,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-035'(_Config) ->
+'fn-function-lookup-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'abs'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-035.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2001,11 +2075,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-036'(_Config) ->
+'fn-function-lookup-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'abs'), 1)(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-036.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2014,11 +2090,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-037'(_Config) ->
+'fn-function-lookup-037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'ceiling'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-037.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2027,11 +2105,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-038'(_Config) ->
+'fn-function-lookup-038'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'ceiling'), 1)(0.9)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-038.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2040,11 +2120,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-039'(_Config) ->
+'fn-function-lookup-039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'floor'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-039.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2053,11 +2135,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-040'(_Config) ->
+'fn-function-lookup-040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'floor'), 1)(1.1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-040.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2066,11 +2150,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-041'(_Config) ->
+'fn-function-lookup-041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'round'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-041.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2079,11 +2165,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-042'(_Config) ->
+'fn-function-lookup-042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'round'), 1)(1.1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-042.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2092,11 +2180,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-043'(_Config) ->
+'fn-function-lookup-043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'round'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-043.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2105,11 +2195,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-044'(_Config) ->
+'fn-function-lookup-044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'round'), 2)(1.1, 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-044.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2118,11 +2210,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-045'(_Config) ->
+'fn-function-lookup-045'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'round-half-to-even'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-045.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2131,11 +2225,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-046'(_Config) ->
+'fn-function-lookup-046'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'round-half-to-even'), 1)(1.1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-046.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2144,11 +2240,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-047'(_Config) ->
+'fn-function-lookup-047'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'round-half-to-even'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-047.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2157,11 +2255,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-048'(_Config) ->
+'fn-function-lookup-048'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'round-half-to-even'), 2)(1.1, 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-048.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2170,11 +2270,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-049'(_Config) ->
+'fn-function-lookup-049'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'number'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-049.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2183,12 +2285,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-050'(_Config) ->
+'fn-function-lookup-050'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'number'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-050.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2197,11 +2301,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-051'(_Config) ->
+'fn-function-lookup-051'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'number'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-051.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2210,11 +2316,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-052'(_Config) ->
+'fn-function-lookup-052'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'number'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-052.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2223,11 +2331,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-053'(_Config) ->
+'fn-function-lookup-053'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-integer'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-053.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2236,11 +2346,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-054'(_Config) ->
+'fn-function-lookup-054'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-integer'), 2)(1, '0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-054.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2249,11 +2361,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-055'(_Config) ->
+'fn-function-lookup-055'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-integer'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-055.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2262,11 +2376,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-056'(_Config) ->
+'fn-function-lookup-056'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-integer'), 3)(1, '0', 'en')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-056.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2275,11 +2391,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-057'(_Config) ->
+'fn-function-lookup-057'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-number'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-057.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2288,11 +2406,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-058'(_Config) ->
+'fn-function-lookup-058'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-number'), 2)(1, '0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-058.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2301,11 +2421,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-059'(_Config) ->
+'fn-function-lookup-059'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-number'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-059.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2314,11 +2436,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-060'(_Config) ->
+'fn-function-lookup-060'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-number'), 3)(1, '0', ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-060.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2327,11 +2451,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-061'(_Config) ->
+'fn-function-lookup-061'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'pi'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-061.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2340,11 +2466,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-062'(_Config) ->
+'fn-function-lookup-062'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'pi'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-062.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3.141592653589793") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2353,11 +2481,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-063'(_Config) ->
+'fn-function-lookup-063'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'exp'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-063.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2366,11 +2496,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-064'(_Config) ->
+'fn-function-lookup-064'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'exp'), 1)(1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-064.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 2.71828182845) lt 1e-10") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -2379,11 +2511,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-065'(_Config) ->
+'fn-function-lookup-065'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'exp10'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-065.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2392,11 +2526,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-066'(_Config) ->
+'fn-function-lookup-066'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'exp10'), 1)(1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-066.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2405,11 +2541,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-067'(_Config) ->
+'fn-function-lookup-067'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'log'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-067.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2418,11 +2556,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-068'(_Config) ->
+'fn-function-lookup-068'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'log'), 1)(1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-068.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2431,11 +2571,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-069'(_Config) ->
+'fn-function-lookup-069'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'log10'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-069.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2444,11 +2586,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-070'(_Config) ->
+'fn-function-lookup-070'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'log10'), 1)(1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-070.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2457,11 +2601,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-071'(_Config) ->
+'fn-function-lookup-071'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'pow'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-071.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2470,11 +2616,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-072'(_Config) ->
+'fn-function-lookup-072'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'pow'), 2)(1e0, 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-072.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2483,11 +2631,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-073'(_Config) ->
+'fn-function-lookup-073'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'sqrt'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-073.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2496,11 +2646,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-074'(_Config) ->
+'fn-function-lookup-074'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'sqrt'), 1)(1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-074.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2509,11 +2661,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-075'(_Config) ->
+'fn-function-lookup-075'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'sin'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-075.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2522,11 +2676,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-076'(_Config) ->
+'fn-function-lookup-076'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'sin'), 1)(1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-076.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.8414709848078965") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2535,11 +2691,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-077'(_Config) ->
+'fn-function-lookup-077'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'cos'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-077.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2548,11 +2706,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-078'(_Config) ->
+'fn-function-lookup-078'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'cos'), 1)(1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-078.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.5403023058681398") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2561,11 +2721,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-079'(_Config) ->
+'fn-function-lookup-079'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'tan'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-079.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2574,11 +2736,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-080'(_Config) ->
+'fn-function-lookup-080'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'tan'), 1)(1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-080.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.5574077246549023") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2587,11 +2751,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-081'(_Config) ->
+'fn-function-lookup-081'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'asin'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-081.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2600,11 +2766,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-082'(_Config) ->
+'fn-function-lookup-082'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'asin'), 1)(1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-082.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.5707963267948966") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2613,11 +2781,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-083'(_Config) ->
+'fn-function-lookup-083'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'acos'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-083.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2626,11 +2796,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-084'(_Config) ->
+'fn-function-lookup-084'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'acos'), 1)(1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-084.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2639,11 +2811,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-085'(_Config) ->
+'fn-function-lookup-085'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'atan'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-085.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2652,11 +2826,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-086'(_Config) ->
+'fn-function-lookup-086'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'atan'), 1)(1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-086.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.7853981633974483") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2665,11 +2841,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-087'(_Config) ->
+'fn-function-lookup-087'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'atan2'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-087.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2678,11 +2856,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-088'(_Config) ->
+'fn-function-lookup-088'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'atan2'), 2)(1e0, 1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-088.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.7853981633974483") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2691,11 +2871,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-089'(_Config) ->
+'fn-function-lookup-089'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'codepoints-to-string'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-089.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2704,11 +2886,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-090'(_Config) ->
+'fn-function-lookup-090'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'codepoints-to-string'), 1)((65, 66))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-090.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "AB") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2717,11 +2901,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-091'(_Config) ->
+'fn-function-lookup-091'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-to-codepoints'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-091.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2730,11 +2916,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-092'(_Config) ->
+'fn-function-lookup-092'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-to-codepoints'), 1)('A')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-092.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "65") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2743,11 +2931,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-093'(_Config) ->
+'fn-function-lookup-093'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'compare'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-093.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2756,11 +2946,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-094'(_Config) ->
+'fn-function-lookup-094'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'compare'), 2)('string', 'string')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-094.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2769,11 +2961,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-095'(_Config) ->
+'fn-function-lookup-095'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'compare'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-095.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2782,11 +2976,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-096'(_Config) ->
+'fn-function-lookup-096'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'compare'), 3)('string', 'string', 'http://www.w3.org/2005/xpath-functions/collation/codepoint')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-096.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2795,11 +2991,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-097'(_Config) ->
+'fn-function-lookup-097'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'codepoint-equal'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-097.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2808,11 +3006,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-098'(_Config) ->
+'fn-function-lookup-098'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'codepoint-equal'), 2)('string', 'string')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-098.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2821,11 +3021,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-099'(_Config) ->
+'fn-function-lookup-099'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'concat'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-099.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2834,11 +3036,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-100'(_Config) ->
+'fn-function-lookup-100'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'concat'), 3)('a', 'bc', 'def')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-100.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcdef") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2847,11 +3051,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-101'(_Config) ->
+'fn-function-lookup-101'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-join'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-101.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2860,11 +3066,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-102'(_Config) ->
+'fn-function-lookup-102'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-join'), 1)(('abc', 'def'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-102.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcdef") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2873,11 +3081,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-103'(_Config) ->
+'fn-function-lookup-103'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-join'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-103.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2886,11 +3096,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-104'(_Config) ->
+'fn-function-lookup-104'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-join'), 2)(('abc', 'def'), '-')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-104.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc-def") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2899,11 +3111,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-105'(_Config) ->
+'fn-function-lookup-105'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-105.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2912,11 +3126,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-106'(_Config) ->
+'fn-function-lookup-106'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring'), 2)('string', 2e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-106.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "tring") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2925,11 +3141,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-107'(_Config) ->
+'fn-function-lookup-107'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-107.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2938,11 +3156,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-108'(_Config) ->
+'fn-function-lookup-108'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring'), 3)('string', 1e0, 1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-108.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "s") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2951,11 +3171,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-109'(_Config) ->
+'fn-function-lookup-109'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-length'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-109.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2964,12 +3186,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-110'(_Config) ->
+'fn-function-lookup-110'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-length'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-110.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2978,11 +3202,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-111'(_Config) ->
+'fn-function-lookup-111'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-length'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-111.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2991,11 +3217,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-112'(_Config) ->
+'fn-function-lookup-112'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-length'), 1)('string')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-112.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "6") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3004,11 +3232,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-113'(_Config) ->
+'fn-function-lookup-113'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'normalize-space'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-113.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3017,12 +3247,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-114'(_Config) ->
+'fn-function-lookup-114'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'normalize-space'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-114.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3031,11 +3263,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-115'(_Config) ->
+'fn-function-lookup-115'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'normalize-space'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-115.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3044,11 +3278,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-116'(_Config) ->
+'fn-function-lookup-116'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'normalize-space'), 1)(' string ')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-116.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "string") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3057,11 +3293,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-117'(_Config) ->
+'fn-function-lookup-117'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'normalize-unicode'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-117.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3070,11 +3308,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-118'(_Config) ->
+'fn-function-lookup-118'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'normalize-unicode'), 1)('string')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-118.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "string") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3083,11 +3323,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-119'(_Config) ->
+'fn-function-lookup-119'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'normalize-unicode'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-119.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3096,11 +3338,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-120'(_Config) ->
+'fn-function-lookup-120'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'normalize-unicode'), 2)('string', 'NFC')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-120.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "string") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3109,11 +3353,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-121'(_Config) ->
+'fn-function-lookup-121'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'upper-case'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-121.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3122,11 +3368,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-122'(_Config) ->
+'fn-function-lookup-122'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'upper-case'), 1)('string')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-122.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "STRING") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3135,11 +3383,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-123'(_Config) ->
+'fn-function-lookup-123'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'lower-case'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-123.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3148,11 +3398,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-124'(_Config) ->
+'fn-function-lookup-124'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'lower-case'), 1)('STRING')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-124.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "string") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3161,11 +3413,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-125'(_Config) ->
+'fn-function-lookup-125'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'translate'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-125.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3174,11 +3428,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-126'(_Config) ->
+'fn-function-lookup-126'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'translate'), 3)('string', 'i', 'o')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-126.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "strong") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3187,11 +3443,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-127'(_Config) ->
+'fn-function-lookup-127'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'contains'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-127.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3200,11 +3458,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-128'(_Config) ->
+'fn-function-lookup-128'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'contains'), 2)('string', 'rin')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-128.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3213,11 +3473,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-129'(_Config) ->
+'fn-function-lookup-129'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'contains'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-129.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3226,11 +3488,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-130'(_Config) ->
+'fn-function-lookup-130'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'contains'), 3)('string', 'RIN', 'http://www.w3.org/2005/xpath-functions/collation/codepoint')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-130.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3239,11 +3503,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-131'(_Config) ->
+'fn-function-lookup-131'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'starts-with'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-131.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3252,11 +3518,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-132'(_Config) ->
+'fn-function-lookup-132'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'starts-with'), 2)('string', 'str')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-132.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3265,11 +3533,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-133'(_Config) ->
+'fn-function-lookup-133'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'starts-with'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-133.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3278,11 +3548,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-134'(_Config) ->
+'fn-function-lookup-134'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'starts-with'), 3)('string', 'ing', 'http://www.w3.org/2005/xpath-functions/collation/codepoint')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-134.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3291,11 +3563,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-135'(_Config) ->
+'fn-function-lookup-135'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'ends-with'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-135.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3304,11 +3578,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-136'(_Config) ->
+'fn-function-lookup-136'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'ends-with'), 2)('string', 'ing')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-136.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3317,11 +3593,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-137'(_Config) ->
+'fn-function-lookup-137'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'ends-with'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-137.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3330,11 +3608,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-138'(_Config) ->
+'fn-function-lookup-138'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'ends-with'), 3)('string', 'str', 'http://www.w3.org/2005/xpath-functions/collation/codepoint')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-138.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3343,11 +3623,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-139'(_Config) ->
+'fn-function-lookup-139'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring-before'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-139.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3356,11 +3638,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-140'(_Config) ->
+'fn-function-lookup-140'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring-before'), 2)('string', 'ing')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-140.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "str") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3369,11 +3653,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-141'(_Config) ->
+'fn-function-lookup-141'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring-before'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-141.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3382,11 +3668,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-142'(_Config) ->
+'fn-function-lookup-142'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring-before'), 3)('string', 'ing', 'http://www.w3.org/2005/xpath-functions/collation/codepoint')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-142.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "str") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3395,11 +3683,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-143'(_Config) ->
+'fn-function-lookup-143'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring-after'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-143.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3408,11 +3698,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-144'(_Config) ->
+'fn-function-lookup-144'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring-after'), 2)('string', 'str')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-144.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ing") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3421,11 +3713,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-145'(_Config) ->
+'fn-function-lookup-145'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring-after'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-145.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3434,11 +3728,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-146'(_Config) ->
+'fn-function-lookup-146'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'substring-after'), 3)('string', 'str', 'http://www.w3.org/2005/xpath-functions/collation/codepoint')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-146.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ing") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3447,11 +3743,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-147'(_Config) ->
+'fn-function-lookup-147'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'matches'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-147.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3460,11 +3758,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-148'(_Config) ->
+'fn-function-lookup-148'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'matches'), 2)('string', 'string')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-148.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3473,11 +3773,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-149'(_Config) ->
+'fn-function-lookup-149'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'matches'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-149.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3486,11 +3788,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-150'(_Config) ->
+'fn-function-lookup-150'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'matches'), 3)('string', 'STRING', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-150.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3499,11 +3803,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-151'(_Config) ->
+'fn-function-lookup-151'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'replace'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-151.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3512,11 +3818,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-152'(_Config) ->
+'fn-function-lookup-152'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'replace'), 3)('string', 'i', 'o')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-152.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "strong") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3525,11 +3833,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-153'(_Config) ->
+'fn-function-lookup-153'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'replace'), 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-153.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3538,11 +3848,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-154'(_Config) ->
+'fn-function-lookup-154'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'replace'), 4)('string', 'I', 'o', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-154.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "strong") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3551,11 +3863,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-155'(_Config) ->
+'fn-function-lookup-155'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tokenize'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-155.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3564,11 +3878,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-156'(_Config) ->
+'fn-function-lookup-156'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tokenize'), 2)('string', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-156.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "str ng") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3577,11 +3893,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-157'(_Config) ->
+'fn-function-lookup-157'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tokenize'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-157.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3590,11 +3908,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-158'(_Config) ->
+'fn-function-lookup-158'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tokenize'), 3)('string', 'i', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-158.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "str ng") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3603,11 +3923,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-159'(_Config) ->
+'fn-function-lookup-159'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'analyze-string'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-159.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3616,11 +3938,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-160'(_Config) ->
+'fn-function-lookup-160'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'analyze-string'), 2)('', 'abc')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-160.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -3629,11 +3953,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-161'(_Config) ->
+'fn-function-lookup-161'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'analyze-string'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-161.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3642,11 +3968,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-162'(_Config) ->
+'fn-function-lookup-162'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'analyze-string'), 3)('', 'abc', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-162.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -3655,11 +3983,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-163'(_Config) ->
+'fn-function-lookup-163'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'resolve-uri'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-163.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3668,11 +3998,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-164'(_Config) ->
+'fn-function-lookup-164'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'resolve-uri'), 1)('http://www.w3.org/2005/xpath-functions')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-164.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:anyURI") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -3681,11 +4013,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-165'(_Config) ->
+'fn-function-lookup-165'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'resolve-uri'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-165.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3694,11 +4028,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-166'(_Config) ->
+'fn-function-lookup-166'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'resolve-uri'), 2)('/2005/xpath-functions', 'http://www.w3.org/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-166.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/2005/xpath-functions") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3707,11 +4043,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-167'(_Config) ->
+'fn-function-lookup-167'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'encode-for-uri'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-167.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3720,11 +4058,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-168'(_Config) ->
+'fn-function-lookup-168'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'encode-for-uri'), 1)(' ')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-168.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "%20") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3733,11 +4073,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-169'(_Config) ->
+'fn-function-lookup-169'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'iri-to-uri'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-169.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3746,11 +4088,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-170'(_Config) ->
+'fn-function-lookup-170'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'iri-to-uri'), 1)('http://www.example.com/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-170.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3759,11 +4103,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-171'(_Config) ->
+'fn-function-lookup-171'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'escape-html-uri'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-171.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3772,11 +4118,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-172'(_Config) ->
+'fn-function-lookup-172'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'escape-html-uri'), 1)('http://www.example.com/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-172.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3785,11 +4133,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-173'(_Config) ->
+'fn-function-lookup-173'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'true'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-173.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3798,11 +4148,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-174'(_Config) ->
+'fn-function-lookup-174'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'true'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-174.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3811,11 +4163,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-175'(_Config) ->
+'fn-function-lookup-175'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'false'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-175.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3824,11 +4178,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-176'(_Config) ->
+'fn-function-lookup-176'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'false'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-176.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3837,11 +4193,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-177'(_Config) ->
+'fn-function-lookup-177'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'boolean'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-177.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3850,11 +4208,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-178'(_Config) ->
+'fn-function-lookup-178'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'boolean'), 1)(\"string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-178.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3863,11 +4223,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-179'(_Config) ->
+'fn-function-lookup-179'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'not'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-179.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3876,11 +4238,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-180'(_Config) ->
+'fn-function-lookup-180'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'not'), 1)(\"string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-180.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3889,11 +4253,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-181'(_Config) ->
+'fn-function-lookup-181'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'years-from-duration'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-181.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3902,11 +4268,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-182'(_Config) ->
+'fn-function-lookup-182'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'years-from-duration'), 1)(xs:yearMonthDuration(\"P20Y15M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-182.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "21") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3915,11 +4283,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-183'(_Config) ->
+'fn-function-lookup-183'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'months-from-duration'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-183.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3928,11 +4298,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-184'(_Config) ->
+'fn-function-lookup-184'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'months-from-duration'), 1)(xs:yearMonthDuration(\"P20Y15M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-184.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3941,11 +4313,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-185'(_Config) ->
+'fn-function-lookup-185'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'days-from-duration'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-185.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3954,11 +4328,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-186'(_Config) ->
+'fn-function-lookup-186'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'days-from-duration'), 1)(xs:dayTimeDuration(\"P3DT10H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-186.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3967,11 +4343,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-187'(_Config) ->
+'fn-function-lookup-187'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'hours-from-duration'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-187.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3980,11 +4358,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-188'(_Config) ->
+'fn-function-lookup-188'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'hours-from-duration'), 1)(xs:dayTimeDuration(\"P3DT10H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-188.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3993,11 +4373,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-189'(_Config) ->
+'fn-function-lookup-189'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'minutes-from-duration'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-189.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4006,11 +4388,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-190'(_Config) ->
+'fn-function-lookup-190'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'minutes-from-duration'), 1)(xs:dayTimeDuration(\"P3DT10H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-190.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4019,11 +4403,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-191'(_Config) ->
+'fn-function-lookup-191'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'seconds-from-duration'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-191.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4032,11 +4418,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-192'(_Config) ->
+'fn-function-lookup-192'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'seconds-from-duration'), 1)(xs:dayTimeDuration(\"P3DT10H12.5S\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-192.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12.5") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4045,11 +4433,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-193'(_Config) ->
+'fn-function-lookup-193'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'dateTime'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-193.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4058,11 +4448,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-194'(_Config) ->
+'fn-function-lookup-194'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'dateTime'), 2)(xs:date('2012-01-01Z'), xs:time('00:00:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-194.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2012-01-01T00:00:00Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4071,11 +4463,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-195'(_Config) ->
+'fn-function-lookup-195'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'year-from-dateTime'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-195.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4084,11 +4478,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-196'(_Config) ->
+'fn-function-lookup-196'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'year-from-dateTime'), 1)(xs:dateTime('2012-04-03T02:01:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-196.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2012") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4097,11 +4493,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-197'(_Config) ->
+'fn-function-lookup-197'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'month-from-dateTime'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-197.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4110,11 +4508,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-198'(_Config) ->
+'fn-function-lookup-198'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'month-from-dateTime'), 1)(xs:dateTime('2012-04-03T02:01:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-198.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4123,11 +4523,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-199'(_Config) ->
+'fn-function-lookup-199'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'day-from-dateTime'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-199.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4136,11 +4538,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-200'(_Config) ->
+'fn-function-lookup-200'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'day-from-dateTime'), 1)(xs:dateTime('2012-04-03T02:01:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-200.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4149,11 +4553,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-201'(_Config) ->
+'fn-function-lookup-201'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'hours-from-dateTime'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-201.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4162,11 +4568,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-202'(_Config) ->
+'fn-function-lookup-202'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'hours-from-dateTime'), 1)(xs:dateTime('2012-04-03T02:01:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-202.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4175,11 +4583,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-203'(_Config) ->
+'fn-function-lookup-203'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'minutes-from-dateTime'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-203.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4188,11 +4598,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-204'(_Config) ->
+'fn-function-lookup-204'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'minutes-from-dateTime'), 1)(xs:dateTime('2012-04-03T02:01:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-204.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4201,11 +4613,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-205'(_Config) ->
+'fn-function-lookup-205'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'seconds-from-dateTime'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-205.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4214,11 +4628,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-206'(_Config) ->
+'fn-function-lookup-206'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'seconds-from-dateTime'), 1)(xs:dateTime('2012-04-03T02:01:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-206.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4227,11 +4643,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-207'(_Config) ->
+'fn-function-lookup-207'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'timezone-from-dateTime'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-207.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4240,11 +4658,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-208'(_Config) ->
+'fn-function-lookup-208'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'timezone-from-dateTime'), 1)(xs:dateTime('2012-01-01T00:00:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-208.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT0S") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4253,11 +4673,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-209'(_Config) ->
+'fn-function-lookup-209'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'year-from-date'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-209.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4266,11 +4688,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-210'(_Config) ->
+'fn-function-lookup-210'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'year-from-date'), 1)(xs:date('2012-02-01Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-210.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2012") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4279,11 +4703,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-211'(_Config) ->
+'fn-function-lookup-211'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'month-from-date'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-211.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4292,11 +4718,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-212'(_Config) ->
+'fn-function-lookup-212'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'month-from-date'), 1)(xs:date('2012-02-01Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-212.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4305,11 +4733,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-213'(_Config) ->
+'fn-function-lookup-213'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'day-from-date'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-213.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4318,11 +4748,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-214'(_Config) ->
+'fn-function-lookup-214'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'day-from-date'), 1)(xs:date('2012-02-01Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-214.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4331,11 +4763,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-215'(_Config) ->
+'fn-function-lookup-215'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'timezone-from-date'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-215.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4344,11 +4778,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-216'(_Config) ->
+'fn-function-lookup-216'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'timezone-from-date'), 1)(xs:date('2012-01-01Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-216.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT0S") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4357,11 +4793,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-217'(_Config) ->
+'fn-function-lookup-217'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'hours-from-time'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-217.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4370,11 +4808,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-218'(_Config) ->
+'fn-function-lookup-218'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'hours-from-time'), 1)(xs:time('02:01:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-218.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4383,11 +4823,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-219'(_Config) ->
+'fn-function-lookup-219'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'minutes-from-time'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-219.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4396,11 +4838,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-220'(_Config) ->
+'fn-function-lookup-220'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'minutes-from-time'), 1)(xs:time('02:01:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-220.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4409,11 +4853,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-221'(_Config) ->
+'fn-function-lookup-221'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'seconds-from-time'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-221.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4422,11 +4868,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-222'(_Config) ->
+'fn-function-lookup-222'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'seconds-from-time'), 1)(xs:time('02:01:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-222.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4435,11 +4883,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-223'(_Config) ->
+'fn-function-lookup-223'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'timezone-from-time'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-223.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4448,11 +4898,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-224'(_Config) ->
+'fn-function-lookup-224'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'timezone-from-time'), 1)(xs:time('02:01:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-224.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT0S") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4461,11 +4913,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-225'(_Config) ->
+'fn-function-lookup-225'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-dateTime-to-timezone'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-225.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4474,11 +4928,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-226'(_Config) ->
+'fn-function-lookup-226'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-dateTime-to-timezone'), 1)(xs:dateTime('2012-01-01T00:00:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-226.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -4487,11 +4943,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-227'(_Config) ->
+'fn-function-lookup-227'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-dateTime-to-timezone'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-227.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4500,11 +4958,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-228'(_Config) ->
+'fn-function-lookup-228'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-dateTime-to-timezone'), 2)(xs:dateTime(\"1970-01-01T00:00:00Z\"),xs:dayTimeDuration(\"-PT10H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-228.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1969-12-31T14:00:00-10:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4513,11 +4973,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-229'(_Config) ->
+'fn-function-lookup-229'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-date-to-timezone'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-229.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4526,11 +4988,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-230'(_Config) ->
+'fn-function-lookup-230'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-date-to-timezone'), 1)(xs:date('2012-01-01Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-230.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:date") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -4539,11 +5003,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-231'(_Config) ->
+'fn-function-lookup-231'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-date-to-timezone'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-231.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4552,11 +5018,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-232'(_Config) ->
+'fn-function-lookup-232'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-date-to-timezone'), 2)(xs:date(\"1970-01-01Z\"),xs:dayTimeDuration(\"-PT10H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-232.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1969-12-31-10:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4565,11 +5033,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-233'(_Config) ->
+'fn-function-lookup-233'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-time-to-timezone'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-233.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4578,11 +5048,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-234'(_Config) ->
+'fn-function-lookup-234'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-time-to-timezone'), 1)(xs:time('00:00:00Z'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-234.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:time") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -4591,11 +5063,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-235'(_Config) ->
+'fn-function-lookup-235'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-time-to-timezone'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-235.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4604,11 +5078,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-236'(_Config) ->
+'fn-function-lookup-236'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-time-to-timezone'), 2)(xs:time(\"00:00:00Z\"),xs:dayTimeDuration(\"-PT10H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-236.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "14:00:00-10:00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4617,11 +5093,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-237'(_Config) ->
+'fn-function-lookup-237'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-dateTime'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-237.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4630,11 +5108,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-238'(_Config) ->
+'fn-function-lookup-238'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-dateTime'), 2)(xs:dateTime('2012-01-01T00:00:00Z'), '[Y]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-238.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -4643,11 +5123,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-239'(_Config) ->
+'fn-function-lookup-239'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-dateTime'), 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-239.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4656,11 +5138,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-240'(_Config) ->
+'fn-function-lookup-240'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-dateTime'), 5)(xs:dateTime('2012-01-01T00:00:00Z'), '[Y]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-240.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2012") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4669,11 +5153,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-241'(_Config) ->
+'fn-function-lookup-241'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-date'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-241.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4682,11 +5168,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-242'(_Config) ->
+'fn-function-lookup-242'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-date'), 2)(xs:date('2012-01-01Z'), '[Y]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-242.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -4695,11 +5183,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-243'(_Config) ->
+'fn-function-lookup-243'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-date'), 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-243.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4708,11 +5198,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-244'(_Config) ->
+'fn-function-lookup-244'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-date'), 5)(xs:date('2012-01-01Z'), '[Y]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-244.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2012") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4721,11 +5213,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-245'(_Config) ->
+'fn-function-lookup-245'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-time'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-245.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4734,11 +5228,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-246'(_Config) ->
+'fn-function-lookup-246'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-time'), 2)(xs:time('00:00:00Z'), '[H01]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-246.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -4747,11 +5243,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-247'(_Config) ->
+'fn-function-lookup-247'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-time'), 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-247.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4760,11 +5258,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-248'(_Config) ->
+'fn-function-lookup-248'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-time'), 5)(xs:time('00:00:00Z'), '[H01]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-248.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "00") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4773,11 +5273,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-249'(_Config) ->
+'fn-function-lookup-249'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'resolve-QName'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-249.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4786,12 +5288,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-250'(_Config) ->
+'fn-function-lookup-250'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'resolve-QName'), 2)('ns:local', /root/*[2])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-250.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ns:local") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4800,11 +5304,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-251'(_Config) ->
+'fn-function-lookup-251'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'QName'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-251.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4813,11 +5319,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-252'(_Config) ->
+'fn-function-lookup-252'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'QName'), 2)('http://www.example.org/', 'ns:local')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-252.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ns:local") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4826,11 +5334,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-253'(_Config) ->
+'fn-function-lookup-253'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'prefix-from-QName'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-253.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4839,11 +5349,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-254'(_Config) ->
+'fn-function-lookup-254'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'prefix-from-QName'), 1)(fn:QName('http://www.example.org', 'foo:bar'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-254.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "foo") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4852,11 +5364,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-255'(_Config) ->
+'fn-function-lookup-255'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'local-name-from-QName'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-255.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4865,11 +5379,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-256'(_Config) ->
+'fn-function-lookup-256'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'local-name-from-QName'), 1)(fn:QName('http://www.example.org', 'foo:bar'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-256.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "bar") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4878,11 +5394,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-257'(_Config) ->
+'fn-function-lookup-257'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri-from-QName'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-257.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4891,11 +5409,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-258'(_Config) ->
+'fn-function-lookup-258'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri-from-QName'), 1)(fn:QName('http://www.example.org', 'foo:bar'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-258.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.org") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4904,11 +5424,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-259'(_Config) ->
+'fn-function-lookup-259'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri-for-prefix'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-259.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4917,12 +5439,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-260'(_Config) ->
+'fn-function-lookup-260'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri-for-prefix'), 2)('ns', /root/*[2])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-260.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.org/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4931,11 +5455,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-261'(_Config) ->
+'fn-function-lookup-261'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'in-scope-prefixes'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-261.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4944,12 +5470,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-262'(_Config) ->
+'fn-function-lookup-262'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'in-scope-prefixes'), 1)(/root)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-262.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xml") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4958,11 +5486,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-263'(_Config) ->
+'fn-function-lookup-263'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'name'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-263.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4971,12 +5501,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-264'(_Config) ->
+'fn-function-lookup-264'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'name'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-264.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4985,11 +5517,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-265'(_Config) ->
+'fn-function-lookup-265'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'name'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-265.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4998,12 +5532,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-266'(_Config) ->
+'fn-function-lookup-266'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'name'), 1)(/root)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-266.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5012,11 +5548,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-267'(_Config) ->
+'fn-function-lookup-267'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'local-name'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-267.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5025,12 +5563,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-268'(_Config) ->
+'fn-function-lookup-268'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'local-name'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-268.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5039,11 +5579,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-269'(_Config) ->
+'fn-function-lookup-269'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'local-name'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-269.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5052,12 +5594,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-270'(_Config) ->
+'fn-function-lookup-270'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'local-name'), 1)(/root)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-270.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "root") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5066,11 +5610,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-271'(_Config) ->
+'fn-function-lookup-271'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-271.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5079,12 +5625,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-272'(_Config) ->
+'fn-function-lookup-272'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/*[2]/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-272.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.org/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5093,11 +5641,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-273'(_Config) ->
+'fn-function-lookup-273'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-273.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5106,12 +5656,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-274'(_Config) ->
+'fn-function-lookup-274'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri'), 1)(/root/*[2])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-274.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.org/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5120,11 +5672,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-275'(_Config) ->
+'fn-function-lookup-275'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'lang'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-275.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5133,12 +5687,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-276'(_Config) ->
+'fn-function-lookup-276'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'lang'), 1)('en')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-276.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5147,11 +5703,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-277'(_Config) ->
+'fn-function-lookup-277'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'lang'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-277.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5160,12 +5718,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-278'(_Config) ->
+'fn-function-lookup-278'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'lang'), 2)('en', /root)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-278.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5174,11 +5734,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-279'(_Config) ->
+'fn-function-lookup-279'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'root'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-279.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5187,12 +5749,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-280'(_Config) ->
+'fn-function-lookup-280'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'root'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-280.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"document-node()") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -5201,11 +5765,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-281'(_Config) ->
+'fn-function-lookup-281'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'root'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-281.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5214,11 +5780,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-282'(_Config) ->
+'fn-function-lookup-282'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'root'), 1)(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-282.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -5227,11 +5795,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-283'(_Config) ->
+'fn-function-lookup-283'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'path'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-283.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5240,12 +5810,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-284'(_Config) ->
+'fn-function-lookup-284'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'path'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-284.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5254,11 +5826,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-285'(_Config) ->
+'fn-function-lookup-285'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'path'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-285.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5267,12 +5841,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-286'(_Config) ->
+'fn-function-lookup-286'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'path'), 1)(/)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-286.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5281,11 +5857,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-287'(_Config) ->
+'fn-function-lookup-287'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'has-children'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-287.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5294,12 +5872,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-288'(_Config) ->
+'fn-function-lookup-288'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'has-children'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-288.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5308,11 +5888,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-289'(_Config) ->
+'fn-function-lookup-289'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'has-children'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-289.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5321,12 +5903,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-290'(_Config) ->
+'fn-function-lookup-290'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'has-children'), 1)(/)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-290.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5335,11 +5919,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-291'(_Config) ->
+'fn-function-lookup-291'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'innermost'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-291.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5348,11 +5934,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-292'(_Config) ->
+'fn-function-lookup-292'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'innermost'), 1)(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-292.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -5361,11 +5949,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-293'(_Config) ->
+'fn-function-lookup-293'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'outermost'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-293.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5374,11 +5964,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-294'(_Config) ->
+'fn-function-lookup-294'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'outermost'), 1)(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-294.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -5387,11 +5979,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-295'(_Config) ->
+'fn-function-lookup-295'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'empty'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-295.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5400,11 +5994,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-296'(_Config) ->
+'fn-function-lookup-296'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'empty'), 1)((1, true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-296.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5413,11 +6009,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-297'(_Config) ->
+'fn-function-lookup-297'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'exists'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-297.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5426,11 +6024,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-298'(_Config) ->
+'fn-function-lookup-298'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'exists'), 1)((1, true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-298.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5439,11 +6039,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-299'(_Config) ->
+'fn-function-lookup-299'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'head'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-299.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5452,11 +6054,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-300'(_Config) ->
+'fn-function-lookup-300'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'head'), 1)((1, true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-300.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5465,11 +6069,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-301'(_Config) ->
+'fn-function-lookup-301'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tail'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-301.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5478,11 +6084,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-302'(_Config) ->
+'fn-function-lookup-302'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tail'), 1)((1, true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-302.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5491,11 +6099,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-303'(_Config) ->
+'fn-function-lookup-303'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'insert-before'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-303.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5504,11 +6114,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-304'(_Config) ->
+'fn-function-lookup-304'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'insert-before'), 3)((1, 2, 3), 2, ('a', 'b', 'c'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-304.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 a b c 2 3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5517,11 +6129,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-305'(_Config) ->
+'fn-function-lookup-305'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'remove'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-305.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5530,11 +6144,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-306'(_Config) ->
+'fn-function-lookup-306'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'remove'), 2)(('a', 'b', 'c'), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-306.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a c") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5543,11 +6159,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-307'(_Config) ->
+'fn-function-lookup-307'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'reverse'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-307.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5556,11 +6174,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-308'(_Config) ->
+'fn-function-lookup-308'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'reverse'), 1)(1 to 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-308.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 2 1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5569,11 +6189,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-309'(_Config) ->
+'fn-function-lookup-309'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'subsequence'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-309.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5582,11 +6204,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-310'(_Config) ->
+'fn-function-lookup-310'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'subsequence'), 2)((1, true()), 2e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-310.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5595,11 +6219,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-311'(_Config) ->
+'fn-function-lookup-311'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'subsequence'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-311.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5608,11 +6234,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-312'(_Config) ->
+'fn-function-lookup-312'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'subsequence'), 3)((1, true()), 1e0, 1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-312.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5621,11 +6249,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-313'(_Config) ->
+'fn-function-lookup-313'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unordered'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-313.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5634,11 +6264,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-314'(_Config) ->
+'fn-function-lookup-314'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unordered'), 1)(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-314.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5647,11 +6279,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-315'(_Config) ->
+'fn-function-lookup-315'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'distinct-values'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-315.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5660,11 +6294,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-316'(_Config) ->
+'fn-function-lookup-316'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'distinct-values'), 1)((1, 1, 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-316.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5673,11 +6309,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-317'(_Config) ->
+'fn-function-lookup-317'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'distinct-values'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-317.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5686,11 +6324,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-318'(_Config) ->
+'fn-function-lookup-318'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'distinct-values'), 2)((1, 1, 1), 'http://www.w3.org/2005/xpath-functions/collation/codepoint')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-318.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5699,11 +6339,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-319'(_Config) ->
+'fn-function-lookup-319'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'index-of'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-319.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5712,11 +6354,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-320'(_Config) ->
+'fn-function-lookup-320'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'index-of'), 2)((1, 'string'), 'string')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-320.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5725,11 +6369,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-321'(_Config) ->
+'fn-function-lookup-321'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'index-of'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-321.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5738,11 +6384,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-322'(_Config) ->
+'fn-function-lookup-322'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'index-of'), 3)((1, 'string'), 'string', 'http://www.w3.org/2005/xpath-functions/collation/codepoint')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-322.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5751,11 +6399,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-323'(_Config) ->
+'fn-function-lookup-323'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'deep-equal'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-323.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5764,11 +6414,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-324'(_Config) ->
+'fn-function-lookup-324'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'deep-equal'), 2)((1, true()), (1, true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-324.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5777,11 +6429,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-325'(_Config) ->
+'fn-function-lookup-325'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'deep-equal'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-325.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5790,11 +6444,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-326'(_Config) ->
+'fn-function-lookup-326'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'deep-equal'), 3)((1, true()), (1, true()), 'http://www.w3.org/2005/xpath-functions/collation/codepoint')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-326.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5803,11 +6459,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-327'(_Config) ->
+'fn-function-lookup-327'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'zero-or-one'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-327.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5816,11 +6474,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-328'(_Config) ->
+'fn-function-lookup-328'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'zero-or-one'), 1)(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-328.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5829,11 +6489,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-329'(_Config) ->
+'fn-function-lookup-329'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'one-or-more'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-329.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5842,11 +6504,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-330'(_Config) ->
+'fn-function-lookup-330'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'one-or-more'), 1)(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-330.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5855,11 +6519,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-331'(_Config) ->
+'fn-function-lookup-331'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'exactly-one'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-331.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5868,11 +6534,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-332'(_Config) ->
+'fn-function-lookup-332'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'exactly-one'), 1)(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-332.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5881,11 +6549,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-333'(_Config) ->
+'fn-function-lookup-333'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'count'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-333.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5894,11 +6564,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-334'(_Config) ->
+'fn-function-lookup-334'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'count'), 1)((1, true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-334.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5907,11 +6579,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-335'(_Config) ->
+'fn-function-lookup-335'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'avg'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-335.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5920,11 +6594,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-336'(_Config) ->
+'fn-function-lookup-336'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'avg'), 1)((1, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-336.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5933,11 +6609,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-337'(_Config) ->
+'fn-function-lookup-337'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'max'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-337.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5946,11 +6624,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-338'(_Config) ->
+'fn-function-lookup-338'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'max'), 1)((1, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-338.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5959,11 +6639,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-339'(_Config) ->
+'fn-function-lookup-339'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'max'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-339.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5972,11 +6654,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-340'(_Config) ->
+'fn-function-lookup-340'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'max'), 2)((1, 3), 'http://www.w3.org/2005/xpath-functions/collation/codepoint')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-340.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5985,11 +6669,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-341'(_Config) ->
+'fn-function-lookup-341'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'min'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-341.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5998,11 +6684,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-342'(_Config) ->
+'fn-function-lookup-342'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'min'), 1)((1, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-342.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6011,11 +6699,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-343'(_Config) ->
+'fn-function-lookup-343'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'min'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-343.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6024,11 +6714,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-344'(_Config) ->
+'fn-function-lookup-344'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'min'), 2)((1, 3), 'http://www.w3.org/2005/xpath-functions/collation/codepoint')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-344.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6037,11 +6729,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-345'(_Config) ->
+'fn-function-lookup-345'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sum'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-345.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6050,11 +6744,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-346'(_Config) ->
+'fn-function-lookup-346'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sum'), 1)((1, 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-346.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6063,11 +6759,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-347'(_Config) ->
+'fn-function-lookup-347'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sum'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-347.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6076,11 +6774,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-348'(_Config) ->
+'fn-function-lookup-348'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sum'), 2)((1, 2), 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-348.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6089,11 +6789,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-349'(_Config) ->
+'fn-function-lookup-349'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'id'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-349.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6102,12 +6804,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-350'(_Config) ->
+'fn-function-lookup-350'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'id'), 1)(('id1', 'id2'))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-350.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6116,11 +6820,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-351'(_Config) ->
+'fn-function-lookup-351'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'id'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-351.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6129,12 +6835,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-352'(_Config) ->
+'fn-function-lookup-352'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'id'), 2)(('id1', 'id2'), /)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-352.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6143,11 +6851,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-353'(_Config) ->
+'fn-function-lookup-353'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'element-with-id'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-353.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6156,12 +6866,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-354'(_Config) ->
+'fn-function-lookup-354'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'element-with-id'), 1)(('id1', 'id2'))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-354.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6170,11 +6882,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-355'(_Config) ->
+'fn-function-lookup-355'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'element-with-id'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-355.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6183,12 +6897,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-356'(_Config) ->
+'fn-function-lookup-356'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'element-with-id'), 2)(('id1', 'id2'), /)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-356.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6197,11 +6913,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-357'(_Config) ->
+'fn-function-lookup-357'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'idref'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-357.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6210,12 +6928,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-358'(_Config) ->
+'fn-function-lookup-358'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'idref'), 1)(('id1', 'id2'))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-358.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6224,11 +6944,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-359'(_Config) ->
+'fn-function-lookup-359'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'idref'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-359.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6237,12 +6959,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-360'(_Config) ->
+'fn-function-lookup-360'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'idref'), 2)(('id1', 'id2'), /)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-360.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6251,11 +6975,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-361'(_Config) ->
+'fn-function-lookup-361'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'generate-id'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-361.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6264,12 +6990,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-362'(_Config) ->
+'fn-function-lookup-362'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'generate-id'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-362.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6278,11 +7006,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-363'(_Config) ->
+'fn-function-lookup-363'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'generate-id'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-363.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6291,12 +7021,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-364'(_Config) ->
+'fn-function-lookup-364'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'generate-id'), 1)(())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-364.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -6313,11 +7045,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-365'(_Config) ->
+'fn-function-lookup-365'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'doc'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-365.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6326,12 +7060,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-366'(_Config) ->
+'fn-function-lookup-366'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'doc'), 1)('http://www.w3.org/fots/fn/function-lookup/function-lookup.xml')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-366.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"document-node()") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6340,11 +7076,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-367'(_Config) ->
+'fn-function-lookup-367'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'doc-available'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-367.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6353,12 +7091,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-368'(_Config) ->
+'fn-function-lookup-368'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'doc-available'), 1)('http://www.example.org/unknown-document')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-368.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6367,11 +7107,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-369'(_Config) ->
+'fn-function-lookup-369'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collection'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-369.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6380,12 +7122,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-370'(_Config) ->
+'fn-function-lookup-370'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collection'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-370.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"node()+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6394,11 +7138,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-371'(_Config) ->
+'fn-function-lookup-371'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collection'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-371.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6407,12 +7153,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-372'(_Config) ->
+'fn-function-lookup-372'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collection'), 1)(())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-372.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"node()+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6421,11 +7169,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-373'(_Config) ->
+'fn-function-lookup-373'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'uri-collection'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-373.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6434,12 +7184,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-374'(_Config) ->
+'fn-function-lookup-374'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'uri-collection'), 0)()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-374.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:anyURI+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6448,11 +7200,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-375'(_Config) ->
+'fn-function-lookup-375'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'uri-collection'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-375.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6461,12 +7215,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-376'(_Config) ->
+'fn-function-lookup-376'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'uri-collection'), 1)(())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-376.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:anyURI+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6475,11 +7231,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-377'(_Config) ->
+'fn-function-lookup-377'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-377.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6488,12 +7246,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-378'(_Config) ->
+'fn-function-lookup-378'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text'), 1)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-378.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6502,11 +7262,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-379'(_Config) ->
+'fn-function-lookup-379'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-379.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6515,12 +7277,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-380'(_Config) ->
+'fn-function-lookup-380'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text'), 2)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt', 'utf-8')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-380.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6529,11 +7293,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-381'(_Config) ->
+'fn-function-lookup-381'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-lines'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-381.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6542,12 +7308,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-382'(_Config) ->
+'fn-function-lookup-382'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-lines'), 1)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-382.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6556,11 +7324,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-383'(_Config) ->
+'fn-function-lookup-383'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-lines'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-383.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6569,12 +7339,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-384'(_Config) ->
+'fn-function-lookup-384'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-lines'), 2)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt', 'utf-8')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-384.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6583,11 +7355,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-385'(_Config) ->
+'fn-function-lookup-385'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-available'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-385.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6596,12 +7370,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-386'(_Config) ->
+'fn-function-lookup-386'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-available'), 1)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-386.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6610,11 +7386,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-387'(_Config) ->
+'fn-function-lookup-387'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-available'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-387.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6623,12 +7401,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-388'(_Config) ->
+'fn-function-lookup-388'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-available'), 2)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt', 'utf-8')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-388.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6637,11 +7417,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-389'(_Config) ->
+'fn-function-lookup-389'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'environment-variable'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-389.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6650,11 +7432,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-390'(_Config) ->
+'fn-function-lookup-390'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'environment-variable'), 1)('should-not-exist')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-390.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -6663,11 +7447,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-391'(_Config) ->
+'fn-function-lookup-391'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'available-environment-variables'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-391.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6676,11 +7462,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-392'(_Config) ->
+'fn-function-lookup-392'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'available-environment-variables'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-392.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6689,11 +7477,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-393'(_Config) ->
+'fn-function-lookup-393'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-xml'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-393.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6702,11 +7492,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-394'(_Config) ->
+'fn-function-lookup-394'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-xml'), 1)('<doc />')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-394.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"node()") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6715,11 +7507,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-395'(_Config) ->
+'fn-function-lookup-395'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-xml-fragment'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-395.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6728,11 +7522,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-396'(_Config) ->
+'fn-function-lookup-396'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-xml-fragment'), 1)('<doc />')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-396.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"node()") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6741,11 +7537,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-397'(_Config) ->
+'fn-function-lookup-397'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'serialize'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-397.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6754,11 +7552,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-398'(_Config) ->
+'fn-function-lookup-398'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'serialize'), 1)((1, true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-398.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"contains($result, \"1 true\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -6767,11 +7567,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-399'(_Config) ->
+'fn-function-lookup-399'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'serialize'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-399.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6780,11 +7582,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-400'(_Config) ->
+'fn-function-lookup-400'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'serialize'), 2)((1, false()), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-400.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"contains($result, \"1 false\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -6793,11 +7597,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-401'(_Config) ->
+'fn-function-lookup-401'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'position'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-401.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6806,11 +7612,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-402'(_Config) ->
+'fn-function-lookup-402'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(2, 4, 6)!function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'position'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-402.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6819,11 +7627,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-403'(_Config) ->
+'fn-function-lookup-403'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'last'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-403.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6832,11 +7642,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-404'(_Config) ->
+'fn-function-lookup-404'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(2, 4, 6)!function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'last'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-404.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 3 3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6845,11 +7657,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-405'(_Config) ->
+'fn-function-lookup-405'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'current-dateTime'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-405.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6858,11 +7672,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-406'(_Config) ->
+'fn-function-lookup-406'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'current-dateTime'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-406.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6871,11 +7687,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-407'(_Config) ->
+'fn-function-lookup-407'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'current-date'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-407.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6884,11 +7702,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-408'(_Config) ->
+'fn-function-lookup-408'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'current-date'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-408.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:date") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6897,11 +7717,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-409'(_Config) ->
+'fn-function-lookup-409'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'current-time'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-409.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6910,11 +7732,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-410'(_Config) ->
+'fn-function-lookup-410'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'current-time'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-410.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:time") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6923,11 +7747,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-411'(_Config) ->
+'fn-function-lookup-411'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'implicit-timezone'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-411.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6936,11 +7762,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-412'(_Config) ->
+'fn-function-lookup-412'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'implicit-timezone'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-412.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:dayTimeDuration") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -6949,11 +7777,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-413'(_Config) ->
+'fn-function-lookup-413'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'default-collation'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-413.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6962,11 +7792,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-414'(_Config) ->
+'fn-function-lookup-414'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'default-collation'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-414.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/2005/xpath-functions/collation/codepoint") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6975,11 +7807,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-415'(_Config) ->
+'fn-function-lookup-415'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'static-base-uri'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-415.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6988,7 +7822,8 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-416'(_Config) ->
+'fn-function-lookup-416'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'static-base-uri'), 0)()",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -7003,7 +7838,8 @@ environment('function-lookup') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-416.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:anyURI?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -7012,11 +7848,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-417'(_Config) ->
+'fn-function-lookup-417'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'function-lookup'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-417.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7025,11 +7863,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-418'(_Config) ->
+'fn-function-lookup-418'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'function-lookup'), 2)(fn:QName('http://www.example.org', 'foo:bar'), 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-418.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -7038,11 +7878,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-419'(_Config) ->
+'fn-function-lookup-419'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'function-name'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-419.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7051,11 +7893,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-420'(_Config) ->
+'fn-function-lookup-420'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'function-name'), 1)(fn:abs#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-420.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"fn:QName('http://www.w3.org/2005/xpath-functions', 'fn:abs')") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -7064,11 +7908,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-421'(_Config) ->
+'fn-function-lookup-421'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'function-arity'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-421.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7077,11 +7923,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-422'(_Config) ->
+'fn-function-lookup-422'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'function-arity'), 1)(fn:abs#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-422.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7090,11 +7938,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-423'(_Config) ->
+'fn-function-lookup-423'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'for-each'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-423.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7103,11 +7953,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-424'(_Config) ->
+'fn-function-lookup-424'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'for-each'), 2)((\"23\", \"29\"), xs:int#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-424.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(23, 29)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -7116,11 +7968,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-425'(_Config) ->
+'fn-function-lookup-425'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'filter'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-425.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7129,11 +7983,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-426'(_Config) ->
+'fn-function-lookup-426'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'filter'), 2)(1 to 10, function($a) {$a mod 2 = 0})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-426.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(2, 4, 6, 8, 10)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -7142,11 +7998,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-427'(_Config) ->
+'fn-function-lookup-427'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'fold-left'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-427.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7155,11 +8013,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-428'(_Config) ->
+'fn-function-lookup-428'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'fold-left'), 3)(1 to 5, \"\", fn:concat(?, \".\", ?))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-428.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ".1.2.3.4.5") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7168,11 +8028,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-429'(_Config) ->
+'fn-function-lookup-429'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'fold-right'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-429.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7181,11 +8043,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-430'(_Config) ->
+'fn-function-lookup-430'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'fold-right'), 3)(1 to 5, \"\", fn:concat(?, \".\", ?))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-430.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.2.3.4.5.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7194,11 +8058,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-431'(_Config) ->
+'fn-function-lookup-431'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'for-each-pair'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-431.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7207,11 +8073,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-432'(_Config) ->
+'fn-function-lookup-432'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'for-each-pair'), 3)((\"a\", \"b\", \"c\"), (\"x\", \"y\", \"z\"), concat#2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-432.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"ax\", \"by\", \"cz\")") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -7220,11 +8088,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-433'(_Config) ->
+'fn-function-lookup-433'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'untypedAtomic'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-433.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7233,11 +8103,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-434'(_Config) ->
+'fn-function-lookup-434'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'untypedAtomic'), 1)('string')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-434.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "string") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7246,11 +8118,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-435'(_Config) ->
+'fn-function-lookup-435'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'dateTime'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-435.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7259,11 +8133,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-436'(_Config) ->
+'fn-function-lookup-436'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'dateTime'), 1)('1970-01-02T04:05:06Z')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-436.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1970-01-02T04:05:06Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7272,11 +8148,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-437'(_Config) ->
+'fn-function-lookup-437'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'date'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-437.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7285,11 +8163,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-438'(_Config) ->
+'fn-function-lookup-438'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'date'), 1)('1970-01-02Z')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-438.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1970-01-02Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7298,11 +8178,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-439'(_Config) ->
+'fn-function-lookup-439'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'time'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-439.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7311,11 +8193,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-440'(_Config) ->
+'fn-function-lookup-440'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'time'), 1)('01:02:03Z')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-440.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "01:02:03Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7324,11 +8208,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-441'(_Config) ->
+'fn-function-lookup-441'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'duration'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-441.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7337,11 +8223,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-442'(_Config) ->
+'fn-function-lookup-442'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'duration'), 1)('P5Y2M10DT15H')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-442.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P5Y2M10DT15H") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7350,11 +8238,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-443'(_Config) ->
+'fn-function-lookup-443'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'yearMonthDuration'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-443.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7363,11 +8253,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-444'(_Config) ->
+'fn-function-lookup-444'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'yearMonthDuration'), 1)('P1Y')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-444.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P1Y") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7376,11 +8268,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-445'(_Config) ->
+'fn-function-lookup-445'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'dayTimeDuration'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-445.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7389,11 +8283,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-446'(_Config) ->
+'fn-function-lookup-446'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'dayTimeDuration'), 1)('PT15H')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-446.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT15H") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7402,11 +8298,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-447'(_Config) ->
+'fn-function-lookup-447'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'float'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-447.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7415,11 +8313,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-448'(_Config) ->
+'fn-function-lookup-448'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'float'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-448.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7428,11 +8328,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-449'(_Config) ->
+'fn-function-lookup-449'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'double'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-449.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7441,11 +8343,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-450'(_Config) ->
+'fn-function-lookup-450'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'double'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-450.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7454,11 +8358,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-451'(_Config) ->
+'fn-function-lookup-451'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'decimal'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-451.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7467,11 +8373,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-452'(_Config) ->
+'fn-function-lookup-452'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'decimal'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-452.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7480,11 +8388,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-453'(_Config) ->
+'fn-function-lookup-453'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'integer'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-453.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7493,11 +8403,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-454'(_Config) ->
+'fn-function-lookup-454'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'integer'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-454.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7506,11 +8418,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-455'(_Config) ->
+'fn-function-lookup-455'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'nonPositiveInteger'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-455.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7519,11 +8433,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-456'(_Config) ->
+'fn-function-lookup-456'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'nonPositiveInteger'), 1)('-1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-456.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7532,11 +8448,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-457'(_Config) ->
+'fn-function-lookup-457'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'negativeInteger'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-457.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7545,11 +8463,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-458'(_Config) ->
+'fn-function-lookup-458'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'negativeInteger'), 1)('-1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-458.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7558,11 +8478,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-459'(_Config) ->
+'fn-function-lookup-459'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'long'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-459.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7571,11 +8493,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-460'(_Config) ->
+'fn-function-lookup-460'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'long'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-460.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7584,11 +8508,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-461'(_Config) ->
+'fn-function-lookup-461'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'int'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-461.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7597,11 +8523,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-462'(_Config) ->
+'fn-function-lookup-462'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'int'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-462.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7610,11 +8538,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-463'(_Config) ->
+'fn-function-lookup-463'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'short'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-463.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7623,11 +8553,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-464'(_Config) ->
+'fn-function-lookup-464'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'short'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-464.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7636,11 +8568,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-465'(_Config) ->
+'fn-function-lookup-465'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'byte'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-465.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7649,11 +8583,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-466'(_Config) ->
+'fn-function-lookup-466'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'byte'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-466.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7662,11 +8598,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-467'(_Config) ->
+'fn-function-lookup-467'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'nonNegativeInteger'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-467.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7675,11 +8613,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-468'(_Config) ->
+'fn-function-lookup-468'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'nonNegativeInteger'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-468.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7688,11 +8628,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-469'(_Config) ->
+'fn-function-lookup-469'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'unsignedLong'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-469.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7701,11 +8643,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-470'(_Config) ->
+'fn-function-lookup-470'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'unsignedLong'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-470.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7714,11 +8658,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-471'(_Config) ->
+'fn-function-lookup-471'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'unsignedInt'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-471.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7727,11 +8673,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-472'(_Config) ->
+'fn-function-lookup-472'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'unsignedInt'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-472.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7740,11 +8688,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-473'(_Config) ->
+'fn-function-lookup-473'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'unsignedShort'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-473.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7753,11 +8703,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-474'(_Config) ->
+'fn-function-lookup-474'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'unsignedShort'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-474.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7766,11 +8718,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-475'(_Config) ->
+'fn-function-lookup-475'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'unsignedByte'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-475.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7779,11 +8733,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-476'(_Config) ->
+'fn-function-lookup-476'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'unsignedByte'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-476.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7792,11 +8748,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-477'(_Config) ->
+'fn-function-lookup-477'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'nonNegativeInteger'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-477.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7805,11 +8763,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-478'(_Config) ->
+'fn-function-lookup-478'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'nonNegativeInteger'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-478.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7818,11 +8778,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-479'(_Config) ->
+'fn-function-lookup-479'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'positiveInteger'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-479.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7831,11 +8793,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-480'(_Config) ->
+'fn-function-lookup-480'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'positiveInteger'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-480.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7844,11 +8808,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-481'(_Config) ->
+'fn-function-lookup-481'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'gYearMonth'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-481.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7857,11 +8823,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-482'(_Config) ->
+'fn-function-lookup-482'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'gYearMonth'), 1)('2001-10Z')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-482.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2001-10Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7870,11 +8838,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-483'(_Config) ->
+'fn-function-lookup-483'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'gYear'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-483.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7883,11 +8853,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-484'(_Config) ->
+'fn-function-lookup-484'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'gYear'), 1)('2012Z')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-484.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2012Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7896,11 +8868,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-485'(_Config) ->
+'fn-function-lookup-485'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'gMonthDay'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-485.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7909,11 +8883,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-486'(_Config) ->
+'fn-function-lookup-486'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'gMonthDay'), 1)('--11-01Z')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-486.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "--11-01Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7922,11 +8898,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-487'(_Config) ->
+'fn-function-lookup-487'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'gDay'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-487.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7935,11 +8913,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-488'(_Config) ->
+'fn-function-lookup-488'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'gDay'), 1)('---01Z')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-488.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "---01Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7948,11 +8928,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-489'(_Config) ->
+'fn-function-lookup-489'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'gMonth'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-489.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7961,11 +8943,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-490'(_Config) ->
+'fn-function-lookup-490'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'gMonth'), 1)('--11Z')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-490.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "--11Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7974,11 +8958,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-491'(_Config) ->
+'fn-function-lookup-491'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'string'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-491.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7987,11 +8973,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-492'(_Config) ->
+'fn-function-lookup-492'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'string'), 1)('string')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-492.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "string") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8000,11 +8988,13 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-493'(_Config) ->
+'fn-function-lookup-493'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'normalizedString'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-493.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8013,12 +9003,14 @@ environment('function-lookup') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-494'(_Config) ->
+'fn-function-lookup-494'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'normalizedString'), 1)('normalized
 string')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-494.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "normalized string") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8027,11 +9019,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-495'(_Config) ->
+'fn-function-lookup-495'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'token'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-495.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8040,11 +9034,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-496'(_Config) ->
+'fn-function-lookup-496'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'token'), 1)('token')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-496.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "token") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8053,11 +9049,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-497'(_Config) ->
+'fn-function-lookup-497'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'language'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-497.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8066,11 +9064,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-498'(_Config) ->
+'fn-function-lookup-498'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'language'), 1)('en')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-498.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "en") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8079,11 +9079,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-499'(_Config) ->
+'fn-function-lookup-499'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'NMTOKEN'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-499.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8092,11 +9094,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-500'(_Config) ->
+'fn-function-lookup-500'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'NMTOKEN'), 1)('NMTOKEN')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-500.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NMTOKEN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8105,11 +9109,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-501'(_Config) ->
+'fn-function-lookup-501'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'Name'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-501.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8118,11 +9124,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-502'(_Config) ->
+'fn-function-lookup-502'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'Name'), 1)('Name')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-502.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Name") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8131,11 +9139,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-503'(_Config) ->
+'fn-function-lookup-503'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'NCName'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-503.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8144,11 +9154,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-504'(_Config) ->
+'fn-function-lookup-504'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'NCName'), 1)('NCName')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-504.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NCName") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8157,11 +9169,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-505'(_Config) ->
+'fn-function-lookup-505'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'ID'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-505.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8170,11 +9184,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-506'(_Config) ->
+'fn-function-lookup-506'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'ID'), 1)('ID')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-506.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ID") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8183,11 +9199,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-507'(_Config) ->
+'fn-function-lookup-507'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'IDREF'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-507.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8196,11 +9214,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-508'(_Config) ->
+'fn-function-lookup-508'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'IDREF'), 1)('IDREF')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-508.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "IDREF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8209,11 +9229,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-509'(_Config) ->
+'fn-function-lookup-509'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'ENTITY'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-509.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8222,11 +9244,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-510'(_Config) ->
+'fn-function-lookup-510'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'ENTITY'), 1)('ENTITY')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-510.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ENTITY") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8235,11 +9259,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-511'(_Config) ->
+'fn-function-lookup-511'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'boolean'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-511.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8248,11 +9274,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-512'(_Config) ->
+'fn-function-lookup-512'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'boolean'), 1)('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-512.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8261,11 +9289,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-513'(_Config) ->
+'fn-function-lookup-513'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'base64Binary'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-513.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8274,11 +9304,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-514'(_Config) ->
+'fn-function-lookup-514'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'base64Binary'), 1)('D74D35D35D35')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-514.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "D74D35D35D35") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8287,11 +9319,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-515'(_Config) ->
+'fn-function-lookup-515'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'hexBinary'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-515.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8300,11 +9334,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-516'(_Config) ->
+'fn-function-lookup-516'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'hexBinary'), 1)('0fb7')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-516.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0FB7") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8313,11 +9349,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-517'(_Config) ->
+'fn-function-lookup-517'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'anyURI'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-517.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8326,11 +9364,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-518'(_Config) ->
+'fn-function-lookup-518'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'anyURI'), 1)('http://www.example.org/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-518.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.org/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8339,11 +9379,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-519'(_Config) ->
+'fn-function-lookup-519'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'QName'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-519.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8352,11 +9394,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-520'(_Config) ->
+'fn-function-lookup-520'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'QName'), 1)('fn:QName')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-520.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "fn:QName") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8365,11 +9409,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-521'(_Config) ->
+'fn-function-lookup-521'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'dateTimeStamp'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-521.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:boolean") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -8378,13 +9424,15 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-522'(_Config) ->
+'fn-function-lookup-522'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $f := function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'dateTimeStamp'), 1)
       return if (exists($f)) then year-from-dateTime($f('2012-05-25T11:42:00+01:00')) else 2012",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-522.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2012") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -8393,11 +9441,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-523'(_Config) ->
+'fn-function-lookup-523'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'IDREFS'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-523.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8406,11 +9456,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-524'(_Config) ->
+'fn-function-lookup-524'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'IDREFS'), 1)('ID1 ID2 ID3')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-524.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ID1 ID2 ID3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8419,11 +9471,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-525'(_Config) ->
+'fn-function-lookup-525'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'NMTOKENS'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-525.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8432,11 +9486,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-526'(_Config) ->
+'fn-function-lookup-526'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'NMTOKENS'), 1)('NMTOKEN1 NMTOKEN2 NMTOKEN3')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-526.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NMTOKEN1 NMTOKEN2 NMTOKEN3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8445,11 +9501,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-527'(_Config) ->
+'fn-function-lookup-527'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'ENTITIES'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-527.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8458,11 +9516,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-528'(_Config) ->
+'fn-function-lookup-528'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'ENTITIES'), 1)('ENTITY1 ENTITY2 ENTITY3')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-528.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ENTITY1 ENTITY2 ENTITY3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8471,11 +9531,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-529'(_Config) ->
+'fn-function-lookup-529'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(function-lookup(fn:QName('http://www.w3.org/2005/xquery-local-functions', 'missing'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-529.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8484,11 +9546,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-530'(_Config) ->
+'fn-function-lookup-530'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xquery-local-functions', 'missing'), 1)(\"arg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-530.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8497,11 +9561,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-601'(_Config) ->
+'fn-function-lookup-601'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(QName(\"http://www.w3.org/2005/xpath-functions\", \"abs\"), 1)(-3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-601.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -8510,11 +9576,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-602'(_Config) ->
+'fn-function-lookup-602'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(QName(\"http://www.w3.org/2005/xpath-functions\", \"concat\"), 3)(\"a\", \"b\", \"c\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-602.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8523,11 +9591,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-603'(_Config) ->
+'fn-function-lookup-603'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(QName(\"http://www.w3.org/2005/xpath-functions/math\", \"pi\"), 0)() idiv 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-603.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -8536,11 +9606,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-604'(_Config) ->
+'fn-function-lookup-604'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(QName(\"http://www.w3.org/2001/XMLSchema\", \"time\"), 1)(\"12:30:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-604.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:time(\"12:30:00Z\")") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -8549,7 +9621,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-605'(_Config) ->
+'fn-function-lookup-605'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         xquery version \"3.0\";
       	declare function local:square($i as xs:integer) as xs:integer { $i*$i };
@@ -8557,7 +9630,8 @@ string')",
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-605.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"169") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -8566,7 +9640,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-606'(_Config) ->
+'fn-function-lookup-606'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         xquery version \"3.0\";
       	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
@@ -8574,7 +9649,8 @@ string')",
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-606.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"169") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -8583,13 +9659,15 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-607'(_Config) ->
+'fn-function-lookup-607'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         function-lookup(QName(\"http://www.w3.org/2005/xquery-local-functions\", \"cube\"), 1)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-607.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -8598,13 +9676,15 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-608'(_Config) ->
+'fn-function-lookup-608'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         function-lookup(QName(\"\", \"round\"), 2)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-608.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -8613,14 +9693,16 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-609'(_Config) ->
+'fn-function-lookup-609'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         function-lookup(QName(\"http://www.w3.org/2005/xpath-functions\", \"round\"), 2) ! 
                    (function-name(.) ! (namespace-uri-from-QName(.), local-name-from-QName(.)), function-arity(.))
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-609.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.w3.org/2005/xpath-functions round 2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8629,7 +9711,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-610'(_Config) ->
+'fn-function-lookup-610'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         xquery version \"3.0\";
       	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
@@ -8637,7 +9720,8 @@ string')",
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-610.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8646,7 +9730,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-611'(_Config) ->
+'fn-function-lookup-611'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         xquery version \"3.0\";
       	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
@@ -8654,7 +9739,8 @@ string')",
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-611.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8663,11 +9749,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-612'(_Config) ->
+'fn-function-lookup-612'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(QName(\"http://www.w3.org/2005/xpath-functions\", \"round\"), 2)(?, 3)(1.2345678)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-612.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.235") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -8676,7 +9764,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-613'(_Config) ->
+'fn-function-lookup-613'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $n external := xs:QName('local:return-v');
         declare variable $v := function-lookup($n, 0)();
@@ -8685,7 +9774,8 @@ string')",
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-613.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0054") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8694,14 +9784,16 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-614'(_Config) ->
+'fn-function-lookup-614'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $f := function-lookup(QName(\"http://exslt.org/dates-and-times\", \"month-abbreviation\"), 1)
         return if (exists($f)) then $f(\"2012-02-28\") else \"not-available\"
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-614.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "not-available") of 
       true -> {comment, "String correct"};
@@ -8718,14 +9810,16 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-615'(_Config) ->
+'fn-function-lookup-615'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $f := function-lookup(QName(\"http://exist-db.org/xquery/datetime\", \"days-in-month\"), 1)
         return if (exists($f)) then $f(xs:date(\"2012-02-28\")) else \"not-available\"
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-615.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "not-available") of 
       true -> {comment, "String correct"};
@@ -8742,11 +9836,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-701'(_Config) ->
+'fn-function-lookup-701'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:function-lookup()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-701.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8755,11 +9851,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-702'(_Config) ->
+'fn-function-lookup-702'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:function-lookup#0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-702.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8768,11 +9866,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-703'(_Config) ->
+'fn-function-lookup-703'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-703.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8781,11 +9881,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-704'(_Config) ->
+'fn-function-lookup-704'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:function-lookup#1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-704.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8794,11 +9896,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-705'(_Config) ->
+'fn-function-lookup-705'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 1, ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-705.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8807,11 +9911,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-706'(_Config) ->
+'fn-function-lookup-706'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:function-lookup#3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-706.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8820,11 +9926,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-707'(_Config) ->
+'fn-function-lookup-707'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:function-lookup( (), 1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-707.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8833,11 +9941,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-708'(_Config) ->
+'fn-function-lookup-708'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-708.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8846,11 +9956,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-709'(_Config) ->
+'fn-function-lookup-709'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup((fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')), 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-709.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8859,11 +9971,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-710'(_Config) ->
+'fn-function-lookup-710'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), (1, 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-710.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8872,7 +9986,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-711'(_Config) ->
+'fn-function-lookup-711'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
                                if ( fn:current-dateTime() eq
                                     fn:dateTime( fn:current-date(),
@@ -8881,7 +9996,8 @@ string')",
                                else 1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-711.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8890,7 +10006,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-712'(_Config) ->
+'fn-function-lookup-712'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
                                  if (current-date() eq xs:date('1900-01-01'))
                                  then ()
@@ -8901,7 +10018,8 @@ string')",
                                  else () ) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-712.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8910,7 +10028,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-713'(_Config) ->
+'fn-function-lookup-713'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:function-lookup((if ( fn:current-dateTime() eq
                                     fn:dateTime( fn:current-date(),
                                                  fn:current-time() ))
@@ -8919,7 +10038,8 @@ string')",
                                1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-713.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8928,7 +10048,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-714'(_Config) ->
+'fn-function-lookup-714'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:function-lookup((if (current-date() eq xs:date('1900-01-01'))
                                   then fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')
                                   else ()), 1),
@@ -8937,7 +10058,8 @@ string')",
                                   else fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-714.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -8946,11 +10068,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-715'(_Config) ->
+'fn-function-lookup-715'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-715.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"function(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -8959,11 +10083,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-716'(_Config) ->
+'fn-function-lookup-716'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'banana'), 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-716.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -8972,11 +10098,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-717'(_Config) ->
+'fn-function-lookup-717'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'name'), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-717.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -8985,11 +10113,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-718'(_Config) ->
+'fn-function-lookup-718'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'banana'), 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-718.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -8998,11 +10128,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-719'(_Config) ->
+'fn-function-lookup-719'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'integer'), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-719.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -9011,11 +10143,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-720'(_Config) ->
+'fn-function-lookup-720'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-ietf-date'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-720.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9024,11 +10158,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-721'(_Config) ->
+'fn-function-lookup-721'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-ietf-date'), 1)('Wed, 20 Aug 2014 19:36:01 GMT')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-721.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:dateTime('2014-08-20T19:36:01Z')") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -9037,11 +10173,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-724'(_Config) ->
+'fn-function-lookup-724'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'apply'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-724.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9050,11 +10188,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-725'(_Config) ->
+'fn-function-lookup-725'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'apply'), 2)( abs#1, [-2] )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-725.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -9063,11 +10203,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-726'(_Config) ->
+'fn-function-lookup-726'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-726.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9076,11 +10218,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-727'(_Config) ->
+'fn-function-lookup-727'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 1)( (3, 2, 1) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-727.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1, 2, 3)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -9089,11 +10233,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-728'(_Config) ->
+'fn-function-lookup-728'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-728.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9102,11 +10248,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-729'(_Config) ->
+'fn-function-lookup-729'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 2)( (3, 2, 1), () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-729.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1,2,3)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -9115,11 +10263,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-730'(_Config) ->
+'fn-function-lookup-730'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-730.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9128,11 +10278,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-731'(_Config) ->
+'fn-function-lookup-731'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 3)( (3, 2, 1), (), fn:data#1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-731.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1,2,3)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -9141,11 +10293,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-732'(_Config) ->
+'fn-function-lookup-732'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'contains-token'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-732.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9154,11 +10308,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-733'(_Config) ->
+'fn-function-lookup-733'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'contains-token'), 2)( \"abc\", \"abc\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-733.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9167,11 +10323,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-734'(_Config) ->
+'fn-function-lookup-734'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'default-language'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-734.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9180,11 +10338,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-735'(_Config) ->
+'fn-function-lookup-735'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'default-language'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-735.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:language") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
@@ -9193,11 +10353,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-736'(_Config) ->
+'fn-function-lookup-736'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-736.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9206,7 +10368,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-737'(_Config) ->
+'fn-function-lookup-737'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 1)( 'does-not-exist.txt' )",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -9221,7 +10384,8 @@ string')",
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-737.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -9230,11 +10394,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-738'(_Config) ->
+'fn-function-lookup-738'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-738.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9243,7 +10409,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-739'(_Config) ->
+'fn-function-lookup-739'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 2)( 'does-not-exist.txt', map {} )",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -9258,7 +10425,8 @@ string')",
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-739.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -9267,11 +10435,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-740'(_Config) ->
+'fn-function-lookup-740'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-740.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9280,11 +10450,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-741'(_Config) ->
+'fn-function-lookup-741'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 1)( '{}' )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-741.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -9305,11 +10477,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-742'(_Config) ->
+'fn-function-lookup-742'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-742.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9318,7 +10492,8 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-743'(_Config) ->
+'fn-function-lookup-743'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 2)( '{}', map {} )",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -9333,7 +10508,8 @@ string')",
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-743.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -9354,11 +10530,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-744'(_Config) ->
+'fn-function-lookup-744'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-744.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9367,11 +10545,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-745'(_Config) ->
+'fn-function-lookup-745'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 1)( 'true' )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-745.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9380,11 +10560,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-746'(_Config) ->
+'fn-function-lookup-746'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-746.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9393,11 +10575,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-747'(_Config) ->
+'fn-function-lookup-747'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 2)( 'true', map {} )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-747.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9406,11 +10590,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-748'(_Config) ->
+'fn-function-lookup-748'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-748.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9419,11 +10605,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-749'(_Config) ->
+'fn-function-lookup-749'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1)( 'abc' ) eq fn:collation-key('abc')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-749.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9432,11 +10620,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-750'(_Config) ->
+'fn-function-lookup-750'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-750.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9445,11 +10635,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-751'(_Config) ->
+'fn-function-lookup-751'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 2)( 'abc', 'http://www.w3.org/2005/xpath-functions/collation/codepoint') eq fn:collation-key('abc')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-751.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9458,11 +10650,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-752'(_Config) ->
+'fn-function-lookup-752'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tokenize'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-752.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9471,11 +10665,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-753'(_Config) ->
+'fn-function-lookup-753'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tokenize'), 1)('a b')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-753.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('a', 'b')") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -9484,11 +10680,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-754'(_Config) ->
+'fn-function-lookup-754'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-754.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9497,11 +10695,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-755'(_Config) ->
+'fn-function-lookup-755'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1)( 'abc' ) eq fn:collation-key('abc')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-755.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9510,11 +10710,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-756'(_Config) ->
+'fn-function-lookup-756'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'random-number-generator'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-756.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9523,11 +10725,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-757'(_Config) ->
+'fn-function-lookup-757'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'random-number-generator'), 0)()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-757.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
@@ -9544,11 +10748,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-758'(_Config) ->
+'fn-function-lookup-758'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'random-number-generator'), 1)( 0 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-758.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
@@ -9565,11 +10771,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-759'(_Config) ->
+'fn-function-lookup-759'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-759.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9578,13 +10786,16 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-760'(_Config) ->
+'fn-function-lookup-760'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-function-lookup-761'(_Config) ->
+'fn-function-lookup-761'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1)( 0 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-761.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOQM0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -9593,11 +10804,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-762'(_Config) ->
+'fn-function-lookup-762'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-762.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9606,13 +10819,16 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-763'(_Config) ->
+'fn-function-lookup-763'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"load-xquery-module"}.
-'fn-function-lookup-764'(_Config) ->
+'fn-function-lookup-764'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 2)( \"\", map{} )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-764.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOQM0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -9621,11 +10837,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-765'(_Config) ->
+'fn-function-lookup-765'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-765.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9634,13 +10852,16 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-766a'(_Config) ->
+'fn-function-lookup-766a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"fn-transform-XSLT"}.
-'fn-function-lookup-766b'(_Config) ->
+'fn-function-lookup-766b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1)( map{} )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-766b.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOXT0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -9649,11 +10870,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-767'(_Config) ->
+'fn-function-lookup-767'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'append'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-767.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9662,11 +10885,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-768'(_Config) ->
+'fn-function-lookup-768'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'append'), 2)([], 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-768.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -9691,11 +10916,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-769'(_Config) ->
+'fn-function-lookup-769'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'filter'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-769.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9704,11 +10931,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-770'(_Config) ->
+'fn-function-lookup-770'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'filter'), 2)([\"A\", \"B\", 1, 2], function($z) {$z instance of xs:integer})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-770.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -9729,11 +10958,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-771'(_Config) ->
+'fn-function-lookup-771'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'flatten'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-771.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9742,11 +10973,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-772'(_Config) ->
+'fn-function-lookup-772'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'flatten'), 1)([1, 4, 6, 5, 3])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-772.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:integer*") of 
       true -> {comment, "Correct type"};
@@ -9767,11 +11000,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-773'(_Config) ->
+'fn-function-lookup-773'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-left'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-773.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9780,11 +11015,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-774'(_Config) ->
+'fn-function-lookup-774'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-left'), 3)([1,2,3,4,5,6], 0, function($z,$a){$z + $a})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-774.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
@@ -9801,11 +11038,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-775'(_Config) ->
+'fn-function-lookup-775'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-right'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-775.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9814,11 +11053,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-776'(_Config) ->
+'fn-function-lookup-776'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-right'), 3)([1,2,3,4,5,6], 0, function($a,$z){$a + $z})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-776.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
@@ -9835,11 +11076,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-777'(_Config) ->
+'fn-function-lookup-777'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each-pair'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-777.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9848,11 +11091,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-778'(_Config) ->
+'fn-function-lookup-778'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each-pair'), 3)([\"A\", \"B\", \"C\"], [1, 2, 3], function($x, $y) {[$x, $y]})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-778.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -9873,11 +11118,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-779'(_Config) ->
+'fn-function-lookup-779'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-779.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9886,11 +11133,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-780'(_Config) ->
+'fn-function-lookup-780'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each'), 2)([\"A\", \"B\", 1, 2], function($z) {$z instance of xs:integer})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-780.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -9911,11 +11160,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-781'(_Config) ->
+'fn-function-lookup-781'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'get'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-781.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9924,11 +11175,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-782'(_Config) ->
+'fn-function-lookup-782'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'get'), 2)([5,6,7], 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-782.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
@@ -9945,11 +11198,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-783'(_Config) ->
+'fn-function-lookup-783'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'head'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-783.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9958,11 +11213,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-784'(_Config) ->
+'fn-function-lookup-784'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'head'), 1)([5,6,7,8])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-784.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"item()*") of 
       true -> {comment, "Correct type"};
@@ -9979,11 +11236,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-785'(_Config) ->
+'fn-function-lookup-785'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'insert-before'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-785.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9992,11 +11251,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-786'(_Config) ->
+'fn-function-lookup-786'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'insert-before'), 3)([\"a\", \"b\", \"c\", \"d\"], 3, (\"x\", \"y\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-786.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -10017,11 +11278,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-787'(_Config) ->
+'fn-function-lookup-787'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'join'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-787.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10030,11 +11293,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-788'(_Config) ->
+'fn-function-lookup-788'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'join'), 1)(([1,2],[3,4]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-788.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -10055,11 +11320,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-789'(_Config) ->
+'fn-function-lookup-789'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'put'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-789.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10068,11 +11335,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-790'(_Config) ->
+'fn-function-lookup-790'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'put'), 3)([\"a\", \"b\", \"c\", \"d\"], 3, (\"x\", \"y\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-790.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -10093,11 +11362,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-791'(_Config) ->
+'fn-function-lookup-791'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'remove'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-791.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10106,11 +11377,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-792'(_Config) ->
+'fn-function-lookup-792'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'remove'), 2)([\"a\",\"b\",\"c\",\"d\"], 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-792.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -10131,11 +11404,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-793'(_Config) ->
+'fn-function-lookup-793'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'reverse'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-793.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10144,11 +11419,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-794'(_Config) ->
+'fn-function-lookup-794'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'reverse'), 1)([\"a\", \"b\", \"c\", \"d\"])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-794.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -10169,11 +11446,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-795'(_Config) ->
+'fn-function-lookup-795'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'size'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-795.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10182,11 +11461,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-796'(_Config) ->
+'fn-function-lookup-796'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'size'), 1)([1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-796.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -10195,11 +11476,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-797'(_Config) ->
+'fn-function-lookup-797'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-797.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10208,11 +11491,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-798'(_Config) ->
+'fn-function-lookup-798'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 1)([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-798.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ORanGE\", \"PINK\", \"Red\", \"blUE\", \"green\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -10221,11 +11506,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-799'(_Config) ->
+'fn-function-lookup-799'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-799.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10234,12 +11521,14 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-800'(_Config) ->
+'fn-function-lookup-800'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 2)([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('function-lookup',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-800.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"blUE\", \"green\", \"ORanGE\", \"PINK\", \"Red\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -10248,11 +11537,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-801'(_Config) ->
+'fn-function-lookup-801'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-801.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10261,11 +11552,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-802'(_Config) ->
+'fn-function-lookup-802'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 3)([\"Red\", \"green\", \"blUE\", \"PINK\", \"ORanGE\"], \"http://www.w3.org/2005/xpath-functions/collation/codepoint\", fn:string#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-802.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ORanGE\", \"PINK\", \"Red\", \"blUE\", \"green\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -10274,11 +11567,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-803'(_Config) ->
+'fn-function-lookup-803'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-803.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10287,11 +11582,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-804'(_Config) ->
+'fn-function-lookup-804'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 2)([\"a\", \"b\", \"c\", \"d\"], 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-804.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -10312,11 +11609,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-805'(_Config) ->
+'fn-function-lookup-805'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-805.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10325,11 +11624,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-806'(_Config) ->
+'fn-function-lookup-806'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 3)([1, (2,2), 3], 3, 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-806.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -10350,11 +11651,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-807'(_Config) ->
+'fn-function-lookup-807'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'tail'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-807.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10363,11 +11666,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-808'(_Config) ->
+'fn-function-lookup-808'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'tail'), 1)([5,6,7,8])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-808.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
@@ -10388,11 +11693,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-809'(_Config) ->
+'fn-function-lookup-809'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'contains'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-809.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10401,11 +11708,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-810'(_Config) ->
+'fn-function-lookup-810'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'contains'), 2)(map{}, 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-810.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10414,11 +11723,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-811'(_Config) ->
+'fn-function-lookup-811'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'entry'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-811.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10427,11 +11738,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-812'(_Config) ->
+'fn-function-lookup-812'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'entry'), 2)(3, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-812.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -10472,11 +11785,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-813'(_Config) ->
+'fn-function-lookup-813'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'find'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-813.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10485,11 +11800,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-814'(_Config) ->
+'fn-function-lookup-814'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'find'), 2)((), 17)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-814.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -10498,11 +11815,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-815'(_Config) ->
+'fn-function-lookup-815'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'for-each'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-815.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10511,11 +11830,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-816'(_Config) ->
+'fn-function-lookup-816'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'for-each'), 2)(map{}, concat#2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-816.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -10524,11 +11845,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-817'(_Config) ->
+'fn-function-lookup-817'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'get'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-817.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10537,11 +11860,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-818'(_Config) ->
+'fn-function-lookup-818'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'get'), 2)(map{}, 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-818.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -10550,11 +11875,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-819'(_Config) ->
+'fn-function-lookup-819'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'keys'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-819.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10563,11 +11890,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-820'(_Config) ->
+'fn-function-lookup-820'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'keys'), 1)(map{})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-820.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -10576,11 +11905,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-821'(_Config) ->
+'fn-function-lookup-821'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-821.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10589,11 +11920,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-822'(_Config) ->
+'fn-function-lookup-822'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 1)(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-822.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -10614,11 +11947,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-823'(_Config) ->
+'fn-function-lookup-823'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-823.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10627,11 +11962,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-824'(_Config) ->
+'fn-function-lookup-824'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 2)((), map{\"duplicates\":\"use-last\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-824.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -10652,11 +11989,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-825'(_Config) ->
+'fn-function-lookup-825'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'put'), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-825.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10665,11 +12004,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-826'(_Config) ->
+'fn-function-lookup-826'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'put'), 3)(map{}, \"foo\", 1 to 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-826.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -10690,11 +12031,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-827'(_Config) ->
+'fn-function-lookup-827'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'remove'), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-827.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10703,11 +12046,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-828'(_Config) ->
+'fn-function-lookup-828'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'remove'), 2)(map{},1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-828.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"map:size($result) eq 0") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -10716,11 +12061,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-829'(_Config) ->
+'fn-function-lookup-829'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'size'), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-829.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10729,11 +12076,13 @@ string')",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-function-lookup-830'(_Config) ->
+'fn-function-lookup-830'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'size'), 1)(map{})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-830.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};

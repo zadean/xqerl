@@ -266,9 +266,13 @@
 -export(['fn-round2args-4f'/1]).
 -export(['fn-round2args-5f'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-roundint1args-1',
    'fn-roundint1args-2',
@@ -531,97 +535,97 @@ all() -> [
    'fn-round2args-3f',
    'fn-round2args-4f',
    'fn-round2args-5f'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -633,60 +637,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -694,59 +698,61 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('emptydoc') ->
+environment('emptydoc',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('e0') ->
+environment('e0',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/abs/e0.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "abs/e0.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('e1') ->
+environment('e1',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/abs/e1.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "abs/e1.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('e-1') ->
+environment('e-1',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/abs/e-1.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "abs/e-1.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'fn-roundint1args-1'(_Config) ->
+'fn-roundint1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:int(\"-2147483648\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundint1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-2147483648") of 
       true -> {comment, "Equal"};
@@ -763,11 +769,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundint1args-2'(_Config) ->
+'fn-roundint1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:int(\"-1873914410\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundint1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1873914410") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -776,11 +784,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundint1args-3'(_Config) ->
+'fn-roundint1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:int(\"2147483647\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundint1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2147483647") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -789,11 +799,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundintg1args-1'(_Config) ->
+'fn-roundintg1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:integer(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundintg1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -802,11 +814,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundintg1args-2'(_Config) ->
+'fn-roundintg1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:integer(\"830993497117024304\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundintg1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"830993497117024304") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -815,11 +829,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundintg1args-3'(_Config) ->
+'fn-roundintg1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:integer(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundintg1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -828,11 +844,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-rounddec1args-1'(_Config) ->
+'fn-rounddec1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-rounddec1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -841,11 +859,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-rounddec1args-2'(_Config) ->
+'fn-rounddec1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"617375191608514839\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-rounddec1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"617375191608514839") of 
       true -> {comment, "Equal"};
@@ -862,11 +882,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-rounddec1args-3'(_Config) ->
+'fn-rounddec1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-rounddec1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -875,11 +897,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-rounddbl1args-1'(_Config) ->
+'fn-rounddbl1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-1.7976931348623157E308\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-rounddbl1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1.7976931348623157E308") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -888,11 +912,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-rounddbl1args-2'(_Config) ->
+'fn-rounddbl1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-rounddbl1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -909,11 +935,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-rounddbl1args-3'(_Config) ->
+'fn-rounddbl1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"1.7976931348623157E308\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-rounddbl1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1.7976931348623157E308") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -922,11 +950,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundflt1args-1'(_Config) ->
+'fn-roundflt1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-3.4028235E38\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundflt1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float(\"-3.4028235E38\")") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -935,11 +965,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundflt1args-2'(_Config) ->
+'fn-roundflt1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundflt1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
@@ -956,11 +988,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundflt1args-3'(_Config) ->
+'fn-roundflt1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"3.4028235E38\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundflt1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float(\"3.4028235E38\")") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -969,11 +1003,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundlng1args-1'(_Config) ->
+'fn-roundlng1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:long(\"-92233720368547758\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundlng1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-92233720368547758") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -982,11 +1018,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundlng1args-2'(_Config) ->
+'fn-roundlng1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:long(\"-47175562203048468\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundlng1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-47175562203048468") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -995,11 +1033,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundlng1args-3'(_Config) ->
+'fn-roundlng1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:long(\"92233720368547758\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundlng1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1008,11 +1048,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundusht1args-1'(_Config) ->
+'fn-roundusht1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:unsignedShort(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundusht1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1021,11 +1063,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundusht1args-2'(_Config) ->
+'fn-roundusht1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:unsignedShort(\"44633\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundusht1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"44633") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1034,11 +1078,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundusht1args-3'(_Config) ->
+'fn-roundusht1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:unsignedShort(\"65535\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundusht1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"65535") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1047,11 +1093,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundnint1args-1'(_Config) ->
+'fn-roundnint1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:negativeInteger(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundnint1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1060,11 +1108,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundnint1args-2'(_Config) ->
+'fn-roundnint1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:negativeInteger(\"-297014075999096793\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundnint1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-297014075999096793") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1073,11 +1123,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundnint1args-3'(_Config) ->
+'fn-roundnint1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:negativeInteger(\"-1\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundnint1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1086,11 +1138,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundpint1args-1'(_Config) ->
+'fn-roundpint1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:positiveInteger(\"1\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundpint1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1099,11 +1153,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundpint1args-2'(_Config) ->
+'fn-roundpint1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:positiveInteger(\"52704602390610033\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundpint1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"52704602390610033") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1112,11 +1168,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundpint1args-3'(_Config) ->
+'fn-roundpint1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:positiveInteger(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundpint1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1125,11 +1183,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundulng1args-1'(_Config) ->
+'fn-roundulng1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:unsignedLong(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundulng1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1138,11 +1198,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundulng1args-2'(_Config) ->
+'fn-roundulng1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:unsignedLong(\"130747108607674654\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundulng1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"130747108607674654") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1151,11 +1213,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundulng1args-3'(_Config) ->
+'fn-roundulng1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:unsignedLong(\"184467440737095516\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundulng1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"184467440737095516") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1164,11 +1228,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundnpi1args-1'(_Config) ->
+'fn-roundnpi1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:nonPositiveInteger(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundnpi1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1177,11 +1243,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundnpi1args-2'(_Config) ->
+'fn-roundnpi1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:nonPositiveInteger(\"-475688437271870490\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundnpi1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-475688437271870490") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1190,11 +1258,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundnpi1args-3'(_Config) ->
+'fn-roundnpi1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:nonPositiveInteger(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundnpi1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1203,11 +1273,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundnni1args-1'(_Config) ->
+'fn-roundnni1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:nonNegativeInteger(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundnni1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1216,11 +1288,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundnni1args-2'(_Config) ->
+'fn-roundnni1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:nonNegativeInteger(\"303884545991464527\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundnni1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"303884545991464527") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1229,11 +1303,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundnni1args-3'(_Config) ->
+'fn-roundnni1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:nonNegativeInteger(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundnni1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1242,11 +1318,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundsht1args-1'(_Config) ->
+'fn-roundsht1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:short(\"-32768\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundsht1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-32768") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1255,11 +1333,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundsht1args-2'(_Config) ->
+'fn-roundsht1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:short(\"-5324\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundsht1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-5324") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1268,11 +1348,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-roundsht1args-3'(_Config) ->
+'fn-roundsht1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:short(\"32767\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-roundsht1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"32767") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1281,11 +1363,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundFunc-1'(_Config) ->
+'K-RoundFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1294,13 +1378,16 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundFunc-2'(_Config) ->
+'K-RoundFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20 XQ10"}.
-'K-RoundFunc-2a'(_Config) ->
+'K-RoundFunc-2a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundFunc-2a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1309,11 +1396,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundFunc-3'(_Config) ->
+'K-RoundFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(round(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1322,11 +1411,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundFunc-4'(_Config) ->
+'K-RoundFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(1) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1335,11 +1426,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundFunc-5'(_Config) ->
+'K-RoundFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(1.1) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1348,11 +1441,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundFunc-6'(_Config) ->
+'K-RoundFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:double(1)) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1361,11 +1456,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundFunc-7'(_Config) ->
+'K-RoundFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:float(1)) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1374,11 +1471,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundFunc-8'(_Config) ->
+'K-RoundFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(2.4999) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1387,11 +1486,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-RoundFunc-9'(_Config) ->
+'K-RoundFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(-2.5) eq -2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RoundFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1400,12 +1501,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-1'(_Config) ->
+'K2-RoundFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:unsignedShort(.)) instance of xs:unsignedShort",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1422,12 +1525,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-2'(_Config) ->
+'K2-RoundFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:unsignedLong(.)) instance of xs:unsignedLong",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1444,12 +1549,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-3'(_Config) ->
+'K2-RoundFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:unsignedInt(.)) instance of xs:unsignedInt",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1466,12 +1573,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-4'(_Config) ->
+'K2-RoundFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:unsignedByte(.)) instance of xs:unsignedByte",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1488,12 +1597,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-5'(_Config) ->
+'K2-RoundFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:positiveInteger(.)) instance of xs:positiveInteger",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-5.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1510,12 +1621,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-6'(_Config) ->
+'K2-RoundFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:nonPositiveInteger(.)) instance of xs:nonPositiveInteger",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-6.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1532,12 +1645,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-7'(_Config) ->
+'K2-RoundFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:nonNegativeInteger(.)) instance of xs:nonNegativeInteger",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-7.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1554,12 +1669,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-8'(_Config) ->
+'K2-RoundFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:negativeInteger(.)) instance of xs:negativeInteger",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e-1')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-8.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1576,12 +1693,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-9'(_Config) ->
+'K2-RoundFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:long(.)) instance of xs:long",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-9.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1598,12 +1717,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-10'(_Config) ->
+'K2-RoundFunc-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:int(.)) instance of xs:int",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-10.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1620,12 +1741,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-11'(_Config) ->
+'K2-RoundFunc-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:short(.)) instance of xs:short",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-11.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1642,12 +1765,14 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-12'(_Config) ->
+'K2-RoundFunc-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:byte(.)) instance of xs:byte",
-   {Env,Opts} = xqerl_test:handle_environment(environment('e0')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-12.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -1664,11 +1789,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-13'(_Config) ->
+'K2-RoundFunc-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1677,11 +1804,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-14'(_Config) ->
+'K2-RoundFunc-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1690,11 +1819,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-15'(_Config) ->
+'K2-RoundFunc-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:double(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1703,11 +1834,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-16'(_Config) ->
+'K2-RoundFunc-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:double(\"-0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1716,11 +1849,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-17'(_Config) ->
+'K2-RoundFunc-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1729,11 +1864,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-18'(_Config) ->
+'K2-RoundFunc-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1742,11 +1879,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-19'(_Config) ->
+'K2-RoundFunc-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:float(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1755,11 +1894,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-20'(_Config) ->
+'K2-RoundFunc-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "round(xs:float(\"-0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1768,11 +1909,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-21'(_Config) ->
+'K2-RoundFunc-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1781,11 +1924,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-22'(_Config) ->
+'K2-RoundFunc-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1794,11 +1939,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-23'(_Config) ->
+'K2-RoundFunc-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.01\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1807,11 +1954,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-24'(_Config) ->
+'K2-RoundFunc-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.01\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1820,11 +1969,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-25'(_Config) ->
+'K2-RoundFunc-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.01\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1833,11 +1984,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-26'(_Config) ->
+'K2-RoundFunc-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.01\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1846,11 +1999,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-27'(_Config) ->
+'K2-RoundFunc-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.04\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1859,11 +2014,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-28'(_Config) ->
+'K2-RoundFunc-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.04\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1872,11 +2029,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-29'(_Config) ->
+'K2-RoundFunc-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.04\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1885,11 +2044,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-30'(_Config) ->
+'K2-RoundFunc-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.04\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1898,11 +2059,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-31'(_Config) ->
+'K2-RoundFunc-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.05\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1911,11 +2074,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-32'(_Config) ->
+'K2-RoundFunc-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.05\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1924,11 +2089,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-33'(_Config) ->
+'K2-RoundFunc-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.05\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1937,11 +2104,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-34'(_Config) ->
+'K2-RoundFunc-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.05\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1950,11 +2119,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-35'(_Config) ->
+'K2-RoundFunc-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.06\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1963,11 +2134,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-36'(_Config) ->
+'K2-RoundFunc-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.06\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1976,11 +2149,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-37'(_Config) ->
+'K2-RoundFunc-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.06\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1989,11 +2164,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-38'(_Config) ->
+'K2-RoundFunc-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.06\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2002,11 +2179,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-39'(_Config) ->
+'K2-RoundFunc-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.09\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2015,11 +2194,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-40'(_Config) ->
+'K2-RoundFunc-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.09\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2028,11 +2209,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-41'(_Config) ->
+'K2-RoundFunc-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.09\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2041,11 +2224,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-42'(_Config) ->
+'K2-RoundFunc-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.09\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2054,11 +2239,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-43'(_Config) ->
+'K2-RoundFunc-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2067,11 +2254,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-44'(_Config) ->
+'K2-RoundFunc-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2080,11 +2269,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-45'(_Config) ->
+'K2-RoundFunc-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2093,11 +2284,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-46'(_Config) ->
+'K2-RoundFunc-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2106,11 +2299,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-47'(_Config) ->
+'K2-RoundFunc-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2119,11 +2314,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-48'(_Config) ->
+'K2-RoundFunc-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2132,11 +2329,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-49'(_Config) ->
+'K2-RoundFunc-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2145,11 +2344,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-50'(_Config) ->
+'K2-RoundFunc-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2158,11 +2359,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-51'(_Config) ->
+'K2-RoundFunc-51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.14\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2171,11 +2374,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-52'(_Config) ->
+'K2-RoundFunc-52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.14\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2184,11 +2389,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-53'(_Config) ->
+'K2-RoundFunc-53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.14\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2197,11 +2404,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-54'(_Config) ->
+'K2-RoundFunc-54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.14\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
@@ -2218,11 +2427,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-55'(_Config) ->
+'K2-RoundFunc-55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.15\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2231,11 +2442,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-56'(_Config) ->
+'K2-RoundFunc-56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.15\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2244,11 +2457,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-57'(_Config) ->
+'K2-RoundFunc-57'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.15\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2257,11 +2472,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-58'(_Config) ->
+'K2-RoundFunc-58'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.15\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-58.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2270,11 +2487,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-59'(_Config) ->
+'K2-RoundFunc-59'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.16\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-59.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2283,11 +2502,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-60'(_Config) ->
+'K2-RoundFunc-60'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.16\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-60.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2296,11 +2517,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-61'(_Config) ->
+'K2-RoundFunc-61'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.16\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-61.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2309,11 +2532,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-62'(_Config) ->
+'K2-RoundFunc-62'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.16\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-62.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2322,11 +2547,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-63'(_Config) ->
+'K2-RoundFunc-63'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.19\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-63.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2335,11 +2562,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-64'(_Config) ->
+'K2-RoundFunc-64'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.19\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-64.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2348,11 +2577,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-65'(_Config) ->
+'K2-RoundFunc-65'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.19\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-65.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2361,11 +2592,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-66'(_Config) ->
+'K2-RoundFunc-66'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.19\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-66.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2374,11 +2607,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-67'(_Config) ->
+'K2-RoundFunc-67'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.10\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-67.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2387,11 +2622,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-68'(_Config) ->
+'K2-RoundFunc-68'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.10\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-68.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2400,11 +2637,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-69'(_Config) ->
+'K2-RoundFunc-69'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.10\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-69.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2413,11 +2652,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-70'(_Config) ->
+'K2-RoundFunc-70'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.10\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-70.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2426,11 +2667,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-71'(_Config) ->
+'K2-RoundFunc-71'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.41\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-71.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2439,11 +2682,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-72'(_Config) ->
+'K2-RoundFunc-72'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.41\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-72.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2452,11 +2697,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-73'(_Config) ->
+'K2-RoundFunc-73'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.41\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-73.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2465,11 +2712,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-74'(_Config) ->
+'K2-RoundFunc-74'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.41\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-74.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2478,11 +2727,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-75'(_Config) ->
+'K2-RoundFunc-75'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.44\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-75.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2491,11 +2742,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-76'(_Config) ->
+'K2-RoundFunc-76'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.44\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-76.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2504,11 +2757,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-77'(_Config) ->
+'K2-RoundFunc-77'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.44\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-77.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2517,11 +2772,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-78'(_Config) ->
+'K2-RoundFunc-78'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.44\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-78.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2530,11 +2787,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-79'(_Config) ->
+'K2-RoundFunc-79'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.45\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-79.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2543,11 +2802,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-80'(_Config) ->
+'K2-RoundFunc-80'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.45\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-80.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2556,11 +2817,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-81'(_Config) ->
+'K2-RoundFunc-81'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.45\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-81.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2569,11 +2832,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-82'(_Config) ->
+'K2-RoundFunc-82'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.45\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-82.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2582,11 +2847,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-83'(_Config) ->
+'K2-RoundFunc-83'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.46\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-83.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2595,11 +2862,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-84'(_Config) ->
+'K2-RoundFunc-84'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.46\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-84.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2608,11 +2877,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-85'(_Config) ->
+'K2-RoundFunc-85'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.46\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-85.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2621,11 +2892,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-86'(_Config) ->
+'K2-RoundFunc-86'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.46\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-86.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2634,11 +2907,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-87'(_Config) ->
+'K2-RoundFunc-87'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.49\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-87.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2647,11 +2922,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-88'(_Config) ->
+'K2-RoundFunc-88'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.49\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-88.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2660,11 +2937,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-89'(_Config) ->
+'K2-RoundFunc-89'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.49\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-89.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2673,11 +2952,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-90'(_Config) ->
+'K2-RoundFunc-90'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.49\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-90.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2686,11 +2967,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-91'(_Config) ->
+'K2-RoundFunc-91'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.40\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-91.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2699,11 +2982,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-92'(_Config) ->
+'K2-RoundFunc-92'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.40\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-92.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2712,11 +2997,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-93'(_Config) ->
+'K2-RoundFunc-93'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.40\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-93.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2725,11 +3012,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-94'(_Config) ->
+'K2-RoundFunc-94'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.40\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-94.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2738,11 +3027,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-95'(_Config) ->
+'K2-RoundFunc-95'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.51\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-95.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2751,11 +3042,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-96'(_Config) ->
+'K2-RoundFunc-96'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.51\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-96.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2764,11 +3057,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-97'(_Config) ->
+'K2-RoundFunc-97'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.51\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-97.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2777,11 +3072,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-98'(_Config) ->
+'K2-RoundFunc-98'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.51\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-98.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2790,11 +3087,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-99'(_Config) ->
+'K2-RoundFunc-99'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.54\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-99.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2803,11 +3102,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-100'(_Config) ->
+'K2-RoundFunc-100'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.54\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-100.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2816,11 +3117,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-101'(_Config) ->
+'K2-RoundFunc-101'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.54\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-101.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2829,11 +3132,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-102'(_Config) ->
+'K2-RoundFunc-102'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.54\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-102.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2842,11 +3147,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-103'(_Config) ->
+'K2-RoundFunc-103'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.55\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-103.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2855,11 +3162,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-104'(_Config) ->
+'K2-RoundFunc-104'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.55\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-104.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2868,11 +3177,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-105'(_Config) ->
+'K2-RoundFunc-105'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.55\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-105.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2881,11 +3192,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-106'(_Config) ->
+'K2-RoundFunc-106'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.55\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-106.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2894,11 +3207,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-107'(_Config) ->
+'K2-RoundFunc-107'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.56\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-107.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2907,11 +3222,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-108'(_Config) ->
+'K2-RoundFunc-108'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.56\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-108.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2920,11 +3237,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-109'(_Config) ->
+'K2-RoundFunc-109'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.56\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-109.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2933,11 +3252,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-110'(_Config) ->
+'K2-RoundFunc-110'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.56\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-110.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2946,11 +3267,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-111'(_Config) ->
+'K2-RoundFunc-111'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.59\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-111.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2959,11 +3282,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-112'(_Config) ->
+'K2-RoundFunc-112'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.59\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-112.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2972,11 +3297,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-113'(_Config) ->
+'K2-RoundFunc-113'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.59\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-113.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2985,11 +3312,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-114'(_Config) ->
+'K2-RoundFunc-114'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.59\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-114.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2998,11 +3327,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-115'(_Config) ->
+'K2-RoundFunc-115'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.50\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-115.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3011,11 +3342,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-116'(_Config) ->
+'K2-RoundFunc-116'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.50\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-116.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3024,11 +3357,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-117'(_Config) ->
+'K2-RoundFunc-117'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.50\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-117.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3037,11 +3372,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-118'(_Config) ->
+'K2-RoundFunc-118'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.50\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-118.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3050,11 +3387,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-119'(_Config) ->
+'K2-RoundFunc-119'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.61\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-119.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3063,11 +3402,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-120'(_Config) ->
+'K2-RoundFunc-120'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.61\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-120.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3076,11 +3417,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-121'(_Config) ->
+'K2-RoundFunc-121'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.61\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-121.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3089,11 +3432,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-122'(_Config) ->
+'K2-RoundFunc-122'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.61\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-122.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3102,11 +3447,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-123'(_Config) ->
+'K2-RoundFunc-123'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.64\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-123.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3115,11 +3462,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-124'(_Config) ->
+'K2-RoundFunc-124'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.64\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-124.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3128,11 +3477,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-125'(_Config) ->
+'K2-RoundFunc-125'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.64\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-125.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3141,11 +3492,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-126'(_Config) ->
+'K2-RoundFunc-126'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.64\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-126.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3154,11 +3507,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-127'(_Config) ->
+'K2-RoundFunc-127'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.65\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-127.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3167,11 +3522,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-128'(_Config) ->
+'K2-RoundFunc-128'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.65\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-128.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3180,11 +3537,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-129'(_Config) ->
+'K2-RoundFunc-129'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.65\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-129.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3193,11 +3552,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-130'(_Config) ->
+'K2-RoundFunc-130'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.65\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-130.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3206,11 +3567,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-131'(_Config) ->
+'K2-RoundFunc-131'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.66\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-131.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3219,11 +3582,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-132'(_Config) ->
+'K2-RoundFunc-132'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.66\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-132.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3232,11 +3597,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-133'(_Config) ->
+'K2-RoundFunc-133'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.66\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-133.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3245,11 +3612,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-134'(_Config) ->
+'K2-RoundFunc-134'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.66\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-134.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3258,11 +3627,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-135'(_Config) ->
+'K2-RoundFunc-135'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.69\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-135.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3271,11 +3642,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-136'(_Config) ->
+'K2-RoundFunc-136'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.69\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-136.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3284,11 +3657,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-137'(_Config) ->
+'K2-RoundFunc-137'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.69\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-137.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3297,11 +3672,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-138'(_Config) ->
+'K2-RoundFunc-138'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.69\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-138.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3310,11 +3687,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-139'(_Config) ->
+'K2-RoundFunc-139'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.60\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-139.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3323,11 +3702,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-140'(_Config) ->
+'K2-RoundFunc-140'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.60\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-140.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3336,11 +3717,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-141'(_Config) ->
+'K2-RoundFunc-141'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.60\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-141.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3349,11 +3732,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-142'(_Config) ->
+'K2-RoundFunc-142'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.60\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-142.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3362,11 +3747,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-143'(_Config) ->
+'K2-RoundFunc-143'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.91\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-143.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3375,11 +3762,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-144'(_Config) ->
+'K2-RoundFunc-144'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.91\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-144.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3388,11 +3777,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-145'(_Config) ->
+'K2-RoundFunc-145'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.91\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-145.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3401,11 +3792,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-146'(_Config) ->
+'K2-RoundFunc-146'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.91\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-146.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3414,11 +3807,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-147'(_Config) ->
+'K2-RoundFunc-147'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.94\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-147.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3427,11 +3822,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-148'(_Config) ->
+'K2-RoundFunc-148'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.94\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-148.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3440,11 +3837,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-149'(_Config) ->
+'K2-RoundFunc-149'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.94\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-149.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3453,11 +3852,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-150'(_Config) ->
+'K2-RoundFunc-150'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.94\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-150.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3466,11 +3867,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-151'(_Config) ->
+'K2-RoundFunc-151'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.95\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-151.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3479,11 +3882,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-152'(_Config) ->
+'K2-RoundFunc-152'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.95\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-152.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3492,11 +3897,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-153'(_Config) ->
+'K2-RoundFunc-153'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.95\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-153.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3505,11 +3912,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-154'(_Config) ->
+'K2-RoundFunc-154'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.95\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-154.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3518,11 +3927,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-155'(_Config) ->
+'K2-RoundFunc-155'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.96\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-155.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3531,11 +3942,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-156'(_Config) ->
+'K2-RoundFunc-156'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.96\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-156.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3544,11 +3957,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-157'(_Config) ->
+'K2-RoundFunc-157'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.96\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-157.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3557,11 +3972,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-158'(_Config) ->
+'K2-RoundFunc-158'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.96\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-158.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3570,11 +3987,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-159'(_Config) ->
+'K2-RoundFunc-159'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.99\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-159.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3583,11 +4002,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-160'(_Config) ->
+'K2-RoundFunc-160'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.99\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-160.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3596,11 +4017,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-161'(_Config) ->
+'K2-RoundFunc-161'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.99\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-161.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3609,11 +4032,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-162'(_Config) ->
+'K2-RoundFunc-162'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.99\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-162.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3622,11 +4047,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-163'(_Config) ->
+'K2-RoundFunc-163'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.90\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-163.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3635,11 +4062,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-164'(_Config) ->
+'K2-RoundFunc-164'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.90\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-164.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3648,11 +4077,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-165'(_Config) ->
+'K2-RoundFunc-165'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.90\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-165.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3661,11 +4092,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-166'(_Config) ->
+'K2-RoundFunc-166'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.90\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-166.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3674,11 +4107,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-167'(_Config) ->
+'K2-RoundFunc-167'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.101\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-167.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3687,11 +4122,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-168'(_Config) ->
+'K2-RoundFunc-168'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.101\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-168.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3700,11 +4137,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-169'(_Config) ->
+'K2-RoundFunc-169'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.101\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-169.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3713,11 +4152,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-170'(_Config) ->
+'K2-RoundFunc-170'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.101\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-170.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3726,11 +4167,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-171'(_Config) ->
+'K2-RoundFunc-171'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.104\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-171.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3739,11 +4182,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-172'(_Config) ->
+'K2-RoundFunc-172'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.104\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-172.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3752,11 +4197,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-173'(_Config) ->
+'K2-RoundFunc-173'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.104\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-173.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3765,11 +4212,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-174'(_Config) ->
+'K2-RoundFunc-174'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.104\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-174.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3778,11 +4227,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-175'(_Config) ->
+'K2-RoundFunc-175'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.105\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-175.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3791,11 +4242,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-176'(_Config) ->
+'K2-RoundFunc-176'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.105\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-176.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3804,11 +4257,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-177'(_Config) ->
+'K2-RoundFunc-177'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.105\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-177.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3817,11 +4272,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-178'(_Config) ->
+'K2-RoundFunc-178'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.105\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-178.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3830,11 +4287,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-179'(_Config) ->
+'K2-RoundFunc-179'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.106\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-179.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3843,11 +4302,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-180'(_Config) ->
+'K2-RoundFunc-180'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.106\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-180.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3856,11 +4317,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-181'(_Config) ->
+'K2-RoundFunc-181'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.106\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-181.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3869,11 +4332,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-182'(_Config) ->
+'K2-RoundFunc-182'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.106\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-182.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3882,11 +4347,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-183'(_Config) ->
+'K2-RoundFunc-183'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.109\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-183.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3895,11 +4362,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-184'(_Config) ->
+'K2-RoundFunc-184'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.109\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-184.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3908,11 +4377,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-185'(_Config) ->
+'K2-RoundFunc-185'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.109\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-185.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3921,11 +4392,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-186'(_Config) ->
+'K2-RoundFunc-186'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.109\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-186.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3934,11 +4407,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-187'(_Config) ->
+'K2-RoundFunc-187'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-187.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3947,11 +4422,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-188'(_Config) ->
+'K2-RoundFunc-188'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-188.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3960,11 +4437,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-189'(_Config) ->
+'K2-RoundFunc-189'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-189.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3973,11 +4452,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-RoundFunc-190'(_Config) ->
+'K2-RoundFunc-190'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RoundFunc-190.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -3986,7 +4467,8 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-1'(_Config) ->
+'fn-round-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in (1, xs:decimal(2), xs:float(3), xs:double(4)) 
             return if ((round($x)) instance of xs:integer) then \"integer\" 
            else if ((round($x)) instance of xs:decimal) then \"decimal\" 
@@ -3995,7 +4477,8 @@ environment('e-1') ->
            else error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"integer\", \"decimal\", \"float\", \"double\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -4004,11 +4487,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-decimal-2'(_Config) ->
+'fn-round-decimal-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"12.1\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-decimal-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12") of 
       true -> {comment, "Equal"};
@@ -4025,11 +4510,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-decimal-3'(_Config) ->
+'fn-round-decimal-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"12.7\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-decimal-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"13") of 
       true -> {comment, "Equal"};
@@ -4046,11 +4533,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-decimal-4'(_Config) ->
+'fn-round-decimal-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"12.5\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-decimal-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"13") of 
       true -> {comment, "Equal"};
@@ -4067,11 +4556,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-decimal-5'(_Config) ->
+'fn-round-decimal-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"-12.7\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-decimal-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-13") of 
       true -> {comment, "Equal"};
@@ -4088,11 +4579,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-decimal-6'(_Config) ->
+'fn-round-decimal-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"-12.1\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-decimal-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12") of 
       true -> {comment, "Equal"};
@@ -4109,11 +4602,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-decimal-7'(_Config) ->
+'fn-round-decimal-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"-12.5\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-decimal-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12") of 
       true -> {comment, "Equal"};
@@ -4130,11 +4625,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-decimal-8'(_Config) ->
+'fn-round-decimal-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(-12.567, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-decimal-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12.57") of 
       true -> {comment, "Equal"};
@@ -4151,11 +4648,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-decimal-9'(_Config) ->
+'fn-round-decimal-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(-12.567, 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-decimal-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-12.567") of 
       true -> {comment, "Equal"};
@@ -4172,11 +4671,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-decimal-10'(_Config) ->
+'fn-round-decimal-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(-12.567, 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-decimal-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-13") of 
       true -> {comment, "Equal"};
@@ -4193,11 +4694,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-decimal-11'(_Config) ->
+'fn-round-decimal-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(-1234.567, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-decimal-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1200") of 
       true -> {comment, "Equal"};
@@ -4214,11 +4717,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round-decimal-12'(_Config) ->
+'fn-round-decimal-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(1.567, -3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round-decimal-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -4235,11 +4740,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round2args-1'(_Config) ->
+'fn-round2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(1.125, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1.13") of 
       true -> {comment, "Equal"};
@@ -4256,11 +4763,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round2args-2'(_Config) ->
+'fn-round2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(8452, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"8500") of 
       true -> {comment, "Equal"};
@@ -4277,11 +4786,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round2args-3'(_Config) ->
+'fn-round2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(3.1415e0, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"3.14e0") of 
       true -> {comment, "Equal"};
@@ -4298,11 +4809,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round2args-4'(_Config) ->
+'fn-round2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(35.425, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"35.43") of 
       true -> {comment, "Equal"};
@@ -4319,11 +4832,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round2args-5'(_Config) ->
+'fn-round2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(-0.43e0, 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-0.4e0") of 
       true -> {comment, "Equal"};
@@ -4340,11 +4855,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round2args-1f'(_Config) ->
+'fn-round2args-1f'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(1.125), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round2args-1f.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1.13") of 
       true -> {comment, "Equal"};
@@ -4361,11 +4878,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round2args-2f'(_Config) ->
+'fn-round2args-2f'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(8452), -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round2args-2f.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"xs:float(8500)") of 
       true -> {comment, "Equal"};
@@ -4382,11 +4901,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round2args-3f'(_Config) ->
+'fn-round2args-3f'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(3.1415e0), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round2args-3f.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"xs:float(3.14e0)") of 
       true -> {comment, "Equal"};
@@ -4403,11 +4924,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round2args-4f'(_Config) ->
+'fn-round2args-4f'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(0.125), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round2args-4f.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"xs:float(0.13)") of 
       true -> {comment, "Equal"};
@@ -4424,11 +4947,13 @@ environment('e-1') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-round2args-5f'(_Config) ->
+'fn-round2args-5f'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:round(xs:float(-0.43e0), 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-round2args-5f.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"xs:float(-0.4e0)") of 
       true -> {comment, "Equal"};

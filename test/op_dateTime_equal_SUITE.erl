@@ -78,9 +78,13 @@
 -export(['UnionType-equal-01'/1]).
 -export(['UnionType-equal-02'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "op")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'op-dateTime-equal2args-1',
    'op-dateTime-equal2args-2',
@@ -155,97 +159,97 @@ all() -> [
    'cbcl-dateTime-equal-018',
    'UnionType-equal-01',
    'UnionType-equal-02'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -257,60 +261,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -318,23 +322,25 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('union-List-defined-Types') ->
+environment('union-List-defined-Types',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"../prod/SchemaImport/unionListDefined.xsd","http://www.w3.org/XQueryTest/unionListDefined"}]},
+{schemas, [{filename:join(BaseDir, "../prod/SchemaImport/unionListDefined.xsd"),"http://www.w3.org/XQueryTest/unionListDefined"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'op-dateTime-equal2args-1'(_Config) ->
+'op-dateTime-equal2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") eq xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -343,11 +349,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-2'(_Config) ->
+'op-dateTime-equal2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1996-04-07T01:40:52Z\") eq xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -356,11 +364,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-3'(_Config) ->
+'op-dateTime-equal2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2030-12-31T23:59:59Z\") eq xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -369,11 +379,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-4'(_Config) ->
+'op-dateTime-equal2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") eq xs:dateTime(\"1996-04-07T01:40:52Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -382,11 +394,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-5'(_Config) ->
+'op-dateTime-equal2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") eq xs:dateTime(\"2030-12-31T23:59:59Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -395,11 +409,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-6'(_Config) ->
+'op-dateTime-equal2args-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ne xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -408,11 +424,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-7'(_Config) ->
+'op-dateTime-equal2args-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1996-04-07T01:40:52Z\") ne xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -421,11 +439,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-8'(_Config) ->
+'op-dateTime-equal2args-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2030-12-31T23:59:59Z\") ne xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -434,11 +454,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-9'(_Config) ->
+'op-dateTime-equal2args-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ne xs:dateTime(\"1996-04-07T01:40:52Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -447,11 +469,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-10'(_Config) ->
+'op-dateTime-equal2args-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ne xs:dateTime(\"2030-12-31T23:59:59Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -460,11 +484,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-11'(_Config) ->
+'op-dateTime-equal2args-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") le xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -473,11 +499,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-12'(_Config) ->
+'op-dateTime-equal2args-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1996-04-07T01:40:52Z\") le xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -486,11 +514,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-13'(_Config) ->
+'op-dateTime-equal2args-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2030-12-31T23:59:59Z\") le xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -499,11 +529,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-14'(_Config) ->
+'op-dateTime-equal2args-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") le xs:dateTime(\"1996-04-07T01:40:52Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -512,11 +544,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-15'(_Config) ->
+'op-dateTime-equal2args-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") le xs:dateTime(\"2030-12-31T23:59:59Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -525,11 +559,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-16'(_Config) ->
+'op-dateTime-equal2args-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ge xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -538,11 +574,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-17'(_Config) ->
+'op-dateTime-equal2args-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1996-04-07T01:40:52Z\") ge xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -551,11 +589,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-18'(_Config) ->
+'op-dateTime-equal2args-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2030-12-31T23:59:59Z\") ge xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -564,11 +604,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-19'(_Config) ->
+'op-dateTime-equal2args-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ge xs:dateTime(\"1996-04-07T01:40:52Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -577,11 +619,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'op-dateTime-equal2args-20'(_Config) ->
+'op-dateTime-equal2args-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ge xs:dateTime(\"2030-12-31T23:59:59Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-dateTime-equal2args-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -590,11 +634,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-1'(_Config) ->
+'K-DateTimeEQ-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2004-08-12T23:01:04.12\") eq xs:dateTime(\"2004-08-12T23:01:04.12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -603,11 +649,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-2'(_Config) ->
+'K-DateTimeEQ-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(xs:dateTime(\"2004-08-12T23:01:04.12\") eq xs:dateTime(\"2004-08-12T23:01:04.13\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -616,11 +664,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-3'(_Config) ->
+'K-DateTimeEQ-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2004-08-12T23:01:05.12\") ne xs:dateTime(\"2004-08-12T23:01:04.12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -629,11 +679,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-4'(_Config) ->
+'K-DateTimeEQ-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(xs:dateTime(\"2004-07-12T23:01:04.12\") ne xs:dateTime(\"2004-07-12T23:01:04.12\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -642,11 +694,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-5'(_Config) ->
+'K-DateTimeEQ-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T16:00:12.345-00:00\") eq xs:dateTime(\"1999-12-04T16:00:12.345Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -655,11 +709,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-6'(_Config) ->
+'K-DateTimeEQ-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T16:00:12.345+00:00\") eq xs:dateTime(\"1999-12-04T16:00:12.345Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -668,11 +724,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-7'(_Config) ->
+'K-DateTimeEQ-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T16:00:12.345Z\") eq xs:dateTime(\"1999-12-04T16:00:12.345Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -681,11 +739,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-8'(_Config) ->
+'K-DateTimeEQ-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T16:00:12.345-00:00\") eq xs:dateTime(\"1999-12-04T16:00:12.345+00:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -694,11 +754,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-9'(_Config) ->
+'K-DateTimeEQ-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") eq xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -707,11 +769,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-10'(_Config) ->
+'K-DateTimeEQ-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") ne xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -720,11 +784,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-11'(_Config) ->
+'K-DateTimeEQ-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") le xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -733,11 +799,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-12'(_Config) ->
+'K-DateTimeEQ-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") lt xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -746,11 +814,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-13'(_Config) ->
+'K-DateTimeEQ-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") ge xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -759,11 +829,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-14'(_Config) ->
+'K-DateTimeEQ-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") gt xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -772,11 +844,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-15'(_Config) ->
+'K-DateTimeEQ-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") eq xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -785,11 +859,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-16'(_Config) ->
+'K-DateTimeEQ-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") ne xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -798,11 +874,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-17'(_Config) ->
+'K-DateTimeEQ-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") le xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -811,11 +889,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-18'(_Config) ->
+'K-DateTimeEQ-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") lt xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -824,11 +904,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-19'(_Config) ->
+'K-DateTimeEQ-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") ge xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -837,11 +919,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-20'(_Config) ->
+'K-DateTimeEQ-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") gt xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -850,11 +934,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-21'(_Config) ->
+'K-DateTimeEQ-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") eq xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -863,11 +949,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-22'(_Config) ->
+'K-DateTimeEQ-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") ne xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -876,11 +964,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-23'(_Config) ->
+'K-DateTimeEQ-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") le xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -889,11 +979,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-24'(_Config) ->
+'K-DateTimeEQ-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") lt xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -902,11 +994,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-25'(_Config) ->
+'K-DateTimeEQ-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") ge xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -915,11 +1009,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-26'(_Config) ->
+'K-DateTimeEQ-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") gt xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -928,11 +1024,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-27'(_Config) ->
+'K-DateTimeEQ-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") eq xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -941,11 +1039,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-28'(_Config) ->
+'K-DateTimeEQ-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") ne xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -954,11 +1054,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-29'(_Config) ->
+'K-DateTimeEQ-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") le xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -967,11 +1069,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-30'(_Config) ->
+'K-DateTimeEQ-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") lt xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -980,11 +1084,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-31'(_Config) ->
+'K-DateTimeEQ-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") ge xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -993,11 +1099,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-DateTimeEQ-32'(_Config) ->
+'K-DateTimeEQ-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") gt xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-DateTimeEQ-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1006,11 +1114,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DateTimeEQ-1'(_Config) ->
+'K2-DateTimeEQ-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-03-06T00:00:00Z\") ne xs:dateTime(\"2002-03-05T00:00:00+03:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DateTimeEQ-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1019,7 +1129,8 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-001'(_Config) ->
+'cbcl-dateTime-equal-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:two-digit($number as xs:integer) { 
       		let $string := string($number) 
@@ -1032,7 +1143,8 @@ environment('union-List-defined-Types') ->
       	not(local:dateTime(2008, 05, 12) eq xs:dateTime(\"1972-12-15T12:00:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1041,13 +1153,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-002'(_Config) ->
+'cbcl-dateTime-equal-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	xs:dateTime(\"2008-01-30T00:01:00\") eq xs:dateTime(\"2008-01-31T01:00:00+09:00\")
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1056,11 +1170,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-003'(_Config) ->
+'cbcl-dateTime-equal-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00+09:00\") eq xs:dateTime(\"2008-01-30T00:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1069,11 +1185,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-004'(_Config) ->
+'cbcl-dateTime-equal-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00\") eq xs:dateTime(\"2008-01-31T00:01:00+09:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1082,11 +1200,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-005'(_Config) ->
+'cbcl-dateTime-equal-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00+09:00\") eq xs:dateTime(\"2008-01-31T00:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1095,7 +1215,8 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-006'(_Config) ->
+'cbcl-dateTime-equal-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:two-digit($number as xs:integer) { 
       		let $string := string($number) 
@@ -1108,7 +1229,8 @@ environment('union-List-defined-Types') ->
       	not(local:dateTime(2008, 05, 12) ne xs:dateTime(\"1972-12-15T12:00:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1117,11 +1239,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-007'(_Config) ->
+'cbcl-dateTime-equal-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-30T00:01:00\") ne xs:dateTime(\"2008-01-31T00:01:00+09:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1130,11 +1254,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-008'(_Config) ->
+'cbcl-dateTime-equal-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00+09:00\") ne xs:dateTime(\"2008-01-30T00:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1143,11 +1269,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-009'(_Config) ->
+'cbcl-dateTime-equal-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00\") ne xs:dateTime(\"2008-01-31T00:01:00+09:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1156,11 +1284,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-010'(_Config) ->
+'cbcl-dateTime-equal-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00+09:00\") ne xs:dateTime(\"2008-01-31T00:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1169,11 +1299,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-011'(_Config) ->
+'cbcl-dateTime-equal-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; exists(local:dateTime(xs:dateTime(\"1972-12-15T12:00:00\"), fn:true()) eq xs:dateTime(\"1972-12-15T12:00:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1182,11 +1314,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-012'(_Config) ->
+'cbcl-dateTime-equal-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; local:dateTime(xs:dateTime(\"1972-12-15T12:00:00\"), fn:false()) eq xs:dateTime(\"1972-12-15T12:00:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1195,11 +1329,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-013'(_Config) ->
+'cbcl-dateTime-equal-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; exists(local:dateTime(xs:dateTime(\"1972-12-15T12:00:00\"), fn:true()) ne xs:dateTime(\"1972-12-15T12:00:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1208,11 +1344,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-014'(_Config) ->
+'cbcl-dateTime-equal-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; local:dateTime(xs:dateTime(\"1972-12-15T12:00:00\"), fn:false()) ne xs:dateTime(\"1972-12-15T12:00:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1221,7 +1359,8 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-015'(_Config) ->
+'cbcl-dateTime-equal-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:dateTime($dateTime as xs:string, $timezone as xs:string) { 
       		xs:dateTime( concat($dateTime, $timezone) ) 
@@ -1231,7 +1370,8 @@ environment('union-List-defined-Types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1240,7 +1380,8 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-016'(_Config) ->
+'cbcl-dateTime-equal-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:dateTime($dateTime as xs:string, $timezone as xs:string) { 
       		xs:dateTime( concat($dateTime, $timezone) ) 
@@ -1250,7 +1391,8 @@ environment('union-List-defined-Types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1259,11 +1401,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-017'(_Config) ->
+'cbcl-dateTime-equal-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1972-12-15T00:00:00+12:00\") eq xs:dateTime(\"1972-12-15T00:00:01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1272,11 +1416,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-dateTime-equal-018'(_Config) ->
+'cbcl-dateTime-equal-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1972-12-15T00:00:00+12:00\") ne xs:dateTime(\"1972-12-15T00:00:01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-dateTime-equal-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1285,7 +1431,9 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UnionType-equal-01'(_Config) ->
+'UnionType-equal-01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'UnionType-equal-02'(_Config) ->
+'UnionType-equal-02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.

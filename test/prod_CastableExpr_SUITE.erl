@@ -958,9 +958,13 @@
 -export(['cbcl-castable-restricted-union-019'/1]).
 -export(['cbcl-castable-restricted-union-020'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'CastableAs001',
    'CastableAs002',
@@ -1915,97 +1919,97 @@ all() -> [
    'cbcl-castable-restricted-union-018',
    'cbcl-castable-restricted-union-019',
    'cbcl-castable-restricted-union-020'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -2017,60 +2021,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -2078,47 +2082,49 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('union-List-defined-Types') ->
+environment('union-List-defined-Types',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"SchemaImport/unionListDefined.xsd","http://www.w3.org/XQueryTest/unionListDefined"}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/unionListDefined.xsd"),"http://www.w3.org/XQueryTest/unionListDefined"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('acme_corp') ->
+environment('acme_corp',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/union/acme_corp.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../op/union/acme_corp.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('derived') ->
+environment('derived',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"CastExpr/derived.xsd","http://www.w3.org/XQueryTest/derivedTypes"}]},
+{schemas, [{filename:join(BaseDir, "CastExpr/derived.xsd"),"http://www.w3.org/XQueryTest/derivedTypes"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'CastableAs001'(_Config) ->
+'CastableAs001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"INF\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2127,11 +2133,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs002'(_Config) ->
+'CastableAs002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0.0E0\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2140,11 +2148,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs003'(_Config) ->
+'CastableAs003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2153,11 +2163,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs004'(_Config) ->
+'CastableAs004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"INF\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2166,11 +2178,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs005'(_Config) ->
+'CastableAs005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0.0E0\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2179,11 +2193,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs006'(_Config) ->
+'CastableAs006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2192,11 +2208,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs007'(_Config) ->
+'CastableAs007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2205,11 +2223,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs008'(_Config) ->
+'CastableAs008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2218,11 +2238,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs009'(_Config) ->
+'CastableAs009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2231,11 +2253,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs010'(_Config) ->
+'CastableAs010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-10000000\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2244,11 +2268,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs011'(_Config) ->
+'CastableAs011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2257,11 +2283,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs012'(_Config) ->
+'CastableAs012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2270,11 +2298,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs013'(_Config) ->
+'CastableAs013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2283,11 +2313,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs014'(_Config) ->
+'CastableAs014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2296,11 +2328,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs015'(_Config) ->
+'CastableAs015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-10000000\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2309,11 +2343,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs016'(_Config) ->
+'CastableAs016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2322,11 +2358,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs017'(_Config) ->
+'CastableAs017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2335,11 +2373,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs018'(_Config) ->
+'CastableAs018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2348,11 +2388,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs019'(_Config) ->
+'CastableAs019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2361,11 +2403,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs020'(_Config) ->
+'CastableAs020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"5.5432\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2374,11 +2418,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs021'(_Config) ->
+'CastableAs021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2387,11 +2433,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs022'(_Config) ->
+'CastableAs022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2400,11 +2448,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs023'(_Config) ->
+'CastableAs023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2413,11 +2463,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs024'(_Config) ->
+'CastableAs024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2426,11 +2478,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs025'(_Config) ->
+'CastableAs025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-1.1234\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2439,11 +2493,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs026'(_Config) ->
+'CastableAs026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2452,11 +2508,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs027'(_Config) ->
+'CastableAs027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"P1Y2M3DT10H30M23S\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2465,11 +2523,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs028'(_Config) ->
+'CastableAs028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P1Y1M1DT1H1M1.123S\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2478,11 +2538,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs029'(_Config) ->
+'CastableAs029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2491,11 +2553,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs030'(_Config) ->
+'CastableAs030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P1Y1M1DT1H1M1.123S\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2504,11 +2568,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs031'(_Config) ->
+'CastableAs031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"P24M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2517,11 +2583,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs032'(_Config) ->
+'CastableAs032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P21M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2530,11 +2598,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs033'(_Config) ->
+'CastableAs033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2543,11 +2613,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs034'(_Config) ->
+'CastableAs034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P1Y1M1DT1H1M1.123S\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs034.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2556,11 +2628,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs035'(_Config) ->
+'CastableAs035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"P3DT10H30M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs035.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2569,11 +2643,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs036'(_Config) ->
+'CastableAs036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-PT100M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs036.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2582,11 +2658,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs037'(_Config) ->
+'CastableAs037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs037.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2595,11 +2673,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs038'(_Config) ->
+'CastableAs038'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05-31T13:20:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs038.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2608,11 +2688,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs039'(_Config) ->
+'CastableAs039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-1999-05-31T13:20:00+14:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs039.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2621,11 +2703,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs040'(_Config) ->
+'CastableAs040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"2000-01-16T00:00:00Z\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs040.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2634,11 +2718,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs041'(_Config) ->
+'CastableAs041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs041.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2647,11 +2733,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs042'(_Config) ->
+'CastableAs042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"13:20:00-05:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs042.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2660,11 +2748,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs043'(_Config) ->
+'CastableAs043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"13:20:02.123\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs043.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2673,11 +2763,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs044'(_Config) ->
+'CastableAs044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"13:20:00Z\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs044.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2686,11 +2778,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs045'(_Config) ->
+'CastableAs045'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs045.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2699,11 +2793,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs046'(_Config) ->
+'CastableAs046'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05-31\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs046.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2712,11 +2808,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs047'(_Config) ->
+'CastableAs047'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0012-12-03-05:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs047.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2725,11 +2823,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs048'(_Config) ->
+'CastableAs048'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05-31Z\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs048.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2738,11 +2838,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs049'(_Config) ->
+'CastableAs049'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs049.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2751,11 +2853,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs050'(_Config) ->
+'CastableAs050'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs050.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2764,11 +2868,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs051'(_Config) ->
+'CastableAs051'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0012-12-05:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs051.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2777,11 +2883,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs052'(_Config) ->
+'CastableAs052'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05Z\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs052.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2790,11 +2898,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs053'(_Config) ->
+'CastableAs053'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs053.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2803,11 +2913,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs054'(_Config) ->
+'CastableAs054'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs054.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2816,11 +2928,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs055'(_Config) ->
+'CastableAs055'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0012-05:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs055.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2829,11 +2943,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs056'(_Config) ->
+'CastableAs056'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999Z\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs056.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2842,11 +2958,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs057'(_Config) ->
+'CastableAs057'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs057.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2855,11 +2973,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs058'(_Config) ->
+'CastableAs058'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05-31\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs058.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2868,11 +2988,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs059'(_Config) ->
+'CastableAs059'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05-31+14:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs059.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2881,11 +3003,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs060'(_Config) ->
+'CastableAs060'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05-31Z\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs060.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2894,11 +3018,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs061'(_Config) ->
+'CastableAs061'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs061.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2907,11 +3033,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs062'(_Config) ->
+'CastableAs062'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"---31\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs062.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2920,11 +3048,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs063'(_Config) ->
+'CastableAs063'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"---03-05:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs063.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2933,11 +3063,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs064'(_Config) ->
+'CastableAs064'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"---31Z\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs064.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2946,11 +3078,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs065'(_Config) ->
+'CastableAs065'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs065.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2959,11 +3093,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs066'(_Config) ->
+'CastableAs066'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs066.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2972,11 +3108,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs067'(_Config) ->
+'CastableAs067'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--12-05:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs067.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2985,11 +3123,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs068'(_Config) ->
+'CastableAs068'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05Z\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs068.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2998,11 +3138,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs069'(_Config) ->
+'CastableAs069'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs069.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3011,11 +3153,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs070'(_Config) ->
+'CastableAs070'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0.0\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs070.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3024,11 +3168,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs071'(_Config) ->
+'CastableAs071'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs071.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3037,11 +3183,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs072'(_Config) ->
+'CastableAs072'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs072.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3050,11 +3198,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs073'(_Config) ->
+'CastableAs073'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs073.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3063,11 +3213,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs074'(_Config) ->
+'CastableAs074'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"00000000\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs074.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3076,11 +3228,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs075'(_Config) ->
+'CastableAs075'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"D74D35D35D35\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs075.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3089,11 +3243,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs076'(_Config) ->
+'CastableAs076'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs076.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3102,11 +3258,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs077'(_Config) ->
+'CastableAs077'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"010010101\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs077.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3115,11 +3273,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs078'(_Config) ->
+'CastableAs078'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0fb7\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs078.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3128,11 +3288,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs079'(_Config) ->
+'CastableAs079'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"D74D35D35D35\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs079.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3141,11 +3303,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs080'(_Config) ->
+'CastableAs080'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"http://www.example.com/~b%C3%A9b%C3%A9\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs080.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3154,11 +3318,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs081'(_Config) ->
+'CastableAs081'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs081.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3167,11 +3333,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs082'(_Config) ->
+'CastableAs082'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs082.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3180,11 +3348,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs083'(_Config) ->
+'CastableAs083'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"INF\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs083.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3193,11 +3363,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs084'(_Config) ->
+'CastableAs084'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"0.0E0\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs084.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3206,11 +3378,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs085'(_Config) ->
+'CastableAs085'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs085.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3219,11 +3393,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs086'(_Config) ->
+'CastableAs086'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"INF\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs086.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3232,11 +3408,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs087'(_Config) ->
+'CastableAs087'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"0.0E0\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs087.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3245,11 +3423,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs088'(_Config) ->
+'CastableAs088'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs088.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3258,11 +3438,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs089'(_Config) ->
+'CastableAs089'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs089.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3271,11 +3453,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs090'(_Config) ->
+'CastableAs090'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"NaN\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs090.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3284,11 +3468,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs091'(_Config) ->
+'CastableAs091'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"1e-5\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs091.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3297,11 +3483,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs092'(_Config) ->
+'CastableAs092'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-10000000\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs092.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3310,11 +3498,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs093'(_Config) ->
+'CastableAs093'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs093.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3323,11 +3513,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs094'(_Config) ->
+'CastableAs094'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs094.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3336,11 +3528,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs095'(_Config) ->
+'CastableAs095'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"NaN\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs095.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3349,11 +3543,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs096'(_Config) ->
+'CastableAs096'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"1e-5\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs096.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3362,11 +3558,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs097'(_Config) ->
+'CastableAs097'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-10000000\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs097.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3375,11 +3573,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs098'(_Config) ->
+'CastableAs098'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs098.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3388,11 +3588,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs099'(_Config) ->
+'CastableAs099'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs099.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3401,11 +3603,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs100'(_Config) ->
+'CastableAs100'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"NaN\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs100.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3414,11 +3618,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs101'(_Config) ->
+'CastableAs101'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"1e-5\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs101.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3427,11 +3633,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs102'(_Config) ->
+'CastableAs102'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"5.5432\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs102.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3440,11 +3648,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs103'(_Config) ->
+'CastableAs103'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs103.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3453,11 +3663,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs104'(_Config) ->
+'CastableAs104'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs104.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3466,11 +3678,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs105'(_Config) ->
+'CastableAs105'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"NaN\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs105.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3479,11 +3693,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs106'(_Config) ->
+'CastableAs106'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"1e-5\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs106.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3492,11 +3708,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs107'(_Config) ->
+'CastableAs107'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-1.1234\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs107.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3505,11 +3723,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs108'(_Config) ->
+'CastableAs108'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs108.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3518,11 +3738,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs109'(_Config) ->
+'CastableAs109'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"P1Y2M3DT10H30M23S\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs109.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3531,11 +3753,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs110'(_Config) ->
+'CastableAs110'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-P1Y1M1DT1H1M1.123S\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs110.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3544,11 +3768,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs111'(_Config) ->
+'CastableAs111'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs111.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3557,11 +3783,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs112'(_Config) ->
+'CastableAs112'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-P1Y1M1DT1H1M1.123S\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs112.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3570,11 +3798,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs113'(_Config) ->
+'CastableAs113'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"P24M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs113.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3583,11 +3813,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs114'(_Config) ->
+'CastableAs114'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-P21M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs114.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3596,11 +3828,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs115'(_Config) ->
+'CastableAs115'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs115.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3609,11 +3843,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs116'(_Config) ->
+'CastableAs116'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-P1Y1M1DT1H1M1.123S\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs116.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3622,11 +3858,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs117'(_Config) ->
+'CastableAs117'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"P3DT10H30M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs117.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3635,11 +3873,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs118'(_Config) ->
+'CastableAs118'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-PT100M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs118.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3648,11 +3888,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs119'(_Config) ->
+'CastableAs119'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs119.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3661,11 +3903,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs120'(_Config) ->
+'CastableAs120'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"1999-05-31T13:20:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs120.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3674,11 +3918,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs121'(_Config) ->
+'CastableAs121'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-1999-05-31T13:20:00+14:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs121.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3687,11 +3933,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs122'(_Config) ->
+'CastableAs122'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"2000-01-16T00:00:00Z\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs122.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3700,11 +3948,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs123'(_Config) ->
+'CastableAs123'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs123.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3713,11 +3963,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs124'(_Config) ->
+'CastableAs124'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"13:20:00-05:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs124.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3726,11 +3978,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs125'(_Config) ->
+'CastableAs125'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"13:20:02.123\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs125.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3739,11 +3993,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs126'(_Config) ->
+'CastableAs126'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"13:20:00Z\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs126.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3752,11 +4008,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs127'(_Config) ->
+'CastableAs127'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs127.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3765,11 +4023,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs128'(_Config) ->
+'CastableAs128'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"1999-05-31\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs128.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3778,11 +4038,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs129'(_Config) ->
+'CastableAs129'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-0012-12-03-05:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs129.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3791,11 +4053,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs130'(_Config) ->
+'CastableAs130'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"1999-05-31Z\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs130.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3804,11 +4068,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs131'(_Config) ->
+'CastableAs131'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs131.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3817,11 +4083,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs132'(_Config) ->
+'CastableAs132'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"1999-05\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs132.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3830,11 +4098,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs133'(_Config) ->
+'CastableAs133'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-0012-12-05:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs133.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3843,11 +4113,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs134'(_Config) ->
+'CastableAs134'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"1999-05Z\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs134.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3856,11 +4128,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs135'(_Config) ->
+'CastableAs135'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs135.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3869,11 +4143,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs136'(_Config) ->
+'CastableAs136'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"1999\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs136.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3882,11 +4158,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs137'(_Config) ->
+'CastableAs137'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"-0012-05:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs137.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3895,11 +4173,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs138'(_Config) ->
+'CastableAs138'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"1999Z\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs138.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3908,11 +4188,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs139'(_Config) ->
+'CastableAs139'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs139.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3921,11 +4203,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs140'(_Config) ->
+'CastableAs140'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"--05-31\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs140.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3934,11 +4218,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs141'(_Config) ->
+'CastableAs141'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"--05-31+14:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs141.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3947,11 +4233,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs142'(_Config) ->
+'CastableAs142'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"--05-31Z\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs142.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3960,11 +4248,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs143'(_Config) ->
+'CastableAs143'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs143.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3973,11 +4263,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs144'(_Config) ->
+'CastableAs144'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"---31\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs144.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3986,11 +4278,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs145'(_Config) ->
+'CastableAs145'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"---03-05:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs145.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3999,11 +4293,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs146'(_Config) ->
+'CastableAs146'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"---31Z\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs146.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4012,11 +4308,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs147'(_Config) ->
+'CastableAs147'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs147.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4025,11 +4323,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs148'(_Config) ->
+'CastableAs148'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"--05\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs148.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4038,11 +4338,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs149'(_Config) ->
+'CastableAs149'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"--12-05:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs149.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4051,11 +4353,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs150'(_Config) ->
+'CastableAs150'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"--05Z\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs150.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4064,11 +4368,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs151'(_Config) ->
+'CastableAs151'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs151.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4077,11 +4383,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs152'(_Config) ->
+'CastableAs152'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"0.0\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs152.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4090,11 +4398,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs153'(_Config) ->
+'CastableAs153'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"0\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs153.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4103,11 +4413,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs154'(_Config) ->
+'CastableAs154'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs154.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4116,11 +4428,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs155'(_Config) ->
+'CastableAs155'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs155.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4129,11 +4443,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs156'(_Config) ->
+'CastableAs156'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"00000000\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs156.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4142,11 +4458,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs157'(_Config) ->
+'CastableAs157'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"D74D35D35D35\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs157.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4155,11 +4473,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs158'(_Config) ->
+'CastableAs158'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs158.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4168,11 +4488,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs159'(_Config) ->
+'CastableAs159'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"010010101\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs159.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4181,11 +4503,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs160'(_Config) ->
+'CastableAs160'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"0fb7\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs160.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4194,11 +4518,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs161'(_Config) ->
+'CastableAs161'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"D74D35D35D35\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs161.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4207,11 +4533,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs162'(_Config) ->
+'CastableAs162'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"http://www.example.com/~b%C3%A9b%C3%A9\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs162.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4220,11 +4548,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs163'(_Config) ->
+'CastableAs163'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs163.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4233,11 +4563,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs164'(_Config) ->
+'CastableAs164'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:string(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs164.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4246,11 +4578,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs165'(_Config) ->
+'CastableAs165'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"1e5\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs165.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4259,11 +4593,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs166'(_Config) ->
+'CastableAs166'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-INF\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs166.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4272,11 +4608,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs167'(_Config) ->
+'CastableAs167'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs167.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4285,11 +4623,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs168'(_Config) ->
+'CastableAs168'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"NaN\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs168.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4298,11 +4638,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs169'(_Config) ->
+'CastableAs169'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs169.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4311,11 +4653,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs170'(_Config) ->
+'CastableAs170'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-1.75e-3\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs170.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4324,11 +4668,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs171'(_Config) ->
+'CastableAs171'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"INF\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs171.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4337,11 +4683,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs172'(_Config) ->
+'CastableAs172'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs172.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4350,11 +4698,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs173'(_Config) ->
+'CastableAs173'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-INF\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs173.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4363,11 +4713,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs174'(_Config) ->
+'CastableAs174'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs174.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4376,11 +4728,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs175'(_Config) ->
+'CastableAs175'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs175.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4389,11 +4743,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs176'(_Config) ->
+'CastableAs176'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"1e5\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs176.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4402,11 +4758,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs177'(_Config) ->
+'CastableAs177'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-1.75e-3\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs177.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4415,11 +4773,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs178'(_Config) ->
+'CastableAs178'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs178.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4428,11 +4788,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs179'(_Config) ->
+'CastableAs179'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"1e5\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs179.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4441,11 +4803,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs180'(_Config) ->
+'CastableAs180'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"INF\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs180.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4454,11 +4818,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs181'(_Config) ->
+'CastableAs181'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-1.75e-3\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs181.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4467,11 +4833,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs182'(_Config) ->
+'CastableAs182'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs182.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4480,11 +4848,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs183'(_Config) ->
+'CastableAs183'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs183.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4493,11 +4863,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs184'(_Config) ->
+'CastableAs184'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs184.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4506,11 +4878,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs185'(_Config) ->
+'CastableAs185'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs185.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4519,11 +4893,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs186'(_Config) ->
+'CastableAs186'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs186.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4532,11 +4908,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs187'(_Config) ->
+'CastableAs187'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs187.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4545,11 +4923,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs188'(_Config) ->
+'CastableAs188'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs188.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4558,11 +4938,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs189'(_Config) ->
+'CastableAs189'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs189.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4571,11 +4953,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs190'(_Config) ->
+'CastableAs190'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs190.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4584,11 +4968,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs191'(_Config) ->
+'CastableAs191'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs191.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4597,11 +4983,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs192'(_Config) ->
+'CastableAs192'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs192.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4610,11 +4998,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs193'(_Config) ->
+'CastableAs193'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"1e5\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs193.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4623,11 +5013,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs194'(_Config) ->
+'CastableAs194'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"-INF\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs194.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4636,11 +5028,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs195'(_Config) ->
+'CastableAs195'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"NaN\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs195.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4649,11 +5043,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs196'(_Config) ->
+'CastableAs196'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs196.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4662,11 +5058,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs197'(_Config) ->
+'CastableAs197'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs197.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4675,11 +5073,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs198'(_Config) ->
+'CastableAs198'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs198.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4688,11 +5088,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs199'(_Config) ->
+'CastableAs199'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs199.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4701,11 +5103,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs200'(_Config) ->
+'CastableAs200'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"INF\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs200.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4714,11 +5118,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs201'(_Config) ->
+'CastableAs201'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e8\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs201.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4727,11 +5133,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs202'(_Config) ->
+'CastableAs202'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"INF\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs202.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4740,11 +5148,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs203'(_Config) ->
+'CastableAs203'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"-0.0E0\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs203.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4753,11 +5163,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs204'(_Config) ->
+'CastableAs204'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"5.4321E-1001\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs204.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4766,11 +5178,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs205'(_Config) ->
+'CastableAs205'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs205.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4779,11 +5193,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs206'(_Config) ->
+'CastableAs206'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"-1.75e-3\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs206.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4792,11 +5208,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs207'(_Config) ->
+'CastableAs207'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"NaN\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs207.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4805,11 +5223,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs208'(_Config) ->
+'CastableAs208'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs208.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4818,11 +5238,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs209'(_Config) ->
+'CastableAs209'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"INF\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs209.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4831,11 +5253,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs210'(_Config) ->
+'CastableAs210'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"-0.0E0\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs210.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4844,11 +5268,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs211'(_Config) ->
+'CastableAs211'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"5.4321E-1001\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs211.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4857,11 +5283,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs212'(_Config) ->
+'CastableAs212'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"-1.75e-3\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs212.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4870,11 +5298,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs213'(_Config) ->
+'CastableAs213'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"INF\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs213.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4883,11 +5313,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs214'(_Config) ->
+'CastableAs214'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"-0.0E0\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs214.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4896,11 +5328,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs215'(_Config) ->
+'CastableAs215'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs215.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4909,11 +5343,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs216'(_Config) ->
+'CastableAs216'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"-1.75e-3\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs216.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4922,11 +5358,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs217'(_Config) ->
+'CastableAs217'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"INF\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs217.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4935,11 +5373,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs218'(_Config) ->
+'CastableAs218'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"NaN\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs218.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4948,11 +5388,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs219'(_Config) ->
+'CastableAs219'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs219.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4961,11 +5403,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs220'(_Config) ->
+'CastableAs220'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs220.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4974,11 +5418,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs221'(_Config) ->
+'CastableAs221'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs221.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4987,11 +5433,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs222'(_Config) ->
+'CastableAs222'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs222.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5000,11 +5448,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs223'(_Config) ->
+'CastableAs223'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs223.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5013,11 +5463,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs224'(_Config) ->
+'CastableAs224'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs224.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5026,11 +5478,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs225'(_Config) ->
+'CastableAs225'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs225.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5039,11 +5493,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs226'(_Config) ->
+'CastableAs226'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs226.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5052,11 +5508,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs227'(_Config) ->
+'CastableAs227'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs227.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5065,11 +5523,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs228'(_Config) ->
+'CastableAs228'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs228.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5078,11 +5538,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs229'(_Config) ->
+'CastableAs229'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs229.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5091,11 +5553,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs230'(_Config) ->
+'CastableAs230'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs230.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5104,11 +5568,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs231'(_Config) ->
+'CastableAs231'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs231.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5117,11 +5583,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs232'(_Config) ->
+'CastableAs232'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs232.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5130,11 +5598,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs233'(_Config) ->
+'CastableAs233'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs233.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5143,11 +5613,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs234'(_Config) ->
+'CastableAs234'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs234.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5156,11 +5628,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs235'(_Config) ->
+'CastableAs235'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs235.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5169,11 +5643,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs236'(_Config) ->
+'CastableAs236'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs236.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5182,11 +5658,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs237'(_Config) ->
+'CastableAs237'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs237.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5195,11 +5673,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs238'(_Config) ->
+'CastableAs238'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs238.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5208,11 +5688,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs239'(_Config) ->
+'CastableAs239'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs239.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5221,11 +5703,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs240'(_Config) ->
+'CastableAs240'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"5.5432\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs240.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5234,11 +5718,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs241'(_Config) ->
+'CastableAs241'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs241.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5247,11 +5733,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs242'(_Config) ->
+'CastableAs242'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs242.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5260,11 +5748,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs243'(_Config) ->
+'CastableAs243'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs243.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5273,11 +5763,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs244'(_Config) ->
+'CastableAs244'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs244.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5286,11 +5778,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs245'(_Config) ->
+'CastableAs245'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs245.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5299,11 +5793,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs246'(_Config) ->
+'CastableAs246'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs246.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5312,11 +5808,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs247'(_Config) ->
+'CastableAs247'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs247.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5325,11 +5823,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs248'(_Config) ->
+'CastableAs248'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs248.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5338,11 +5838,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs249'(_Config) ->
+'CastableAs249'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs249.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5351,11 +5853,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs250'(_Config) ->
+'CastableAs250'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs250.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5364,11 +5868,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs251'(_Config) ->
+'CastableAs251'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs251.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5377,11 +5883,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs252'(_Config) ->
+'CastableAs252'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs252.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5390,11 +5898,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs253'(_Config) ->
+'CastableAs253'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs253.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5403,11 +5913,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs254'(_Config) ->
+'CastableAs254'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs254.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5416,11 +5928,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs255'(_Config) ->
+'CastableAs255'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs255.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5429,11 +5943,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs256'(_Config) ->
+'CastableAs256'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"1\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs256.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5442,11 +5958,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs257'(_Config) ->
+'CastableAs257'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs257.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5455,11 +5973,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs258'(_Config) ->
+'CastableAs258'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs258.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5468,11 +5988,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs259'(_Config) ->
+'CastableAs259'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs259.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5481,11 +6003,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs260'(_Config) ->
+'CastableAs260'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs260.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5494,11 +6018,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs261'(_Config) ->
+'CastableAs261'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs261.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5507,11 +6033,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs262'(_Config) ->
+'CastableAs262'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs262.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5520,11 +6048,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs263'(_Config) ->
+'CastableAs263'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs263.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5533,11 +6063,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs264'(_Config) ->
+'CastableAs264'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs264.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5546,11 +6078,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs265'(_Config) ->
+'CastableAs265'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs265.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5559,11 +6093,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs266'(_Config) ->
+'CastableAs266'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs266.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5572,11 +6108,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs267'(_Config) ->
+'CastableAs267'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs267.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5585,11 +6123,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs268'(_Config) ->
+'CastableAs268'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs268.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5598,11 +6138,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs269'(_Config) ->
+'CastableAs269'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs269.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5611,11 +6153,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs270'(_Config) ->
+'CastableAs270'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs270.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5624,11 +6168,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs271'(_Config) ->
+'CastableAs271'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs271.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5637,11 +6183,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs272'(_Config) ->
+'CastableAs272'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs272.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5650,11 +6198,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs273'(_Config) ->
+'CastableAs273'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs273.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5663,11 +6213,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs274'(_Config) ->
+'CastableAs274'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs274.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5676,11 +6228,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs275'(_Config) ->
+'CastableAs275'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs275.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5689,11 +6243,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs276'(_Config) ->
+'CastableAs276'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs276.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5702,11 +6258,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs277'(_Config) ->
+'CastableAs277'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs277.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5715,11 +6273,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs278'(_Config) ->
+'CastableAs278'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs278.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5728,11 +6288,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs279'(_Config) ->
+'CastableAs279'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs279.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5741,11 +6303,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs280'(_Config) ->
+'CastableAs280'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs280.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5754,11 +6318,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs281'(_Config) ->
+'CastableAs281'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs281.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5767,11 +6333,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs282'(_Config) ->
+'CastableAs282'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs282.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5780,11 +6348,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs283'(_Config) ->
+'CastableAs283'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs283.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5793,11 +6363,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs284'(_Config) ->
+'CastableAs284'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"PT10H\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs284.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5806,11 +6378,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs285'(_Config) ->
+'CastableAs285'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs285.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5819,11 +6393,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs286'(_Config) ->
+'CastableAs286'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"PT10H\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs286.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5832,11 +6408,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs287'(_Config) ->
+'CastableAs287'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P24M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs287.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5845,11 +6423,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs288'(_Config) ->
+'CastableAs288'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs288.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5858,11 +6438,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs289'(_Config) ->
+'CastableAs289'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"PT10H\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs289.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5871,11 +6453,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs290'(_Config) ->
+'CastableAs290'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P24M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs290.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5884,11 +6468,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs291'(_Config) ->
+'CastableAs291'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs291.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5897,11 +6483,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs292'(_Config) ->
+'CastableAs292'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs292.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5910,11 +6498,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs293'(_Config) ->
+'CastableAs293'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs293.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5923,11 +6513,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs294'(_Config) ->
+'CastableAs294'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs294.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5936,11 +6528,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs295'(_Config) ->
+'CastableAs295'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs295.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5949,11 +6543,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs296'(_Config) ->
+'CastableAs296'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs296.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5962,11 +6558,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs297'(_Config) ->
+'CastableAs297'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs297.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5975,11 +6573,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs298'(_Config) ->
+'CastableAs298'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs298.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -5988,11 +6588,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs299'(_Config) ->
+'CastableAs299'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs299.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6001,11 +6603,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs300'(_Config) ->
+'CastableAs300'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs300.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6014,11 +6618,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs301'(_Config) ->
+'CastableAs301'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs301.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6027,11 +6633,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs302'(_Config) ->
+'CastableAs302'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs302.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6040,11 +6648,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs303'(_Config) ->
+'CastableAs303'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs303.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6053,11 +6663,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs304'(_Config) ->
+'CastableAs304'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs304.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6066,11 +6678,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs305'(_Config) ->
+'CastableAs305'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs305.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6079,11 +6693,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs306'(_Config) ->
+'CastableAs306'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs306.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6092,11 +6708,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs307'(_Config) ->
+'CastableAs307'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs307.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6105,11 +6723,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs308'(_Config) ->
+'CastableAs308'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs308.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6118,11 +6738,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs309'(_Config) ->
+'CastableAs309'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs309.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6131,11 +6753,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs310'(_Config) ->
+'CastableAs310'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs310.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6144,11 +6768,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs311'(_Config) ->
+'CastableAs311'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"-P21M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs311.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6157,11 +6783,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs312'(_Config) ->
+'CastableAs312'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs312.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6170,11 +6798,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs313'(_Config) ->
+'CastableAs313'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs313.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6183,11 +6813,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs314'(_Config) ->
+'CastableAs314'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs314.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6196,11 +6828,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs315'(_Config) ->
+'CastableAs315'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs315.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6209,11 +6843,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs316'(_Config) ->
+'CastableAs316'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs316.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6222,11 +6858,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs317'(_Config) ->
+'CastableAs317'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs317.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6235,11 +6873,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs318'(_Config) ->
+'CastableAs318'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs318.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6248,11 +6888,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs319'(_Config) ->
+'CastableAs319'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs319.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6261,11 +6903,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs320'(_Config) ->
+'CastableAs320'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs320.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6274,11 +6918,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs321'(_Config) ->
+'CastableAs321'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs321.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6287,11 +6933,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs322'(_Config) ->
+'CastableAs322'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs322.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6300,11 +6948,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs323'(_Config) ->
+'CastableAs323'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs323.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6313,11 +6963,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs324'(_Config) ->
+'CastableAs324'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs324.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6326,11 +6978,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs325'(_Config) ->
+'CastableAs325'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs325.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6339,11 +6993,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs326'(_Config) ->
+'CastableAs326'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs326.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6352,11 +7008,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs327'(_Config) ->
+'CastableAs327'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs327.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6365,11 +7023,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs328'(_Config) ->
+'CastableAs328'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs328.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6378,11 +7038,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs329'(_Config) ->
+'CastableAs329'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs329.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6391,11 +7053,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs330'(_Config) ->
+'CastableAs330'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs330.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6404,11 +7068,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs331'(_Config) ->
+'CastableAs331'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs331.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6417,11 +7083,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs332'(_Config) ->
+'CastableAs332'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs332.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6430,11 +7098,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs333'(_Config) ->
+'CastableAs333'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs333.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6443,11 +7113,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs334'(_Config) ->
+'CastableAs334'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"PT24H\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs334.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6456,11 +7128,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs335'(_Config) ->
+'CastableAs335'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs335.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6469,11 +7143,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs336'(_Config) ->
+'CastableAs336'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs336.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6482,11 +7158,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs337'(_Config) ->
+'CastableAs337'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs337.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6495,11 +7173,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs338'(_Config) ->
+'CastableAs338'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P14D\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs338.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6508,11 +7188,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs339'(_Config) ->
+'CastableAs339'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs339.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6521,11 +7203,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs340'(_Config) ->
+'CastableAs340'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs340.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6534,11 +7218,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs341'(_Config) ->
+'CastableAs341'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs341.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6547,11 +7233,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs342'(_Config) ->
+'CastableAs342'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs342.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6560,11 +7248,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs343'(_Config) ->
+'CastableAs343'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs343.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6573,11 +7263,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs344'(_Config) ->
+'CastableAs344'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs344.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6586,11 +7278,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs345'(_Config) ->
+'CastableAs345'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs345.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6599,11 +7293,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs346'(_Config) ->
+'CastableAs346'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs346.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6612,11 +7308,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs347'(_Config) ->
+'CastableAs347'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs347.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6625,11 +7323,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs348'(_Config) ->
+'CastableAs348'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs348.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6638,11 +7338,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs349'(_Config) ->
+'CastableAs349'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs349.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6651,11 +7353,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs350'(_Config) ->
+'CastableAs350'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs350.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6664,11 +7368,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs351'(_Config) ->
+'CastableAs351'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs351.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6677,11 +7383,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs352'(_Config) ->
+'CastableAs352'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs352.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6690,11 +7398,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs353'(_Config) ->
+'CastableAs353'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs353.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6703,11 +7413,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs354'(_Config) ->
+'CastableAs354'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs354.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6716,11 +7428,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs355'(_Config) ->
+'CastableAs355'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs355.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6729,11 +7443,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs356'(_Config) ->
+'CastableAs356'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs356.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6742,11 +7458,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs357'(_Config) ->
+'CastableAs357'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2000-01-16T00:00:00Z\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs357.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6755,11 +7473,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs358'(_Config) ->
+'CastableAs358'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs358.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6768,11 +7488,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs359'(_Config) ->
+'CastableAs359'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs359.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6781,11 +7503,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs360'(_Config) ->
+'CastableAs360'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs360.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6794,11 +7518,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs361'(_Config) ->
+'CastableAs361'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs361.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6807,11 +7533,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs362'(_Config) ->
+'CastableAs362'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs362.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6820,11 +7548,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs363'(_Config) ->
+'CastableAs363'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs363.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6833,11 +7563,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs364'(_Config) ->
+'CastableAs364'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs364.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6846,11 +7578,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs365'(_Config) ->
+'CastableAs365'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs365.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6859,11 +7593,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs366'(_Config) ->
+'CastableAs366'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs366.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6872,11 +7608,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs367'(_Config) ->
+'CastableAs367'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs367.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6885,11 +7623,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs368'(_Config) ->
+'CastableAs368'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs368.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6898,11 +7638,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs369'(_Config) ->
+'CastableAs369'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs369.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6911,11 +7653,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs370'(_Config) ->
+'CastableAs370'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs370.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6924,11 +7668,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs371'(_Config) ->
+'CastableAs371'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs371.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6937,11 +7683,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs372'(_Config) ->
+'CastableAs372'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs372.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6950,11 +7698,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs373'(_Config) ->
+'CastableAs373'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs373.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6963,11 +7713,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs374'(_Config) ->
+'CastableAs374'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs374.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6976,11 +7728,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs375'(_Config) ->
+'CastableAs375'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs375.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6989,11 +7743,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs376'(_Config) ->
+'CastableAs376'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs376.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7002,11 +7758,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs377'(_Config) ->
+'CastableAs377'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs377.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7015,11 +7773,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs378'(_Config) ->
+'CastableAs378'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs378.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7028,11 +7788,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs379'(_Config) ->
+'CastableAs379'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs379.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7041,11 +7803,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs380'(_Config) ->
+'CastableAs380'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs380.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7054,11 +7818,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs381'(_Config) ->
+'CastableAs381'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs381.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7067,11 +7833,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs382'(_Config) ->
+'CastableAs382'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs382.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7080,11 +7848,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs383'(_Config) ->
+'CastableAs383'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs383.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7093,11 +7863,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs384'(_Config) ->
+'CastableAs384'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs384.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7106,11 +7878,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs385'(_Config) ->
+'CastableAs385'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs385.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7119,11 +7893,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs386'(_Config) ->
+'CastableAs386'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs386.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7132,11 +7908,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs387'(_Config) ->
+'CastableAs387'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs387.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7145,11 +7923,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs388'(_Config) ->
+'CastableAs388'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs388.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7158,11 +7938,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs389'(_Config) ->
+'CastableAs389'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs389.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7171,11 +7953,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs390'(_Config) ->
+'CastableAs390'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs390.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7184,11 +7968,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs391'(_Config) ->
+'CastableAs391'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs391.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7197,11 +7983,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs392'(_Config) ->
+'CastableAs392'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs392.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7210,11 +7998,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs393'(_Config) ->
+'CastableAs393'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:02.123\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs393.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7223,11 +8013,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs394'(_Config) ->
+'CastableAs394'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00Z\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs394.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7236,11 +8028,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs395'(_Config) ->
+'CastableAs395'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs395.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7249,11 +8043,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs396'(_Config) ->
+'CastableAs396'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs396.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7262,11 +8058,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs397'(_Config) ->
+'CastableAs397'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs397.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7275,11 +8073,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs398'(_Config) ->
+'CastableAs398'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs398.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7288,11 +8088,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs399'(_Config) ->
+'CastableAs399'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs399.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7301,11 +8103,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs400'(_Config) ->
+'CastableAs400'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs400.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7314,11 +8118,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs401'(_Config) ->
+'CastableAs401'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs401.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7327,11 +8133,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs402'(_Config) ->
+'CastableAs402'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs402.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7340,11 +8148,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs403'(_Config) ->
+'CastableAs403'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs403.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7353,11 +8163,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs404'(_Config) ->
+'CastableAs404'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs404.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7366,11 +8178,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs405'(_Config) ->
+'CastableAs405'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs405.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7379,11 +8193,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs406'(_Config) ->
+'CastableAs406'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs406.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
@@ -7400,11 +8216,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs407'(_Config) ->
+'CastableAs407'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs407.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7413,11 +8231,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs408'(_Config) ->
+'CastableAs408'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs408.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -7434,11 +8254,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs409'(_Config) ->
+'CastableAs409'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs409.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7447,11 +8269,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs410'(_Config) ->
+'CastableAs410'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs410.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7460,11 +8284,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs411'(_Config) ->
+'CastableAs411'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs411.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7473,11 +8299,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs412'(_Config) ->
+'CastableAs412'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs412.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7486,11 +8314,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs413'(_Config) ->
+'CastableAs413'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs413.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7499,11 +8329,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs414'(_Config) ->
+'CastableAs414'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs414.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7512,11 +8344,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs415'(_Config) ->
+'CastableAs415'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs415.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7525,11 +8359,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs416'(_Config) ->
+'CastableAs416'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs416.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7538,11 +8374,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs417'(_Config) ->
+'CastableAs417'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs417.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7551,11 +8389,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs418'(_Config) ->
+'CastableAs418'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs418.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7564,11 +8404,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs419'(_Config) ->
+'CastableAs419'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs419.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -7585,11 +8427,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs420'(_Config) ->
+'CastableAs420'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs420.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7598,11 +8442,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs421'(_Config) ->
+'CastableAs421'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs421.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7611,11 +8457,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs422'(_Config) ->
+'CastableAs422'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs422.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7624,11 +8472,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs423'(_Config) ->
+'CastableAs423'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs423.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -7645,11 +8495,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs424'(_Config) ->
+'CastableAs424'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs424.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7658,11 +8510,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs425'(_Config) ->
+'CastableAs425'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs425.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7671,11 +8525,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs426'(_Config) ->
+'CastableAs426'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs426.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -7692,11 +8548,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs427'(_Config) ->
+'CastableAs427'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs427.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7705,11 +8563,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs428'(_Config) ->
+'CastableAs428'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs428.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7718,11 +8578,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs429'(_Config) ->
+'CastableAs429'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs429.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -7739,11 +8601,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs430'(_Config) ->
+'CastableAs430'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs430.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7752,11 +8616,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs431'(_Config) ->
+'CastableAs431'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs431.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7765,11 +8631,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs432'(_Config) ->
+'CastableAs432'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs432.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7778,11 +8646,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs433'(_Config) ->
+'CastableAs433'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs433.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7791,11 +8661,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs434'(_Config) ->
+'CastableAs434'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs434.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7804,11 +8676,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs435'(_Config) ->
+'CastableAs435'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs435.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7817,11 +8691,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs436'(_Config) ->
+'CastableAs436'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs436.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7830,11 +8706,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs437'(_Config) ->
+'CastableAs437'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs437.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7843,11 +8721,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs438'(_Config) ->
+'CastableAs438'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs438.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7856,11 +8736,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs439'(_Config) ->
+'CastableAs439'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs439.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7869,11 +8751,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs440'(_Config) ->
+'CastableAs440'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs440.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7882,11 +8766,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs441'(_Config) ->
+'CastableAs441'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs441.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7895,11 +8781,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs442'(_Config) ->
+'CastableAs442'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs442.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7908,11 +8796,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs443'(_Config) ->
+'CastableAs443'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs443.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7921,11 +8811,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs444'(_Config) ->
+'CastableAs444'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs444.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7934,11 +8826,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs445'(_Config) ->
+'CastableAs445'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs445.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7947,11 +8841,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs446'(_Config) ->
+'CastableAs446'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs446.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7960,11 +8856,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs447'(_Config) ->
+'CastableAs447'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs447.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -7973,11 +8871,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs448'(_Config) ->
+'CastableAs448'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs448.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7986,11 +8886,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs449'(_Config) ->
+'CastableAs449'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"-0012-12-05:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs449.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -7999,11 +8901,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs450'(_Config) ->
+'CastableAs450'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs450.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8012,11 +8916,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs451'(_Config) ->
+'CastableAs451'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs451.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8025,11 +8931,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs452'(_Config) ->
+'CastableAs452'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs452.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8038,11 +8946,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs453'(_Config) ->
+'CastableAs453'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs453.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8051,11 +8961,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs454'(_Config) ->
+'CastableAs454'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs454.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8064,11 +8976,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs455'(_Config) ->
+'CastableAs455'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs455.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8077,11 +8991,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs456'(_Config) ->
+'CastableAs456'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs456.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8090,11 +9006,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs457'(_Config) ->
+'CastableAs457'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs457.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8103,11 +9021,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs458'(_Config) ->
+'CastableAs458'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs458.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8116,11 +9036,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs459'(_Config) ->
+'CastableAs459'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs459.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8129,11 +9051,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs460'(_Config) ->
+'CastableAs460'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs460.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8142,11 +9066,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs461'(_Config) ->
+'CastableAs461'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs461.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8155,11 +9081,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs462'(_Config) ->
+'CastableAs462'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs462.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8168,11 +9096,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs463'(_Config) ->
+'CastableAs463'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs463.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8181,11 +9111,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs464'(_Config) ->
+'CastableAs464'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs464.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8194,11 +9126,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs465'(_Config) ->
+'CastableAs465'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs465.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8207,11 +9141,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs466'(_Config) ->
+'CastableAs466'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs466.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8220,11 +9156,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs467'(_Config) ->
+'CastableAs467'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs467.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8233,11 +9171,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs468'(_Config) ->
+'CastableAs468'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs468.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8246,11 +9186,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs469'(_Config) ->
+'CastableAs469'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs469.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8259,11 +9201,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs470'(_Config) ->
+'CastableAs470'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs470.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8272,11 +9216,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs471'(_Config) ->
+'CastableAs471'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs471.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8285,11 +9231,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs472'(_Config) ->
+'CastableAs472'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"-0012-05:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs472.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8298,11 +9246,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs473'(_Config) ->
+'CastableAs473'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999Z\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs473.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8311,11 +9261,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs474'(_Config) ->
+'CastableAs474'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs474.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8324,11 +9276,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs475'(_Config) ->
+'CastableAs475'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs475.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8337,11 +9291,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs476'(_Config) ->
+'CastableAs476'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs476.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8350,11 +9306,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs477'(_Config) ->
+'CastableAs477'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs477.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8363,11 +9321,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs478'(_Config) ->
+'CastableAs478'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs478.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8376,11 +9336,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs479'(_Config) ->
+'CastableAs479'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs479.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8389,11 +9351,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs480'(_Config) ->
+'CastableAs480'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs480.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8402,11 +9366,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs481'(_Config) ->
+'CastableAs481'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs481.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8415,11 +9381,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs482'(_Config) ->
+'CastableAs482'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs482.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8428,11 +9396,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs483'(_Config) ->
+'CastableAs483'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs483.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8441,11 +9411,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs484'(_Config) ->
+'CastableAs484'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs484.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8454,11 +9426,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs485'(_Config) ->
+'CastableAs485'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs485.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8467,11 +9441,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs486'(_Config) ->
+'CastableAs486'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs486.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8480,11 +9456,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs487'(_Config) ->
+'CastableAs487'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs487.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8493,11 +9471,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs488'(_Config) ->
+'CastableAs488'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs488.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8506,11 +9486,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs489'(_Config) ->
+'CastableAs489'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs489.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8519,11 +9501,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs490'(_Config) ->
+'CastableAs490'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs490.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8532,11 +9516,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs491'(_Config) ->
+'CastableAs491'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs491.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8545,11 +9531,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs492'(_Config) ->
+'CastableAs492'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs492.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8558,11 +9546,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs493'(_Config) ->
+'CastableAs493'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs493.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8571,11 +9561,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs494'(_Config) ->
+'CastableAs494'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs494.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8584,11 +9576,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs495'(_Config) ->
+'CastableAs495'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs495.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8597,11 +9591,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs496'(_Config) ->
+'CastableAs496'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--12-03-05:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs496.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8610,11 +9606,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs497'(_Config) ->
+'CastableAs497'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31Z\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs497.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8623,11 +9621,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs498'(_Config) ->
+'CastableAs498'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs498.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8636,11 +9636,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs499'(_Config) ->
+'CastableAs499'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs499.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8649,11 +9651,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs500'(_Config) ->
+'CastableAs500'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs500.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8662,11 +9666,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs501'(_Config) ->
+'CastableAs501'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs501.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8675,11 +9681,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs502'(_Config) ->
+'CastableAs502'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs502.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8688,11 +9696,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs503'(_Config) ->
+'CastableAs503'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs503.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8701,11 +9711,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs504'(_Config) ->
+'CastableAs504'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs504.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8714,11 +9726,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs505'(_Config) ->
+'CastableAs505'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs505.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8727,11 +9741,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs506'(_Config) ->
+'CastableAs506'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs506.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8740,11 +9756,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs507'(_Config) ->
+'CastableAs507'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs507.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8753,11 +9771,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs508'(_Config) ->
+'CastableAs508'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs508.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8766,11 +9786,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs509'(_Config) ->
+'CastableAs509'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs509.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8779,11 +9801,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs510'(_Config) ->
+'CastableAs510'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs510.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8792,11 +9816,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs511'(_Config) ->
+'CastableAs511'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs511.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8805,11 +9831,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs512'(_Config) ->
+'CastableAs512'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs512.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8818,11 +9846,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs513'(_Config) ->
+'CastableAs513'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs513.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8831,11 +9861,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs514'(_Config) ->
+'CastableAs514'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs514.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8844,11 +9876,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs515'(_Config) ->
+'CastableAs515'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs515.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8857,11 +9891,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs516'(_Config) ->
+'CastableAs516'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs516.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8870,11 +9906,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs517'(_Config) ->
+'CastableAs517'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs517.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8883,11 +9921,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs518'(_Config) ->
+'CastableAs518'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs518.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8896,11 +9936,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs519'(_Config) ->
+'CastableAs519'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs519.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8909,11 +9951,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs520'(_Config) ->
+'CastableAs520'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---03-05:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs520.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8922,11 +9966,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs521'(_Config) ->
+'CastableAs521'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31Z\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs521.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -8935,11 +9981,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs522'(_Config) ->
+'CastableAs522'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs522.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8948,11 +9996,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs523'(_Config) ->
+'CastableAs523'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs523.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8961,11 +10011,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs524'(_Config) ->
+'CastableAs524'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs524.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8974,11 +10026,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs525'(_Config) ->
+'CastableAs525'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs525.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -8987,11 +10041,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs526'(_Config) ->
+'CastableAs526'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs526.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9000,11 +10056,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs527'(_Config) ->
+'CastableAs527'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs527.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9013,11 +10071,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs528'(_Config) ->
+'CastableAs528'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs528.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9026,11 +10086,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs529'(_Config) ->
+'CastableAs529'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs529.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9039,11 +10101,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs530'(_Config) ->
+'CastableAs530'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs530.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9052,11 +10116,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs531'(_Config) ->
+'CastableAs531'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs531.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9065,11 +10131,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs532'(_Config) ->
+'CastableAs532'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs532.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9078,11 +10146,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs533'(_Config) ->
+'CastableAs533'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs533.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9091,11 +10161,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs534'(_Config) ->
+'CastableAs534'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs534.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9104,11 +10176,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs535'(_Config) ->
+'CastableAs535'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs535.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9117,11 +10191,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs536'(_Config) ->
+'CastableAs536'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs536.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9130,11 +10206,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs537'(_Config) ->
+'CastableAs537'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs537.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9143,11 +10221,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs538'(_Config) ->
+'CastableAs538'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs538.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9156,11 +10236,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs539'(_Config) ->
+'CastableAs539'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs539.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9169,11 +10251,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs540'(_Config) ->
+'CastableAs540'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs540.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9182,11 +10266,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs541'(_Config) ->
+'CastableAs541'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs541.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9195,11 +10281,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs542'(_Config) ->
+'CastableAs542'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs542.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9208,11 +10296,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs543'(_Config) ->
+'CastableAs543'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs543.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9221,11 +10311,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs544'(_Config) ->
+'CastableAs544'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--12-05:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs544.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9234,11 +10326,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs545'(_Config) ->
+'CastableAs545'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05Z\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs545.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9247,11 +10341,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs546'(_Config) ->
+'CastableAs546'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs546.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9260,11 +10356,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs547'(_Config) ->
+'CastableAs547'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs547.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9273,11 +10371,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs548'(_Config) ->
+'CastableAs548'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs548.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9286,11 +10386,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs549'(_Config) ->
+'CastableAs549'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs549.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9299,11 +10401,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs550'(_Config) ->
+'CastableAs550'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs550.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9312,11 +10416,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs551'(_Config) ->
+'CastableAs551'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs551.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9325,11 +10431,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs552'(_Config) ->
+'CastableAs552'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs552.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9338,11 +10446,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs553'(_Config) ->
+'CastableAs553'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"false\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs553.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9351,11 +10461,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs554'(_Config) ->
+'CastableAs554'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs554.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9364,11 +10476,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs555'(_Config) ->
+'CastableAs555'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"false\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs555.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9377,11 +10491,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs556'(_Config) ->
+'CastableAs556'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs556.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9390,11 +10506,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs557'(_Config) ->
+'CastableAs557'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"false\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs557.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9403,11 +10521,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs558'(_Config) ->
+'CastableAs558'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs558.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9416,11 +10536,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs559'(_Config) ->
+'CastableAs559'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"false\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs559.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9429,11 +10551,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs560'(_Config) ->
+'CastableAs560'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs560.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9442,11 +10566,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs561'(_Config) ->
+'CastableAs561'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs561.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9455,11 +10581,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs562'(_Config) ->
+'CastableAs562'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs562.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9468,11 +10596,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs563'(_Config) ->
+'CastableAs563'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs563.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9481,11 +10611,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs564'(_Config) ->
+'CastableAs564'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs564.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9494,11 +10626,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs565'(_Config) ->
+'CastableAs565'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs565.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9507,11 +10641,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs566'(_Config) ->
+'CastableAs566'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs566.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9520,11 +10656,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs567'(_Config) ->
+'CastableAs567'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs567.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9533,11 +10671,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs568'(_Config) ->
+'CastableAs568'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs568.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9546,11 +10686,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs569'(_Config) ->
+'CastableAs569'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs569.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9559,11 +10701,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs570'(_Config) ->
+'CastableAs570'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs570.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9572,11 +10716,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs571'(_Config) ->
+'CastableAs571'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs571.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9585,11 +10731,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs572'(_Config) ->
+'CastableAs572'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"false\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs572.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9598,11 +10746,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs573'(_Config) ->
+'CastableAs573'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs573.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9611,11 +10761,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs574'(_Config) ->
+'CastableAs574'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs574.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9624,11 +10776,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs575'(_Config) ->
+'CastableAs575'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs575.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9637,11 +10791,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs576'(_Config) ->
+'CastableAs576'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"01001010\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs576.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9650,11 +10806,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs577'(_Config) ->
+'CastableAs577'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs577.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9663,11 +10821,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs578'(_Config) ->
+'CastableAs578'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"01001010\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs578.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9676,11 +10836,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs579'(_Config) ->
+'CastableAs579'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs579.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9689,11 +10851,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs580'(_Config) ->
+'CastableAs580'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs580.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9702,11 +10866,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs581'(_Config) ->
+'CastableAs581'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs581.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9715,11 +10881,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs582'(_Config) ->
+'CastableAs582'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs582.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9728,11 +10896,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs583'(_Config) ->
+'CastableAs583'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs583.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9741,11 +10911,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs584'(_Config) ->
+'CastableAs584'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs584.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9754,11 +10926,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs585'(_Config) ->
+'CastableAs585'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs585.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9767,11 +10941,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs586'(_Config) ->
+'CastableAs586'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs586.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9780,11 +10956,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs587'(_Config) ->
+'CastableAs587'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs587.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9793,11 +10971,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs588'(_Config) ->
+'CastableAs588'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs588.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9806,11 +10986,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs589'(_Config) ->
+'CastableAs589'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs589.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9819,11 +11001,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs590'(_Config) ->
+'CastableAs590'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs590.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9832,11 +11016,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs591'(_Config) ->
+'CastableAs591'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs591.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9845,11 +11031,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs592'(_Config) ->
+'CastableAs592'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs592.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9858,11 +11046,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs593'(_Config) ->
+'CastableAs593'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs593.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9871,11 +11061,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs594'(_Config) ->
+'CastableAs594'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs594.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9884,11 +11076,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs595'(_Config) ->
+'CastableAs595'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs595.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9897,11 +11091,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs596'(_Config) ->
+'CastableAs596'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"01001010\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs596.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9910,11 +11106,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs597'(_Config) ->
+'CastableAs597'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs597.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9923,11 +11121,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs598'(_Config) ->
+'CastableAs598'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"00000000\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs598.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9936,11 +11136,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs599'(_Config) ->
+'CastableAs599'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs599.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9949,11 +11151,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs600'(_Config) ->
+'CastableAs600'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"aA+zZ/09\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs600.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9962,11 +11166,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs601'(_Config) ->
+'CastableAs601'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs601.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -9975,11 +11181,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs602'(_Config) ->
+'CastableAs602'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs602.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -9988,11 +11196,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs603'(_Config) ->
+'CastableAs603'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs603.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10001,11 +11211,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs604'(_Config) ->
+'CastableAs604'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs604.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10014,11 +11226,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs605'(_Config) ->
+'CastableAs605'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs605.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10027,11 +11241,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs606'(_Config) ->
+'CastableAs606'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs606.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10040,11 +11256,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs607'(_Config) ->
+'CastableAs607'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs607.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10053,11 +11271,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs608'(_Config) ->
+'CastableAs608'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs608.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10066,11 +11286,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs609'(_Config) ->
+'CastableAs609'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs609.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10079,11 +11301,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs610'(_Config) ->
+'CastableAs610'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs610.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10092,11 +11316,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs611'(_Config) ->
+'CastableAs611'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs611.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10105,11 +11331,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs612'(_Config) ->
+'CastableAs612'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs612.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10118,11 +11346,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs613'(_Config) ->
+'CastableAs613'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs613.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10131,11 +11361,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs614'(_Config) ->
+'CastableAs614'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs614.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10144,11 +11376,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs615'(_Config) ->
+'CastableAs615'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs615.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10157,11 +11391,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs616'(_Config) ->
+'CastableAs616'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs616.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10170,11 +11406,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs617'(_Config) ->
+'CastableAs617'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs617.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10183,11 +11421,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs618'(_Config) ->
+'CastableAs618'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs618.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10196,11 +11436,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs619'(_Config) ->
+'CastableAs619'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs619.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10209,11 +11451,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs620'(_Config) ->
+'CastableAs620'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs620.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10222,11 +11466,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs621'(_Config) ->
+'CastableAs621'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs621.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10235,11 +11481,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs622'(_Config) ->
+'CastableAs622'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"0fb7\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs622.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10248,11 +11496,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs623'(_Config) ->
+'CastableAs623'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs623.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10261,11 +11511,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs624'(_Config) ->
+'CastableAs624'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"d74d35d35d35\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs624.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10274,11 +11526,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs625'(_Config) ->
+'CastableAs625'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs625.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10287,11 +11541,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs626'(_Config) ->
+'CastableAs626'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs626.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10300,11 +11556,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs627'(_Config) ->
+'CastableAs627'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs627.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10313,11 +11571,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs628'(_Config) ->
+'CastableAs628'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs628.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10326,11 +11586,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs629'(_Config) ->
+'CastableAs629'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs629.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10339,11 +11601,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs630'(_Config) ->
+'CastableAs630'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs630.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10352,11 +11616,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs631'(_Config) ->
+'CastableAs631'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs631.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10365,11 +11631,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs632'(_Config) ->
+'CastableAs632'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs632.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10378,11 +11646,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs633'(_Config) ->
+'CastableAs633'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs633.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10391,11 +11661,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs634'(_Config) ->
+'CastableAs634'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs634.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10404,11 +11676,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs635'(_Config) ->
+'CastableAs635'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs635.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10417,11 +11691,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs636'(_Config) ->
+'CastableAs636'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs636.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10430,11 +11706,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs637'(_Config) ->
+'CastableAs637'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs637.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10443,11 +11721,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs638'(_Config) ->
+'CastableAs638'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs638.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10456,11 +11736,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs639'(_Config) ->
+'CastableAs639'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs639.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10469,11 +11751,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs640'(_Config) ->
+'CastableAs640'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs640.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10482,11 +11766,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs641'(_Config) ->
+'CastableAs641'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs641.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10495,11 +11781,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs642'(_Config) ->
+'CastableAs642'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs642.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10508,11 +11796,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs643'(_Config) ->
+'CastableAs643'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs643.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10521,11 +11811,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs644'(_Config) ->
+'CastableAs644'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs644.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10534,11 +11826,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs645'(_Config) ->
+'CastableAs645'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs645.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -10547,11 +11841,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs646'(_Config) ->
+'CastableAs646'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs646.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10560,11 +11856,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs647'(_Config) ->
+'CastableAs647'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"ABC\" castable as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs647.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10573,13 +11871,16 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs648'(_Config) ->
+'CastableAs648'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20 XQ10"}.
-'CastableAs648a'(_Config) ->
+'CastableAs648a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var := \"ABC\" return $var castable as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs648a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10588,12 +11889,14 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs649'(_Config) ->
+'CastableAs649'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(//employee[salary castable as xs:integer][xs:integer(salary) gt 65000])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs649.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -10602,12 +11905,14 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs650'(_Config) ->
+'CastableAs650'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(//employee[if (salary castable as xs:integer) then xs:integer(salary) gt 65000 else false()])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "CastableAs650.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -10616,35 +11921,49 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'CastableAs651'(_Config) ->
+'CastableAs651'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'CastableAs652'(_Config) ->
+'CastableAs652'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'CastableAs653'(_Config) ->
+'CastableAs653'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'CastableAs654'(_Config) ->
+'CastableAs654'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'CastableAs655'(_Config) ->
+'CastableAs655'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'CastableAs656'(_Config) ->
+'CastableAs656'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'CastableAs657'(_Config) ->
+'CastableAs657'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'CastableAs658'(_Config) ->
+'CastableAs658'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'CastableAs659'(_Config) ->
+'CastableAs659'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'CastableAs660'(_Config) ->
+'CastableAs660'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'CastableAs661'(_Config) ->
+'CastableAs661'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'CastableAs662'(_Config) ->
+'CastableAs662'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'K-SeqExprCastable-1'(_Config) ->
+'K-SeqExprCastable-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'string' castable as xs:string*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -10653,11 +11972,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-2'(_Config) ->
+'K-SeqExprCastable-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'string' castable as xs:string+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -10666,11 +11987,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-3'(_Config) ->
+'K-SeqExprCastable-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(\"one\", \"two\") castable as xs:string+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -10679,13 +12002,16 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-4'(_Config) ->
+'K-SeqExprCastable-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'K-SeqExprCastable-4a'(_Config) ->
+'K-SeqExprCastable-4a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'string' castable as xs:anyType*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-4a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -10702,13 +12028,16 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-5'(_Config) ->
+'K-SeqExprCastable-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'K-SeqExprCastable-5a'(_Config) ->
+'K-SeqExprCastable-5a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'string' castable as xs:anySimpleType",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-5a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -10717,13 +12046,16 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-6'(_Config) ->
+'K-SeqExprCastable-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'K-SeqExprCastable-6a'(_Config) ->
+'K-SeqExprCastable-6a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'string' castable as xs:untyped",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-6a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0052") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -10732,11 +12064,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-7'(_Config) ->
+'K-SeqExprCastable-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'string' castable as xs:anyAtomicType",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -10745,11 +12079,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-8'(_Config) ->
+'K-SeqExprCastable-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"notation is abstract\" castable as xs:NOTATION?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -10758,11 +12094,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-9'(_Config) ->
+'K-SeqExprCastable-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() castable as xs:NOTATION?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -10771,11 +12109,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-10'(_Config) ->
+'K-SeqExprCastable-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"notation is abstract\" castable as xs:NOTATION",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -10784,11 +12124,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-11'(_Config) ->
+'K-SeqExprCastable-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() castable as xs:NOTATION",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -10797,13 +12139,16 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-12'(_Config) ->
+'K-SeqExprCastable-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'K-SeqExprCastable-12a'(_Config) ->
+'K-SeqExprCastable-12a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(xs:double(1), xs:double(2), xs:double(3)) castable as xs:double*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-12a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -10820,13 +12165,16 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-13'(_Config) ->
+'K-SeqExprCastable-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'K-SeqExprCastable-13a'(_Config) ->
+'K-SeqExprCastable-13a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'string' castable as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-13a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -10843,11 +12191,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-14'(_Config) ->
+'K-SeqExprCastable-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'string' castable as node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -10864,11 +12214,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-15'(_Config) ->
+'K-SeqExprCastable-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'string' castable as attribute()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -10885,11 +12237,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-16'(_Config) ->
+'K-SeqExprCastable-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'string' castable as empty-sequence()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -10906,11 +12260,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-17'(_Config) ->
+'K-SeqExprCastable-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(QName(\"\", \"lname\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10919,11 +12275,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-18'(_Config) ->
+'K-SeqExprCastable-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"\", \"lname\") castable as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10932,11 +12290,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-19'(_Config) ->
+'K-SeqExprCastable-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"ncname\" castable as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10945,11 +12305,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-20'(_Config) ->
+'K-SeqExprCastable-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(() castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10958,11 +12320,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-21'(_Config) ->
+'K-SeqExprCastable-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() castable as xs:QName?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -10971,11 +12335,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-22'(_Config) ->
+'K-SeqExprCastable-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(xs:untypedAtomic(\"ncname\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -10992,11 +12358,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-23'(_Config) ->
+'K-SeqExprCastable-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((\"one\", \"two\") castable as xs:string?)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11005,11 +12373,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-24'(_Config) ->
+'K-SeqExprCastable-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not('string' castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11018,11 +12388,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-25'(_Config) ->
+'K-SeqExprCastable-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'true' castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11031,11 +12403,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-26'(_Config) ->
+'K-SeqExprCastable-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(1) castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11044,11 +12418,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-27'(_Config) ->
+'K-SeqExprCastable-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(1) castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11057,11 +12433,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-28'(_Config) ->
+'K-SeqExprCastable-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(1) castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11070,11 +12448,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-29'(_Config) ->
+'K-SeqExprCastable-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(xs:anyURI(\"example.com/\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11083,11 +12463,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-30'(_Config) ->
+'K-SeqExprCastable-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(\"three\" castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11096,11 +12478,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-31'(_Config) ->
+'K-SeqExprCastable-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(\"three\" castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11109,11 +12493,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-32'(_Config) ->
+'K-SeqExprCastable-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(\"three\" castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11122,11 +12508,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-33'(_Config) ->
+'K-SeqExprCastable-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(\"three\" castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11135,11 +12523,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-34'(_Config) ->
+'K-SeqExprCastable-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((1, 2, 3) castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11148,11 +12538,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-35'(_Config) ->
+'K-SeqExprCastable-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(() castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11161,11 +12553,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-36'(_Config) ->
+'K-SeqExprCastable-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() castable as xs:integer?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11174,11 +12568,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-37'(_Config) ->
+'K-SeqExprCastable-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1) castable as xs:integer?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11187,11 +12583,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprCastable-38'(_Config) ->
+'K-SeqExprCastable-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((\"one\", \"two\") castable as xs:string?)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprCastable-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11200,11 +12598,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprCastable-1'(_Config) ->
+'K2-SeqExprCastable-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(QName(\"http://example.com/ANamespace\", \"ncname\"), QName(\"http://example.com/ANamespace\", \"ncname2\"), QName(\"http://example.com/ANamespace\", \"ncname3\")) castable as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprCastable-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11213,11 +12613,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprCastable-2'(_Config) ->
+'K2-SeqExprCastable-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(QName(\"http://example.com/ANamespace\", \"ncname\"), QName(\"http://example.com/ANamespace\", \"ncname2\"), QName(\"http://example.com/ANamespace\", \"ncname3\")) castable as xs:QName?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprCastable-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11226,11 +12628,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprCastable-3'(_Config) ->
+'K2-SeqExprCastable-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1 div 0) castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprCastable-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -11247,11 +12651,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprCastable-4'(_Config) ->
+'K2-SeqExprCastable-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "concat(\"2007-01-3\", 1 div 0) castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprCastable-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -11260,11 +12666,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprCastable-5'(_Config) ->
+'K2-SeqExprCastable-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(\"52\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprCastable-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11273,11 +12681,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprCastable-6'(_Config) ->
+'K2-SeqExprCastable-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"%\" castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprCastable-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11286,11 +12696,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprCastable-7'(_Config) ->
+'K2-SeqExprCastable-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:untypedAtomic(\"%\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprCastable-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11299,11 +12711,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprCastable-8'(_Config) ->
+'K2-SeqExprCastable-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(\"http:\\\\invalid>URI\\someURI\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprCastable-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -11320,105 +12734,154 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Castable-UnionType-1'(_Config) ->
+'Castable-UnionType-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-2'(_Config) ->
+'Castable-UnionType-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-3'(_Config) ->
+'Castable-UnionType-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-4'(_Config) ->
+'Castable-UnionType-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-5'(_Config) ->
+'Castable-UnionType-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-6'(_Config) ->
+'Castable-UnionType-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-7'(_Config) ->
+'Castable-UnionType-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-8'(_Config) ->
+'Castable-UnionType-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-9'(_Config) ->
+'Castable-UnionType-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-10'(_Config) ->
+'Castable-UnionType-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-11'(_Config) ->
+'Castable-UnionType-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-12'(_Config) ->
+'Castable-UnionType-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-13'(_Config) ->
+'Castable-UnionType-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-14'(_Config) ->
+'Castable-UnionType-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-15'(_Config) ->
+'Castable-UnionType-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-16'(_Config) ->
+'Castable-UnionType-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-17'(_Config) ->
+'Castable-UnionType-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-18'(_Config) ->
+'Castable-UnionType-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-19'(_Config) ->
+'Castable-UnionType-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-20'(_Config) ->
+'Castable-UnionType-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-21'(_Config) ->
+'Castable-UnionType-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-22'(_Config) ->
+'Castable-UnionType-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-23'(_Config) ->
+'Castable-UnionType-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-24'(_Config) ->
+'Castable-UnionType-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-25'(_Config) ->
+'Castable-UnionType-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-26'(_Config) ->
+'Castable-UnionType-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-36'(_Config) ->
+'Castable-UnionType-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-37'(_Config) ->
+'Castable-UnionType-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-UnionType-38'(_Config) ->
+'Castable-UnionType-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-2'(_Config) ->
+'Castable-ListType-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-3'(_Config) ->
+'Castable-ListType-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-4'(_Config) ->
+'Castable-ListType-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-5'(_Config) ->
+'Castable-ListType-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-6'(_Config) ->
+'Castable-ListType-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-7'(_Config) ->
+'Castable-ListType-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-8'(_Config) ->
+'Castable-ListType-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-9'(_Config) ->
+'Castable-ListType-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-10'(_Config) ->
+'Castable-ListType-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-11'(_Config) ->
+'Castable-ListType-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-12'(_Config) ->
+'Castable-ListType-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-13'(_Config) ->
+'Castable-ListType-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-14'(_Config) ->
+'Castable-ListType-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-15'(_Config) ->
+'Castable-ListType-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-16'(_Config) ->
+'Castable-ListType-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-17'(_Config) ->
+'Castable-ListType-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-18'(_Config) ->
+'Castable-ListType-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'Castable-ListType-19'(_Config) ->
+'Castable-ListType-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-byte-001'(_Config) ->
+'cbcl-castable-byte-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "128 castable as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-byte-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11427,11 +12890,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-byte-002'(_Config) ->
+'cbcl-castable-byte-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-129 castable as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-byte-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11440,11 +12905,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-byte-003'(_Config) ->
+'cbcl-castable-byte-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"128\" castable as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-byte-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11453,11 +12920,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-byte-004'(_Config) ->
+'cbcl-castable-byte-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-129\" castable as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-byte-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11466,11 +12935,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-date-001'(_Config) ->
+'cbcl-castable-date-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-25252734927766555-06-06\" castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-date-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11479,11 +12950,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-date-002'(_Config) ->
+'cbcl-castable-date-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"25252734927766555-07-29\" castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-date-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11492,11 +12965,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-dateTime-001'(_Config) ->
+'cbcl-castable-dateTime-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-25252734927766555-06-06T00:00:00Z\" castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-dateTime-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11505,11 +12980,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-dateTime-002'(_Config) ->
+'cbcl-castable-dateTime-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"25252734927766555-07-29T00:00:00Z\" castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-dateTime-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11518,11 +12995,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-dayTimeDuration-001'(_Config) ->
+'cbcl-castable-dayTimeDuration-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"P11768614336404564651D\" castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-dayTimeDuration-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11531,11 +13010,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-dayTimeDuration-002'(_Config) ->
+'cbcl-castable-dayTimeDuration-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-P11768614336404564651D\" castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-dayTimeDuration-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11544,11 +13025,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-decimal-001'(_Config) ->
+'cbcl-castable-decimal-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('NaN') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-decimal-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11557,11 +13040,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-decimal-002'(_Config) ->
+'cbcl-castable-decimal-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('-INF') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-decimal-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11570,11 +13055,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-decimal-003'(_Config) ->
+'cbcl-castable-decimal-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('INF') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-decimal-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11583,11 +13070,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-decimal-004'(_Config) ->
+'cbcl-castable-decimal-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double('NaN') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-decimal-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11596,11 +13085,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-decimal-005'(_Config) ->
+'cbcl-castable-decimal-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double('-INF') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-decimal-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11609,11 +13100,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-decimal-006'(_Config) ->
+'cbcl-castable-decimal-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double('INF') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-decimal-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11622,11 +13115,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-decimal-007'(_Config) ->
+'cbcl-castable-decimal-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.7976931348623157E+308 castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-decimal-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -11643,11 +13138,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-decimal-008'(_Config) ->
+'cbcl-castable-decimal-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-1.7976931348623157E+308 castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-decimal-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -11664,11 +13161,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-decimal-009'(_Config) ->
+'cbcl-castable-decimal-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('3.402823e38') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-decimal-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -11685,11 +13184,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-decimal-010'(_Config) ->
+'cbcl-castable-decimal-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('-3.402823e38') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-decimal-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -11706,11 +13207,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-duration-001'(_Config) ->
+'cbcl-castable-duration-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-P768614336404564651Y\" castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-duration-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11719,11 +13222,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-duration-002'(_Config) ->
+'cbcl-castable-duration-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"P768614336404564651Y\" castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-duration-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11732,11 +13237,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-int-001'(_Config) ->
+'cbcl-castable-int-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "2147483648 castable as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-int-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11745,11 +13252,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-int-002'(_Config) ->
+'cbcl-castable-int-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-2147483649 castable as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-int-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11758,11 +13267,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-int-003'(_Config) ->
+'cbcl-castable-int-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"2147483648\" castable as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-int-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11771,11 +13282,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-int-004'(_Config) ->
+'cbcl-castable-int-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-2147483649\" castable as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-int-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11784,11 +13297,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-integer-001'(_Config) ->
+'cbcl-castable-integer-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.7976931348623157E+308 castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-integer-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -11805,11 +13320,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-integer-002'(_Config) ->
+'cbcl-castable-integer-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-1.7976931348623157E+308 castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-integer-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -11826,11 +13343,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-integer-003'(_Config) ->
+'cbcl-castable-integer-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('3.402823e38') castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-integer-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -11847,11 +13366,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-integer-004'(_Config) ->
+'cbcl-castable-integer-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('-3.402823e38') castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-integer-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -11868,11 +13389,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-language-001'(_Config) ->
+'cbcl-castable-language-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:language('en-gb') castable as xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-language-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11881,11 +13404,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-language-002'(_Config) ->
+'cbcl-castable-language-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.0 castable as xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-language-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11894,11 +13419,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-language-003'(_Config) ->
+'cbcl-castable-language-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'en-gb' castable as xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-language-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -11907,11 +13434,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-language-004'(_Config) ->
+'cbcl-castable-language-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"gobbledygook\" castable as xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-language-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11920,11 +13449,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-long-001'(_Config) ->
+'cbcl-castable-long-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "9223372036854775808 castable as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-long-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -11941,11 +13472,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-long-002'(_Config) ->
+'cbcl-castable-long-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-9223372036854775809 castable as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-long-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -11962,11 +13495,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-long-003'(_Config) ->
+'cbcl-castable-long-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"9223372036854775808\" castable as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-long-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11975,11 +13510,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-long-004'(_Config) ->
+'cbcl-castable-long-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-9223372036854775809\" castable as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-long-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -11988,11 +13525,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-name-001'(_Config) ->
+'cbcl-castable-name-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NCName('NCName') castable as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-name-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12001,11 +13540,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-name-002'(_Config) ->
+'cbcl-castable-name-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:current-time() castable as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-name-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12014,11 +13555,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-name-003'(_Config) ->
+'cbcl-castable-name-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'NCName' castable as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-name-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12027,11 +13570,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-name-004'(_Config) ->
+'cbcl-castable-name-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'N A M E' castable as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-name-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12040,11 +13585,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-ncname-001'(_Config) ->
+'cbcl-castable-ncname-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:ID('id') castable as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-ncname-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12053,11 +13600,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-ncname-002'(_Config) ->
+'cbcl-castable-ncname-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:current-time() castable as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-ncname-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12066,11 +13615,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-ncname-003'(_Config) ->
+'cbcl-castable-ncname-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'NCName' castable as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-ncname-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12079,11 +13630,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-ncname-004'(_Config) ->
+'cbcl-castable-ncname-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'NC:Name' castable as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-ncname-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12092,11 +13645,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-negativeInteger-001'(_Config) ->
+'cbcl-castable-negativeInteger-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "0 castable as xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-negativeInteger-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12105,11 +13660,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-negativeInteger-002'(_Config) ->
+'cbcl-castable-negativeInteger-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"0\" castable as xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-negativeInteger-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12118,11 +13675,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-nmtoken-001'(_Config) ->
+'cbcl-castable-nmtoken-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NMTOKEN('NMTOKEN') castable as xs:NMTOKEN",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-nmtoken-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12131,12 +13690,14 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-nmtoken-002'(_Config) ->
+'cbcl-castable-nmtoken-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         \"&#xD;&#xA;&#x9; foobar &#xA;&#xD;&#x9;\" castable as xs:NMTOKEN",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-nmtoken-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12145,13 +13706,16 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-nmtoken-002b'(_Config) ->
+'cbcl-castable-nmtoken-002b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'cbcl-castable-nonNegativeInteger-001'(_Config) ->
+'cbcl-castable-nonNegativeInteger-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-1 castable as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-nonNegativeInteger-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12160,11 +13724,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-nonNegativeInteger-002'(_Config) ->
+'cbcl-castable-nonNegativeInteger-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-1\" castable as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-nonNegativeInteger-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12173,11 +13739,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-nonPositiveInteger-001'(_Config) ->
+'cbcl-castable-nonPositiveInteger-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 castable as xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-nonPositiveInteger-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12186,11 +13754,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-nonPositiveInteger-002'(_Config) ->
+'cbcl-castable-nonPositiveInteger-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"1\" castable as xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-nonPositiveInteger-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12199,11 +13769,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-positiveInteger-001'(_Config) ->
+'cbcl-castable-positiveInteger-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "0 castable as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-positiveInteger-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12212,11 +13784,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-positiveInteger-002'(_Config) ->
+'cbcl-castable-positiveInteger-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"0\" castable as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-positiveInteger-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12225,11 +13799,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-short-001'(_Config) ->
+'cbcl-castable-short-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "32768 castable as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-short-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12238,11 +13814,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-short-002'(_Config) ->
+'cbcl-castable-short-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-32769 castable as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-short-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12251,11 +13829,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-short-003'(_Config) ->
+'cbcl-castable-short-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"32769\" castable as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-short-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12264,11 +13844,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-short-004'(_Config) ->
+'cbcl-castable-short-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-32769\" castable as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-short-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12277,11 +13859,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedByte-001'(_Config) ->
+'cbcl-castable-unsignedByte-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "256 castable as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedByte-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12290,11 +13874,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedByte-002'(_Config) ->
+'cbcl-castable-unsignedByte-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-1 castable as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedByte-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12303,11 +13889,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedByte-003'(_Config) ->
+'cbcl-castable-unsignedByte-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"256\" castable as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedByte-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12316,11 +13904,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedByte-004'(_Config) ->
+'cbcl-castable-unsignedByte-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-1\" castable as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedByte-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12329,11 +13919,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedInt-001'(_Config) ->
+'cbcl-castable-unsignedInt-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "4294967296 castable as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedInt-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12342,11 +13934,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedInt-002'(_Config) ->
+'cbcl-castable-unsignedInt-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-1 castable as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedInt-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12355,11 +13949,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedInt-003'(_Config) ->
+'cbcl-castable-unsignedInt-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"4294967296\" castable as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedInt-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12368,11 +13964,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedInt-004'(_Config) ->
+'cbcl-castable-unsignedInt-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-1\" castable as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedInt-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12381,11 +13979,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedLong-001'(_Config) ->
+'cbcl-castable-unsignedLong-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "18446744073709551616 castable as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedLong-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -12402,11 +14002,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedLong-002'(_Config) ->
+'cbcl-castable-unsignedLong-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-1 castable as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedLong-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12415,11 +14017,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedLong-003'(_Config) ->
+'cbcl-castable-unsignedLong-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"18446744073709551616\" castable as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedLong-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12428,11 +14032,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedLong-004'(_Config) ->
+'cbcl-castable-unsignedLong-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-1\" castable as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedLong-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12441,11 +14047,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedShort-001'(_Config) ->
+'cbcl-castable-unsignedShort-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "65536 castable as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedShort-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12454,11 +14062,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedShort-002'(_Config) ->
+'cbcl-castable-unsignedShort-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-1 castable as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedShort-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12467,11 +14077,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedShort-003'(_Config) ->
+'cbcl-castable-unsignedShort-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"65536\" castable as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedShort-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12480,11 +14092,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedShort-004'(_Config) ->
+'cbcl-castable-unsignedShort-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-1\" castable as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedShort-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12493,11 +14107,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-yearMonthDuration-001'(_Config) ->
+'cbcl-castable-yearMonthDuration-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-P768614336404564651Y\" castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-yearMonthDuration-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12506,11 +14122,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-yearMonthDuration-002'(_Config) ->
+'cbcl-castable-yearMonthDuration-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"P768614336404564651Y\" castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-yearMonthDuration-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12519,11 +14137,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-nonNegativeInteger-003'(_Config) ->
+'cbcl-castable-nonNegativeInteger-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-00\" castable as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-nonNegativeInteger-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12532,11 +14152,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-nonPositiveInteger-003'(_Config) ->
+'cbcl-castable-nonPositiveInteger-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"+00\" castable as xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-nonPositiveInteger-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12545,11 +14167,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedByte-005'(_Config) ->
+'cbcl-castable-unsignedByte-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-00\" castable as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedByte-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12558,11 +14182,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedInt-005'(_Config) ->
+'cbcl-castable-unsignedInt-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-00\" castable as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedInt-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12571,11 +14197,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedLong-005'(_Config) ->
+'cbcl-castable-unsignedLong-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-00\" castable as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedLong-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12584,11 +14212,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-unsignedShort-005'(_Config) ->
+'cbcl-castable-unsignedShort-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-00\" castable as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-unsignedShort-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -12597,11 +14227,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-gYear-001'(_Config) ->
+'cbcl-castable-gYear-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"99999999999999999999999999999\" castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-gYear-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12610,11 +14242,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-gYearMonth-001'(_Config) ->
+'cbcl-castable-gYearMonth-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"99999999999999999999999999999-01\" castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-gYearMonth-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12623,11 +14257,13 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-gYearMonth-002'(_Config) ->
+'cbcl-castable-gYearMonth-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"99999999999999999999999999999-XX\" castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-castable-gYearMonth-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -12636,211 +14272,315 @@ environment('derived') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-castable-gYear-002'(_Config) ->
+'cbcl-castable-gYear-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'cbcl-castable-gYear-003'(_Config) ->
+'cbcl-castable-gYear-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'cbcl-castable-gYearMonth-003'(_Config) ->
+'cbcl-castable-gYearMonth-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'cbcl-castable-gYearMonth-004'(_Config) ->
+'cbcl-castable-gYearMonth-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'cbcl-castable-ENTITIES-001'(_Config) ->
+'cbcl-castable-ENTITIES-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-002'(_Config) ->
+'cbcl-castable-ENTITIES-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-003'(_Config) ->
+'cbcl-castable-ENTITIES-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-004'(_Config) ->
+'cbcl-castable-ENTITIES-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-005'(_Config) ->
+'cbcl-castable-ENTITIES-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-006'(_Config) ->
+'cbcl-castable-ENTITIES-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-007'(_Config) ->
+'cbcl-castable-ENTITIES-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-008'(_Config) ->
+'cbcl-castable-ENTITIES-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-009'(_Config) ->
+'cbcl-castable-ENTITIES-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-010'(_Config) ->
+'cbcl-castable-ENTITIES-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-011'(_Config) ->
+'cbcl-castable-ENTITIES-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-012'(_Config) ->
+'cbcl-castable-ENTITIES-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-013'(_Config) ->
+'cbcl-castable-ENTITIES-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-014'(_Config) ->
+'cbcl-castable-ENTITIES-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-015'(_Config) ->
+'cbcl-castable-ENTITIES-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-016'(_Config) ->
+'cbcl-castable-ENTITIES-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-017'(_Config) ->
+'cbcl-castable-ENTITIES-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-018'(_Config) ->
+'cbcl-castable-ENTITIES-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-019'(_Config) ->
+'cbcl-castable-ENTITIES-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-ENTITIES-020'(_Config) ->
+'cbcl-castable-ENTITIES-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-001'(_Config) ->
+'cbcl-castable-NMTOKENS-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-002'(_Config) ->
+'cbcl-castable-NMTOKENS-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-003'(_Config) ->
+'cbcl-castable-NMTOKENS-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-004'(_Config) ->
+'cbcl-castable-NMTOKENS-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-005'(_Config) ->
+'cbcl-castable-NMTOKENS-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-006'(_Config) ->
+'cbcl-castable-NMTOKENS-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-007'(_Config) ->
+'cbcl-castable-NMTOKENS-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-008'(_Config) ->
+'cbcl-castable-NMTOKENS-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-009'(_Config) ->
+'cbcl-castable-NMTOKENS-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-010'(_Config) ->
+'cbcl-castable-NMTOKENS-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-011'(_Config) ->
+'cbcl-castable-NMTOKENS-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-012'(_Config) ->
+'cbcl-castable-NMTOKENS-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-013'(_Config) ->
+'cbcl-castable-NMTOKENS-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-014'(_Config) ->
+'cbcl-castable-NMTOKENS-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-015'(_Config) ->
+'cbcl-castable-NMTOKENS-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-016'(_Config) ->
+'cbcl-castable-NMTOKENS-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-017'(_Config) ->
+'cbcl-castable-NMTOKENS-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-018'(_Config) ->
+'cbcl-castable-NMTOKENS-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-019'(_Config) ->
+'cbcl-castable-NMTOKENS-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-NMTOKENS-020'(_Config) ->
+'cbcl-castable-NMTOKENS-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-001'(_Config) ->
+'cbcl-castable-IDREFS-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-002'(_Config) ->
+'cbcl-castable-IDREFS-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-003'(_Config) ->
+'cbcl-castable-IDREFS-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-004'(_Config) ->
+'cbcl-castable-IDREFS-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-005'(_Config) ->
+'cbcl-castable-IDREFS-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-006'(_Config) ->
+'cbcl-castable-IDREFS-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-007'(_Config) ->
+'cbcl-castable-IDREFS-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-008'(_Config) ->
+'cbcl-castable-IDREFS-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-009'(_Config) ->
+'cbcl-castable-IDREFS-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-010'(_Config) ->
+'cbcl-castable-IDREFS-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-011'(_Config) ->
+'cbcl-castable-IDREFS-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-012'(_Config) ->
+'cbcl-castable-IDREFS-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-013'(_Config) ->
+'cbcl-castable-IDREFS-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-014'(_Config) ->
+'cbcl-castable-IDREFS-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-015'(_Config) ->
+'cbcl-castable-IDREFS-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-016'(_Config) ->
+'cbcl-castable-IDREFS-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-017'(_Config) ->
+'cbcl-castable-IDREFS-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-018'(_Config) ->
+'cbcl-castable-IDREFS-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-019'(_Config) ->
+'cbcl-castable-IDREFS-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-IDREFS-020'(_Config) ->
+'cbcl-castable-IDREFS-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-001'(_Config) ->
+'cbcl-castable-impure-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-002'(_Config) ->
+'cbcl-castable-impure-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-003'(_Config) ->
+'cbcl-castable-impure-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-004'(_Config) ->
+'cbcl-castable-impure-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-005'(_Config) ->
+'cbcl-castable-impure-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-006'(_Config) ->
+'cbcl-castable-impure-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-007'(_Config) ->
+'cbcl-castable-impure-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-008'(_Config) ->
+'cbcl-castable-impure-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-009'(_Config) ->
+'cbcl-castable-impure-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-010'(_Config) ->
+'cbcl-castable-impure-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-011'(_Config) ->
+'cbcl-castable-impure-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-012'(_Config) ->
+'cbcl-castable-impure-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-013'(_Config) ->
+'cbcl-castable-impure-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-014'(_Config) ->
+'cbcl-castable-impure-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-015'(_Config) ->
+'cbcl-castable-impure-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-016'(_Config) ->
+'cbcl-castable-impure-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-017'(_Config) ->
+'cbcl-castable-impure-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-018'(_Config) ->
+'cbcl-castable-impure-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-019'(_Config) ->
+'cbcl-castable-impure-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-impure-020'(_Config) ->
+'cbcl-castable-impure-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-001'(_Config) ->
+'cbcl-castable-restricted-union-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-002'(_Config) ->
+'cbcl-castable-restricted-union-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-003'(_Config) ->
+'cbcl-castable-restricted-union-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-004'(_Config) ->
+'cbcl-castable-restricted-union-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-005'(_Config) ->
+'cbcl-castable-restricted-union-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-006'(_Config) ->
+'cbcl-castable-restricted-union-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-007'(_Config) ->
+'cbcl-castable-restricted-union-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-008'(_Config) ->
+'cbcl-castable-restricted-union-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-009'(_Config) ->
+'cbcl-castable-restricted-union-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-010'(_Config) ->
+'cbcl-castable-restricted-union-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-011'(_Config) ->
+'cbcl-castable-restricted-union-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-012'(_Config) ->
+'cbcl-castable-restricted-union-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-013'(_Config) ->
+'cbcl-castable-restricted-union-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-014'(_Config) ->
+'cbcl-castable-restricted-union-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-015'(_Config) ->
+'cbcl-castable-restricted-union-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-016'(_Config) ->
+'cbcl-castable-restricted-union-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-017'(_Config) ->
+'cbcl-castable-restricted-union-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-018'(_Config) ->
+'cbcl-castable-restricted-union-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-019'(_Config) ->
+'cbcl-castable-restricted-union-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-castable-restricted-union-020'(_Config) ->
+'cbcl-castable-restricted-union-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.

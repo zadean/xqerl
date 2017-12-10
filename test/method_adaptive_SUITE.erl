@@ -89,9 +89,13 @@
 -export(['Serialization-adaptive-83'/1]).
 -export(['Serialization-adaptive-84'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "ser")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'Serialization-adaptive-01',
    'Serialization-adaptive-02',
@@ -177,97 +181,97 @@ all() -> [
    'Serialization-adaptive-82',
    'Serialization-adaptive-83',
    'Serialization-adaptive-84'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -279,60 +283,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -340,171 +344,255 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'Serialization-adaptive-01'(_Config) ->
+'Serialization-adaptive-01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-02'(_Config) ->
+'Serialization-adaptive-02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-03'(_Config) ->
+'Serialization-adaptive-03'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-04'(_Config) ->
+'Serialization-adaptive-04'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-05'(_Config) ->
+'Serialization-adaptive-05'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-06'(_Config) ->
+'Serialization-adaptive-06'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-07'(_Config) ->
+'Serialization-adaptive-07'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-08'(_Config) ->
+'Serialization-adaptive-08'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-09'(_Config) ->
+'Serialization-adaptive-09'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-10'(_Config) ->
+'Serialization-adaptive-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-11'(_Config) ->
+'Serialization-adaptive-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-12'(_Config) ->
+'Serialization-adaptive-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-13'(_Config) ->
+'Serialization-adaptive-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-14'(_Config) ->
+'Serialization-adaptive-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-15'(_Config) ->
+'Serialization-adaptive-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-16'(_Config) ->
+'Serialization-adaptive-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-17'(_Config) ->
+'Serialization-adaptive-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-18'(_Config) ->
+'Serialization-adaptive-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-19'(_Config) ->
+'Serialization-adaptive-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-20'(_Config) ->
+'Serialization-adaptive-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-21'(_Config) ->
+'Serialization-adaptive-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-22'(_Config) ->
+'Serialization-adaptive-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-23'(_Config) ->
+'Serialization-adaptive-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-24'(_Config) ->
+'Serialization-adaptive-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-25'(_Config) ->
+'Serialization-adaptive-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-26'(_Config) ->
+'Serialization-adaptive-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-27'(_Config) ->
+'Serialization-adaptive-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-28'(_Config) ->
+'Serialization-adaptive-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-29'(_Config) ->
+'Serialization-adaptive-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-30'(_Config) ->
+'Serialization-adaptive-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-31'(_Config) ->
+'Serialization-adaptive-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-32'(_Config) ->
+'Serialization-adaptive-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-33'(_Config) ->
+'Serialization-adaptive-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-34'(_Config) ->
+'Serialization-adaptive-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-35'(_Config) ->
+'Serialization-adaptive-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-36'(_Config) ->
+'Serialization-adaptive-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-37'(_Config) ->
+'Serialization-adaptive-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-38'(_Config) ->
+'Serialization-adaptive-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-39'(_Config) ->
+'Serialization-adaptive-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-40'(_Config) ->
+'Serialization-adaptive-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-41'(_Config) ->
+'Serialization-adaptive-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-42'(_Config) ->
+'Serialization-adaptive-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-43'(_Config) ->
+'Serialization-adaptive-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-44'(_Config) ->
+'Serialization-adaptive-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-45'(_Config) ->
+'Serialization-adaptive-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-46'(_Config) ->
+'Serialization-adaptive-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-47'(_Config) ->
+'Serialization-adaptive-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-48'(_Config) ->
+'Serialization-adaptive-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-49'(_Config) ->
+'Serialization-adaptive-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-50'(_Config) ->
+'Serialization-adaptive-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-51'(_Config) ->
+'Serialization-adaptive-51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-52'(_Config) ->
+'Serialization-adaptive-52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-53'(_Config) ->
+'Serialization-adaptive-53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-54'(_Config) ->
+'Serialization-adaptive-54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-55'(_Config) ->
+'Serialization-adaptive-55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-56'(_Config) ->
+'Serialization-adaptive-56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-57'(_Config) ->
+'Serialization-adaptive-57'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-58'(_Config) ->
+'Serialization-adaptive-58'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-59'(_Config) ->
+'Serialization-adaptive-59'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-60'(_Config) ->
+'Serialization-adaptive-60'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-61'(_Config) ->
+'Serialization-adaptive-61'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-62'(_Config) ->
+'Serialization-adaptive-62'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-63'(_Config) ->
+'Serialization-adaptive-63'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-64'(_Config) ->
+'Serialization-adaptive-64'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-65'(_Config) ->
+'Serialization-adaptive-65'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-66'(_Config) ->
+'Serialization-adaptive-66'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-67'(_Config) ->
+'Serialization-adaptive-67'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-68'(_Config) ->
+'Serialization-adaptive-68'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-69'(_Config) ->
+'Serialization-adaptive-69'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-70'(_Config) ->
+'Serialization-adaptive-70'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-71'(_Config) ->
+'Serialization-adaptive-71'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-72'(_Config) ->
+'Serialization-adaptive-72'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-73'(_Config) ->
+'Serialization-adaptive-73'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-74'(_Config) ->
+'Serialization-adaptive-74'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-75'(_Config) ->
+'Serialization-adaptive-75'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-76'(_Config) ->
+'Serialization-adaptive-76'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-77'(_Config) ->
+'Serialization-adaptive-77'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-78'(_Config) ->
+'Serialization-adaptive-78'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-79'(_Config) ->
+'Serialization-adaptive-79'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-80'(_Config) ->
+'Serialization-adaptive-80'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-81'(_Config) ->
+'Serialization-adaptive-81'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-82'(_Config) ->
+'Serialization-adaptive-82'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-83'(_Config) ->
+'Serialization-adaptive-83'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.
-'Serialization-adaptive-84'(_Config) ->
+'Serialization-adaptive-84'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization feature"}.

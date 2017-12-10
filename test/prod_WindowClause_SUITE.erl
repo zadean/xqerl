@@ -122,9 +122,13 @@
 -export(['TumblingWindowExpr555'/1]).
 -export(['WindowExpr500'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'SlidingWindowExpr501',
    'SlidingWindowExpr502',
@@ -243,97 +247,97 @@ all() -> [
    'TumblingWindowExpr554',
    'TumblingWindowExpr555',
    'WindowExpr500'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -345,60 +349,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -406,182 +410,184 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases01') ->
+environment('WindowingUseCases01',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/arrange_rows.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/arrange_rows.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases01S') ->
+environment('WindowingUseCases01S',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/arrange_rows.xml",".",""}]},
-{schemas, [{"WindowClause/arrange_rows.xsd",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/arrange_rows.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/arrange_rows.xsd"),""}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases02') ->
+environment('WindowingUseCases02',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/head_para.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/head_para.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases02S') ->
+environment('WindowingUseCases02S',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/head_para.xml",".",""}]},
-{schemas, [{"WindowClause/head_para.xsd",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/head_para.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/head_para.xsd"),""}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases03') ->
+environment('WindowingUseCases03',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/term_def_list.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/term_def_list.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases03S') ->
+environment('WindowingUseCases03S',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/term_def_list.xml",".",""}]},
-{schemas, [{"WindowClause/term_def_list.xsd",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/term_def_list.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/term_def_list.xsd"),""}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases04') ->
+environment('WindowingUseCases04',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/temp_events.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/temp_events.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases04S') ->
+environment('WindowingUseCases04S',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/temp_events.xml",".",""}]},
-{schemas, [{"WindowClause/temp_events.xsd",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/temp_events.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/temp_events.xsd"),""}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases05') ->
+environment('WindowingUseCases05',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/person_events.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/person_events.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases05S') ->
+environment('WindowingUseCases05S',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/person_events.xml",".",""}]},
-{schemas, [{"WindowClause/person_events.xsd",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/person_events.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/person_events.xsd"),""}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases06') ->
+environment('WindowingUseCases06',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/rss.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/rss.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases06S') ->
+environment('WindowingUseCases06S',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/rss.xml",".",""}]},
-{schemas, [{"WindowClause/rss.xsd",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/rss.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/rss.xsd"),""}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases07') ->
+environment('WindowingUseCases07',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/cxml.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/cxml.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('WindowingUseCases07S') ->
+environment('WindowingUseCases07S',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/WindowClause/cxml.xml",".",""}]},
-{schemas, [{"WindowClause/cxml.xsd",""}]},
+{sources, [{filename:join(BaseDir, "WindowClause/cxml.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/cxml.xsd"),""}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'SlidingWindowExpr501'(_Config) ->
+'SlidingWindowExpr501'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for sliding window $w in (1, 2, 3, 4) 
       start at $s when fn:true()
       end at $e when $e - $s eq 1
       return $w",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr501.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1, 2, 2, 3, 3, 4, 4)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -590,14 +596,16 @@ environment('WindowingUseCases07S') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr502'(_Config) ->
+'SlidingWindowExpr502'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for sliding window $w in (1, 2, 3, 4) 
       start at $s when fn:true()
       only end at $e when $e - $s eq 1
       return $w",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr502.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1, 2, 2, 3, 3, 4)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -606,14 +614,16 @@ environment('WindowingUseCases07S') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr503'(_Config) ->
+'SlidingWindowExpr503'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for sliding window $w in (1, 2, 3, 4) 
       start $s at $s previous $s when fn:true()
       only end $s at $s previous $s when $s - $s eq 1
       return $w",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr503.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0089") of 
       true -> {comment, "Correct error"};
@@ -630,14 +640,16 @@ environment('WindowingUseCases07S') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr503'(_Config) ->
+'TumblingWindowExpr503'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for tumbling window $w in (1, 2, 3, 4) 
       start $s at $s previous $s when fn:true()
       only end $s at $s previous $s when $s - $s eq 1
       return $w",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr503.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -646,7 +658,8 @@ environment('WindowingUseCases07S') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase01'(_Config) ->
+'WindowingUseCase01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <table>{
   for tumbling window $w in ./doc/*
@@ -660,10 +673,11 @@ environment('WindowingUseCases07S') ->
     }</tr>
 }</table>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases01')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases01',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase01.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<table><tr><td>Green</td><td>Pink</td><td>Lilac</td></tr><tr><td>Turquoise</td><td>Peach</td><td>Opal</td></tr><tr><td>Champagne</td></tr></table>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -672,9 +686,11 @@ environment('WindowingUseCases07S') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase01S'(_Config) ->
+'WindowingUseCase01S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase02'(_Config) ->
+'WindowingUseCase02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <chapter>{
   for tumbling window $w in ./body/*
@@ -688,10 +704,11 @@ environment('WindowingUseCases07S') ->
   }</section>
 }</chapter>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases02')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases02',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase02.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<chapter><section title=\"heading1\"><para>para1</para><para>para2</para></section><section title=\"heading2\"><para>para3</para><para>para4</para><para>para5</para></section></chapter>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -700,9 +717,11 @@ environment('WindowingUseCases07S') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase02S'(_Config) ->
+'WindowingUseCase02S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase03'(_Config) ->
+'WindowingUseCase03'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <doc>{
 for tumbling window $w in ./doc/*
@@ -714,10 +733,11 @@ return
   }</term>
 }</doc>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases03')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases03',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase03.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<doc><term><dt>XML</dt><dd>Extensible Markup Language</dd></term><term><dt>XSLT</dt><dt>XSL Transformations</dt><dd>A language for transforming XML</dd><dd>A specification produced by W3C</dd></term></doc>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -726,9 +746,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase03S'(_Config) ->
+'WindowingUseCase03S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase04'(_Config) ->
+'WindowingUseCase04'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 let $MAX_DIFF := 2
 
@@ -740,10 +762,11 @@ for sliding window $w in ./stream/event
 return
   avg( $w/@temp )
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases04')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases04',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase04.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"8, 9, 17, 18") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -752,9 +775,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase04S'(_Config) ->
+'WindowingUseCase04S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase05'(_Config) ->
+'WindowingUseCase05'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 let $SMOOTH_CONST := 0.2
 
@@ -766,10 +791,11 @@ return
     ( $SMOOTH_CONST * data($w[2]/@temp) +
       (1 - $SMOOTH_CONST) * data($w[1]/@temp) ), 2)
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases04')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases04',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase05.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"8.88, 8.68, 12.32, 15.24, 23.92") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -778,9 +804,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase05S'(_Config) ->
+'WindowingUseCase05S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase06'(_Config) ->
+'WindowingUseCase06'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 for sliding window $w in ./stream/event
   start  $s_curr when fn:true()
@@ -790,10 +818,11 @@ return
   where $avg * 2 lt xs:double($next/@temp) or $avg div 2 gt xs:double($next/@temp)
   return <alarm>Outlier detected. Event id:{data($next/@time)}</alarm>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases04')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases04',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase06.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<alarm>Outlier detected. Event id:5</alarm>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -802,9 +831,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase06S'(_Config) ->
+'WindowingUseCase06S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase07'(_Config) ->
+'WindowingUseCase07'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
   for tumbling window $w in ./stream/event
@@ -818,10 +849,11 @@ return
     <warning time=\"{ $e/@time }\">Barbara: Anton arrived 1h ago</warning>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase07.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><warning time=\"2006-01-01T11:00:00-00:00\">Barbara: Anton arrived 1h ago</warning></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -830,9 +862,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase07S'(_Config) ->
+'WindowingUseCase07S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase08'(_Config) ->
+'WindowingUseCase08'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
 for sliding window $w in ./stream/event
@@ -846,10 +880,11 @@ return
   </working-time>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase08.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><working-time><person>Anton</person><time>PT4H30M</time></working-time><working-time><person>Barbara</person><time>PT3H</time></working-time><working-time><person>Clara</person><time>PT1H</time></working-time><working-time><person>Anton</person><time>PT5H</time></working-time><working-time><person>Clara</person><time>PT10M</time></working-time><working-time><person>Clara</person><time>PT5M</time></working-time><working-time><person>Clara</person><time>PT15M</time></working-time><working-time><person>Clara</person><time>PT2H15M</time></working-time></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -858,9 +893,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase08S'(_Config) ->
+'WindowingUseCase08S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase09'(_Config) ->
+'WindowingUseCase09'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
 for sliding window $w in ./stream/event
@@ -878,10 +915,11 @@ return
   </working-time>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase09.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><working-time><person>Anton</person><time>PT9H30M</time></working-time><working-time><person>Barbara</person><time>PT3H</time></working-time><working-time><person>Clara</person><time>PT3H45M</time></working-time></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -890,9 +928,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase09S'(_Config) ->
+'WindowingUseCase09S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase10'(_Config) ->
+'WindowingUseCase10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
   for tumbling window $w in ./stream/event[direction eq \"in\"]
@@ -903,10 +943,11 @@ return
   return <alert date=\"{ $date }\">Barbara did not come to work</alert>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase10.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><alert date=\"2006-01-02Z\">Barbara did not come to work</alert></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -915,9 +956,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase10S'(_Config) ->
+'WindowingUseCase10S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase11'(_Config) ->
+'WindowingUseCase11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <results>{
   for tumbling window $w in ./stream/event[direction eq \"in\"]
@@ -931,10 +974,11 @@ return
     }</result>
 }</results>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase11.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<results><result time=\"2006-01-01T11:15:00-00:00\">Barbara</result><result time=\"2006-01-02T12:00:00-00:00\"/><result time=\"2006-01-02T12:15:00-00:00\">Clara</result><result time=\"2006-01-02T12:25:00-00:00\">Clara</result><result time=\"2006-01-02T14:00:00-00:00\"/></results>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -943,9 +987,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase11S'(_Config) ->
+'WindowingUseCase11S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase12'(_Config) ->
+'WindowingUseCase12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
         for tumbling window $w in ./stream/event[direction eq \"in\"]
@@ -956,10 +1002,11 @@ return
                 <alert time=\"{ xs:dateTime($y/@time) }\">Anton and Barbara just arrived</alert>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase12.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><alert time=\"2006-01-01T11:15:00Z\">Anton and Barbara just arrived</alert></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -968,9 +1015,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase12S'(_Config) ->
+'WindowingUseCase12S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase13'(_Config) ->
+'WindowingUseCase13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
   for sliding window $w in ./stream/event
@@ -982,10 +1031,11 @@ return
     <alert time=\"{ $e/@time }\">{fn:data($s/person)} is suspicious</alert>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases05',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase13.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><alert time=\"2006-01-02T14:00:00-00:00\">Clara is suspicious</alert></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -994,9 +1044,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase13S'(_Config) ->
+'WindowingUseCase13S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase14'(_Config) ->
+'WindowingUseCase14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
   for tumbling window $w in ./rss/channel/item
@@ -1008,10 +1060,11 @@ return
     }</annoying-author>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases06')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases06',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase14.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><annoying-author><author>rokas@e-mail.de</author></annoying-author></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1020,9 +1073,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase14S'(_Config) ->
+'WindowingUseCase14S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase15'(_Config) ->
+'WindowingUseCase15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
   for tumbling window $w in ./rss/channel/item
@@ -1039,10 +1094,11 @@ return
       </item>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases06')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases06',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase15.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><item><date>2003-06-03</date><title>Extending XQuery with Window Functions</title><title>XQueryP: A new programming language is born</title></item><item><date>2003-06-04</date></item></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1051,9 +1107,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase15S'(_Config) ->
+'WindowingUseCase15S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase16'(_Config) ->
+'WindowingUseCase16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
   for tumbling window $w in ./rss/channel/item
@@ -1075,10 +1133,11 @@ return
           </item>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases06')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases06',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase16.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><item><date>2003-06-03</date><author name=\"rokas@e-mail.de\"><titles><title>Why use cases are important Part 1.</title><title>Why use cases are important Part 2.</title><title>Why use cases are important Part 3.</title></titles></author><author name=\"tim@e-mail.de\"><titles><title>Extending XQuery with Window Functions</title></titles></author><author name=\"david@e-mail.de\"><titles><title>XQueryP: A new programming language is born</title></titles></author></item><item><date>2003-06-04</date><author name=\"rokas@e-mail.de\"><titles><title>Why use cases are annoying to write.</title></titles></author></item></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1087,9 +1146,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase16S'(_Config) ->
+'WindowingUseCase16S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase17'(_Config) ->
+'WindowingUseCase17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
 for sliding window $w in ./sequence/*
@@ -1109,10 +1170,11 @@ return
   }</mostValuableCustomer>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases07')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases07',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase17.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><mostValuableCustomer endOfDay=\"2006-01-01T00:00:00Z\"><amount company=\"ACME1\">1100</amount></mostValuableCustomer><mostValuableCustomer endOfDay=\"2006-01-02T00:00:00Z\"><amount company=\"ACME1\">10000</amount></mostValuableCustomer><mostValuableCustomer endOfDay=\"2006-01-03T00:00:00Z\"/><mostValuableCustomer endOfDay=\"2006-01-04T00:00:00Z\"/><mostValuableCustomer endOfDay=\"2006-01-05T00:00:00Z\"/><mostValuableCustomer endOfDay=\"2006-01-06T00:00:00Z\"><amount company=\"ACME2\">100</amount></mostValuableCustomer><mostValuableCustomer endOfDay=\"2006-01-07T00:00:00Z\"/></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1121,9 +1183,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase17S'(_Config) ->
+'WindowingUseCase17S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase18'(_Config) ->
+'WindowingUseCase18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
   for sliding window $w in ./sequence/*
@@ -1136,10 +1200,11 @@ return
     <timeToShip orderID=\"{ $s/@orderID}\">{xs:dateTime($e/@date) - xs:dateTime($s/@date) }</timeToShip>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases07')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases07',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase18.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><timeToShip orderID=\"OID01\">P3DT22H</timeToShip><timeToShip orderID=\"OID03\">P2DT19H</timeToShip></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1148,9 +1213,11 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase18S'(_Config) ->
+'WindowingUseCase18S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'WindowingUseCase19'(_Config) ->
+'WindowingUseCase19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 <result>{
   for sliding window $w in ./sequence/*
@@ -1173,10 +1240,11 @@ return
     }</bundleWith>
 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases07')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('WindowingUseCases07',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowingUseCase19.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><bundleWith orderId=\"OID01\"><OrderRequest billTo=\"ACME1\" date=\"2006-01-02T14:00:00-00:00\" orderID=\"OID03\" shipTo=\"ACME1\" total=\"10000\" type=\"new\">
     <Item partID=\"ID3\" quantity=\"100\" unitPrice=\"100\"/>
   </OrderRequest></bundleWith><bundleWith orderId=\"OID03\"/></result>") of 
@@ -1187,16 +1255,19 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowingUseCase19S'(_Config) ->
+'WindowingUseCase19S'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'TumblingWindowExpr504'(_Config) ->
+'TumblingWindowExpr504'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for tumbling window $w in (1, 2, 3, 4) 
       start $s at $ps previous $pps when fn:true()
       only end $s at $ps previous $pps when $ps - $ps eq 1
       return $w",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr504.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1205,14 +1276,16 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr504'(_Config) ->
+'SlidingWindowExpr504'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for sliding window $w in (1, 2, 3, 4) 
       start $s at $ps previous $pps when fn:true()
       only end $s at $ps previous $pps when $ps - $ps eq 1
       return $w",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr504.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1221,14 +1294,16 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr505'(_Config) ->
+'SlidingWindowExpr505'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for sliding window $w in (1, 2, 3, 4) 
       start at $s when fn:true()
       end at $e  when $s - $e eq 1
       return $s",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr505.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"$result[1] instance of xs:integer") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1237,14 +1312,16 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr505'(_Config) ->
+'TumblingWindowExpr505'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for tumbling window $w in (1, 2, 3, 4) 
       start at $s when fn:true()
       end at $e  when $s - $e eq 1
       return $s",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr505.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"$result[1] instance of xs:integer") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1253,7 +1330,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr506'(_Config) ->
+'SlidingWindowExpr506'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1, 2, 3, 4, 14, 13, 12, 11) 
           start $s when fn:true()
@@ -1262,7 +1340,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr506.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"1 2 3 4 14 13 12 11\", \"2 3 4 14 13 12\", \"3 4 14 13\", \"4 14\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1271,7 +1350,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr507'(_Config) ->
+'SlidingWindowExpr507'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w as xs:integer+ in (1, 2, \"london\", 3, 4, \"paris\")
           start $start when $start instance of xs:integer
@@ -1280,7 +1360,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr507.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"1 2\", \"2\", \"3 4\", \"4\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1289,7 +1370,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr507'(_Config) ->
+'TumblingWindowExpr507'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w as xs:integer+ in (1, 2, \"london\", 3, 4, \"paris\")
           start $start when $start instance of xs:integer
@@ -1298,7 +1380,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr507.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"1 2\", \"3 4\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1307,7 +1390,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr508'(_Config) ->
+'SlidingWindowExpr508'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w as xs:integer+ in (1, 2, \"london\", 3, 4.1, \"paris\")
           start $start when $start instance of xs:integer
@@ -1316,7 +1400,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr508.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1325,7 +1410,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr508'(_Config) ->
+'TumblingWindowExpr508'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w as xs:integer+ in (1, 2, \"london\", 3, 4.1, \"paris\")
           start $start when $start instance of xs:integer
@@ -1334,7 +1420,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr508.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1343,7 +1430,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr509'(_Config) ->
+'SlidingWindowExpr509'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
             avg(
               for sliding window $w in (1, 2, \"london\", 3, 4, \"paris\")
@@ -1354,7 +1442,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr509.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1.5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1363,7 +1452,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr509'(_Config) ->
+'TumblingWindowExpr509'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           avg(
               for tumbling window $w in (1, 2, \"london\", 3, 4, \"paris\")
@@ -1374,7 +1464,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr509.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1383,7 +1474,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr510'(_Config) ->
+'TumblingWindowExpr510'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1392,7 +1484,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr510.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1</window><window>2</window><window>3</window><window>4</window><window>5</window><window>6</window><window>7</window><window>8</window><window>9</window><window>10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1401,7 +1494,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr510'(_Config) ->
+'SlidingWindowExpr510'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -1410,7 +1504,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr510.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1</window><window>2</window><window>3</window><window>4</window><window>5</window><window>6</window><window>7</window><window>8</window><window>9</window><window>10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1419,7 +1514,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr511'(_Config) ->
+'TumblingWindowExpr511'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1428,7 +1524,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr511.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3</window><window>4 5 6</window><window>7 8 9</window><window>10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1437,7 +1534,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr511'(_Config) ->
+'SlidingWindowExpr511'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -1446,7 +1544,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr511.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3</window><window>2 3 4</window><window>3 4 5</window><window>4 5 6</window><window>5 6 7</window><window>6 7 8</window><window>7 8 9</window><window>8 9 10</window><window>9 10</window><window>10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1455,7 +1554,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr512'(_Config) ->
+'TumblingWindowExpr512'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s at $x when true()
@@ -1464,7 +1564,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr512.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3</window><window>4 5 6</window><window>7 8 9</window><window>10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1473,7 +1574,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr512'(_Config) ->
+'SlidingWindowExpr512'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s at $x when true()
@@ -1482,7 +1584,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr512.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3</window><window>2 3 4</window><window>3 4 5</window><window>4 5 6</window><window>5 6 7</window><window>6 7 8</window><window>7 8 9</window><window>8 9 10</window><window>9 10</window><window>10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1491,7 +1594,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr513'(_Config) ->
+'TumblingWindowExpr513'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s at $x when true()
@@ -1500,7 +1604,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr513.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3</window><window>4 5 6</window><window>7 8 9</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1509,7 +1614,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr513'(_Config) ->
+'SlidingWindowExpr513'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s at $x when true()
@@ -1518,7 +1624,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr513.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3</window><window>2 3 4</window><window>3 4 5</window><window>4 5 6</window><window>5 6 7</window><window>6 7 8</window><window>7 8 9</window><window>8 9 10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1527,7 +1634,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr514'(_Config) ->
+'TumblingWindowExpr514'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1536,7 +1644,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr514.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1545,7 +1654,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr514'(_Config) ->
+'SlidingWindowExpr514'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -1554,7 +1664,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr514.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1563,7 +1674,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr515'(_Config) ->
+'TumblingWindowExpr515'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1572,7 +1684,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr515.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3 4 5 6 7 8 9 10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1581,7 +1694,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr515'(_Config) ->
+'SlidingWindowExpr515'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -1590,7 +1704,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr515.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3 4 5 6 7 8 9 10</window><window>2 3 4 5 6 7 8 9 10</window><window>3 4 5 6 7 8 9 10</window><window>4 5 6 7 8 9 10</window><window>5 6 7 8 9 10</window><window>6 7 8 9 10</window><window>7 8 9 10</window><window>8 9 10</window><window>9 10</window><window>10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1599,7 +1714,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr516'(_Config) ->
+'TumblingWindowExpr516'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           declare namespace window = \"foo:bar\";
           
@@ -1610,7 +1726,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr516.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3 4 5 6 7 8 9 10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1619,7 +1736,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr517'(_Config) ->
+'TumblingWindowExpr517'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           declare namespace window = \"foo:bar\";
           
@@ -1630,7 +1748,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr517.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3 4 5 6 7 8 9 10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1639,7 +1758,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr517'(_Config) ->
+'SlidingWindowExpr517'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           declare namespace window = \"foo:bar\";
           
@@ -1650,7 +1770,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr517.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3 4 5 6 7 8 9 10</window><window>2 3 4 5 6 7 8 9 10</window><window>3 4 5 6 7 8 9 10</window><window>4 5 6 7 8 9 10</window><window>5 6 7 8 9 10</window><window>6 7 8 9 10</window><window>7 8 9 10</window><window>8 9 10</window><window>9 10</window><window>10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1659,7 +1780,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr518'(_Config) ->
+'TumblingWindowExpr518'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           declare namespace w = \"foo:bar\";
           
@@ -1674,7 +1796,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr518.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3 4 5 6 7 8 9 10 1 1 2 10 10 9</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1683,7 +1806,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr518a'(_Config) ->
+'TumblingWindowExpr518a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           declare namespace w = \"foo:bar\";
           <window>{
@@ -1699,7 +1823,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr518a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3 4 5 6 7 8 9 10 1 1 2 10 10 9</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1708,7 +1833,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr518'(_Config) ->
+'SlidingWindowExpr518'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           declare namespace w = \"foo:bar\";
           
@@ -1723,7 +1849,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr518.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3 4 5 6 7 8 9 10 1 1 2 10 10 9</window><window>2 3 4 5 6 7 8 9 10 2 2 1 3 10 10 9</window><window>3 4 5 6 7 8 9 10 3 3 2 4 10 10 9</window><window>4 5 6 7 8 9 10 4 4 3 5 10 10 9</window><window>5 6 7 8 9 10 5 5 4 6 10 10 9</window><window>6 7 8 9 10 6 6 5 7 10 10 9</window><window>7 8 9 10 7 7 6 8 10 10 9</window><window>8 9 10 8 8 7 9 10 10 9</window><window>9 10 9 9 8 10 10 10 9</window><window>10 10 10 9 10 10 9</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1732,7 +1859,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr519'(_Config) ->
+'TumblingWindowExpr519'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1741,7 +1869,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr519.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1750,7 +1879,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr519'(_Config) ->
+'SlidingWindowExpr519'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -1759,7 +1889,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr519.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1768,7 +1899,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr520'(_Config) ->
+'TumblingWindowExpr520'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $w when true()
@@ -1777,7 +1909,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr520.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1786,7 +1919,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr521'(_Config) ->
+'TumblingWindowExpr521'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1795,7 +1929,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr521.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1804,7 +1939,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr522'(_Config) ->
+'TumblingWindowExpr522'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s at $w when true()
@@ -1813,7 +1949,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr522.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1822,7 +1959,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr523'(_Config) ->
+'TumblingWindowExpr523'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1831,7 +1969,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr523.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1840,7 +1979,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr524'(_Config) ->
+'TumblingWindowExpr524'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s previous $w when true()
@@ -1849,7 +1989,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr524.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1858,7 +1999,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr525'(_Config) ->
+'TumblingWindowExpr525'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s next $w when true()
@@ -1867,7 +2009,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr525.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1876,7 +2019,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr526'(_Config) ->
+'TumblingWindowExpr526'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1885,7 +2029,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr526.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1894,7 +2039,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr527'(_Config) ->
+'TumblingWindowExpr527'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1903,7 +2049,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr527.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1912,7 +2059,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr528'(_Config) ->
+'TumblingWindowExpr528'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1921,7 +2069,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr528.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0103") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1930,7 +2079,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr529'(_Config) ->
+'TumblingWindowExpr529'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s at $x previous $sp next $sn when true()
@@ -1940,7 +2090,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr529.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1949,7 +2100,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr529'(_Config) ->
+'SlidingWindowExpr529'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s at $x previous $sp next $sn when true()
@@ -1959,7 +2111,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr529.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1968,7 +2121,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr530'(_Config) ->
+'TumblingWindowExpr530'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in ()
           start $s at $x previous $sp next $sn when true()
@@ -1977,7 +2131,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr530.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1986,7 +2141,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr531'(_Config) ->
+'TumblingWindowExpr531'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (2, 4, 6, 8, 10, 12, 14)
           start $first when $first mod 3 = 0
@@ -1994,7 +2150,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr531.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>6 8 10</window><window>12 14</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2003,7 +2160,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr531a'(_Config) ->
+'TumblingWindowExpr531a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <o>{
           for tumbling window $w in (2, 4, 6, 8, 10, 12, 14)
@@ -2013,7 +2171,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr531a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<o><window>6 8 10</window><window>12 14</window></o>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2022,7 +2181,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr532'(_Config) ->
+'TumblingWindowExpr532'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for $w in (1 to 2)
           for tumbling window $w in (2, 4, 6, 8, 10, 12, 14)
@@ -2031,7 +2191,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr532.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>6 8 10</window><window>12 14</window><window>6 8 10</window><window>12 14</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2040,7 +2201,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr533'(_Config) ->
+'TumblingWindowExpr533'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for $w at $y in (1 to 2)
           for tumbling window $w in (2, 4, 6, 8, 10, 12, 14)
@@ -2049,7 +2211,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr533.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1</window><window>1</window><window>1</window><window>1</window><window>1</window><window>1</window><window>1</window><window>2</window><window>2</window><window>2</window><window>2</window><window>2</window><window>2</window><window>2</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2058,7 +2221,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr534'(_Config) ->
+'TumblingWindowExpr534'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for $x1 in 11
           for $x2 in 12
@@ -2080,7 +2244,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr534.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5 6 7 8 9 10 1 1 2 10 10 9") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2089,7 +2254,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr534'(_Config) ->
+'SlidingWindowExpr534'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for $x1 in 11
           for $x2 in 12
@@ -2111,7 +2277,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr534.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5 6 7 8 9 10 1 1 2 10 10 9 2 3 4 5 6 7 8 9 10 2 2 1 3 10 10 9 3 4 5 6 7 8 9 10 3 3 2 4 10 10 9 4 5 6 7 8 9 10 4 4 3 5 10 10 9 5 6 7 8 9 10 5 5 4 6 10 10 9 6 7 8 9 10 6 6 5 7 10 10 9 7 8 9 10 7 7 6 8 10 10 9 8 9 10 8 8 7 9 10 10 9 9 10 9 9 8 10 10 10 9 10 10 10 9 10 10 9") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2120,7 +2287,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr535a'(_Config) ->
+'TumblingWindowExpr535a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s next $sn previous $pn when true()
@@ -2128,7 +2296,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr535a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2137,7 +2306,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr535b'(_Config) ->
+'TumblingWindowExpr535b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           end $e next $en previous $en when true()
@@ -2145,7 +2315,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr535b.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2154,7 +2325,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr536'(_Config) ->
+'TumblingWindowExpr536'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           let $stock :=
             <stock>
@@ -2178,7 +2350,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr536.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<run-up><start-date>2008-01-02</start-date><start-price>101</start-price><end-date>2008-01-04</end-date><end-price>103</end-price></run-up><run-up><start-date>2008-01-05</start-date><start-price>102</start-price><end-date>2008-01-06</end-date><end-price>104</end-price></run-up>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2187,7 +2360,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr537'(_Config) ->
+'TumblingWindowExpr537'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2197,7 +2371,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr537.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window num=\"1\">1 2 3</window><window num=\"2\">4 5 6</window><window num=\"3\">7 8 9</window><window num=\"4\">10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2206,7 +2381,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr538'(_Config) ->
+'TumblingWindowExpr538'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2217,7 +2393,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr538.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window num=\"1\">1 2 3</window><window num=\"2\">4 5 6</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2226,7 +2403,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr538'(_Config) ->
+'SlidingWindowExpr538'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -2237,7 +2415,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr538.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window num=\"1\">1 2 3</window><window num=\"2\">2 3 4</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2246,7 +2425,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr539'(_Config) ->
+'TumblingWindowExpr539'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for $i in 1 to 3
           count $r
@@ -2258,7 +2438,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr539.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window num=\"1\">1 2 3</window><window num=\"2\">1 2 3</window><window num=\"3\">4 5 6</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2267,7 +2448,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr539'(_Config) ->
+'SlidingWindowExpr539'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for $i in 1 to 3
           count $r
@@ -2279,7 +2461,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr539.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window num=\"1\">1 2 3</window><window num=\"1\">2 3 4</window><window num=\"2\">1 2 3</window><window num=\"2\">2 3 4</window><window num=\"2\">3 4 5</window><window num=\"3\">2 3 4</window><window num=\"3\">3 4 5</window><window num=\"3\">4 5 6</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2288,7 +2471,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr540'(_Config) ->
+'TumblingWindowExpr540'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2298,7 +2482,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr540.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>7 8 9</window><window>4 5 6</window><window>1 2 3</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2307,7 +2492,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr540'(_Config) ->
+'SlidingWindowExpr540'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -2317,7 +2503,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr540.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>8 9 10</window><window>7 8 9</window><window>6 7 8</window><window>5 6 7</window><window>4 5 6</window><window>3 4 5</window><window>2 3 4</window><window>1 2 3</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2326,7 +2513,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr541'(_Config) ->
+'TumblingWindowExpr541'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w1 in
             for tumbling window $w2 in (1 to 10)
@@ -2339,7 +2527,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr541.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2348,7 +2537,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr542'(_Config) ->
+'TumblingWindowExpr542'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w1 in
             for tumbling window $w2 in (1 to 10)
@@ -2361,7 +2551,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr542.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3</window><window>4 5 6</window><window>7 8 9</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2370,7 +2561,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr544'(_Config) ->
+'TumblingWindowExpr544'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2385,7 +2577,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr544.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window num=\"1\">3 2 1</window><window num=\"2\">6 5 4</window><window num=\"3\">9 8 7</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2394,7 +2587,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr544'(_Config) ->
+'SlidingWindowExpr544'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -2409,7 +2603,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr544.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window num=\"1\">3 2 1</window><window num=\"2\">4 3 2</window><window num=\"3\">5 4 3</window><window num=\"4\">6 5 4</window><window num=\"5\">7 6 5</window><window num=\"6\">8 7 6</window><window num=\"7\">9 8 7</window><window num=\"8\">10 9 8</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2418,7 +2613,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr545'(_Config) ->
+'TumblingWindowExpr545'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           let $s := <stocks>
             <closing> <symbol>ABC</symbol> <date>2008-01-01</date> <price>105</price> </closing>
@@ -2450,7 +2646,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr545.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<run-up symbol=\"ABC\"><start-date>2008-01-02</start-date><start-price>101</start-price><end-date>2008-01-04</end-date><end-price>103</end-price></run-up><run-up symbol=\"ABC\"><start-date>2008-01-05</start-date><start-price>101</start-price><end-date>2008-01-06</end-date><end-price>104</end-price></run-up><run-up symbol=\"DEF\"><start-date>2008-01-02</start-date><start-price>054</start-price><end-date>2008-01-03</end-date><end-price>056</end-price></run-up><run-up symbol=\"DEF\"><start-date>2008-01-04</start-date><start-price>052</start-price><end-date>2008-01-06</end-date><end-price>059</end-price></run-up>") of 
       true -> {comment, "XML Deep equal"};
@@ -2467,7 +2664,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr546'(_Config) ->
+'TumblingWindowExpr546'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           declare function local:window()
           {
@@ -2481,7 +2679,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr546.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3 4</window><window>5 6 7 8</window><window>9 10</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2490,7 +2689,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr547'(_Config) ->
+'TumblingWindowExpr547'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s at $x as xs:integer when true()
@@ -2499,7 +2699,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr547.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2508,7 +2709,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr549'(_Config) ->
+'TumblingWindowExpr549'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s next $sn as xs:integer when true()
@@ -2517,7 +2719,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr549.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2526,7 +2729,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr550'(_Config) ->
+'TumblingWindowExpr550'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 3)
           start when true()
@@ -2535,7 +2739,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr550.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2544,7 +2749,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'SlidingWindowExpr550'(_Config) ->
+'SlidingWindowExpr550'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 3)
           start when true()
@@ -2553,7 +2759,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "SlidingWindowExpr550.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1 2 3</window><window>2 3</window><window>3</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2562,7 +2769,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr551'(_Config) ->
+'TumblingWindowExpr551'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2571,7 +2779,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr551.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"false(), false(), false(), false(), false()") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2580,7 +2789,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr552'(_Config) ->
+'TumblingWindowExpr552'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           declare function local:window($seq)
           {
@@ -2601,7 +2811,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr552.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1</window><window>5</window><window>9</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2610,7 +2821,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr553'(_Config) ->
+'TumblingWindowExpr553'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           declare variable $local:foo as xs:integer* := 1 to 10;
           
@@ -2633,7 +2845,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr553.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1</window><window>5</window><window>9</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2642,7 +2855,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr554'(_Config) ->
+'TumblingWindowExpr554'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           declare variable $local:foo as xs:integer* := 1 to 5;
           
@@ -2664,7 +2878,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr554.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<window>1</window><window>2</window><window>3</window><window>4</window><window>5</window>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2673,7 +2888,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'TumblingWindowExpr555'(_Config) ->
+'TumblingWindowExpr555'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           declare variable $local:foo as xs:integer* := 1 to 10;
           
@@ -2690,7 +2906,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "TumblingWindowExpr555.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -2699,7 +2916,8 @@ return
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'WindowExpr500'(_Config) ->
+'WindowExpr500'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for window $w in (1 to 10)
           start $s when true()
@@ -2708,7 +2926,8 @@ return
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "WindowExpr500.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

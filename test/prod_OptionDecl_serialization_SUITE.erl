@@ -44,9 +44,13 @@
 -export(['Serialization-036'/1]).
 -export(['Serialization-037'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/Serialization/serialization1-lib.xq") catch _:_ -> ok end,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+, try  xqerl_module:compile(filename:join(BaseDir, "Serialization/serialization1-lib.xq")) catch _:_ -> ok end
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'Serialization-001',
    'Serialization-002',
@@ -87,97 +91,97 @@ all() -> [
    'Serialization-035',
    'Serialization-036',
    'Serialization-037'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -189,60 +193,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -250,19 +254,20 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('user-defined-types') ->
+environment('user-defined-types',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"../docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'Serialization-001'(_Config) ->
+'Serialization-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:cdata-section-elements \"\";
          declare option output:doctype-public \"none\";
@@ -275,7 +280,8 @@ environment('user-defined-types') ->
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -284,14 +290,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-002'(_Config) ->
+'Serialization-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \"yes\";
          <result>ok</result>
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -300,14 +308,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-003'(_Config) ->
+'Serialization-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          import module namespace test=\"http://www.w3.org/TestModules/test\";
          <result>{test:ok()}</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0108") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -316,18 +326,22 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-004'(_Config) ->
+'Serialization-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-005'(_Config) ->
+'Serialization-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-006'(_Config) ->
+'Serialization-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:parameter-document \"Serialization/serialization-parameters.xml\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -344,7 +358,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-007'(_Config) ->
+'Serialization-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:parameter-document \"Serialization/serialization-parameters.xml\";
          declare option output:indent \"yes\";
@@ -352,7 +367,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -361,14 +377,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-008'(_Config) ->
+'Serialization-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:byte-order-mark \"INVALID_VALUE\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -385,14 +403,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-009'(_Config) ->
+'Serialization-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:doctype-public \"&#xc381;\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -409,14 +429,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-010'(_Config) ->
+'Serialization-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:cdata-section-elements \"::INVALID_VALUE\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -433,14 +455,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-011'(_Config) ->
+'Serialization-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:doctype-system \"mustnotincludebothanapostrophe&#x27;andquotationmark&#x22;\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -457,14 +481,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-012'(_Config) ->
+'Serialization-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:encoding \"onlyasciiallowedlessthan&#x7f;\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -485,14 +511,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-013'(_Config) ->
+'Serialization-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:escape-uri-attributes \"INVALID_VALUE\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -509,14 +537,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-014'(_Config) ->
+'Serialization-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:include-content-type \"INVALID_VALUE\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -533,14 +563,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-015'(_Config) ->
+'Serialization-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \"INVALID_VALUE\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -557,7 +589,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-016'(_Config) ->
+'Serialization-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          (: the charset parameter of the media type MUST NOT be specified explicitly in the value of the media-type parameter. :)
          declare option output:media-type \"text/html; charset=ISO-8859-4\";
@@ -565,7 +598,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -582,7 +616,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-017'(_Config) ->
+'Serialization-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          (: An expanded QName with a null namespace URI, and the local part of the name equal to one of xml, xhtml, html or text, or having a non-null namespace URI :)
          declare option output:method \"INVALID_VALUE\";
@@ -590,7 +625,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -607,14 +643,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-018'(_Config) ->
+'Serialization-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:normalization-form \"__NOT_SUPPORTED__\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -631,14 +669,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-019'(_Config) ->
+'Serialization-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:omit-xml-declaration \"INVALID_VALUE\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -655,14 +695,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-020'(_Config) ->
+'Serialization-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:standalone \"INVALID_VALUE\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -679,14 +721,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-021'(_Config) ->
+'Serialization-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:suppress-indentation \"::INVALID_VALUE\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -703,14 +747,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-022'(_Config) ->
+'Serialization-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:undeclare-prefixes \"INVALID_VALUE\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -727,14 +773,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-023'(_Config) ->
+'Serialization-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:use-character-maps \"...\";
          <result>ok</result>
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0109") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -743,7 +791,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-024'(_Config) ->
+'Serialization-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          (: An unsupported xml version which matches the VersionNum of XML Recommendation XML10 :)
          declare option output:version \"1.14159265\";
@@ -751,7 +800,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -768,7 +818,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-025'(_Config) ->
+'Serialization-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:method \"html\";
          (: control characters not allowed in html :)
@@ -776,7 +827,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
@@ -793,32 +845,43 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-026'(_Config) ->
+'Serialization-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-026a'(_Config) ->
+'Serialization-026a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-027'(_Config) ->
+'Serialization-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-027a'(_Config) ->
+'Serialization-027a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-028'(_Config) ->
+'Serialization-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-029'(_Config) ->
+'Serialization-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-030'(_Config) ->
+'Serialization-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-031'(_Config) ->
+'Serialization-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-032'(_Config) ->
+'Serialization-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"serialization"}.
-'Serialization-033'(_Config) ->
+'Serialization-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \"&#x6e;&#x6f;\";
          <result>ok</result>
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -827,14 +890,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-034'(_Config) ->
+'Serialization-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \" no \";
          <result>ok</result>
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-034.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -843,7 +908,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-035'(_Config) ->
+'Serialization-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:parameter-document \"Serialization/serialization-eqnames.xml\";
@@ -858,7 +924,8 @@ environment('user-defined-types') ->
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-035.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[ta\\]</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[tb\\]</serialization-matches>", Res]),
@@ -877,14 +944,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-036'(_Config) ->
+'Serialization-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \" 0 \";
          <result>ok</result>
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-036.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -893,14 +962,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Serialization-037'(_Config) ->
+'Serialization-037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \"1\";
          <result>ok</result>
         ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-037.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 

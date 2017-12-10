@@ -30,9 +30,13 @@
 -export(['generate-id-904'/1]).
 -export(['generate-id-905'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/copy.xq") catch _:_ -> ok end,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+, try  xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'generate-id-000',
    'generate-id-001',
@@ -59,97 +63,97 @@ all() -> [
    'generate-id-903',
    'generate-id-904',
    'generate-id-905'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -161,60 +165,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -222,25 +226,27 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('collection') ->
+environment('collection',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
-{collections, [{"",["../docs/works-mod.xml",
-"../docs/auction.xml"]}]},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{collections, [{"",[filename:join(BaseDir, "../docs/works-mod.xml"),
+filename:join(BaseDir, "../docs/auction.xml")]}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'generate-id-000'(_Config) ->
+'generate-id-000'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "generate-id(())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-000.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -257,12 +263,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-001'(_Config) ->
+'generate-id-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "generate-id(/*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-001.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -271,12 +279,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-002'(_Config) ->
+'generate-id-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "generate-id((//@*)[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -285,12 +295,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-003'(_Config) ->
+'generate-id-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "generate-id(/)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-003.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -299,12 +311,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-004'(_Config) ->
+'generate-id-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "generate-id((//comment())[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -313,12 +327,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-005'(_Config) ->
+'generate-id-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "generate-id((//processing-instruction())[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-005.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -327,12 +343,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-006'(_Config) ->
+'generate-id-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "generate-id((//text())[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-006.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -341,14 +359,17 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-007'(_Config) ->
+'generate-id-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'generate-id-008'(_Config) ->
+'generate-id-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "generate-id() eq generate-id(/)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -357,12 +378,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-009'(_Config) ->
+'generate-id-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/*/(generate-id() eq generate-id(.))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-009.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -371,13 +394,15 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-010'(_Config) ->
+'generate-id-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $nodes := (/ | //*/(.|@*|comment()|processing-instruction()|text())) 
             return count($nodes) eq count(distinct-values($nodes/generate-id()))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-010.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -386,15 +411,18 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-011'(_Config) ->
+'generate-id-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'generate-id-012'(_Config) ->
+'generate-id-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $nodes := collection()
             return count($nodes) eq count(distinct-values($nodes/generate-id()))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('collection')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('collection',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-012.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -403,13 +431,15 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-013'(_Config) ->
+'generate-id-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $nodes := collection()//*
             return count($nodes) eq count(distinct-values($nodes/generate-id()))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('collection')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('collection',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-013.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -418,15 +448,17 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-014'(_Config) ->
+'generate-id-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy(/*))
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-014.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -435,15 +467,17 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-015'(_Config) ->
+'generate-id-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy((//@*)[1]))
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-015.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -452,15 +486,17 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-016'(_Config) ->
+'generate-id-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy(/*)) eq generate-id(/*)
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-016.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -469,15 +505,17 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-017'(_Config) ->
+'generate-id-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $att := (//@*)[1] return generate-id(copy:copy($att)) eq generate-id($att)
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-017.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -486,15 +524,18 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-018'(_Config) ->
+'generate-id-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"xpath-1.0-compatibility"}.
-'generate-id-019'(_Config) ->
+'generate-id-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $nodes := (/ | //*/(.|@*|comment()|processing-instruction()|text())) 
          return every $id in $nodes/generate-id() satisfies matches($id, '^[A-Za-z][A-Za-z0-9]*$')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-019.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -503,12 +544,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-901'(_Config) ->
+'generate-id-901'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $f := function() {generate-id()} return $f()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-901.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -517,12 +560,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-902'(_Config) ->
+'generate-id-902'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $f := function($x as item()) {generate-id($x)} return $f(3)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-902.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -531,12 +576,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-903'(_Config) ->
+'generate-id-903'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $i in 1 to 20 return generate-id($i)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-903.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -545,12 +592,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-904'(_Config) ->
+'generate-id-904'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $f := function($x as item()) {\"\"} return generate-id($f)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-904.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -559,12 +608,14 @@ environment('collection') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'generate-id-905'(_Config) ->
+'generate-id-905'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "generate-id(//*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-905.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

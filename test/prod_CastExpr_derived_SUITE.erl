@@ -164,9 +164,13 @@
 -export(['cbcl-cast-gYearMonth-004'/1]).
 -export(['cbcl-case-anyUri-001'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'cast-derived-1',
    'cast-derived-2',
@@ -327,97 +331,97 @@ all() -> [
    'cbcl-cast-gYearMonth-003',
    'cbcl-cast-gYearMonth-004',
    'cbcl-case-anyUri-001'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -429,60 +433,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -490,35 +494,37 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('derived') ->
+environment('derived',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"CastExpr/derived.xsd","http://www.w3.org/XQueryTest/derivedTypes"}]},
+{schemas, [{filename:join(BaseDir, "CastExpr/derived.xsd"),"http://www.w3.org/XQueryTest/derivedTypes"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('durations') ->
+environment('durations',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/CastExpr/durations.xml",".",""}]},
-{schemas, [{"CastExpr/derived.xsd","http://www.w3.org/XQueryTest/derivedTypes"}]},
+{sources, [{filename:join(BaseDir, "CastExpr/durations.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "CastExpr/derived.xsd"),"http://www.w3.org/XQueryTest/derivedTypes"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'cast-derived-1'(_Config) ->
+'cast-derived-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -527,11 +533,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-2'(_Config) ->
+'cast-derived-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -540,11 +548,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-3'(_Config) ->
+'cast-derived-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(-10.0) return $value cast as xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -553,11 +563,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-4'(_Config) ->
+'cast-derived-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -566,11 +578,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-5'(_Config) ->
+'cast-derived-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -579,11 +593,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-6'(_Config) ->
+'cast-derived-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(-10.0) return $value cast as xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -592,11 +608,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-7'(_Config) ->
+'cast-derived-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -605,11 +623,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-8'(_Config) ->
+'cast-derived-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -618,11 +638,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-9'(_Config) ->
+'cast-derived-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -631,11 +653,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-10'(_Config) ->
+'cast-derived-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -644,11 +668,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-11'(_Config) ->
+'cast-derived-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -657,11 +683,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-12'(_Config) ->
+'cast-derived-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -670,11 +698,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-13'(_Config) ->
+'cast-derived-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -683,11 +713,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-14'(_Config) ->
+'cast-derived-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -696,11 +728,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-15'(_Config) ->
+'cast-derived-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -709,11 +743,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-16'(_Config) ->
+'cast-derived-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -722,11 +758,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-17'(_Config) ->
+'cast-derived-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -735,11 +773,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-18'(_Config) ->
+'cast-derived-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -748,11 +788,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-19'(_Config) ->
+'cast-derived-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -761,11 +803,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-20'(_Config) ->
+'cast-derived-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -774,11 +818,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-derived-21'(_Config) ->
+'cast-derived-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-derived-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -787,11 +833,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-1'(_Config) ->
+'cast-to-parent-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:decimal(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -800,11 +848,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-2'(_Config) ->
+'cast-to-parent-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -813,11 +863,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-3'(_Config) ->
+'cast-to-parent-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:nonPositiveInteger(-10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -826,11 +878,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-4'(_Config) ->
+'cast-to-parent-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:long(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -839,11 +893,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-5'(_Config) ->
+'cast-to-parent-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:nonNegativeInteger(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -852,11 +908,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-6'(_Config) ->
+'cast-to-parent-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:negativeInteger(-10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -865,11 +923,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-7'(_Config) ->
+'cast-to-parent-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:int(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -878,11 +938,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-8'(_Config) ->
+'cast-to-parent-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:unsignedLong(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -891,11 +953,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-9'(_Config) ->
+'cast-to-parent-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:positiveInteger(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -904,11 +968,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-10'(_Config) ->
+'cast-to-parent-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:short(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -917,11 +983,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-11'(_Config) ->
+'cast-to-parent-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:unsignedInt(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -930,11 +998,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-12'(_Config) ->
+'cast-to-parent-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:unsignedShort(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -943,11 +1013,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-13'(_Config) ->
+'cast-to-parent-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:unsignedByte(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -956,11 +1028,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-14'(_Config) ->
+'cast-to-parent-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:byte(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -969,11 +1043,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-15'(_Config) ->
+'cast-to-parent-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:decimal(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -982,11 +1058,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-16'(_Config) ->
+'cast-to-parent-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -995,11 +1073,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-17'(_Config) ->
+'cast-to-parent-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:positiveInteger(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1008,11 +1088,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-18'(_Config) ->
+'cast-to-parent-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:long(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1021,11 +1103,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-19'(_Config) ->
+'cast-to-parent-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:int(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1034,11 +1118,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-20'(_Config) ->
+'cast-to-parent-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:unsignedLong(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1047,11 +1133,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-to-parent-21'(_Config) ->
+'cast-to-parent-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:short(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-to-parent-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1060,11 +1148,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-1'(_Config) ->
+'cast-within-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(-10.0) return $value cast as xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1073,11 +1163,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-2'(_Config) ->
+'cast-within-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1086,11 +1178,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-3'(_Config) ->
+'cast-within-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1099,11 +1193,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-4'(_Config) ->
+'cast-within-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(-10.0) return $value cast as xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1112,11 +1208,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-5'(_Config) ->
+'cast-within-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1125,11 +1223,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-6'(_Config) ->
+'cast-within-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1138,11 +1238,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-7'(_Config) ->
+'cast-within-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1151,11 +1253,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-8'(_Config) ->
+'cast-within-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1164,11 +1268,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-9'(_Config) ->
+'cast-within-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1177,11 +1283,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-10'(_Config) ->
+'cast-within-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1190,11 +1298,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-11'(_Config) ->
+'cast-within-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1203,11 +1313,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-12'(_Config) ->
+'cast-within-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1216,11 +1328,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-13'(_Config) ->
+'cast-within-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:long(10.0) return $value cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1229,11 +1343,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-14'(_Config) ->
+'cast-within-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:long(10.0) return $value cast as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1242,11 +1358,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-15'(_Config) ->
+'cast-within-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:long(-10) return $value cast as xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1255,11 +1373,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-16'(_Config) ->
+'cast-within-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1268,11 +1388,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-17'(_Config) ->
+'cast-within-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1281,11 +1403,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-18'(_Config) ->
+'cast-within-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1294,11 +1418,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-19'(_Config) ->
+'cast-within-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1307,11 +1433,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-20'(_Config) ->
+'cast-within-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1320,11 +1448,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cast-within-21'(_Config) ->
+'cast-within-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cast-within-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1333,13 +1463,16 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-derived-001'(_Config) ->
+'cbcl-cast-derived-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'cbcl-cast-byte-001'(_Config) ->
+'cbcl-cast-byte-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:byte(128)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-byte-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1348,11 +1481,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-byte-002'(_Config) ->
+'cbcl-cast-byte-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:byte(-129)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-byte-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1361,11 +1496,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-byte-003'(_Config) ->
+'cbcl-cast-byte-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:byte(\"128\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-byte-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1374,11 +1511,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-byte-004'(_Config) ->
+'cbcl-cast-byte-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:byte(\"-129\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-byte-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1387,11 +1526,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-date-001'(_Config) ->
+'cbcl-cast-date-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-25252734927766555-06-06\" cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-date-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1400,11 +1541,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-date-002'(_Config) ->
+'cbcl-cast-date-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"25252734927766555-07-29\" cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-date-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1413,11 +1556,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-dateTime-001'(_Config) ->
+'cbcl-cast-dateTime-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-25252734927766555-06-06T00:00:00Z\" cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-dateTime-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1426,11 +1571,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-dateTime-002'(_Config) ->
+'cbcl-cast-dateTime-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"25252734927766555-07-29T00:00:00Z\" cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-dateTime-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1439,11 +1586,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-dayTimeDuration-001'(_Config) ->
+'cbcl-cast-dayTimeDuration-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"P11768614336404564651D\" cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-dayTimeDuration-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1452,11 +1601,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-dayTimeDuration-002'(_Config) ->
+'cbcl-cast-dayTimeDuration-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-P11768614336404564651D\" cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-dayTimeDuration-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1465,11 +1616,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-decimal-001'(_Config) ->
+'cbcl-cast-decimal-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.7976931348623157E+308 cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-decimal-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0001") of 
       true -> {comment, "Correct error"};
@@ -1486,11 +1639,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-decimal-002'(_Config) ->
+'cbcl-cast-decimal-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-1.7976931348623157E+308 cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-decimal-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0001") of 
       true -> {comment, "Correct error"};
@@ -1507,11 +1662,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-decimal-003'(_Config) ->
+'cbcl-cast-decimal-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('3.402823e38') cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-decimal-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0001") of 
       true -> {comment, "Correct error"};
@@ -1528,11 +1685,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-decimal-004'(_Config) ->
+'cbcl-cast-decimal-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('-3.402823e38') cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-decimal-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0001") of 
       true -> {comment, "Correct error"};
@@ -1549,11 +1708,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-duration-001'(_Config) ->
+'cbcl-cast-duration-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-P768614336404564651Y\" cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-duration-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1562,11 +1723,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-duration-002'(_Config) ->
+'cbcl-cast-duration-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"P768614336404564651Y\" cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-duration-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1575,11 +1738,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-entity-001'(_Config) ->
+'cbcl-cast-entity-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NCName('entity') cast as xs:ENTITY",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-entity-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "entity") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1588,11 +1753,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-entity-002'(_Config) ->
+'cbcl-cast-entity-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:current-time() cast as xs:ENTITY",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-entity-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1601,11 +1768,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-id-001'(_Config) ->
+'cbcl-cast-id-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NCName('id') cast as xs:ID",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-id-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "id") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1614,11 +1783,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-id-002'(_Config) ->
+'cbcl-cast-id-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:current-time() cast as xs:ID",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-id-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1627,11 +1798,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-idref-001'(_Config) ->
+'cbcl-cast-idref-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NCName('idref') cast as xs:IDREF",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-idref-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "idref") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1640,11 +1813,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-idref-002'(_Config) ->
+'cbcl-cast-idref-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:current-time() cast as xs:IDREF",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-idref-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1653,11 +1828,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-int-001'(_Config) ->
+'cbcl-cast-int-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:int(2147483648)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-int-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1666,11 +1843,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-int-002'(_Config) ->
+'cbcl-cast-int-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:int(-2147483649)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-int-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1679,11 +1858,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-int-003'(_Config) ->
+'cbcl-cast-int-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:int(\"2147483648\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-int-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1692,11 +1873,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-int-004'(_Config) ->
+'cbcl-cast-int-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:int(\"-2147483649\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-int-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1705,11 +1888,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-integer-001'(_Config) ->
+'cbcl-cast-integer-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.7976931348623157E+308 cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-integer-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0003") of 
       true -> {comment, "Correct error"};
@@ -1726,11 +1911,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-integer-002'(_Config) ->
+'cbcl-cast-integer-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-1.7976931348623157E+308 cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-integer-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0003") of 
       true -> {comment, "Correct error"};
@@ -1747,11 +1934,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-integer-003'(_Config) ->
+'cbcl-cast-integer-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('3.402823e38') cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-integer-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0003") of 
       true -> {comment, "Correct error"};
@@ -1768,11 +1957,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-integer-004'(_Config) ->
+'cbcl-cast-integer-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('-3.402823e38') cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-integer-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0003") of 
       true -> {comment, "Correct error"};
@@ -1789,11 +1980,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-language-001'(_Config) ->
+'cbcl-cast-language-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:language('en-gb') cast as xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-language-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "en-gb") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1802,11 +1995,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-long-001'(_Config) ->
+'cbcl-cast-long-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(9223372036854775808)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-long-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -1823,11 +2018,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-long-002'(_Config) ->
+'cbcl-cast-long-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(-9223372036854775809)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-long-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -1844,11 +2041,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-long-003'(_Config) ->
+'cbcl-cast-long-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(\"9223372036854775808\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-long-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1857,11 +2056,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-long-004'(_Config) ->
+'cbcl-cast-long-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(\"-9223372036854775809\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-long-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1870,11 +2071,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-name-001'(_Config) ->
+'cbcl-cast-name-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NCName('NCName') cast as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-name-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NCName") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1883,11 +2086,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-name-002'(_Config) ->
+'cbcl-cast-name-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:current-time() cast as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-name-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1896,11 +2101,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-ncname-001'(_Config) ->
+'cbcl-cast-ncname-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:ID('id') cast as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-ncname-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "id") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1909,11 +2116,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-ncname-002'(_Config) ->
+'cbcl-cast-ncname-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:current-time() cast as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-ncname-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1922,11 +2131,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-negativeInteger-001'(_Config) ->
+'cbcl-cast-negativeInteger-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:negativeInteger(0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-negativeInteger-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1935,11 +2146,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-negativeInteger-002'(_Config) ->
+'cbcl-cast-negativeInteger-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:negativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-negativeInteger-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1948,12 +2161,14 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-nmtoken-001'(_Config) ->
+'cbcl-cast-nmtoken-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $string := (\"&#xD;&#xA;&#x9; foobar &#xA;&#xD;&#x9;\" cast as xs:NMTOKEN) return not(contains($string, '&#x9;') or contains($string, '&#xA;') or contains($string, '&#xD;') or string-length($string) ne 6)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-nmtoken-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1962,13 +2177,16 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-nmtoken-001b'(_Config) ->
+'cbcl-cast-nmtoken-001b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'cbcl-cast-nmtoken-002'(_Config) ->
+'cbcl-cast-nmtoken-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NMTOKEN('NMTOKEN') cast as xs:NMTOKEN",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-nmtoken-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NMTOKEN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1977,11 +2195,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-nonNegativeInteger-001'(_Config) ->
+'cbcl-cast-nonNegativeInteger-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-nonNegativeInteger-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1990,11 +2210,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-nonNegativeInteger-002'(_Config) ->
+'cbcl-cast-nonNegativeInteger-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-nonNegativeInteger-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2003,11 +2225,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-nonPositiveInteger-001'(_Config) ->
+'cbcl-cast-nonPositiveInteger-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonPositiveInteger(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-nonPositiveInteger-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2016,11 +2240,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-nonPositiveInteger-002'(_Config) ->
+'cbcl-cast-nonPositiveInteger-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-nonPositiveInteger-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2029,7 +2255,8 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-normalizedString-001'(_Config) ->
+'cbcl-cast-normalizedString-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $string in (\"&#xD; foo &#x9; bar &#xA;\" cast as xs:normalizedString)
         return not(contains($string, '&#x9;') or 
@@ -2038,7 +2265,8 @@ environment('durations') ->
                    string-length($string) ne 13)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-normalizedString-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2047,13 +2275,16 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-normalizedString-001b'(_Config) ->
+'cbcl-cast-normalizedString-001b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'cbcl-cast-positiveInteger-001'(_Config) ->
+'cbcl-cast-positiveInteger-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-positiveInteger-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2062,11 +2293,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-positiveInteger-002'(_Config) ->
+'cbcl-cast-positiveInteger-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-positiveInteger-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2075,11 +2308,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-short-001'(_Config) ->
+'cbcl-cast-short-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:short(32768)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-short-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2088,11 +2323,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-short-002'(_Config) ->
+'cbcl-cast-short-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:short(-32769)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-short-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2101,11 +2338,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-short-003'(_Config) ->
+'cbcl-cast-short-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:short(\"32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-short-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2114,11 +2353,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-short-004'(_Config) ->
+'cbcl-cast-short-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:short(\"-32769\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-short-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2127,7 +2368,8 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-token-001'(_Config) ->
+'cbcl-cast-token-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $string in (\"&#xD; foo &#x9; bar &#xA;\" cast as xs:token) 
         return not(contains($string, '&#x9;') or 
@@ -2136,7 +2378,8 @@ environment('durations') ->
                    string-length($string) ne 7)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-token-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2145,13 +2388,16 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-token-001b'(_Config) ->
+'cbcl-cast-token-001b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'cbcl-cast-unsignedByte-001'(_Config) ->
+'cbcl-cast-unsignedByte-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedByte(256)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedByte-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2160,11 +2406,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedByte-002'(_Config) ->
+'cbcl-cast-unsignedByte-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedByte(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedByte-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2173,11 +2421,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedByte-003'(_Config) ->
+'cbcl-cast-unsignedByte-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedByte(\"256\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedByte-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2186,11 +2436,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedByte-004'(_Config) ->
+'cbcl-cast-unsignedByte-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedByte(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedByte-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2199,11 +2451,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedInt-001'(_Config) ->
+'cbcl-cast-unsignedInt-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedInt(4294967296)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedInt-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2212,11 +2466,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedInt-002'(_Config) ->
+'cbcl-cast-unsignedInt-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedInt(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedInt-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2225,11 +2481,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedInt-003'(_Config) ->
+'cbcl-cast-unsignedInt-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedInt(\"4294967296\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedInt-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2238,11 +2496,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedInt-004'(_Config) ->
+'cbcl-cast-unsignedInt-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedInt(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedInt-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2251,11 +2511,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedLong-001'(_Config) ->
+'cbcl-cast-unsignedLong-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(18446744073709551616)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedLong-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -2272,11 +2534,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedLong-002'(_Config) ->
+'cbcl-cast-unsignedLong-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedLong-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2285,11 +2549,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedLong-003'(_Config) ->
+'cbcl-cast-unsignedLong-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(\"18446744073709551616\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedLong-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2298,11 +2564,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedLong-004'(_Config) ->
+'cbcl-cast-unsignedLong-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedLong-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2311,11 +2579,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedShort-001'(_Config) ->
+'cbcl-cast-unsignedShort-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(65536)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedShort-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2324,11 +2594,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedShort-002'(_Config) ->
+'cbcl-cast-unsignedShort-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedShort-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2337,11 +2609,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedShort-003'(_Config) ->
+'cbcl-cast-unsignedShort-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(\"65536\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedShort-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2350,11 +2624,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedShort-004'(_Config) ->
+'cbcl-cast-unsignedShort-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedShort-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2363,11 +2639,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-yearMonthDuration-001'(_Config) ->
+'cbcl-cast-yearMonthDuration-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-P768614336404564651Y\" cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-yearMonthDuration-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2376,11 +2654,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-yearMonthDuration-002'(_Config) ->
+'cbcl-cast-yearMonthDuration-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"P768614336404564651Y\" cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-yearMonthDuration-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2389,11 +2669,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-date-003'(_Config) ->
+'cbcl-cast-date-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"18446744073709551616-05-15\" cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-date-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2402,11 +2684,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-date-004'(_Config) ->
+'cbcl-cast-date-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"18446744073709551616-QQ-15\" cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-date-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -2423,11 +2707,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-dateTime-003'(_Config) ->
+'cbcl-cast-dateTime-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"18446744073709551616-05-15T16:15:00\" cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-dateTime-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2436,11 +2722,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-dateTime-004'(_Config) ->
+'cbcl-cast-dateTime-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"18446744073709551616-QQ-15T16:15:00\" cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-dateTime-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -2457,11 +2745,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-nonNegativeInteger-003'(_Config) ->
+'cbcl-cast-nonNegativeInteger-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-nonNegativeInteger-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2470,11 +2760,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-nonPositiveInteger-003'(_Config) ->
+'cbcl-cast-nonPositiveInteger-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"+00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-nonPositiveInteger-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2483,11 +2775,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedByte-005'(_Config) ->
+'cbcl-cast-unsignedByte-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedByte(\"-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedByte-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2496,11 +2790,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedInt-005'(_Config) ->
+'cbcl-cast-unsignedInt-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedInt(\"-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedInt-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2509,11 +2805,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedLong-005'(_Config) ->
+'cbcl-cast-unsignedLong-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(\"-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedLong-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2522,11 +2820,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-unsignedShort-005'(_Config) ->
+'cbcl-cast-unsignedShort-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(\"-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-unsignedShort-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2535,11 +2835,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-gYear-001'(_Config) ->
+'cbcl-cast-gYear-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"99999999999999999999999999999\" cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-gYear-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2548,11 +2850,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-gYearMonth-001'(_Config) ->
+'cbcl-cast-gYearMonth-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"99999999999999999999999999999-01\" cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-gYearMonth-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2561,11 +2865,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-gYearMonth-002'(_Config) ->
+'cbcl-cast-gYearMonth-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"99999999999999999999999999999-XX\" cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-gYearMonth-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2574,11 +2880,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-gYear-002'(_Config) ->
+'cbcl-cast-gYear-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"0000\" cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-gYear-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2587,11 +2895,13 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-gYear-003'(_Config) ->
+'cbcl-cast-gYear-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"-0000\" cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-gYear-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2600,13 +2910,16 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-gYear-003a'(_Config) ->
+'cbcl-cast-gYear-003a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'cbcl-cast-gYearMonth-003'(_Config) ->
+'cbcl-cast-gYearMonth-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"0000-05\" cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-cast-gYearMonth-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2615,13 +2928,16 @@ environment('durations') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-cast-gYearMonth-004'(_Config) ->
+'cbcl-cast-gYearMonth-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'cbcl-case-anyUri-001'(_Config) ->
+'cbcl-case-anyUri-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"http://example.com?query=\" cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-case-anyUri-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com?query=") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

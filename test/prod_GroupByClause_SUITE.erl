@@ -36,9 +36,13 @@
 -export(['use-case-groupby-Q7'/1]).
 -export(['use-case-groupby-Q8'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'group-001',
    'group-001a',
@@ -71,97 +75,97 @@ all() -> [
    'use-case-groupby-Q6',
    'use-case-groupby-Q7',
    'use-case-groupby-Q8'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -173,60 +177,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -234,22 +238,23 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('GroupByUseCases') ->
+environment('GroupByUseCases',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/GroupByClause/products.xml","$products-doc",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/GroupByClause/sales-records.xml","$sales-records-doc",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/GroupByClause/stores.xml","$stores-doc",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/GroupByClause/books.xml","$books-doc",""}]},
+{sources, [{filename:join(BaseDir, "GroupByClause/products.xml"), "$products-doc",""},
+{filename:join(BaseDir, "GroupByClause/sales-records.xml"), "$sales-records-doc",""},
+{filename:join(BaseDir, "GroupByClause/stores.xml"), "$stores-doc",""},
+{filename:join(BaseDir, "GroupByClause/books.xml"), "$books-doc",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'group-001'(_Config) ->
+'group-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " 
             for $x in 1 to 100 
             let $key := $x mod 10 
@@ -258,7 +263,8 @@ environment('GroupByUseCases') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"\"1 11 21 31 41 51 61 71 81 91\", \"2 12 22 32 42 52 62 72 82 92\", \"3 13 23 33 43 53 63 73 83 93\", 
             \"4 14 24 34 44 54 64 74 84 94\", \"5 15 25 35 45 55 65 75 85 95\", \"6 16 26 36 46 56 66 76 86 96\", 
             \"7 17 27 37 47 57 67 77 87 97\", \"8 18 28 38 48 58 68 78 88 98\", \"9 19 29 39 49 59 69 79 89 99\", 
@@ -270,7 +276,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-001a'(_Config) ->
+'group-001a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " 
             for $x in 1 to 100 
             group by $key := $x mod 10 
@@ -278,7 +285,8 @@ environment('GroupByUseCases') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-001a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"\"1 11 21 31 41 51 61 71 81 91\", \"2 12 22 32 42 52 62 72 82 92\", \"3 13 23 33 43 53 63 73 83 93\", 
             \"4 14 24 34 44 54 64 74 84 94\", \"5 15 25 35 45 55 65 75 85 95\", \"6 16 26 36 46 56 66 76 86 96\", 
             \"7 17 27 37 47 57 67 77 87 97\", \"8 18 28 38 48 58 68 78 88 98\", \"9 19 29 39 49 59 69 79 89 99\", 
@@ -290,7 +298,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-002'(_Config) ->
+'group-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " 
             for $x in //employee 
             let $key := $x/@gender 
@@ -298,10 +307,11 @@ environment('GroupByUseCases') ->
             return concat($key, ':',  
                    string-join(for $e in $x return $e/@name/string(), ',')) 
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"
             \"female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
             \"male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
@@ -313,17 +323,19 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-002a'(_Config) ->
+'group-002a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " 
             for $x in //employee 
             group by $key := $x/@gender 
             return concat($key, ':',  
                    string-join(for $e in $x return $e/@name/string(), ',')) 
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-002a.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"
             \"female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
             \"male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
@@ -335,7 +347,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-003'(_Config) ->
+'group-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " 
             for $x in //employee 
             let $key := ($x/@gender = 'male') 
@@ -343,10 +356,11 @@ environment('GroupByUseCases') ->
             return concat($key, ':',  
                    string-join(for $e in $x return $e/@name/string(), ',')) 
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-003.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"
             \"false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
             \"true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
@@ -358,17 +372,19 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-003a'(_Config) ->
+'group-003a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " 
             for $x in //employee 
             group by $key := ($x/@gender = 'male') 
             return concat($key, ':',  
                    string-join(for $e in $x return $e/@name/string(), ',')) 
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-003a.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"
             \"false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13\",
             \"true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12\"
@@ -380,17 +396,19 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-004'(_Config) ->
+'group-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " 
             for $x in //employee 
             let $key := $x/@gender 
             group by $key 
             return concat($key, ':', avg($x/hours)) 
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"\"female:41.25\", \"male:37.75\"") of 
       true -> {comment, "Correct permutation"};
       {false, F} -> F 
@@ -399,17 +417,19 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-005'(_Config) ->
+'group-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
             for $x in //employee 
             let $key := $x/hours 
             group by $key 
             return <group hours=\"{$key}\" avHours=\"{avg($x/hours)}\"/> 
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-005.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -418,7 +438,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-006'(_Config) ->
+'group-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee 
@@ -426,10 +447,11 @@ environment('GroupByUseCases') ->
             return <group status=\"{$key}\" count=\"{count($x)}\"/> 
         }</out>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-006.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<out><group status=\"\" count=\"12\"/><group status=\"active\" count=\"1\"/></out>") of 
       true -> {comment, "XML Deep equal"};
@@ -446,7 +468,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-007'(_Config) ->
+'group-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = " 
             for $x in //employee 
             let $key := $x/hours[1] 
@@ -454,10 +477,11 @@ environment('GroupByUseCases') ->
             where count($x) gt 2 
             return concat($key, ':', count($x)) 
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-007.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"\"40:3\", \"80:3\", \"20:5\"") of 
       true -> {comment, "Correct permutation"};
       {false, F} -> F 
@@ -466,7 +490,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-008'(_Config) ->
+'group-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee 
@@ -476,10 +501,11 @@ environment('GroupByUseCases') ->
             return <group count=\"{count($x)}\"> {string-join($x/@name, '|')} </group> 
         }</out>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><group count=\"2\">Jane Doe 7|John Doe 8</group><group count=\"2\">Jane Doe 9|John Doe 10</group><group count=\"3\">Jane Doe 11|John Doe 12|Jane Doe 13</group><group count=\"6\">Jane Doe 1|John Doe 2|Jane Doe 3|John Doe 4|Jane Doe 5|John Doe 6</group></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -488,7 +514,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-009'(_Config) ->
+'group-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee 
@@ -498,10 +525,11 @@ environment('GroupByUseCases') ->
             return <group count=\"{count($x)}\" key=\"{$key}\"> {string-join($x/pnum, '|')} </group> 
         }</out>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-009.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -510,7 +538,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-009a'(_Config) ->
+'group-009a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee 
@@ -519,10 +548,11 @@ environment('GroupByUseCases') ->
             return <group count=\"{count($x)}\" key=\"{$key}\"> {string-join($x/pnum, '|')} </group> 
         }</out>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-009a.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><group count=\"6\" key=\"E1\">P1|P2|P3|P4|P5|P6</group><group count=\"2\" key=\"E2\">P1|P2</group><group count=\"2\" key=\"E3\">P2|P2</group><group count=\"3\" key=\"E4\">P2|P4|P5</group></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -531,7 +561,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-010'(_Config) ->
+'group-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee 
@@ -540,10 +571,11 @@ environment('GroupByUseCases') ->
             return <group key=\"{$key}\" count=\"{count($x)}\"/> 
         }</out>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-010.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<out><group key=\"NaN\" count=\"6\"/><group key=\"42\" count=\"7\"/></out>") of 
       true -> {comment, "XML Deep equal"};
@@ -560,7 +592,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-011'(_Config) ->
+'group-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $a at $p in 1 to 10
         let $g := $p mod 2
@@ -569,7 +602,8 @@ environment('GroupByUseCases') ->
      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"\"1 3 5 7 9\", \"2 4 6 8 10\"") of 
       true -> {comment, "Correct permutation"};
       {false, F} -> F 
@@ -578,7 +612,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-012'(_Config) ->
+'group-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee[age > 300] 
@@ -589,10 +624,11 @@ environment('GroupByUseCases') ->
                    } </group> 
         }</out>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-012.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -601,7 +637,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-013'(_Config) ->
+'group-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
        for $x in 1 to 10, $y in 1 to 4
        let $org_y := $y
@@ -610,7 +647,8 @@ environment('GroupByUseCases') ->
      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<grp even=\"1\" y=\"1\">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp><grp even=\"0\" y=\"1\">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp>") of 
       true -> {comment, "XML Deep equal"};
@@ -627,7 +665,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-014'(_Config) ->
+'group-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $x := 1
          return
@@ -638,7 +677,8 @@ environment('GroupByUseCases') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0094") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -647,7 +687,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-015'(_Config) ->
+'group-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           for $x in (true(), \"true\", xs:QName(\"true\"))
           group by $x
@@ -655,7 +696,8 @@ environment('GroupByUseCases') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"true(), \"true\", xs:QName(\"true\")") of 
       true -> {comment, "Correct permutation"};
       {false, F} -> F 
@@ -664,7 +706,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-016'(_Config) ->
+'group-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
        count(
          for $y in 1 to 10
@@ -674,7 +717,8 @@ environment('GroupByUseCases') ->
      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -683,9 +727,11 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-017'(_Config) ->
+'group-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"non_unicode_codepoint_collation"}.
-'group-018'(_Config) ->
+'group-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       count(
          for $y in (\"ax\", \"bx\", \"cx\", \"Ay\", \"By\", \"Cy\")
@@ -697,7 +743,7 @@ environment('GroupByUseCases') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -706,7 +752,8 @@ environment('GroupByUseCases') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-018.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -715,7 +762,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'group-019'(_Config) ->
+'group-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
            let $without_tz := xs:dateTime('2015-04-08T01:30:00') 
            let $with_tz := adjust-dateTime-to-timezone($without_tz, implicit-timezone())
@@ -724,7 +772,8 @@ environment('GroupByUseCases') ->
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "group-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"$result lt 3") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -733,7 +782,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'use-case-groupby-Q1'(_Config) ->
+'use-case-groupby-Q1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
                <sales-qty-by-product>{
                  for $sales in $sales-records-doc/*/record
@@ -746,10 +796,11 @@ environment('GroupByUseCases') ->
                    }</product>
                }</sales-qty-by-product> 
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "use-case-groupby-Q1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<sales-qty-by-product><product name=\"blender\">250</product><product name=\"broiler\">20</product><product name=\"shirt\">10</product><product name=\"socks\">510</product><product name=\"toaster\">200</product></sales-qty-by-product>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -758,7 +809,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'use-case-groupby-Q2'(_Config) ->
+'use-case-groupby-Q2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
                <result>{
                  for $sales in $sales-records-doc/*/record
@@ -774,10 +826,11 @@ environment('GroupByUseCases') ->
                    </group>
                }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "use-case-groupby-Q2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><group><state>CA</state><category>clothes</category><total-qty>510</total-qty></group><group><state>CA</state><category>kitchen</category><total-qty>170</total-qty></group><group><state>MA</state><category>clothes</category><total-qty>10</total-qty></group><group><state>MA</state><category>kitchen</category><total-qty>300</total-qty></group></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -786,7 +839,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'use-case-groupby-Q3'(_Config) ->
+'use-case-groupby-Q3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
                <result>{
                  for $sales in $sales-records-doc/*/record
@@ -804,10 +858,11 @@ environment('GroupByUseCases') ->
                    </group>
                }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "use-case-groupby-Q3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><group><state>CA</state><category>clothes</category><total-revenue>2550</total-revenue></group><group><state>CA</state><category>kitchen</category><total-revenue>6500</total-revenue></group><group><state>MA</state><category>clothes</category><total-revenue>100</total-revenue></group><group><state>MA</state><category>kitchen</category><total-revenue>14000</total-revenue></group></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -816,7 +871,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'use-case-groupby-Q4'(_Config) ->
+'use-case-groupby-Q4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
                <result>{
                  for $store in $stores-doc/*/store
@@ -842,10 +898,11 @@ environment('GroupByUseCases') ->
                    }</state>
                }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "use-case-groupby-Q4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><state name=\"CA\"><category name=\"clothes\"><product name=\"socks\" total-qty=\"510\"/></category><category name=\"kitchen\"><product name=\"broiler\" total-qty=\"20\"/><product name=\"toaster\" total-qty=\"150\"/></category></state><state name=\"MA\"><category name=\"clothes\"><product name=\"shirt\" total-qty=\"10\"/></category><category name=\"kitchen\"><product name=\"blender\" total-qty=\"250\"/><product name=\"toaster\" total-qty=\"50\"/></category></state><state name=\"WA\"><category name=\"clothes\"/><category name=\"kitchen\"/></state></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -854,7 +911,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'use-case-groupby-Q5'(_Config) ->
+'use-case-groupby-Q5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
                <result>{
                  for $sales in $sales-records-doc/*/record
@@ -870,10 +928,11 @@ environment('GroupByUseCases') ->
                    }</store>
                }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "use-case-groupby-Q5.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><store number=\"1\"><product name=\"socks\" qty=\"500\"/><product name=\"broiler\" qty=\"20\"/></store><store number=\"2\"><product name=\"toaster\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"socks\" qty=\"10\"/></store><store number=\"3\"><product name=\"blender\" qty=\"150\"/><product name=\"blender\" qty=\"100\"/><product name=\"toaster\" qty=\"50\"/><product name=\"shirt\" qty=\"10\"/></store></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -882,7 +941,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'use-case-groupby-Q6'(_Config) ->
+'use-case-groupby-Q6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
                <result>{
                  for $sales in $sales-records-doc/*/record
@@ -898,10 +958,11 @@ environment('GroupByUseCases') ->
                    <store number = \"{$storeno}\" total-profit = \"{$total-store-profit}\"/>
                 }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "use-case-groupby-Q6.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><store number=\"3\" total-profit=\"7320\"/><store number=\"2\" total-profit=\"3030\"/><store number=\"1\" total-profit=\"2100\"/></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -910,7 +971,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'use-case-groupby-Q7'(_Config) ->
+'use-case-groupby-Q7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
                <result>{
                  for $book in $books-doc/*/book
@@ -926,10 +988,11 @@ environment('GroupByUseCases') ->
                  }</author>
                }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "use-case-groupby-Q7.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><author name=\"Alan Simon\"><title>SQL:1999</title><title>Strategic Database Technology</title></author><author name=\"Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author><author name=\"Jim Melton\"><title>Advanced SQL:1999</title><title>Querying XML</title><title>SQL:1999</title><title>Understanding SQL and Java Together</title></author><author name=\"Stephen Buxton\"><title>Querying XML</title></author></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -938,7 +1001,8 @@ environment('GroupByUseCases') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'use-case-groupby-Q8'(_Config) ->
+'use-case-groupby-Q8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
                <result>{
                  for $book in $books-doc/*/book
@@ -954,10 +1018,11 @@ environment('GroupByUseCases') ->
                    }</author-list>
                }</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('GroupByUseCases',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "use-case-groupby-Q8.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><author-list names=\"Alan Simon\"><title>Strategic Database Technology</title></author-list><author-list names=\"Jim Melton\"><title>Advanced SQL:1999</title></author-list><author-list names=\"Jim Melton, Alan Simon\"><title>SQL:1999</title></author-list><author-list names=\"Jim Melton, Andrew Eisenberg\"><title>Understanding SQL and Java Together</title></author-list><author-list names=\"Jim Melton, Stephen Buxton\"><title>Querying XML</title></author-list></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 

@@ -35,9 +35,13 @@
 -export(['K2-NamespaceURIFromQNameFunc-3'/1]).
 -export(['K2-NamespaceURIFromQNameFunc-4'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'NamespaceURIFromQNameFunc001',
    'NamespaceURIFromQNameFunc002',
@@ -69,97 +73,97 @@ all() -> [
    'K2-NamespaceURIFromQNameFunc-2',
    'K2-NamespaceURIFromQNameFunc-3',
    'K2-NamespaceURIFromQNameFunc-4'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -171,60 +175,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -232,33 +236,40 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('fsx') ->
+environment('fsx',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ForClause/fsx.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../prod/ForClause/fsx.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'NamespaceURIFromQNameFunc001'(_Config) ->
+'NamespaceURIFromQNameFunc001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc002'(_Config) ->
+'NamespaceURIFromQNameFunc002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc003'(_Config) ->
+'NamespaceURIFromQNameFunc003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc004'(_Config) ->
+'NamespaceURIFromQNameFunc004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc005'(_Config) ->
+'NamespaceURIFromQNameFunc005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc006'(_Config) ->
+'NamespaceURIFromQNameFunc006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "NamespaceURIFromQNameFunc006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -267,11 +278,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'NamespaceURIFromQNameFunc007'(_Config) ->
+'NamespaceURIFromQNameFunc007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName(((),()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "NamespaceURIFromQNameFunc007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -280,11 +293,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'NamespaceURIFromQNameFunc009'(_Config) ->
+'NamespaceURIFromQNameFunc009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "NamespaceURIFromQNameFunc009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -293,13 +308,16 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'NamespaceURIFromQNameFunc010'(_Config) ->
+'NamespaceURIFromQNameFunc010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc011'(_Config) ->
+'NamespaceURIFromQNameFunc011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "NamespaceURIFromQNameFunc011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -308,20 +326,26 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'NamespaceURIFromQNameFunc012'(_Config) ->
+'NamespaceURIFromQNameFunc012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc013'(_Config) ->
+'NamespaceURIFromQNameFunc013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc014'(_Config) ->
+'NamespaceURIFromQNameFunc014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc015'(_Config) ->
+'NamespaceURIFromQNameFunc015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10 XP20"}.
-'NamespaceURIFromQNameFunc015a'(_Config) ->
+'NamespaceURIFromQNameFunc015a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName((//Folder)[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "NamespaceURIFromQNameFunc015a.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0117") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -330,11 +354,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'NamespaceURIFromQNameFunc016'(_Config) ->
+'NamespaceURIFromQNameFunc016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName(xs:integer(\"100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "NamespaceURIFromQNameFunc016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -343,11 +369,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'NamespaceURIFromQNameFunc017'(_Config) ->
+'NamespaceURIFromQNameFunc017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName(xs:time(\"12:00:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "NamespaceURIFromQNameFunc017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -356,19 +384,25 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'NamespaceURIFromQNameFunc018'(_Config) ->
+'NamespaceURIFromQNameFunc018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc019'(_Config) ->
+'NamespaceURIFromQNameFunc019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc020'(_Config) ->
+'NamespaceURIFromQNameFunc020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'NamespaceURIFromQNameFunc021'(_Config) ->
+'NamespaceURIFromQNameFunc021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'K-NamespaceURIFromQNameFunc-1'(_Config) ->
+'K-NamespaceURIFromQNameFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "namespace-uri-from-QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NamespaceURIFromQNameFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -377,11 +411,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NamespaceURIFromQNameFunc-2'(_Config) ->
+'K-NamespaceURIFromQNameFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "namespace-uri-from-QName(1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NamespaceURIFromQNameFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -390,11 +426,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NamespaceURIFromQNameFunc-3'(_Config) ->
+'K-NamespaceURIFromQNameFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(namespace-uri-from-QName( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NamespaceURIFromQNameFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -403,11 +441,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NamespaceURIFromQNameFunc-4'(_Config) ->
+'K-NamespaceURIFromQNameFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "namespace-uri-from-QName( QName(\"example.com/\", \"pre:lname\")) eq xs:anyURI(\"example.com/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NamespaceURIFromQNameFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -416,11 +456,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NamespaceURIFromQNameFunc-5'(_Config) ->
+'K-NamespaceURIFromQNameFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "namespace-uri-from-QName( QName(\"example.com/\", \"pre:lname\")) instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NamespaceURIFromQNameFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -429,14 +471,16 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-NamespaceURIFromQNameFunc-1'(_Config) ->
+'K2-NamespaceURIFromQNameFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace ns = \"http://example.com/ANamespace\"; 
         string(<name xmlns:ns=\"http://example.com/BNamespace\">{namespace-uri-from-QName(\"ns:foo\" cast as xs:QName)}</name>)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NamespaceURIFromQNameFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com/BNamespace") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -445,13 +489,15 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-NamespaceURIFromQNameFunc-2'(_Config) ->
+'K2-NamespaceURIFromQNameFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <e xmlns=\"http://example.com/\"> {namespace-uri-from-QName(node-name(element anElement{\"text\"}))} </e>/string()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NamespaceURIFromQNameFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://example.com/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -460,14 +506,16 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-NamespaceURIFromQNameFunc-3'(_Config) ->
+'K2-NamespaceURIFromQNameFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare default element namespace \"http://example.com/\"; 
         <e xmlns=\"\">{namespace-uri-from-QName(xs:QName(\"l\"))}</e>/string()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NamespaceURIFromQNameFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -476,7 +524,8 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-NamespaceURIFromQNameFunc-4'(_Config) ->
+'K2-NamespaceURIFromQNameFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare default element namespace \"http://example.com/\"; 
         declare namespace p = \"http://example.com/2\"; 
@@ -484,7 +533,8 @@ environment('fsx') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NamespaceURIFromQNameFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "[|http://example.com/3]") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

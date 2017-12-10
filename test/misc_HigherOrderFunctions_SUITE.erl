@@ -134,11 +134,15 @@
 -export(['xqhof21'/1]).
 -export(['xqhof22'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/HigherOrderFunctions/module-hof-003.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/HigherOrderFunctions/functional.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/HigherOrderFunctions/module-xqhof16.xq") catch _:_ -> ok end,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "misc")
+, try  xqerl_module:compile(filename:join(BaseDir, "HigherOrderFunctions/module-hof-003.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "HigherOrderFunctions/functional.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "HigherOrderFunctions/module-xqhof16.xq")) catch _:_ -> ok end
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'hof-001',
    'hof-002',
@@ -269,97 +273,97 @@ all() -> [
    'xqhof20',
    'xqhof21',
    'xqhof22'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -371,60 +375,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -432,25 +436,27 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('user-defined-types') ->
+environment('user-defined-types',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"../docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'hof-001'(_Config) ->
+'hof-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
         let $f := local:f#1 return $f(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -459,7 +465,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-002'(_Config) ->
+'hof-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:f() as xs:integer { 42 }; 
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
@@ -467,7 +474,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"42") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -476,13 +484,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-003'(_Config) ->
+'hof-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace m=\"http://example.com/hof-003\"; 
         let $f := m:f#1 return $f(17)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"18") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -491,11 +501,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-004'(_Config) ->
+'hof-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $f := fn:round#1 return $f(1.2345)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -504,11 +516,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-005'(_Config) ->
+'hof-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $f := concat#8 return $f('a','b','c','d','e','f','g','h')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcdefgh") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -517,7 +531,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-006'(_Config) ->
+'hof-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare default function namespace \"http://example.com/hof-006\"; 
       declare function g($x as xs:integer) as xs:integer { $x + 1 }; 
@@ -525,7 +540,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"22") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -534,14 +550,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-007'(_Config) ->
+'hof-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare default function namespace \"http://www.w3.org/2001/XMLSchema\"; 
       let $f := date#1 return $f('2008-01-31')
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2008-01-31") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -550,11 +568,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-008'(_Config) ->
+'hof-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $f := xs:date#1 return $f('2008-01-31')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2008-01-31") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -563,16 +583,19 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-009'(_Config) ->
+'hof-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'hof-010'(_Config) ->
+'hof-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       let $f as function(*) := local:f#1 return $f(2)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -581,7 +604,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-011'(_Config) ->
+'hof-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:f($x as xs:integer) as xs:integer { $x + 3 }; 
       let $f as function(xs:integer) as xs:integer := local:f#1 
@@ -589,7 +613,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -598,7 +623,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-012'(_Config) ->
+'hof-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:f($x as xs:integer, $y as xs:long) as xs:integer { $x + $y }; 
       let $f as function(xs:integer, xs:long) as xs:integer := local:f#2 
@@ -606,7 +632,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -615,7 +642,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-013'(_Config) ->
+'hof-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:f($x as xs:integer) as xs:integer { $x + 3 }; 
       declare function local:g($x as xs:integer) as xs:integer { $x + 4 }; 
@@ -624,7 +652,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -633,7 +662,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-014'(_Config) ->
+'hof-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:case($x as xs:boolean) as function(*) 
       	{ if ($x) then fn:upper-case#1 else fn:lower-case#1 }; 
@@ -641,7 +671,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "MIKE mike") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -650,14 +681,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-015'(_Config) ->
+'hof-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:case($x as xs:boolean) as function(xs:string?) as xs:string 
       	{ if ($x) then fn:upper-case#1 else fn:lower-case#1 }; 
       local:case(true())(\"Mike\"), local:case(false())(\"Mike\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "MIKE mike") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -666,14 +699,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-016'(_Config) ->
+'hof-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:case($x as function(*), $y as xs:string) as xs:string { $x($y) }; 
       local:case(upper-case#1, \"Mike\"), local:case(lower-case#1, \"Mike\")
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "MIKE mike") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -682,14 +717,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-017'(_Config) ->
+'hof-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:case($x as function(xs:string?) as xs:string, $y as xs:string) as xs:string { $x($y) }; 
       local:case(upper-case#1, \"Mike\"), local:case(lower-case#1, \"Mike\")
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "MIKE mike") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -698,7 +735,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-018'(_Config) ->
+'hof-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string 
       	{ $x($y) }; 
@@ -708,7 +746,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "zvxr") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -717,7 +756,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-019'(_Config) ->
+'hof-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; 
       declare function local:rot13($x as xs:string) as xs:string { translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\") }; 
@@ -725,7 +765,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "zvxr") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -734,14 +775,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-020'(_Config) ->
+'hof-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; 
       local:scramble(function($x){translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\")}, \"john\")
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "wbua") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -750,14 +793,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-021'(_Config) ->
+'hof-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; 
       local:scramble(function($x){translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\")}, \"john\")
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "wbua") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -766,7 +811,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-022'(_Config) ->
+'hof-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; 
       let $n := function-name(local:scramble#2) 
@@ -774,7 +820,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "scramble http://www.w3.org/2005/xquery-local-functions 2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -783,13 +830,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-023'(_Config) ->
+'hof-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $f := fn:function-name#1, $n := function-name($f) 
         return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "function-name http://www.w3.org/2005/xpath-functions 1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -798,13 +847,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-024'(_Config) ->
+'hof-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $f := xs:dateTime#1, $n := function-name($f) 
         return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "dateTime http://www.w3.org/2001/XMLSchema 1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -813,12 +864,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-025'(_Config) ->
+'hof-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $f := concat#123456, $n := function-name($f) 
         return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "concat http://www.w3.org/2005/xpath-functions 123456") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -827,7 +880,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-026'(_Config) ->
+'hof-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $f := function($x as xs:string) as xs:string { upper-case($x) } 
         let $n := function-name($f) 
@@ -836,7 +890,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a uri=\"\" loc=\"\" euri=\"true\" eloc=\"true\" arity=\"1\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -845,13 +900,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-027'(_Config) ->
+'hof-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $f := fn:contains(?, \"e\") 
         return for $s in (\"Mike\", \"John\", \"Dave\", \"Mary\", \"Jane\") return $f($s)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false true false true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -860,14 +917,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-028'(_Config) ->
+'hof-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:splitter() as (function(xs:string) as xs:string*) { function($x as xs:string) { tokenize($x, '\\s') } }; 
       string-join(local:splitter()(\"A nice cup of tea\"), '|')
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "A|nice|cup|of|tea") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -876,7 +935,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-029'(_Config) ->
+'hof-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:splitter() as (function(xs:string) as xs:string+)? 
       { function($x as xs:string) { for $i in tokenize($x, '\\s') return upper-case($i)} }; 
@@ -884,7 +944,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "A|NICE|CUP|OF|TEA") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -893,7 +954,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-030'(_Config) ->
+'hof-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare variable $sep as xs:string := \"\\s\"; 
       declare function local:splitter() as (function(xs:string) as xs:string*)? 
@@ -902,7 +964,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "A|NICE|CUP|OF|TEA") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -911,7 +974,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-031'(_Config) ->
+'hof-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:splitter($sep as xs:string) as (function(xs:string) as xs:string*) 
       	{ function($x as xs:string) { for $i in tokenize($x, $sep) return upper-case($i)} }; 
@@ -919,7 +983,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "A|NICE|CUP|OF|TEA") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -928,11 +993,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-032'(_Config) ->
+'hof-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(if (current-date() gt xs:date('2000-12-31')) then upper-case#1 else lower-case#1)(\"Mike\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "MIKE") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -941,11 +1008,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-033'(_Config) ->
+'hof-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name-from-QName(function-name((upper-case#1, lower-case#1)[.(\"Mike\") = \"MIKE\"]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "upper-case") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -954,11 +1023,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-034'(_Config) ->
+'hof-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name-from-QName(function-name((upper-case#1, lower-case#1)[ordered{.}(\"Mike\") = \"MIKE\"]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-034.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "upper-case") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -967,11 +1038,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-035'(_Config) ->
+'hof-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name-from-QName(function-name((upper-case#1, lower-case#1)[ordered{.}(\"Mike\") = \"MIKE\"]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-035.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "upper-case") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -980,11 +1053,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-036'(_Config) ->
+'hof-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a b=\"3\"/>/(string(@b), upper-case#1, 17))[. instance of xs:anyAtomicType]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-036.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 17") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -993,7 +1068,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-037'(_Config) ->
+'hof-037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:f($x as xs:long, $y as xs:NCName) as element(e) { 
             <e x=\"{$x}\" y=\"{$y}\"/> 
@@ -1005,7 +1081,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-037.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true false false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1014,7 +1091,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-038'(_Config) ->
+'hof-038'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:f($x as xs:long?, $y as xs:NCName?) as element(e) { 
             <e x=\"{$x}\" y=\"{$y}\"/> 
@@ -1027,7 +1105,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-038.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false false false false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1036,9 +1115,11 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-039'(_Config) ->
+'hof-039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"typedData"}.
-'hof-040'(_Config) ->
+'hof-040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; 
       let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) 
@@ -1046,7 +1127,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-040.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "MICHAEL KAY~michael kay~Michail Kay~Michael") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1055,7 +1137,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-041'(_Config) ->
+'hof-041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:ops() as (function(xs:string) as xs:string)*
       	{ (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) }; 
@@ -1063,7 +1146,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-041.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "MICHAEL KAY~michael kay~Michail Kay~Michael") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1072,7 +1156,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-042'(_Config) ->
+'hof-042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:lower-case($x as xs:string) as xs:string { concat(\"'\", fn:lower-case($x), \"'\") }; 
         declare function local:ops() as (function(xs:string) as xs:string)* 
@@ -1081,7 +1166,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-042.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "MICHAEL KAY~'michael kay'~Michail Kay~Michael") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1090,7 +1176,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-043'(_Config) ->
+'hof-043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:round($x as xs:double) as xs:double 
       	{ fn:floor($x) }; 
@@ -1100,7 +1187,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-043.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123.456~123~124.456~123.46") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1109,7 +1197,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-044'(_Config) ->
+'hof-044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; 
       declare function local:ops() as (function(xs:double) as xs:double)* 
@@ -1118,7 +1207,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-044.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123.456~123~124.456~123.46") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1127,13 +1217,15 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-045'(_Config) ->
+'hof-045'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double { $algorithm($x) }; 
       declare variable $roundToCeiling := local:round(?, ceiling#1); $roundToCeiling(12.4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-045.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"13") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1142,7 +1234,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-046'(_Config) ->
+'hof-046'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:splitter($x as xs:string) as (function() as xs:string*)* { 
             for $sep in ('\\s', ',', '!') 
@@ -1157,7 +1250,8 @@ environment('user-defined-types') ->
     ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-046.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><tokens><t>HOW</t><t>NICE!</t><t>THANK</t><t>YOU,</t><t>I</t><t>ENJOYED</t><t>THAT.</t></tokens><tokens><t>HOW NICE! THANK YOU</t><t> I ENJOYED THAT.</t></tokens><tokens><t>HOW NICE</t><t> THANK YOU, I ENJOYED THAT.</t></tokens></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1166,7 +1260,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-047'(_Config) ->
+'hof-047'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:splitter($x as xs:string) as (function() as xs:string*)* { 
             for $sep in ('\\s', ',', '!') return function() { 
@@ -1182,7 +1277,8 @@ environment('user-defined-types') ->
      ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-047.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out><tokens><t>\\s:HOW</t><t>\\s:NICE!</t><t>\\s:THANK</t><t>\\s:YOU,</t><t>\\s:I</t><t>\\s:ENJOYED</t><t>\\s:THAT.</t></tokens><tokens><t>,:HOW NICE! THANK YOU</t><t>,: I ENJOYED THAT.</t></tokens><tokens><t>!:HOW NICE</t><t>!: THANK YOU, I ENJOYED THAT.</t></tokens></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1191,14 +1287,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-048'(_Config) ->
+'hof-048'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:do() as xs:integer { (local:f#1)(5) }; 
         declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
         local:do()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-048.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1207,7 +1305,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-049'(_Config) ->
+'hof-049'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:tf($i as xs:integer) as function () as xs:boolean { 
             if ($i) then true#0 else false#0 
@@ -1216,7 +1315,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-049.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>false true</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1225,11 +1325,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-050'(_Config) ->
+'hof-050'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $f := fn:substring-before#2(?, '-') return <out>{$f('the-end-of-the-world')}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-050.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>the</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1238,14 +1340,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-051'(_Config) ->
+'hof-051'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $f := function($a as xs:string, $b as xs:string) { 
             starts-with($a, $b) and ends-with($a, $b)}(?, 'a') 
         return <out>{$f('abracadabra')}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-051.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>true</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1254,11 +1358,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-052'(_Config) ->
+'hof-052'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $f := fn:concat#3(?, '*', ?) let $g := $f('[', ?) return <out>{$g(']')}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-052.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>[*]</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1267,15 +1373,18 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-053'(_Config) ->
+'hof-053'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"typedData"}.
-'hof-901'(_Config) ->
+'hof-901'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	let $f := local:g#1 return $f(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-901.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1284,14 +1393,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-902'(_Config) ->
+'hof-902'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	let $f := local:f#3 return $f(2)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-902.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1300,14 +1411,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-903'(_Config) ->
+'hof-903'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	let $f := xs:date#2 return $f('2008-03-01')
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-903.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1316,14 +1429,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-904'(_Config) ->
+'hof-904'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	let $f := concat#1 return $f('2008-03-01')
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-904.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1332,14 +1447,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-905'(_Config) ->
+'hof-905'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	string(local:f#1)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-905.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0014") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1348,14 +1465,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-906'(_Config) ->
+'hof-906'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	exists(data(local:f#1))
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-906.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0013") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1364,14 +1483,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-907'(_Config) ->
+'hof-907'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	deep-equal((1,2,3,4,local:f#1), (1,2,3,4,local:f#1))
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-907.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0015") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1380,14 +1501,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-908'(_Config) ->
+'hof-908'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	local:f#1 eq 3
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-908.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0013") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1396,14 +1519,16 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-909'(_Config) ->
+'hof-909'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	number(local:f#1)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-909.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0013") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1412,7 +1537,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-910'(_Config) ->
+'hof-910'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:f($x as xs:integer) as xs:integer {
             $x + 1
@@ -1422,7 +1548,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-910.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1431,11 +1558,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-911'(_Config) ->
+'hof-911'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a b=\"3\"/>/(@b, upper-case#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-911.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0018") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1444,7 +1573,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-912'(_Config) ->
+'hof-912'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
         { for $f in $fns return $f($s) };
@@ -1453,7 +1583,8 @@ environment('user-defined-types') ->
         return string-join(local:apply($ops, 'Michael Kay'), '~')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-912.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1462,7 +1593,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-913'(_Config) ->
+'hof-913'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
         { for $f in $fns return $f($s) }; 
@@ -1471,7 +1603,8 @@ environment('user-defined-types') ->
         return string-join(local:apply($ops, 'Michael Kay'), '~')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-913.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1480,7 +1613,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-914'(_Config) ->
+'hof-914'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
         { for $f in $fns return $f($s) }; 
@@ -1488,7 +1622,8 @@ environment('user-defined-types') ->
         return string-join(local:apply($ops, 'Michael Kay'), '~')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-914.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1497,11 +1632,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-915'(_Config) ->
+'hof-915'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $ops := substring-before('abc', ' ', (), ?) return $ops('Michael Kay')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-915.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1510,11 +1647,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-916'(_Config) ->
+'hof-916'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $ops := substring-before(?, ?) return $ops('Michael Kay')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-916.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1523,11 +1662,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-917'(_Config) ->
+'hof-917'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $ops := substring-before(?, 2) return $ops('Michael Kay')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-917.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1536,7 +1677,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-918'(_Config) ->
+'hof-918'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double 
         { $algorithm($x) }; 
@@ -1545,7 +1687,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-918.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1554,7 +1697,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'hof-919'(_Config) ->
+'hof-919'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; 
       declare function local:ops() as (function(xs:double) as xs:double)* 
@@ -1563,7 +1707,8 @@ environment('user-defined-types') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "hof-919.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1572,11 +1717,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-1'(_Config) ->
+'function-item-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "concat#64 instance of function(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1585,11 +1732,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-2'(_Config) ->
+'function-item-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-join#1((\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\", \"h\", \"i\", \"j\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcdefghij") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1598,11 +1747,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-3'(_Config) ->
+'function-item-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-join#1 is string-join#1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1611,11 +1762,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-4'(_Config) ->
+'function-item-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-join#1 eq string-join#1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0013") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1624,11 +1777,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-5'(_Config) ->
+'function-item-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "element a { avg#1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQTY0105") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1637,11 +1792,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-6'(_Config) ->
+'function-item-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "attribute a { avg#1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0013") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1650,11 +1807,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-7'(_Config) ->
+'function-item-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(let $a := 92, $b := true() return function($c) { $a, $b, $c })(\"lala\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"92, true(), \"lala\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1663,11 +1822,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-8'(_Config) ->
+'function-item-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-name(function-name#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:QName(\"fn:function-name\")") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1676,11 +1837,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-9'(_Config) ->
+'function-item-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-name(let $a := 92, $b := true() return function($c) { $a, $b, $c })",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "0") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -1689,11 +1852,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-10'(_Config) ->
+'function-item-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(let $a := 92, $b := true() return function($c) { $a, $b, $c }) instance of function(item()*) as item()*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1702,11 +1867,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-11'(_Config) ->
+'function-item-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(let $a := 92, $b := true() return function($c) { $a, $b, $c })((xs:QName(\"foo\"), 5.0e3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"92, true(), fn:QName(\"\",\"foo\"), 5000") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1715,11 +1882,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-12'(_Config) ->
+'function-item-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a as item()) as item() { $a } instance of function(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1728,11 +1897,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-13'(_Config) ->
+'function-item-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a as item()) as xs:integer { $a } instance of function(item()) as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1741,11 +1912,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-14'(_Config) ->
+'function-item-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a as item()) as item() { $a } instance of function(xs:string) as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1754,11 +1927,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-15'(_Config) ->
+'function-item-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a as item()) as item() { $a } instance of function() as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1767,11 +1942,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-16'(_Config) ->
+'function-item-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a as item()) as xs:integer { $a } instance of function(item(), item()) as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1780,11 +1957,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-item-17'(_Config) ->
+'function-item-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a as xs:string) as item() { $a } instance of function(item()) as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-item-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1793,11 +1972,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-1'(_Config) ->
+'inline-function-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function() { 5 } instance of function(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1806,11 +1987,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-2'(_Config) ->
+'inline-function-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function-name(function() { 5 })",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "0") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
@@ -1819,11 +2002,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-3'(_Config) ->
+'inline-function-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function() as xs:integer { 5 }()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1832,11 +2017,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-4'(_Config) ->
+'inline-function-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a as xs:integer) as xs:integer { $a + 5 }(3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1845,11 +2032,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-5'(_Config) ->
+'inline-function-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a as xs:integer, $b as xs:double) as xs:double { $a * $b + 5 }(3, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"11") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1858,11 +2047,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-6'(_Config) ->
+'inline-function-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a, $b as xs:double) as xs:double { $a * $b + 5 } instance of function(item()*, xs:double) as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1871,11 +2062,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-7'(_Config) ->
+'inline-function-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a as node()+, $b) as xs:double { $a * $b + 5 } instance of function(node(), item()*) as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1884,11 +2077,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-8'(_Config) ->
+'inline-function-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a as node()+) { $a + 5 } instance of function(node()) as item()*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1897,11 +2092,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-9'(_Config) ->
+'inline-function-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function() { true() } instance of function() as item()*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1910,11 +2107,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-10'(_Config) ->
+'inline-function-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a) { \"lala\", $a }, $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1923,11 +2122,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-11'(_Config) ->
+'inline-function-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $a := \"monkey\" return function($a) { \"lala\", $a }(\"gibbon\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"lala\", \"gibbon\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1936,11 +2137,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-12'(_Config) ->
+'inline-function-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "$a, function($a) { \"lala\", $a }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1949,11 +2152,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-11a'(_Config) ->
+'inline-function-11a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a) { let $a := \"monkey\" return (\"lala\", $a) }(\"gibbon\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-11a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"lala\", \"monkey\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1962,11 +2167,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-12a'(_Config) ->
+'inline-function-12a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($a, $a) { \"lala\", $a }(\"gibbon\", \"monkey\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-12a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0039") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1975,11 +2182,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-13'(_Config) ->
+'inline-function-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($local:foo, $local:bar, $local:foo) { \"lala\", $local:foo, $local:bar }(\"gibbon\", \"monkey\", \"ape\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0039") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1988,11 +2197,13 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-14'(_Config) ->
+'inline-function-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($local:foo, $local:bar, $fn:foo) { \"lala\", $local:foo, $local:bar }(\"gibbon\", \"monkey\", \"ape\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"lala\", \"gibbon\", \"monkey\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2001,12 +2212,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-15'(_Config) ->
+'inline-function-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($Q{http://local/}foo, $Q{http://local/}bar, $Q{http://local/}foo) { 
               \"lala\", $Q{http://local/}foo, $Q{http://local/}bar }(\"gibbon\", \"monkey\", \"ape\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0039") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2015,12 +2228,14 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'inline-function-16'(_Config) ->
+'inline-function-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function($Q{http://local/}foo, $Q{http://local/}bar, $fn:foo) { 
                \"lala\", $Q{http://local/}foo, $Q{http://local/}bar }(\"gibbon\", \"monkey\", \"ape\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-function-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"lala\", \"gibbon\", \"monkey\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2029,7 +2244,8 @@ environment('user-defined-types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof1'(_Config) ->
+'xqhof1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 declare namespace map = \"http://snelson.org.uk/functions/map\";
 
@@ -2125,7 +2341,8 @@ return (
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"osterich
 key: a, value: (antelope)
 key: e, value: (elephant, eagle)
@@ -2139,7 +2356,8 @@ key: z, value: (zebra)\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof2'(_Config) ->
+'xqhof2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          import module namespace func = \"http://snelson.org.uk/functions/functional\";
          
@@ -2148,7 +2366,8 @@ key: z, value: (zebra)\"") of
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"foo bar baz what's next?\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2157,7 +2376,8 @@ key: z, value: (zebra)\"") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof3'(_Config) ->
+'xqhof3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 import module namespace func = \"http://snelson.org.uk/functions/functional\";
 
@@ -2192,7 +2412,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"0
 0
 1
@@ -2300,7 +2521,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof4'(_Config) ->
+'xqhof4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare function local:hof($s, $f as function(*)) {
            $f($s[1], $s[2])
@@ -2310,7 +2532,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"12\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2319,14 +2542,16 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof5'(_Config) ->
+'xqhof5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $a := string-join(?, \"\")
          return $a((\"foo\", \"bar\", \"baz\"))
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"foobarbaz\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2335,7 +2560,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof6'(_Config) ->
+'xqhof6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare function local:curry($f as function(item()*, item()*) as item()*) as function(item()*) as function(item()*) as item()*
          {
@@ -2346,7 +2572,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"bar\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2355,11 +2582,13 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof7'(_Config) ->
+'xqhof7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "concat#3(\"one\", \"two\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2368,11 +2597,13 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof8'(_Config) ->
+'xqhof8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "concat#4(\"one\", ?, \"three\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2381,11 +2612,13 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof9'(_Config) ->
+'xqhof9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "concat#2(\"one\", ?, \"three\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2394,14 +2627,16 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof10'(_Config) ->
+'xqhof10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          for $f in (concat(\"one \", ?, \" three\"), substring-before(\"one two three\", ?), matches(?, \"t.*o\"), xs:NCName(?))
          return $f(\"two\")
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"one two three\", \"one \", true(), xs:NCName(\"two\")") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2410,11 +2645,13 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof11'(_Config) ->
+'xqhof11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "()(\"two\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2423,11 +2660,13 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof12'(_Config) ->
+'xqhof12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(concat(\"one \", ?, \" three\"), substring-before(\"one two three\", ?), matches(?, \"t.*o\"), xs:NCName(?))(\"two\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2436,7 +2675,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof13'(_Config) ->
+'xqhof13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $f := function($a) { node-name(.), $a }
          return <a/>/$f(5)
@@ -2444,7 +2684,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2453,7 +2694,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof14'(_Config) ->
+'xqhof14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $f := name#0
          return <a/>/$f()
@@ -2461,7 +2703,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2470,7 +2713,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof15'(_Config) ->
+'xqhof15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $f := <b/>/name#0
          return <a/>/$f()
@@ -2478,7 +2722,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"b\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2487,7 +2732,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof16'(_Config) ->
+'xqhof16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare base-uri \"main\";
          import module namespace lib = \"lib\";
@@ -2498,7 +2744,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"fn:ends-with($result[1], \"lib\")") of 
       true -> {comment, "Correct results"};
@@ -2519,7 +2766,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof17'(_Config) ->
+'xqhof17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          import module namespace lib = \"lib\";
          
@@ -2529,7 +2777,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"lib\", \"main\", \"main\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2538,7 +2787,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof18'(_Config) ->
+'xqhof18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare base-uri \"main\";
          import module namespace lib = \"lib\";
@@ -2549,7 +2799,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"fn:ends-with($result[1], \"lib\")") of 
       true -> {comment, "Correct results"};
@@ -2570,7 +2821,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof19'(_Config) ->
+'xqhof19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          import module namespace lib = \"lib\";
          
@@ -2580,7 +2832,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"lib\", \"main\", \"main\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2589,7 +2842,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof20'(_Config) ->
+'xqhof20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           let $m := map {
                 \"Tuesday\" : true(),
@@ -2604,7 +2858,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Monday\", \"Tuesday\", \"Wednesday\", \"Friday\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2613,7 +2868,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof21'(_Config) ->
+'xqhof21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           let $m := map {
                 \"Tuesday\" : true(),
@@ -2627,7 +2883,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2636,7 +2893,8 @@ return string($a)
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xqhof22'(_Config) ->
+'xqhof22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
           let $m := array {
                 true(),
@@ -2651,7 +2909,8 @@ return string($a)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xqhof22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 4, 5") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 

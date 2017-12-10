@@ -53,9 +53,13 @@
 -export(['cbcl-fn-normalize-unicode-006'/1]).
 -export(['cbcl-fn-normalize-unicode-006a'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-normalize-unicode1args-1',
    'fn-normalize-unicode1args-2',
@@ -105,97 +109,97 @@ all() -> [
    'cbcl-fn-normalize-unicode-005',
    'cbcl-fn-normalize-unicode-006',
    'cbcl-fn-normalize-unicode-006a'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -207,60 +211,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -268,11 +272,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'fn-normalize-unicode1args-1'(_Config) ->
+'fn-normalize-unicode1args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode('Nothing to normalize.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode1args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Nothing to normalize.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -281,11 +287,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode1args-2'(_Config) ->
+'fn-normalize-unicode1args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode1args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -294,11 +302,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode1args-3'(_Config) ->
+'fn-normalize-unicode1args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('Ǻ', normalize-unicode('Ǻ'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode1args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -307,11 +317,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode1args-4'(_Config) ->
+'fn-normalize-unicode1args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('Å', normalize-unicode('Å'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode1args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -320,11 +332,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode1args-5'(_Config) ->
+'fn-normalize-unicode1args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('Å', normalize-unicode('Å'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode1args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -333,11 +347,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode1args-6'(_Config) ->
+'fn-normalize-unicode1args-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(normalize-unicode('Å') eq normalize-unicode('Å'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode1args-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -346,11 +362,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode1args-7'(_Config) ->
+'fn-normalize-unicode1args-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(12)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode1args-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -359,11 +377,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode1args-8'(_Config) ->
+'fn-normalize-unicode1args-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode('','','')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode1args-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -372,11 +392,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode2args-1'(_Config) ->
+'fn-normalize-unicode2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode('Nothing to normalize.', 'NFC')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Nothing to normalize.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -385,11 +407,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode2args-2'(_Config) ->
+'fn-normalize-unicode2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode('Nothing to normalize.', 'nFc')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Nothing to normalize.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -398,11 +422,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode2args-3'(_Config) ->
+'fn-normalize-unicode2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode((), 'NFC')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -411,11 +437,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode2args-4'(_Config) ->
+'fn-normalize-unicode2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(normalize-unicode('Å', '') eq normalize-unicode('Å', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -424,11 +452,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode2args-5'(_Config) ->
+'fn-normalize-unicode2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode('',())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -437,11 +467,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode2args-6'(_Config) ->
+'fn-normalize-unicode2args-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode('',12)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode2args-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -450,11 +482,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-1'(_Config) ->
+'fn-normalize-unicode-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:concat(fn:normalize-unicode(\"Å\",\" NFC \"),fn:normalize-unicode(\"Å\",\"NFC\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ÅÅ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -463,11 +497,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-2'(_Config) ->
+'fn-normalize-unicode-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:normalize-unicode(\"è\",\"chancesareyoudonotsupportthis123ifyoudowaoo\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -476,11 +512,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-3'(_Config) ->
+'fn-normalize-unicode-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:upper-case(fn:normalize-unicode(\"normalizedstring\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NORMALIZEDSTRING") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -489,11 +527,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-4'(_Config) ->
+'fn-normalize-unicode-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:lower-case(fn:normalize-unicode(\"NORMALIZEDSTRING\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "normalizedstring") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -502,11 +542,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-5'(_Config) ->
+'fn-normalize-unicode-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string-length(fn:normalize-unicode(\"NORMALIZEDSTRING\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "16") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -515,11 +557,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-6'(_Config) ->
+'fn-normalize-unicode-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:concat(fn:normalize-unicode(\"NORMALIZEDSTRING\"),\"another string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NORMALIZEDSTRINGanother string") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -528,11 +572,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-7'(_Config) ->
+'fn-normalize-unicode-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:substring(fn:normalize-unicode(\"NORMALIZEDSTRING\"),5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ALIZEDSTRING") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -541,11 +587,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-8'(_Config) ->
+'fn-normalize-unicode-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-to-codepoints(normalize-unicode('﷐'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "64976") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -554,11 +602,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-9'(_Config) ->
+'fn-normalize-unicode-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-to-codepoints(fn:normalize-unicode('ê﷐ê﷐ê'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"234, 64976, 234, 64976, 234") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -567,11 +617,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-10'(_Config) ->
+'fn-normalize-unicode-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-to-codepoints(fn:normalize-unicode('e﷐̂'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"101, 64976, 770") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -580,7 +632,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-11'(_Config) ->
+'fn-normalize-unicode-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: fn-normalize-unicode-11 :)
 (: Description: Bug 7935: normalize-unicode() applied to unassigned codepoints :)
 (: Result should be empty, indicating that normalization is idempotent on these characters :)
@@ -1090,7 +1143,8 @@ declare variable $Cn :=
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1099,7 +1153,8 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-11-6-0'(_Config) ->
+'fn-normalize-unicode-11-6-0'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: fn-normalize-unicode-11 :)
 (: Description: Bug 7935: normalize-unicode() applied to unassigned codepoints :)
 (: Result should be empty, indicating that normalization is idempotent on these characters :)
@@ -1640,7 +1695,8 @@ declare variable $Cn :=
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-11-6-0.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1649,7 +1705,8 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-normalize-unicode-11-6-2'(_Config) ->
+'fn-normalize-unicode-11-6-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: fn-normalize-unicode-11 :)
 (: Description: Bug 7935: normalize-unicode() applied to unassigned codepoints :)
 (: Result should be empty, indicating that normalization is idempotent on these characters :)
@@ -2263,7 +2320,8 @@ declare variable $Cn :=
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-normalize-unicode-11-6-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2272,11 +2330,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-1'(_Config) ->
+'K-NormalizeUnicodeFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2285,11 +2345,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-2'(_Config) ->
+'K-NormalizeUnicodeFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"a string\", \"NFC\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2298,11 +2360,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-3'(_Config) ->
+'K-NormalizeUnicodeFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"a string\", \"example.com/notSupported/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2311,11 +2375,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-4'(_Config) ->
+'K-NormalizeUnicodeFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"foo\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2324,11 +2390,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-5'(_Config) ->
+'K-NormalizeUnicodeFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"foo\", \"NFC\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2337,11 +2405,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-6'(_Config) ->
+'K-NormalizeUnicodeFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"foo\", \"NFD\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2350,11 +2420,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-7'(_Config) ->
+'K-NormalizeUnicodeFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"foo\", \"NFKD\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2363,11 +2435,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-8'(_Config) ->
+'K-NormalizeUnicodeFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"foo\", \"NFKC\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2376,11 +2450,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-9'(_Config) ->
+'K-NormalizeUnicodeFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"f oo\", \"\") eq \"f oo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2389,11 +2465,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-10'(_Config) ->
+'K-NormalizeUnicodeFunc-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"foo\", \"\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2402,11 +2480,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-11'(_Config) ->
+'K-NormalizeUnicodeFunc-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"f oo\") eq \"f oo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2415,11 +2495,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-12'(_Config) ->
+'K-NormalizeUnicodeFunc-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"f oo\", \"NFC\") eq \"f oo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2428,11 +2510,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-NormalizeUnicodeFunc-13'(_Config) ->
+'K-NormalizeUnicodeFunc-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode((\"a string\", error()), \"NFC\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NormalizeUnicodeFunc-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
@@ -2449,13 +2533,16 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-normalize-unicode-001'(_Config) ->
+'cbcl-fn-normalize-unicode-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"unicode-normalization-form FULLY-NORMALIZED"}.
-'cbcl-fn-normalize-unicode-001a'(_Config) ->
+'cbcl-fn-normalize-unicode-001a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"blah\",\"FULLY-NORMALIZED\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-normalize-unicode-001a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2464,11 +2551,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-normalize-unicode-002'(_Config) ->
+'cbcl-fn-normalize-unicode-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "boolean(normalize-unicode(\"blah\",\"NFC\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-normalize-unicode-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2477,11 +2566,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-normalize-unicode-003'(_Config) ->
+'cbcl-fn-normalize-unicode-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "boolean(normalize-unicode(\"blah\",\"ZZZ\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-normalize-unicode-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2490,11 +2581,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-normalize-unicode-004'(_Config) ->
+'cbcl-fn-normalize-unicode-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode((),\"NFC\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-normalize-unicode-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2503,11 +2596,13 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-normalize-unicode-005'(_Config) ->
+'cbcl-fn-normalize-unicode-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(\"\",\"NFC\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-normalize-unicode-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2516,13 +2611,16 @@ declare variable $Cn :=
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-fn-normalize-unicode-006'(_Config) ->
+'cbcl-fn-normalize-unicode-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"unicode-normalization-form FULLY-NORMALIZED"}.
-'cbcl-fn-normalize-unicode-006a'(_Config) ->
+'cbcl-fn-normalize-unicode-006a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-unicode(codepoints-to-string(2494),\"FULLY-NORMALIZED\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-fn-normalize-unicode-006a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

@@ -50,9 +50,13 @@
 -export(['K2-SeqDocFunc-12'/1]).
 -export(['K2-SeqDocFunc-13'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-doc-1',
    'fn-doc-2',
@@ -99,97 +103,97 @@ all() -> [
    'K2-SeqDocFunc-11',
    'K2-SeqDocFunc-12',
    'K2-SeqDocFunc-13'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -201,60 +205,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -262,25 +266,25 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('works-mod-uri') ->
+environment('works-mod-uri',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".","http://www.w3.org/fots/docs/works-mod.xml"}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, [{"uri","xs:string","'http://www.w3.org/fots/docs/works-mod.xml'"}]},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff-uri') ->
+environment('works-and-staff-uri',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","","http://www.w3.org/fots/docs/works.xml"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","","http://www.w3.org/fots/docs/staff.xml"}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "","http://www.w3.org/fots/docs/works.xml"},
+{filename:join(BaseDir, "../docs/staff.xml"), "","http://www.w3.org/fots/docs/staff.xml"}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, [{"works","xs:string","'http://www.w3.org/fots/docs/works.xml'"},
 {"staff","xs:string","'http://www.w3.org/fots/docs/staff.xml'"}]},
@@ -288,11 +292,13 @@ environment('works-and-staff-uri') ->
 {resources, []},
 {modules, []}
 ].
-'fn-doc-1'(_Config) ->
+'fn-doc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc(\"http:\\\\invalid>URI\\someURI\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0005") of 
       true -> {comment, "Correct error"};
@@ -309,11 +315,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-2'(_Config) ->
+'fn-doc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc(\"argument1\",\"argument2\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -322,11 +330,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-3'(_Config) ->
+'fn-doc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc(\"thisfileshouldnotexists.xml\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -335,11 +345,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-4'(_Config) ->
+'fn-doc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -348,12 +360,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-5'(_Config) ->
+'fn-doc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri) is fn:doc($uri)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-5.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -362,12 +376,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-6'(_Config) ->
+'fn-doc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($works) is fn:doc($staff)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-6.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -376,12 +392,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-7'(_Config) ->
+'fn-doc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)//day/string()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-7.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Monday\", \"Tuesday\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -390,12 +408,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-15'(_Config) ->
+'fn-doc-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:nilled(fn:doc($uri)))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-15.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -404,12 +424,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-16'(_Config) ->
+'fn-doc-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:node-name(fn:doc($uri)))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-16.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -418,11 +440,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-17'(_Config) ->
+'fn-doc-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc(\"%gg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
@@ -439,12 +463,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-18'(_Config) ->
+'fn-doc-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:not(fn:doc($uri) is fn:doc($uri))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-18.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -453,12 +479,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-19'(_Config) ->
+'fn-doc-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(fn:doc($uri) is fn:doc($uri)) and fn:true()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-19.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -467,12 +495,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-20'(_Config) ->
+'fn-doc-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(fn:doc($uri) is fn:doc($uri)) and fn:false()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-20.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -481,12 +511,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-21'(_Config) ->
+'fn-doc-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(fn:doc($uri) is fn:doc($uri)) or fn:true()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-21.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -495,12 +527,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-22'(_Config) ->
+'fn-doc-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(fn:doc($uri) is fn:doc($uri)) or fn:false()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-22.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -509,13 +543,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-24'(_Config) ->
+'fn-doc-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/SpaceBracket.xml","","id/SpaceBracket.xml"}]},
+{sources, [{filename:join(BaseDir, "id/SpaceBracket.xml"),"","file:///"++filename:join(BaseDir, "id/SpaceBracket.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/SpaceBracket.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -524,7 +559,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-24.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<p> ]</p>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -533,13 +569,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-25'(_Config) ->
+'fn-doc-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/HighUnicode.xml","","id/HighUnicode.xml"}]},
+{sources, [{filename:join(BaseDir, "id/HighUnicode.xml"),"","file:///"++filename:join(BaseDir, "id/HighUnicode.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/HighUnicode.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -548,7 +585,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-25.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<เจมส์></เจมส์>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -557,13 +595,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-26'(_Config) ->
+'fn-doc-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/HighUnicode2.xml","","id/HighUnicode2.xml"}]},
+{sources, [{filename:join(BaseDir, "id/HighUnicode2.xml"),"","file:///"++filename:join(BaseDir, "id/HighUnicode2.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/HighUnicode2.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -572,7 +611,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-26.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<เจมส์/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -581,13 +621,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-27'(_Config) ->
+'fn-doc-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/BCisInvalid.xml","","id/BCisInvalid.xml"}]},
+{sources, [{filename:join(BaseDir, "id/BCisInvalid.xml"),"","file:///"++filename:join(BaseDir, "id/BCisInvalid.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/BCisInvalid.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -596,7 +637,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-27.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -605,13 +647,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-28'(_Config) ->
+'fn-doc-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/InvalidUmlaut.xml","","id/InvalidUmlaut.xml"}]},
+{sources, [{filename:join(BaseDir, "id/InvalidUmlaut.xml"),"","file:///"++filename:join(BaseDir, "id/InvalidUmlaut.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/InvalidUmlaut.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -620,7 +663,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-28.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -629,13 +673,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-29'(_Config) ->
+'fn-doc-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/NamespaceSuppliedInternally.xml","","id/NamespaceSuppliedInternally.xml"}]},
+{sources, [{filename:join(BaseDir, "id/NamespaceSuppliedInternally.xml"),"","file:///"++filename:join(BaseDir, "id/NamespaceSuppliedInternally.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/NamespaceSuppliedInternally.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -644,7 +689,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-29.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -653,13 +699,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-30'(_Config) ->
+'fn-doc-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name(fn:doc($uri)/*)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/XMLIdDuplicated.xml","","id/XMLIdDuplicated.xml"}]},
+{sources, [{filename:join(BaseDir, "id/XMLIdDuplicated.xml"),"","file:///"++filename:join(BaseDir, "id/XMLIdDuplicated.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/XMLIdDuplicated.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -668,7 +715,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-30.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "schema") of 
       true -> {comment, "String correct"};
@@ -685,13 +733,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-31'(_Config) ->
+'fn-doc-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name(fn:doc($uri)/*)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/InvalidXMLId.xml","","id/InvalidXMLId.xml"}]},
+{sources, [{filename:join(BaseDir, "id/InvalidXMLId.xml"),"","file:///"++filename:join(BaseDir, "id/InvalidXMLId.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/InvalidXMLId.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -700,7 +749,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-31.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "schema") of 
       true -> {comment, "String correct"};
@@ -717,11 +767,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-14'(_Config) ->
+'K2-SeqDocFunc-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc(':/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -730,13 +782,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-32'(_Config) ->
+'fn-doc-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-space(string(fn:doc($uri))), normalize-space(string(exactly-one(fn:doc($uri)/*)))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/Books2.xml","","id/Books2.xml"}]},
+{sources, [{filename:join(BaseDir, "id/Books2.xml"),"","file:///"++filename:join(BaseDir, "id/Books2.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/Books2.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -745,7 +798,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-32.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Everyday Italian Giada De Laurentiis\", \"Everyday Italian Giada De Laurentiis\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -754,7 +808,8 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-33'(_Config) ->
+'fn-doc-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace s = \"http://www.w3.org/2000/svg\"; 
         declare variable $uri external; 
@@ -777,10 +832,10 @@ environment('works-and-staff-uri') ->
         } </s:svg>
      ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/QObject.xml","","id/QObject.xml"}]},
+{sources, [{filename:join(BaseDir, "id/QObject.xml"),"","file:///"++filename:join(BaseDir, "id/QObject.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, []},
 {params, [{"uri","xs:string","'id/QObject.xml'"}]},
 {namespaces, []},
@@ -789,8 +844,9 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/doc/fn-doc-33.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-33.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "doc/fn-doc-33.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -798,13 +854,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-34'(_Config) ->
+'fn-doc-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/0x010D.xml","","id/0x010D.xml"}]},
+{sources, [{filename:join(BaseDir, "id/0x010D.xml"),"","file:///"++filename:join(BaseDir, "id/0x010D.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/0x010D.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -813,7 +870,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-34.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<project čreated-by=\"{{build_number}}\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -822,11 +880,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-35'(_Config) ->
+'fn-doc-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc('id/badxml.xml')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -835,13 +895,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-36'(_Config) ->
+'fn-doc-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(doc($uri)//text())",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/builtinEntities.xml","","id/builtinEntities.xml"}]},
+{sources, [{filename:join(BaseDir, "id/builtinEntities.xml"),"","file:///"++filename:join(BaseDir, "id/builtinEntities.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/builtinEntities.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -850,7 +911,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-36.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"9") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -859,13 +921,14 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-37'(_Config) ->
+'fn-doc-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $result := id(\"idABC\", doc($uri)) return $result",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/XMLIdWhitespace.xml","","id/XMLIdWhitespace.xml"}]},
+{sources, [{filename:join(BaseDir, "id/XMLIdWhitespace.xml"),"","file:///"++filename:join(BaseDir, "id/XMLIdWhitespace.xml")}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"uri","xs:string","'id/XMLIdWhitespace.xml'"}]},
 {params, []},
 {namespaces, []},
@@ -874,7 +937,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-37.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -891,13 +955,15 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-38'(_Config) ->
+'fn-doc-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <a/>/self::b[doc('%GG')]
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -918,14 +984,16 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-doc-39'(_Config) ->
+'fn-doc-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $n in (text { 'x' }, comment { 'y' })/self::a
         return doc('i-do-not.exist')
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-doc-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -946,11 +1014,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-1'(_Config) ->
+'K2-SeqDocFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(fn:doc(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -959,11 +1029,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-2'(_Config) ->
+'K2-SeqDocFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e>{fn:doc(())}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -972,11 +1044,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-3'(_Config) ->
+'K2-SeqDocFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc(xs:untypedAtomic(\"file:///example.com/does/not/exist/xqts-testing.xml\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -985,7 +1059,8 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-4'(_Config) ->
+'K2-SeqDocFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1000,7 +1075,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1009,7 +1085,8 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-5'(_Config) ->
+'K2-SeqDocFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1024,7 +1101,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-5.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1033,7 +1111,8 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-6'(_Config) ->
+'K2-SeqDocFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1048,7 +1127,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-6.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1057,11 +1137,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-7'(_Config) ->
+'K2-SeqDocFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc(\"example.com\\example.org\\does\\not\\exist\\doesNotExist\\works-mod.xml\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
@@ -1078,11 +1160,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-8'(_Config) ->
+'K2-SeqDocFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc(\"\\example.com\\example.org\\does\\not\\exist\\doesNotExist\\works-mod.xml\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
@@ -1099,11 +1183,13 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-9'(_Config) ->
+'K2-SeqDocFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc(\"C:\\example.com\\example.org\\does\\not\\exist\\doesNotExist\\works-mod.xml\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
@@ -1120,7 +1206,8 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-10'(_Config) ->
+'K2-SeqDocFunc-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc(\"\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1135,7 +1222,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-10.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1144,7 +1232,8 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-11'(_Config) ->
+'K2-SeqDocFunc-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc(\"\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1159,7 +1248,8 @@ environment('works-and-staff-uri') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-11.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1168,14 +1258,16 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-12'(_Config) ->
+'K2-SeqDocFunc-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $fileToOpen := <Variable id=\"_7\" name=\"constComplex2\" type=\"_11c\" context=\"_1\" location=\"f0:17\" file=\"f0\" line=\"17\">%GG</Variable>;
         empty($fileToOpen//*[let $i := @type return doc($fileToOpen)//*[$i]])
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1196,7 +1288,8 @@ environment('works-and-staff-uri') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqDocFunc-13'(_Config) ->
+'K2-SeqDocFunc-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $doc1 := doc(\"http://fybnqmf.com/fybnqmf\"); 
         let $doc2 := doc(\"ftp://fybnqmf.com/fybnqmf\") 
@@ -1204,7 +1297,8 @@ environment('works-and-staff-uri') ->
         return (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqDocFunc-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};

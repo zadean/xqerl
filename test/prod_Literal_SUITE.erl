@@ -179,9 +179,13 @@
 -export(['cbcl-literals-007'/1]).
 -export(['cbcl-literals-008'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'Literals001',
    'Literals002',
@@ -357,97 +361,97 @@ all() -> [
    'cbcl-literals-006',
    'cbcl-literals-007',
    'cbcl-literals-008'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -459,60 +463,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -520,11 +524,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'Literals001'(_Config) ->
+'Literals001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"test\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "test") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -533,11 +539,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals002'(_Config) ->
+'Literals002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'test'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "test") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -546,12 +554,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals003'(_Config) ->
+'Literals003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"line1
 line2\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "line1
 line2") of 
       true -> {comment, "String correct"};
@@ -561,12 +571,14 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals004'(_Config) ->
+'Literals004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'line1
 line2'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "line1
 line2") of 
       true -> {comment, "String correct"};
@@ -576,11 +588,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals005'(_Config) ->
+'Literals005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<result>{ (\"test1\", \"test2\") }</result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>test1 test2</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -589,11 +603,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals006'(_Config) ->
+'Literals006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"test",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -602,11 +618,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals007'(_Config) ->
+'Literals007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'test",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -615,11 +633,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals008'(_Config) ->
+'Literals008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'test\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -628,11 +648,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals009'(_Config) ->
+'Literals009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"test'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -641,11 +663,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals010'(_Config) ->
+'Literals010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "65535032",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"65535032") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -654,11 +678,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals011'(_Config) ->
+'Literals011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-65535032",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-65535032") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -667,11 +693,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals012'(_Config) ->
+'Literals012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "65535032.0023",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "65535032.0023") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -680,11 +708,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals013'(_Config) ->
+'Literals013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = ".65535032",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.65535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -693,11 +723,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals014'(_Config) ->
+'Literals014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-.65535032",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0.65535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -706,11 +738,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals015'(_Config) ->
+'Literals015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "+.65535032",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.65535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -719,11 +753,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals016'(_Config) ->
+'Literals016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "65535032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "6.5535032E9") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -732,11 +768,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals017'(_Config) ->
+'Literals017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "65535.032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "6.5535032E6") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -745,11 +783,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals018'(_Config) ->
+'Literals018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = ".65535032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "65.535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -758,11 +798,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals019'(_Config) ->
+'Literals019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-.65535032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-65.535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -771,11 +813,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals020'(_Config) ->
+'Literals020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "+.65535032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "65.535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -784,11 +828,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals021'(_Config) ->
+'Literals021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "65535.032e-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "655.35032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -797,11 +843,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals022'(_Config) ->
+'Literals022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = ".65535032e-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.0065535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -810,11 +858,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals023'(_Config) ->
+'Literals023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-.65535032e-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0.0065535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -823,11 +873,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals024'(_Config) ->
+'Literals024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "+.65535032e-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.0065535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -836,11 +888,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals025'(_Config) ->
+'Literals025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-65535.032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-6.5535032E6") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -849,11 +903,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals026'(_Config) ->
+'Literals026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-65535.032e-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-655.35032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -862,11 +918,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals027'(_Config) ->
+'Literals027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "65535032E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "6.5535032E9") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -875,11 +933,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals028'(_Config) ->
+'Literals028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "65535.032E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "6.5535032E6") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -888,11 +948,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals029'(_Config) ->
+'Literals029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = ".65535032E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "65.535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -901,11 +963,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals030'(_Config) ->
+'Literals030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-.65535032E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-65.535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -914,11 +978,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals031'(_Config) ->
+'Literals031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "+.65535032E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "65.535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -927,11 +993,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals032'(_Config) ->
+'Literals032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "65535.032E-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "655.35032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -940,11 +1008,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals033'(_Config) ->
+'Literals033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = ".65535032E-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.0065535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -953,11 +1023,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals034'(_Config) ->
+'Literals034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-.65535032E-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals034.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-0.0065535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -966,11 +1038,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals035'(_Config) ->
+'Literals035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "+.65535032E-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals035.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.0065535032") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -979,11 +1053,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals036'(_Config) ->
+'Literals036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "65535032.001.01",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals036.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -992,11 +1068,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals037'(_Config) ->
+'Literals037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "..01",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals037.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1005,11 +1083,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals038'(_Config) ->
+'Literals038'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = ".0.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals038.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1018,11 +1098,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals039'(_Config) ->
+'Literals039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-.0.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals039.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1031,11 +1113,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals040'(_Config) ->
+'Literals040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "+.0.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals040.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1044,11 +1128,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals041'(_Config) ->
+'Literals041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1e 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals041.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1057,11 +1143,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals042'(_Config) ->
+'Literals042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1E 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals042.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1070,11 +1158,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals043'(_Config) ->
+'Literals043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals043.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1083,11 +1173,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals044'(_Config) ->
+'Literals044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals044.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1096,11 +1188,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals045'(_Config) ->
+'Literals045'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 e 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals045.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1109,11 +1203,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals046'(_Config) ->
+'Literals046'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 E 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals046.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1122,11 +1218,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals047'(_Config) ->
+'Literals047'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1e2.1.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals047.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1135,11 +1233,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals048'(_Config) ->
+'Literals048'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1E2.1.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals048.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1148,11 +1248,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals049'(_Config) ->
+'Literals049'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.1.1e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals049.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1161,11 +1263,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals050'(_Config) ->
+'Literals050'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.1.1.E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals050.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1174,11 +1278,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals051'(_Config) ->
+'Literals051'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1ee2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals051.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1187,11 +1293,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals052'(_Config) ->
+'Literals052'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1EE2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals052.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1200,11 +1308,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals053'(_Config) ->
+'Literals053'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1eE2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals053.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1213,11 +1323,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals054'(_Config) ->
+'Literals054'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1e2e3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals054.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1226,11 +1338,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals055'(_Config) ->
+'Literals055'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1e-2.1.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals055.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1239,11 +1353,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals056'(_Config) ->
+'Literals056'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&amp;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals056.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "&") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1252,13 +1368,16 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals056a'(_Config) ->
+'Literals056a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Literals057'(_Config) ->
+'Literals057'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&quot;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals057.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\"") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1267,13 +1386,16 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals057a'(_Config) ->
+'Literals057a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Literals058'(_Config) ->
+'Literals058'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&apos;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals058.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "'") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1282,13 +1404,16 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals058a'(_Config) ->
+'Literals058a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Literals059'(_Config) ->
+'Literals059'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&lt;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals059.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "<") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1297,13 +1422,16 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals059a'(_Config) ->
+'Literals059a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Literals060'(_Config) ->
+'Literals060'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&gt;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals060.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, ">") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1312,13 +1440,16 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals060a'(_Config) ->
+'Literals060a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Literals061'(_Config) ->
+'Literals061'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&#8364;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals061.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "€") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1327,13 +1458,16 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals061a'(_Config) ->
+'Literals061a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Literals062'(_Config) ->
+'Literals062'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"\"\"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals062.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\"") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1342,11 +1476,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals063'(_Config) ->
+'Literals063'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "''''",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals063.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "'") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1355,11 +1491,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals064'(_Config) ->
+'Literals064'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"He said, \"\"I don't like it.\"\"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals064.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "He said, \"I don't like it.\"") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1368,11 +1506,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals065'(_Config) ->
+'Literals065'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'He said, \"I don''t like it.\"'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals065.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "He said, \"I don't like it.\"") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1381,11 +1521,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals066'(_Config) ->
+'Literals066'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<test>{ 'He said, \"I don''t like it.\"' }</test>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals066.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<test>He said, \"I don't like it.\"</test>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1394,11 +1536,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals067'(_Config) ->
+'Literals067'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<test check='He said, \"I don''t like it.\"' />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals067.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<test check=\"He said, &quot;I don't like it.&quot;\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1407,11 +1551,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals068'(_Config) ->
+'Literals068'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "text{ 'He said, \"I don''t like it.\"' }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals068.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "He said, \"I don't like it.\"") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1420,11 +1566,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Literals069'(_Config) ->
+'Literals069'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "text{ \"He said, \"\"I don't like it.\"\"\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Literals069.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "He said, \"I don't like it.\"") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1433,11 +1581,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-1'(_Config) ->
+'K-Literals-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'fo''o' eq 'fo''o'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1446,11 +1596,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-2'(_Config) ->
+'K-Literals-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'foo' eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1459,11 +1611,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-3'(_Config) ->
+'K-Literals-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'f'oo'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1472,11 +1626,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-4'(_Config) ->
+'K-Literals-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"\"\"\" eq '\"'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1485,11 +1641,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-5'(_Config) ->
+'K-Literals-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'''' eq \"'\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1498,11 +1656,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-6'(_Config) ->
+'K-Literals-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"fo\"\"o\" eq concat(\"fo\", \"\"\"\", \"o\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1511,11 +1671,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-7'(_Config) ->
+'K-Literals-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"f\"oo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1524,11 +1686,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-8'(_Config) ->
+'K-Literals-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3. eq 3.",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1537,11 +1701,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-9'(_Config) ->
+'K-Literals-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = ".3 eq .3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1550,11 +1716,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-10'(_Config) ->
+'K-Literals-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.3e-3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1563,11 +1731,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-11'(_Config) ->
+'K-Literals-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.e+3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1576,11 +1746,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-12'(_Config) ->
+'K-Literals-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.e3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1589,11 +1761,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-13'(_Config) ->
+'K-Literals-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1231.123e3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1602,11 +1776,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-14'(_Config) ->
+'K-Literals-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.E3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1615,11 +1791,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-15'(_Config) ->
+'K-Literals-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-1231.123e3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1628,11 +1806,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-16'(_Config) ->
+'K-Literals-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1641,11 +1821,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-17'(_Config) ->
+'K-Literals-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3.3 instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1654,11 +1836,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-18'(_Config) ->
+'K-Literals-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3.3e1 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1667,11 +1851,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-19'(_Config) ->
+'K-Literals-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a xs:string\" instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1680,11 +1866,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-20'(_Config) ->
+'K-Literals-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1693,11 +1881,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-21'(_Config) ->
+'K-Literals-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1706,11 +1896,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-22'(_Config) ->
+'K-Literals-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(\"NaN\") instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1719,11 +1911,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-23'(_Config) ->
+'K-Literals-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 >E 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1732,11 +1926,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-24'(_Config) ->
+'K-Literals-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "33\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1745,11 +1941,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-25'(_Config) ->
+'K-Literals-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "2 + 3!#",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1758,11 +1956,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-26'(_Config) ->
+'K-Literals-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "432f542",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1771,11 +1971,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-27'(_Config) ->
+'K-Literals-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = ".54.45",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1784,11 +1986,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-28'(_Config) ->
+'K-Literals-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "0.3 eq .3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1797,11 +2001,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-29'(_Config) ->
+'K-Literals-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1810,11 +2016,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-30'(_Config) ->
+'K-Literals-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "{1}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1823,11 +2031,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-31'(_Config) ->
+'K-Literals-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1836,13 +2046,16 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-31a'(_Config) ->
+'K-Literals-31a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'K-Literals-32'(_Config) ->
+'K-Literals-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &#;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1851,11 +2064,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-33'(_Config) ->
+'K-Literals-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &#;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1864,11 +2079,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-34'(_Config) ->
+'K-Literals-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &#1233a98;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1877,11 +2094,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-35'(_Config) ->
+'K-Literals-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &#1233.98;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1890,11 +2109,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-36'(_Config) ->
+'K-Literals-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &#1233 98;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1903,11 +2124,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-37'(_Config) ->
+'K-Literals-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"t\" eq \"t\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1916,11 +2139,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-38'(_Config) ->
+'K-Literals-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &#x;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1929,11 +2154,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-39'(_Config) ->
+'K-Literals-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &#x543.3;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1942,11 +2169,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-40'(_Config) ->
+'K-Literals-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &#x543g3;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1955,11 +2184,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-41'(_Config) ->
+'K-Literals-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &#x543 3;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1968,11 +2199,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-42'(_Config) ->
+'K-Literals-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &LT;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1981,11 +2214,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-43'(_Config) ->
+'K-Literals-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &lte;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1994,11 +2229,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-44'(_Config) ->
+'K-Literals-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2007,11 +2244,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-45'(_Config) ->
+'K-Literals-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string &#x;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2020,11 +2259,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-46'(_Config) ->
+'K-Literals-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&lt; &gt; &amp; &quot; &apos; &#x48; &#48;\" eq \"< > &amp; \"\" ' &#x48; &#48;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2033,11 +2274,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-47'(_Config) ->
+'K-Literals-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"t\" eq \"&#x74;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2046,13 +2289,16 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-47a'(_Config) ->
+'K-Literals-47a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'K-Literals-48'(_Config) ->
+'K-Literals-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&#X4A;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2061,11 +2307,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-49'(_Config) ->
+'K-Literals-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"I love brownies&amp;cookies.\" eq \"I love brownies&amp;cookies.\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2074,11 +2322,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-Literals-50'(_Config) ->
+'K-Literals-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 &lt;= 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-Literals-50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2087,11 +2337,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-1'(_Config) ->
+'K2-Literals-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&#x00;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0090") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2100,11 +2352,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-2'(_Config) ->
+'K2-Literals-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2113,11 +2367,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-3'(_Config) ->
+'K2-Literals-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&#0000045;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2126,11 +2382,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-4'(_Config) ->
+'K2-Literals-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999") of 
       true -> {comment, "Equal"};
@@ -2147,11 +2405,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-5'(_Config) ->
+'K2-Literals-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999") of 
       true -> {comment, "Equal"};
@@ -2168,11 +2428,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-6'(_Config) ->
+'K2-Literals-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999.1") of 
       true -> {comment, "String correct"};
@@ -2193,11 +2455,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-7'(_Config) ->
+'K2-Literals-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2218,11 +2482,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-8'(_Config) ->
+'K2-Literals-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999E100000000000000000000000000000000000000000000000000000000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
@@ -2239,11 +2505,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-9'(_Config) ->
+'K2-Literals-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999E100000000000000000000000000000000000000000000000000000000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "-INF") of 
       true -> {comment, "String correct"};
@@ -2260,11 +2528,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-10'(_Config) ->
+'K2-Literals-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e10",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
@@ -2281,11 +2551,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-11'(_Config) ->
+'K2-Literals-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-0e0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-0") of 
       true -> {comment, "Equal"};
@@ -2302,11 +2574,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-12'(_Config) ->
+'K2-Literals-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "0e0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2323,11 +2597,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-13'(_Config) ->
+'K2-Literals-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2344,11 +2620,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-14'(_Config) ->
+'K2-Literals-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2365,11 +2643,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-15'(_Config) ->
+'K2-Literals-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2386,11 +2666,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-16'(_Config) ->
+'K2-Literals-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<p>FA&#xFF000000F6;IL</p>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0090") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2399,11 +2681,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-17'(_Config) ->
+'K2-Literals-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<p>FA&#4294967542;IL</p>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0090") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2412,11 +2696,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-18'(_Config) ->
+'K2-Literals-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<p>FA&#xFFFFFFFF000000F6;IL</p>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0090") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2425,11 +2711,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-19'(_Config) ->
+'K2-Literals-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<p>FA&#18446744073709551862;IL</p>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0090") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2438,11 +2726,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-20'(_Config) ->
+'K2-Literals-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 ; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2451,11 +2741,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-21'(_Config) ->
+'K2-Literals-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "0x20",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2464,11 +2756,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-22'(_Config) ->
+'K2-Literals-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&#x-20;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2477,11 +2771,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-23'(_Config) ->
+'K2-Literals-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&#-20;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2490,11 +2786,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-24'(_Config) ->
+'K2-Literals-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&#x+20;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2503,11 +2801,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-25'(_Config) ->
+'K2-Literals-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&#+20;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2516,11 +2816,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-26'(_Config) ->
+'K2-Literals-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&#2A0;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2529,11 +2831,13 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-27'(_Config) ->
+'K2-Literals-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&#xW20;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2542,7 +2846,8 @@ line2") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-28'(_Config) ->
+'K2-Literals-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-Literals-28                                  :)
 (: Written by: Frans Englich                             :)
@@ -2557,7 +2862,8 @@ string literal
 \"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"deep-equal(string-to-codepoints($result), 
             (97, 10, 10, 10, 32, 10, 115, 116, 114, 105, 110, 103, 32, 108, 105, 116, 101, 114, 97, 108, 32, 10))") of 
       true -> {comment, "Correct results"};
@@ -2567,11 +2873,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-29'(_Config) ->
+'K2-Literals-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"&#0xA;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2580,11 +2888,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-30'(_Config) ->
+'K2-Literals-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = ".5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0.5") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2593,11 +2903,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-31'(_Config) ->
+'K2-Literals-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = ". 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2606,11 +2918,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-32'(_Config) ->
+'K2-Literals-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "465.",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"465") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2619,11 +2933,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-33'(_Config) ->
+'K2-Literals-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "} }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2632,11 +2948,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-34'(_Config) ->
+'K2-Literals-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace prefix = \"http://example.com/\";",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2645,11 +2963,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-35'(_Config) ->
+'K2-Literals-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "module namespace prefix = \"http://example.com\"; declare function prefix:myFunction() { 1 };",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"true()") of 
       true -> {comment, "Correct results"};
@@ -2666,11 +2986,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-36'(_Config) ->
+'K2-Literals-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "module namespace prefix = \"http://www.example.com/\";",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"true()") of 
       true -> {comment, "Correct results"};
@@ -2687,11 +3009,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-37'(_Config) ->
+'K2-Literals-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import gt import",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2700,11 +3024,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-38'(_Config) ->
+'K2-Literals-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "schema gt schema",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2713,7 +3039,8 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Literals-39'(_Config) ->
+'K2-Literals-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-Literals-39                                  :)
 (: Written by: Frans Englich                             :)
@@ -2728,7 +3055,8 @@ string literal
 '",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Literals-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a 
 
 
@@ -2742,11 +3070,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-literals-001'(_Config) ->
+'cbcl-literals-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'&#x100000000x'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-literals-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2755,11 +3085,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-literals-002'(_Config) ->
+'cbcl-literals-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'&#x100000000'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-literals-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2768,11 +3100,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-literals-003'(_Config) ->
+'cbcl-literals-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'&#x;'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-literals-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2781,11 +3115,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-literals-004'(_Config) ->
+'cbcl-literals-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'&#x0;'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-literals-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0090") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2794,11 +3130,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-literals-005'(_Config) ->
+'cbcl-literals-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'&#100000000x'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-literals-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2807,11 +3145,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-literals-006'(_Config) ->
+'cbcl-literals-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'&#100000000'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-literals-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2820,11 +3160,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-literals-007'(_Config) ->
+'cbcl-literals-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'&#;'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-literals-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2833,11 +3175,13 @@ string literal
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-literals-008'(_Config) ->
+'cbcl-literals-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "'&#x0;'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-literals-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0090") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

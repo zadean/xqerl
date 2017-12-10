@@ -39,9 +39,13 @@
 -export(['K2-ExpandedQNameConstructFunc-1'/1]).
 -export(['cbcl-qname-001'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'ExpandedQNameConstructFunc001',
    'ExpandedQNameConstructFunc002',
@@ -77,97 +81,97 @@ all() -> [
    'K-ExpandedQNameConstructFunc-10',
    'K2-ExpandedQNameConstructFunc-1',
    'cbcl-qname-001'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -179,60 +183,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -240,23 +244,25 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('fsx') ->
+environment('fsx',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ForClause/fsx.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../prod/ForClause/fsx.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'ExpandedQNameConstructFunc001'(_Config) ->
+'ExpandedQNameConstructFunc001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "element {fn:QName(\"http://www.example.com/example\", \"person\")}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<person xmlns=\"http://www.example.com/example\">test</person>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -265,11 +271,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc002'(_Config) ->
+'ExpandedQNameConstructFunc002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "element {fn:QName(\"http://www.example.com/example\", \"ht:person\")}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<ht:person xmlns:ht=\"http://www.example.com/example\">test</ht:person>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -278,11 +286,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc003'(_Config) ->
+'ExpandedQNameConstructFunc003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "element {fn:QName(\"\", \"person\")}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<person>test</person>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -291,11 +301,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc004'(_Config) ->
+'ExpandedQNameConstructFunc004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "element {fn:QName((), \"person\")}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<person>test</person>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -304,11 +316,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc005'(_Config) ->
+'ExpandedQNameConstructFunc005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName(\"\", \"ht:person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -317,11 +331,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc006'(_Config) ->
+'ExpandedQNameConstructFunc006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName((), \"ht:person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -330,11 +346,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc007'(_Config) ->
+'ExpandedQNameConstructFunc007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \"1person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -343,11 +361,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc008'(_Config) ->
+'ExpandedQNameConstructFunc008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \"@person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -356,11 +376,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc009'(_Config) ->
+'ExpandedQNameConstructFunc009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \"-person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -369,11 +391,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc010'(_Config) ->
+'ExpandedQNameConstructFunc010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \"<person>\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -382,11 +406,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc011'(_Config) ->
+'ExpandedQNameConstructFunc011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \":person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -395,11 +421,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc012'(_Config) ->
+'ExpandedQNameConstructFunc012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \"person:\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -408,11 +436,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc013'(_Config) ->
+'ExpandedQNameConstructFunc013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName(\"person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -421,11 +451,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc014'(_Config) ->
+'ExpandedQNameConstructFunc014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -434,11 +466,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc015'(_Config) ->
+'ExpandedQNameConstructFunc015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", xs:integer(\"100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -447,11 +481,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc016'(_Config) ->
+'ExpandedQNameConstructFunc016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName( xs:integer(\"100\"), \"person\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -460,12 +496,14 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc017'(_Config) ->
+'ExpandedQNameConstructFunc017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "element {fn:QName( \"http://www.example.com/example\", string((//FolderName)[2]) )}{ \"test\" }",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc017.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<Folder00000000001 xmlns=\"http://www.example.com/example\">test</Folder00000000001>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -474,12 +512,14 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc018'(_Config) ->
+'ExpandedQNameConstructFunc018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "element {fn:QName( concat('http://www.example.com/', string((//FolderName)[2])), \"people\" )}{ \"test\" }",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc018.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<people xmlns=\"http://www.example.com/Folder00000000001\">test</people>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -488,11 +528,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc019'(_Config) ->
+'ExpandedQNameConstructFunc019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "element {fn:QName( \"http://www.example.com/example\", \"\" )}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -501,11 +543,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc020'(_Config) ->
+'ExpandedQNameConstructFunc020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace ht=\"http://www.example.com/example\"; element {fn:QName( \"http://www.example.com/another-example\", \"ht:person\" )}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<ht:person xmlns:ht=\"http://www.example.com/another-example\">test</ht:person>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -514,11 +558,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ExpandedQNameConstructFunc021'(_Config) ->
+'ExpandedQNameConstructFunc021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace ht=\"http://www.example.com/example\"; element {fn:QName( \"http://www.example.com/example\", \"ht2:person\" )}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ExpandedQNameConstructFunc021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<ht2:person xmlns:ht2=\"http://www.example.com/example\">test</ht2:person>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -527,11 +573,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'qName-1'(_Config) ->
+'qName-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:QName(20)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "qName-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -540,11 +588,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ExpandedQNameConstructFunc-1'(_Config) ->
+'K-ExpandedQNameConstructFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ExpandedQNameConstructFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -553,11 +603,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ExpandedQNameConstructFunc-2'(_Config) ->
+'K-ExpandedQNameConstructFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"http://www.example.com/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ExpandedQNameConstructFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -566,11 +618,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ExpandedQNameConstructFunc-3'(_Config) ->
+'K-ExpandedQNameConstructFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"http://www.example.com/\", \"ncname\", \"error\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ExpandedQNameConstructFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -579,11 +633,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ExpandedQNameConstructFunc-4'(_Config) ->
+'K-ExpandedQNameConstructFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"http://www.w3.org/2005/xpath-functions\", \"prefix:local\") eq xs:QName(\"fn:local\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ExpandedQNameConstructFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -592,11 +648,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ExpandedQNameConstructFunc-5'(_Config) ->
+'K-ExpandedQNameConstructFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"http://www.example.com/\", \"1asd:error\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ExpandedQNameConstructFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -605,11 +663,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ExpandedQNameConstructFunc-6'(_Config) ->
+'K-ExpandedQNameConstructFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"\", \"error:ncname\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ExpandedQNameConstructFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -618,11 +678,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ExpandedQNameConstructFunc-7'(_Config) ->
+'K-ExpandedQNameConstructFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName((), \"error:ncname\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ExpandedQNameConstructFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -631,11 +693,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ExpandedQNameConstructFunc-8'(_Config) ->
+'K-ExpandedQNameConstructFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"my:qName\", \"http://example.com/MyErrorNS\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ExpandedQNameConstructFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -644,11 +708,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ExpandedQNameConstructFunc-9'(_Config) ->
+'K-ExpandedQNameConstructFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"\", \"local\") eq xs:QName(\"local\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ExpandedQNameConstructFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -657,11 +723,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ExpandedQNameConstructFunc-10'(_Config) ->
+'K-ExpandedQNameConstructFunc-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName((), \"local\") eq xs:QName(\"local\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ExpandedQNameConstructFunc-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -670,11 +738,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ExpandedQNameConstructFunc-1'(_Config) ->
+'K2-ExpandedQNameConstructFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName((), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExpandedQNameConstructFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -683,11 +753,13 @@ environment('fsx') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-qname-001'(_Config) ->
+'cbcl-qname-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:QName('', ' ')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-qname-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

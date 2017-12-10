@@ -64,9 +64,13 @@
 -export(['cbcl-id-002'/1]).
 -export(['cbcl-id-003'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/copy.xq") catch _:_ -> ok end,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+, try  xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-id-1',
    'fn-id-2',
@@ -127,97 +131,97 @@ all() -> [
    'cbcl-id-001',
    'cbcl-id-002',
    'cbcl-id-003'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -229,60 +233,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -290,72 +294,74 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('id-idref-dtd') ->
+environment('id-idref-dtd',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/iddtd.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "id/iddtd.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('id-idref') ->
+environment('id-idref',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/id.xml",".",""}]},
-{schemas, [{"id/id.xsd","http://www.w3.org/XQueryTest/ididrefs"}]},
+{sources, [{filename:join(BaseDir, "id/id.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "id/id.xsd"),"http://www.w3.org/XQueryTest/ididrefs"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('UsingXMLId') ->
+environment('UsingXMLId',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/UsingXMLId.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "id/UsingXMLId.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('XMLIdMany') ->
+environment('XMLIdMany',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/id/XMLIDMany.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "id/XMLIDMany.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction-xq') ->
+environment('auction-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'fn-id-1'(_Config) ->
+'fn-id-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(\"argument 1\", / ,\"Argument 3\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -364,11 +370,13 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-2'(_Config) ->
+'fn-id-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1 to 5)[fn:id(\"argument1\")]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -377,11 +385,13 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-3'(_Config) ->
+'fn-id-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(\"argument1\", \"A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -390,15 +400,17 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-4'(_Config) ->
+'fn-id-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $var := copy:copy(/*) return fn:id(\"argument1\", $var)
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -407,48 +419,68 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-5'(_Config) ->
+'fn-id-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-6'(_Config) ->
+'fn-id-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-7'(_Config) ->
+'fn-id-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-8'(_Config) ->
+'fn-id-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-9'(_Config) ->
+'fn-id-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-10'(_Config) ->
+'fn-id-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-11'(_Config) ->
+'fn-id-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-12'(_Config) ->
+'fn-id-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-13'(_Config) ->
+'fn-id-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-14'(_Config) ->
+'fn-id-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-15'(_Config) ->
+'fn-id-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-16'(_Config) ->
+'fn-id-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-17'(_Config) ->
+'fn-id-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-18'(_Config) ->
+'fn-id-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-19'(_Config) ->
+'fn-id-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-20'(_Config) ->
+'fn-id-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-21'(_Config) ->
+'fn-id-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-23'(_Config) ->
+'fn-id-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-id-dtd-5'(_Config) ->
+'fn-id-dtd-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(\"id1\", /IDS[1])/string(@anId)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-5.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "id1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -457,12 +489,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-6'(_Config) ->
+'fn-id-dtd-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:id(\"nomatchingid\", /IDS[1]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-6.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -471,12 +505,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-7'(_Config) ->
+'fn-id-dtd-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(\"id2 id2\", /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-7.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -485,12 +521,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-8'(_Config) ->
+'fn-id-dtd-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(\"id1 id2\", /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-8.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-1 elementwithid-2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -499,12 +537,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-9'(_Config) ->
+'fn-id-dtd-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(\"id1 nomatching\", /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-9.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -513,12 +553,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-10'(_Config) ->
+'fn-id-dtd-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:id(\"nomatching1 nomatching2\", /IDS[1]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-10.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -527,12 +569,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-11'(_Config) ->
+'fn-id-dtd-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(\"\", /IDS[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-11.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -541,12 +585,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-12'(_Config) ->
+'fn-id-dtd-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(fn:substring(\"1id3\",2), /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-12.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -555,12 +601,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-13'(_Config) ->
+'fn-id-dtd-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(\"id4\", /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-13.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -569,12 +617,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-14'(_Config) ->
+'fn-id-dtd-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(\"p1:id5\", /IDS[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-14.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -583,12 +633,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-15'(_Config) ->
+'fn-id-dtd-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(\"id1 id1\", /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-15.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -597,12 +649,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-16'(_Config) ->
+'fn-id-dtd-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(\"id1 ID1\", /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-16.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -611,12 +665,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-17'(_Config) ->
+'fn-id-dtd-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(fn:lower-case(\"ID1\"), /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-17.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -625,12 +681,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-18'(_Config) ->
+'fn-id-dtd-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(fn:upper-case(\"id5\"), /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-18.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-6") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -639,12 +697,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-19'(_Config) ->
+'fn-id-dtd-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(fn:concat(\"i\",\"d1\"), /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-19.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -653,12 +713,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-20'(_Config) ->
+'fn-id-dtd-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(xs:string(\"id1\"), /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-20.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -667,12 +729,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-21'(_Config) ->
+'fn-id-dtd-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(fn:string-join((\"id\",\"1\"),\"\"), /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-21.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -681,11 +745,13 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-22'(_Config) ->
+'fn-id-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1 to 5)[ fn:id(\"argument1\",.)]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -694,12 +760,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-id-dtd-23'(_Config) ->
+'fn-id-dtd-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare ordering ordered; fn:id(\"id1 id2\", /IDS[1])/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-dtd-23.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "elementwithid-1 elementwithid-2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -708,11 +776,13 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-1'(_Config) ->
+'K2-SeqIDFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "id((), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -721,11 +791,13 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-2'(_Config) ->
+'K2-SeqIDFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, 3)[id(\"ncname\", .)]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -734,11 +806,13 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-3'(_Config) ->
+'K2-SeqIDFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, 3)[id(\"ncname\")]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -747,15 +821,17 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-4'(_Config) ->
+'K2-SeqIDFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy((//comment())[1]))
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -764,15 +840,17 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-5'(_Config) ->
+'K2-SeqIDFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy((//processing-instruction())[1]))
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-5.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -781,15 +859,17 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-6'(_Config) ->
+'K2-SeqIDFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy(/*))
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-6.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -798,15 +878,17 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-7'(_Config) ->
+'K2-SeqIDFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", (copy:copy(/*)//*:NegativeComments)[last()])
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-7.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -815,11 +897,13 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-8'(_Config) ->
+'K2-SeqIDFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i := <e><e/><e/><e/><e/><e/><e/><e/><b xml:id=\"foo\"/><e/></e>return id(\"foo\", $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -828,11 +912,13 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-9'(_Config) ->
+'K2-SeqIDFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i := document {<e> <e/> <e/> <e/> <e/> <e/> <e/> <e/> <b xml:id=\"foo\"/> <e/> </e>} return id(\"foo\", $i)/name()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "b") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -841,12 +927,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-10'(_Config) ->
+'K2-SeqIDFunc-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $i in id((\"short\", \"positiveInteger\")) return $i/@name/string()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-10.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "positiveInteger short") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -855,12 +943,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-11'(_Config) ->
+'K2-SeqIDFunc-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "id((\"short\"), //xs:element/@name[. = \"positiveInteger\"])/@name",
-   {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-11.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "short") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -869,12 +959,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-12'(_Config) ->
+'K2-SeqIDFunc-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "id((\".\", \"short\", \"123\"), //xs:element/@name[. = \"positiveInteger\"])/@name",
-   {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-12.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "short") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -883,12 +975,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-13'(_Config) ->
+'K2-SeqIDFunc-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(//b/@ref)/data(exactly-one(@*))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('XMLIdMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('XMLIdMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-13.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a b c d e f i") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -897,12 +991,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-14'(_Config) ->
+'K2-SeqIDFunc-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $i in id((\"short positiveInteger\")) return $i/@name/string()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-14.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "positiveInteger short") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -911,12 +1007,14 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIDFunc-15'(_Config) ->
+'K2-SeqIDFunc-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id(string-join(reverse(//b/@ref), '	'))/data(exactly-one(@*))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('XMLIdMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('XMLIdMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-15.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a b c d e f i") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -925,14 +1023,16 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-id-001'(_Config) ->
+'cbcl-id-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
       	let $doc := document { <root /> } return fn:empty( fn:id( local:generate(0), $doc) )
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-id-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -941,13 +1041,15 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-id-002'(_Config) ->
+'cbcl-id-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	let $doc := document { <root /> } return fn:empty( fn:id( (), $doc) )
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-id-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -964,14 +1066,16 @@ environment('auction-xq') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-id-003'(_Config) ->
+'cbcl-id-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
       	let $doc := document { <root /> } return fn:empty( $doc/fn:id( local:generate(0)) )
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-id-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 

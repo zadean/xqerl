@@ -314,9 +314,13 @@
 -export(['K2-SeqExprInstanceOf-100'/1]).
 -export(['cbcl-instance-of-001'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'instanceof1',
    'instanceof2',
@@ -627,97 +631,97 @@ all() -> [
    'K2-SeqExprInstanceOf-99',
    'K2-SeqExprInstanceOf-100',
    'cbcl-instance-of-001'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -729,60 +733,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -790,35 +794,37 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('ListUnionTypes') ->
+environment('ListUnionTypes',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"ValidateExpr/listunion.xsd","http://www.w3.org/XQueryTest/ListUnionTypes"}]},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/listunion.xsd"),"http://www.w3.org/XQueryTest/ListUnionTypes"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('union-List-defined-Types') ->
+environment('union-List-defined-Types',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"SchemaImport/unionListDefined.xsd","http://www.w3.org/XQueryTest/unionListDefined"}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/unionListDefined.xsd"),"http://www.w3.org/XQueryTest/unionListDefined"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'instanceof1'(_Config) ->
+'instanceof1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-04-02T12:00:00Z\") instance of xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -827,11 +833,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof2'(_Config) ->
+'instanceof2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-04-02T12:00:00Z\") instance of xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -840,11 +848,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof3'(_Config) ->
+'instanceof3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-04-02T12:00:00Z\") instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -853,11 +863,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof4'(_Config) ->
+'instanceof4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-04-02T12:00:00Z\") instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -866,11 +878,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof5'(_Config) ->
+'instanceof5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-04-02T12:00:00Z\") instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -879,11 +893,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof6'(_Config) ->
+'instanceof6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-04-02T12:00:00Z\") instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -892,11 +908,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof7'(_Config) ->
+'instanceof7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-04-02T12:00:00Z\") instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -905,11 +923,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof8'(_Config) ->
+'instanceof8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-04-02T12:00:00Z\") instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -918,11 +938,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof9'(_Config) ->
+'instanceof9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-04-02T12:00:00Z\") instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -931,11 +953,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof10'(_Config) ->
+'instanceof10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-04-02T12:00:00Z\") instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -944,11 +968,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof11'(_Config) ->
+'instanceof11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"2002-04-02T12:00:00Z\") instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -957,11 +983,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof12'(_Config) ->
+'instanceof12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:10.5Z\") instance of xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -970,11 +998,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof13'(_Config) ->
+'instanceof13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:10.5Z\") instance of xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -983,11 +1013,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof14'(_Config) ->
+'instanceof14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:10.5Z\") instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -996,11 +1028,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof15'(_Config) ->
+'instanceof15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:10.5Z\") instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1009,11 +1043,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof16'(_Config) ->
+'instanceof16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:10.5Z\") instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1022,11 +1058,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof17'(_Config) ->
+'instanceof17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:10.5Z\") instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1035,11 +1073,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof18'(_Config) ->
+'instanceof18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:10.5Z\") instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1048,11 +1088,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof19'(_Config) ->
+'instanceof19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:10.5Z\") instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1061,11 +1103,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof20'(_Config) ->
+'instanceof20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:10.5Z\") instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1074,11 +1118,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof21'(_Config) ->
+'instanceof21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:10.5Z\") instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1087,11 +1133,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof22'(_Config) ->
+'instanceof22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:time(\"13:20:10.5Z\") instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1100,11 +1148,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof23'(_Config) ->
+'instanceof23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"2000-01-01+05:00\") instance of xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1113,11 +1163,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof24'(_Config) ->
+'instanceof24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"2000-01-01+05:00\") instance of xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1126,11 +1178,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof25'(_Config) ->
+'instanceof25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"2000-01-01+05:00\") instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1139,11 +1193,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof26'(_Config) ->
+'instanceof26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"2000-01-01+05:00\") instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1152,11 +1208,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof27'(_Config) ->
+'instanceof27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"2000-01-01+05:00\") instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1165,11 +1223,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof28'(_Config) ->
+'instanceof28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"2000-01-01+05:00\") instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1178,11 +1238,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof29'(_Config) ->
+'instanceof29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"2000-01-01+05:00\") instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1191,11 +1253,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof30'(_Config) ->
+'instanceof30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"2000-01-01+05:00\") instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1204,11 +1268,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof31'(_Config) ->
+'instanceof31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"2000-01-01+05:00\") instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1217,11 +1283,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof32'(_Config) ->
+'instanceof32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"2000-01-01+05:00\") instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1230,11 +1298,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof33'(_Config) ->
+'instanceof33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"2000-01-01+05:00\") instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1243,11 +1313,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof34'(_Config) ->
+'instanceof34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") instance of xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1256,11 +1328,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof35'(_Config) ->
+'instanceof35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") instance of xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1269,11 +1343,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof36'(_Config) ->
+'instanceof36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1282,11 +1358,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof37'(_Config) ->
+'instanceof37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1295,11 +1373,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof38'(_Config) ->
+'instanceof38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1308,11 +1388,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof39'(_Config) ->
+'instanceof39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1321,11 +1403,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof40'(_Config) ->
+'instanceof40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1334,11 +1418,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof41'(_Config) ->
+'instanceof41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1347,11 +1433,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof42'(_Config) ->
+'instanceof42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1360,11 +1448,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof43'(_Config) ->
+'instanceof43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1373,11 +1463,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof44'(_Config) ->
+'instanceof44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:boolean(\"true\") instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1386,11 +1478,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof45'(_Config) ->
+'instanceof45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1399,11 +1493,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof46'(_Config) ->
+'instanceof46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1412,11 +1508,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof47'(_Config) ->
+'instanceof47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1425,11 +1523,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof48'(_Config) ->
+'instanceof48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1438,11 +1538,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof49'(_Config) ->
+'instanceof49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1451,11 +1553,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof50'(_Config) ->
+'instanceof50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1464,11 +1568,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof51'(_Config) ->
+'instanceof51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1477,11 +1583,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof52'(_Config) ->
+'instanceof52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1490,11 +1598,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof53'(_Config) ->
+'instanceof53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1503,11 +1613,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof54'(_Config) ->
+'instanceof54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1516,11 +1628,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof55'(_Config) ->
+'instanceof55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1529,11 +1643,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof56'(_Config) ->
+'instanceof56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1542,11 +1658,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof57'(_Config) ->
+'instanceof57'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1555,11 +1673,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof58'(_Config) ->
+'instanceof58'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof58.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1568,11 +1688,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof59'(_Config) ->
+'instanceof59'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof59.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1581,11 +1703,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof60'(_Config) ->
+'instanceof60'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof60.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1594,11 +1718,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof61'(_Config) ->
+'instanceof61'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof61.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1607,11 +1733,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof62'(_Config) ->
+'instanceof62'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof62.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1620,11 +1748,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof63'(_Config) ->
+'instanceof63'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof63.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1633,11 +1763,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof64'(_Config) ->
+'instanceof64'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof64.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1646,11 +1778,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof65'(_Config) ->
+'instanceof65'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof65.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1659,11 +1793,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof66'(_Config) ->
+'instanceof66'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1267.43233E12 instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof66.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1672,11 +1808,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof67'(_Config) ->
+'instanceof67'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com\") instance of xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof67.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1685,11 +1823,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof68'(_Config) ->
+'instanceof68'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com\") instance of xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof68.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1698,11 +1838,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof69'(_Config) ->
+'instanceof69'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com\") instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof69.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1711,11 +1853,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof70'(_Config) ->
+'instanceof70'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com\") instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof70.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1724,11 +1868,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof71'(_Config) ->
+'instanceof71'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com\") instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof71.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1737,11 +1883,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof72'(_Config) ->
+'instanceof72'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com\") instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof72.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1750,11 +1898,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof73'(_Config) ->
+'instanceof73'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com\") instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof73.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1763,11 +1913,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof74'(_Config) ->
+'instanceof74'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com\") instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof74.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1776,11 +1928,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof75'(_Config) ->
+'instanceof75'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com\") instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof75.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1789,11 +1943,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof76'(_Config) ->
+'instanceof76'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com\") instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof76.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1802,11 +1958,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof77'(_Config) ->
+'instanceof77'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com\") instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof77.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1815,11 +1973,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof78'(_Config) ->
+'instanceof78'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"A String Function\" instance of xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof78.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1828,11 +1988,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof79'(_Config) ->
+'instanceof79'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"A String Function\" instance of xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof79.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1841,11 +2003,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof80'(_Config) ->
+'instanceof80'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"A String Function\" instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof80.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1854,11 +2018,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof81'(_Config) ->
+'instanceof81'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"A String Function\" instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof81.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1867,11 +2033,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof82'(_Config) ->
+'instanceof82'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"A String Function\" instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof82.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1880,11 +2048,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof83'(_Config) ->
+'instanceof83'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"A String Function\" instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof83.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1893,11 +2063,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof84'(_Config) ->
+'instanceof84'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"A String Function\" instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof84.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1906,11 +2078,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof85'(_Config) ->
+'instanceof85'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"A String Function\" instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof85.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1919,11 +2093,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof86'(_Config) ->
+'instanceof86'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"A String Function\" instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof86.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1932,11 +2108,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof87'(_Config) ->
+'instanceof87'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"A String Function\" instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof87.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1945,11 +2123,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof88'(_Config) ->
+'instanceof88'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"A String Function\" instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof88.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1958,11 +2138,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof89'(_Config) ->
+'instanceof89'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967.543233 instance of xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof89.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1971,11 +2153,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof90'(_Config) ->
+'instanceof90'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967.543233 instance of xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof90.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1984,11 +2168,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof91'(_Config) ->
+'instanceof91'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967.543233 instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof91.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1997,11 +2183,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof92'(_Config) ->
+'instanceof92'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967.543233 instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof92.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2010,11 +2198,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof93'(_Config) ->
+'instanceof93'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967.543233 instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof93.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2023,11 +2213,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof94'(_Config) ->
+'instanceof94'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967.543233 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof94.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2036,11 +2228,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof95'(_Config) ->
+'instanceof95'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967.543233 instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof95.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2049,11 +2243,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof96'(_Config) ->
+'instanceof96'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967.543233 instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof96.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2062,11 +2258,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof97'(_Config) ->
+'instanceof97'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967.543233 instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof97.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2075,11 +2273,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof98'(_Config) ->
+'instanceof98'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967.543233 instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof98.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2088,11 +2288,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof99'(_Config) ->
+'instanceof99'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967.543233 instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof99.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2101,11 +2303,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof100'(_Config) ->
+'instanceof100'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967543233 instance of xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof100.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2114,11 +2318,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof101'(_Config) ->
+'instanceof101'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967543233 instance of xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof101.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2127,11 +2333,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof102'(_Config) ->
+'instanceof102'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967543233 instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof102.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2140,11 +2348,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof103'(_Config) ->
+'instanceof103'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967543233 instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof103.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2153,11 +2363,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof104'(_Config) ->
+'instanceof104'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967543233 instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof104.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2166,11 +2378,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof105'(_Config) ->
+'instanceof105'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967543233 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof105.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2179,11 +2393,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof106'(_Config) ->
+'instanceof106'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967543233 instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof106.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2192,11 +2408,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof107'(_Config) ->
+'instanceof107'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967543233 instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof107.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2205,11 +2423,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof108'(_Config) ->
+'instanceof108'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967543233 instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof108.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2218,11 +2438,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof109'(_Config) ->
+'instanceof109'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967543233 instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof109.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2231,11 +2453,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof110'(_Config) ->
+'instanceof110'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "12678967543233 instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof110.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2244,11 +2468,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof111'(_Config) ->
+'instanceof111'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NMTOKEN('abc') instance of xs:NMTOKENS",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof111.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2257,31 +2483,42 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof112'(_Config) ->
+'instanceof112'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof113'(_Config) ->
+'instanceof113'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof114'(_Config) ->
+'instanceof114'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof115'(_Config) ->
+'instanceof115'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof116'(_Config) ->
+'instanceof116'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof117'(_Config) ->
+'instanceof117'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof118'(_Config) ->
+'instanceof118'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof119'(_Config) ->
+'instanceof119'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof120'(_Config) ->
+'instanceof120'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof121'(_Config) ->
+'instanceof121'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          name#1 instance of function(*)
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof121.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2290,13 +2527,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof122'(_Config) ->
+'instanceof122'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          name#1 instance of function(node()?) as xs:string
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof122.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2305,13 +2544,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof123'(_Config) ->
+'instanceof123'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          name#1 instance of function(node()) as xs:string
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof123.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2320,13 +2561,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof124'(_Config) ->
+'instanceof124'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          name#1 instance of function(element(A)?) as xs:string
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof124.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2335,13 +2578,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof125'(_Config) ->
+'instanceof125'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          name#1 instance of function(element(A)) as xs:string
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof125.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2350,13 +2595,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof126'(_Config) ->
+'instanceof126'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          name#1 instance of function(element(A)) as xs:anyAtomicType
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof126.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2365,13 +2612,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof127'(_Config) ->
+'instanceof127'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          name#1 instance of function(element(A)) as xs:string+
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof127.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2380,13 +2629,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof128'(_Config) ->
+'instanceof128'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          name#1 instance of function(element(A)) as xs:NCName
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof128.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2395,13 +2646,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof129'(_Config) ->
+'instanceof129'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          name#1 instance of function(node()*) as xs:string
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof129.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2410,13 +2663,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof130'(_Config) ->
+'instanceof130'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          name#1 instance of function(item()) as xs:string
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof130.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2425,13 +2680,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof131'(_Config) ->
+'instanceof131'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          name#0 instance of function(item()) as xs:string
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof131.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2440,13 +2697,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof132'(_Config) ->
+'instanceof132'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          filter#2 instance of function(item()*, function(item()) as xs:boolean) as item()*
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof132.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2455,13 +2714,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof133'(_Config) ->
+'instanceof133'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          filter#2 instance of function(item()*, function(item()*) as xs:boolean) as item()*
        ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof133.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2470,14 +2731,16 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof134'(_Config) ->
+'instanceof134'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          filter#2 instance of function(function(*), item()*) as item()*
        ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('union-List-defined-Types')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('union-List-defined-Types',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "instanceof134.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2486,27 +2749,37 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'instanceof135'(_Config) ->
+'instanceof135'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof136'(_Config) ->
+'instanceof136'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof137'(_Config) ->
+'instanceof137'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof138'(_Config) ->
+'instanceof138'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof139'(_Config) ->
+'instanceof139'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof140'(_Config) ->
+'instanceof140'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof141'(_Config) ->
+'instanceof141'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'instanceof142'(_Config) ->
+'instanceof142'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'K-SeqExprInstanceOf-1'(_Config) ->
+'K-SeqExprInstanceOf-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 instance of item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2515,11 +2788,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-2'(_Config) ->
+'K-SeqExprInstanceOf-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 instance of item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2528,11 +2803,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-3'(_Config) ->
+'K-SeqExprInstanceOf-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2541,11 +2818,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-4'(_Config) ->
+'K-SeqExprInstanceOf-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2554,11 +2833,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-5'(_Config) ->
+'K-SeqExprInstanceOf-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 instance of xs:integer?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2567,11 +2848,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-6'(_Config) ->
+'K-SeqExprInstanceOf-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 instance of xs:integer+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2580,11 +2863,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-7'(_Config) ->
+'K-SeqExprInstanceOf-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 instance of xs:integer*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2593,11 +2878,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-8'(_Config) ->
+'K-SeqExprInstanceOf-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "false() instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2606,11 +2893,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-9'(_Config) ->
+'K-SeqExprInstanceOf-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "false() instance of xs:anyAtomicType",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2619,11 +2908,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-10'(_Config) ->
+'K-SeqExprInstanceOf-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"a string\" instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2632,11 +2923,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-11'(_Config) ->
+'K-SeqExprInstanceOf-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(\"false\" instance of xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2645,11 +2938,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-12'(_Config) ->
+'K-SeqExprInstanceOf-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.1 instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2658,11 +2953,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-13'(_Config) ->
+'K-SeqExprInstanceOf-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1.1 instance of xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2671,11 +2968,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-14'(_Config) ->
+'K-SeqExprInstanceOf-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/\") instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2684,11 +2983,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-15'(_Config) ->
+'K-SeqExprInstanceOf-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/\") instance of xs:string)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2697,11 +2998,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-16'(_Config) ->
+'K-SeqExprInstanceOf-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(\"a string\" instance of xs:untypedAtomic)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2710,11 +3013,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-17'(_Config) ->
+'K-SeqExprInstanceOf-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, 3, 4, 5) instance of xs:integer+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2723,11 +3028,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-18'(_Config) ->
+'K-SeqExprInstanceOf-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((1, 2, 3, 4, 5) instance of xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2736,11 +3043,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-19'(_Config) ->
+'K-SeqExprInstanceOf-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((1, 2, 3, 4, 5) instance of xs:integer?)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2749,11 +3058,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-20'(_Config) ->
+'K-SeqExprInstanceOf-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, 3, 4, 5) instance of xs:integer*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2762,11 +3073,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-21'(_Config) ->
+'K-SeqExprInstanceOf-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, 3, 4, 5) instance of item()+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2775,11 +3088,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-22'(_Config) ->
+'K-SeqExprInstanceOf-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((1, 2, \"a string\", 4, 5) instance of xs:integer*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2788,11 +3103,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-23'(_Config) ->
+'K-SeqExprInstanceOf-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((1, 2, 1.1, 4, 5) instance of xs:integer*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2801,11 +3118,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-24'(_Config) ->
+'K-SeqExprInstanceOf-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not((1, 2, \"a string\", 4, 5) instance of xs:string*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2814,11 +3133,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-25'(_Config) ->
+'K-SeqExprInstanceOf-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, \"a string\", 4, 5) instance of xs:anyAtomicType*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2827,11 +3148,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-26'(_Config) ->
+'K-SeqExprInstanceOf-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, count(\"one\"), 4, 5) instance of xs:integer+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2840,11 +3163,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-27'(_Config) ->
+'K-SeqExprInstanceOf-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 instance of text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2853,11 +3178,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-28'(_Config) ->
+'K-SeqExprInstanceOf-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 instance of node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2866,11 +3193,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-29'(_Config) ->
+'K-SeqExprInstanceOf-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 instance of element())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2879,11 +3208,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-30'(_Config) ->
+'K-SeqExprInstanceOf-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 instance of processing-instruction())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2892,11 +3223,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-31'(_Config) ->
+'K-SeqExprInstanceOf-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 instance of comment())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2905,11 +3238,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-32'(_Config) ->
+'K-SeqExprInstanceOf-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 instance of text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2918,11 +3253,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-33'(_Config) ->
+'K-SeqExprInstanceOf-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 instance of node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2931,11 +3268,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-34'(_Config) ->
+'K-SeqExprInstanceOf-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 instance of element())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2944,11 +3283,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-35'(_Config) ->
+'K-SeqExprInstanceOf-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 instance of processing-instruction())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2957,11 +3298,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-36'(_Config) ->
+'K-SeqExprInstanceOf-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 instance of comment())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2970,11 +3313,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-37'(_Config) ->
+'K-SeqExprInstanceOf-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(1 instance of empty-sequence())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2983,11 +3328,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-38'(_Config) ->
+'K-SeqExprInstanceOf-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not( (1, 2, 3) instance of empty-sequence())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2996,11 +3343,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-39'(_Config) ->
+'K-SeqExprInstanceOf-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() instance of empty-sequence()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3009,11 +3358,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-40'(_Config) ->
+'K-SeqExprInstanceOf-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() instance of empty-sequence()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3022,11 +3373,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-41'(_Config) ->
+'K-SeqExprInstanceOf-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(((()))) instance of empty-sequence()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3035,11 +3388,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-42'(_Config) ->
+'K-SeqExprInstanceOf-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "((), (), ()) instance of empty-sequence()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3048,11 +3403,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-43'(_Config) ->
+'K-SeqExprInstanceOf-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "((), \"xs:string\") instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3061,11 +3418,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-44'(_Config) ->
+'K-SeqExprInstanceOf-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(\"xs:string\", (), \"xs:string\") instance of xs:string+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3074,11 +3433,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-45'(_Config) ->
+'K-SeqExprInstanceOf-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1.1, (), 1) instance of xs:decimal+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3087,11 +3448,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-46'(_Config) ->
+'K-SeqExprInstanceOf-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(\"a string\" instance of xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3100,11 +3463,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-47'(_Config) ->
+'K-SeqExprInstanceOf-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(\"a string\" instance of xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3113,11 +3478,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-48'(_Config) ->
+'K-SeqExprInstanceOf-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.1 instance of xs:decimal and not(1.1 instance of xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3126,11 +3493,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-49'(_Config) ->
+'K-SeqExprInstanceOf-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 instance of prefixDoesNotExist:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3139,11 +3508,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-50'(_Config) ->
+'K-SeqExprInstanceOf-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 instance of xs:doesNotExist",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3152,11 +3523,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-51'(_Config) ->
+'K-SeqExprInstanceOf-51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 instance of xs:qname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3165,11 +3538,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-52'(_Config) ->
+'K-SeqExprInstanceOf-52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 instance of none",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3178,11 +3553,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-53'(_Config) ->
+'K-SeqExprInstanceOf-53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 instance of void",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3191,11 +3568,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-54'(_Config) ->
+'K-SeqExprInstanceOf-54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 instance of none()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
@@ -3212,11 +3591,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-55'(_Config) ->
+'K-SeqExprInstanceOf-55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 instance of void()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
@@ -3233,11 +3614,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-56'(_Config) ->
+'K-SeqExprInstanceOf-56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "error() instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -3254,11 +3637,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-57'(_Config) ->
+'K-SeqExprInstanceOf-57'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "error() instance of xs:integer*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -3275,11 +3660,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-58'(_Config) ->
+'K-SeqExprInstanceOf-58'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "error() instance of empty-sequence()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-58.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -3296,11 +3683,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-59'(_Config) ->
+'K-SeqExprInstanceOf-59'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(error(), 1) instance of empty-sequence()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-59.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
@@ -3317,11 +3706,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-60'(_Config) ->
+'K-SeqExprInstanceOf-60'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, error()) instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-60.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3330,11 +3721,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-61'(_Config) ->
+'K-SeqExprInstanceOf-61'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(error(), 1) instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-61.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3343,11 +3736,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-62'(_Config) ->
+'K-SeqExprInstanceOf-62'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, error()) instance of xs:integer*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-62.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -3364,11 +3759,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-63'(_Config) ->
+'K-SeqExprInstanceOf-63'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(error(), 1) instance of xs:integer*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-63.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -3385,11 +3782,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-64'(_Config) ->
+'K-SeqExprInstanceOf-64'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "not(((10)div(3)) instance of xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-64.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3398,11 +3797,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-65'(_Config) ->
+'K-SeqExprInstanceOf-65'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "((10)idiv(3)) instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-65.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3411,11 +3812,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-SeqExprInstanceOf-66'(_Config) ->
+'K-SeqExprInstanceOf-66'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "((10)mod(3)) instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqExprInstanceOf-66.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3424,11 +3827,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-1'(_Config) ->
+'K2-SeqExprInstanceOf-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/> instance of element()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3437,11 +3842,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-2'(_Config) ->
+'K2-SeqExprInstanceOf-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/> instance of element(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3450,11 +3857,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-3'(_Config) ->
+'K2-SeqExprInstanceOf-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/> instance of element(e)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3463,11 +3872,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-4'(_Config) ->
+'K2-SeqExprInstanceOf-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/> instance of element(name)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3476,11 +3887,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-5'(_Config) ->
+'K2-SeqExprInstanceOf-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/> instance of attribute()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3489,11 +3902,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-6'(_Config) ->
+'K2-SeqExprInstanceOf-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/> instance of attribute(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3502,11 +3917,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-7'(_Config) ->
+'K2-SeqExprInstanceOf-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/> instance of attribute(e)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3515,11 +3932,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-8'(_Config) ->
+'K2-SeqExprInstanceOf-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "attribute e{\"content\"} instance of attribute(e)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3528,11 +3947,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-9'(_Config) ->
+'K2-SeqExprInstanceOf-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "attribute e{\"content\"} instance of attribute()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3541,11 +3962,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-10'(_Config) ->
+'K2-SeqExprInstanceOf-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "attribute e{\"content\"} instance of attribute(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3554,11 +3977,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-11'(_Config) ->
+'K2-SeqExprInstanceOf-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "attribute e{\"content\"} instance of element(e)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3567,11 +3992,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-12'(_Config) ->
+'K2-SeqExprInstanceOf-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "attribute e{\"content\"} instance of element()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3580,11 +4007,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-13'(_Config) ->
+'K2-SeqExprInstanceOf-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "attribute e{\"content\"} instance of element(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3593,11 +4022,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-14'(_Config) ->
+'K2-SeqExprInstanceOf-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "attribute e{\"content\"} instance of attribute(name)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -3606,11 +4037,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-15'(_Config) ->
+'K2-SeqExprInstanceOf-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonPositiveInteger(0) instance of xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3619,11 +4052,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-16'(_Config) ->
+'K2-SeqExprInstanceOf-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:negativeInteger(-1) instance of xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3632,11 +4067,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-17'(_Config) ->
+'K2-SeqExprInstanceOf-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(0) instance of xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3645,11 +4082,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-18'(_Config) ->
+'K2-SeqExprInstanceOf-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:int(0) instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3658,11 +4097,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-19'(_Config) ->
+'K2-SeqExprInstanceOf-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:short(0) instance of xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3671,11 +4112,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-20'(_Config) ->
+'K2-SeqExprInstanceOf-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:byte(0) instance of xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3684,11 +4127,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-21'(_Config) ->
+'K2-SeqExprInstanceOf-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(0) instance of xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3697,11 +4142,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-22'(_Config) ->
+'K2-SeqExprInstanceOf-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(0) instance of xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3710,11 +4157,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-23'(_Config) ->
+'K2-SeqExprInstanceOf-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(0) instance of xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3723,11 +4172,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-24'(_Config) ->
+'K2-SeqExprInstanceOf-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedInt(0) instance of xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3736,11 +4187,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-25'(_Config) ->
+'K2-SeqExprInstanceOf-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(0) instance of xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3749,11 +4202,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-26'(_Config) ->
+'K2-SeqExprInstanceOf-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedByte(0) instance of xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3762,11 +4217,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-27'(_Config) ->
+'K2-SeqExprInstanceOf-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(1) instance of xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3775,11 +4232,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-28'(_Config) ->
+'K2-SeqExprInstanceOf-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:normalizedString(\"NCName\") instance of xs:normalizedString",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3788,11 +4247,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-29'(_Config) ->
+'K2-SeqExprInstanceOf-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:token(\"NCName\") instance of xs:token",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3801,11 +4262,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-30'(_Config) ->
+'K2-SeqExprInstanceOf-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:language(\"NCName\") instance of xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3814,11 +4277,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-31'(_Config) ->
+'K2-SeqExprInstanceOf-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NMTOKEN(\"NCName\") instance of xs:NMTOKEN",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3827,11 +4292,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-32'(_Config) ->
+'K2-SeqExprInstanceOf-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:Name(\"NCName\") instance of xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3840,11 +4307,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-33'(_Config) ->
+'K2-SeqExprInstanceOf-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NCName(\"NCName\") instance of xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3853,11 +4322,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-34'(_Config) ->
+'K2-SeqExprInstanceOf-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:ID(\"NCName\") instance of xs:ID",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3866,11 +4337,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-35'(_Config) ->
+'K2-SeqExprInstanceOf-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:IDREF(\"NCName\") instance of xs:IDREF",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3879,11 +4352,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-36'(_Config) ->
+'K2-SeqExprInstanceOf-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:ENTITY(\"NCName\") instance of xs:ENTITY",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3892,11 +4367,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-37'(_Config) ->
+'K2-SeqExprInstanceOf-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:normalizedString(\"ncname\") instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3905,11 +4382,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-38'(_Config) ->
+'K2-SeqExprInstanceOf-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:token(\"ncname\") instance of xs:normalizedString",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3918,11 +4397,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-39'(_Config) ->
+'K2-SeqExprInstanceOf-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:language(\"ncname\") instance of xs:token",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3931,11 +4412,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-40'(_Config) ->
+'K2-SeqExprInstanceOf-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NMTOKEN(\"ncname\") instance of xs:token",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3944,11 +4427,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-41'(_Config) ->
+'K2-SeqExprInstanceOf-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:Name(\"ncname\") instance of xs:token",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3957,11 +4442,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-42'(_Config) ->
+'K2-SeqExprInstanceOf-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:NCName(\"ncname\") instance of xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3970,11 +4457,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-43'(_Config) ->
+'K2-SeqExprInstanceOf-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:ID(\"ncname\") instance of xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3983,11 +4472,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-44'(_Config) ->
+'K2-SeqExprInstanceOf-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:IDREF(\"ncname\") instance of xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -3996,11 +4487,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-45'(_Config) ->
+'K2-SeqExprInstanceOf-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:ENTITY(\"ncname\") instance of xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4009,11 +4502,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-46'(_Config) ->
+'K2-SeqExprInstanceOf-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"0\") instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4022,11 +4517,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-47'(_Config) ->
+'K2-SeqExprInstanceOf-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:negativeInteger(\"-1\") instance of xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4035,11 +4532,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-48'(_Config) ->
+'K2-SeqExprInstanceOf-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(\"0\") instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4048,11 +4547,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-49'(_Config) ->
+'K2-SeqExprInstanceOf-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:int(\"0\") instance of xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4061,11 +4562,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-50'(_Config) ->
+'K2-SeqExprInstanceOf-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:short(\"0\") instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4074,11 +4577,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-51'(_Config) ->
+'K2-SeqExprInstanceOf-51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:byte(\"0\") instance of xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4087,11 +4592,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-52'(_Config) ->
+'K2-SeqExprInstanceOf-52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4100,11 +4607,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-53'(_Config) ->
+'K2-SeqExprInstanceOf-53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") instance of xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4113,11 +4622,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-54'(_Config) ->
+'K2-SeqExprInstanceOf-54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedInt(\"0\") instance of xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4126,11 +4637,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-55'(_Config) ->
+'K2-SeqExprInstanceOf-55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") instance of xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4139,11 +4652,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-56'(_Config) ->
+'K2-SeqExprInstanceOf-56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedByte(\"0\") instance of xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4152,11 +4667,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-57'(_Config) ->
+'K2-SeqExprInstanceOf-57'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") instance of xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4165,11 +4682,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-58'(_Config) ->
+'K2-SeqExprInstanceOf-58'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"1\") instance of xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-58.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4178,11 +4697,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-59'(_Config) ->
+'K2-SeqExprInstanceOf-59'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"1\") instance of xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-59.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4191,11 +4712,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-60'(_Config) ->
+'K2-SeqExprInstanceOf-60'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") instance of xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-60.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4204,11 +4727,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-61'(_Config) ->
+'K2-SeqExprInstanceOf-61'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") instance of xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-61.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4217,11 +4742,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-62'(_Config) ->
+'K2-SeqExprInstanceOf-62'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(\"1\") instance of xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-62.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4230,11 +4757,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-63'(_Config) ->
+'K2-SeqExprInstanceOf-63'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(\"1\") instance of xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-63.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4243,11 +4772,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-64'(_Config) ->
+'K2-SeqExprInstanceOf-64'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(\"1\") instance of xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-64.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4256,11 +4787,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-65'(_Config) ->
+'K2-SeqExprInstanceOf-65'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(\"1\") instance of xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-65.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4269,11 +4802,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-66'(_Config) ->
+'K2-SeqExprInstanceOf-66'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:token(\"ncname\") instance of xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-66.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4282,11 +4817,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-67'(_Config) ->
+'K2-SeqExprInstanceOf-67'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:ID(\"ncname\") instance of xs:IDREF",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-67.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4295,11 +4832,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-68'(_Config) ->
+'K2-SeqExprInstanceOf-68'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:ENTITY(\"ncname\") instance of xs:IDREF",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-68.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4308,11 +4847,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-69'(_Config) ->
+'K2-SeqExprInstanceOf-69'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:language(\"ncname\") instance of xs:NMTOKEN",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-69.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4321,11 +4862,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-70'(_Config) ->
+'K2-SeqExprInstanceOf-70'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:Name(\"ncname\") instance of xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-70.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4334,11 +4877,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-71'(_Config) ->
+'K2-SeqExprInstanceOf-71'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:normalizedString(\"ncname\") instance of xs:token",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-71.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -4347,11 +4892,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-72'(_Config) ->
+'K2-SeqExprInstanceOf-72'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e a=\"\"/>/attribute::a instance of attribute(a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-72.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4360,11 +4907,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-73'(_Config) ->
+'K2-SeqExprInstanceOf-73'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e a=\"\"/>/@a instance of attribute(a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-73.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4373,11 +4922,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-74'(_Config) ->
+'K2-SeqExprInstanceOf-74'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:byte(xs:double(\"1\")) instance of xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-74.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4386,11 +4937,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-75'(_Config) ->
+'K2-SeqExprInstanceOf-75'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonPositiveInteger(xs:double(\"0\")) instance of xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-75.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4399,11 +4952,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-76'(_Config) ->
+'K2-SeqExprInstanceOf-76'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:negativeInteger(xs:double(\"-4\")) instance of xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-76.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4412,11 +4967,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-77'(_Config) ->
+'K2-SeqExprInstanceOf-77'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(xs:double(\"-4\")) instance of xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-77.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4425,11 +4982,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-78'(_Config) ->
+'K2-SeqExprInstanceOf-78'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:int(xs:double(\"-4\")) instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-78.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4438,11 +4997,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-79'(_Config) ->
+'K2-SeqExprInstanceOf-79'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:short(xs:double(\"-4\")) instance of xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-79.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4451,11 +5012,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-80'(_Config) ->
+'K2-SeqExprInstanceOf-80'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(xs:double(\"4\")) instance of xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-80.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4464,11 +5027,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-81'(_Config) ->
+'K2-SeqExprInstanceOf-81'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(xs:double(\"4\")) instance of xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-81.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4477,11 +5042,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-82'(_Config) ->
+'K2-SeqExprInstanceOf-82'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedInt(xs:double(\"4\")) instance of xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-82.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4490,11 +5057,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-83'(_Config) ->
+'K2-SeqExprInstanceOf-83'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(xs:double(\"4\")) instance of xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-83.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4503,11 +5072,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-84'(_Config) ->
+'K2-SeqExprInstanceOf-84'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedByte(xs:double(\"4\")) instance of xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-84.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4516,11 +5087,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-85'(_Config) ->
+'K2-SeqExprInstanceOf-85'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(xs:double(\"4\")) instance of xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-85.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4529,11 +5102,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-86'(_Config) ->
+'K2-SeqExprInstanceOf-86'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:byte(xs:float(\"1\")) instance of xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-86.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4542,11 +5117,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-87'(_Config) ->
+'K2-SeqExprInstanceOf-87'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonPositiveInteger(xs:float(\"0\")) instance of xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-87.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4555,11 +5132,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-88'(_Config) ->
+'K2-SeqExprInstanceOf-88'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:negativeInteger(xs:float(\"-4\")) instance of xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-88.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4568,11 +5147,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-89'(_Config) ->
+'K2-SeqExprInstanceOf-89'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:long(xs:float(\"-4\")) instance of xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-89.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4581,11 +5162,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-90'(_Config) ->
+'K2-SeqExprInstanceOf-90'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:int(xs:float(\"-4\")) instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-90.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4594,11 +5177,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-91'(_Config) ->
+'K2-SeqExprInstanceOf-91'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:short(xs:float(\"-4\")) instance of xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-91.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4607,11 +5192,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-92'(_Config) ->
+'K2-SeqExprInstanceOf-92'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:nonNegativeInteger(xs:float(\"4\")) instance of xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-92.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4620,11 +5207,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-93'(_Config) ->
+'K2-SeqExprInstanceOf-93'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedLong(xs:float(\"4\")) instance of xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-93.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4633,11 +5222,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-94'(_Config) ->
+'K2-SeqExprInstanceOf-94'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedInt(xs:float(\"4\")) instance of xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-94.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4646,11 +5237,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-95'(_Config) ->
+'K2-SeqExprInstanceOf-95'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedShort(xs:float(\"4\")) instance of xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-95.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4659,11 +5252,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-96'(_Config) ->
+'K2-SeqExprInstanceOf-96'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:unsignedByte(xs:float(\"4\")) instance of xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-96.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4672,11 +5267,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-97'(_Config) ->
+'K2-SeqExprInstanceOf-97'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:positiveInteger(xs:float(\"4\")) instance of xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-97.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4685,11 +5282,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-98'(_Config) ->
+'K2-SeqExprInstanceOf-98'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "node-name(text {\"\"}) instance of empty-sequence()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-98.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -4698,11 +5297,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-99'(_Config) ->
+'K2-SeqExprInstanceOf-99'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e attr=\"\"/>/(@attr instance of attribute(), @* instance of attribute())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-99.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4711,11 +5312,13 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqExprInstanceOf-100'(_Config) ->
+'K2-SeqExprInstanceOf-100'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a><b/></a>/(b instance of element(), * instance of element())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqExprInstanceOf-100.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -4724,13 +5327,15 @@ environment('union-List-defined-Types') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-instance-of-001'(_Config) ->
+'cbcl-instance-of-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $x in (xs:integer(1), xs:decimal(1)) return (((($x + 1) * 2) - 1) instance of xs:integer)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-instance-of-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

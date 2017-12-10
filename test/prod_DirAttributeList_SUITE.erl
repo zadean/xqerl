@@ -139,9 +139,13 @@
 -export(['DirectConElemAttr-1'/1]).
 -export(['DirectConElemAttr-2'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'Constr-attr-syntax-1',
    'Constr-attr-syntax-2',
@@ -277,97 +281,97 @@ all() -> [
    'K2-DirectConElemAttr-76',
    'DirectConElemAttr-1',
    'DirectConElemAttr-2'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -379,60 +383,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -440,11 +444,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'Constr-attr-syntax-1'(_Config) ->
+'Constr-attr-syntax-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"value\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -453,11 +459,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-syntax-2'(_Config) ->
+'Constr-attr-syntax-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr1=\"val1\" attr2=\"val2\" attr3=\"val3\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr1=\"val1\" attr2=\"val2\" attr3=\"val3\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -466,11 +474,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-syntax-3'(_Config) ->
+'Constr-attr-syntax-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr='value'/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -479,11 +489,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-syntax-4'(_Config) ->
+'Constr-attr-syntax-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=''''/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"'\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -492,11 +504,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-syntax-5'(_Config) ->
+'Constr-attr-syntax-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"\"\"\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"&quot;\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -505,11 +519,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-syntax-6'(_Config) ->
+'Constr-attr-syntax-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr='value\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -518,11 +534,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-syntax-7'(_Config) ->
+'Constr-attr-syntax-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"value'/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -531,11 +549,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-syntax-8'(_Config) ->
+'Constr-attr-syntax-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr1=\"val1\" attr2=\"val2\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr1=\"val1\" attr2=\"val2\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -544,11 +564,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-syntax-9'(_Config) ->
+'Constr-attr-syntax-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr = \"value\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -557,11 +579,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-syntax-10'(_Config) ->
+'Constr-attr-syntax-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"value\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -570,11 +594,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-parent-1'(_Config) ->
+'Constr-attr-parent-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in <elem attr=\"value\"/> return $x is $x/@attr/..",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-parent-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -583,11 +609,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-nsdecl-1'(_Config) ->
+'Constr-attr-nsdecl-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count((<elem xmlns:foo=\"http://ns.example.com/uri\"/>)/@*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsdecl-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -596,11 +624,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-nsdecl-2'(_Config) ->
+'Constr-attr-nsdecl-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count((<elem xmlns=\"http://ns.example.com/uri\"/>)/@*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsdecl-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -609,11 +639,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-nspre-1'(_Config) ->
+'Constr-attr-nspre-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo=\"http://www.w3.org/XQueryTest/Construct\"; <elem foo:attr=\"value\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nspre-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -622,11 +654,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-nspre-2'(_Config) ->
+'Constr-attr-nspre-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\"><child foo:attr=\"value\"/></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nspre-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\"><child foo:attr=\"value\"/></elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -635,11 +669,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-nsprein-1'(_Config) ->
+'Constr-attr-nsprein-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"value\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsprein-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -648,11 +684,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-nsprein-2'(_Config) ->
+'Constr-attr-nsprein-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem foo:attr=\"value\" xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsprein-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -661,11 +699,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-nsprein-3'(_Config) ->
+'Constr-attr-nsprein-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem att=\"{<p:e/>/namespace-uri()}\" xmlns:p=\"http://ns.example.com/uri\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsprein-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem att=\"http://ns.example.com/uri\" xmlns:p=\"http://ns.example.com/uri\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -674,12 +714,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-nsprein-4'(_Config) ->
+'Constr-attr-nsprein-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem att=\"{<e2 a2=\"{<e3 a3=\"{<p:e/>/namespace-uri()}\"></e3>/@a3}\"></e2>/@a2}\" 
                                      xmlns:p=\"http://ns.example.com/uri\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsprein-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem att=\"http://ns.example.com/uri\" xmlns:p=\"http://ns.example.com/uri\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -688,11 +730,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-distnames-1'(_Config) ->
+'Constr-attr-distnames-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"val1\" attr=\"val2\" attr2=\"val3\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-distnames-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0040") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -701,11 +745,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-distnames-2'(_Config) ->
+'Constr-attr-distnames-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"val1\" attr2=\"val2\" attr=\"val3\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-distnames-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0040") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -714,11 +760,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-distnames-3'(_Config) ->
+'Constr-attr-distnames-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr1=\"val1\" attr=\"val2\" attr2=\"val3\" attr=\"val4\" attr3=\"val5\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-distnames-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0040") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -727,11 +775,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-distnames-4'(_Config) ->
+'Constr-attr-distnames-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" xmlns:bar=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"val1\" bar:attr=\"val2\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-distnames-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0040") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -740,11 +790,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-content-1'(_Config) ->
+'Constr-attr-content-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"abxxyz123890!@#$%^*()[]\\|?/>:;\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-content-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<elem attr=\"abxxyz123890!@#$%^*()[]\\|?/&gt;:;\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -761,11 +813,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-content-2'(_Config) ->
+'Constr-attr-content-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"{\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-content-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -774,11 +828,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-content-3'(_Config) ->
+'Constr-attr-content-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-content-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -787,11 +843,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-content-4'(_Config) ->
+'Constr-attr-content-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"<\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-content-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -800,11 +858,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-content-5'(_Config) ->
+'Constr-attr-content-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"&\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-content-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -813,11 +873,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-ws-1'(_Config) ->
+'Constr-attr-ws-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\" \"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-ws-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\" \"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -826,11 +888,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-ws-2'(_Config) ->
+'Constr-attr-ws-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\" \"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-ws-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\" \"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -839,11 +903,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-ws-3'(_Config) ->
+'Constr-attr-ws-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"&#xd;\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-ws-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"&#xD;\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -852,11 +918,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-ws-4'(_Config) ->
+'Constr-attr-ws-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"&#xa;\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-ws-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"&#xA;\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -865,11 +933,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-ws-5'(_Config) ->
+'Constr-attr-ws-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"&#x9;\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-ws-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"&#x9;\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -878,11 +948,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-entref-1'(_Config) ->
+'Constr-attr-entref-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"&amp;&lt;&gt;\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-entref-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"&amp;&lt;&gt;\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -891,11 +963,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-entref-2'(_Config) ->
+'Constr-attr-entref-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string-length(string((<elem attr=\"&amp;&lt;&gt;\"/>)/@attr))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-entref-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -904,11 +978,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-charref-1'(_Config) ->
+'Constr-attr-charref-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"&#x30;&#x31;&#x32;\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-charref-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"012\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -917,11 +993,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-1'(_Config) ->
+'Constr-attr-enclexpr-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"{1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"1 string 3.14 0.012345 2002-04-02T12:00:00-01:00\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -930,11 +1008,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-2'(_Config) ->
+'Constr-attr-enclexpr-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"{<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"123 456 789\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -943,11 +1023,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-3'(_Config) ->
+'Constr-attr-enclexpr-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"{1,'',2}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"1  2\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -956,11 +1038,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-4'(_Config) ->
+'Constr-attr-enclexpr-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"{1,<a/>,2}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"1  2\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -969,11 +1053,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-5'(_Config) ->
+'Constr-attr-enclexpr-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"123{456}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"123456\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -982,11 +1068,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-6'(_Config) ->
+'Constr-attr-enclexpr-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"{123}456\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"123456\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -995,11 +1083,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-7'(_Config) ->
+'Constr-attr-enclexpr-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"1{2,3}{4,5}6{<a>7</a>}{<a>8</a>}9\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"12 34 56789\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1008,11 +1098,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-8'(_Config) ->
+'Constr-attr-enclexpr-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"{(1,2)}{3}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"1 23\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1021,13 +1113,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-9'(_Config) ->
+'Constr-attr-enclexpr-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10 XQ30"}.
-'Constr-attr-enclexpr-10'(_Config) ->
+'Constr-attr-enclexpr-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"z{}z\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"zz\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1036,11 +1131,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-11'(_Config) ->
+'Constr-attr-enclexpr-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"z{ }z\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"zz\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1049,11 +1146,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-12'(_Config) ->
+'Constr-attr-enclexpr-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"z{ (:comment:) }z\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"zz\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1062,11 +1161,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-13'(_Config) ->
+'Constr-attr-enclexpr-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e attr=\"abc{ 23 (:\":) }xyz\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"abc23xyz\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1075,11 +1176,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-14'(_Config) ->
+'Constr-attr-enclexpr-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e attr=\"abc{ 23 (:{:) }xyz\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"abc23xyz\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1088,11 +1191,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-15'(_Config) ->
+'Constr-attr-enclexpr-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e attr=\"abc{ 23 (:}:) }xyz\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"abc23xyz\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1101,11 +1206,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-enclexpr-16'(_Config) ->
+'Constr-attr-enclexpr-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e attr=\"abc{ (# }xyz\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1114,11 +1221,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-id-1'(_Config) ->
+'Constr-attr-id-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem xml:id=\"ncname\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-id-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xml:id=\"ncname\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1127,11 +1236,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-attr-id-2'(_Config) ->
+'Constr-attr-id-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem xml:id=\" a{'b c d',' '}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-id-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<elem xml:id=\"ab c d\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1148,11 +1259,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-1'(_Config) ->
+'K2-DirectConElemAttr-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<ncname (:a misplaced comment:)/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1161,11 +1274,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-2'(_Config) ->
+'K2-DirectConElemAttr-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<(:a misplaced comment:)ncname/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1174,11 +1289,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-3'(_Config) ->
+'K2-DirectConElemAttr-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<ncname></ ncname>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1187,13 +1304,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-4'(_Config) ->
+'K2-DirectConElemAttr-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'K2-DirectConElemAttr-4a'(_Config) ->
+'K2-DirectConElemAttr-4a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<ncname></ncname (:a misplaced comment:)>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-4a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1210,11 +1330,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-5'(_Config) ->
+'K2-DirectConElemAttr-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<ncname>content</ncname > = 'content'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1223,13 +1345,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-6'(_Config) ->
+'K2-DirectConElemAttr-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'K2-DirectConElemAttr-6a'(_Config) ->
+'K2-DirectConElemAttr-6a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<ncname></ncnameNOTBALANCED>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-6a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0118") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1238,11 +1363,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-7'(_Config) ->
+'K2-DirectConElemAttr-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<![CDATA[a string]]>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1251,11 +1378,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-8'(_Config) ->
+'K2-DirectConElemAttr-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"\"\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1264,11 +1393,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-9'(_Config) ->
+'K2-DirectConElemAttr-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr='''/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1277,11 +1408,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-10'(_Config) ->
+'K2-DirectConElemAttr-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"content<content\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1290,11 +1423,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-11'(_Config) ->
+'K2-DirectConElemAttr-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"content}content\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1303,11 +1438,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-12'(_Config) ->
+'K2-DirectConElemAttr-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"content{1\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1316,11 +1453,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-13'(_Config) ->
+'K2-DirectConElemAttr-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"{{{\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1329,11 +1468,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-14'(_Config) ->
+'K2-DirectConElemAttr-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"{\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1342,11 +1483,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-15'(_Config) ->
+'K2-DirectConElemAttr-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"{",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1355,11 +1498,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-16'(_Config) ->
+'K2-DirectConElemAttr-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e attr=\"content}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1368,11 +1513,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-17'(_Config) ->
+'K2-DirectConElemAttr-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1381,11 +1528,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-18'(_Config) ->
+'K2-DirectConElemAttr-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"<foo/>\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1394,11 +1543,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-19'(_Config) ->
+'K2-DirectConElemAttr-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"<?target content?>\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1407,11 +1558,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-20'(_Config) ->
+'K2-DirectConElemAttr-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"<!-- a comment-->\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1420,11 +1573,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-21'(_Config) ->
+'K2-DirectConElemAttr-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"<![CDATA[content]]>\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1433,11 +1588,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-22'(_Config) ->
+'K2-DirectConElemAttr-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1446,11 +1603,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-23'(_Config) ->
+'K2-DirectConElemAttr-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr=\"content'/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1459,11 +1618,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-24'(_Config) ->
+'K2-DirectConElemAttr-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr='content\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1472,11 +1633,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-25'(_Config) ->
+'K2-DirectConElemAttr-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo (:comment :)/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1485,11 +1648,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-26'(_Config) ->
+'K2-DirectConElemAttr-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=(:comment:)\"value\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1498,11 +1663,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-27'(_Config) ->
+'K2-DirectConElemAttr-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr(:comment:)=\"value\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1511,11 +1678,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-28'(_Config) ->
+'K2-DirectConElemAttr-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"value\" (:comment:) attr2=\"value\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1524,11 +1693,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-29'(_Config) ->
+'K2-DirectConElemAttr-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<foo attr=\"\"\"\"/>/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\"") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1537,11 +1708,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-30'(_Config) ->
+'K2-DirectConElemAttr-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<foo attr='\"\"'/>/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\"\"") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1550,11 +1723,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-31'(_Config) ->
+'K2-DirectConElemAttr-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<foo attr=\"''\"/>/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "''") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1563,11 +1738,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-32'(_Config) ->
+'K2-DirectConElemAttr-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<foo attr=''''/>/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "'") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1576,11 +1753,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-33'(_Config) ->
+'K2-DirectConElemAttr-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e attr=\"x{<e>a</e>, <e>b</e>, <e>c</e>, 1, 2, 3}y\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"xa b c 1 2 3y\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1589,11 +1768,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-34'(_Config) ->
+'K2-DirectConElemAttr-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<elem attr=\"{comment {\" content \"}}\"/>/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " content ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1602,11 +1783,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-35'(_Config) ->
+'K2-DirectConElemAttr-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name(<elem attr=\"{comment {\" content \"}}\"/>/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "attr") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1615,11 +1798,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-36'(_Config) ->
+'K2-DirectConElemAttr-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<elem attr=\"{processing-instruction name {\" content \"}}\"/>/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "content ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1628,11 +1813,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-37'(_Config) ->
+'K2-DirectConElemAttr-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name(<elem attr=\"{processing-instruction name {\" content \"}}\"/>/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "attr") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1641,11 +1828,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-38'(_Config) ->
+'K2-DirectConElemAttr-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name(<elem attr=\"{attribute name {\" content \"}}\"/>/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "attr") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1654,11 +1843,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-39'(_Config) ->
+'K2-DirectConElemAttr-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<elem attr=\"{attribute name {\" content \"}}\"/>/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " content ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1667,11 +1858,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-40'(_Config) ->
+'K2-DirectConElemAttr-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem attr1=\"\"\"\" attr2='''' attr3=\"''\" attr4='\"\"' attr5=\"'\" attr6='\"'/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr1=\"&quot;\" attr2=\"'\" attr3=\"''\" attr4=\"&quot;&quot;\" attr5=\"'\" attr6=\"&quot;\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1680,11 +1873,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-41'(_Config) ->
+'K2-DirectConElemAttr-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"{<foo attr=\"foo\"/>}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<foo attr=\"\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1693,11 +1888,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-42'(_Config) ->
+'K2-DirectConElemAttr-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"{<!-- comment -->}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<foo attr=\" comment \"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1706,11 +1903,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-43'(_Config) ->
+'K2-DirectConElemAttr-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<foo attr=\"{<?target dat a ?>}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<foo attr=\"dat a \"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1719,11 +1918,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-44'(_Config) ->
+'K2-DirectConElemAttr-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/level/file.ext\"; <e xml:base=\"../\">{ static-base-uri()}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xml:base=\"../\">http://example.com/level/file.ext</e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1732,11 +1933,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-45'(_Config) ->
+'K2-DirectConElemAttr-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/level/file.ext\"; <e xml:base=\"http://example.com/2/2\">{ static-base-uri()}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xml:base=\"http://example.com/2/2\">http://example.com/level/file.ext</e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1745,11 +1948,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-46'(_Config) ->
+'K2-DirectConElemAttr-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e> { <b attr=\"fo\" a=\"bo\"/>/@* } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"fo\" a=\"bo\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1758,11 +1963,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-47'(_Config) ->
+'K2-DirectConElemAttr-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "data(<e foo=\"content\"/>/@*) instance of xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1771,11 +1978,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-48'(_Config) ->
+'K2-DirectConElemAttr-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a foo=\"1\"fb=\"1\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1784,11 +1993,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-49'(_Config) ->
+'K2-DirectConElemAttr-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a b=\"1\" c=\"1\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a b=\"1\" c=\"1\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1797,11 +2008,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-50'(_Config) ->
+'K2-DirectConElemAttr-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a b=\"1\" c=\"1\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a b=\"1\" c=\"1\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1810,11 +2023,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-51'(_Config) ->
+'K2-DirectConElemAttr-51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a foo='1'fb='1'/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1823,11 +2038,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-52'(_Config) ->
+'K2-DirectConElemAttr-52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a b='1' c='1'/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a b=\"1\" c=\"1\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1836,11 +2053,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-53'(_Config) ->
+'K2-DirectConElemAttr-53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a b=\"1\"/a=\"1\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1849,11 +2068,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-54'(_Config) ->
+'K2-DirectConElemAttr-54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a b='1'/a='1'/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1862,11 +2083,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-55'(_Config) ->
+'K2-DirectConElemAttr-55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a b=\"1\">a=\"1\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1875,11 +2098,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-56'(_Config) ->
+'K2-DirectConElemAttr-56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a b='1'>a='1'/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1888,11 +2113,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-57'(_Config) ->
+'K2-DirectConElemAttr-57'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a attr=\"content\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1901,11 +2128,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-58'(_Config) ->
+'K2-DirectConElemAttr-58'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a attr='content'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-58.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1914,11 +2143,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-59'(_Config) ->
+'K2-DirectConElemAttr-59'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a attr=\"content\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-59.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1927,11 +2158,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-60'(_Config) ->
+'K2-DirectConElemAttr-60'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a attr='content'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-60.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1940,11 +2173,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-61'(_Config) ->
+'K2-DirectConElemAttr-61'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a attr='con",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-61.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1953,11 +2188,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-62'(_Config) ->
+'K2-DirectConElemAttr-62'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a attr=\"con",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-62.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1966,11 +2203,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-63'(_Config) ->
+'K2-DirectConElemAttr-63'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a attr=",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-63.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1979,11 +2218,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-64'(_Config) ->
+'K2-DirectConElemAttr-64'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a attr=",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-64.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1992,11 +2233,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-65'(_Config) ->
+'K2-DirectConElemAttr-65'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a attr",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-65.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2005,11 +2248,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-66'(_Config) ->
+'K2-DirectConElemAttr-66'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a b='1'/",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-66.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2018,11 +2263,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-67'(_Config) ->
+'K2-DirectConElemAttr-67'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a b='1'/",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-67.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2031,11 +2278,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-68'(_Config) ->
+'K2-DirectConElemAttr-68'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e xmlns=\"\" xmlns=\"\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-68.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0071") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2044,11 +2293,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-69'(_Config) ->
+'K2-DirectConElemAttr-69'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e xmlns:xml=\"http://www.w3.org/XML/1998/namespace\" xmlns:xml=\"http://www.w3.org/XML/1998/namespace\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-69.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0071") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2057,11 +2308,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-70'(_Config) ->
+'K2-DirectConElemAttr-70'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default element namespace \"http://typedecl\"; namespace-uri-from-QName(node-name(exactly-one(<e attr=\"foo\"/>/@attr))) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-70.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2070,11 +2323,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-71'(_Config) ->
+'K2-DirectConElemAttr-71'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default element namespace \"http://typedecl\"; namespace-uri-from-QName(node-name(exactly-one(<e>{attribute attr {()} }/</e>/@attr))) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-71.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2083,11 +2338,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-72'(_Config) ->
+'K2-DirectConElemAttr-72'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "namespace-uri-from-QName(node-name(exactly-one(<e xmlns=\"http://example.com/\">{attribute attr {()} }/</e>/@attr))) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-72.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2096,11 +2353,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-73'(_Config) ->
+'K2-DirectConElemAttr-73'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default element namespace \"http://example.com/\"; namespace-uri-from-QName(node-name(attribute e {()})) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-73.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2109,11 +2368,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-74'(_Config) ->
+'K2-DirectConElemAttr-74'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e attr=\"{1}&#86;{1}&#86;\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-74.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"1V1V\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2122,7 +2383,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-75'(_Config) ->
+'K2-DirectConElemAttr-75'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-DirectConElemAttr-75                         :)
 (: Written by: Frans Englich                             :)
@@ -2305,8 +2567,9 @@ text {\"a text node\"}
 </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirAttributeList/K2-DirectConElemAttr-75.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-75.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirAttributeList/K2-DirectConElemAttr-75.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -2314,7 +2577,8 @@ text {\"a text node\"}
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemAttr-76'(_Config) ->
+'K2-DirectConElemAttr-76'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:t() { text{\"\"}, text{\"[\"}, text{\"3\"}, text{\"]\"}, text{\"\"} }; 
         declare variable $var := (text{\"\"}, text{\"[\"}, text{\"3\"}, text{\"]\"}, text{\"\"}); 
@@ -2322,7 +2586,8 @@ text {\"a text node\"}
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-76.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out fromFunction=\" [ 3 ] \" fromVariable=\" [ 3 ] \"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2331,11 +2596,13 @@ text {\"a text node\"}
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'DirectConElemAttr-1'(_Config) ->
+'DirectConElemAttr-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<shoe name=\" \"\"\"\" \"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "DirectConElemAttr-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<shoe name=\" &#34;&#34; \"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2344,11 +2611,13 @@ text {\"a text node\"}
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'DirectConElemAttr-2'(_Config) ->
+'DirectConElemAttr-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<shoe name=\" '''''''' \"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "DirectConElemAttr-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<shoe name=\" '''''''' \"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 

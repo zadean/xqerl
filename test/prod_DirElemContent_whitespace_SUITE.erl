@@ -88,9 +88,13 @@
 -export(['K2-DirectConElemWhitespace-25'/1]).
 -export(['K2-DirectConElemWhitespace-26'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'Constr-ws-tag-1',
    'Constr-ws-tag-2',
@@ -175,97 +179,97 @@ all() -> [
    'K2-DirectConElemWhitespace-24',
    'K2-DirectConElemWhitespace-25',
    'K2-DirectConElemWhitespace-26'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -277,60 +281,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -338,11 +342,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'Constr-ws-tag-1'(_Config) ->
+'Constr-ws-tag-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-tag-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -351,11 +357,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-tag-2'(_Config) ->
+'Constr-ws-tag-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-tag-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -364,11 +372,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-tag-3'(_Config) ->
+'Constr-ws-tag-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-tag-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -377,11 +387,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-tag-4'(_Config) ->
+'Constr-ws-tag-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> <a> </a> <a> </a> <a> <b> </b> </a> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-tag-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem><a/><a/><a><b/></a></elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -390,11 +402,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-tag-5'(_Config) ->
+'Constr-ws-tag-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; fn:count((<elem> <a> </a> <a> </a> <a> <b> </b> </a> </elem>)//text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-tag-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -403,11 +417,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-tag-6'(_Config) ->
+'Constr-ws-tag-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>   </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-tag-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>   </elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -416,14 +432,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-tag-7'(_Config) ->
+'Constr-ws-tag-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>
 
 
 </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-tag-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>
 
 
@@ -435,11 +453,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-tag-8'(_Config) ->
+'Constr-ws-tag-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>			</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-tag-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>			</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -448,7 +468,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-tag-9'(_Config) ->
+'Constr-ws-tag-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>   	
       	    <a>          	         
 		
@@ -464,7 +485,8 @@ environment('array-and-map') ->
       </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-tag-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>   	
       	    <a>          	         
 		
@@ -485,11 +507,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-tag-10'(_Config) ->
+'Constr-ws-tag-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; fn:count((<elem> <a> </a> <a> </a> <a> <b> </b> </a> </elem>)//text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-tag-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"9") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -498,11 +522,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-1'(_Config) ->
+'Constr-ws-enclexpr-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> {1}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>1</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -511,11 +537,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-2'(_Config) ->
+'Constr-ws-enclexpr-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> {1}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>1</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -524,11 +552,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-3'(_Config) ->
+'Constr-ws-enclexpr-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> {1}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>1</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -537,11 +567,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-4'(_Config) ->
+'Constr-ws-enclexpr-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} {2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>12</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -550,11 +582,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-5'(_Config) ->
+'Constr-ws-enclexpr-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} {2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>12</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -563,11 +597,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-6'(_Config) ->
+'Constr-ws-enclexpr-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} {2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>12</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -576,11 +612,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-7'(_Config) ->
+'Constr-ws-enclexpr-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>1</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -589,11 +627,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-8'(_Config) ->
+'Constr-ws-enclexpr-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>1</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -602,11 +642,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-9'(_Config) ->
+'Constr-ws-enclexpr-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>1</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -615,11 +657,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-10'(_Config) ->
+'Constr-ws-enclexpr-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> <a/> <b/> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem><a/><b/></elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -628,11 +672,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-11'(_Config) ->
+'Constr-ws-enclexpr-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> <a/> <b/> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem><a/><b/></elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -641,11 +687,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-12'(_Config) ->
+'Constr-ws-enclexpr-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> <a/> <b/> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem><a/><b/></elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -654,11 +702,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-13'(_Config) ->
+'Constr-ws-enclexpr-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>   {1}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>   1</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -667,14 +717,16 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-14'(_Config) ->
+'Constr-ws-enclexpr-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>
 
 
 {1}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>
 
 
@@ -686,7 +738,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-15'(_Config) ->
+'Constr-ws-enclexpr-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-15 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace tab between open tag and enclosed expression :)
@@ -695,8 +748,9 @@ declare boundary-space preserve;
 <elem>			{1}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirElemContent.whitespace/Constr-ws-enclexpr-15.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirElemContent.whitespace/Constr-ws-enclexpr-15.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -704,7 +758,8 @@ declare boundary-space preserve;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-16'(_Config) ->
+'Constr-ws-enclexpr-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-16 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace space between enclosed expressions :)
@@ -713,8 +768,9 @@ declare boundary-space preserve;
 <elem>{1}   {2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirElemContent.whitespace/Constr-ws-enclexpr-16.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirElemContent.whitespace/Constr-ws-enclexpr-16.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -722,7 +778,8 @@ declare boundary-space preserve;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-17'(_Config) ->
+'Constr-ws-enclexpr-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-17 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace line feed between enclosed expressions :)
@@ -734,8 +791,9 @@ declare boundary-space preserve;
 {2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirElemContent.whitespace/Constr-ws-enclexpr-17.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirElemContent.whitespace/Constr-ws-enclexpr-17.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -743,7 +801,8 @@ declare boundary-space preserve;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-18'(_Config) ->
+'Constr-ws-enclexpr-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-18 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace tab between enclosed expressions :)
@@ -752,8 +811,9 @@ declare boundary-space preserve;
 <elem>{1}			{2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirElemContent.whitespace/Constr-ws-enclexpr-18.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirElemContent.whitespace/Constr-ws-enclexpr-18.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -761,7 +821,8 @@ declare boundary-space preserve;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-19'(_Config) ->
+'Constr-ws-enclexpr-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-19 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace space between enclosed expression and close tag :)
@@ -770,8 +831,9 @@ declare boundary-space preserve;
 <elem>{1}   </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirElemContent.whitespace/Constr-ws-enclexpr-19.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirElemContent.whitespace/Constr-ws-enclexpr-19.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -779,7 +841,8 @@ declare boundary-space preserve;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-20'(_Config) ->
+'Constr-ws-enclexpr-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-20 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace line feed between enclosed expression and close tag :)
@@ -791,8 +854,9 @@ declare boundary-space preserve;
 </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirElemContent.whitespace/Constr-ws-enclexpr-20.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirElemContent.whitespace/Constr-ws-enclexpr-20.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -800,7 +864,8 @@ declare boundary-space preserve;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-21'(_Config) ->
+'Constr-ws-enclexpr-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-21 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace tab between enclosed expression and close tag :)
@@ -809,8 +874,9 @@ declare boundary-space preserve;
 <elem>{1}			</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirElemContent.whitespace/Constr-ws-enclexpr-21.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirElemContent.whitespace/Constr-ws-enclexpr-21.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -818,7 +884,8 @@ declare boundary-space preserve;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-22'(_Config) ->
+'Constr-ws-enclexpr-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-22 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace space between child elements :)
@@ -827,8 +894,9 @@ declare boundary-space preserve;
 <elem>   <a/>   <b/>   </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirElemContent.whitespace/Constr-ws-enclexpr-22.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirElemContent.whitespace/Constr-ws-enclexpr-22.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -836,7 +904,8 @@ declare boundary-space preserve;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-23'(_Config) ->
+'Constr-ws-enclexpr-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-23 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace line feed between child elements :)
@@ -854,8 +923,9 @@ declare boundary-space preserve;
 </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirElemContent.whitespace/Constr-ws-enclexpr-23.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirElemContent.whitespace/Constr-ws-enclexpr-23.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -863,7 +933,8 @@ declare boundary-space preserve;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-enclexpr-24'(_Config) ->
+'Constr-ws-enclexpr-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-24 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace tab between child elements :)
@@ -872,8 +943,9 @@ declare boundary-space preserve;
 <elem>			<a/>			<b/>			</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/DirElemContent.whitespace/Constr-ws-enclexpr-24.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-enclexpr-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirElemContent.whitespace/Constr-ws-enclexpr-24.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -881,11 +953,13 @@ declare boundary-space preserve;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-nobound-1'(_Config) ->
+'Constr-ws-nobound-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> x</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-nobound-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem> x</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -894,7 +968,8 @@ declare boundary-space preserve;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-nobound-2'(_Config) ->
+'Constr-ws-nobound-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-nobound-2 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve leading line feed :)
@@ -904,7 +979,8 @@ declare boundary-space strip;
 x</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-nobound-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"string-to-codepoints(string($result))[1] = 10") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -913,7 +989,8 @@ x</elem>",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-nobound-3'(_Config) ->
+'Constr-ws-nobound-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-nobound-3 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve leading tab :)
@@ -922,7 +999,8 @@ declare boundary-space strip;
 <elem>	x</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-nobound-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"string-to-codepoints(string($result))[1] = 9") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -931,11 +1009,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-nobound-4'(_Config) ->
+'Constr-ws-nobound-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>x </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-nobound-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>x </elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -944,7 +1024,8 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-nobound-5'(_Config) ->
+'Constr-ws-nobound-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-nobound-5 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve trailing line feed :)
@@ -954,7 +1035,8 @@ declare boundary-space strip;
 </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-nobound-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"deep-equal(string-to-codepoints(string($result)), (120, 10))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -963,7 +1045,8 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-nobound-6'(_Config) ->
+'Constr-ws-nobound-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-nobound-6 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve trailing tab :)
@@ -972,7 +1055,8 @@ declare boundary-space strip;
 <elem>x	</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-nobound-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"deep-equal(string-to-codepoints(string($result)), (120, 9))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -981,11 +1065,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-genchref-1'(_Config) ->
+'Constr-ws-genchref-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>&#x20;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-genchref-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem> </elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -994,11 +1080,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-genchref-2'(_Config) ->
+'Constr-ws-genchref-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>&#xA;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-genchref-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"deep-equal(string-to-codepoints(string($result)), (10))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1007,11 +1095,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-genchref-3'(_Config) ->
+'Constr-ws-genchref-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>&#xD;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-genchref-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>&#xD;</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1020,11 +1110,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-genchref-4'(_Config) ->
+'Constr-ws-genchref-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>&#x9;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-genchref-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>	</elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1033,11 +1125,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-gencdata-1'(_Config) ->
+'Constr-ws-gencdata-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem><![CDATA[ ]]></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-gencdata-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem> </elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1046,7 +1140,8 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-gencdata-3'(_Config) ->
+'Constr-ws-gencdata-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-gencdata-3 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve cdata tab :)
@@ -1055,7 +1150,8 @@ declare boundary-space strip;
 <elem><![CDATA[	]]></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-gencdata-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"deep-equal(string-to-codepoints(string($result)), (9))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1064,11 +1160,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-adjchref-1'(_Config) ->
+'Constr-ws-adjchref-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> &#x30; </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-adjchref-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem> 0 </elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1077,7 +1175,8 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-adjchref-2'(_Config) ->
+'Constr-ws-adjchref-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-adjchref-2 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve line feed adjacent to character reference :)
@@ -1088,7 +1187,8 @@ declare boundary-space strip;
 </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-adjchref-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"deep-equal(string-to-codepoints(string($result)), (10, 48, 10))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1097,7 +1197,8 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-adjchref-3'(_Config) ->
+'Constr-ws-adjchref-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-adjchref-3 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve tab adjacent to character reference :)
@@ -1106,7 +1207,8 @@ declare boundary-space strip;
 <elem>	&#x30;	</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-adjchref-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"deep-equal(string-to-codepoints(string($result)), (9, 48, 9))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1115,7 +1217,8 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-adjcdata-1'(_Config) ->
+'Constr-ws-adjcdata-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-adjcdata-1 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve space adjacent to cdata section :)
@@ -1124,7 +1227,8 @@ declare boundary-space strip;
 <elem> <![CDATA[]]> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-adjcdata-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>  </elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1133,7 +1237,8 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-adjcdata-2'(_Config) ->
+'Constr-ws-adjcdata-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-adjcdata-2 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve line feed adjacent to cdata section :)
@@ -1144,7 +1249,8 @@ declare boundary-space strip;
 </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-adjcdata-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"deep-equal(string-to-codepoints(string($result)), (10, 10))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1153,7 +1259,8 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-adjcdata-3'(_Config) ->
+'Constr-ws-adjcdata-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-adjcdata-3 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve tab adjacent to cdata section :)
@@ -1162,7 +1269,8 @@ declare boundary-space strip;
 <elem>	<![CDATA[]]>	</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-adjcdata-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"deep-equal(string-to-codepoints(string($result)), (9, 9))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1171,11 +1279,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-genenclexpr-1'(_Config) ->
+'Constr-ws-genenclexpr-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{\" \"}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-genenclexpr-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem> </elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1184,7 +1294,8 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-genenclexpr-2'(_Config) ->
+'Constr-ws-genenclexpr-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-genenclexpr-2 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve enclosed exp line feed :)
@@ -1194,7 +1305,8 @@ declare boundary-space strip;
 \"}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-genenclexpr-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"deep-equal(string-to-codepoints(string($result)), (10))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1203,7 +1315,8 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-genenclexpr-3'(_Config) ->
+'Constr-ws-genenclexpr-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(: Name: Constr-ws-genenclexpr-3 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve enclosed exp tab :)
@@ -1212,7 +1325,8 @@ declare boundary-space strip;
 <elem>{\"	\"}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-genenclexpr-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"deep-equal(string-to-codepoints(string($result)), (9))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -1221,11 +1335,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-xmlspace-1'(_Config) ->
+'Constr-ws-xmlspace-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <elem xml:space=\"preserve\"> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-xmlspace-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xml:space=\"preserve\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1234,11 +1350,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Constr-ws-xmlspace-2'(_Config) ->
+'Constr-ws-xmlspace-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem xml:space=\"strip\"> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-ws-xmlspace-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<elem xml:space=\"strip\"> </elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -1255,11 +1373,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-1'(_Config) ->
+'K2-DirectConElemWhitespace-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; string(<e> <b/> </e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "  ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1268,11 +1388,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-2'(_Config) ->
+'K2-DirectConElemWhitespace-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<elem>{\"\"}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1281,11 +1403,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-3'(_Config) ->
+'K2-DirectConElemWhitespace-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<a>aaaa<b/>aaaa</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "aaaaaaaa") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1294,11 +1418,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-4'(_Config) ->
+'K2-DirectConElemWhitespace-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; <e> <b/>  </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e> <b/>  </e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1307,11 +1433,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-5'(_Config) ->
+'K2-DirectConElemWhitespace-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; string(<e xml:space=\"preserve\"> </e>) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1320,11 +1448,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-6'(_Config) ->
+'K2-DirectConElemWhitespace-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; <e xml:space=\"preserve\"> </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xml:space=\"preserve\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1333,11 +1463,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-7'(_Config) ->
+'K2-DirectConElemWhitespace-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; string(<e xml:space=\"default\"> </e>) eq \" \"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1346,11 +1478,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-8'(_Config) ->
+'K2-DirectConElemWhitespace-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space preserve; <e xml:space=\"preserve\"> </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xml:space=\"preserve\"> </e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1359,11 +1493,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-9'(_Config) ->
+'K2-DirectConElemWhitespace-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<e>'a''a'''a\"a\"\"a\"\"\"a\"</e>) eq \"'a''a'''a\"\"a\"\"\"\"a\"\"\"\"\"\"a\"\"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1372,11 +1508,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-10'(_Config) ->
+'K2-DirectConElemWhitespace-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<e> &#32; </e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "   ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1385,11 +1523,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-11'(_Config) ->
+'K2-DirectConElemWhitespace-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<e> <![CDATA[ ]]> </e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "   ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1398,11 +1538,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-12'(_Config) ->
+'K2-DirectConElemWhitespace-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<e>123<b>XX</b>abc</e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123XXabc") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1411,11 +1553,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-13'(_Config) ->
+'K2-DirectConElemWhitespace-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<e>123<!-- a comment -->ab<!-- another comment -->c</e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123abc") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1424,11 +1568,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-14'(_Config) ->
+'K2-DirectConElemWhitespace-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<e>123<?target content ?>ab<?target2 content?>c</e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123abc") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1437,11 +1583,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-15'(_Config) ->
+'K2-DirectConElemWhitespace-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(<elem>str{\"\"}asdas{\"asd\", \"asd\", \"''\", \"\"}{''}asd{''}{''}</elem>/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1450,11 +1598,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-16'(_Config) ->
+'K2-DirectConElemWhitespace-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(<a></a>/node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1463,11 +1613,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-17'(_Config) ->
+'K2-DirectConElemWhitespace-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(<a/>/node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1476,11 +1628,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-18'(_Config) ->
+'K2-DirectConElemWhitespace-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<elem> <![CDATA[]]> </elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "  ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1489,11 +1643,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-19'(_Config) ->
+'K2-DirectConElemWhitespace-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<e>e<b>ddd</b></e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "eddd") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1502,11 +1658,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-20'(_Config) ->
+'K2-DirectConElemWhitespace-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e>{1}{1}{1}<e/></e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e>111<e/></e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1515,11 +1673,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-21'(_Config) ->
+'K2-DirectConElemWhitespace-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e><e/>{1}{1}{1}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e><e/>111</e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1528,11 +1688,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-22'(_Config) ->
+'K2-DirectConElemWhitespace-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<e>]]></e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "]]>") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1541,11 +1703,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-23'(_Config) ->
+'K2-DirectConElemWhitespace-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<elem><![CDATA[cdat]]><!-- a comment --><?target content?></elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "cdat") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1554,11 +1718,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-24'(_Config) ->
+'K2-DirectConElemWhitespace-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<elem> content <![CDATA[ content ]]> content </elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " content  content  content ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1567,11 +1733,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-25'(_Config) ->
+'K2-DirectConElemWhitespace-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<elem><![CDATA[cdata&<>'\"< ]]>asda <?target content?>asdad</elem>) eq \"cdata&amp;<>'\"\"&lt;&#x20;asda asdad\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1580,11 +1748,13 @@ declare boundary-space strip;
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-DirectConElemWhitespace-26'(_Config) ->
+'K2-DirectConElemWhitespace-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<a> {1} <b> {1} </b> </a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemWhitespace-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "11") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

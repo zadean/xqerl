@@ -23,9 +23,13 @@
 -export(['rdb-queries-results-q17'/1]).
 -export(['rdb-queries-results-q18'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "app")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'rdb-queries-results-q1',
    'rdb-queries-results-q2',
@@ -45,97 +49,97 @@ all() -> [
    'rdb-queries-results-q16',
    'rdb-queries-results-q17',
    'rdb-queries-results-q18'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -147,60 +151,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -208,21 +212,22 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('users-items-bids') ->
+environment('users-items-bids',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/users.xml","$users",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/items.xml","$items",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/bids.xml","$bids",""}]},
+{sources, [{filename:join(BaseDir, "../docs/users.xml"), "$users",""},
+{filename:join(BaseDir, "../docs/items.xml"), "$items",""},
+{filename:join(BaseDir, "../docs/bids.xml"), "$bids",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'rdb-queries-results-q1'(_Config) ->
+'rdb-queries-results-q1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             for $i in $items//item_tuple 
@@ -233,10 +238,11 @@ environment('users-items-bids') ->
             return <item_tuple> { $i/itemno } { $i/description } </item_tuple> } 
         </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><item_tuple><itemno>1003</itemno><description>Old Bicycle</description></item_tuple><item_tuple><itemno>1007</itemno><description>Racing Bicycle</description></item_tuple></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -245,7 +251,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q2'(_Config) ->
+'rdb-queries-results-q2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             for $i in $items//item_tuple 
@@ -255,10 +262,11 @@ environment('users-items-bids') ->
             return <item_tuple> { $i/itemno } { $i/description } <high_bid>{ max($b/bid) }</high_bid> </item_tuple> } 
         </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><item_tuple><itemno>1001</itemno><description>Red Bicycle</description><high_bid>55</high_bid></item_tuple><item_tuple><itemno>1003</itemno><description>Old Bicycle</description><high_bid>20</high_bid></item_tuple><item_tuple><itemno>1007</itemno><description>Racing Bicycle</description><high_bid>225</high_bid></item_tuple><item_tuple><itemno>1008</itemno><description>Broken Bicycle</description><high_bid/></item_tuple></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -267,7 +275,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q3'(_Config) ->
+'rdb-queries-results-q3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             for $u in $users//user_tuple 
@@ -276,10 +285,11 @@ environment('users-items-bids') ->
             return <warning> { $u/name } { $u/rating } { $i/description } { $i/reserve_price } </warning> } 
         </result>
      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><warning><name>Dee Linquent</name><rating>D</rating><description>Helicopter</description><reserve_price>50000</reserve_price></warning></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -288,7 +298,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q4'(_Config) ->
+'rdb-queries-results-q4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             for $i in $items//item_tuple 
@@ -296,10 +307,11 @@ environment('users-items-bids') ->
             return <no_bid_item> { $i/itemno } { $i/description } </no_bid_item> 
         } </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><no_bid_item><itemno>1005</itemno><description>Tennis Racket</description></no_bid_item><no_bid_item><itemno>1006</itemno><description>Helicopter</description></no_bid_item><no_bid_item><itemno>1008</itemno><description>Broken Bicycle</description></no_bid_item></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -308,7 +320,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q5'(_Config) ->
+'rdb-queries-results-q5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             unordered ( 
@@ -328,10 +341,11 @@ environment('users-items-bids') ->
                        </jones_bike> ) 
         } </result>
      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q5.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><jones_bike><itemno>1001</itemno><description>Red Bicycle</description><high_bid><bid>55</bid></high_bid><high_bidder><name>Mary Doe</name></high_bidder></jones_bike></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -340,7 +354,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q6'(_Config) ->
+'rdb-queries-results-q6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             for $item in $items//item_tuple 
@@ -352,10 +367,11 @@ environment('users-items-bids') ->
                    </successful_item> 
         } </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q6.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><successful_item><itemno>1002</itemno><description>Motorcycle</description><reserve_price>500</reserve_price><high_bid>1200</high_bid></successful_item><successful_item><itemno>1004</itemno><description>Tricycle</description><reserve_price>15</reserve_price><high_bid>40</high_bid></successful_item></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -364,16 +380,18 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q7'(_Config) ->
+'rdb-queries-results-q7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $allbikes := $items//item_tuple [contains(exactly-one(description), \"Bicycle\") or contains(exactly-one(description), \"Tricycle\")] 
         let $bikebids := $bids//bid_tuple[itemno = $allbikes/itemno] 
         return <high_bid> { max($bikebids/bid) } </high_bid>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q7.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<high_bid>225</high_bid>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -382,15 +400,17 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q8'(_Config) ->
+'rdb-queries-results-q8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $item := $items//item_tuple [end_date >= xs:date(\"1999-03-01\") and end_date <= xs:date(\"1999-03-31\")] 
             return <item_count> { count($item) } </item_count>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q8.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<item_count>3</item_count>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -399,7 +419,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q9'(_Config) ->
+'rdb-queries-results-q9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             let $end_dates := $items//item_tuple/end_date 
@@ -414,10 +435,11 @@ environment('users-items-bids') ->
                    </monthly_result> 
         } </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q9.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><monthly_result><month>1</month><item_count>1</item_count></monthly_result><monthly_result><month>2</month><item_count>2</item_count></monthly_result><monthly_result><month>3</month><item_count>3</item_count></monthly_result><monthly_result><month>4</month><item_count>1</item_count></monthly_result><monthly_result><month>5</month><item_count>1</item_count></monthly_result></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -426,7 +448,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q10'(_Config) ->
+'rdb-queries-results-q10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             for $highbid in $bids//bid_tuple, 
@@ -438,10 +461,11 @@ environment('users-items-bids') ->
                    </high_bid> 
         } </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q10.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><high_bid><itemno>1001</itemno><bid>55</bid><bidder>Mary Doe</bidder></high_bid><high_bid><itemno>1002</itemno><bid>1200</bid><bidder>Mary Doe</bidder></high_bid><high_bid><itemno>1003</itemno><bid>20</bid><bidder>Jack Sprat</bidder></high_bid><high_bid><itemno>1004</itemno><bid>40</bid><bidder>Tom Jones</bidder></high_bid><high_bid><itemno>1007</itemno><bid>225</bid><bidder>Roger Smith</bidder></high_bid></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -450,7 +474,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q11'(_Config) ->
+'rdb-queries-results-q11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $highbid := max($bids//bid_tuple/bid) 
         return <result> { for $item in $items//item_tuple, 
@@ -461,10 +486,11 @@ environment('users-items-bids') ->
                                  </expensive_item> 
                } </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q11.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><expensive_item><itemno>1002</itemno><description>Motorcycle</description><high_bid>1200</high_bid></expensive_item></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -473,7 +499,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q12'(_Config) ->
+'rdb-queries-results-q12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:bid_summary() as element()* { 
             for $i in distinct-values($bids//itemno) 
@@ -494,10 +521,11 @@ environment('users-items-bids') ->
                        </popular_item> 
         } </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q12.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><popular_item><itemno>1001</itemno><description>Red Bicycle</description><bid_count>5</bid_count></popular_item><popular_item><itemno>1002</itemno><description>Motorcycle</description><bid_count>5</bid_count></popular_item></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -506,7 +534,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q13'(_Config) ->
+'rdb-queries-results-q13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             for $uid in distinct-values($bids//userid), 
@@ -516,10 +545,11 @@ environment('users-items-bids') ->
             return <bidder> { $u/userid } { $u/name } <bidcount>{ count($b) }</bidcount> <avgbid>{ avg($b/bid) }</avgbid> </bidder> 
         } </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q13.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><bidder><userid>U01</userid><name>Tom Jones</name><bidcount>2</bidcount><avgbid>220</avgbid></bidder><bidder><userid>U02</userid><name>Mary Doe</name><bidcount>5</bidcount><avgbid>387</avgbid></bidder><bidder><userid>U03</userid><name>Dee Linquent</name><bidcount>2</bidcount><avgbid>487.5</avgbid></bidder><bidder><userid>U04</userid><name>Roger Smith</name><bidcount>5</bidcount><avgbid>266</avgbid></bidder><bidder><userid>U05</userid><name>Jack Sprat</name><bidcount>2</bidcount><avgbid>110</avgbid></bidder></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -528,7 +558,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q14'(_Config) ->
+'rdb-queries-results-q14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             for $i in distinct-values($items//itemno) 
@@ -539,10 +570,11 @@ environment('users-items-bids') ->
             return <popular_item> <itemno>{ $i }</itemno> <avgbid>{ $avgbid }</avgbid> </popular_item> 
         } </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q14.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><popular_item><itemno>1002</itemno><avgbid>800</avgbid></popular_item><popular_item><itemno>1007</itemno><avgbid>200</avgbid></popular_item><popular_item><itemno>1001</itemno><avgbid>45</avgbid></popular_item></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -551,7 +583,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q15'(_Config) ->
+'rdb-queries-results-q15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             for $u in $users//user_tuple 
@@ -560,10 +593,11 @@ environment('users-items-bids') ->
             return <big_spender>{ $u/name/text() }</big_spender> 
         } </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q15.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><big_spender>Mary Doe</big_spender><big_spender>Dee Linquent</big_spender><big_spender>Roger Smith</big_spender></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -572,7 +606,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q16'(_Config) ->
+'rdb-queries-results-q16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             for $u in $users//user_tuple 
@@ -583,10 +618,11 @@ environment('users-items-bids') ->
                 then <status>inactive</status> 
                 else <status>active</status> } </user> 
         } </result>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q16.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><user><userid>U01</userid><name>Tom Jones</name><status>active</status></user><user><userid>U02</userid><name>Mary Doe</name><status>active</status></user><user><userid>U03</userid><name>Dee Linquent</name><status>active</status></user><user><userid>U04</userid><name>Roger Smith</name><status>active</status></user><user><userid>U05</userid><name>Jack Sprat</name><status>active</status></user><user><userid>U06</userid><name>Rip Van Winkle</name><status>inactive</status></user></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -595,7 +631,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q17'(_Config) ->
+'rdb-queries-results-q17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <frequent_bidder> { 
             for $u in $users//user_tuple 
@@ -605,10 +642,11 @@ environment('users-items-bids') ->
             return $u/name 
         } </frequent_bidder>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q17.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<frequent_bidder/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -617,7 +655,8 @@ environment('users-items-bids') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'rdb-queries-results-q18'(_Config) ->
+'rdb-queries-results-q18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <result> { 
             for $u in $users//user_tuple 
@@ -630,10 +669,11 @@ environment('users-items-bids') ->
                 return <bid_on_item>{ $descr }</bid_on_item> } </user> 
         } </result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rdb-queries-results-q18.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><user><name>Dee Linquent</name><bid_on_item>Motorcycle</bid_on_item><bid_on_item>Racing Bicycle</bid_on_item></user><user><name>Jack Sprat</name><bid_on_item>Old Bicycle</bid_on_item><bid_on_item>Racing Bicycle</bid_on_item></user><user><name>Mary Doe</name><bid_on_item>Motorcycle</bid_on_item><bid_on_item>Red Bicycle</bid_on_item></user><user><name>Rip Van Winkle</name></user><user><name>Roger Smith</name><bid_on_item>Motorcycle</bid_on_item><bid_on_item>Old Bicycle</bid_on_item><bid_on_item>Racing Bicycle</bid_on_item><bid_on_item>Red Bicycle</bid_on_item></user><user><name>Tom Jones</name><bid_on_item>Motorcycle</bid_on_item><bid_on_item>Tricycle</bid_on_item></user></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 

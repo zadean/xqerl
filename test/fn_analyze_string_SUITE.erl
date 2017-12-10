@@ -39,9 +39,13 @@
 -export(['analyzeString-902'/1]).
 -export(['analyzeString-903'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'analyzeString-001',
    'analyzeString-002',
@@ -77,97 +81,97 @@ all() -> [
    'analyzeString-901',
    'analyzeString-902',
    'analyzeString-903'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -179,60 +183,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -240,23 +244,25 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('analyze-string-schema') ->
+environment('analyze-string-schema',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"analyze-string/analyze-string.xsd","http://www.w3.org/2005/xpath-functions"}]},
+{schemas, [{filename:join(BaseDir, "analyze-string/analyze-string.xsd"),"http://www.w3.org/2005/xpath-functions"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'analyzeString-001'(_Config) ->
+'analyzeString-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"\", \"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -265,11 +271,13 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-002'(_Config) ->
+'analyzeString-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string((), \"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -278,11 +286,13 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-002a'(_Config) ->
+'analyzeString-002a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(analyze-string((), \"abc\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-002a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -291,11 +301,13 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-003'(_Config) ->
+'analyzeString-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:non-match>b</fn:non-match><fn:match>a</fn:match><fn:non-match>n</fn:non-match><fn:match>a</fn:match><fn:non-match>n</fn:non-match><fn:match>a</fn:match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -304,11 +316,13 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-004'(_Config) ->
+'analyzeString-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"custard\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:non-match>banana</fn:non-match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -317,11 +331,13 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-005'(_Config) ->
+'analyzeString-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"banana\", \".+\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:match>banana</fn:match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -330,11 +346,13 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-006'(_Config) ->
+'analyzeString-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"an\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:non-match>b</fn:non-match><fn:match>an</fn:match><fn:match>an</fn:match><fn:non-match>a</fn:non-match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
@@ -347,11 +365,13 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-007'(_Config) ->
+'analyzeString-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"a(n)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:non-match>b</fn:non-match><fn:match>a<fn:group nr=\"1\">n</fn:group></fn:match><fn:match>a<fn:group nr=\"1\">n</fn:group></fn:match><fn:non-match>a</fn:non-match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -360,11 +380,13 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-008'(_Config) ->
+'analyzeString-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"(a(n?))\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:non-match>b</fn:non-match><fn:match><fn:group nr=\"1\">a<fn:group nr=\"2\">n</fn:group></fn:group></fn:match><fn:match><fn:group nr=\"1\">a<fn:group nr=\"2\">n</fn:group></fn:group></fn:match><fn:match><fn:group nr=\"1\">a<fn:group nr=\"2\"/></fn:group></fn:match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -373,11 +395,13 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-009'(_Config) ->
+'analyzeString-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"how now brown cow\", \"(how)|(now)|(brown)|(cow)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:match><fn:group nr=\"1\">how</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr=\"2\">now</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr=\"3\">brown</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr=\"4\">cow</fn:group></fn:match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -386,11 +410,13 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-010'(_Config) ->
+'analyzeString-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"how now brown cow\", \"(HOW)|(NOW)|(BROWN)|(COW)\", \"i\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:match><fn:group nr=\"1\">how</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr=\"2\">now</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr=\"3\">brown</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr=\"4\">cow</fn:group></fn:match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -399,12 +425,14 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-011'(_Config) ->
+'analyzeString-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"how now brown cow\", \" (HOW) | (NOW) 
 | (BROWN) | (COW) \", \"ix\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:match><fn:group nr=\"1\">how</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr=\"2\">now</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr=\"3\">brown</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr=\"4\">cow</fn:group></fn:match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -413,11 +441,13 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-012'(_Config) ->
+'analyzeString-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"how now brown cow\", \"(.*?ow\\s+)+\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:match>how <fn:group nr=\"1\">now </fn:group></fn:match><fn:non-match>brown cow</fn:non-match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -426,7 +456,8 @@ environment('analyze-string-schema') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-013'(_Config) ->
+'analyzeString-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $in := 
 \"Mary had a little lamb,
 it's fleece was black as soot,
@@ -435,7 +466,8 @@ it put its sooty foot.\"
             return analyze-string($in, \"Mary.*foot\", \"s\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:match>Mary had a little lamb,
 it's fleece was black as soot,
 and everywhere that Mary went,
@@ -447,7 +479,8 @@ it put its sooty foot</fn:match><fn:non-match>.</fn:non-match></fn:analyze-strin
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-014'(_Config) ->
+'analyzeString-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $in := 
 \"Mary had a little lamb,
 it's fleece was black as soot,
@@ -456,7 +489,8 @@ it put its sooty foot.\"
             return analyze-string($in, \".+\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:match>Mary had a little lamb,</fn:match><fn:non-match>
 </fn:non-match><fn:match>it's fleece was black as soot,</fn:match><fn:non-match>
@@ -472,7 +506,8 @@ it put its sooty foot.\"
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-015'(_Config) ->
+'analyzeString-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $in := 
 \"Mary had a little lamb,
 it's fleece was black as soot,
@@ -481,7 +516,8 @@ it put its sooty foot.\"
             return analyze-string($in, \"^.+$\", \"m\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:match>Mary had a little lamb,</fn:match><fn:non-match>
 </fn:non-match><fn:match>it's fleece was black as soot,</fn:match><fn:non-match>
@@ -497,7 +533,8 @@ it put its sooty foot.\"
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-016'(_Config) ->
+'analyzeString-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $in := 
 \"Mary had a little lamb,
 it's fleece was black as soot,
@@ -506,7 +543,8 @@ it put its sooty foot.\"
             return analyze-string($in, \"^.+$\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:non-match>Mary had a little lamb,
 it's fleece was black as soot,
@@ -522,11 +560,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-017'(_Config) ->
+'analyzeString-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"(b)(x?)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:match><fn:group nr=\"1\">b</fn:group><fn:group nr=\"2\"/></fn:match><fn:non-match>anana</fn:non-match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -535,11 +575,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-017a'(_Config) ->
+'analyzeString-017a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"(b(x?))\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-017a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:match><fn:group nr=\"1\">b<fn:group nr=\"2\"/></fn:group></fn:match><fn:non-match>anana</fn:non-match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -548,11 +590,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-018'(_Config) ->
+'analyzeString-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"(?:b(an)*a)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:match>ban<fn:group nr=\"1\">an</fn:group>a</fn:match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -561,11 +605,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-019'(_Config) ->
+'analyzeString-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"((banana))\", \"(banana)\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fn:analyze-string-result xmlns:fn=\"http://www.w3.org/2005/xpath-functions\"><fn:non-match>(</fn:non-match><fn:match>(banana)</fn:match><fn:non-match>)</fn:non-match></fn:analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -574,15 +620,19 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-020'(_Config) ->
+'analyzeString-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'analyzeString-021'(_Config) ->
+'analyzeString-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'analyzeString-022'(_Config) ->
+'analyzeString-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $result := analyze-string(\"banana\", \"(b)(anana)\") return string($result)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "banana") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -591,11 +641,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-023'(_Config) ->
+'analyzeString-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $result := analyze-string(\"banana\", \"(b)(anana)\") return string($result/fn:match[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "banana") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -604,15 +656,19 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-024'(_Config) ->
+'analyzeString-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'analyzeString-025'(_Config) ->
+'analyzeString-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'analyzeString-026'(_Config) ->
+'analyzeString-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exactly-one(fn:analyze-string(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J')/fn:non-match)/string()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"concat('Mary', codepoints-to-string(13), 'Jones')") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -621,11 +677,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-027'(_Config) ->
+'analyzeString-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exactly-one(fn:analyze-string(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J', 's')/fn:match)/string()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"concat('y', codepoints-to-string(13), 'J')") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -634,7 +692,8 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-028'(_Config) ->
+'analyzeString-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare function local:namespaces($e as element(*)) as map(xs:string, xs:anyURI) {
            map:merge(in-scope-prefixes($e) ! map{. : namespace-uri-for-prefix(., $e)})
@@ -642,10 +701,11 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
          let $m := local:namespaces(analyze-string((), \"abc\"))
          return sort($m?*)
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-028.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://www.w3.org/2005/xpath-functions\", \"http://www.w3.org/XML/1998/namespace\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -654,7 +714,8 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-029'(_Config) ->
+'analyzeString-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          let $data :=
            <Root>
@@ -667,7 +728,8 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result/out/fn:analyze-string-result[1]/fn:match[1]/fn:group[@nr=1] = '/OPDH/'") of 
       true -> {comment, "Correct results"};
@@ -724,11 +786,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-901'(_Config) ->
+'analyzeString-901'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"abc\", \")-(\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-901.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -737,11 +801,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-902'(_Config) ->
+'analyzeString-902'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"abc\", \"abc\", \"w\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-902.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -750,11 +816,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'analyzeString-903'(_Config) ->
+'analyzeString-903'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "analyze-string(\"abc\", \"a|b|c?\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "analyzeString-903.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

@@ -162,9 +162,13 @@
 -export(['cbcl-matches-052'/1]).
 -export(['cbcl-matches-053'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-matches2args-1',
    'fn-matches2args-2',
@@ -323,97 +327,97 @@ all() -> [
    'cbcl-matches-051',
    'cbcl-matches-052',
    'cbcl-matches-053'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -425,60 +429,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -486,11 +490,13 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'fn-matches2args-1'(_Config) ->
+'fn-matches2args-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches2args-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -499,11 +505,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches2args-2'(_Config) ->
+'fn-matches2args-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches2args-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -512,11 +520,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches2args-3'(_Config) ->
+'fn-matches2args-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches2args-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -525,11 +535,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches2args-4'(_Config) ->
+'fn-matches2args-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches2args-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -538,11 +550,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches2args-5'(_Config) ->
+'fn-matches2args-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches2args-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -551,11 +565,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matchesErr-1'(_Config) ->
+'fn-matchesErr-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"bra\", \"p\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matchesErr-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -564,11 +580,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matchesErr-2'(_Config) ->
+'fn-matchesErr-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"#abc#1\", \"^(#)abc[\\1]1$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matchesErr-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -577,11 +595,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matchesErr-3'(_Config) ->
+'fn-matchesErr-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"#abc#1\", \"^(#)abc\\2$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matchesErr-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -590,11 +610,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matchesErr-4'(_Config) ->
+'fn-matchesErr-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"#abc#1\", \"^((#)abc\\1)$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matchesErr-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -603,11 +625,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matchesErr-5'(_Config) ->
+'fn-matchesErr-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abcdefghijklmnopq\", \"(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)((m)(n)(o)(p)(q)\\13)$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matchesErr-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -616,11 +640,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-1'(_Config) ->
+'fn-matches-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"bra\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -629,11 +655,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-2'(_Config) ->
+'fn-matches-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"^a.*a$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -642,11 +670,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-3'(_Config) ->
+'fn-matches-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"^bra\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -655,11 +685,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-4'(_Config) ->
+'fn-matches-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:concat(fn:matches(\"abracadabra\", \"^bra\"),fn:matches(\"abracadabra\", \"^bra\", \"\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "falsefalse") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -668,11 +700,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-5'(_Config) ->
+'fn-matches-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(fn:matches(\"()\", \"^bra\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -681,11 +715,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-6'(_Config) ->
+'fn-matches-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra^abracadabra\", \"\\^\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -694,11 +730,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-7'(_Config) ->
+'fn-matches-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra?abracadabra\", \"\\?\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -707,11 +745,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-8'(_Config) ->
+'fn-matches-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra*abracadabra\", \"\\*\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -720,11 +760,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-9'(_Config) ->
+'fn-matches-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra+abracadabra\", \"\\+\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -733,11 +775,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-10'(_Config) ->
+'fn-matches-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra{abracadabra\", \"\\{\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -746,11 +790,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-11'(_Config) ->
+'fn-matches-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra}abracadabra\", \"\\}\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -759,11 +805,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-12'(_Config) ->
+'fn-matches-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra(abracadabra\", \"\\(\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -772,11 +820,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-13'(_Config) ->
+'fn-matches-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra)abracadabra\", \"\\)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -785,11 +835,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-14'(_Config) ->
+'fn-matches-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra[abracadabra\", \"\\[\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -798,11 +850,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-15'(_Config) ->
+'fn-matches-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra]abracadabra\", \"\\]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -811,11 +865,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-16'(_Config) ->
+'fn-matches-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra-abracadabra\", \"\\-\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -824,11 +880,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-17'(_Config) ->
+'fn-matches-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra.abracadabra\", \"\\.\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -837,11 +895,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-18'(_Config) ->
+'fn-matches-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra|abracadabra\", \"\\|\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -850,11 +910,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-19'(_Config) ->
+'fn-matches-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\\abracadabra\", \"\\\\\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -863,11 +925,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-20'(_Config) ->
+'fn-matches-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra	abracadabra\", \"\\t\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -876,12 +940,14 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-21'(_Config) ->
+'fn-matches-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra
 abracadabra\", \"\\n\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -890,11 +956,13 @@ abracadabra\", \"\\n\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-22'(_Config) ->
+'fn-matches-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabraabracadabra\", \"aa{1}\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -903,11 +971,13 @@ abracadabra\", \"\\n\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-23'(_Config) ->
+'fn-matches-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabraabracadabraabracadabra\", \"aa{1,}\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -916,11 +986,13 @@ abracadabra\", \"\\n\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-24'(_Config) ->
+'fn-matches-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabraabracadabraabracadabra\", \"aa{1,2}\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -929,11 +1001,13 @@ abracadabra\", \"\\n\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-25'(_Config) ->
+'fn-matches-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"**%%\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -942,11 +1016,13 @@ abracadabra\", \"\\n\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-26'(_Config) ->
+'fn-matches-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(concat('abcd', codepoints-to-string(10), 'defg', codepoints-to-string(10)), \"^$\", \"m\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -955,14 +1031,16 @@ abracadabra\", \"\\n\")",
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-27'(_Config) ->
+'fn-matches-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"
 abcd
 defg
 \", \"^$\", \"m\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -971,14 +1049,16 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-28'(_Config) ->
+'fn-matches-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abcd
 
 defg
 \", \"^$\", \"m\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -987,11 +1067,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-29'(_Config) ->
+'fn-matches-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"#abc#1\", \"^(#)abc\\11$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1000,11 +1082,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-30'(_Config) ->
+'fn-matches-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"#abcdefghijklmnopq#1\", \"^(#)(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)(m)(n)(o)(p)(q)\\11$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1013,11 +1097,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-31'(_Config) ->
+'fn-matches-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"(?:abra(?:cad)?)*\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1026,11 +1112,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-32'(_Config) ->
+'fn-matches-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"(?:abra(?:cad)?)*\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1039,11 +1127,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-33'(_Config) ->
+'fn-matches-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"x[y-z]\", \"x[y-z]\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1052,11 +1142,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-34'(_Config) ->
+'fn-matches-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"x[Y-z]\", \"X[y-Z]\", \"qi\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1065,11 +1157,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-35'(_Config) ->
+'fn-matches-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('aA', '(a)\\99')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1078,11 +1172,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-36'(_Config) ->
+'fn-matches-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('abcdefghijj', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)\\10')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1091,11 +1187,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-37'(_Config) ->
+'fn-matches-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('abcdefghijk', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k\\11)')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1104,11 +1202,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-38'(_Config) ->
+'fn-matches-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('abcdefghijj', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j\\10)')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1117,11 +1217,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-39'(_Config) ->
+'fn-matches-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('abcdefghii', '(a)(b)(c)(d)(e)(f)(g)(h)(i\\9)')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1130,11 +1232,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-40'(_Config) ->
+'fn-matches-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('aa', '(a\\1)')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1143,11 +1247,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-41'(_Config) ->
+'fn-matches-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(10)), 'Mary$')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1156,11 +1262,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-42'(_Config) ->
+'fn-matches-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(10)), 'Mary$', 's')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1169,11 +1277,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-43'(_Config) ->
+'fn-matches-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(10), 'Jones'), 'Mary.Jones')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1182,11 +1292,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-44'(_Config) ->
+'fn-matches-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(10), 'Jones'), 'Mary.Jones', 's')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1195,11 +1307,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-45'(_Config) ->
+'fn-matches-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1208,11 +1322,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-46'(_Config) ->
+'fn-matches-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones', 's')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1221,11 +1337,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-47'(_Config) ->
+'fn-matches-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(concat('abcd', codepoints-to-string(10), 'defg', codepoints-to-string(10)), \"g$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1234,11 +1352,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-48'(_Config) ->
+'fn-matches-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra-abracadabra.\", \"\\.\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1247,11 +1367,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-49'(_Config) ->
+'fn-matches-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"abracadabra-abracadabra-3\", \"(124|864|377|3)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1260,13 +1382,16 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-50'(_Config) ->
+'fn-matches-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.0 regex"}.
-'fn-matches-51'(_Config) ->
+'fn-matches-51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"ab()cd()ef()gh\", \"^(ab)([()]*)(cd)([)(]*)ef\\4gh$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1275,11 +1400,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-matches-52'(_Config) ->
+'fn-matches-52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"aaababaaabaa\", \"^(a*b?a*){3,3}$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-matches-52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1288,11 +1415,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch01'(_Config) ->
+'caselessmatch01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('abc', 'ABC', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch01.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1301,11 +1430,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch02'(_Config) ->
+'caselessmatch02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('abZ', '[A-Z]*', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch02.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1314,11 +1445,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch03'(_Config) ->
+'caselessmatch03'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('abZ', '[a-z]*', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch03.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1327,11 +1460,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch04'(_Config) ->
+'caselessmatch04'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(codepoints-to-string(8490), '[A-Z]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch04.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1340,11 +1475,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch05'(_Config) ->
+'caselessmatch05'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(codepoints-to-string(8490), '[a-z]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch05.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1353,11 +1490,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch06'(_Config) ->
+'caselessmatch06'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(codepoints-to-string(8490), 'K', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch06.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1366,11 +1505,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch07'(_Config) ->
+'caselessmatch07'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(codepoints-to-string(8490), 'k', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch07.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1379,11 +1520,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch08'(_Config) ->
+'caselessmatch08'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('x', '[A-Z-[OI]]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch08.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1392,11 +1535,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch09'(_Config) ->
+'caselessmatch09'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('X', '[A-Z-[OI]]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch09.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1405,11 +1550,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch10'(_Config) ->
+'caselessmatch10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('O', '[A-Z-[OI]]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1418,11 +1565,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch11'(_Config) ->
+'caselessmatch11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('i', '[A-Z-[OI]]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1431,11 +1580,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch12'(_Config) ->
+'caselessmatch12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('Q', '[^Q]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1444,11 +1595,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch13'(_Config) ->
+'caselessmatch13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('q', '[^Q]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1457,11 +1610,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch14'(_Config) ->
+'caselessmatch14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('m', '\\p{Lu}', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1470,11 +1625,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'caselessmatch15'(_Config) ->
+'caselessmatch15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('m', '\\P{Lu}', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "caselessmatch15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1483,11 +1640,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-MatchesFunc-1'(_Config) ->
+'K-MatchesFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"input\", ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-MatchesFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1496,11 +1655,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-MatchesFunc-2'(_Config) ->
+'K-MatchesFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"input\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-MatchesFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1509,11 +1670,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-MatchesFunc-3'(_Config) ->
+'K-MatchesFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"input\", \"pattern\", ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-MatchesFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1522,11 +1685,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-MatchesFunc-4'(_Config) ->
+'K-MatchesFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"input\", \"pattern\", \"\", ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-MatchesFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1535,11 +1700,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-MatchesFunc-5'(_Config) ->
+'K-MatchesFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"input\", \"pattern\", \" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-MatchesFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1548,11 +1715,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-MatchesFunc-6'(_Config) ->
+'K-MatchesFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"input\", \"pattern\", \"X\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-MatchesFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1561,11 +1730,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-1'(_Config) ->
+'K2-MatchesFunc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"hello\\ sworld\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1574,11 +1745,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-2'(_Config) ->
+'K2-MatchesFunc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \" hello[ ]world\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1587,11 +1760,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-3'(_Config) ->
+'K2-MatchesFunc-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"hello[ ]world \", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1600,11 +1775,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-4'(_Config) ->
+'K2-MatchesFunc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"he ll o[ ]worl d\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1613,11 +1790,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-5'(_Config) ->
+'K2-MatchesFunc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"\\p{ IsBasicLatin}+\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1626,11 +1805,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-6'(_Config) ->
+'K2-MatchesFunc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"\\p{ I s B a s i c L a t i n }+\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1639,11 +1820,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-7'(_Config) ->
+'K2-MatchesFunc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"\\p{ IsBasicLatin}+\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1652,11 +1835,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-8'(_Config) ->
+'K2-MatchesFunc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"h\", \"(.)\\3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1665,11 +1850,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-9'(_Config) ->
+'K2-MatchesFunc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"h\", \"(.)\\2\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1678,11 +1865,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-10'(_Config) ->
+'K2-MatchesFunc-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"input\", \"\\3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1691,11 +1880,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-11'(_Config) ->
+'K2-MatchesFunc-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"abcd\", \"(asd)[\\1]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1704,11 +1895,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-12'(_Config) ->
+'K2-MatchesFunc-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"abcd\", \"(asd)[asd\\1]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1717,11 +1910,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-13'(_Config) ->
+'K2-MatchesFunc-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"abcd\", \"(asd)[asd\\0]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1730,11 +1925,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-14'(_Config) ->
+'K2-MatchesFunc-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches(\"abcd\", \"1[asd\\0]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1743,11 +1940,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-15'(_Config) ->
+'K2-MatchesFunc-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches(\"a\", \"a[^b]\"), fn:matches(\"a \", \"a[^b]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"false(), true()") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -1756,15 +1955,19 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-MatchesFunc-16'(_Config) ->
+'K2-MatchesFunc-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'K2-MatchesFunc-16a'(_Config) ->
+'K2-MatchesFunc-16a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.0 regex"}.
-'K2-MatchesFunc-17'(_Config) ->
+'K2-MatchesFunc-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('aA', '(a)\\1', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1773,11 +1976,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-001'(_Config) ->
+'cbcl-matches-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '[^]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1786,11 +1991,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-002'(_Config) ->
+'cbcl-matches-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '[a-\\b]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1799,11 +2006,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-003'(_Config) ->
+'cbcl-matches-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('abcdefghijkabcdefghijk', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)\\1\\2\\3\\4\\5\\6\\7\\8\\9\\10\\11')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1812,11 +2021,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-004'(_Config) ->
+'cbcl-matches-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('aaa', 'a{99999999999999999999999999}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1825,11 +2036,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-005'(_Config) ->
+'cbcl-matches-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('a', '[a--]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1838,11 +2051,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-006'(_Config) ->
+'cbcl-matches-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('&#x9;', '[\\t]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1851,13 +2066,16 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-006b'(_Config) ->
+'cbcl-matches-006b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'cbcl-matches-007'(_Config) ->
+'cbcl-matches-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('-abba-', '[-ab]+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1866,11 +2084,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-008'(_Config) ->
+'cbcl-matches-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{L')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1879,11 +2099,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-009'(_Config) ->
+'cbcl-matches-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{M')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1892,11 +2114,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-010'(_Config) ->
+'cbcl-matches-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{N')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1905,11 +2129,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-011'(_Config) ->
+'cbcl-matches-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{P')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1918,11 +2144,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-012'(_Config) ->
+'cbcl-matches-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Z')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1931,11 +2159,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-013'(_Config) ->
+'cbcl-matches-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{S')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1944,11 +2174,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-014'(_Config) ->
+'cbcl-matches-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{C')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1957,11 +2189,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-015'(_Config) ->
+'cbcl-matches-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{L}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1970,11 +2204,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-016'(_Config) ->
+'cbcl-matches-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{M}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1983,11 +2219,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-017'(_Config) ->
+'cbcl-matches-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{N}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1996,11 +2234,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-018'(_Config) ->
+'cbcl-matches-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{P}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2009,11 +2249,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-019'(_Config) ->
+'cbcl-matches-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Z}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2022,11 +2264,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-020'(_Config) ->
+'cbcl-matches-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{S}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2035,11 +2279,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-021'(_Config) ->
+'cbcl-matches-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{C}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2048,11 +2294,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-022'(_Config) ->
+'cbcl-matches-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Lu}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2061,11 +2309,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-023'(_Config) ->
+'cbcl-matches-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Me}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2074,11 +2324,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-024'(_Config) ->
+'cbcl-matches-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{No}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2087,11 +2339,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-025'(_Config) ->
+'cbcl-matches-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Pf}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2100,11 +2354,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-026'(_Config) ->
+'cbcl-matches-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Zs}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2113,11 +2369,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-027'(_Config) ->
+'cbcl-matches-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Sk}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2126,11 +2384,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-028'(_Config) ->
+'cbcl-matches-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Cc}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2139,11 +2399,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-029'(_Config) ->
+'cbcl-matches-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{La}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2152,11 +2414,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-030'(_Config) ->
+'cbcl-matches-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Ma}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2165,11 +2429,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-031'(_Config) ->
+'cbcl-matches-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Na}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2178,11 +2444,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-032'(_Config) ->
+'cbcl-matches-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Pa}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2191,11 +2459,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-033'(_Config) ->
+'cbcl-matches-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Za}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2204,11 +2474,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-034'(_Config) ->
+'cbcl-matches-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Sa}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-034.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2217,11 +2489,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-035'(_Config) ->
+'cbcl-matches-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Ca}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-035.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2230,11 +2504,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-036'(_Config) ->
+'cbcl-matches-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('foo', 'a()b')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-036.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2243,11 +2519,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-037'(_Config) ->
+'cbcl-matches-037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('&#x10000;', '&#x10000;')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-037.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2256,11 +2534,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-038'(_Config) ->
+'cbcl-matches-038'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('aaa', 'a{2147483647}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-038.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2269,11 +2549,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-039'(_Config) ->
+'cbcl-matches-039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('abcdefghiabcdefghia0a1', '(a)(b)(c)(d)(e)(f)(g)(h)(i)\\1\\2\\3\\4\\5\\6\\7\\8\\9\\10\\11')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-039.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2282,11 +2564,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-040'(_Config) ->
+'cbcl-matches-040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('abc', '\\S+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-040.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2295,11 +2579,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-041'(_Config) ->
+'cbcl-matches-041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('&#xD;&#x20;&#x9;', '\\S+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-041.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2308,13 +2594,16 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-041b'(_Config) ->
+'cbcl-matches-041b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'cbcl-matches-042'(_Config) ->
+'cbcl-matches-042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('a_:', '\\i+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-042.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2323,11 +2612,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-043'(_Config) ->
+'cbcl-matches-043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('1.0', '\\i+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-043.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2336,11 +2627,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-044'(_Config) ->
+'cbcl-matches-044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('1.0', '\\I+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-044.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2349,11 +2642,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-045'(_Config) ->
+'cbcl-matches-045'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('a_:', '\\I+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-045.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2362,11 +2657,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-046'(_Config) ->
+'cbcl-matches-046'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('abc', '\\c+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-046.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2375,11 +2672,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-047'(_Config) ->
+'cbcl-matches-047'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('&#x20;&#x9;&#xD;', '\\c+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-047.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2388,13 +2687,16 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-047b'(_Config) ->
+'cbcl-matches-047b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'cbcl-matches-048'(_Config) ->
+'cbcl-matches-048'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('&#x20;&#x9;&#xD;', '\\C+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-048.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2403,11 +2705,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-049'(_Config) ->
+'cbcl-matches-049'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('abc', '\\C+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-049.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2416,11 +2720,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-050'(_Config) ->
+'cbcl-matches-050'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('Mum', '([md])[aeiou]\\1', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-050.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2429,11 +2735,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-051'(_Config) ->
+'cbcl-matches-051'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('&#x10000;&#x10000;', '(&#x10000;)\\1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-051.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2442,11 +2750,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-052'(_Config) ->
+'cbcl-matches-052'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('&#x10000;&#x10001;', '(&#x10000;)\\1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-052.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2455,11 +2765,13 @@ defg
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-matches-053'(_Config) ->
+'cbcl-matches-053'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:matches('Mud', '([md])[aeiou]\\1', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-matches-053.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 

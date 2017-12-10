@@ -58,9 +58,13 @@
 -export(['xs-error-052'/1]).
 -export(['xs-error-053'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "xs")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'xs-error-001',
    'xs-error-002',
@@ -115,97 +119,97 @@ all() -> [
    'xs-error-051',
    'xs-error-052',
    'xs-error-053'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -217,60 +221,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -278,109 +282,162 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'xs-error-001'(_Config) ->
+'xs-error-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-002'(_Config) ->
+'xs-error-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-003'(_Config) ->
+'xs-error-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-004'(_Config) ->
+'xs-error-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-005'(_Config) ->
+'xs-error-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-006'(_Config) ->
+'xs-error-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-007'(_Config) ->
+'xs-error-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-008'(_Config) ->
+'xs-error-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-009'(_Config) ->
+'xs-error-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-010'(_Config) ->
+'xs-error-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-011'(_Config) ->
+'xs-error-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-012'(_Config) ->
+'xs-error-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-013'(_Config) ->
+'xs-error-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-014'(_Config) ->
+'xs-error-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-015'(_Config) ->
+'xs-error-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-016'(_Config) ->
+'xs-error-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-017'(_Config) ->
+'xs-error-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-018'(_Config) ->
+'xs-error-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-019'(_Config) ->
+'xs-error-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-020'(_Config) ->
+'xs-error-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-021'(_Config) ->
+'xs-error-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-022'(_Config) ->
+'xs-error-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-023'(_Config) ->
+'xs-error-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-024'(_Config) ->
+'xs-error-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-025'(_Config) ->
+'xs-error-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-026'(_Config) ->
+'xs-error-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-027'(_Config) ->
+'xs-error-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-028'(_Config) ->
+'xs-error-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-029'(_Config) ->
+'xs-error-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-030'(_Config) ->
+'xs-error-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-031'(_Config) ->
+'xs-error-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-032'(_Config) ->
+'xs-error-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-033'(_Config) ->
+'xs-error-033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-034'(_Config) ->
+'xs-error-034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-035'(_Config) ->
+'xs-error-035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-036'(_Config) ->
+'xs-error-036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-037'(_Config) ->
+'xs-error-037'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-038'(_Config) ->
+'xs-error-038'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-039'(_Config) ->
+'xs-error-039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-040'(_Config) ->
+'xs-error-040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-041'(_Config) ->
+'xs-error-041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-042'(_Config) ->
+'xs-error-042'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-043'(_Config) ->
+'xs-error-043'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-044'(_Config) ->
+'xs-error-044'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-045'(_Config) ->
+'xs-error-045'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-046'(_Config) ->
+'xs-error-046'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-047'(_Config) ->
+'xs-error-047'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-048'(_Config) ->
+'xs-error-048'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-049'(_Config) ->
+'xs-error-049'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-050'(_Config) ->
+'xs-error-050'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-051'(_Config) ->
+'xs-error-051'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-052'(_Config) ->
+'xs-error-052'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.
-'xs-error-053'(_Config) ->
+'xs-error-053'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.1"}.

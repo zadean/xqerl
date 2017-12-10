@@ -18,9 +18,13 @@
 -export(['UseCaseJSON-012'/1]).
 -export(['UseCaseJSON-014'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "app")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'UseCaseJSON-001',
    'UseCaseJSON-002',
@@ -35,97 +39,97 @@ all() -> [
    'UseCaseJSON-011',
    'UseCaseJSON-012',
    'UseCaseJSON-014'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -137,60 +141,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -198,7 +202,7 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('mildred.json') ->
+environment('mildred.json',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -207,10 +211,10 @@ environment('mildred.json') ->
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/mildred.json","http://xqerl.org/mildred.json"}]},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/mildred.json"),"http://xqerl.org/mildred.json"}]},
 {modules, []}
 ];
-environment('employees.json') ->
+environment('employees.json',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -219,10 +223,10 @@ environment('employees.json') ->
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/employees.json","http://xqerl.org/employees.json"}]},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/employees.json"),"http://xqerl.org/employees.json"}]},
 {modules, []}
 ];
-environment('bookinfo.json') ->
+environment('bookinfo.json',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -231,10 +235,10 @@ environment('bookinfo.json') ->
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/bookinfo.json","http://xqerl.org/bookinfo.json"}]},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/bookinfo.json"),"http://xqerl.org/bookinfo.json"}]},
 {modules, []}
 ];
-environment('users.json') ->
+environment('users.json',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -243,10 +247,10 @@ environment('users.json') ->
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/users.json","http://xqerl.org/users.json"}]},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/users.json"),"http://xqerl.org/users.json"}]},
 {modules, []}
 ];
-environment('sales.json') ->
+environment('sales.json',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -255,12 +259,12 @@ environment('sales.json') ->
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/sales.json","http://xqerl.org/sales.json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/products.json","http://xqerl.org/products.json"},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/stores.json","http://xqerl.org/stores.json"}]},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/sales.json"),"http://xqerl.org/sales.json"},
+{filename:join(BaseDir, "UseCaseJSON/products.json"),"http://xqerl.org/products.json"},
+{filename:join(BaseDir, "UseCaseJSON/stores.json"),"http://xqerl.org/stores.json"}]},
 {modules, []}
 ];
-environment('satellites.json') ->
+environment('satellites.json',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -269,10 +273,10 @@ environment('satellites.json') ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/satellites.json","http://xqerl.org/satellites.json"}]},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/satellites.json"),"http://xqerl.org/satellites.json"}]},
 {modules, []}
 ];
-environment('colors.json') ->
+environment('colors.json',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -281,10 +285,10 @@ environment('colors.json') ->
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/colors.json","http://xqerl.org/colors.json"}]},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/colors.json"),"http://xqerl.org/colors.json"}]},
 {modules, []}
 ];
-environment('incoming.json') ->
+environment('incoming.json',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -293,10 +297,10 @@ environment('incoming.json') ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/incoming.json","http://xqerl.org/incoming.json"}]},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/incoming.json"),"http://xqerl.org/incoming.json"}]},
 {modules, []}
 ];
-environment('table.json') ->
+environment('table.json',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -305,12 +309,12 @@ environment('table.json') ->
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/table.json","http://xqerl.org/table.json"}]},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/table.json"),"http://xqerl.org/table.json"}]},
 {modules, []}
 ];
-environment('Wikipedia-Origami.xml') ->
+environment('Wikipedia-Origami.xml',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/UseCaseJSON/Wikipedia-Origami.xml",".","http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/Wikipedia-Origami.xml"}]},
+{sources, [{filename:join(BaseDir, "UseCaseJSON/Wikipedia-Origami.xml"), ".","http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/Wikipedia-Origami.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]},
@@ -320,12 +324,14 @@ environment('Wikipedia-Origami.xml') ->
 {resources, []},
 {modules, []}
 ].
-'UseCaseJSON-001'(_Config) ->
+'UseCaseJSON-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "json-doc(\"mildred.json\")?phone?*[?type = 'mobile']?number",
-   {Env,Opts} = xqerl_test:handle_environment(environment('mildred.json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('mildred.json',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-001.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "07356 740756") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -334,7 +340,8 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-002'(_Config) ->
+'UseCaseJSON-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace array=\"http://www.w3.org/2005/xpath-functions/array\";
         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
@@ -352,10 +359,11 @@ environment('Wikipedia-Origami.xml') ->
 				        <age>{ $emp('age') }</age>
 				      </employee>
 				  }</department>		  ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('employees.json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('employees.json',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<department name=\"accounting\"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department><department name=\"sales\"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department>") of 
       true -> {comment, "XML Deep equal"};
@@ -372,7 +380,8 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-003'(_Config) ->
+'UseCaseJSON-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
 				declare function local:deep-put($input as item()*, $key as xs:string, $value as item()*) as item()* {
@@ -386,10 +395,11 @@ environment('Wikipedia-Origami.xml') ->
 				};
 				local:deep-put(json-doc(\"bookinfo.json\"), \"first\", \"John\")		  
 		  ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bookinfo.json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bookinfo.json',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-003.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map {\"book\" : map {\"title\" : \"Data on the Web\", \"year\" : 2000, \"author\" : [map {\"last\" : \"Abiteboul\", \"first\" : \"John\"}, map {\"last\" : \"Buneman\", \"first\" : \"John\"}, map {\"last\" : \"Suciu\", \"first\" : \"John\"}], \"publisher\" : \"Morgan Kaufmann Publishers\", \"price\" : 39.95}}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -398,17 +408,19 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-004'(_Config) ->
+'UseCaseJSON-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $users := json-doc('users.json')?*
         for $sarah in $users, $friend in $users
         where $sarah?name = \"Sarah\" and $friend?name = $sarah?friends 
         return $friend?name
 		  ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('users.json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('users.json',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Jim") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -417,7 +429,8 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-005'(_Config) ->
+'UseCaseJSON-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
         let $products := json-doc('sales.json')?*
@@ -428,10 +441,11 @@ environment('Wikipedia-Origami.xml') ->
           return map { $pname : sum(for $s in $sales return $s?quantity) }
         ))    
 		  ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('sales.json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('sales.json',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-005.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map { \"broiler\" : 20, \"toaster\" : 200, \"blender\" : 250, \"socks\" : 510, \"shirt\" : 10 }") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -440,7 +454,8 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-006'(_Config) ->
+'UseCaseJSON-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
 				array {
@@ -470,10 +485,11 @@ environment('Wikipedia-Origami.xml') ->
 				   }
 				}
 		  ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('sales.json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('sales.json',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-006.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[map { \"CA\" : [ map { \"clothes\" : map { \"socks\" : 510 }}, map { \"kitchen\" : map { \"broiler\" : 20, \"toaster\" : 150 }} ] }, map { \"MA\" : [ map { \"clothes\" : map { \"shirt\" : 10 }}, map { \"kitchen\" : map { \"toaster\" : 50, \"blender\" : 250 }}]}]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -482,15 +498,17 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-007'(_Config) ->
+'UseCaseJSON-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $sats := json-doc(\"satellites.json\")(\"satellites\")
         return map { \"visible\" : array { map:keys($sats)[$sats(.)(\"visible\")] }, \"invisible\" : array { map:keys($sats)[not($sats(.)(\"visible\"))] } }
 		  ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('satellites.json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('satellites.json',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-007.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"map { \"visible\" : [ \"AJISAI (EGS)\", \"AKARI (ASTRO-F)\" ], \"invisible\" : [ \"AAU CUBESAT\" ] }") of 
       true -> {comment, "Deep equal"};
@@ -507,7 +525,8 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-008'(_Config) ->
+'UseCaseJSON-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         array {
           for $page in doc($uri)//page
@@ -519,10 +538,11 @@ environment('Wikipedia-Origami.xml') ->
                  }               
          }     
 		  ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Wikipedia-Origami.xml')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Wikipedia-Origami.xml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[map {\"title\" : \"Kawasaki's theorem\", \"id\" : \"14511776\", \"last updated\" : \"2011-06-21T20:08:56Z\", \"authors\" : [\"Some jerk on the Internet\"]}, map {\"title\" : \"Origami techniques\", \"id\" : \"193590\", \"last updated\" : \"2011-08-31T17:21:49Z\", \"authors\" : [\"Dmcq\"]}, map {\"title\" : \"Mathematics of paper folding\", \"id\" : \"232840\", \"last updated\" : \"2011-07-23T09:10:42Z\", \"authors\" : [\"Tabletop\"]}]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -531,7 +551,8 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-009'(_Config) ->
+'UseCaseJSON-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "   
         declare namespace array=\"http://www.w3.org/2005/xpath-functions/array\";
         declare variable $data := map {
@@ -546,7 +567,8 @@ environment('Wikipedia-Origami.xml') ->
 		  ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<svg><polygon stroke=\"blue\" points=\"10 10 20 10 20 20 10 20\"/></svg>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -555,7 +577,8 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-010'(_Config) ->
+'UseCaseJSON-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <html>
 				  <body>				
@@ -582,10 +605,11 @@ environment('Wikipedia-Origami.xml') ->
 				  </body>
 				</html>   
 		  ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('table.json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('table.json',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-010.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<html><body><table><tr><th/><th>singular</th><th>plural</th></tr><tr><th>1p 2p 3p</th><td>spinne</td><td>spinnen</td></tr><tr><th/><td>spinnst</td><td>spinnt</td></tr><tr><th/><td>spinnt</td><td>spinnen</td></tr></table></body></html>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -594,7 +618,8 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-011'(_Config) ->
+'UseCaseJSON-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <table>{
           for tumbling window $w in json-doc(\"colors.json\")?*
@@ -604,10 +629,11 @@ environment('Wikipedia-Origami.xml') ->
             <tr>{ for $i in $w return <td>{ $i?color }</td> }</tr>
          }</table>
 		  ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('colors.json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('colors.json',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-011.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<table><tr><td>Green</td><td>Pink</td><td>Lilac</td></tr><tr><td>Turquoise</td><td>Peach</td><td>Opal</td></tr><tr><td>Champagne</td></tr></table>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -616,7 +642,8 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-012'(_Config) ->
+'UseCaseJSON-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $users := [map { \"userid\" : \"W0342\", \"firstname\" : \"Walter\", \"lastname\" : \"Denisovich\" }, map { \"userid\" : \"M0535\", \"firstname\" : \"Mick\", \"lastname\" : \"Goulish\" }]?* 
         let $holdings := [map { \"userid\" : \"W0342\", \"ticker\" : \"DIS\", \"shares\" : 153212312 }, map { \"userid\" : \"M0535\", \"ticker\" : \"DIS\", \"shares\" : 10 }, map { \"userid\" : \"M0535\", \"ticker\" : \"AIG\", \"shares\" : 23412 }]?*   
@@ -637,7 +664,8 @@ environment('Wikipedia-Origami.xml') ->
 		  ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[map {\"userid\" : \"M0535\", \"first\" : \"Mick\", \"last\" : \"Goulish\", \"holdings\" : [map {\"ticker\" : \"AIG\", \"share\" : 23412}, map {\"ticker\" : \"DIS\", \"share\" : 10}]}, map {\"userid\" : \"W0342\", \"first\" : \"Walter\", \"last\" : \"Denisovich\", \"holdings\" : [map {\"ticker\" : \"DIS\", \"share\" : 153212312}]}]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -646,7 +674,8 @@ environment('Wikipedia-Origami.xml') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'UseCaseJSON-014'(_Config) ->
+'UseCaseJSON-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 				let $feed := json-doc(\"incoming.json\")(\"feed\")
 				  , $entry := $feed(\"entry\")
@@ -655,10 +684,11 @@ environment('Wikipedia-Origami.xml') ->
 				  then map:remove($feed, \"entry\")
 				  else $feed
 		  ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('incoming.json')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('incoming.json',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "UseCaseJSON-014.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map {\"author\" : [map {\"name\" : map {\"$t\" : \"YouTube\"}, \"uri\" : map {\"$t\" : \"http://www.youtube.com/\"}}], \"category\" : [map {\"scheme\" : \"http://schemas.google.com/g/2005#kind\", \"term\" : \"http://gdata.youtube.com/schemas/2007#video\"}]}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 

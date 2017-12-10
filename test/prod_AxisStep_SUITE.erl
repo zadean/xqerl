@@ -350,9 +350,13 @@
 -export(['cbcl-wild-002'/1]).
 -export(['cbcl-path-nodes-and-atomics'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'Axes001-1',
    'Axes001-2',
@@ -699,97 +703,97 @@ all() -> [
    'cbcl-wild-001',
    'cbcl-wild-002',
    'cbcl-path-nodes-and-atomics'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -801,60 +805,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -862,168 +866,170 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('TopMany') ->
+environment('TopMany',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/TopMany.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/TopMany.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('Tree1Child') ->
+environment('Tree1Child',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/Tree1Child.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/Tree1Child.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('Tree1Text') ->
+environment('Tree1Text',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/Tree1Text.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/Tree1Text.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('TreeCompass') ->
+environment('TreeCompass',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/TreeCompass.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/TreeCompass.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('TreeEmpty') ->
+environment('TreeEmpty',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/TreeEmpty.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/TreeEmpty.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('TreeRepeat') ->
+environment('TreeRepeat',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/TreeRepeat.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/TreeRepeat.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('TreeStack') ->
+environment('TreeStack',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/TreeStack.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/TreeStack.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('TreeTrunc') ->
+environment('TreeTrunc',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/TreeTrunc.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/TreeTrunc.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('TreeNS') ->
+environment('TreeNS',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/TreeNS.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/TreeNS.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('CPPGlobals') ->
+environment('CPPGlobals',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/CPPGlobals.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/CPPGlobals.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('nw_Customers') ->
+environment('nw_Customers',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/nw_Customers.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/nw_Customers.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('XMarkAuction') ->
+environment('XMarkAuction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/XMark/XMarkAuction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../app/XMark/XMarkAuction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('xq311B') ->
+environment('xq311B',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/AxisStep/xq311B.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "AxisStep/xq311B.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'Axes001-1'(_Config) ->
+'Axes001-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/child::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes001-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1032,12 +1038,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes001-2'(_Config) ->
+'Axes001-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/child::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes001-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1046,12 +1054,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes001-3'(_Config) ->
+'Axes001-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/child::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes001-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1060,12 +1070,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes002-1'(_Config) ->
+'Axes002-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/child::south-east)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes002-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1074,12 +1086,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes002-2'(_Config) ->
+'Axes002-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/child::south-east)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes002-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1088,12 +1102,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes002-3'(_Config) ->
+'Axes002-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/child::south-east)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes002-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1102,12 +1118,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes002-4'(_Config) ->
+'Axes002-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/child::south-east)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes002-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1116,12 +1134,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes003-1'(_Config) ->
+'Axes003-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes003-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1130,12 +1150,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes003-2'(_Config) ->
+'Axes003-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes003-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1144,12 +1166,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes003-3'(_Config) ->
+'Axes003-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes003-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1158,12 +1182,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes003-4'(_Config) ->
+'Axes003-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes003-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"19") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1172,12 +1198,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes004-1'(_Config) ->
+'Axes004-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes004-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1186,12 +1214,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes004-2'(_Config) ->
+'Axes004-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes004-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1200,12 +1230,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes004-3'(_Config) ->
+'Axes004-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes004-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1214,12 +1246,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes005-1'(_Config) ->
+'Axes005-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/south-east)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes005-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1228,12 +1262,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes005-2'(_Config) ->
+'Axes005-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/south-east)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes005-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1242,12 +1278,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes005-3'(_Config) ->
+'Axes005-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/south-east)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes005-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1256,12 +1294,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes005-4'(_Config) ->
+'Axes005-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/south-east)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes005-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1270,12 +1310,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes006-1'(_Config) ->
+'Axes006-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes006-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1284,12 +1326,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes006-2'(_Config) ->
+'Axes006-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes006-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1298,12 +1342,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes006-3'(_Config) ->
+'Axes006-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes006-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1312,12 +1358,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes006-4'(_Config) ->
+'Axes006-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes006-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"19") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1326,12 +1374,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes007-1'(_Config) ->
+'Axes007-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/attribute::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes007-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1340,12 +1390,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes007-2'(_Config) ->
+'Axes007-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/attribute::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes007-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1354,12 +1406,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes007-3'(_Config) ->
+'Axes007-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/attribute::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes007-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1368,12 +1422,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes008-1'(_Config) ->
+'Axes008-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/attribute::west-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes008-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1382,12 +1438,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes008-2'(_Config) ->
+'Axes008-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/attribute::west-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes008-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1396,12 +1454,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes008-3'(_Config) ->
+'Axes008-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/attribute::west-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes008-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1410,12 +1470,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes009-1'(_Config) ->
+'Axes009-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/attribute::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes009-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1424,12 +1486,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes009-2'(_Config) ->
+'Axes009-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/attribute::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes009-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1438,12 +1502,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes009-3'(_Config) ->
+'Axes009-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/attribute::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes009-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1452,12 +1518,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes010-1'(_Config) ->
+'Axes010-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes010-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1466,12 +1534,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes010-2'(_Config) ->
+'Axes010-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes010-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1480,12 +1550,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes010-3'(_Config) ->
+'Axes010-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes010-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1494,12 +1566,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes011-1'(_Config) ->
+'Axes011-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/@west-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes011-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1508,12 +1582,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes011-2'(_Config) ->
+'Axes011-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/@west-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes011-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1522,12 +1598,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes011-3'(_Config) ->
+'Axes011-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west/@west-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes011-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1536,12 +1614,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes012-1'(_Config) ->
+'Axes012-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count( / )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes012-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1550,12 +1630,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes013-1'(_Config) ->
+'Axes013-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/parent::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes013-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1564,12 +1646,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes014-1'(_Config) ->
+'Axes014-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/far-north/parent::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes014-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1578,12 +1662,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes015-1'(_Config) ->
+'Axes015-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/parent::near-north)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes015-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1592,12 +1678,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes016-1'(_Config) ->
+'Axes016-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/parent::nowhere)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes016-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1606,12 +1694,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes017-1'(_Config) ->
+'Axes017-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/parent::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes017-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1620,12 +1710,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes018-1'(_Config) ->
+'Axes018-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/far-north/parent::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes018-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1634,12 +1726,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes019-1'(_Config) ->
+'Axes019-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/..)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes019-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1648,12 +1742,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes020-1'(_Config) ->
+'Axes020-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes020-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1662,12 +1758,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes021-1'(_Config) ->
+'Axes021-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/self::center)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes021-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1676,12 +1774,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes023-1'(_Config) ->
+'Axes023-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes023-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1690,12 +1790,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes027-1'(_Config) ->
+'Axes027-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/@center-attr-3/self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes027-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1704,12 +1806,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes030-1'(_Config) ->
+'Axes030-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/text()/self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes030-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1718,12 +1822,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes030-2'(_Config) ->
+'Axes030-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/text()/self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes030-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1732,12 +1838,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes031-1'(_Config) ->
+'Axes031-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes031-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1746,12 +1854,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes031-2'(_Config) ->
+'Axes031-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes031-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1760,12 +1870,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes031-3'(_Config) ->
+'Axes031-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes031-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1774,12 +1886,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes031-4'(_Config) ->
+'Axes031-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes031-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1788,12 +1902,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes032-1'(_Config) ->
+'Axes032-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes032-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1802,12 +1918,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes032-2'(_Config) ->
+'Axes032-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes032-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1816,12 +1934,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes032-3'(_Config) ->
+'Axes032-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes032-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1830,12 +1950,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes032-4'(_Config) ->
+'Axes032-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes032-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1844,12 +1966,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes033-1'(_Config) ->
+'Axes033-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes033-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1858,12 +1982,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes033-2'(_Config) ->
+'Axes033-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes033-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1872,12 +1998,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes033-3'(_Config) ->
+'Axes033-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes033-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1886,12 +2014,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes033-4'(_Config) ->
+'Axes033-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes033-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"21") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1900,12 +2030,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes034-1'(_Config) ->
+'Axes034-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes034-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1914,12 +2046,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes034-2'(_Config) ->
+'Axes034-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes034-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1928,12 +2062,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes035-1'(_Config) ->
+'Axes035-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes035-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1942,12 +2078,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes035-2'(_Config) ->
+'Axes035-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes035-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1956,12 +2094,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes035-3'(_Config) ->
+'Axes035-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes035-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1970,12 +2110,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes035-4'(_Config) ->
+'Axes035-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes035-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1984,12 +2126,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes036-1'(_Config) ->
+'Axes036-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::center)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes036-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1998,12 +2142,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes036-2'(_Config) ->
+'Axes036-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::center)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes036-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"9") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2012,12 +2158,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes037-1'(_Config) ->
+'Axes037-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes037-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2026,12 +2174,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes037-2'(_Config) ->
+'Axes037-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes037-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"22") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2040,12 +2190,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes041-1'(_Config) ->
+'Axes041-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/@center-attr-3/descendant-or-self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes041-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2054,12 +2206,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes043-1'(_Config) ->
+'Axes043-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/text()/descendant-or-self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes043-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2068,12 +2222,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes043-2'(_Config) ->
+'Axes043-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center/text()/descendant-or-self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes043-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2082,12 +2238,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes044-1'(_Config) ->
+'Axes044-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/child::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes044-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2096,12 +2254,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes044-2'(_Config) ->
+'Axes044-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/child::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes044-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2110,12 +2270,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes045-1'(_Config) ->
+'Axes045-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/child::far-north)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes045-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2124,12 +2286,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes045-2'(_Config) ->
+'Axes045-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/child::far-north)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes045-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2138,12 +2302,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes046-1'(_Config) ->
+'Axes046-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes046-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2152,12 +2318,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes046-2'(_Config) ->
+'Axes046-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes046-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2166,12 +2334,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes047-1'(_Config) ->
+'Axes047-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes047-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2180,12 +2350,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes047-2'(_Config) ->
+'Axes047-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes047-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2194,12 +2366,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes048-1'(_Config) ->
+'Axes048-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/far-north)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes048-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2208,12 +2382,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes048-2'(_Config) ->
+'Axes048-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/far-north)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes048-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2222,12 +2398,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes049-1'(_Config) ->
+'Axes049-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes049-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2236,12 +2414,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes049-2'(_Config) ->
+'Axes049-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes049-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2250,12 +2430,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes055-1'(_Config) ->
+'Axes055-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes055-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2264,12 +2446,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes056-1'(_Config) ->
+'Axes056-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes056-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2278,12 +2462,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes056-2'(_Config) ->
+'Axes056-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes056-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"15") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2292,12 +2478,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes056-3'(_Config) ->
+'Axes056-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes056-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"16") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2306,12 +2494,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes057-1'(_Config) ->
+'Axes057-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes057-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2320,12 +2510,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes057-2'(_Config) ->
+'Axes057-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes057-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2334,12 +2526,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes057-3'(_Config) ->
+'Axes057-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes057-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2348,12 +2542,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes057-4'(_Config) ->
+'Axes057-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes057-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2362,12 +2558,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes058-1'(_Config) ->
+'Axes058-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes058-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2376,12 +2574,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes058-2'(_Config) ->
+'Axes058-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes058-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"56") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2390,12 +2590,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes058-3'(_Config) ->
+'Axes058-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes058-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"58") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2404,12 +2606,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes059-1'(_Config) ->
+'Axes059-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes059-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2418,12 +2622,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes059-2'(_Config) ->
+'Axes059-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes059-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"15") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2432,12 +2638,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes060-1'(_Config) ->
+'Axes060-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes060-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2446,12 +2654,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes060-2'(_Config) ->
+'Axes060-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes060-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2460,12 +2670,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes060-3'(_Config) ->
+'Axes060-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes060-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2474,12 +2686,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes060-4'(_Config) ->
+'Axes060-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes060-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2488,12 +2702,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes061-1'(_Config) ->
+'Axes061-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes061-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"57") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2502,12 +2718,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes061-2'(_Config) ->
+'Axes061-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes061-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"59") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2516,12 +2734,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes062-1'(_Config) ->
+'Axes062-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//child::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes062-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2530,12 +2750,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes062-2'(_Config) ->
+'Axes062-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//child::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes062-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"15") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2544,12 +2766,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes063-1'(_Config) ->
+'Axes063-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//child::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes063-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2558,12 +2782,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes063-2'(_Config) ->
+'Axes063-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//child::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes063-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2572,12 +2798,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes063-3'(_Config) ->
+'Axes063-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//child::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes063-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2586,12 +2814,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes063-4'(_Config) ->
+'Axes063-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//child::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes063-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2600,12 +2830,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes064-1'(_Config) ->
+'Axes064-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes064-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2614,12 +2846,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes064-2'(_Config) ->
+'Axes064-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes064-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"56") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2628,12 +2862,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes064-3'(_Config) ->
+'Axes064-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes064-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"58") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2642,12 +2878,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes065-1'(_Config) ->
+'Axes065-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes065-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2656,12 +2894,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes065-2'(_Config) ->
+'Axes065-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes065-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"15") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2670,12 +2910,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes066-1'(_Config) ->
+'Axes066-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes066-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2684,12 +2926,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes066-2'(_Config) ->
+'Axes066-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes066-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2698,12 +2942,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes066-3'(_Config) ->
+'Axes066-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes066-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2712,12 +2958,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes066-4'(_Config) ->
+'Axes066-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes066-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2726,12 +2974,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes067-1'(_Config) ->
+'Axes067-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes067-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2740,12 +2990,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes067-2'(_Config) ->
+'Axes067-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes067-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"56") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2754,12 +3006,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes067-3'(_Config) ->
+'Axes067-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes067-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"58") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2768,12 +3022,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes068-1'(_Config) ->
+'Axes068-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//attribute::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes068-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2782,12 +3038,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes068-2'(_Config) ->
+'Axes068-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//attribute::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes068-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2796,12 +3054,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes068-3'(_Config) ->
+'Axes068-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//attribute::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes068-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"14") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2810,12 +3070,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes069-1'(_Config) ->
+'Axes069-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//attribute::mark)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes069-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2824,12 +3086,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes069-2'(_Config) ->
+'Axes069-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//attribute::mark)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes069-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2838,12 +3102,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes069-3'(_Config) ->
+'Axes069-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//attribute::mark)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes069-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2852,12 +3118,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes070-1'(_Config) ->
+'Axes070-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes070-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2866,12 +3134,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes070-2'(_Config) ->
+'Axes070-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes070-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2880,12 +3150,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes070-3'(_Config) ->
+'Axes070-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes070-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"14") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2894,12 +3166,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes071-1'(_Config) ->
+'Axes071-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//@mark)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes071-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2908,12 +3182,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes071-2'(_Config) ->
+'Axes071-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//@mark)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes071-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2922,12 +3198,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes071-3'(_Config) ->
+'Axes071-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//@mark)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes071-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2936,12 +3214,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes072-1'(_Config) ->
+'Axes072-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes072-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2950,12 +3230,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes072-2'(_Config) ->
+'Axes072-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes072-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"15") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2964,12 +3246,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes073-1'(_Config) ->
+'Axes073-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes073-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"57") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2978,12 +3262,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes073-2'(_Config) ->
+'Axes073-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//self::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes073-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"59") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2992,12 +3278,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes074-1'(_Config) ->
+'Axes074-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes074-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3006,12 +3294,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes074-2'(_Config) ->
+'Axes074-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes074-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3020,12 +3310,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes074-3'(_Config) ->
+'Axes074-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes074-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3034,12 +3326,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes074-4'(_Config) ->
+'Axes074-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes074-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"12") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3048,12 +3342,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes075-1'(_Config) ->
+'Axes075-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes075-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3062,12 +3358,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes075-2'(_Config) ->
+'Axes075-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes075-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3076,12 +3374,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes075-3'(_Config) ->
+'Axes075-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes075-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3090,12 +3390,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes075-4'(_Config) ->
+'Axes075-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes075-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3104,12 +3406,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes076-1'(_Config) ->
+'Axes076-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes076-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3118,12 +3422,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes076-2'(_Config) ->
+'Axes076-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes076-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3132,12 +3438,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes076-3'(_Config) ->
+'Axes076-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes076-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3146,12 +3454,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes076-4'(_Config) ->
+'Axes076-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//child::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes076-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"37") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3160,12 +3470,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes077-1'(_Config) ->
+'Axes077-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes077-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3174,12 +3486,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes077-2'(_Config) ->
+'Axes077-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes077-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3188,12 +3502,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes077-3'(_Config) ->
+'Axes077-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes077-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"12") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3202,12 +3518,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes078-1'(_Config) ->
+'Axes078-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes078-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3216,12 +3534,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes078-2'(_Config) ->
+'Axes078-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes078-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3230,12 +3550,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes078-3'(_Config) ->
+'Axes078-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes078-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3244,12 +3566,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes078-4'(_Config) ->
+'Axes078-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes078-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3258,12 +3582,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes079-1'(_Config) ->
+'Axes079-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes079-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3272,12 +3598,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes079-2'(_Config) ->
+'Axes079-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes079-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3286,12 +3614,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes079-3'(_Config) ->
+'Axes079-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes079-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3300,12 +3630,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes079-4'(_Config) ->
+'Axes079-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes079-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"37") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3314,12 +3646,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes080-1'(_Config) ->
+'Axes080-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west//attribute::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes080-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3328,12 +3662,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes080-2'(_Config) ->
+'Axes080-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west//attribute::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes080-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3342,12 +3678,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes080-3'(_Config) ->
+'Axes080-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west//attribute::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes080-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3356,12 +3694,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes081-1'(_Config) ->
+'Axes081-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//attribute::center-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes081-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3370,12 +3710,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes081-2'(_Config) ->
+'Axes081-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//attribute::center-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes081-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3384,12 +3726,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes081-3'(_Config) ->
+'Axes081-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//attribute::center-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes081-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3398,12 +3742,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes081-4'(_Config) ->
+'Axes081-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//attribute::center-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes081-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3412,12 +3758,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes082-1'(_Config) ->
+'Axes082-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west//attribute::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes082-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3426,12 +3774,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes082-2'(_Config) ->
+'Axes082-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west//attribute::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes082-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3440,12 +3790,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes082-3'(_Config) ->
+'Axes082-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west//attribute::node())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes082-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3454,12 +3806,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes083-1'(_Config) ->
+'Axes083-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west//@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes083-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3468,12 +3822,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes083-2'(_Config) ->
+'Axes083-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west//@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes083-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3482,12 +3838,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes083-3'(_Config) ->
+'Axes083-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//west//@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes083-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3496,12 +3854,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes084-1'(_Config) ->
+'Axes084-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//@center-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes084-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3510,12 +3870,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes084-2'(_Config) ->
+'Axes084-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//@center-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes084-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3524,12 +3886,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes084-3'(_Config) ->
+'Axes084-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//@center-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes084-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3538,12 +3902,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes084-4'(_Config) ->
+'Axes084-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:count(//center//@center-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes084-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -3552,12 +3918,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes085'(_Config) ->
+'Axes085'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<root> {//Customers} </root>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes085.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<root><Customers CustomerID=\"ALFKI\">
 		<CompanyName>Alfreds Futterkiste</CompanyName>
 		<ContactName>Maria Anders</ContactName>
@@ -4666,12 +5034,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes086'(_Config) ->
+'Axes086'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<root> {//@*/..} </root>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes086.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<root><west mark=\"w0\" /><center mark=\"c0\">Text in center</center><east mark=\"e0\">Text in east</east></root>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -4680,12 +5050,14 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes087'(_Config) ->
+'Axes087'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<root> {/doc/part/*/text()/..} </root>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('xq311B')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('xq311B',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes087.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<root><retail>62.50 USD</retail><wholesale>55.00 USD</wholesale><internal>31.25 USD</internal></root>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -4694,11 +5066,13 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes088'(_Config) ->
+'Axes088'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/*/",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes088.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4707,7 +5081,8 @@ environment('xq311B') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes089'(_Config) ->
+'Axes089'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 xquery version \"1.0\";
 declare namespace saxon=\"http://saxon.sf.net/\";
@@ -5033,7 +5408,8 @@ tour:main()
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes089.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<html><head><title>Knight's tour</title></head><body><div align=\"center\"><h1>Knight's tour starting at a1</h1><table border=\"1\" cellpadding=\"4\"><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">36</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">19</td><td width=\"22\" align=\"center\" bgcolor=\"white\">22</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">5</td><td width=\"22\" align=\"center\" bgcolor=\"white\">38</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">9</td><td width=\"22\" align=\"center\" bgcolor=\"white\">24</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">7</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">21</td><td width=\"22\" align=\"center\" bgcolor=\"white\">4</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">37</td><td width=\"22\" align=\"center\" bgcolor=\"white\">42</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">23</td><td width=\"22\" align=\"center\" bgcolor=\"white\">6</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">39</td><td width=\"22\" align=\"center\" bgcolor=\"white\">10</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">18</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">35</td><td width=\"22\" align=\"center\" bgcolor=\"white\">20</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">49</td><td width=\"22\" align=\"center\" bgcolor=\"white\">44</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">41</td><td width=\"22\" align=\"center\" bgcolor=\"white\">8</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">25</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">3</td><td width=\"22\" align=\"center\" bgcolor=\"white\">50</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">43</td><td width=\"22\" align=\"center\" bgcolor=\"white\">46</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">55</td><td width=\"22\" align=\"center\" bgcolor=\"white\">62</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">11</td><td width=\"22\" align=\"center\" bgcolor=\"white\">40</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">34</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">17</td><td width=\"22\" align=\"center\" bgcolor=\"white\">54</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">59</td><td width=\"22\" align=\"center\" bgcolor=\"white\">48</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">45</td><td width=\"22\" align=\"center\" bgcolor=\"white\">26</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">63</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">51</td><td width=\"22\" align=\"center\" bgcolor=\"white\">2</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">47</td><td width=\"22\" align=\"center\" bgcolor=\"white\">56</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">61</td><td width=\"22\" align=\"center\" bgcolor=\"white\">58</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">29</td><td width=\"22\" align=\"center\" bgcolor=\"white\">12</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"white\">16</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">33</td><td width=\"22\" align=\"center\" bgcolor=\"white\">60</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">53</td><td width=\"22\" align=\"center\" bgcolor=\"white\">14</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">31</td><td width=\"22\" align=\"center\" bgcolor=\"white\">64</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">27</td></tr><tr><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">1</td><td width=\"22\" align=\"center\" bgcolor=\"white\">52</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">15</td><td width=\"22\" align=\"center\" bgcolor=\"white\">32</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">57</td><td width=\"22\" align=\"center\" bgcolor=\"white\">28</td><td width=\"22\" align=\"center\" bgcolor=\"xffff44\">13</td><td width=\"22\" align=\"center\" bgcolor=\"white\">30</td></tr></table><p/></div></body></html>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -5042,11 +5418,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes090'(_Config) ->
+'Axes090'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $element as element(foo) := <foo/> return count($element/self::bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes090.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5063,11 +5441,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes091'(_Config) ->
+'Axes091'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $element as element(foo) := <foo/> return count($element/self::*:bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes091.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5084,11 +5464,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes092'(_Config) ->
+'Axes092'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace ns1 = \"http://www.example.org/ns1\"; declare namespace ns2 = \"http://www.example.org/ns2\"; let $element as element(ns1:foo) := <ns1:foo/> return count($element/self::ns2:*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes092.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5105,11 +5487,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes093'(_Config) ->
+'Axes093'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $attribute as attribute(foo) := attribute foo { } return count($attribute/self::bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes093.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5126,13 +5510,15 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes094'(_Config) ->
+'Axes094'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $attribute as attribute(foo) := attribute foo { } 
             return count($attribute/self::*:bar)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes094.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5149,7 +5535,8 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes095'(_Config) ->
+'Axes095'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         declare namespace ns2 = \"http://www.example.org/ns2\"; 
@@ -5158,7 +5545,8 @@ tour:main()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes095.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5175,11 +5563,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes096'(_Config) ->
+'Axes096'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $element as element(*) := <foo/> return count($element/self::bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes096.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5196,11 +5586,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes097'(_Config) ->
+'Axes097'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $element as element(*) := <foo/> return count($element/self::*:bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes097.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5217,7 +5609,8 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes098'(_Config) ->
+'Axes098'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         declare namespace ns2 = \"http://www.example.org/ns2\"; 
@@ -5225,7 +5618,8 @@ tour:main()
         return count($element/self::ns2:*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes098.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5242,11 +5636,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes099'(_Config) ->
+'Axes099'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $attribute as attribute(*) := attribute foo { } return count($attribute/self::bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes099.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5263,11 +5659,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes100'(_Config) ->
+'Axes100'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $attribute as attribute(*) := attribute foo { } return count($attribute/self::*:bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes100.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5284,7 +5682,8 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes101'(_Config) ->
+'Axes101'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         declare namespace ns2 = \"http://www.example.org/ns2\"; 
@@ -5292,7 +5691,8 @@ tour:main()
         return count($attribute/self::ns2:*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes101.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5309,7 +5709,8 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes102'(_Config) ->
+'Axes102'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         declare namespace ns2 = \"http://www.example.org/ns2\"; 
@@ -5320,7 +5721,8 @@ tour:main()
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes102.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -5329,11 +5731,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes103'(_Config) ->
+'Axes103'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $comment as comment() := <!--comment--> return count($comment/self::*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes103.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5350,11 +5754,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes104'(_Config) ->
+'Axes104'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $comment as comment() := <!--comment--> return count($comment/self::foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes104.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5371,11 +5777,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes105'(_Config) ->
+'Axes105'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $comment as comment() := <!--comment--> return count($comment/self::*:foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes105.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5392,14 +5800,16 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes106'(_Config) ->
+'Axes106'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         let $comment as comment() := <!--comment--> 
         return count($comment/self::ns1:*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes106.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5416,13 +5826,15 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes107'(_Config) ->
+'Axes107'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
         return count($processing-instruction/self::*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes107.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5439,13 +5851,15 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes108'(_Config) ->
+'Axes108'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
         return count($processing-instruction/self::processing)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes108.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5462,13 +5876,15 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes109'(_Config) ->
+'Axes109'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
         return count($processing-instruction/self::*:processing)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes109.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5485,14 +5901,16 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes110'(_Config) ->
+'Axes110'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
         return count($processing-instruction/self::ns1:*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes110.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5509,7 +5927,8 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes111'(_Config) ->
+'Axes111'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         declare namespace ns2 = \"http://www.example.org/ns2\"; declare construction strip; 
@@ -5518,7 +5937,8 @@ tour:main()
         return count($attribute)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes111.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -5527,12 +5947,14 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes112'(_Config) ->
+'Axes112'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/*/namespace-node()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes112.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0134") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5541,16 +5963,20 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes113'(_Config) ->
+'Axes113'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'Axes114'(_Config) ->
+'Axes114'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'Axes115'(_Config) ->
+'Axes115'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/*/attribute::namespace-node()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes115.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -5567,13 +5993,16 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes116'(_Config) ->
+'Axes116'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'Axes117'(_Config) ->
+'Axes117'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "namespace {\"xsl\"}{\"http://www.w3.org/1999/XSL/Transform\"} / self::namespace-node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Axes117.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -5598,31 +6027,43 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'Axes118'(_Config) ->
+'Axes118'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Axes119'(_Config) ->
+'Axes119'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Axes120'(_Config) ->
+'Axes120'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Axes121'(_Config) ->
+'Axes121'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Axes122'(_Config) ->
+'Axes122'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Axes123'(_Config) ->
+'Axes123'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Axes124'(_Config) ->
+'Axes124'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Axes125'(_Config) ->
+'Axes125'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Axes126'(_Config) ->
+'Axes126'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.
-'Axes127'(_Config) ->
+'Axes127'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'axis-err-1'(_Config) ->
+'axis-err-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var := <anElement>Some content</anElement> return $var/20[child::text()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "axis-err-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0020") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5631,11 +6072,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-1'(_Config) ->
+'K2-Axes-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $var := document{<e><f>f's value</f></e>}; $var/(/)/(/)//f",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<f>f's value</f>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -5644,11 +6087,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-2'(_Config) ->
+'K2-Axes-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $var := <e><f>f's value</f></e>; $var/(/)/(/)//f",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0050") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5657,11 +6102,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-3'(_Config) ->
+'K2-Axes-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $v := <a><b/><b/><b/></a>; deep-equal($v//45, (45, 45, 45, 45))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5670,11 +6117,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-4'(_Config) ->
+'K2-Axes-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $v := <a><b/><b/><b/></a>; $v//45",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "45 45 45 45") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -5683,11 +6132,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-5'(_Config) ->
+'K2-Axes-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "*:(:hey:)ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5696,11 +6147,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-6'(_Config) ->
+'K2-Axes-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "*(:hey:):ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5709,11 +6162,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-7'(_Config) ->
+'K2-Axes-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "* :ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5722,11 +6177,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-8'(_Config) ->
+'K2-Axes-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "*(:hey:):ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5735,11 +6192,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-9'(_Config) ->
+'K2-Axes-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "ncname :*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5748,11 +6207,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-10'(_Config) ->
+'K2-Axes-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "name(:hey:):*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5761,11 +6222,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-11'(_Config) ->
+'K2-Axes-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "* :ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5774,11 +6237,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-12'(_Config) ->
+'K2-Axes-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "ncname: *",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5787,11 +6252,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-13'(_Config) ->
+'K2-Axes-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "*(:hey:):ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5800,11 +6267,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-14'(_Config) ->
+'K2-Axes-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "ncname:(:hey:)*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5813,11 +6282,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-15'(_Config) ->
+'K2-Axes-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "*(:hey:):(:hey:) ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5826,11 +6297,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-16'(_Config) ->
+'K2-Axes-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "*:(:hey:)ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5839,11 +6312,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-17'(_Config) ->
+'K2-Axes-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "*:",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -5852,11 +6327,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-18'(_Config) ->
+'K2-Axes-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(text {\"some text\"}/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5865,11 +6342,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-19'(_Config) ->
+'K2-Axes-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(processing-instruction theName {\"some text\"}/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5878,11 +6357,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-20'(_Config) ->
+'K2-Axes-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(attribute theName {\"some text\"}/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5891,11 +6372,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-21'(_Config) ->
+'K2-Axes-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(element theName {\"some text\"}/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5904,11 +6387,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-22'(_Config) ->
+'K2-Axes-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(comment {\"some text\"}/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5917,11 +6402,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-23'(_Config) ->
+'K2-Axes-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<elem/>/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -5930,11 +6417,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-24'(_Config) ->
+'K2-Axes-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e>some text</e>/text()/..",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e>some text</e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -5943,11 +6432,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-25'(_Config) ->
+'K2-Axes-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e><b/></e>/b/..",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e><b/></e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -5956,11 +6447,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-26'(_Config) ->
+'K2-Axes-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e attr=\"c\"/>/@attr/..",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"c\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -5969,11 +6462,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-27'(_Config) ->
+'K2-Axes-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e><?name data?></e>/processing-instruction()/..",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e><?name data?></e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -5982,11 +6477,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-28'(_Config) ->
+'K2-Axes-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e><!--data --></e>/comment()/..",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e><!--data --></e>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -5995,11 +6492,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-29'(_Config) ->
+'K2-Axes-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "preceding-or-ancestor::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6008,11 +6507,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-30'(_Config) ->
+'K2-Axes-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(fn:root(<e/>)/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -6029,11 +6530,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-31'(_Config) ->
+'K2-Axes-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -6050,11 +6553,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-32'(_Config) ->
+'K2-Axes-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $myVar := <e/>; empty(fn:root($myVar/(/)/..))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -6075,11 +6580,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-33'(_Config) ->
+'K2-Axes-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $myVar := document { <e/>}; empty($myVar/(/)/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -6096,11 +6603,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-34'(_Config) ->
+'K2-Axes-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "nametest//",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -6117,11 +6626,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-35'(_Config) ->
+'K2-Axes-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "nametest/",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -6138,11 +6649,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-36'(_Config) ->
+'K2-Axes-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $myVar := <e/>; $myVar/(/)/",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6151,11 +6664,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-37'(_Config) ->
+'K2-Axes-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parent::self()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6164,11 +6679,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-38'(_Config) ->
+'K2-Axes-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "123[..]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0020") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6177,11 +6694,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-39'(_Config) ->
+'K2-Axes-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1[element()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0020") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6190,11 +6709,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-40'(_Config) ->
+'K2-Axes-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, <e/>)[..]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0020") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6203,11 +6724,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-41'(_Config) ->
+'K2-Axes-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<e/>, 1)[..]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0020") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6216,11 +6739,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-42'(_Config) ->
+'K2-Axes-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>[parent::node()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6229,11 +6754,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-43'(_Config) ->
+'K2-Axes-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 5 * /)[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -6250,11 +6777,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-44'(_Config) ->
+'K2-Axes-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, /)[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -6271,11 +6800,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-45'(_Config) ->
+'K2-Axes-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/, 1)[2]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -6292,11 +6823,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-46'(_Config) ->
+'K2-Axes-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "//",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6305,11 +6838,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-47'(_Config) ->
+'K2-Axes-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $myVar := <e/>; empty($myVar/descendant-or-self::text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6318,11 +6853,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-48'(_Config) ->
+'K2-Axes-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $myVar := <e/>; $myVar/(<a/>, <b/>, <?d ?>, <!-- e-->, attribute name {}, document {()})/3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 3 3 3 3 3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6331,11 +6868,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-49'(_Config) ->
+'K2-Axes-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $myVar := <e/>; $myVar/(<a/>, <b/>, <?d ?>, <!-- e-->, attribute name {}, document {()})/number()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN NaN NaN NaN NaN NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6344,11 +6883,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-50'(_Config) ->
+'K2-Axes-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1/3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6357,11 +6898,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-51'(_Config) ->
+'K2-Axes-51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string(<e/>)/3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6370,13 +6913,15 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-52'(_Config) ->
+'K2-Axes-52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $myVar := <e/>; 
         empty($myVar/preceding-sibling::comment()/a/b/c/1/@*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -6401,11 +6946,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-53'(_Config) ->
+'K2-Axes-53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, 3)[1]/(1, 2)[last()]/\"a string\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6414,11 +6961,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-54'(_Config) ->
+'K2-Axes-54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "namespace::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6427,11 +6976,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-55'(_Config) ->
+'K2-Axes-55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(()/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -6448,11 +6999,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-56'(_Config) ->
+'K2-Axes-56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(()/name)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -6469,11 +7022,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-57'(_Config) ->
+'K2-Axes-57'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $var := <a> <b/> <c/> <d/> </a>; ($var/*, $var/*)/.",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b/><c/><d/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6482,11 +7037,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-58'(_Config) ->
+'K2-Axes-58'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $var := <a> <b/> <c/> <d/> </a>; ($var/*, $var/*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-58.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b/><c/><d/><b/><c/><d/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6495,11 +7052,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-59'(_Config) ->
+'K2-Axes-59'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $i := <root> <child/> <child/> <child> <child2> <child3> <leaf/> </child3> </child2> </child> </root>; 1, root($i)//leaf/child::node(), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-59.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1 1") of 
       true -> {comment, "String correct"};
@@ -6516,11 +7075,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-60'(_Config) ->
+'K2-Axes-60'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<element attr=\"foo\" attr2=\"foo\"/>/*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-60.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -6537,11 +7098,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-61'(_Config) ->
+'K2-Axes-61'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<element attr=\"foo\" attr2=\"foo\"/>/*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-61.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -6558,11 +7121,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-62'(_Config) ->
+'K2-Axes-62'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e> <b attr=\"fo\"/> <b/> </e>/descendant-or-self::node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-62.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e><b attr=\"fo\"/><b/></e><b attr=\"fo\"/><b/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6571,11 +7136,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-63'(_Config) ->
+'K2-Axes-63'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1, <b attr=\"fo\"/>/child::node(), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-63.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6584,11 +7151,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-64'(_Config) ->
+'K2-Axes-64'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e> <b/> <b a=\"\"/> </e>/b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-64.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b/><b a=\"\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6597,11 +7166,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-65'(_Config) ->
+'K2-Axes-65'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e> <b a=\"\"/> <b/> </e>/b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-65.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b a=\"\"/><b/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6610,11 +7181,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-66'(_Config) ->
+'K2-Axes-66'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e> <!-- comment --> <?PA ?>text<b/> <?PB ?> <b/> <?PC ?> </e>/child::node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-66.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!-- comment --><?PA ?>text<b/><?PB ?><b/><?PC ?>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6623,11 +7196,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-67'(_Config) ->
+'K2-Axes-67'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1, <e/>/descendant::node(), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-67.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6636,11 +7211,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-68'(_Config) ->
+'K2-Axes-68'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{1, <e/>/descendant-or-self::node(), 1}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-68.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>1<e/>1</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6649,11 +7226,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-69'(_Config) ->
+'K2-Axes-69'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1, <e attr=\"\"/>/descendant::node(), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-69.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -6662,11 +7241,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-70'(_Config) ->
+'K2-Axes-70'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<out>{1, <e attr=\"\"/>/descendant-or-self::node(), 1}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-70.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out>1<e attr=\"\"/>1</out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6675,11 +7256,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-71'(_Config) ->
+'K2-Axes-71'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/descendant::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-71.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6688,11 +7271,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-72'(_Config) ->
+'K2-Axes-72'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/descendant-or-self::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-72.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6701,11 +7286,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-73'(_Config) ->
+'K2-Axes-73'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e attr=\"\"/>/descendant::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-73.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6714,11 +7301,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-74'(_Config) ->
+'K2-Axes-74'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e attr=\"\"/>/descendant-or-self::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-74.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -6727,11 +7316,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-75'(_Config) ->
+'K2-Axes-75'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> <b c=\"\"/> <d/> </a>/descendant-or-self::node()[last()]/ancestor::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-75.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a><b c=\"\"/><d/></a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6740,11 +7331,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-76'(_Config) ->
+'K2-Axes-76'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> <b c=\"\"/> <d/> </a>/descendant-or-self::node()[last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-76.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<d/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6753,11 +7346,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-77'(_Config) ->
+'K2-Axes-77'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "preceeding::node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-77.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6766,11 +7361,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-78'(_Config) ->
+'K2-Axes-78'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> <b c=\"\"/> <d/> </a>//node()/../count(.)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-78.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -6779,11 +7376,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-79'(_Config) ->
+'K2-Axes-79'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(<a> <b c=\"\"/> <d/> </a>//node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-79.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -6792,11 +7391,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-80'(_Config) ->
+'K2-Axes-80'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(<a> <b c=\"\"/> <d/> </a>/descendant-or-self::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-80.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -6805,11 +7406,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-81'(_Config) ->
+'K2-Axes-81'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> <b id=\"person0\"> <c/> </b> </a>/*[attribute::id eq \"person0\"]/c",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-81.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<c/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6818,11 +7421,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-82'(_Config) ->
+'K2-Axes-82'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> <b id=\"person0\"> <c/> </b> </a>/*[@id eq \"person0\"]/c",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-82.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<c/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6831,11 +7436,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-83'(_Config) ->
+'K2-Axes-83'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/attribute::attribute())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-83.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -6844,11 +7451,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-84'(_Config) ->
+'K2-Axes-84'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/>/attribute::schema-attribute(foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-84.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6857,11 +7466,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-85'(_Config) ->
+'K2-Axes-85'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/>/attribute::schema-attribute()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-85.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -6870,7 +7481,8 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-86'(_Config) ->
+'K2-Axes-86'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $root as document-node() := . treat as document-node();
         <out>
@@ -6959,10 +7571,11 @@ tour:main()
              $root//document-node()/self::element(), 
              $root//document-node()/self::text(), 
              $root//document-node()/self::comment() } </empty><ex>{exists($root//*/attribute()/descendant-or-self::node())}</ex></out>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-86.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<out><empty/><ex>true</ex></out>") of 
       true -> {comment, "XML Deep equal"};
@@ -6979,11 +7592,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-87'(_Config) ->
+'K2-Axes-87'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<result> { <e> <a>1</a> <b>2</b> </e>/(b, a)/. } </result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-87.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><a>1</a><b>2</b></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -6992,11 +7607,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-88'(_Config) ->
+'K2-Axes-88'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $i := <e> <a>1</a> <b>2</b> </e>; <result> { ($i/b, $i/a)/. } </result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-88.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><a>1</a><b>2</b></result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -7005,11 +7622,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-89'(_Config) ->
+'K2-Axes-89'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default element namespace \"http://typedecl\"; <r> { <e attr=\"foo\"/>/@attr } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-89.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<r xmlns=\"http://typedecl\" attr=\"foo\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -7018,11 +7637,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-90'(_Config) ->
+'K2-Axes-90'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "prefix:",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-90.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7031,11 +7652,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-91'(_Config) ->
+'K2-Axes-91'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "prefix:",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-91.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7044,11 +7667,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-92'(_Config) ->
+'K2-Axes-92'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(gt gt gt))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-92.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -7065,11 +7690,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-93'(_Config) ->
+'K2-Axes-93'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "< asd />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-93.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7078,11 +7705,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-94'(_Config) ->
+'K2-Axes-94'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-94.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7091,11 +7720,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-95'(_Config) ->
+'K2-Axes-95'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "eclare function",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-95.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7104,11 +7735,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-96'(_Config) ->
+'K2-Axes-96'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-96.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7117,11 +7750,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-97'(_Config) ->
+'K2-Axes-97'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:foo() external;",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-97.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -7138,11 +7773,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-98'(_Config) ->
+'K2-Axes-98'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xquery, version, encoding, default, declare, function, option, collation, schema, import",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-98.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7151,11 +7788,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-99'(_Config) ->
+'K2-Axes-99'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function foo() external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-99.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
@@ -7172,11 +7811,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-100'(_Config) ->
+'K2-Axes-100'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<a> <b/> <c/> </a>[self::b][last()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-100.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -7193,11 +7834,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-101'(_Config) ->
+'K2-Axes-101'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<b/>[self::b][last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-101.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<b/>") of 
       true -> {comment, "XML Deep equal"};
@@ -7214,7 +7857,8 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-102'(_Config) ->
+'K2-Axes-102'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $a in (/) return 
         for $b in $a/child::site return 
@@ -7228,10 +7872,11 @@ tour:main()
             else (), 
         for $b in /site/people/person where $b/@id=\"person0\" return $b/name, 
         /site/people/person[@id eq \"person0\"]/name",
-   {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-102.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<name>Seongtaek Mattern</name><name>Seongtaek Mattern</name><name>Seongtaek Mattern</name>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -7240,14 +7885,16 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-103'(_Config) ->
+'K2-Axes-103'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:isComplexType($typeID) { string($typeID) }; 
         \"|\", //*/local:isComplexType(@type), \"|\"",
-   {Env,Opts} = xqerl_test:handle_environment(environment('CPPGlobals')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('CPPGlobals',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-103.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "|       _17 _17  _11c _11c _11 _11  _17c _17c _17 _17   _11   _23  _17 _11c  |") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7256,11 +7903,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-Axes-104'(_Config) ->
+'K2-Axes-104'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a/>/<b>{.}</b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-Axes-104.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b><a/></b>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -7269,11 +7918,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'statictypingaxis-1'(_Config) ->
+'statictypingaxis-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10)/child::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictypingaxis-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7282,11 +7933,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'statictypingaxis-2'(_Config) ->
+'statictypingaxis-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10)/self::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictypingaxis-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7295,11 +7948,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'statictypingaxis-3'(_Config) ->
+'statictypingaxis-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10)/attribute::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictypingaxis-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7308,11 +7963,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'statictypingaxis-4'(_Config) ->
+'statictypingaxis-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10)/parent::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictypingaxis-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7321,11 +7978,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'statictypingaxis-5'(_Config) ->
+'statictypingaxis-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10)/descendant::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictypingaxis-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7334,11 +7993,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'statictypingaxis-6'(_Config) ->
+'statictypingaxis-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(10)/descendant-or-self::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictypingaxis-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -7347,11 +8008,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-selfAxis-001'(_Config) ->
+'cbcl-selfAxis-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> { <a b=\"blah\"/>/@*/self::attribute(b) } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-selfAxis-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a b=\"blah\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -7360,11 +8023,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-childAxis-001'(_Config) ->
+'cbcl-childAxis-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(<a b=\"blah\"/>/child::attribute(b))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-childAxis-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -7381,11 +8046,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-followingAxis-001'(_Config) ->
+'cbcl-followingAxis-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(<a><b/><b/></a>/b[1]/following-sibling::*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-followingAxis-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7394,11 +8061,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-precedingAxis-001'(_Config) ->
+'cbcl-precedingAxis-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(<a><b/><b/></a>/b[2]/preceding-sibling::*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-precedingAxis-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7407,11 +8076,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-precedingAxis-002'(_Config) ->
+'cbcl-precedingAxis-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(<a><b/><b/></a>/b[2]/preceding-sibling::b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-precedingAxis-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7420,11 +8091,13 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-precedingAxis-003'(_Config) ->
+'cbcl-precedingAxis-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(<a><b/><b/></a>/b[1]/preceding-sibling::b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-precedingAxis-003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7433,13 +8106,15 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-except-001'(_Config) ->
+'cbcl-except-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $x := <a><b/><c/><d/></a> return count(($x/(node() except b) | $x/(node() except b)))
    ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-except-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7448,13 +8123,15 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-wild-001'(_Config) ->
+'cbcl-wild-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace foo=\"test\";
         let $x := <a><foo:b/><c/><d/></a> return count($x/foo:* | $x/foo:*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-wild-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -7463,13 +8140,15 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-wild-002'(_Config) ->
+'cbcl-wild-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace foo=\"http://localhost/\";
         <a><foo:b/><foo:c/></a>/foo:b/self::foo:*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-wild-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<foo:b xmlns:foo=\"http://localhost/\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -7478,13 +8157,15 @@ tour:main()
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-path-nodes-and-atomics'(_Config) ->
+'cbcl-path-nodes-and-atomics'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:f($x) { if ($x mod 2 = 1) then <a/> else \"a\" };
         let $y := for $x in (1 to 10) return <e>{$x}</e> return $y/local:f(.)/a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-path-nodes-and-atomics.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPTY0018") of 
       true -> {comment, "Correct error"};

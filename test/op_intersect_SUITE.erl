@@ -76,9 +76,13 @@
 -export(['combiningnodeseqintersecthc3'/1]).
 -export(['combiningnodeseqintersecthc4'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "op")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-intersect-node-args-001',
    'fn-intersect-node-args-002',
@@ -151,97 +155,97 @@ all() -> [
    'combiningnodeseqintersecthc2',
    'combiningnodeseqintersecthc3',
    'combiningnodeseqintersecthc4'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -253,60 +257,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -314,36 +318,38 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('acme_corp') ->
+environment('acme_corp',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/union/acme_corp.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "union/acme_corp.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('bib2') ->
+environment('bib2',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/union/bib2.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "union/bib2.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'fn-intersect-node-args-001'(_Config) ->
+'fn-intersect-node-args-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/bib/book[1]/title intersect /bib/book[1]/title)/string()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-001.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "TCP/IP Illustrated") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -352,12 +358,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-002'(_Config) ->
+'fn-intersect-node-args-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/bib/book/title intersect /bib/book[1]/title",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "TCP/IP Illustrated") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -366,12 +374,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-003'(_Config) ->
+'fn-intersect-node-args-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/bib/book[3]/title intersect root(exactly-one(/bib/book[3]/title))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-003.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -380,12 +390,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-004'(_Config) ->
+'fn-intersect-node-args-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/bib/book[3]/title/text() intersect /bib/book/title/text()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data on the Web") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -394,12 +406,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-005'(_Config) ->
+'fn-intersect-node-args-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/processing-instruction() intersect /processing-instruction())/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-005.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PI1 PI2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -408,12 +422,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-006'(_Config) ->
+'fn-intersect-node-args-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/processing-instruction(PI1) intersect /processing-instruction())/name()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-006.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PI1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -422,12 +438,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-007'(_Config) ->
+'fn-intersect-node-args-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "string-join((/comment() intersect /comment()), \"|\")",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-007.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " this file is a copy of bib.xml; just adds a few comments and PI nodes for testing | Comment 1 | Comment 2 ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -436,12 +454,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-008'(_Config) ->
+'fn-intersect-node-args-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/bib/book[3]/title/text() intersect /bib/book/title/text()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data on the Web") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -450,12 +470,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-009'(_Config) ->
+'fn-intersect-node-args-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/processing-instruction() intersect /bib/book[2]/title",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-009.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -464,12 +486,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-010'(_Config) ->
+'fn-intersect-node-args-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/processing-instruction(PI1) intersect /bib/book",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-010.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -478,12 +502,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-011'(_Config) ->
+'fn-intersect-node-args-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(/bib/book intersect /bib/book)/string(@year)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-011.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1994 1992 2000 1999") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -492,12 +518,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-012'(_Config) ->
+'fn-intersect-node-args-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "//author intersect //nonexisting",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-012.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -506,12 +534,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-013'(_Config) ->
+'fn-intersect-node-args-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "//author intersect ()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-013.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -520,11 +550,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-014'(_Config) ->
+'fn-intersect-node-args-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() intersect ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -541,28 +573,38 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'fn-intersect-node-args-015'(_Config) ->
+'fn-intersect-node-args-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-intersect-node-args-016'(_Config) ->
+'fn-intersect-node-args-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-intersect-node-args-017'(_Config) ->
+'fn-intersect-node-args-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-intersect-node-args-018'(_Config) ->
+'fn-intersect-node-args-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-intersect-node-args-019'(_Config) ->
+'fn-intersect-node-args-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-intersect-node-args-020'(_Config) ->
+'fn-intersect-node-args-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-intersect-node-args-021'(_Config) ->
+'fn-intersect-node-args-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-intersect-node-args-022'(_Config) ->
+'fn-intersect-node-args-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'fn-intersect-node-args-023'(_Config) ->
+'fn-intersect-node-args-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $node in ((//price/text()) , (//price/text())) intersect ((//price/text()) , (//price/text())) return <a> {$node} </a>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-intersect-node-args-023.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a> 65.95</a><a>65.95</a><a> 39.95</a><a>129.95</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -571,11 +613,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-1'(_Config) ->
+'K2-SeqIntersect-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2, 3) intersect (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -584,11 +628,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-2'(_Config) ->
+'K2-SeqIntersect-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect text))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -597,11 +643,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-3'(_Config) ->
+'K2-SeqIntersect-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect node))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -610,11 +658,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-4'(_Config) ->
+'K2-SeqIntersect-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect element))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -623,11 +673,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-5'(_Config) ->
+'K2-SeqIntersect-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -636,11 +688,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-6'(_Config) ->
+'K2-SeqIntersect-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect document-node))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -649,11 +703,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-7'(_Config) ->
+'K2-SeqIntersect-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect comment))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -662,11 +718,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-8'(_Config) ->
+'K2-SeqIntersect-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect processing-instruction))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -675,11 +733,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-9'(_Config) ->
+'K2-SeqIntersect-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect item))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -688,11 +748,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-10'(_Config) ->
+'K2-SeqIntersect-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect document))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -701,11 +763,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-11'(_Config) ->
+'K2-SeqIntersect-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect if))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -714,11 +778,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-12'(_Config) ->
+'K2-SeqIntersect-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect then))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -727,11 +793,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-13'(_Config) ->
+'K2-SeqIntersect-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect mod))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -740,11 +808,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-14'(_Config) ->
+'K2-SeqIntersect-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect div))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -753,11 +823,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-15'(_Config) ->
+'K2-SeqIntersect-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect empty-sequence))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -766,11 +838,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-16'(_Config) ->
+'K2-SeqIntersect-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect schema-attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -779,11 +853,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-17'(_Config) ->
+'K2-SeqIntersect-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(author intersect schema-element))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -792,11 +868,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-18'(_Config) ->
+'K2-SeqIntersect-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect attribute {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -805,11 +883,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-19'(_Config) ->
+'K2-SeqIntersect-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect attribute name {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -818,11 +898,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-20'(_Config) ->
+'K2-SeqIntersect-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect element {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -839,11 +921,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-21'(_Config) ->
+'K2-SeqIntersect-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect element name {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -860,11 +944,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-22'(_Config) ->
+'K2-SeqIntersect-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect processing-instruction {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -873,11 +959,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-23'(_Config) ->
+'K2-SeqIntersect-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect processing-instruction name {}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -886,11 +974,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-24'(_Config) ->
+'K2-SeqIntersect-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect comment {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -899,11 +989,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-25'(_Config) ->
+'K2-SeqIntersect-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect text {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -912,11 +1004,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-26'(_Config) ->
+'K2-SeqIntersect-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect descendant))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -925,11 +1019,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-27'(_Config) ->
+'K2-SeqIntersect-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -938,11 +1034,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-28'(_Config) ->
+'K2-SeqIntersect-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -951,11 +1049,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-29'(_Config) ->
+'K2-SeqIntersect-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect descendant-or-self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -964,11 +1064,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-30'(_Config) ->
+'K2-SeqIntersect-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect following-sibling))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -977,11 +1079,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-31'(_Config) ->
+'K2-SeqIntersect-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect following))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -990,11 +1094,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-32'(_Config) ->
+'K2-SeqIntersect-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect preceding-sibling))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1003,11 +1109,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-33'(_Config) ->
+'K2-SeqIntersect-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect preceding))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1016,11 +1124,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-34'(_Config) ->
+'K2-SeqIntersect-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect parent))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1029,11 +1139,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-35'(_Config) ->
+'K2-SeqIntersect-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect ancestor))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1042,11 +1154,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-36'(_Config) ->
+'K2-SeqIntersect-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect ancestor))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1055,11 +1169,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-37'(_Config) ->
+'K2-SeqIntersect-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect ancestor-or-self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1068,11 +1184,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-38'(_Config) ->
+'K2-SeqIntersect-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(<e/>/(a intersect declare))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1081,12 +1199,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-39'(_Config) ->
+'K2-SeqIntersect-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "boolean(//employee[location = \"Denver\"] intersect //employee[last()])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-39.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1095,12 +1215,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-40'(_Config) ->
+'K2-SeqIntersect-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "//(employee[location = \"Denver\"] intersect //employee[last()])/./location",
-   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-40.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1109,11 +1231,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-41'(_Config) ->
+'K2-SeqIntersect-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<r> { let $i := <e> <a/> <b/> <c/> </e>/a , $t := $i/following-sibling::b return (($i intersect ($i, $i)), (($t, $t) intersect $t)) } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<r><a/><b/></r>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1122,14 +1246,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-42'(_Config) ->
+'K2-SeqIntersect-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare function local:function ($c as node()) { $c intersect $c }; 
          empty(local:function(document{()}))
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -1138,11 +1264,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-43'(_Config) ->
+'K2-SeqIntersect-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 intersect 2 intersect 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1151,11 +1279,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-SeqIntersect-44'(_Config) ->
+'K2-SeqIntersect-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 except 2 except 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIntersect-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1164,11 +1294,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'combiningnodeseqintersecthc1'(_Config) ->
+'combiningnodeseqintersecthc1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count((<a>0</a>,<a>1</a>) intersect (<a>3</a>,<a>4</a>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "combiningnodeseqintersecthc1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1177,11 +1309,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'combiningnodeseqintersecthc2'(_Config) ->
+'combiningnodeseqintersecthc2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(() intersect ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "combiningnodeseqintersecthc2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1198,12 +1332,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'combiningnodeseqintersecthc3'(_Config) ->
+'combiningnodeseqintersecthc3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $h in ( (//hours) intersect (//hours[xs:integer(.) gt 12])) order by number($h) return $h",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "combiningnodeseqintersecthc3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1212,12 +1348,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'combiningnodeseqintersecthc4'(_Config) ->
+'combiningnodeseqintersecthc4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $h in ( ($works//hours) intersect ($works//hours, $staff//grade)) order by number($h) return $h",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "combiningnodeseqintersecthc4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 

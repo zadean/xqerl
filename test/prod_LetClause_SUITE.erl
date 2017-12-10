@@ -94,9 +94,13 @@
 -export(['xquery31keywords4'/1]).
 -export(['xquery31keywords5'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'letexprwith-1',
    'letexprwith-2',
@@ -187,97 +191,97 @@ all() -> [
    'xquery31keywords3',
    'xquery31keywords4',
    'xquery31keywords5'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -289,60 +293,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -350,23 +354,25 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('acme_corp') ->
+environment('acme_corp',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/union/acme_corp.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../op/union/acme_corp.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'letexprwith-1'(_Config) ->
+'letexprwith-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $salary as xs:decimal := \"cat\" return $salary * 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -375,11 +381,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-2'(_Config) ->
+'letexprwith-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:decimal := 100 return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"100") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -388,11 +396,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-3'(_Config) ->
+'letexprwith-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:integer := 100 return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"100") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -401,11 +411,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-4'(_Config) ->
+'letexprwith-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:double := 100E1 return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -414,11 +426,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-5'(_Config) ->
+'letexprwith-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:string := \"A String\" return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "A String") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -427,11 +441,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-6'(_Config) ->
+'letexprwith-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:boolean := fn:true() return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -440,11 +456,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-7'(_Config) ->
+'letexprwith-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:boolean := fn:false() return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -453,11 +471,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-8'(_Config) ->
+'letexprwith-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:date := xs:date(\"1999-05-31Z\") return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1999-05-31Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -466,11 +486,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-9'(_Config) ->
+'letexprwith-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:time := xs:time(\"21:23:00Z\") return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "21:23:00Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -479,11 +501,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-10'(_Config) ->
+'letexprwith-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:dateTime := xs:dateTime(\"1999-05-31T13:20:00Z\") return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1999-05-31T13:20:00Z") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -492,11 +516,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-11'(_Config) ->
+'letexprwith-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:float := xs:float(100) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"100") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -505,11 +531,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-12'(_Config) ->
+'letexprwith-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:integer := 100+200 return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"300") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -518,11 +546,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-13'(_Config) ->
+'letexprwith-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:integer := fn:count((100,200)) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -531,11 +561,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-14'(_Config) ->
+'letexprwith-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:boolean := fn:not(fn:true()) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -544,11 +576,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-15'(_Config) ->
+'letexprwith-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:boolean := fn:true() and fn:true() return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -557,11 +591,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-16'(_Config) ->
+'letexprwith-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:boolean := fn:true() and fn:true() return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -570,11 +606,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-17'(_Config) ->
+'letexprwith-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:integer := fn:string-length(\"A String\") return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -583,11 +621,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-18'(_Config) ->
+'letexprwith-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:string := xs:string((xs:integer(100))) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -596,11 +636,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-19'(_Config) ->
+'letexprwith-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:string := xs:string((xs:decimal(100))) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -609,11 +651,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-20'(_Config) ->
+'letexprwith-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:string := xs:string((xs:double(100E2))) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -622,11 +666,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-21'(_Config) ->
+'letexprwith-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:string := xs:string(fn:true()) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -635,11 +681,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-22'(_Config) ->
+'letexprwith-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:integer := 100 return $var + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"101") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -648,11 +696,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-23'(_Config) ->
+'letexprwith-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:boolean := if (fn:true()) then fn:true() else fn:false() return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -661,11 +711,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'letexprwith-24'(_Config) ->
+'letexprwith-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $var as xs:string := typeswitch(fn:true()) case $i as xs:boolean return \"Test Passed\" default return \"Test failed\" return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Test Passed") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -674,11 +726,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr001'(_Config) ->
+'LetExpr001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x := \"92233720368547758\" return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "92233720368547758") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -687,11 +741,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr002'(_Config) ->
+'LetExpr002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x := 92233720368547758 return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -700,11 +756,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr003'(_Config) ->
+'LetExpr003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x := 92233720368547758+1 return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"92233720368547759") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -713,11 +771,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr004'(_Config) ->
+'LetExpr004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x := xs:long(\"92233720368547758\") return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -726,11 +786,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr005'(_Config) ->
+'LetExpr005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x := xs:long(\"-92233720368547758\")+1 return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-92233720368547757") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -739,11 +801,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr006'(_Config) ->
+'LetExpr006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x := xs:double(\"1.7976931348623157E308\") return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.7976931348623157E308") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -752,11 +816,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr007'(_Config) ->
+'LetExpr007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x:=<a>{1+1}</a> return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -765,11 +831,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr008'(_Config) ->
+'LetExpr008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x:=1, $y:=$x+1 return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -778,11 +846,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr009'(_Config) ->
+'LetExpr009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x:=1, $y:=<a>{$x+1}</a> return $y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -791,11 +861,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr010'(_Config) ->
+'LetExpr010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x:=(1,2,3), $y:=$x+1 return $y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -804,11 +876,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr011'(_Config) ->
+'LetExpr011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x :=(1 to 100)[. mod 5 eq 0] return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -817,11 +891,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr012'(_Config) ->
+'LetExpr012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x :=(1 to 100)[. mod 5 eq 0], $y := $x[. mod 10 eq 0] return $y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10 20 30 40 50 60 70 80 90 100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -830,11 +906,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr013'(_Config) ->
+'LetExpr013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x:=\"hello\", $y:=concat($x,\" there\") return $y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello there") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -843,11 +921,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr014'(_Config) ->
+'LetExpr014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x := \"1\", $y := $x+1 return $y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -856,11 +936,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr015'(_Config) ->
+'LetExpr015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x := (0,0.1e-1,2.0,'a',\"cat\",'',true()) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0 0.01 2 a cat  true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -869,11 +951,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr016'(_Config) ->
+'LetExpr016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $a := (<elem1/>, <elem2/>, <elem3 att=\"test\"/>) return <root>{$a}</root>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<root><elem1/><elem2/><elem3 att=\"test\"/></root>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -882,11 +966,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr017'(_Config) ->
+'LetExpr017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x := (<a> <b> <c> 123 </c> </b> </a>) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a><b><c> 123 </c></b></a>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -895,11 +981,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr018'(_Config) ->
+'LetExpr018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x := (0,0.1e-1,2.0,'a',\"cat\",'',true(), ('<a> <b> <c> 123 </c> </b> </a>')/a/b) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -908,11 +996,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr019'(_Config) ->
+'LetExpr019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $a := <elem/> let $b := <elem2/> return ($a,$b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem/><elem2/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -921,11 +1011,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr020'(_Config) ->
+'LetExpr020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $a := 1 let $b := $a let $c := $a+$b return ($c)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -934,13 +1026,16 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'LetExpr020a'(_Config) ->
+'LetExpr020a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP30+"}.
-'LetExpr021'(_Config) ->
+'LetExpr021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $a := $b return ($a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -949,11 +1044,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-LetExprWithout-1'(_Config) ->
+'K-LetExprWithout-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i := 5, $j := 20 * $i return $i, $j",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LetExprWithout-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -962,11 +1059,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-LetExprWithout-2'(_Config) ->
+'K-LetExprWithout-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i = 5 return 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LetExprWithout-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -975,11 +1074,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-LetExprWithout-3'(_Config) ->
+'K-LetExprWithout-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i in 5 return 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LetExprWithout-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -988,14 +1089,16 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-LetExprWithout-4'(_Config) ->
+'K-LetExprWithout-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $i := false(); 
         declare variable $t := false(); 
         deep-equal((let $i := true(), $t := true() return ($i, $t)), (true(), true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LetExprWithout-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1004,11 +1107,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-1'(_Config) ->
+'K2-LetExprWithout-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal((<b/>, <b/>, <b/>, <b/>), (for $v1 in (1, 2, 3, 4) let $v2 := <b/> return ($v2))/.)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1017,11 +1122,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-2'(_Config) ->
+'K2-LetExprWithout-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal((<b/>, <b/>, <b/>, <b/>), (for $v1 in (1, 2, 3, 4) let $v2 := <b/> return ($v2)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1030,11 +1137,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-3'(_Config) ->
+'K2-LetExprWithout-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:myFunc() { let $v := . return $v }; local:myFunc()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1043,11 +1152,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-4'(_Config) ->
+'K2-LetExprWithout-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:myFunc($arg as node()) { let $v := . return $arg/$v }; local:myFunc(<e/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1056,11 +1167,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-5'(_Config) ->
+'K2-LetExprWithout-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:myFunc($arg as node()) { let $v := aNameTest return $arg/$v }; local:myFunc(<e/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1069,11 +1182,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-6'(_Config) ->
+'K2-LetExprWithout-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:myFunc($arg as node()) { let $v := aNameTest return $arg/$v }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1090,11 +1205,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-7'(_Config) ->
+'K2-LetExprWithout-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i as xs:integer := xs:untypedAtomic(\"1\") return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1103,11 +1220,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-8'(_Config) ->
+'K2-LetExprWithout-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1116,11 +1235,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-9'(_Config) ->
+'K2-LetExprWithout-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i as xs:float := 1.1 return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1129,11 +1250,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-10'(_Config) ->
+'K2-LetExprWithout-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i as xs:double := 1.1 return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1142,11 +1265,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-11'(_Config) ->
+'K2-LetExprWithout-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i as xs:float := 1 return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1155,11 +1280,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-12'(_Config) ->
+'K2-LetExprWithout-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i as xs:double := 1 return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1168,11 +1295,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-13'(_Config) ->
+'K2-LetExprWithout-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i as xs:double := xs:float(3) return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1181,11 +1310,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-14'(_Config) ->
+'K2-LetExprWithout-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i as xs:string := xs:untypedAtomic(\"a string\") return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1194,11 +1325,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-15'(_Config) ->
+'K2-LetExprWithout-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i as xs:string := xs:anyURI(\"http://www.example.com/\") return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1207,11 +1340,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-16'(_Config) ->
+'K2-LetExprWithout-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $e := <e/>; for $i in (<a/>, $e, <c/>) return $i is $e",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false true false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1220,11 +1355,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-17'(_Config) ->
+'K2-LetExprWithout-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:function() { let $b := (i/a) return () }; empty(local:function())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1245,11 +1382,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-18'(_Config) ->
+'K2-LetExprWithout-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:foo($a as xs:integer) { if($a = 3) then $a else let $a := $a return local:foo($a + 1) }; local:foo(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1258,12 +1397,14 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-19'(_Config) ->
+'K2-LetExprWithout-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $v := . return 1",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-19.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1280,17 +1421,19 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-20'(_Config) ->
+'K2-LetExprWithout-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $emps := //employee[location = \"Denver\"] 
         for $d in distinct-values($emps/deptno) 
         let $e := $emps[deptno = $d] 
         return <dept> <deptno>{$d}</deptno> <headcount> {count($e)} </headcount> <payroll> {sum($e/salary)} </payroll> </dept>
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-20.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<dept><deptno>1</deptno><headcount>2</headcount><payroll>130000</payroll></dept><dept><deptno>2</deptno><headcount>1</headcount><payroll>80000</payroll></dept>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1299,11 +1442,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-21'(_Config) ->
+'K2-LetExprWithout-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/>/(for $b in 1, $i in self::node() return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1312,11 +1457,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-22'(_Config) ->
+'K2-LetExprWithout-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/>/(for $i in self::node() return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1325,11 +1472,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-23'(_Config) ->
+'K2-LetExprWithout-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(<e/>/(let $i := . return (string($i), data($i))))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1338,11 +1487,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-24'(_Config) ->
+'K2-LetExprWithout-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:function() { let $b := (i/a) return 1 }; local:function()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1359,7 +1510,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-25'(_Config) ->
+'K2-LetExprWithout-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $a := 1 return 
                 for $b in 1 return 
                     if ($b) then 1 
@@ -1390,7 +1542,8 @@ environment('acme_corp') ->
                             else ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1399,11 +1552,13 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-LetExprWithout-26'(_Config) ->
+'K2-LetExprWithout-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $e := <element/>, $outer as element() := $e/element() return $outer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1412,7 +1567,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery10keywords'(_Config) ->
+'xquery10keywords'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $ancestor-or-self := 1 
       let $ancestor := 1 
       let $and := 1 
@@ -1460,7 +1616,8 @@ environment('acme_corp') ->
       let $where := 1 let $xquery := 1 return 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery10keywords.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1469,7 +1626,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery10keywords2'(_Config) ->
+'xquery10keywords2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       let $x := (/) 
       return $x /ancestor-or-self /ancestor /and /as /ascending /at /attribute 
@@ -1492,10 +1650,11 @@ environment('acme_corp') ->
        /validate /variable /version 
        /where
        /xquery",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery10keywords2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1504,7 +1663,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery10keywords3'(_Config) ->
+'xquery10keywords3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       <keywords> <ancestor-or-self/> <ancestor/> <and/> <as/> <ascending/> <at/> <attribute/> 
       <base-uri/> <boundary-space/> <by/> 
@@ -1528,7 +1688,8 @@ environment('acme_corp') ->
       <xquery/> </keywords>/name()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery10keywords3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "keywords") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1537,7 +1698,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery30keywords'(_Config) ->
+'xquery30keywords'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $NaN := 1
         let $allowing := 1
@@ -1668,7 +1830,8 @@ environment('acme_corp') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery30keywords.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1677,7 +1840,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery30keywords2'(_Config) ->
+'xquery30keywords2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $x := (/)
         return $x
@@ -1807,10 +1971,11 @@ environment('acme_corp') ->
         /xquery
         /zero-digit
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery30keywords2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1819,7 +1984,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery30keywords3'(_Config) ->
+'xquery30keywords3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <keywords>
            <NaN/>
@@ -1951,7 +2117,8 @@ environment('acme_corp') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery30keywords3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "keywords") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1960,7 +2127,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery30keywords4'(_Config) ->
+'xquery30keywords4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare function local:NaN () {1};
          declare function local:allowing () {2};
@@ -2217,7 +2385,8 @@ environment('acme_corp') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery30keywords4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2226,7 +2395,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery30keywords5'(_Config) ->
+'xquery30keywords5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
          
@@ -2453,7 +2623,8 @@ environment('acme_corp') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery30keywords5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2462,15 +2633,17 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery31keywords1'(_Config) ->
+'xquery31keywords1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $exponent-separator := 1
         return 2
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery31keywords1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2479,15 +2652,17 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery31keywords2'(_Config) ->
+'xquery31keywords2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $x := (/)
         return $x/exponent-separator
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery31keywords2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -2496,7 +2671,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery31keywords3'(_Config) ->
+'xquery31keywords3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         <keywords>
            <exponent-separator/>
@@ -2504,7 +2680,8 @@ environment('acme_corp') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery31keywords3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "keywords") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2513,7 +2690,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery31keywords4'(_Config) ->
+'xquery31keywords4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare function local:exponent-separator () {126};
          local:exponent-separator()
@@ -2521,7 +2699,8 @@ environment('acme_corp') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery31keywords4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2530,7 +2709,8 @@ environment('acme_corp') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'xquery31keywords5'(_Config) ->
+'xquery31keywords5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
          declare function exponent-separator () {110};
@@ -2539,7 +2719,8 @@ environment('acme_corp') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery31keywords5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 

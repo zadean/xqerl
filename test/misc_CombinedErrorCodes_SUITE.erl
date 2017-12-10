@@ -264,25 +264,29 @@
 -export(['XQST0125_2'/1]).
 -export(['typeswitch-in-xpath'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/moduleDefs-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/test1-lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib1.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib2.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib3.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib4.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib5.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib6.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0036_lib7.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0046_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0047_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0048_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0059_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0070_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0088_lib.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0093_lib1.xq") catch _:_ -> ok end
-, try  xqerl:compile("file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/XQST0093_lib2.xq") catch _:_ -> ok end,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "misc")
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/moduleDefs-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/test1-lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib1.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib2.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib3.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib4.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib5.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib6.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib7.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0046_lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0047_lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0048_lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0059_lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0070_lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0088_lib.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0093_lib1.xq")) catch _:_ -> ok end
+, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0093_lib2.xq")) catch _:_ -> ok end
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'combined-errors-1',
    'combined-errors-2',
@@ -543,97 +547,97 @@ all() -> [
    'XQST0125_1',
    'XQST0125_2',
    'typeswitch-in-xpath'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -645,60 +649,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -706,83 +710,85 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('orderdata') ->
+environment('orderdata',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/OrderByClause/orderData.xml",".",""}]},
-{schemas, [{"../prod/OrderByClause/orderData.xsd","http://www.w3.org/XQueryTestOrderBy"}]},
+{sources, [{filename:join(BaseDir, "../prod/OrderByClause/orderData.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../prod/OrderByClause/orderData.xsd"),"http://www.w3.org/XQueryTestOrderBy"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('namespace-sensitive') ->
+environment('namespace-sensitive',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/CombinedErrorCodes/namespace-sensitive.xml",".",""}]},
-{schemas, [{"CombinedErrorCodes/namespace-sensitive.xsd","http://www.xqsharp.com/test/namespace-sensitive"}]},
+{sources, [{filename:join(BaseDir, "CombinedErrorCodes/namespace-sensitive.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/namespace-sensitive.xsd"),"http://www.xqsharp.com/test/namespace-sensitive"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('xqst0036') ->
+environment('xqst0036',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"CombinedErrorCodes/XQST0036.xsd","http://www.example.org/2007/schema/XQST0036"}]},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQST0036.xsd"),"http://www.example.org/2007/schema/XQST0036"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('foty0012') ->
+environment('foty0012',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"CombinedErrorCodes/FOTY0012.xsd","http://www.example.org/2007/schema/FOTY0012"}]},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/FOTY0012.xsd"),"http://www.example.org/2007/schema/FOTY0012"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('xqdy0027') ->
+environment('xqdy0027',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"CombinedErrorCodes/XQDY0027.xsd","http://www.example.org/2007/schema/XQDY0027"}]},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQDY0027.xsd"),"http://www.example.org/2007/schema/XQDY0027"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('xqdy0084') ->
+environment('xqdy0084',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"CombinedErrorCodes/XQDY0084.xsd","http://www.example.org/2007/schema/XQDY0084"}]},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQDY0084.xsd"),"http://www.example.org/2007/schema/XQDY0084"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/misc/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'combined-errors-1'(_Config) ->
+'combined-errors-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module namespace defs=\"http://www.w3.org/TestModules/defs\"; \"ABC\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "combined-errors-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "ABC") of 
       true -> {comment, "String correct"};
@@ -799,16 +805,20 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'combined-errors-2'(_Config) ->
+'combined-errors-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'combined-errors-3'(_Config) ->
+'combined-errors-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'combined-errors-4'(_Config) ->
+'combined-errors-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "/works[1]/employee[2]/preceding::employee",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "combined-errors-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 1\" gender=\"female\">
    <empnum>E1</empnum>
@@ -829,11 +839,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-1'(_Config) ->
+'K-CombinedErrorCodes-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0009") of 
       true -> {comment, "Correct error"};
@@ -850,11 +862,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-2'(_Config) ->
+'K-CombinedErrorCodes-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0009") of 
       true -> {comment, "Correct error"};
@@ -871,11 +885,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-3'(_Config) ->
+'K-CombinedErrorCodes-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2\", \"http://example.com/3\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0009") of 
       true -> {comment, "Correct error"};
@@ -892,11 +908,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-4'(_Config) ->
+'K-CombinedErrorCodes-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2\", \"http://example.com/3\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0009") of 
       true -> {comment, "Correct error"};
@@ -913,11 +931,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-5'(_Config) ->
+'K-CombinedErrorCodes-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import schema namespace prefix = \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2DOESNOTEXIST\", \"http://example.com/3DOESNOTEXIST\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0009") of 
       true -> {comment, "Correct error"};
@@ -934,11 +954,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-6'(_Config) ->
+'K-CombinedErrorCodes-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import schema default element namespace \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2DOESNOTEXIST\", \"http://example.com/3DOESNOTEXIST\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0009") of 
       true -> {comment, "Correct error"};
@@ -955,11 +977,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-7'(_Config) ->
+'K-CombinedErrorCodes-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import schema namespace NCName := \"http://example.com/Dummy\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -968,11 +992,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-9'(_Config) ->
+'K-CombinedErrorCodes-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "validate { 1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQTY0030") of 
       true -> {comment, "Correct error"};
@@ -989,11 +1015,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-10'(_Config) ->
+'K-CombinedErrorCodes-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "validate { () }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQTY0030") of 
       true -> {comment, "Correct error"};
@@ -1010,11 +1038,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-11'(_Config) ->
+'K-CombinedErrorCodes-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "validate lax { 1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQTY0030") of 
       true -> {comment, "Correct error"};
@@ -1031,11 +1061,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-12'(_Config) ->
+'K-CombinedErrorCodes-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "validate strict { 1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQTY0030") of 
       true -> {comment, "Correct error"};
@@ -1052,11 +1084,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-13'(_Config) ->
+'K-CombinedErrorCodes-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "validate lax { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1073,11 +1107,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-14'(_Config) ->
+'K-CombinedErrorCodes-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "validate strict { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1094,11 +1130,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-CombinedErrorCodes-15'(_Config) ->
+'K-CombinedErrorCodes-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "validate { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1115,11 +1153,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0001_1'(_Config) ->
+'FOAR0001_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.0 div 0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1128,11 +1168,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0001_2'(_Config) ->
+'FOAR0001_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 div 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1141,11 +1183,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0001_3'(_Config) ->
+'FOAR0001_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.0e0 idiv 0.0e0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1154,11 +1198,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0001_4'(_Config) ->
+'FOAR0001_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float(1.0e0) idiv xs:float(0.0e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1167,11 +1213,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0001_5'(_Config) ->
+'FOAR0001_5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.0 idiv 0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1180,11 +1228,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0001_6'(_Config) ->
+'FOAR0001_6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 div 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1193,11 +1243,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0001_7'(_Config) ->
+'FOAR0001_7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 mod 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1206,11 +1258,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0001_8'(_Config) ->
+'FOAR0001_8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1.0 mod 0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1219,11 +1273,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0001_9'(_Config) ->
+'FOAR0001_9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration('P1Y2M') div xs:yearMonthDuration('P0Y0M')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1232,11 +1288,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0002_1'(_Config) ->
+'FOAR0002_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "2e308",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0002_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
@@ -1253,11 +1311,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0002_3'(_Config) ->
+'FOAR0002_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(0 div 0E0) idiv xs:integer(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0002_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1266,11 +1326,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0002_4'(_Config) ->
+'FOAR0002_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:double('INF') idiv xs:integer(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0002_4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1279,11 +1341,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOAR0002-5'(_Config) ->
+'FOAR0002-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') div xs:dayTimeDuration('P0DT00H00M0.000001S')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0002-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
@@ -1300,11 +1364,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0001_1'(_Config) ->
+'FOCA0001_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:decimal(1e308)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0001_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0001") of 
       true -> {comment, "Correct error"};
@@ -1333,11 +1399,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0002_1'(_Config) ->
+'FOCA0002_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:float('INF') cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1346,11 +1414,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0002_2'(_Config) ->
+'FOCA0002_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"http://www.w3.org/\", \"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1359,11 +1429,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0002_3'(_Config) ->
+'FOCA0002_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"\", \"prefix:localName\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1372,11 +1444,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0002_4'(_Config) ->
+'FOCA0002_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"http://www.w3.org/\", \"1prefix:localName\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1385,11 +1459,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0002_5'(_Config) ->
+'FOCA0002_5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"http://www.w3.org/\", \"prefix:2localName\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1398,11 +1474,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0002_6'(_Config) ->
+'FOCA0002_6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "QName(\"\", \"2localName\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1411,11 +1489,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0002_7'(_Config) ->
+'FOCA0002_7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "resolve-QName(\"2localName\", <localName />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1424,11 +1504,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0002_8'(_Config) ->
+'FOCA0002_8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "resolve-QName(\"1prefix:localName\", <localName />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1437,11 +1519,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0002_9'(_Config) ->
+'FOCA0002_9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "resolve-QName(\"2localName\", <localName />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1450,11 +1534,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0003_1'(_Config) ->
+'FOCA0003_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer(xs:double(1e308))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0003_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0003") of 
       true -> {comment, "Correct error"};
@@ -1483,11 +1569,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0005_1'(_Config) ->
+'FOCA0005_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') div xs:double('NaN')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0005_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1496,11 +1584,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0005_2'(_Config) ->
+'FOCA0005_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') * xs:double('NaN')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0005_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1509,11 +1599,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0005_3'(_Config) ->
+'FOCA0005_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') div xs:double('NaN')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0005_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1522,11 +1614,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCA0005_4'(_Config) ->
+'FOCA0005_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') * xs:double('NaN')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0005_4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1535,11 +1629,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCH0001'(_Config) ->
+'FOCH0001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "codepoints-to-string(0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1548,11 +1644,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCH0002_1'(_Config) ->
+'FOCH0002_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "compare('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1561,11 +1659,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCH0002_10'(_Config) ->
+'FOCH0002_10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "substring-before('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1574,11 +1674,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCH0002_2'(_Config) ->
+'FOCH0002_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1587,11 +1689,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCH0002_3'(_Config) ->
+'FOCH0002_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "distinct-values(('a', 'b'), 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1600,11 +1704,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCH0002_4'(_Config) ->
+'FOCH0002_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "ends-with('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1613,11 +1719,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCH0002_5'(_Config) ->
+'FOCH0002_5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "index-of('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1626,11 +1734,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCH0002_6'(_Config) ->
+'FOCH0002_6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "max(('a', 'b'), 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1639,11 +1749,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCH0002_7'(_Config) ->
+'FOCH0002_7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "min(('a', 'b'), 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1652,11 +1764,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCH0002_8'(_Config) ->
+'FOCH0002_8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "starts-with('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1665,11 +1779,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOCH0002_9'(_Config) ->
+'FOCH0002_9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "substring-after('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1678,11 +1794,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODC0001_1'(_Config) ->
+'FODC0001_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:id('id', <a />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0001_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1691,11 +1809,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODC0001_2'(_Config) ->
+'FODC0001_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a />/fn:idref('id')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0001_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1704,11 +1824,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODC0002_1'(_Config) ->
+'FODC0002_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc('http://www.example.org/notFound.xml')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0002_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1717,11 +1839,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODC0002_2'(_Config) ->
+'FODC0002_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc('http://www.example.org/notFound.xml')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0002_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1730,11 +1854,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODC0002_3'(_Config) ->
+'FODC0002_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc('http://www.example.org/notFound.xml')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0002_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1743,11 +1869,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODC0002_4'(_Config) ->
+'FODC0002_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "collection()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0002_4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1756,11 +1884,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODC0004'(_Config) ->
+'FODC0004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "collection('%gg')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0004") of 
       true -> {comment, "Correct error"};
@@ -1777,11 +1907,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODC0005-1'(_Config) ->
+'FODC0005-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc('%gg')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0005-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0005") of 
       true -> {comment, "Correct error"};
@@ -1798,11 +1930,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODC0005-2'(_Config) ->
+'FODC0005-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc-available('%gg')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0005-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0005") of 
       true -> {comment, "Correct error"};
@@ -1819,11 +1953,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-1'(_Config) ->
+'FODT0001-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "adjust-dateTime-to-timezone( xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\"), xs:dayTimeDuration(\"PT14H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1832,11 +1968,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-10'(_Config) ->
+'FODT0001-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") - xs:yearMonthDuration(\"-P1Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1845,11 +1983,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-11'(_Config) ->
+'FODT0001-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") - xs:date(\"-25252734927766555-07-28-14:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1858,11 +1998,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-12'(_Config) ->
+'FODT0001-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:dateTime(\"-25252734927766555-07-28T23:59:59-14:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1871,11 +2013,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-2'(_Config) ->
+'FODT0001-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "adjust-date-to-timezone( xs:date(\"25252734927766555-07-28-14:00\"), xs:dayTimeDuration(\"PT14H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1884,11 +2028,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-3'(_Config) ->
+'FODT0001-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") + xs:dayTimeDuration(\"PT14H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1897,11 +2043,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-4'(_Config) ->
+'FODT0001-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") + xs:dayTimeDuration(\"PT24H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1910,11 +2058,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-5'(_Config) ->
+'FODT0001-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:dayTimeDuration(\"-PT14H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1923,11 +2073,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-6'(_Config) ->
+'FODT0001-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") - xs:dayTimeDuration(\"-PT24H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1936,11 +2088,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-7'(_Config) ->
+'FODT0001-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") + xs:yearMonthDuration(\"P1Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1949,11 +2103,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-8'(_Config) ->
+'FODT0001-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") + xs:yearMonthDuration(\"P1Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1962,11 +2118,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0001-9'(_Config) ->
+'FODT0001-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:yearMonthDuration(\"-P1Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1975,11 +2133,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0002-1'(_Config) ->
+'FODT0002-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') + xs:dayTimeDuration('P4999999999999999999DT00H00M01S')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1988,11 +2148,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0002-2'(_Config) ->
+'FODT0002-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') * 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2001,11 +2163,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0002-3'(_Config) ->
+'FODT0002-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') div 0.5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2014,11 +2178,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0002-4'(_Config) ->
+'FODT0002-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') - xs:dayTimeDuration('-P5999999999999999999DT00H00M01S')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2027,11 +2193,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0002-6'(_Config) ->
+'FODT0002-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') + xs:yearMonthDuration('P768614336404564650Y1M')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2040,11 +2208,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0002-7'(_Config) ->
+'FODT0002-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') * 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2053,11 +2223,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0002-8'(_Config) ->
+'FODT0002-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') div 0.5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2066,11 +2238,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0002-9'(_Config) ->
+'FODT0002-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') - xs:yearMonthDuration('-P768614336404564650Y0M')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2079,11 +2253,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0003-1'(_Config) ->
+'FODT0003-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "adjust-date-to-timezone( xs:date(\"2001-07-28-14:00\"), xs:dayTimeDuration(\"PT15H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0003-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2092,11 +2268,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FODT0003-2'(_Config) ->
+'FODT0003-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "adjust-date-to-timezone( xs:date(\"2001-07-28-14:00\"), xs:dayTimeDuration(\"-PT15H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0003-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2105,11 +2283,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOER0000'(_Config) ->
+'FOER0000'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOER0000.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2118,11 +2298,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FONS0004-1'(_Config) ->
+'FONS0004-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "resolve-QName('prefix:localName', <element />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FONS0004-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FONS0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2131,11 +2313,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FONS0004-2'(_Config) ->
+'FONS0004-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:QName('prefix:localName')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FONS0004-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FONS0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2144,11 +2328,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0001'(_Config) ->
+'FORG0001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:integer('INF')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2157,11 +2343,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0002'(_Config) ->
+'FORG0002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://www.w3.org/\"; resolve-uri(\"%gg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2170,11 +2358,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0003'(_Config) ->
+'FORG0003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "zero-or-one( (1, 2, 3) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0003.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2183,11 +2373,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0004'(_Config) ->
+'FORG0004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "one-or-more( () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2196,11 +2388,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0005'(_Config) ->
+'FORG0005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "exactly-one( () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2209,11 +2403,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0006_01'(_Config) ->
+'FORG0006_01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:boolean( xs:date('2007-01-01') )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0006_01.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2230,11 +2426,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0006_02'(_Config) ->
+'FORG0006_02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:avg( (xs:yearMonthDuration('P1Y0M'), 1) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0006_02.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2243,11 +2441,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0006_03'(_Config) ->
+'FORG0006_03'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:min( (xs:yearMonthDuration('P1Y0M'), 1) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0006_03.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2256,11 +2456,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0006_04'(_Config) ->
+'FORG0006_04'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:max( (xs:yearMonthDuration('P1Y0M'), 1) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0006_04.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2269,11 +2471,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0006_05'(_Config) ->
+'FORG0006_05'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:sum( (xs:yearMonthDuration('P1Y0M'), 1) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0006_05.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2282,11 +2486,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0008'(_Config) ->
+'FORG0008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "dateTime(xs:date('2001-01-01-14:00'), xs:time('01:01:01+14:00'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2295,11 +2501,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FORG0009'(_Config) ->
+'FORG0009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "resolve-uri('../../', '../../')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2308,13 +2516,16 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'FOTY0012'(_Config) ->
+'FOTY0012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XPDY0002_01'(_Config) ->
+'XPDY0002_01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = ".",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPDY0002_01.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2323,11 +2534,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPDY0002_02'(_Config) ->
+'XPDY0002_02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $variable external; $variable",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPDY0002_02.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2336,11 +2549,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPDY0050'(_Config) ->
+'XPDY0050'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 treat as node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPDY0050.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0050") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2349,11 +2564,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_01'(_Config) ->
+'XPTY0004_01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "attribute { 1 } { 1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_01.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2362,11 +2579,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0018'(_Config) ->
+'XPTY0018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(<a/>, <b/>)/(if (position() mod 2 = 1) then position() else .)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0018") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2375,11 +2594,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0019_1'(_Config) ->
+'XPTY0019_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a/>/1/node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0019_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2388,11 +2609,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0019_2'(_Config) ->
+'XPTY0019_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something() { (<a />, 1, <b/>, 2) }; foo:something()/a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0019_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2401,11 +2624,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0019_3'(_Config) ->
+'XPTY0019_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else <a /> }; let $x := <a><b><c/></b><b><c/></b></a> return $x/b/(foo:something(position()))/a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0019_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2414,11 +2639,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_02'(_Config) ->
+'XPTY0004_02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "element { 1 } { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_02.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2427,11 +2654,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_03'(_Config) ->
+'XPTY0004_03'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "() cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_03.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2440,11 +2669,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_04'(_Config) ->
+'XPTY0004_04'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2) cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_04.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2453,11 +2684,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_05'(_Config) ->
+'XPTY0004_05'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $x as node() := 1 return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_05.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2466,11 +2699,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_06'(_Config) ->
+'XPTY0004_06'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x as node() in (1, 2, 3) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_06.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2479,11 +2714,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_07'(_Config) ->
+'XPTY0004_07'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "document { attribute {'foo'} {} }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_07.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2492,11 +2729,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_08'(_Config) ->
+'XPTY0004_08'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:content($type as xs:integer) { if ($type eq 1) then attribute {'foo'} {} else <foo /> }; document { foo:content(1) }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_08.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2505,11 +2744,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_09'(_Config) ->
+'XPTY0004_09'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in (1, 'hello', xs:date('2007-11-28')) order by $x return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_09.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2518,11 +2759,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_10'(_Config) ->
+'XPTY0004_10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:upper-case(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2531,11 +2774,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_11'(_Config) ->
+'XPTY0004_11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:tokenize('foo', () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2544,13 +2789,16 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_12'(_Config) ->
+'XPTY0004_12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10 XP20 XQ30 XP30"}.
-'XPTY0004_12a'(_Config) ->
+'XPTY0004_12a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:error( () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_12a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2559,11 +2807,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_13'(_Config) ->
+'XPTY0004_13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2572,11 +2822,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_14'(_Config) ->
+'XPTY0004_14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" ne 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2585,11 +2837,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_15'(_Config) ->
+'XPTY0004_15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" le 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2598,11 +2852,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_16'(_Config) ->
+'XPTY0004_16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" gt 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2611,11 +2867,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_17'(_Config) ->
+'XPTY0004_17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" ge 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2624,11 +2882,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_18'(_Config) ->
+'XPTY0004_18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" ne 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2637,11 +2897,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_19'(_Config) ->
+'XPTY0004_19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" << 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2650,11 +2912,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_20'(_Config) ->
+'XPTY0004_20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" >> 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2663,11 +2927,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_21'(_Config) ->
+'XPTY0004_21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" is 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2676,11 +2942,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_22'(_Config) ->
+'XPTY0004_22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" div 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2689,11 +2957,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_23'(_Config) ->
+'XPTY0004_23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" idiv 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2702,11 +2972,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_24'(_Config) ->
+'XPTY0004_24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" * 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2715,11 +2987,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_25'(_Config) ->
+'XPTY0004_25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" mod 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2728,11 +3002,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_26'(_Config) ->
+'XPTY0004_26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" - 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2741,11 +3017,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_27'(_Config) ->
+'XPTY0004_27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "\"string\" + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2754,11 +3032,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_28'(_Config) ->
+'XPTY0004_28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 1.0 }; abs(foo:something(1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2767,11 +3047,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_29'(_Config) ->
+'XPTY0004_29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; element { foo:something(1) } { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2780,11 +3062,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_30'(_Config) ->
+'XPTY0004_30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; processing-instruction { foo:something(1) } { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2793,11 +3077,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_31'(_Config) ->
+'XPTY0004_31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; <e> { attribute { foo:something(1) } { } } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2806,11 +3092,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_32'(_Config) ->
+'XPTY0004_32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then ('foo', xs:date('2007-11-28'), 'foo') else 'foo' }; let $x as xs:string* := foo:something(1) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2819,11 +3107,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_33'(_Config) ->
+'XPTY0004_33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; for $x as xs:string in foo:something(1) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2832,11 +3122,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_34'(_Config) ->
+'XPTY0004_34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type) as xs:integer { $type }; foo:something('foo')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2845,11 +3137,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_35'(_Config) ->
+'XPTY0004_35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) as xs:integer { if ($type eq 1) then xs:date('2007-11-28') else $type }; foo:something(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2858,11 +3152,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_37'(_Config) ->
+'XPTY0004_37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "-xs:date('2007-11-29')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2871,11 +3167,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_38'(_Config) ->
+'XPTY0004_38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; -foo:something(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2884,11 +3182,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_39'(_Config) ->
+'XPTY0004_39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; +foo:something(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2897,11 +3197,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_40'(_Config) ->
+'XPTY0004_40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "+xs:date('2007-11-29')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2910,11 +3212,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_41'(_Config) ->
+'XPTY0004_41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:boolean( (1, 2) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2931,11 +3235,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_42'(_Config) ->
+'XPTY0004_42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:string-length(xs:date('2007-11-29'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2944,11 +3250,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_43'(_Config) ->
+'XPTY0004_43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xs:date(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2957,11 +3265,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_44'(_Config) ->
+'XPTY0004_44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2970,13 +3280,16 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_45'(_Config) ->
+'XPTY0004_45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20 XQ10"}.
-'XPTY0004_46'(_Config) ->
+'XPTY0004_46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(1, 2) + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2985,11 +3298,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_47'(_Config) ->
+'XPTY0004_47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $a := <e><a/><b/><a/></e>; <a>{$a/a eq 1}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2998,11 +3313,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0004_48'(_Config) ->
+'XPTY0004_48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $i := (1, 3, 2) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1 3 2") of 
       true -> {comment, "String correct"};
@@ -3019,11 +3336,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XPTY0020'(_Config) ->
+'XPTY0020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a/>/20[text()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0020") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3032,11 +3351,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0025_1'(_Config) ->
+'XQDY0025_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $attr1 := attribute attr { 'foo' } return let $attr2 := attribute attr { 'bar' } return <a>{$attr1, $attr2 }</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0025_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0025") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3045,11 +3366,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0025_2'(_Config) ->
+'XQDY0025_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www/w3.org/\"; let $attr1 := attribute prefix:attr { 'foo' } return let $attr2 := attribute prefix:attr { 'bar' } return <a>{$attr1, $attr2 }</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0025_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0025") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3058,11 +3381,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0025_3'(_Config) ->
+'XQDY0025_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www/w3.org/\"; let $attr1 := attribute attr { 'foo' } return let $attr2 := attribute attr { 'bar' } return <prefix:a>{$attr1, $attr2 }</prefix:a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0025_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0025") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3071,11 +3396,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0025_4'(_Config) ->
+'XQDY0025_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www/w3.org/\"; let $attr1 := attribute prefix:attr { 'foo' } return let $attr2 := attribute prefix:attr { 'bar' } return <prefix:a>{$attr1, $attr2 }</prefix:a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0025_4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0025") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3084,11 +3411,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0026'(_Config) ->
+'XQDY0026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "processing-instruction target { '?>' }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0026") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3097,13 +3426,16 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0027'(_Config) ->
+'XQDY0027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQDY0041'(_Config) ->
+'XQDY0041'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> { processing-instruction { '1BadName' } { 'content' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0041.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0041") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3112,11 +3444,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0044_1'(_Config) ->
+'XQDY0044_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> { attribute { 'xmlns' } { 'http://www.w3.org/' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0044_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0044") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3125,13 +3459,16 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0061'(_Config) ->
+'XQDY0061'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'XQDY0064'(_Config) ->
+'XQDY0064'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> { processing-instruction { 'xml' } { 'content' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0064.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0064") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3140,11 +3477,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0072'(_Config) ->
+'XQDY0072'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> { comment { ' -- ' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0072.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3153,11 +3492,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0074_1'(_Config) ->
+'XQDY0074_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> { element { 'prefix:localName' } { } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0074_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3166,11 +3507,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0074_2'(_Config) ->
+'XQDY0074_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> { attribute { 'prefix:localName' } { } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0074_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3179,11 +3522,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0074_3'(_Config) ->
+'XQDY0074_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> { element { '1localName' } { } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0074_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3192,11 +3537,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0074_4'(_Config) ->
+'XQDY0074_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> { attribute { '1localName' } { } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0074_4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3205,13 +3552,16 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0084'(_Config) ->
+'XQDY0084'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQDY0091'(_Config) ->
+'XQDY0091'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e xml:id=\" ab c d \"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0091.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQDY0091") of 
       true -> {comment, "Correct error"};
@@ -3228,11 +3578,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQDY0092'(_Config) ->
+'XQDY0092'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a xml:space=\"space\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0092.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQDY0092") of 
       true -> {comment, "Correct error"};
@@ -3249,11 +3601,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0022_1'(_Config) ->
+'XQST0022_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a xmlns=\"{1}\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0022_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3262,11 +3616,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0022_2'(_Config) ->
+'XQST0022_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a xmlns:prefix=\"{1}\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0022_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3275,11 +3631,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0031'(_Config) ->
+'XQST0031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xquery version '2.0'; 1+2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0031") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3288,11 +3646,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0032'(_Config) ->
+'XQST0032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.org/A\"; declare base-uri \"http://www.example.org/B\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0032") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3301,11 +3661,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0033'(_Config) ->
+'XQST0033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace cheddar = 'http://www.example.org/cheddar'; declare namespace cheddar = 'http://www.example.org/cheddar'; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0033") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3314,11 +3676,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0034'(_Config) ->
+'XQST0034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.example.org/\"; declare function prefix:foo() { 1 }; declare function prefix:foo() { 1 }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0034.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0034") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3327,25 +3691,34 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0036_1'(_Config) ->
+'XQST0036_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQST0036_2'(_Config) ->
+'XQST0036_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQST0036_3'(_Config) ->
+'XQST0036_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQST0036_4'(_Config) ->
+'XQST0036_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQST0036_5'(_Config) ->
+'XQST0036_5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQST0036_6'(_Config) ->
+'XQST0036_6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQST0036_7'(_Config) ->
+'XQST0036_7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQST0038_1'(_Config) ->
+'XQST0038_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0038_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0038") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3354,11 +3727,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0038_3'(_Config) ->
+'XQST0038_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default collation \"http://www.example.org/\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0038_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0038") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3367,11 +3742,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0039'(_Config) ->
+'XQST0039'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; declare function prefix:foo($arg, $arg) { 1 }; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0039.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0039") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3380,11 +3757,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0040'(_Config) ->
+'XQST0040'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a attr=\"a\" attr=\"a\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0040.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0040") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3393,11 +3772,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0045-1'(_Config) ->
+'XQST0045-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function foo() { 1 }; foo()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0045-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3406,11 +3787,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0045-2'(_Config) ->
+'XQST0045-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function xml:foo() { 1 }; xml:foo()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0045-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3419,11 +3802,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0045-3'(_Config) ->
+'XQST0045-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function xs:foo() { 1 }; xs:foo()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0045-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3432,11 +3817,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0045-4'(_Config) ->
+'XQST0045-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function xsi:foo() { 1 }; xsi:foo()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0045-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3445,11 +3832,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0046_01'(_Config) ->
+'XQST0046_01'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "base-uri(<a xml:base=\"%gg\" />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_01.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3470,11 +3859,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0046_02'(_Config) ->
+'XQST0046_02'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module \"http://www.example.org/test\"; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_02.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3491,11 +3882,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0046_03'(_Config) ->
+'XQST0046_03'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"%gg\"; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_03.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3512,11 +3905,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0046_04'(_Config) ->
+'XQST0046_04'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default element namespace \"%gg\"; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_04.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3533,11 +3928,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0046_05'(_Config) ->
+'XQST0046_05'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default function namespace \"%gg\"; fn:true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_05.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3554,11 +3951,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0046_06'(_Config) ->
+'XQST0046_06'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default collation \"%gg\"; fn:true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_06.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3579,11 +3978,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0046_07'(_Config) ->
+'XQST0046_07'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare base-uri \"%gg\"; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_07.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3600,11 +4001,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0046_09'(_Config) ->
+'XQST0046_09'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import schema \"http://www.w3.org/\" at \"%gg\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_09.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3621,11 +4024,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0046_10'(_Config) ->
+'XQST0046_10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module \"%gg\"; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3642,11 +4047,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0046_11'(_Config) ->
+'XQST0046_11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module \"http://www.w3.org/\" at \"%gg\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3663,11 +4070,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0046_12'(_Config) ->
+'XQST0046_12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in (\"a\", \"a\", \"a\") order by $x collation \"%gg\" return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3688,11 +4097,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0047'(_Config) ->
+'XQST0047'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module \"http://www.example.org/foo\"; import module \"http://www.example.org/foo\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0047.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0047") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3701,11 +4112,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0048'(_Config) ->
+'XQST0048'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.example.org/foo\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0048.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0048") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3714,11 +4127,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0049'(_Config) ->
+'XQST0049'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $foo external; declare variable $foo external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0049.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3727,13 +4142,16 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0054'(_Config) ->
+'XQST0054'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'XQST0055'(_Config) ->
+'XQST0055'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare copy-namespaces preserve,inherit; declare copy-namespaces preserve,no-inherit; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0055.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0055") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3742,11 +4160,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0057'(_Config) ->
+'XQST0057'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import schema namespace foo = \"\" at \"http://www.w3.org/\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0057.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0057") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3755,15 +4175,19 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0058'(_Config) ->
+'XQST0058'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQST0059_1'(_Config) ->
+'XQST0059_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQST0059_2'(_Config) ->
+'XQST0059_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.w3.org/\" at \"DoesNotExist.xq\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0059_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0059") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3772,13 +4196,16 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0059_3'(_Config) ->
+'XQST0059_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQST0059_4'(_Config) ->
+'XQST0059_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.w3.org/\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0059_4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0059") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3787,11 +4214,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0059_5'(_Config) ->
+'XQST0059_5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.example.org/\"; foo:bar()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0059_5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0059") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3800,13 +4229,16 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0059_6'(_Config) ->
+'XQST0059_6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaImport"}.
-'XQST0060'(_Config) ->
+'XQST0060'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default function namespace \"\"; declare function foo() { 1 }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0060.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0060") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3815,11 +4247,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0065'(_Config) ->
+'XQST0065'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare ordering unordered; declare ordering ordered; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0065.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0065") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3828,11 +4262,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0066_1'(_Config) ->
+'XQST0066_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default element namespace \"http://www.w3.org/a\"; declare default element namespace \"http://www.w3.org/b\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0066_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0066") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3841,11 +4277,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0066_3'(_Config) ->
+'XQST0066_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default function namespace \"http://www.example.org/\"; declare default function namespace \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0066_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0066") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3854,11 +4292,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0067'(_Config) ->
+'XQST0067'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare construction strip; declare construction preserve; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0067.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0067") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3867,11 +4307,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0068'(_Config) ->
+'XQST0068'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare boundary-space strip; declare boundary-space preserve; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0068.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0068") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3880,11 +4322,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0069'(_Config) ->
+'XQST0069'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default order empty least; declare default order empty greatest; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0069.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0069") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3893,11 +4337,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0070_1'(_Config) ->
+'XQST0070_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import schema namespace xml = \"http://www.example.org/\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0070_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0070") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3906,11 +4352,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0070_2'(_Config) ->
+'XQST0070_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module namespace xml = \"http://www.example.org/\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0070_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0070") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3919,11 +4367,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0070_3'(_Config) ->
+'XQST0070_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module namespace xml = 'http://www.example.org/'; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0070_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0070") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3932,11 +4382,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0070_4'(_Config) ->
+'XQST0070_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace xml = \"http://www.example.org/\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0070_4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0070") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3945,11 +4397,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0071_1'(_Config) ->
+'XQST0071_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a xmlns:prefix=\"http://www.w3.org/\" xmlns:prefix=\"http://www.w3.org/\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0071_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0071") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3958,11 +4412,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0071_2'(_Config) ->
+'XQST0071_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a xmlns=\"http://www.w3.org/\" xmlns=\"http://www.w3.org/\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0071_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0071") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3971,11 +4427,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0076'(_Config) ->
+'XQST0076'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x in ('a', 'b', 'c') order by $x collation 'http://www.w3.org/' return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0076.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0076") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3984,13 +4442,16 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0079'(_Config) ->
+'XQST0079'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10 XQ30"}.
-'XQST0085'(_Config) ->
+'XQST0085'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<element xmlns:foo=\"http://www.w3.org/\"> <element xmlns:foo=\"\" /> </element>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0085.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0085") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3999,15 +4460,19 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0085b'(_Config) ->
+'XQST0085b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XML 1.1"}.
-'XQST0085c'(_Config) ->
+'XQST0085c'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XML 1.1"}.
-'XQST0087'(_Config) ->
+'XQST0087'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "xquery version '1.0' encoding '_utf'; 1+2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0087.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0087") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4016,11 +4481,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0088_1'(_Config) ->
+'XQST0088_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module namespace cheese = ''; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0088_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0088") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4029,11 +4496,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0088_2'(_Config) ->
+'XQST0088_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "import module \"http://www.example.org/test\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0088_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0088") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4042,11 +4511,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0089'(_Config) ->
+'XQST0089'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $x at $x in (1, 2, 3) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0089.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0089") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4055,11 +4526,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0090'(_Config) ->
+'XQST0090'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<bad-character-reference>&#xa999999999999999a;</bad-character-reference>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0090.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0090") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4068,16 +4541,19 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0093'(_Config) ->
+'XQST0093'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'XQST0093a'(_Config) ->
+'XQST0093a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
       	import module namespace foo=\"http://www.example.org/foo\"; 
       	$foo:variable2
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0093a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -4086,11 +4562,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQTY0024_1'(_Config) ->
+'XQTY0024_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; <prefix:a> { <b />, attribute prefix:foo { 'bar' } } </prefix:a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQTY0024_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQTY0024") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4099,11 +4577,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQTY0024_2'(_Config) ->
+'XQTY0024_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; <prefix:a> { <b />, attribute foo { 'bar' } } </prefix:a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQTY0024_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQTY0024") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4112,11 +4592,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQTY0024_3'(_Config) ->
+'XQTY0024_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; <a> { <b />, attribute prefix:foo { 'bar' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQTY0024_3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQTY0024") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4125,11 +4607,13 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQTY0024_4'(_Config) ->
+'XQTY0024_4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<a> { <b />, attribute foo { 'bar' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQTY0024_4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQTY0024") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4138,15 +4622,20 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQTY0030'(_Config) ->
+'XQTY0030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'XQTY0086_1'(_Config) ->
+'XQTY0086_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'XQTY0086_2'(_Config) ->
+'XQTY0086_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'XQTY0086_3'(_Config) ->
+'XQTY0086_3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'XQST0125_1'(_Config) ->
+'XQST0125_1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $f := %public function($arg as xs:integer) as xs:integer 
                           { $arg + 1 }
@@ -4154,7 +4643,8 @@ environment('xqdy0084') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0125_1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0125") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4163,7 +4653,8 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'XQST0125_2'(_Config) ->
+'XQST0125_2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         let $f := %private function($arg as xs:integer) as xs:integer 
                            { $arg + 1 }
@@ -4171,7 +4662,8 @@ environment('xqdy0084') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0125_2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0125") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4180,5 +4672,6 @@ environment('xqdy0084') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'typeswitch-in-xpath'(_Config) ->
+'typeswitch-in-xpath'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XP20+"}.

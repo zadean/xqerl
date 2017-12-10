@@ -90,9 +90,13 @@
 -export(['cbcl-validateexpr-16'/1]).
 -export(['cbcl-validateexpr-17'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'validateexpr-1',
    'validateexpr-2',
@@ -179,97 +183,97 @@ all() -> [
    'cbcl-validateexpr-15',
    'cbcl-validateexpr-16',
    'cbcl-validateexpr-17'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -281,60 +285,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -342,305 +346,390 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('orderData') ->
+environment('orderData',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/OrderByClause/orderData.xml",".",""}]},
-{schemas, [{"OrderByClause/orderData.xsd","http://www.w3.org/XQueryTestOrderBy"}]},
+{sources, [{filename:join(BaseDir, "OrderByClause/orderData.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "OrderByClause/orderData.xsd"),"http://www.w3.org/XQueryTestOrderBy"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('ListUnionTypes') ->
+environment('ListUnionTypes',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"ValidateExpr/listunion.xsd","http://www.w3.org/XQueryTest/ListUnionTypes"}]},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/listunion.xsd"),"http://www.w3.org/XQueryTest/ListUnionTypes"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('simplexsd') ->
+environment('simplexsd',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"ValidateExpr/simple.xsd","http://www.w3.org/XQueryTest/simple"}]},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/simple.xsd"),"http://www.w3.org/XQueryTest/simple"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('xq-e18xsd') ->
+environment('xq-e18xsd',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"ValidateExpr/xq-e18.xsd","http://www.example.com/ns/test/xq-e18"}]},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/xq-e18.xsd"),"http://www.example.com/ns/test/xq-e18"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('constraints') ->
+environment('constraints',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"ValidateExpr/constraints.xsd","http://www.w3.org/constraints"}]},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/constraints.xsd"),"http://www.w3.org/constraints"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('complexSimple') ->
+environment('complexSimple',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"ValidateExpr/simpleContent.xsd","http://www.w3.org/query-test/complexSimple"}]},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/simpleContent.xsd"),"http://www.w3.org/query-test/complexSimple"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('hats') ->
+environment('hats',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"SchemaImport/hats.xsd","http://www.w3.org/XQueryTest/hats"}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('complexData') ->
+environment('complexData',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/data/complexData.xml",".",""}]},
-{schemas, [{"../fn/data/complexData.xsd","http://www.cbcl.co.uk/XQueryTest/complexData"}]},
+{sources, [{filename:join(BaseDir, "../fn/data/complexData.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../fn/data/complexData.xsd"),"http://www.cbcl.co.uk/XQueryTest/complexData"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('validate') ->
+environment('validate',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/nilled/validate.xml",".",""}]},
-{schemas, [{"../fn/nilled/validate.xsd","http://www.w3.org/XQueryTest/testcases"}]},
+{sources, [{filename:join(BaseDir, "../fn/nilled/validate.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../fn/nilled/validate.xsd"),"http://www.w3.org/XQueryTest/testcases"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('user-defined-types') ->
+environment('user-defined-types',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{"../docs/userdefined.xsd","http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('abstract') ->
+environment('abstract',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ValidateExpr/AbstractType/obj.xml",".",""}]},
-{schemas, [{"ValidateExpr/AbstractType/schema.xsd","http://myns"}]},
+{sources, [{filename:join(BaseDir, "ValidateExpr/AbstractType/obj.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/AbstractType/schema.xsd"),"http://myns"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'validateexpr-1'(_Config) ->
+'validateexpr-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-2'(_Config) ->
+'validateexpr-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-3'(_Config) ->
+'validateexpr-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-4'(_Config) ->
+'validateexpr-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-5'(_Config) ->
+'validateexpr-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-6'(_Config) ->
+'validateexpr-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-7'(_Config) ->
+'validateexpr-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-8'(_Config) ->
+'validateexpr-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-9'(_Config) ->
+'validateexpr-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-10'(_Config) ->
+'validateexpr-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-11'(_Config) ->
+'validateexpr-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-12'(_Config) ->
+'validateexpr-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-13'(_Config) ->
+'validateexpr-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-14'(_Config) ->
+'validateexpr-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-15'(_Config) ->
+'validateexpr-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-16'(_Config) ->
+'validateexpr-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-17'(_Config) ->
+'validateexpr-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-18'(_Config) ->
+'validateexpr-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-19'(_Config) ->
+'validateexpr-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-20'(_Config) ->
+'validateexpr-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-21'(_Config) ->
+'validateexpr-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-23'(_Config) ->
+'validateexpr-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-24'(_Config) ->
+'validateexpr-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-25'(_Config) ->
+'validateexpr-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-26'(_Config) ->
+'validateexpr-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-27'(_Config) ->
+'validateexpr-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-28'(_Config) ->
+'validateexpr-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-29'(_Config) ->
+'validateexpr-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-30'(_Config) ->
+'validateexpr-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-31'(_Config) ->
+'validateexpr-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-32'(_Config) ->
+'validateexpr-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-33'(_Config) ->
+'validateexpr-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validateexpr-34'(_Config) ->
+'validateexpr-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-35'(_Config) ->
+'validateexpr-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-36'(_Config) ->
+'validateexpr-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-37'(_Config) ->
+'validateexpr-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-38'(_Config) ->
+'validateexpr-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-39'(_Config) ->
+'validateexpr-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-40'(_Config) ->
+'validateexpr-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-41'(_Config) ->
+'validateexpr-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-42'(_Config) ->
+'validateexpr-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'K2-ValidateExpression-1'(_Config) ->
+'K2-ValidateExpression-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-constraints-1'(_Config) ->
+'validate-constraints-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-constraints-2'(_Config) ->
+'validate-constraints-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-constraints-3'(_Config) ->
+'validate-constraints-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-constraints-4'(_Config) ->
+'validate-constraints-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-sc-1'(_Config) ->
+'validate-sc-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-sc-2'(_Config) ->
+'validateexpr-sc-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-sc-4'(_Config) ->
+'validateexpr-sc-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-sc-5'(_Config) ->
+'validateexpr-sc-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-sc-6'(_Config) ->
+'validateexpr-sc-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-sc-7'(_Config) ->
+'validateexpr-sc-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-sc-8'(_Config) ->
+'validateexpr-sc-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validateexpr-sc-9'(_Config) ->
+'validateexpr-sc-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-101'(_Config) ->
+'validate-as-101'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-102'(_Config) ->
+'validate-as-102'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-103'(_Config) ->
+'validate-as-103'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-104'(_Config) ->
+'validate-as-104'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-105'(_Config) ->
+'validate-as-105'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-106'(_Config) ->
+'validate-as-106'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-107'(_Config) ->
+'validate-as-107'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'validate-as-91011'(_Config) ->
+'validate-as-91011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-91012'(_Config) ->
+'validate-as-91012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-91013'(_Config) ->
+'validate-as-91013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-91014'(_Config) ->
+'validate-as-91014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-91015'(_Config) ->
+'validate-as-91015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-91016'(_Config) ->
+'validate-as-91016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'validate-as-91017'(_Config) ->
+'validate-as-91017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'cbcl-validateexpr-1'(_Config) ->
+'cbcl-validateexpr-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-2'(_Config) ->
+'cbcl-validateexpr-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-3'(_Config) ->
+'cbcl-validateexpr-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-4'(_Config) ->
+'cbcl-validateexpr-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-5'(_Config) ->
+'cbcl-validateexpr-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-6'(_Config) ->
+'cbcl-validateexpr-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-7'(_Config) ->
+'cbcl-validateexpr-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-8'(_Config) ->
+'cbcl-validateexpr-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-9'(_Config) ->
+'cbcl-validateexpr-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-10'(_Config) ->
+'cbcl-validateexpr-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-11'(_Config) ->
+'cbcl-validateexpr-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'cbcl-validateexpr-12'(_Config) ->
+'cbcl-validateexpr-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'cbcl-validateexpr-13'(_Config) ->
+'cbcl-validateexpr-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"schemaValidation"}.
-'cbcl-validateexpr-14'(_Config) ->
+'cbcl-validateexpr-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-15'(_Config) ->
+'cbcl-validateexpr-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-16'(_Config) ->
+'cbcl-validateexpr-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'cbcl-validateexpr-17'(_Config) ->
+'cbcl-validateexpr-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.

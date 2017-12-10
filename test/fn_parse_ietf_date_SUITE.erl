@@ -110,9 +110,13 @@
 -export(['parse-ietf-date-errs38'/1]).
 -export(['parse-ietf-date-errs39'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "fn")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'parse-ietf-date-0',
    'parse-ietf-date-1',
@@ -219,97 +223,97 @@ all() -> [
    'parse-ietf-date-errs37',
    'parse-ietf-date-errs38',
    'parse-ietf-date-errs39'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -321,60 +325,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -382,7 +386,8 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ].
-'parse-ietf-date-0'(_Config) ->
+'parse-ietf-date-0'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -390,7 +395,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -399,7 +404,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-0.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -408,7 +414,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-1'(_Config) ->
+'parse-ietf-date-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"  Wed, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -416,7 +423,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -425,7 +432,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-1.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -434,7 +442,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-2'(_Config) ->
+'parse-ietf-date-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01 GMT    \") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -442,7 +451,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -451,7 +460,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-2.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -460,7 +470,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-3'(_Config) ->
+'parse-ietf-date-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -468,7 +479,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -477,7 +488,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-3.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -486,7 +498,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-4'(_Config) ->
+'parse-ietf-date-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wednesday 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -494,7 +507,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -503,7 +516,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-4.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -512,7 +526,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-5'(_Config) ->
+'parse-ietf-date-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01.25 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -520,7 +535,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01.25Z')"}]},
 {params, []},
 {namespaces, []},
@@ -529,7 +544,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-5.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -538,7 +554,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-6'(_Config) ->
+'parse-ietf-date-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01.299 GMT\") = xs:dateTime($d))
 	  then \"pass\"
 	  else \"fail\"",
@@ -546,7 +563,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:string","'2014-08-20T19:36:01.299Z'"}]},
 {params, []},
 {namespaces, []},
@@ -555,7 +572,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-6.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -564,7 +582,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-7'(_Config) ->
+'parse-ietf-date-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"wed, 20 aug 2014 19:36:01 gmt\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -572,7 +591,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -581,7 +600,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-7.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -590,7 +610,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-8'(_Config) ->
+'parse-ietf-date-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"WED, 20 AUG 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -598,7 +619,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -607,7 +628,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-8.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -616,7 +638,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-9'(_Config) ->
+'parse-ietf-date-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -624,7 +647,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
 {params, []},
 {namespaces, []},
@@ -633,7 +656,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-9.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -642,7 +666,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-10'(_Config) ->
+'parse-ietf-date-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"WED, 20 AUG 2014 19:36:01\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -650,7 +675,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -659,7 +684,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-10.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -668,7 +694,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-11'(_Config) ->
+'parse-ietf-date-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -676,7 +703,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
 {params, []},
 {namespaces, []},
@@ -685,7 +712,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-11.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -694,7 +722,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-12'(_Config) ->
+'parse-ietf-date-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -702,7 +731,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -711,7 +740,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-12.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -720,7 +750,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-13'(_Config) ->
+'parse-ietf-date-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -728,7 +759,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
 {params, []},
 {namespaces, []},
@@ -737,7 +768,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-13.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -746,7 +778,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-14'(_Config) ->
+'parse-ietf-date-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\" 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -754,7 +787,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -763,7 +796,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-14.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -772,7 +806,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-15'(_Config) ->
+'parse-ietf-date-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Tue, 9 Sep 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -780,7 +815,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-09-09T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -789,7 +824,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-15.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -798,7 +834,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-16'(_Config) ->
+'parse-ietf-date-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Tue,  9 Sep 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -806,7 +843,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-09-09T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -815,7 +852,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-16.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -824,7 +862,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-17'(_Config) ->
+'parse-ietf-date-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Tue, 09 Sep 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -832,7 +871,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-09-09T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -841,7 +880,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-17.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -850,7 +890,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-18'(_Config) ->
+'parse-ietf-date-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Mon 8 Sep 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -858,7 +899,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-09-08T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -867,7 +908,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-18.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -876,7 +918,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-19'(_Config) ->
+'parse-ietf-date-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Aug-20 19:36 2014\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -884,7 +927,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
 {params, []},
 {namespaces, []},
@@ -893,7 +936,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-19.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -902,7 +946,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-20'(_Config) ->
+'parse-ietf-date-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Aug 20 19:36 2014\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -910,7 +955,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
 {params, []},
 {namespaces, []},
@@ -919,7 +964,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-20.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -928,7 +974,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-21'(_Config) ->
+'parse-ietf-date-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 - Aug - 2014 19:36\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -936,7 +983,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
 {params, []},
 {namespaces, []},
@@ -945,7 +992,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-21.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -954,7 +1002,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-22'(_Config) ->
+'parse-ietf-date-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20- Aug- 2014 19:36\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -962,7 +1011,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
 {params, []},
 {namespaces, []},
@@ -971,7 +1020,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-22.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -980,7 +1030,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-23'(_Config) ->
+'parse-ietf-date-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 -Aug -2014 19:36\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -988,7 +1039,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:00Z')"}]},
 {params, []},
 {namespaces, []},
@@ -997,7 +1048,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-23.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1006,7 +1058,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-24'(_Config) ->
+'parse-ietf-date-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Sun, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1014,7 +1067,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1023,7 +1076,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-24.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1032,7 +1086,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-25'(_Config) ->
+'parse-ietf-date-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Mon, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1040,7 +1095,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1049,7 +1104,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-25.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1058,7 +1114,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-26'(_Config) ->
+'parse-ietf-date-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Tuesday, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1066,7 +1123,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1075,7 +1132,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-26.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1084,7 +1142,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-27'(_Config) ->
+'parse-ietf-date-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Thursday, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1092,7 +1151,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1101,7 +1160,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-27.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1110,7 +1170,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-28'(_Config) ->
+'parse-ietf-date-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"FRI, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1118,7 +1179,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1127,7 +1188,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-28.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1136,7 +1198,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-29'(_Config) ->
+'parse-ietf-date-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"SAT, 20 Aug 2014 19:36:01 GMT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1144,7 +1207,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1153,7 +1216,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-29.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1162,7 +1226,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-30'(_Config) ->
+'parse-ietf-date-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01 UT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1170,7 +1235,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1179,7 +1244,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-30.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1188,7 +1254,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-31'(_Config) ->
+'parse-ietf-date-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01 UTC\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1196,7 +1263,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1205,7 +1272,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-31.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1214,7 +1282,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-32'(_Config) ->
+'parse-ietf-date-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01 EST\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1222,7 +1291,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1231,7 +1300,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-32.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1240,7 +1310,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-33'(_Config) ->
+'parse-ietf-date-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 15:36:01 EDT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1248,7 +1319,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1257,7 +1328,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-33.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1266,7 +1338,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-34'(_Config) ->
+'parse-ietf-date-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 13:36:01 CST\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1274,7 +1347,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1283,7 +1356,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-34.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1292,7 +1366,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-35'(_Config) ->
+'parse-ietf-date-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01 CDT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1300,7 +1375,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1309,7 +1384,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-35.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1318,7 +1394,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-36'(_Config) ->
+'parse-ietf-date-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 12:36:01 MST\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1326,7 +1403,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1335,7 +1412,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-36.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1344,7 +1422,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-37'(_Config) ->
+'parse-ietf-date-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 13:36:01 MDT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1352,7 +1431,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1361,7 +1440,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-37.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1370,7 +1450,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-38'(_Config) ->
+'parse-ietf-date-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 11:36:01 PST\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1378,7 +1459,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1387,7 +1468,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-38.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1396,7 +1478,8 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-39'(_Config) ->
+'parse-ietf-date-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "if (parse-ietf-date(\"Wed, 20 Aug 2014 12:36:01 PDT\") = $d)
 	  then \"pass\"
 	  else \"fail\"",
@@ -1404,7 +1487,7 @@ environment('array-and-map') ->
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/fn/"}]},
+{'static-base-uri', []},
 {vars, [{"d","xs:dateTime","xs:dateTime('2014-08-20T19:36:01Z')"}]},
 {params, []},
 {namespaces, []},
@@ -1413,7 +1496,8 @@ environment('array-and-map') ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-39.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "pass") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1422,11 +1506,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-40'(_Config) ->
+'parse-ietf-date-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1435,11 +1521,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-41'(_Config) ->
+'parse-ietf-date-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"20 Aug 14 19:36:01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1456,11 +1544,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-42'(_Config) ->
+'parse-ietf-date-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01 -05:00(EST)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1477,11 +1567,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-43'(_Config) ->
+'parse-ietf-date-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01 -05:00(GMT)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1498,11 +1590,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-44'(_Config) ->
+'parse-ietf-date-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01 -05:00  (  EST  )\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1519,11 +1613,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-45'(_Config) ->
+'parse-ietf-date-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01-05:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1540,11 +1636,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-46'(_Config) ->
+'parse-ietf-date-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01-05\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1561,11 +1659,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-47'(_Config) ->
+'parse-ietf-date-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01-05:\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1582,11 +1682,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-48'(_Config) ->
+'parse-ietf-date-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01 -05\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1603,11 +1705,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-49'(_Config) ->
+'parse-ietf-date-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01 -0500\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1624,11 +1728,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-50'(_Config) ->
+'parse-ietf-date-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01 +0500\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1645,11 +1751,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-51'(_Config) ->
+'parse-ietf-date-51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01 +0500(EST)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1666,11 +1774,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-52'(_Config) ->
+'parse-ietf-date-52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 14:36:01+05\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1687,11 +1797,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-53'(_Config) ->
+'parse-ietf-date-53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 14:36:01 -05 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1708,11 +1820,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-54'(_Config) ->
+'parse-ietf-date-54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 14:36:01 -05:00 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1729,11 +1843,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-54a'(_Config) ->
+'parse-ietf-date-54a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 14:36:01 -05:00(EST) 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-54a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1750,11 +1866,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-55'(_Config) ->
+'parse-ietf-date-55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed Aug 20 19:36:01 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1771,11 +1889,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-56'(_Config) ->
+'parse-ietf-date-56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, Aug 20 14:36:01EST 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1792,11 +1912,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-57'(_Config) ->
+'parse-ietf-date-57'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed Aug 20 14:36:01-05:00 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1813,11 +1935,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-58'(_Config) ->
+'parse-ietf-date-58'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01 14\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-58.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1834,11 +1958,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-59'(_Config) ->
+'parse-ietf-date-59'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug-20 14:36:01-05(EST) 14\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-59.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1855,11 +1981,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-60'(_Config) ->
+'parse-ietf-date-60'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Feb-02 02:02-02: 02\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-60.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1876,11 +2004,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-61'(_Config) ->
+'parse-ietf-date-61'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 4:36:01 -5:00 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-61.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1897,11 +2027,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-62'(_Config) ->
+'parse-ietf-date-62'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 4:36:01 -500 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-62.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1918,11 +2050,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-63'(_Config) ->
+'parse-ietf-date-63'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 24:00:00 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-63.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1939,11 +2073,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-64'(_Config) ->
+'parse-ietf-date-64'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 24:00 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-64.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -1960,11 +2096,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs-0'(_Config) ->
+'parse-ietf-date-errs-0'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"2014-08-20T19:36:01Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs-0.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1973,11 +2111,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs2'(_Config) ->
+'parse-ietf-date-errs2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 020 Aug 2014 19:36:01 GMT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1986,11 +2126,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs3'(_Config) ->
+'parse-ietf-date-errs3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 August 2014 19:36:01 GMT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1999,11 +2141,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs4'(_Config) ->
+'parse-ietf-date-errs4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 114 19:36:01 GMT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2012,11 +2156,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs5'(_Config) ->
+'parse-ietf-date-errs5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 9:36:01 GMT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -2033,11 +2179,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs6'(_Config) ->
+'parse-ietf-date-errs6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01 CET\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2046,11 +2194,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs7'(_Config) ->
+'parse-ietf-date-errs7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Mon, 32 Aug 2014 19:36:01 GMT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2059,11 +2209,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs8'(_Config) ->
+'parse-ietf-date-errs8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Sat, 29 Feb 2014 19:36:01 GMT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2072,11 +2224,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs9'(_Config) ->
+'parse-ietf-date-errs9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Feb 28 19:36:01 GMT -2000\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2085,11 +2239,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs10'(_Config) ->
+'parse-ietf-date-errs10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 00 Aug 2014 19:36:01 GMT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2098,11 +2254,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs11'(_Config) ->
+'parse-ietf-date-errs11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Boy 20 Aug 2014 19:36:01 GMT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2111,11 +2269,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs12'(_Config) ->
+'parse-ietf-date-errs12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Manchester, 20 Aug 2014 19:36:01 GMT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2124,11 +2284,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs13'(_Config) ->
+'parse-ietf-date-errs13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug,20 19:36:01 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2137,11 +2299,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs14'(_Config) ->
+'parse-ietf-date-errs14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug20 19:36:01 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2150,11 +2314,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs15'(_Config) ->
+'parse-ietf-date-errs15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed,20 Aug 2014 19:36:01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2163,11 +2329,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs16'(_Config) ->
+'parse-ietf-date-errs16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 2014 19:36:01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2176,11 +2344,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs17'(_Config) ->
+'parse-ietf-date-errs17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"20Aug 2014 19:36:01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2189,11 +2359,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs18'(_Config) ->
+'parse-ietf-date-errs18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"20 Aug2014 19:36:01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2202,11 +2374,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs19'(_Config) ->
+'parse-ietf-date-errs19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01GMT2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2215,11 +2389,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs20'(_Config) ->
+'parse-ietf-date-errs20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01GMT Manchester\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2228,11 +2404,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs21'(_Config) ->
+'parse-ietf-date-errs21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01GMT 014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2241,11 +2419,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs22'(_Config) ->
+'parse-ietf-date-errs22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Wed, 20 Aug 2014 19:36:01 GMT Manchester\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2254,11 +2434,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs23'(_Config) ->
+'parse-ietf-date-errs23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19.36.01GMT 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2267,11 +2449,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs24'(_Config) ->
+'parse-ietf-date-errs24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:3:01GMT 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2280,11 +2464,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs25'(_Config) ->
+'parse-ietf-date-errs25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:0.1GMT 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2293,11 +2479,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs26'(_Config) ->
+'parse-ietf-date-errs26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:GMT 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2306,11 +2494,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs27'(_Config) ->
+'parse-ietf-date-errs27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01.GMT 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2319,11 +2509,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs28'(_Config) ->
+'parse-ietf-date-errs28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01 -5 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -2340,11 +2532,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs29'(_Config) ->
+'parse-ietf-date-errs29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01 -05:0 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2353,11 +2547,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs30'(_Config) ->
+'parse-ietf-date-errs30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01 -05:00 () 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2366,11 +2562,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs31'(_Config) ->
+'parse-ietf-date-errs31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01 -05:00 (CET) 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2379,11 +2577,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs32'(_Config) ->
+'parse-ietf-date-errs32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01 -05:00 EST 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2392,11 +2592,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs33'(_Config) ->
+'parse-ietf-date-errs33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36(EST) 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2405,11 +2607,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs34'(_Config) ->
+'parse-ietf-date-errs34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2418,11 +2622,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs35'(_Config) ->
+'parse-ietf-date-errs35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 29:36:01GMT 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2431,11 +2637,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs36'(_Config) ->
+'parse-ietf-date-errs36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:66:01GMT 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2444,11 +2652,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs37'(_Config) ->
+'parse-ietf-date-errs37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:71GMT 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2457,11 +2667,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs38'(_Config) ->
+'parse-ietf-date-errs38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01 -15:00 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2470,11 +2682,13 @@ environment('array-and-map') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'parse-ietf-date-errs39'(_Config) ->
+'parse-ietf-date-errs39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-ietf-date(\"Aug 20 19:36:01 -05:60 2014\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-ietf-date-errs39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0010") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

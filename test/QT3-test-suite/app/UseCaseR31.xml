@@ -22,6 +22,17 @@
    </environment>
 
     <environment name="json-docs">
+      <!-- znd added base-uri to find docs -->
+      <static-base-uri uri="http://www.w3.org/qt3/app/"/>
+      <!-- znd added missing doc -->
+      <source file="UseCaseR31/Wikipedia-Origami.xml"
+              uri="http://www.w3.org/qt3/app/UseCaseR31/Wikipedia-Origami.xml">
+          <created by="Zachary Dean" on="2017-12-08" />
+
+      </source>
+
+
+
       <resource file="UseCaseR31/mildred.json"
                 media-type="text/plain"
               encoding="utf-8"
@@ -81,7 +92,6 @@
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/incoming-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
-
       </resource>
 
    </environment>

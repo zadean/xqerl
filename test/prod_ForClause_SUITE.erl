@@ -194,9 +194,13 @@
 -export(['ForExprType073'/1]).
 -export(['K2-ForExprWith-1'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'ForExpr001',
    'ForExpr002',
@@ -387,97 +391,97 @@ all() -> [
    'ForExprType072',
    'ForExprType073',
    'K2-ForExprWith-1'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -489,60 +493,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -550,59 +554,61 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('fsx') ->
+environment('fsx',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ForClause/fsx.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "ForClause/fsx.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('fsx_NS2') ->
+environment('fsx_NS2',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ForClause/fsx_NS.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "ForClause/fsx_NS.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('orderData') ->
+environment('orderData',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/OrderByClause/orderData.xml",".",""}]},
-{schemas, [{"OrderByClause/orderData.xsd","http://www.w3.org/XQueryTestOrderBy"}]},
+{sources, [{filename:join(BaseDir, "OrderByClause/orderData.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "OrderByClause/orderData.xsd"),"http://www.w3.org/XQueryTestOrderBy"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('SpecialTypes') ->
+environment('SpecialTypes',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ForClause/SpecialTypes.xml",".",""}]},
-{schemas, [{"ForClause/SpecialTypes.xsd","http://www.example.com/typedecl"}]},
+{sources, [{filename:join(BaseDir, "ForClause/SpecialTypes.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "ForClause/SpecialTypes.xsd"),"http://www.example.com/typedecl"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'ForExpr001'(_Config) ->
+'ForExpr001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $a in (\"test\", \"test1\", \"test2\") return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "test test1 test2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -611,12 +617,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr002'(_Config) ->
+'ForExpr002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $folder in $folder/File return <file name=\"{$folder/File/FileName}\"/>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -625,12 +633,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr003'(_Config) ->
+'ForExpr003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $f in /MyComputer/Drive4/Folder[@id=\"128\"] return <FolderName>{$f/@name}</FolderName>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr003.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<FolderName name=\"Folder00000000047\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -639,12 +649,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr004'(_Config) ->
+'ForExpr004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $f in /MyComputer/Drive1/Folder[@creator=\"Mani\"]/File[@creation_date=\"08/06/00\"] return <file>{$f/../@creator}{$f/@creation_date}</file>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<file creator=\"Mani\" creation_date=\"08/06/00\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -653,12 +665,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr005'(_Config) ->
+'ForExpr005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $f in /MyComputer//File[@creation_date=\"08/06/00\"]/SecurityObject/Denies/Deny[security/right] return $f/../../@name/string()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr005.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "so00000000001") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -667,12 +681,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr006'(_Config) ->
+'ForExpr006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<fragment-result>{ for $folder in /MyComputer/Drive3/Folder ,$file in /MyComputer/Drive3/Folder/File return <Folder>{ $folder/@name, $folder/@id }<file>{ $file/@idref }{ data($file/@name) }</file> </Folder> }</fragment-result>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr006.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fragment-result><Folder name=\"Folder00000000017\" id=\"67\"><file idref=\"67\">File00000000047</file></Folder><Folder name=\"Folder00000000017\" id=\"67\"><file idref=\"97\">File00000000062</file></Folder><Folder name=\"Folder00000000032\" id=\"97\"><file idref=\"67\">File00000000047</file></Folder><Folder name=\"Folder00000000032\" id=\"97\"><file idref=\"97\">File00000000062</file></Folder></fragment-result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -681,12 +697,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr007'(_Config) ->
+'ForExpr007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $AaBbCc.-_Dd in /MyComputer/Drive1/Folder return $AaBbCc.-_Dd/FolderName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr007.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<FolderName>Folder00000000000</FolderName>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -695,12 +713,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr008'(_Config) ->
+'ForExpr008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $AaBbCc.-_Dd in /MyComputer/Drive1/Folder where $AaBbCc.-_Dd/@creator = \"Mani\" return $AaBbCc.-_Dd/FolderName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<FolderName>Folder00000000000</FolderName>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -709,11 +729,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr009'(_Config) ->
+'ForExpr009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $a in $a/* return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -722,12 +744,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr010'(_Config) ->
+'ForExpr010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $folder in //Folder for $file in $folder//File return <File folder=\"{$folder/FolderName}\">{string($file/FileName[1])}</File>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr010.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<File folder=\"Folder00000000000\">File00000000000</File><File folder=\"Folder00000000000\">File00000000001</File><File folder=\"Folder00000000000\">File00000000002</File><File folder=\"Folder00000000000\">File00000000003</File><File folder=\"Folder00000000000\">File00000000004</File><File folder=\"Folder00000000000\">File00000000005</File><File folder=\"Folder00000000000\">File00000000006</File><File folder=\"Folder00000000000\">File00000000007</File><File folder=\"Folder00000000000\">File00000000008</File><File folder=\"Folder00000000000\">File00000000009</File><File folder=\"Folder00000000000\">File00000000010</File><File folder=\"Folder00000000000\">File00000000011</File><File folder=\"Folder00000000000\">File00000000012</File><File folder=\"Folder00000000000\">File00000000013</File><File folder=\"Folder00000000000\">File00000000014</File><File folder=\"Folder00000000000\">File00000000015</File><File folder=\"Folder00000000000\">File00000000016</File><File folder=\"Folder00000000000\">File00000000017</File><File folder=\"Folder00000000000\">File00000000018</File><File folder=\"Folder00000000000\">File00000000019</File><File folder=\"Folder00000000000\">File00000000020</File><File folder=\"Folder00000000000\">File00000000021</File><File folder=\"Folder00000000000\">File00000000022</File><File folder=\"Folder00000000000\">File00000000023</File><File folder=\"Folder00000000000\">File00000000024</File><File folder=\"Folder00000000000\">File00000000025</File><File folder=\"Folder00000000000\">File00000000026</File><File folder=\"Folder00000000000\">File00000000027</File><File folder=\"Folder00000000000\">File00000000028</File><File folder=\"Folder00000000000\">File00000000029</File><File folder=\"Folder00000000000\">File00000000030</File><File folder=\"Folder00000000001\">File00000000031</File><File folder=\"Folder00000000001\">File00000000032</File><File folder=\"Folder00000000001\">File00000000033</File><File folder=\"Folder00000000001\">File00000000034</File><File folder=\"Folder00000000001\">File00000000035</File><File folder=\"Folder00000000001\">File00000000036</File><File folder=\"Folder00000000001\">File00000000037</File><File folder=\"Folder00000000001\">File00000000038</File><File folder=\"Folder00000000001\">File00000000039</File><File folder=\"Folder00000000001\">File00000000040</File><File folder=\"Folder00000000001\">File00000000041</File><File folder=\"Folder00000000001\">File00000000042</File><File folder=\"Folder00000000001\">File00000000043</File><File folder=\"Folder00000000001\">File00000000044</File><File folder=\"Folder00000000001\">File00000000045</File><File folder=\"Folder00000000001\">File00000000046</File><File folder=\"Folder00000000002\">File00000000032</File><File folder=\"Folder00000000002\">File00000000033</File><File folder=\"Folder00000000002\">File00000000034</File><File folder=\"Folder00000000002\">File00000000035</File><File folder=\"Folder00000000002\">File00000000036</File><File folder=\"Folder00000000002\">File00000000037</File><File folder=\"Folder00000000002\">File00000000038</File><File folder=\"Folder00000000002\">File00000000039</File><File folder=\"Folder00000000002\">File00000000040</File><File folder=\"Folder00000000002\">File00000000041</File><File folder=\"Folder00000000002\">File00000000042</File><File folder=\"Folder00000000002\">File00000000043</File><File folder=\"Folder00000000002\">File00000000044</File><File folder=\"Folder00000000002\">File00000000045</File><File folder=\"Folder00000000002\">File00000000046</File><File folder=\"Folder00000000003\">File00000000033</File><File folder=\"Folder00000000003\">File00000000034</File><File folder=\"Folder00000000003\">File00000000035</File><File folder=\"Folder00000000003\">File00000000036</File><File folder=\"Folder00000000003\">File00000000037</File><File folder=\"Folder00000000003\">File00000000038</File><File folder=\"Folder00000000003\">File00000000039</File><File folder=\"Folder00000000003\">File00000000040</File><File folder=\"Folder00000000003\">File00000000041</File><File folder=\"Folder00000000003\">File00000000042</File><File folder=\"Folder00000000003\">File00000000043</File><File folder=\"Folder00000000003\">File00000000044</File><File folder=\"Folder00000000003\">File00000000045</File><File folder=\"Folder00000000003\">File00000000046</File><File folder=\"Folder00000000004\">File00000000034</File><File folder=\"Folder00000000004\">File00000000035</File><File folder=\"Folder00000000004\">File00000000036</File><File folder=\"Folder00000000004\">File00000000037</File><File folder=\"Folder00000000004\">File00000000038</File><File folder=\"Folder00000000004\">File00000000039</File><File folder=\"Folder00000000004\">File00000000040</File><File folder=\"Folder00000000004\">File00000000041</File><File folder=\"Folder00000000004\">File00000000042</File><File folder=\"Folder00000000004\">File00000000043</File><File folder=\"Folder00000000004\">File00000000044</File><File folder=\"Folder00000000004\">File00000000045</File><File folder=\"Folder00000000004\">File00000000046</File><File folder=\"Folder00000000005\">File00000000035</File><File folder=\"Folder00000000005\">File00000000036</File><File folder=\"Folder00000000005\">File00000000037</File><File folder=\"Folder00000000005\">File00000000038</File><File folder=\"Folder00000000005\">File00000000039</File><File folder=\"Folder00000000005\">File00000000040</File><File folder=\"Folder00000000005\">File00000000041</File><File folder=\"Folder00000000005\">File00000000042</File><File folder=\"Folder00000000005\">File00000000043</File><File folder=\"Folder00000000005\">File00000000044</File><File folder=\"Folder00000000005\">File00000000045</File><File folder=\"Folder00000000005\">File00000000046</File><File folder=\"Folder00000000006\">File00000000036</File><File folder=\"Folder00000000006\">File00000000037</File><File folder=\"Folder00000000006\">File00000000038</File><File folder=\"Folder00000000006\">File00000000039</File><File folder=\"Folder00000000006\">File00000000040</File><File folder=\"Folder00000000006\">File00000000041</File><File folder=\"Folder00000000006\">File00000000042</File><File folder=\"Folder00000000006\">File00000000043</File><File folder=\"Folder00000000006\">File00000000044</File><File folder=\"Folder00000000006\">File00000000045</File><File folder=\"Folder00000000006\">File00000000046</File><File folder=\"Folder00000000007\">File00000000037</File><File folder=\"Folder00000000007\">File00000000038</File><File folder=\"Folder00000000007\">File00000000039</File><File folder=\"Folder00000000007\">File00000000040</File><File folder=\"Folder00000000007\">File00000000041</File><File folder=\"Folder00000000007\">File00000000042</File><File folder=\"Folder00000000007\">File00000000043</File><File folder=\"Folder00000000007\">File00000000044</File><File folder=\"Folder00000000007\">File00000000045</File><File folder=\"Folder00000000007\">File00000000046</File><File folder=\"Folder00000000008\">File00000000038</File><File folder=\"Folder00000000008\">File00000000039</File><File folder=\"Folder00000000008\">File00000000040</File><File folder=\"Folder00000000008\">File00000000041</File><File folder=\"Folder00000000008\">File00000000042</File><File folder=\"Folder00000000008\">File00000000043</File><File folder=\"Folder00000000008\">File00000000044</File><File folder=\"Folder00000000008\">File00000000045</File><File folder=\"Folder00000000008\">File00000000046</File><File folder=\"Folder00000000009\">File00000000039</File><File folder=\"Folder00000000009\">File00000000040</File><File folder=\"Folder00000000009\">File00000000041</File><File folder=\"Folder00000000009\">File00000000042</File><File folder=\"Folder00000000009\">File00000000043</File><File folder=\"Folder00000000009\">File00000000044</File><File folder=\"Folder00000000009\">File00000000045</File><File folder=\"Folder00000000009\">File00000000046</File><File folder=\"Folder00000000010\">File00000000040</File><File folder=\"Folder00000000010\">File00000000041</File><File folder=\"Folder00000000010\">File00000000042</File><File folder=\"Folder00000000010\">File00000000043</File><File folder=\"Folder00000000010\">File00000000044</File><File folder=\"Folder00000000010\">File00000000045</File><File folder=\"Folder00000000010\">File00000000046</File><File folder=\"Folder00000000011\">File00000000041</File><File folder=\"Folder00000000011\">File00000000042</File><File folder=\"Folder00000000011\">File00000000043</File><File folder=\"Folder00000000011\">File00000000044</File><File folder=\"Folder00000000011\">File00000000045</File><File folder=\"Folder00000000011\">File00000000046</File><File folder=\"Folder00000000012\">File00000000042</File><File folder=\"Folder00000000012\">File00000000043</File><File folder=\"Folder00000000012\">File00000000044</File><File folder=\"Folder00000000012\">File00000000045</File><File folder=\"Folder00000000012\">File00000000046</File><File folder=\"Folder00000000013\">File00000000043</File><File folder=\"Folder00000000013\">File00000000044</File><File folder=\"Folder00000000013\">File00000000045</File><File folder=\"Folder00000000013\">File00000000046</File><File folder=\"Folder00000000014\">File00000000044</File><File folder=\"Folder00000000014\">File00000000045</File><File folder=\"Folder00000000014\">File00000000046</File><File folder=\"Folder00000000015\">File00000000045</File><File folder=\"Folder00000000015\">File00000000046</File><File folder=\"Folder00000000016\">File00000000046</File><File folder=\"Folder00000000017\">File00000000047</File><File folder=\"Folder00000000017\">File00000000048</File><File folder=\"Folder00000000017\">File00000000049</File><File folder=\"Folder00000000017\">File00000000050</File><File folder=\"Folder00000000017\">File00000000051</File><File folder=\"Folder00000000017\">File00000000052</File><File folder=\"Folder00000000017\">File00000000053</File><File folder=\"Folder00000000017\">File00000000054</File><File folder=\"Folder00000000017\">File00000000055</File><File folder=\"Folder00000000017\">File00000000056</File><File folder=\"Folder00000000017\">File00000000057</File><File folder=\"Folder00000000017\">File00000000058</File><File folder=\"Folder00000000017\">File00000000059</File><File folder=\"Folder00000000017\">File00000000060</File><File folder=\"Folder00000000017\">File00000000061</File><File folder=\"Folder00000000018\">File00000000048</File><File folder=\"Folder00000000018\">File00000000049</File><File folder=\"Folder00000000018\">File00000000050</File><File folder=\"Folder00000000018\">File00000000051</File><File folder=\"Folder00000000018\">File00000000052</File><File folder=\"Folder00000000018\">File00000000053</File><File folder=\"Folder00000000018\">File00000000054</File><File folder=\"Folder00000000019\">File00000000049</File><File folder=\"Folder00000000019\">File00000000050</File><File folder=\"Folder00000000019\">File00000000051</File><File folder=\"Folder00000000020\">File00000000050</File><File folder=\"Folder00000000021\">File00000000051</File><File folder=\"Folder00000000022\">File00000000052</File><File folder=\"Folder00000000022\">File00000000053</File><File folder=\"Folder00000000022\">File00000000054</File><File folder=\"Folder00000000023\">File00000000053</File><File folder=\"Folder00000000024\">File00000000054</File><File folder=\"Folder00000000025\">File00000000055</File><File folder=\"Folder00000000025\">File00000000056</File><File folder=\"Folder00000000025\">File00000000057</File><File folder=\"Folder00000000025\">File00000000058</File><File folder=\"Folder00000000025\">File00000000059</File><File folder=\"Folder00000000025\">File00000000060</File><File folder=\"Folder00000000025\">File00000000061</File><File folder=\"Folder00000000026\">File00000000056</File><File folder=\"Folder00000000026\">File00000000057</File><File folder=\"Folder00000000026\">File00000000058</File><File folder=\"Folder00000000027\">File00000000057</File><File folder=\"Folder00000000028\">File00000000058</File><File folder=\"Folder00000000029\">File00000000059</File><File folder=\"Folder00000000029\">File00000000060</File><File folder=\"Folder00000000029\">File00000000061</File><File folder=\"Folder00000000030\">File00000000060</File><File folder=\"Folder00000000031\">File00000000061</File><File folder=\"Folder00000000032\">File00000000062</File><File folder=\"Folder00000000032\">File00000000063</File><File folder=\"Folder00000000032\">File00000000064</File><File folder=\"Folder00000000032\">File00000000065</File><File folder=\"Folder00000000032\">File00000000066</File><File folder=\"Folder00000000032\">File00000000067</File><File folder=\"Folder00000000032\">File00000000068</File><File folder=\"Folder00000000032\">File00000000069</File><File folder=\"Folder00000000032\">File00000000070</File><File folder=\"Folder00000000032\">File00000000071</File><File folder=\"Folder00000000032\">File00000000072</File><File folder=\"Folder00000000032\">File00000000073</File><File folder=\"Folder00000000032\">File00000000074</File><File folder=\"Folder00000000032\">File00000000075</File><File folder=\"Folder00000000032\">File00000000076</File><File folder=\"Folder00000000033\">File00000000063</File><File folder=\"Folder00000000033\">File00000000064</File><File folder=\"Folder00000000033\">File00000000065</File><File folder=\"Folder00000000033\">File00000000066</File><File folder=\"Folder00000000033\">File00000000067</File><File folder=\"Folder00000000033\">File00000000068</File><File folder=\"Folder00000000033\">File00000000069</File><File folder=\"Folder00000000034\">File00000000064</File><File folder=\"Folder00000000034\">File00000000065</File><File folder=\"Folder00000000034\">File00000000066</File><File folder=\"Folder00000000035\">File00000000065</File><File folder=\"Folder00000000036\">File00000000066</File><File folder=\"Folder00000000037\">File00000000067</File><File folder=\"Folder00000000037\">File00000000068</File><File folder=\"Folder00000000037\">File00000000069</File><File folder=\"Folder00000000038\">File00000000068</File><File folder=\"Folder00000000039\">File00000000069</File><File folder=\"Folder00000000040\">File00000000070</File><File folder=\"Folder00000000040\">File00000000071</File><File folder=\"Folder00000000040\">File00000000072</File><File folder=\"Folder00000000040\">File00000000073</File><File folder=\"Folder00000000040\">File00000000074</File><File folder=\"Folder00000000040\">File00000000075</File><File folder=\"Folder00000000040\">File00000000076</File><File folder=\"Folder00000000041\">File00000000071</File><File folder=\"Folder00000000041\">File00000000072</File><File folder=\"Folder00000000041\">File00000000073</File><File folder=\"Folder00000000042\">File00000000072</File><File folder=\"Folder00000000043\">File00000000073</File><File folder=\"Folder00000000044\">File00000000074</File><File folder=\"Folder00000000044\">File00000000075</File><File folder=\"Folder00000000044\">File00000000076</File><File folder=\"Folder00000000045\">File00000000075</File><File folder=\"Folder00000000046\">File00000000076</File><File folder=\"Folder00000000047\">File00000000077</File><File folder=\"Folder00000000047\">File00000000078</File><File folder=\"Folder00000000047\">File00000000079</File><File folder=\"Folder00000000047\">File00000000080</File><File folder=\"Folder00000000047\">File00000000081</File><File folder=\"Folder00000000047\">File00000000082</File><File folder=\"Folder00000000047\">File00000000083</File><File folder=\"Folder00000000047\">File00000000084</File><File folder=\"Folder00000000047\">File00000000085</File><File folder=\"Folder00000000047\">File00000000086</File><File folder=\"Folder00000000047\">File00000000087</File><File folder=\"Folder00000000047\">File00000000088</File><File folder=\"Folder00000000047\">File00000000089</File><File folder=\"Folder00000000047\">File00000000090</File><File folder=\"Folder00000000047\">File00000000091</File><File folder=\"Folder00000000047\">File00000000092</File><File folder=\"Folder00000000047\">File00000000093</File><File folder=\"Folder00000000047\">File00000000094</File><File folder=\"Folder00000000047\">File00000000095</File><File folder=\"Folder00000000047\">File00000000096</File><File folder=\"Folder00000000047\">File00000000097</File><File folder=\"Folder00000000047\">File00000000098</File><File folder=\"Folder00000000047\">File00000000099</File><File folder=\"Folder00000000047\">File00000000100</File><File folder=\"Folder00000000048\">File00000000077</File><File folder=\"Folder00000000048\">File00000000078</File><File folder=\"Folder00000000048\">File00000000079</File><File folder=\"Folder00000000048\">File00000000080</File><File folder=\"Folder00000000048\">File00000000081</File><File folder=\"Folder00000000049\">File00000000082</File><File folder=\"Folder00000000049\">File00000000083</File><File folder=\"Folder00000000049\">File00000000084</File><File folder=\"Folder00000000049\">File00000000085</File><File folder=\"Folder00000000049\">File00000000086</File><File folder=\"Folder00000000050\">File00000000087</File><File folder=\"Folder00000000050\">File00000000088</File><File folder=\"Folder00000000051\">File00000000089</File><File folder=\"Folder00000000051\">File00000000090</File><File folder=\"Folder00000000051\">File00000000091</File><File folder=\"Folder00000000051\">File00000000092</File><File folder=\"Folder00000000051\">File00000000093</File><File folder=\"Folder00000000051\">File00000000094</File><File folder=\"Folder00000000052\">File00000000095</File><File folder=\"Folder00000000052\">File00000000096</File><File folder=\"Folder00000000053\">File00000000097</File><File folder=\"Folder00000000053\">File00000000098</File><File folder=\"Folder00000000053\">File00000000099</File><File folder=\"Folder00000000054\">File00000000100</File>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -736,12 +760,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr011'(_Config) ->
+'ForExpr011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $folder in //Folder, $file in $folder//File return <File folder=\"{$folder/FolderName}\">{string($file/FileName[1])}</File>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr011.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<File folder=\"Folder00000000000\">File00000000000</File><File folder=\"Folder00000000000\">File00000000001</File><File folder=\"Folder00000000000\">File00000000002</File><File folder=\"Folder00000000000\">File00000000003</File><File folder=\"Folder00000000000\">File00000000004</File><File folder=\"Folder00000000000\">File00000000005</File><File folder=\"Folder00000000000\">File00000000006</File><File folder=\"Folder00000000000\">File00000000007</File><File folder=\"Folder00000000000\">File00000000008</File><File folder=\"Folder00000000000\">File00000000009</File><File folder=\"Folder00000000000\">File00000000010</File><File folder=\"Folder00000000000\">File00000000011</File><File folder=\"Folder00000000000\">File00000000012</File><File folder=\"Folder00000000000\">File00000000013</File><File folder=\"Folder00000000000\">File00000000014</File><File folder=\"Folder00000000000\">File00000000015</File><File folder=\"Folder00000000000\">File00000000016</File><File folder=\"Folder00000000000\">File00000000017</File><File folder=\"Folder00000000000\">File00000000018</File><File folder=\"Folder00000000000\">File00000000019</File><File folder=\"Folder00000000000\">File00000000020</File><File folder=\"Folder00000000000\">File00000000021</File><File folder=\"Folder00000000000\">File00000000022</File><File folder=\"Folder00000000000\">File00000000023</File><File folder=\"Folder00000000000\">File00000000024</File><File folder=\"Folder00000000000\">File00000000025</File><File folder=\"Folder00000000000\">File00000000026</File><File folder=\"Folder00000000000\">File00000000027</File><File folder=\"Folder00000000000\">File00000000028</File><File folder=\"Folder00000000000\">File00000000029</File><File folder=\"Folder00000000000\">File00000000030</File><File folder=\"Folder00000000001\">File00000000031</File><File folder=\"Folder00000000001\">File00000000032</File><File folder=\"Folder00000000001\">File00000000033</File><File folder=\"Folder00000000001\">File00000000034</File><File folder=\"Folder00000000001\">File00000000035</File><File folder=\"Folder00000000001\">File00000000036</File><File folder=\"Folder00000000001\">File00000000037</File><File folder=\"Folder00000000001\">File00000000038</File><File folder=\"Folder00000000001\">File00000000039</File><File folder=\"Folder00000000001\">File00000000040</File><File folder=\"Folder00000000001\">File00000000041</File><File folder=\"Folder00000000001\">File00000000042</File><File folder=\"Folder00000000001\">File00000000043</File><File folder=\"Folder00000000001\">File00000000044</File><File folder=\"Folder00000000001\">File00000000045</File><File folder=\"Folder00000000001\">File00000000046</File><File folder=\"Folder00000000002\">File00000000032</File><File folder=\"Folder00000000002\">File00000000033</File><File folder=\"Folder00000000002\">File00000000034</File><File folder=\"Folder00000000002\">File00000000035</File><File folder=\"Folder00000000002\">File00000000036</File><File folder=\"Folder00000000002\">File00000000037</File><File folder=\"Folder00000000002\">File00000000038</File><File folder=\"Folder00000000002\">File00000000039</File><File folder=\"Folder00000000002\">File00000000040</File><File folder=\"Folder00000000002\">File00000000041</File><File folder=\"Folder00000000002\">File00000000042</File><File folder=\"Folder00000000002\">File00000000043</File><File folder=\"Folder00000000002\">File00000000044</File><File folder=\"Folder00000000002\">File00000000045</File><File folder=\"Folder00000000002\">File00000000046</File><File folder=\"Folder00000000003\">File00000000033</File><File folder=\"Folder00000000003\">File00000000034</File><File folder=\"Folder00000000003\">File00000000035</File><File folder=\"Folder00000000003\">File00000000036</File><File folder=\"Folder00000000003\">File00000000037</File><File folder=\"Folder00000000003\">File00000000038</File><File folder=\"Folder00000000003\">File00000000039</File><File folder=\"Folder00000000003\">File00000000040</File><File folder=\"Folder00000000003\">File00000000041</File><File folder=\"Folder00000000003\">File00000000042</File><File folder=\"Folder00000000003\">File00000000043</File><File folder=\"Folder00000000003\">File00000000044</File><File folder=\"Folder00000000003\">File00000000045</File><File folder=\"Folder00000000003\">File00000000046</File><File folder=\"Folder00000000004\">File00000000034</File><File folder=\"Folder00000000004\">File00000000035</File><File folder=\"Folder00000000004\">File00000000036</File><File folder=\"Folder00000000004\">File00000000037</File><File folder=\"Folder00000000004\">File00000000038</File><File folder=\"Folder00000000004\">File00000000039</File><File folder=\"Folder00000000004\">File00000000040</File><File folder=\"Folder00000000004\">File00000000041</File><File folder=\"Folder00000000004\">File00000000042</File><File folder=\"Folder00000000004\">File00000000043</File><File folder=\"Folder00000000004\">File00000000044</File><File folder=\"Folder00000000004\">File00000000045</File><File folder=\"Folder00000000004\">File00000000046</File><File folder=\"Folder00000000005\">File00000000035</File><File folder=\"Folder00000000005\">File00000000036</File><File folder=\"Folder00000000005\">File00000000037</File><File folder=\"Folder00000000005\">File00000000038</File><File folder=\"Folder00000000005\">File00000000039</File><File folder=\"Folder00000000005\">File00000000040</File><File folder=\"Folder00000000005\">File00000000041</File><File folder=\"Folder00000000005\">File00000000042</File><File folder=\"Folder00000000005\">File00000000043</File><File folder=\"Folder00000000005\">File00000000044</File><File folder=\"Folder00000000005\">File00000000045</File><File folder=\"Folder00000000005\">File00000000046</File><File folder=\"Folder00000000006\">File00000000036</File><File folder=\"Folder00000000006\">File00000000037</File><File folder=\"Folder00000000006\">File00000000038</File><File folder=\"Folder00000000006\">File00000000039</File><File folder=\"Folder00000000006\">File00000000040</File><File folder=\"Folder00000000006\">File00000000041</File><File folder=\"Folder00000000006\">File00000000042</File><File folder=\"Folder00000000006\">File00000000043</File><File folder=\"Folder00000000006\">File00000000044</File><File folder=\"Folder00000000006\">File00000000045</File><File folder=\"Folder00000000006\">File00000000046</File><File folder=\"Folder00000000007\">File00000000037</File><File folder=\"Folder00000000007\">File00000000038</File><File folder=\"Folder00000000007\">File00000000039</File><File folder=\"Folder00000000007\">File00000000040</File><File folder=\"Folder00000000007\">File00000000041</File><File folder=\"Folder00000000007\">File00000000042</File><File folder=\"Folder00000000007\">File00000000043</File><File folder=\"Folder00000000007\">File00000000044</File><File folder=\"Folder00000000007\">File00000000045</File><File folder=\"Folder00000000007\">File00000000046</File><File folder=\"Folder00000000008\">File00000000038</File><File folder=\"Folder00000000008\">File00000000039</File><File folder=\"Folder00000000008\">File00000000040</File><File folder=\"Folder00000000008\">File00000000041</File><File folder=\"Folder00000000008\">File00000000042</File><File folder=\"Folder00000000008\">File00000000043</File><File folder=\"Folder00000000008\">File00000000044</File><File folder=\"Folder00000000008\">File00000000045</File><File folder=\"Folder00000000008\">File00000000046</File><File folder=\"Folder00000000009\">File00000000039</File><File folder=\"Folder00000000009\">File00000000040</File><File folder=\"Folder00000000009\">File00000000041</File><File folder=\"Folder00000000009\">File00000000042</File><File folder=\"Folder00000000009\">File00000000043</File><File folder=\"Folder00000000009\">File00000000044</File><File folder=\"Folder00000000009\">File00000000045</File><File folder=\"Folder00000000009\">File00000000046</File><File folder=\"Folder00000000010\">File00000000040</File><File folder=\"Folder00000000010\">File00000000041</File><File folder=\"Folder00000000010\">File00000000042</File><File folder=\"Folder00000000010\">File00000000043</File><File folder=\"Folder00000000010\">File00000000044</File><File folder=\"Folder00000000010\">File00000000045</File><File folder=\"Folder00000000010\">File00000000046</File><File folder=\"Folder00000000011\">File00000000041</File><File folder=\"Folder00000000011\">File00000000042</File><File folder=\"Folder00000000011\">File00000000043</File><File folder=\"Folder00000000011\">File00000000044</File><File folder=\"Folder00000000011\">File00000000045</File><File folder=\"Folder00000000011\">File00000000046</File><File folder=\"Folder00000000012\">File00000000042</File><File folder=\"Folder00000000012\">File00000000043</File><File folder=\"Folder00000000012\">File00000000044</File><File folder=\"Folder00000000012\">File00000000045</File><File folder=\"Folder00000000012\">File00000000046</File><File folder=\"Folder00000000013\">File00000000043</File><File folder=\"Folder00000000013\">File00000000044</File><File folder=\"Folder00000000013\">File00000000045</File><File folder=\"Folder00000000013\">File00000000046</File><File folder=\"Folder00000000014\">File00000000044</File><File folder=\"Folder00000000014\">File00000000045</File><File folder=\"Folder00000000014\">File00000000046</File><File folder=\"Folder00000000015\">File00000000045</File><File folder=\"Folder00000000015\">File00000000046</File><File folder=\"Folder00000000016\">File00000000046</File><File folder=\"Folder00000000017\">File00000000047</File><File folder=\"Folder00000000017\">File00000000048</File><File folder=\"Folder00000000017\">File00000000049</File><File folder=\"Folder00000000017\">File00000000050</File><File folder=\"Folder00000000017\">File00000000051</File><File folder=\"Folder00000000017\">File00000000052</File><File folder=\"Folder00000000017\">File00000000053</File><File folder=\"Folder00000000017\">File00000000054</File><File folder=\"Folder00000000017\">File00000000055</File><File folder=\"Folder00000000017\">File00000000056</File><File folder=\"Folder00000000017\">File00000000057</File><File folder=\"Folder00000000017\">File00000000058</File><File folder=\"Folder00000000017\">File00000000059</File><File folder=\"Folder00000000017\">File00000000060</File><File folder=\"Folder00000000017\">File00000000061</File><File folder=\"Folder00000000018\">File00000000048</File><File folder=\"Folder00000000018\">File00000000049</File><File folder=\"Folder00000000018\">File00000000050</File><File folder=\"Folder00000000018\">File00000000051</File><File folder=\"Folder00000000018\">File00000000052</File><File folder=\"Folder00000000018\">File00000000053</File><File folder=\"Folder00000000018\">File00000000054</File><File folder=\"Folder00000000019\">File00000000049</File><File folder=\"Folder00000000019\">File00000000050</File><File folder=\"Folder00000000019\">File00000000051</File><File folder=\"Folder00000000020\">File00000000050</File><File folder=\"Folder00000000021\">File00000000051</File><File folder=\"Folder00000000022\">File00000000052</File><File folder=\"Folder00000000022\">File00000000053</File><File folder=\"Folder00000000022\">File00000000054</File><File folder=\"Folder00000000023\">File00000000053</File><File folder=\"Folder00000000024\">File00000000054</File><File folder=\"Folder00000000025\">File00000000055</File><File folder=\"Folder00000000025\">File00000000056</File><File folder=\"Folder00000000025\">File00000000057</File><File folder=\"Folder00000000025\">File00000000058</File><File folder=\"Folder00000000025\">File00000000059</File><File folder=\"Folder00000000025\">File00000000060</File><File folder=\"Folder00000000025\">File00000000061</File><File folder=\"Folder00000000026\">File00000000056</File><File folder=\"Folder00000000026\">File00000000057</File><File folder=\"Folder00000000026\">File00000000058</File><File folder=\"Folder00000000027\">File00000000057</File><File folder=\"Folder00000000028\">File00000000058</File><File folder=\"Folder00000000029\">File00000000059</File><File folder=\"Folder00000000029\">File00000000060</File><File folder=\"Folder00000000029\">File00000000061</File><File folder=\"Folder00000000030\">File00000000060</File><File folder=\"Folder00000000031\">File00000000061</File><File folder=\"Folder00000000032\">File00000000062</File><File folder=\"Folder00000000032\">File00000000063</File><File folder=\"Folder00000000032\">File00000000064</File><File folder=\"Folder00000000032\">File00000000065</File><File folder=\"Folder00000000032\">File00000000066</File><File folder=\"Folder00000000032\">File00000000067</File><File folder=\"Folder00000000032\">File00000000068</File><File folder=\"Folder00000000032\">File00000000069</File><File folder=\"Folder00000000032\">File00000000070</File><File folder=\"Folder00000000032\">File00000000071</File><File folder=\"Folder00000000032\">File00000000072</File><File folder=\"Folder00000000032\">File00000000073</File><File folder=\"Folder00000000032\">File00000000074</File><File folder=\"Folder00000000032\">File00000000075</File><File folder=\"Folder00000000032\">File00000000076</File><File folder=\"Folder00000000033\">File00000000063</File><File folder=\"Folder00000000033\">File00000000064</File><File folder=\"Folder00000000033\">File00000000065</File><File folder=\"Folder00000000033\">File00000000066</File><File folder=\"Folder00000000033\">File00000000067</File><File folder=\"Folder00000000033\">File00000000068</File><File folder=\"Folder00000000033\">File00000000069</File><File folder=\"Folder00000000034\">File00000000064</File><File folder=\"Folder00000000034\">File00000000065</File><File folder=\"Folder00000000034\">File00000000066</File><File folder=\"Folder00000000035\">File00000000065</File><File folder=\"Folder00000000036\">File00000000066</File><File folder=\"Folder00000000037\">File00000000067</File><File folder=\"Folder00000000037\">File00000000068</File><File folder=\"Folder00000000037\">File00000000069</File><File folder=\"Folder00000000038\">File00000000068</File><File folder=\"Folder00000000039\">File00000000069</File><File folder=\"Folder00000000040\">File00000000070</File><File folder=\"Folder00000000040\">File00000000071</File><File folder=\"Folder00000000040\">File00000000072</File><File folder=\"Folder00000000040\">File00000000073</File><File folder=\"Folder00000000040\">File00000000074</File><File folder=\"Folder00000000040\">File00000000075</File><File folder=\"Folder00000000040\">File00000000076</File><File folder=\"Folder00000000041\">File00000000071</File><File folder=\"Folder00000000041\">File00000000072</File><File folder=\"Folder00000000041\">File00000000073</File><File folder=\"Folder00000000042\">File00000000072</File><File folder=\"Folder00000000043\">File00000000073</File><File folder=\"Folder00000000044\">File00000000074</File><File folder=\"Folder00000000044\">File00000000075</File><File folder=\"Folder00000000044\">File00000000076</File><File folder=\"Folder00000000045\">File00000000075</File><File folder=\"Folder00000000046\">File00000000076</File><File folder=\"Folder00000000047\">File00000000077</File><File folder=\"Folder00000000047\">File00000000078</File><File folder=\"Folder00000000047\">File00000000079</File><File folder=\"Folder00000000047\">File00000000080</File><File folder=\"Folder00000000047\">File00000000081</File><File folder=\"Folder00000000047\">File00000000082</File><File folder=\"Folder00000000047\">File00000000083</File><File folder=\"Folder00000000047\">File00000000084</File><File folder=\"Folder00000000047\">File00000000085</File><File folder=\"Folder00000000047\">File00000000086</File><File folder=\"Folder00000000047\">File00000000087</File><File folder=\"Folder00000000047\">File00000000088</File><File folder=\"Folder00000000047\">File00000000089</File><File folder=\"Folder00000000047\">File00000000090</File><File folder=\"Folder00000000047\">File00000000091</File><File folder=\"Folder00000000047\">File00000000092</File><File folder=\"Folder00000000047\">File00000000093</File><File folder=\"Folder00000000047\">File00000000094</File><File folder=\"Folder00000000047\">File00000000095</File><File folder=\"Folder00000000047\">File00000000096</File><File folder=\"Folder00000000047\">File00000000097</File><File folder=\"Folder00000000047\">File00000000098</File><File folder=\"Folder00000000047\">File00000000099</File><File folder=\"Folder00000000047\">File00000000100</File><File folder=\"Folder00000000048\">File00000000077</File><File folder=\"Folder00000000048\">File00000000078</File><File folder=\"Folder00000000048\">File00000000079</File><File folder=\"Folder00000000048\">File00000000080</File><File folder=\"Folder00000000048\">File00000000081</File><File folder=\"Folder00000000049\">File00000000082</File><File folder=\"Folder00000000049\">File00000000083</File><File folder=\"Folder00000000049\">File00000000084</File><File folder=\"Folder00000000049\">File00000000085</File><File folder=\"Folder00000000049\">File00000000086</File><File folder=\"Folder00000000050\">File00000000087</File><File folder=\"Folder00000000050\">File00000000088</File><File folder=\"Folder00000000051\">File00000000089</File><File folder=\"Folder00000000051\">File00000000090</File><File folder=\"Folder00000000051\">File00000000091</File><File folder=\"Folder00000000051\">File00000000092</File><File folder=\"Folder00000000051\">File00000000093</File><File folder=\"Folder00000000051\">File00000000094</File><File folder=\"Folder00000000052\">File00000000095</File><File folder=\"Folder00000000052\">File00000000096</File><File folder=\"Folder00000000053\">File00000000097</File><File folder=\"Folder00000000053\">File00000000098</File><File folder=\"Folder00000000053\">File00000000099</File><File folder=\"Folder00000000054\">File00000000100</File>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -750,12 +776,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr012'(_Config) ->
+'ForExpr012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $fileName in for $file in //Folder/File return $file/FileName return string( $fileName )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr012.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030 File00000000031 File00000000032 File00000000033 File00000000034 File00000000035 File00000000036 File00000000037 File00000000038 File00000000039 File00000000040 File00000000041 File00000000042 File00000000043 File00000000044 File00000000045 File00000000046 File00000000047 File00000000048 File00000000049 File00000000050 File00000000051 File00000000052 File00000000053 File00000000054 File00000000055 File00000000056 File00000000057 File00000000058 File00000000059 File00000000060 File00000000061 File00000000062 File00000000063 File00000000064 File00000000065 File00000000066 File00000000067 File00000000068 File00000000069 File00000000070 File00000000071 File00000000072 File00000000073 File00000000074 File00000000075 File00000000076 File00000000077 File00000000078 File00000000079 File00000000080 File00000000081 File00000000082 File00000000083 File00000000084 File00000000085 File00000000086 File00000000087 File00000000088 File00000000089 File00000000090 File00000000091 File00000000092 File00000000093 File00000000094 File00000000095 File00000000096 File00000000097 File00000000098 File00000000099 File00000000100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -764,16 +792,18 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr013'(_Config) ->
+'ForExpr013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $fileName in //File/FileName, 
             $folderName in //Folder[contains(description, 'fren')]/FolderName 
         return ($folderName, $fileName)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, "file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/ForClause/ForExpr-013.out"}) of 
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr013.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "ForClause/ForExpr-013.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
@@ -781,12 +811,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr014'(_Config) ->
+'ForExpr014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $fileName in //File/FileName for $folderName in //Folder/FolderName return $folderName return $fileName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr014.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -795,12 +827,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr015'(_Config) ->
+'ForExpr015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $folder in //Folder return for $file in $folder/File return string( $file/FileName[1] )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr015.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030 File00000000031 File00000000032 File00000000033 File00000000034 File00000000035 File00000000036 File00000000037 File00000000038 File00000000039 File00000000040 File00000000041 File00000000042 File00000000043 File00000000044 File00000000045 File00000000046 File00000000047 File00000000048 File00000000049 File00000000050 File00000000051 File00000000052 File00000000053 File00000000054 File00000000055 File00000000056 File00000000057 File00000000058 File00000000059 File00000000060 File00000000061 File00000000062 File00000000063 File00000000064 File00000000065 File00000000066 File00000000067 File00000000068 File00000000069 File00000000070 File00000000071 File00000000072 File00000000073 File00000000074 File00000000075 File00000000076 File00000000077 File00000000078 File00000000079 File00000000080 File00000000081 File00000000082 File00000000083 File00000000084 File00000000085 File00000000086 File00000000087 File00000000088 File00000000089 File00000000090 File00000000091 File00000000092 File00000000093 File00000000094 File00000000095 File00000000096 File00000000097 File00000000098 File00000000099 File00000000100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -809,12 +843,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr016'(_Config) ->
+'ForExpr016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $folder in //Folder, $index in (1, 2, 3) return $folder/File[$index]/FileName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr016.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000031</FileName><FileName>File00000000032</FileName><FileName>File00000000033</FileName><FileName>File00000000034</FileName><FileName>File00000000035</FileName><FileName>File00000000036</FileName><FileName>File00000000037</FileName><FileName>File00000000038</FileName><FileName>File00000000039</FileName><FileName>File00000000040</FileName><FileName>File00000000041</FileName><FileName>File00000000042</FileName><FileName>File00000000043</FileName><FileName>File00000000044</FileName><FileName>File00000000045</FileName><FileName>File00000000046</FileName><FileName>File00000000047</FileName><FileName>File00000000048</FileName><FileName>File00000000049</FileName><FileName>File00000000050</FileName><FileName>File00000000051</FileName><FileName>File00000000052</FileName><FileName>File00000000053</FileName><FileName>File00000000054</FileName><FileName>File00000000055</FileName><FileName>File00000000056</FileName><FileName>File00000000057</FileName><FileName>File00000000058</FileName><FileName>File00000000059</FileName><FileName>File00000000060</FileName><FileName>File00000000061</FileName><FileName>File00000000062</FileName><FileName>File00000000063</FileName><FileName>File00000000064</FileName><FileName>File00000000065</FileName><FileName>File00000000066</FileName><FileName>File00000000067</FileName><FileName>File00000000068</FileName><FileName>File00000000069</FileName><FileName>File00000000070</FileName><FileName>File00000000071</FileName><FileName>File00000000072</FileName><FileName>File00000000073</FileName><FileName>File00000000074</FileName><FileName>File00000000075</FileName><FileName>File00000000076</FileName><FileName>File00000000077</FileName><FileName>File00000000078</FileName><FileName>File00000000079</FileName><FileName>File00000000082</FileName><FileName>File00000000083</FileName><FileName>File00000000084</FileName><FileName>File00000000087</FileName><FileName>File00000000088</FileName><FileName>File00000000089</FileName><FileName>File00000000090</FileName><FileName>File00000000091</FileName><FileName>File00000000095</FileName><FileName>File00000000096</FileName><FileName>File00000000097</FileName><FileName>File00000000098</FileName><FileName>File00000000099</FileName><FileName>File00000000100</FileName>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -823,12 +859,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr017'(_Config) ->
+'ForExpr017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $folder in //Folder return $folder return $folder",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr017.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -837,12 +875,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr018'(_Config) ->
+'ForExpr018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $folder in in .//Folder return $folder",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr018.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -851,12 +891,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr019'(_Config) ->
+'ForExpr019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for for $folder in //Folder return $folder",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr019.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -865,12 +907,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr020'(_Config) ->
+'ForExpr020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $folder in //Folder, $file in $folder/File, return $file/FileName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr020.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -879,12 +923,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr021'(_Config) ->
+'ForExpr021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $i in (1, 2), $j in (3, 4) return ($i, $j)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr021.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 3 1 4 2 3 2 4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -893,12 +939,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr022'(_Config) ->
+'ForExpr022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $file at $pos in (//Folder)[1]/File return (string($file/FileName[1]), $pos)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr022.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "File00000000000 1 File00000000001 2 File00000000002 3 File00000000003 4 File00000000004 5 File00000000005 6 File00000000006 7 File00000000007 8 File00000000008 9 File00000000009 10 File00000000010 11 File00000000011 12 File00000000012 13 File00000000013 14 File00000000014 15 File00000000015 16 File00000000016 17 File00000000017 18 File00000000018 19 File00000000019 20 File00000000020 21 File00000000021 22 File00000000022 23 File00000000023 24 File00000000024 25 File00000000025 26 File00000000026 27 File00000000027 28 File00000000028 29 File00000000029 30 File00000000030 31") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -907,12 +955,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr023'(_Config) ->
+'ForExpr023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $file at $pos in (//Folder)[1]/File, $pos2 in $pos+1 return (string($file/FileName[1]), $pos, $pos2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr023.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "File00000000000 1 2 File00000000001 2 3 File00000000002 3 4 File00000000003 4 5 File00000000004 5 6 File00000000005 6 7 File00000000006 7 8 File00000000007 8 9 File00000000008 9 10 File00000000009 10 11 File00000000010 11 12 File00000000011 12 13 File00000000012 13 14 File00000000013 14 15 File00000000014 15 16 File00000000015 16 17 File00000000016 17 18 File00000000017 18 19 File00000000018 19 20 File00000000019 20 21 File00000000020 21 22 File00000000021 22 23 File00000000022 23 24 File00000000023 24 25 File00000000024 25 26 File00000000025 26 27 File00000000026 27 28 File00000000027 28 29 File00000000028 29 30 File00000000029 30 31 File00000000030 31 32") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -921,12 +971,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr024'(_Config) ->
+'ForExpr024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $file at $file in (//Folder)[1]/File return (string($file/FileName[1]), $file)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr024.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0089") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -935,12 +987,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr025'(_Config) ->
+'ForExpr025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File, $file in (//Folder)[2]/File return $file/FileName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr025.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName><FileName>File00000000031</FileName>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -949,12 +1003,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr026'(_Config) ->
+'ForExpr026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $file (//Folder)[1]/File return $file/FileName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr026.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -963,12 +1019,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr027'(_Config) ->
+'ForExpr027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File at $pos return (string($file/FileName[1]), $pos)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr027.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -977,12 +1035,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr028'(_Config) ->
+'ForExpr028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $num in ( <one/>, <two/>, <three/> ) return $num",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr028.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<one/><two/><three/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -991,11 +1051,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr029'(_Config) ->
+'ForExpr029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $var in (1,2) for $var in (2,2) return $var * $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4 4 4 4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1004,11 +1066,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr030'(_Config) ->
+'ForExpr030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $var in (1,2), $var in (2,2) return $var * $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4 4 4 4") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1017,11 +1081,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr031'(_Config) ->
+'ForExpr031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $var at $var in (1, 2) return $var * $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0089") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1030,7 +1096,8 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExpr032'(_Config) ->
+'ForExpr032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare variable $j external := 1;
          for $x at $i in (2, 3)
@@ -1039,7 +1106,8 @@ environment('SpecialTypes') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExpr032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1048,11 +1116,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-1'(_Config) ->
+'K-ForExprWithout-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $foo in 1, $bar in 2, $moo in 3, return 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1061,11 +1131,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-2'(_Config) ->
+'K-ForExprWithout-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for in 1 return 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1074,11 +1146,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-3'(_Config) ->
+'K-ForExprWithout-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for return 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1087,11 +1161,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-4'(_Config) ->
+'K-ForExprWithout-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $a in 1 satisfies 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1100,11 +1176,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-5'(_Config) ->
+'K-ForExprWithout-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal(1 to 5, (for $i in (1,2,3,4,5) return $i))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1113,11 +1191,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-6'(_Config) ->
+'K-ForExprWithout-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 eq (for $foo in 1 return 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1126,11 +1206,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-7'(_Config) ->
+'K-ForExprWithout-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 eq (for $foo in 1 return $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1139,11 +1221,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-8'(_Config) ->
+'K-ForExprWithout-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "2 eq (for $foo in 1 return $foo + 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1152,11 +1236,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-9'(_Config) ->
+'K-ForExprWithout-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 eq (for $foo in 1 return for $foo in 3 return $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1165,11 +1251,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-10'(_Config) ->
+'K-ForExprWithout-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal((for $var in (1, 2, 3) return $var), (1, 2, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1178,11 +1266,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-11'(_Config) ->
+'K-ForExprWithout-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal((2, 2), (for $foo in (1, 1) return 1 + $foo))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1191,11 +1281,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-12'(_Config) ->
+'K-ForExprWithout-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "4 eq (for $foo in 1, $bar in 2, $moo in 3 return 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1204,11 +1296,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-13'(_Config) ->
+'K-ForExprWithout-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 eq (for $foo in 1 return for $bar in 2 return $bar + $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1217,11 +1311,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-14'(_Config) ->
+'K-ForExprWithout-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 eq (for $foo in 1 return for $bar in 2 return $bar + $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1230,11 +1326,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-15'(_Config) ->
+'K-ForExprWithout-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "3 eq (for $foo in 1, $foo in 3 return $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1243,11 +1341,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-16'(_Config) ->
+'K-ForExprWithout-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "8 eq (for $foo in 1, $foo in 3, $moo in 5 return $moo + $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1256,11 +1356,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-17'(_Config) ->
+'K-ForExprWithout-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "6 eq (for $foo in 1, $foo in 3 return $foo + $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1269,11 +1371,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-18'(_Config) ->
+'K-ForExprWithout-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(for $var in () return current-time())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1290,11 +1394,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-19'(_Config) ->
+'K-ForExprWithout-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(for $var in () return 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1311,11 +1417,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-20'(_Config) ->
+'K-ForExprWithout-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty((for $var in () return current-time()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1332,11 +1440,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-21'(_Config) ->
+'K-ForExprWithout-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty((for $var in () return 1) eq 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1353,11 +1463,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-22'(_Config) ->
+'K-ForExprWithout-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "empty(for $var in subsequence((current-time(), 1), 4) return 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1366,11 +1478,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-23'(_Config) ->
+'K-ForExprWithout-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal(remove(for $var in (current-time(), 2, 3, 4) return $var, 1), (2, 3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1379,11 +1493,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-24'(_Config) ->
+'K-ForExprWithout-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(for $fn:name in (1, 1) return $fn:name) instance of xs:integer+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1392,11 +1508,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-25'(_Config) ->
+'K-ForExprWithout-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(for $xs:name in (1, 1) return $xs:name) instance of xs:integer+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1405,11 +1523,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-26'(_Config) ->
+'K-ForExprWithout-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "$NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1418,11 +1538,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-27'(_Config) ->
+'K-ForExprWithout-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "$PREFIXNOTEXIST:NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1431,11 +1553,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-28'(_Config) ->
+'K-ForExprWithout-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "$xs:NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1444,11 +1568,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-29'(_Config) ->
+'K-ForExprWithout-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 + $NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1457,11 +1583,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-30'(_Config) ->
+'K-ForExprWithout-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 + $prefix:NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1470,11 +1598,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-31'(_Config) ->
+'K-ForExprWithout-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 + $xs:NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1483,11 +1613,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-32'(_Config) ->
+'K-ForExprWithout-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "$NOTEXIST + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1496,11 +1628,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-33'(_Config) ->
+'K-ForExprWithout-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "$PREFIXNOTEXIST:NOTEXIST + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1509,11 +1643,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-34'(_Config) ->
+'K-ForExprWithout-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "$xs:NOTEXIST + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1522,11 +1658,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-35'(_Config) ->
+'K-ForExprWithout-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $foo in 1 return $NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1535,11 +1673,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-36'(_Config) ->
+'K-ForExprWithout-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $foo in (1, 2, $foo) return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1548,11 +1688,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-37'(_Config) ->
+'K-ForExprWithout-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $foo in (1, $foo, 3) return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1561,11 +1703,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-38'(_Config) ->
+'K-ForExprWithout-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $foo in ($foo, 2, 3) return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1574,11 +1718,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-39'(_Config) ->
+'K-ForExprWithout-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $foo in $foo return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1587,11 +1733,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-40'(_Config) ->
+'K-ForExprWithout-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $foo in 1 return $bar + (for $bar in 2 return $bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1600,11 +1748,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-41'(_Config) ->
+'K-ForExprWithout-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $a in (1, 2, 3), $b in (1, 2, 3, $b) return $a, $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1613,11 +1763,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-42'(_Config) ->
+'K-ForExprWithout-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $a in (1, 2), $b in (1, 2), $c in (1, 2) return 1, $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1626,11 +1778,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-43'(_Config) ->
+'K-ForExprWithout-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $a in (1, 2) return 1, $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1639,11 +1793,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-44'(_Config) ->
+'K-ForExprWithout-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $a in (1, 2), $b in (1, 2), $c in (1, 2) return 1, $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1652,11 +1808,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-45'(_Config) ->
+'K-ForExprWithout-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $a in (1, 2), $b in (1, 2), $c in (1, 2) return 1, $c",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1665,11 +1823,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-46'(_Config) ->
+'K-ForExprWithout-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $foo in \"foo\" return 1 + $foo",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1678,11 +1838,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-47'(_Config) ->
+'K-ForExprWithout-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $foo in (\"a string\", \"another one\") return 1 + subsequence($foo, 1, 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1691,11 +1853,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-48'(_Config) ->
+'K-ForExprWithout-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 eq (for $a in 1 return $a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1704,11 +1868,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-49'(_Config) ->
+'K-ForExprWithout-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal((for $fo in trace((1, 2, 3), \"msg\") return $fo), (1, 2, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1717,11 +1883,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-50'(_Config) ->
+'K-ForExprWithout-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 eq (for $a in 1 return $a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1730,11 +1898,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-51'(_Config) ->
+'K-ForExprWithout-51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "1 eq (for $xs:a in 1 return $xs:a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1743,7 +1913,8 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-52'(_Config) ->
+'K-ForExprWithout-52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $i := false(); 
         declare variable $t := false(); 
@@ -1751,7 +1922,8 @@ environment('SpecialTypes') ->
                     return ($i, $t), (true(), true(), true(), true(), true(), true(), true(), true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1760,11 +1932,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-53'(_Config) ->
+'K-ForExprWithout-53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $my := 3; (for $i in 1 return $my) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1773,11 +1947,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-54'(_Config) ->
+'K-ForExprWithout-54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $i := 3; (for $i in 1 return $i) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1786,11 +1962,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-55'(_Config) ->
+'K-ForExprWithout-55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(for $i in (1, 2, current-time()) return ($i, $i)) eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1799,11 +1977,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-ForExprWithout-56'(_Config) ->
+'K-ForExprWithout-56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(for $i in (1, 2, timezone-from-time(current-time())) return ($i, $i)) eq 6 or count(for $i in (1, 2, timezone-from-time(current-time())) return ($i, $i)) eq 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-ForExprWithout-56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1812,11 +1992,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-1'(_Config) ->
+'K2-ForExprWithout-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "FOR $i IN (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1825,13 +2007,15 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-2'(_Config) ->
+'K2-ForExprWithout-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunc() { for $i in (1, 2, 3) return position() }; 
         local:myFunc()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1840,11 +2024,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-3'(_Config) ->
+'K2-ForExprWithout-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:myFunc() { for $i in (1, 2, 3) return position() }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1861,11 +2047,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-4'(_Config) ->
+'K2-ForExprWithout-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:myFunc() { for $i at $p in (1, 2, 3) return position() }; local:myFunc()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1874,11 +2062,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-5'(_Config) ->
+'K2-ForExprWithout-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:myFunc() { for $i at $p in (1, 2, 3) return position() }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1895,11 +2085,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-6'(_Config) ->
+'K2-ForExprWithout-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $ti in <ti><rangeDate><initDate>17880505</initDate><terminatingDate>19550505</terminatingDate></rangeDate></ti> return <result> { fn:min(if ($ti/singleDate) then let $tmp:=$ti/singleDate/compute return xs:date(fn:concat(fn:substring($tmp, 1, 4), \"-\", fn:substring($tmp, 5, 2), \"-\", fn:substring($tmp, 7, 2))) else let $tmp:=$ti/rangeDate/initDate return xs:date(fn:concat(fn:substring($tmp, 1, 4), \"-\", fn:substring($tmp, 5, 2), \"-\", fn:substring($tmp, 7, 2)))) } </result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result>1788-05-05</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1908,11 +2100,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-7'(_Config) ->
+'K2-ForExprWithout-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $d in person return $d",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1921,11 +2115,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-8'(_Config) ->
+'K2-ForExprWithout-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(for $d in <people> <person id=\"person0\"> <name>First</name> </person> <person> <name>Second</name> </person> </people>/person return if (some $id in 1 satisfies typeswitch ($d/@id) case $n as node() return $d/@id = \"person0\" default $d return ()) then $d/name else ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<name>First</name>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -1934,11 +2130,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-9'(_Config) ->
+'K2-ForExprWithout-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $a at $pos1 in (1, 2, 3) return for $b at $pos2 in (4, 5, 6) return for $c at $pos3 in (7, 8, 9) return ($a, $pos1, $b, $pos2, $c, $pos2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1 4 1 7 1 1 1 4 1 8 1 1 1 4 1 9 1 1 1 5 2 7 2 1 1 5 2 8 2 1 1 5 2 9 2 1 1 6 3 7 3 1 1 6 3 8 3 1 1 6 3 9 3 2 2 4 1 7 1 2 2 4 1 8 1 2 2 4 1 9 1 2 2 5 2 7 2 2 2 5 2 8 2 2 2 5 2 9 2 2 2 6 3 7 3 2 2 6 3 8 3 2 2 6 3 9 3 3 3 4 1 7 1 3 3 4 1 8 1 3 3 4 1 9 1 3 3 5 2 7 2 3 3 5 2 8 2 3 3 5 2 9 2 3 3 6 3 7 3 3 3 6 3 8 3 3 3 6 3 9 3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1947,7 +2145,8 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-10'(_Config) ->
+'K2-ForExprWithout-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $a in (3, 2, 1) 
         for $b in (6, 5, 4) 
@@ -1957,7 +2156,8 @@ environment('SpecialTypes') ->
         return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1 1 1 2 2 2 3 3 3") of 
       true -> {comment, "String correct"};
@@ -1974,11 +2174,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-11'(_Config) ->
+'K2-ForExprWithout-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $a in (3, 2, 1, 1) stable order by $a return 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "5 5 5 5") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1987,11 +2189,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-12'(_Config) ->
+'K2-ForExprWithout-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $a in (3, 2, 1, 1) stable order by 1 return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 2 1 1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2000,11 +2204,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-13'(_Config) ->
+'K2-ForExprWithout-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/>/(for $i in self::node() return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2013,11 +2219,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-14'(_Config) ->
+'K2-ForExprWithout-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "<e/>/(for $i in 1, $b in self::node() return $b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2026,11 +2234,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-15'(_Config) ->
+'K2-ForExprWithout-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/element return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2039,11 +2249,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-16'(_Config) ->
+'K2-ForExprWithout-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/document return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2052,11 +2264,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-17'(_Config) ->
+'K2-ForExprWithout-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/document-node return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2065,11 +2279,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-18'(_Config) ->
+'K2-ForExprWithout-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/attribute return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2078,11 +2294,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-19'(_Config) ->
+'K2-ForExprWithout-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/comment return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2091,11 +2309,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-20'(_Config) ->
+'K2-ForExprWithout-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/processing-instruction return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2104,11 +2324,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-21'(_Config) ->
+'K2-ForExprWithout-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/processing-instruction return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2117,11 +2339,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-22'(_Config) ->
+'K2-ForExprWithout-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/text return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2130,11 +2354,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-23'(_Config) ->
+'K2-ForExprWithout-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/typeswitch return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2143,11 +2369,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-24'(_Config) ->
+'K2-ForExprWithout-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/if return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2156,11 +2384,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-25'(_Config) ->
+'K2-ForExprWithout-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/for return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2169,11 +2399,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-26'(_Config) ->
+'K2-ForExprWithout-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/let return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2182,11 +2414,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-27'(_Config) ->
+'K2-ForExprWithout-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/declare return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2195,11 +2429,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-28'(_Config) ->
+'K2-ForExprWithout-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/some return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2208,11 +2444,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-29'(_Config) ->
+'K2-ForExprWithout-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/child return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2221,11 +2459,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-30'(_Config) ->
+'K2-ForExprWithout-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/ordered return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2234,11 +2474,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-31'(_Config) ->
+'K2-ForExprWithout-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/unordered return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2247,11 +2489,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-32'(_Config) ->
+'K2-ForExprWithout-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/schema-attribute return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2260,11 +2504,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-33'(_Config) ->
+'K2-ForExprWithout-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/schema-element return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2273,11 +2519,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-34'(_Config) ->
+'K2-ForExprWithout-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/item return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2286,11 +2534,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-35'(_Config) ->
+'K2-ForExprWithout-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/following-sibling return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2299,11 +2549,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-36'(_Config) ->
+'K2-ForExprWithout-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/validate return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2312,11 +2564,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-37'(_Config) ->
+'K2-ForExprWithout-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/instance return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2325,11 +2579,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-38'(_Config) ->
+'K2-ForExprWithout-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/castable return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2338,11 +2594,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-39'(_Config) ->
+'K2-ForExprWithout-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/import return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2351,11 +2609,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-40'(_Config) ->
+'K2-ForExprWithout-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $n in node return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2364,11 +2624,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-41'(_Config) ->
+'K2-ForExprWithout-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $n in document return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2377,11 +2639,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-42'(_Config) ->
+'K2-ForExprWithout-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $n in attribute return {()} return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2390,11 +2654,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-43'(_Config) ->
+'K2-ForExprWithout-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $n in element return {()} return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2403,11 +2669,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-44'(_Config) ->
+'K2-ForExprWithout-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $n in processing-instruction return {()} return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2416,11 +2684,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWithout-45'(_Config) ->
+'K2-ForExprWithout-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $n in attribute return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWithout-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -2437,12 +2707,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType001'(_Config) ->
+'ForExprType001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $file as element(File,xs:untyped) in (//Folder)[1]/File return $file/FileName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType001.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000003</FileName><FileName>File00000000004</FileName><FileName>File00000000005</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000009</FileName><FileName>File00000000010</FileName><FileName>File00000000011</FileName><FileName>File00000000012</FileName><FileName>File00000000013</FileName><FileName>File00000000014</FileName><FileName>File00000000015</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000019</FileName><FileName>File00000000020</FileName><FileName>File00000000021</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000026</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2451,12 +2723,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType002'(_Config) ->
+'ForExprType002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $fileName as attribute(name,xs:untypedAtomic) in (//Folder)[1]/File/@name return data($fileName)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2465,12 +2739,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType003'(_Config) ->
+'ForExprType003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $PI as processing-instruction() in //processing-instruction() return $PI",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType003.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?FileSystem scale='0'?><?FileSystem maxDepth='64'?>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2479,12 +2755,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType004'(_Config) ->
+'ForExprType004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $comment as comment() in //comment() return $comment",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!-- This is an official fsx file -->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2493,12 +2771,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType005'(_Config) ->
+'ForExprType005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $int as xs:int in (xs:int(1), xs:int(2)) return $int",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType005.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2507,12 +2787,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType006'(_Config) ->
+'ForExprType006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $int as xs:string in (xs:int(1), xs:int(2)) return $int",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType006.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2521,12 +2803,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType007'(_Config) ->
+'ForExprType007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File as element(Folder,xs:untypedAny) return $file/FileName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType007.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2535,12 +2819,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType008'(_Config) ->
+'ForExprType008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $file at $pos as element(Folder,xs:untyped) in (//Folder)[1]/File return (string($file/FileName[1]), $pos)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2549,16 +2835,20 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType009'(_Config) ->
+'ForExprType009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'ForExprType011'(_Config) ->
+'ForExprType011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'ForExprType012'(_Config) ->
+'ForExprType012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $file as in (//Folder)[1]/File return $file",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType012.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2567,16 +2857,20 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType013'(_Config) ->
+'ForExprType013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'ForExprType014'(_Config) ->
+'ForExprType014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'ForExprType015'(_Config) ->
+'ForExprType015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $num as xs:decimal in (xs:integer(1), xs:integer(2), xs:integer(3)) return $num",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType015.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2585,12 +2879,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType016'(_Config) ->
+'ForExprType016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $num as xs:decimal in (xs:integer(1), xs:decimal(2), xs:integer(3)) return $num",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType016.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2599,12 +2895,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType017'(_Config) ->
+'ForExprType017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $num as xs:double in (xs:int(\"1\"), xs:integer(\"2\"), xs:string(\"3\")) return $num",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType017.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2613,12 +2911,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType018'(_Config) ->
+'ForExprType018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $file as node() in (//Folder)[1]/File return $file/FileName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType018.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000003</FileName><FileName>File00000000004</FileName><FileName>File00000000005</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000009</FileName><FileName>File00000000010</FileName><FileName>File00000000011</FileName><FileName>File00000000012</FileName><FileName>File00000000013</FileName><FileName>File00000000014</FileName><FileName>File00000000015</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000019</FileName><FileName>File00000000020</FileName><FileName>File00000000021</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000026</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2627,12 +2927,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType019'(_Config) ->
+'ForExprType019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $fileName as text() in (//Folder)[1]/File/FileName/text() return string( $fileName )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType019.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2641,12 +2943,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType020'(_Config) ->
+'ForExprType020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $fileName as item() in data( (//Folder)[1]/File/FileName ) return $fileName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType020.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "File00000000000 File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2655,12 +2959,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType021'(_Config) ->
+'ForExprType021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $doc as document-node() in (/) return count( $doc )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType021.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2669,13 +2975,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType022'(_Config) ->
+'ForExprType022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'ForExprType023'(_Config) ->
+'ForExprType023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'ForExprType024'(_Config) ->
+'ForExprType024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'ForExprType028'(_Config) ->
+'ForExprType028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $test as xs:integer in ( xs:byte(\"1\"), xs:long(\"10000\"), xs:negativeInteger(\"-10\"), 
                         xs:short(\"100\"), xs:positiveInteger(\"100\"), xs:nonNegativeInteger(\"100\") ) 
@@ -2683,7 +2993,8 @@ environment('SpecialTypes') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 10000 -10 100 100 100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2692,7 +3003,8 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType029'(_Config) ->
+'ForExprType029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $test as xs:decimal in ( xs:integer(\"100\"), xs:short(\"1\"), xs:int(\"10000\"), 
                 xs:nonPositiveInteger(\"-10\"), xs:unsignedShort(\"100\"), xs:positiveInteger(\"100\"), xs:nonNegativeInteger(\"100\") ) 
@@ -2700,7 +3012,8 @@ environment('SpecialTypes') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100 1 10000 -10 100 100 100") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2709,7 +3022,8 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType030'(_Config) ->
+'ForExprType030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $test as xs:normalizedString in ( xs:language(\"en-US\"), xs:NCName(\"foobar\"), 
             xs:NMTOKEN(\"token1\"), xs:ENTITY(\"entity1\") ) 
@@ -2717,7 +3031,8 @@ environment('SpecialTypes') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "en-US foobar token1 entity1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2726,7 +3041,8 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType031'(_Config) ->
+'ForExprType031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $test as xs:anyAtomicType in ( xs:duration(\"P0Y1347M0D\"), xs:dateTime(\"1999-05-31T13:20:00-05:00\"), 
                     xs:time(\"13:00:00-05:00\"), xs:date(\"1999-05-10Z\"), xs:gYearMonth(\"2002-03\"), xs:gYear(\"1999\"), 
@@ -2735,7 +3051,8 @@ environment('SpecialTypes') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P112Y3M 1999-05-31T13:20:00-05:00 13:00:00-05:00 1999-05-10Z 2002-03 1999 --05-10 ---10 --05") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2744,7 +3061,8 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType032'(_Config) ->
+'ForExprType032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $test as xs:anyAtomicType in ( xs:boolean(\"true\"), xs:base64Binary(\"abcd\"), xs:hexBinary(\"1234\"),
                      xs:float(\"5.7\"), xs:double(\"7.5\"), xs:anyURI(\"http://foo\") ) 
@@ -2752,7 +3070,8 @@ environment('SpecialTypes') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true abcd 1234 5.7 7.5 http://foo") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2761,7 +3080,8 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType033'(_Config) ->
+'ForExprType033'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         for $test as xs:anyAtomicType in ( xs:unsignedByte(\"10\"), xs:short(\"20\"), xs:positiveInteger(\"30\"), 
                 xs:nonPositiveInteger(\"-40\"), xs:decimal(\"5.5\"), xs:ENTITY(\"entity1\"), xs:NCName(\"foobar\"), 
@@ -2770,7 +3090,8 @@ environment('SpecialTypes') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType033.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10 20 30 -40 5.5 entity1 foobar en-US foobar FFFF 1999") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2779,11 +3100,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType034'(_Config) ->
+'ForExprType034'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $test as xs:decimal in ( 1, 0.3 ) return $test",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType034.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 0.3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2792,11 +3115,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType035'(_Config) ->
+'ForExprType035'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $test as xs:anyAtomicType in ( 1, \"string\", 1e2, 0.3 ) return $test",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType035.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 string 100 0.3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2805,23 +3130,29 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType036'(_Config) ->
+'ForExprType036'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'ForExprType045'(_Config) ->
+'ForExprType045'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'ForExprType046'(_Config) ->
+'ForExprType046'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'ForExprType047'(_Config) ->
+'ForExprType047'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
-'ForExprType054'(_Config) ->
+'ForExprType054'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as item() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType054.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "File00000000000 File00000000001 File00000000002") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2830,15 +3161,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType055'(_Config) ->
+'ForExprType055'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as node() in (//fs:Folder)[1]/fs:File return $test/fs:FileName
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType055.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000001</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000002</fs:FileName>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2847,15 +3180,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType056'(_Config) ->
+'ForExprType056'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as document-node() in (/) return ($test//fs:Folder)[1]/fs:FolderName
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType056.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fs:FolderName xmlns:fs=\"http://www.example.com/filesystem\">Folder00000000000</fs:FolderName>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2864,15 +3199,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType057'(_Config) ->
+'ForExprType057'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         document{for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName/text() return $test}
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType057.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"File00000000000File00000000001File00000000002") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2881,15 +3218,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType058'(_Config) ->
+'ForExprType058'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         document{for $test as comment() in (//fs:Folder)[1]/comment() return $test}
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType058.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!-- This is a comment for File00000000000 --><!-- This is a comment for File00000000001 --><!-- This is a comment for File00000000002 -->") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2898,15 +3237,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType059'(_Config) ->
+'ForExprType059'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction() in (//fs:Folder)[1]//processing-instruction() return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType059.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?filesystem compressionUtil='foozip.exe'?>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2915,12 +3256,14 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType060'(_Config) ->
+'ForExprType060'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace fs=\"http://www.example.com/filesystem\"; for $test as processing-instruction() in (//fs:Folder)[1]//processing-instruction() return $test",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType060.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?filesystem compressionUtil='foozip.exe'?>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2929,15 +3272,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType061'(_Config) ->
+'ForExprType061'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction(\"unknown\") in (//fs:Folder)[1]//processing-instruction() return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType061.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2946,15 +3291,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType062'(_Config) ->
+'ForExprType062'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as item() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType062.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000000</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000001</fs:FileName><fs:FileName xmlns:fs=\"http://www.example.com/filesystem\">File00000000002</fs:FileName>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2963,15 +3310,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType063'(_Config) ->
+'ForExprType063'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType063.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2980,15 +3329,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType064'(_Config) ->
+'ForExprType064'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType064.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2997,15 +3348,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType065'(_Config) ->
+'ForExprType065'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as text() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType065.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3014,15 +3367,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType066'(_Config) ->
+'ForExprType066'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as comment() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType066.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3031,15 +3386,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType067'(_Config) ->
+'ForExprType067'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as comment() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType067.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3048,15 +3405,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType068'(_Config) ->
+'ForExprType068'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType068.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3065,15 +3424,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType069'(_Config) ->
+'ForExprType069'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType069.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3082,15 +3443,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType070'(_Config) ->
+'ForExprType070'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction(\"foo\") in (//fs:Folder)[1]/fs:File/fs:FileName return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType070.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3099,15 +3462,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType071'(_Config) ->
+'ForExprType071'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction(\"foo\") in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType071.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3116,15 +3481,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType072'(_Config) ->
+'ForExprType072'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as document-node() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType072.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3133,15 +3500,17 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'ForExprType073'(_Config) ->
+'ForExprType073'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as document-node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ForExprType073.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3150,11 +3519,13 @@ environment('SpecialTypes') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-ForExprWith-1'(_Config) ->
+'K2-ForExprWith-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "for $i as xs:string in xs:untypedAtomic(\"input\") return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ForExprWith-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

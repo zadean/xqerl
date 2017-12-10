@@ -178,9 +178,13 @@
 -export(['function-decl-reserved-function-names-031'/1]).
 -export(['function-decl-reserved-function-names-032'/1]).
 suite() ->[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> erlang:erase().
-init_per_suite(Config) -> ok
-,Config.
+end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+init_per_suite(Config) -> 
+   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   TD = filename:absname_join(DD, "QT3-test-suite"),
+   BaseDir = filename:join(TD, "prod")
+
+,[{base_dir, BaseDir}|Config].
 all() -> [
    'function-declaration-001',
    'function-declaration-002',
@@ -355,97 +359,97 @@ all() -> [
    'function-decl-reserved-function-names-030',
    'function-decl-reserved-function-names-031',
    'function-decl-reserved-function-names-032'].
-environment('empty') ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('atomic') ->
+environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
 {resources, []},
 {modules, []}
 ];
-environment('atomic-xq') ->
+environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/atomic.xml",".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{"docs/atomic.xsd","http://www.w3.org/XQueryTest"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-mod') ->
+environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works-mod.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works') ->
+environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('staff') ->
+environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('works-and-staff') ->
+environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/works.xml","$works",""},
-{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/staff.xml","$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('auction') ->
+environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/auction.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/AuctionWatch","ma"},
@@ -457,60 +461,60 @@ environment('auction') ->
 {resources, []},
 {modules, []}
 ];
-environment('qname') ->
+environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/QName-source.xml",".",""}]},
-{schemas, [{"docs/QName-schema.xsd","http://www.example.com/QNameXSD"}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
 {modules, []}
 ];
-environment('math') ->
+environment('math',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array') ->
+environment('array',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ];
-environment('map') ->
+environment('map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
-environment('array-and-map') ->
+environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
@@ -518,43 +522,44 @@ environment('array-and-map') ->
 {resources, []},
 {modules, []}
 ];
-environment('bib') ->
+environment('bib',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/docs/bib.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/bib.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('acme_corp') ->
+environment('acme_corp',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/union/acme_corp.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../op/union/acme_corp.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ];
-environment('bib2') ->
+environment('bib2',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/op/union/bib2.xml",".",""}]},
+{sources, [{filename:join(BaseDir, "../op/union/bib2.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', [{"file:///C:/git/zadean/xqerl/test/QT3-test-suite/prod/"}]},
+{'static-base-uri', []},
 {params, []},
 {vars, []},
 {namespaces, []},
 {resources, []},
 {modules, []}
 ].
-'function-declaration-001'(_Config) ->
+'function-declaration-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace foo = \"http://www..oracle.com/xquery/test\";
         declare function foo:price ($b as element()) as element()* { $b/price };
@@ -562,7 +567,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -571,14 +577,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-002'(_Config) ->
+'function-declaration-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "        
         declare function local:foo($n as xs:integer) { <tr> {$n} </tr> };
         local:foo(4)
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<tr>4</tr>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -587,14 +595,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-003'(_Config) ->
+'function-declaration-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:price ($i as element()) as element()? { $i/price };
         for $j in /bib/book return local:price($j)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-003.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -603,7 +613,8 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-004'(_Config) ->
+'function-declaration-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:summary($emps as element(employee)*) as element(dept)* { 
             for $d in distinct-values($emps/deptno) 
@@ -616,10 +627,11 @@ environment('bib2') ->
         };
         local:summary(//employee[location = \"Denver\"])
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<dept><deptno>1</deptno><headcount>2</headcount><payroll>130000</payroll></dept><dept><deptno>2</deptno><headcount>1</headcount><payroll>80000</payroll></dept>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -628,14 +640,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-005'(_Config) ->
+'function-declaration-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:mysum($i as xs:integer, $j as xs:integer) { let $j := $i + $j return $j };
         declare function local:invoke_mysum() { let $s := 1 for $d in (1,2,3,4,5) let $s := local:mysum($s, $d) return $s };
         local:invoke_mysum()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 3 4 5 6") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -644,14 +658,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-006'(_Config) ->
+'function-declaration-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:mysum($i as xs:integer, $j as xs:integer) { let $j := $i + $j return $j };
         declare function local:invoke_mysum($st as xs:integer) { for $d in (1,2,3,4,5) let $st := local:mysum($d, $st) return $st };
         local:invoke_mysum(0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -660,7 +676,8 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-007'(_Config) ->
+'function-declaration-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $a := 1;
         declare function local:foo($a as xs:integer) { 
@@ -668,7 +685,8 @@ environment('bib2') ->
         local:foo($a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-007.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"101") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -677,7 +695,8 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-008'(_Config) ->
+'function-declaration-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare namespace my = \"urn:foo\";
         declare function my:fact($n as xs:integer) as xs:integer { if ($n < 2) then 1 else $n * my:fact($n - 1) };
@@ -685,7 +704,8 @@ environment('bib2') ->
         <table> { for $i in 1 to 10 return <tr> <td>10!/{$i}! = {$my:ten div my:fact($i)}</td> </tr> } </table>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<table><tr><td>10!/1! = 3628800</td></tr><tr><td>10!/2! = 1814400</td></tr><tr><td>10!/3! = 604800</td></tr><tr><td>10!/4! = 151200</td></tr><tr><td>10!/5! = 30240</td></tr><tr><td>10!/6! = 5040</td></tr><tr><td>10!/7! = 720</td></tr><tr><td>10!/8! = 90</td></tr><tr><td>10!/9! = 10</td></tr><tr><td>10!/10! = 1</td></tr></table>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -694,13 +714,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-009'(_Config) ->
+'function-declaration-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       
         declare function local:fact($n as xs:integer) as xs:integer { if ($n < 2) then 1 else $n * local:fact(($n)-1) };
         <table> { for $i in 1 to 10 return <tr> <td>{$i}! = {local:fact($i)}</td> </tr> } </table>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-009.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<table><tr><td>1! = 1</td></tr><tr><td>2! = 2</td></tr><tr><td>3! = 6</td></tr><tr><td>4! = 24</td></tr><tr><td>5! = 120</td></tr><tr><td>6! = 720</td></tr><tr><td>7! = 5040</td></tr><tr><td>8! = 40320</td></tr><tr><td>9! = 362880</td></tr><tr><td>10! = 3628800</td></tr></table>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -709,13 +731,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-010'(_Config) ->
+'function-declaration-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       
         declare function local:prnt($n as xs:integer,$n2 as xs:string, $n3 as xs:date, $n4 as xs:long, $n5 as xs:string, $n6 as xs:decimal) { if ($n < 2) then 1 else concat($n, \" \",$n2,\" \",$n3,\" \",$n4,\" \",$n5,\" \",$n6) };
         <table> { <td>Value is = {local:prnt(4,xs:string(\"hello\"),xs:date(\"2005-02-22\"), xs:long(5),xs:string(\"well\"),xs:decimal(1.2))}</td> } </table>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<table><td>Value is = 4 hello 2005-02-22 5 well 1.2</td></table>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -724,14 +748,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-011'(_Config) ->
+'function-declaration-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       
         declare function local:fn1 ($n as xs:integer) as xs:integer { local:fn2($n) };
         declare function local:fn2 ($n as xs:integer) as xs:integer { if ($n = 1) then 1 else $n + local:fn1($n - 1) };
         local:fn1(4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -740,14 +766,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-012'(_Config) ->
+'function-declaration-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       
         declare function local:fn1 ($n as xs:integer) as xs:integer { local:fn2($n) };
         declare function local:fn2 ($n as xs:integer) as xs:integer { if ($n = 1) then 1 else $n + local:fn1($n - 1) };
         local:fn1(4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -756,14 +784,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-013'(_Config) ->
+'function-declaration-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       
         declare function local:foo2($i as xs:string) as xs:string {local:foo($i)};
         declare function local:foo($i as xs:string) as xs:string {$i};
         local:foo2(\"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -772,14 +802,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-014'(_Config) ->
+'function-declaration-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:odd($x as xs:integer) as xs:boolean {if ($x = 0) then false() else local:even($x - 1)};
         declare function local:even($x as xs:integer) as xs:boolean {if ($x = 0) then true() else local:odd($x - 1)};
         local:even(4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -788,14 +820,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-015'(_Config) ->
+'function-declaration-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:odd($x as xs:integer) as xs:boolean {if ($x = 0) then false() else local:even($x - 1)};
         declare function local:even($x as xs:integer) as xs:boolean {if ($x = 0) then true() else local:odd($x - 1)};
         local:even(3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-015.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -804,14 +838,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-016'(_Config) ->
+'function-declaration-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:title($a_book as element()) { for $i in $a_book return $i/title };
         /bib/book/(local:title(.))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-016.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>Data on the Web</title><title>The Economics of Technology and Content for Digital TV</title>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -820,7 +856,8 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-017'(_Config) ->
+'function-declaration-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare default element namespace \"http://www.example.com/filesystem\";
         declare variable $v as xs:integer := 100;
@@ -829,7 +866,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-017.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<empty xmlns=\"http://www.example.com/filesystem\">1000</empty>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -838,7 +876,8 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-018'(_Config) ->
+'function-declaration-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare default element namespace \"http://www.example.com/filesystem\";
         declare function local:udf1 () { <empty> {10*10} </empty> };
@@ -846,7 +885,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<empty xmlns=\"http://www.example.com/filesystem\">100</empty>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -855,7 +895,8 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-019'(_Config) ->
+'function-declaration-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare default element namespace \"http://www.example.com/def\";
         declare namespace test=\"http://www.example.com/test\";
@@ -865,7 +906,8 @@ environment('bib2') ->
         <A> {test:udf1()} {test2:udf1()} </A>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<A xmlns=\"http://www.example.com/def\"><empty>100</empty><empty/></A>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -874,7 +916,8 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-020'(_Config) ->
+'function-declaration-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace foo = \"http://www..oracle.com/xquery/test\";
         declare function foo:price () as xs:integer+ { 100 };
         declare function foo:price ($z as xs:integer) as xs:integer+ { $z };
@@ -883,7 +926,8 @@ environment('bib2') ->
         foo:price(), foo:price(1), foo:price(2,3), foo:price(4,5,6)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100 1 2 3 15") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -892,13 +936,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-021'(_Config) ->
+'function-declaration-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:foo ($n as xs:integer) as xs:string { $n };
         local:foo(4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -907,14 +953,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-022'(_Config) ->
+'function-declaration-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:foo ($m as xs:integer) { $m };
         declare function local:foo ($n as xs:integer) { $n };
         local:foo(4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0034") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -923,13 +971,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-023'(_Config) ->
+'function-declaration-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function foo ($n as xs:integer) { $n };
         foo(4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
@@ -946,13 +996,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-024'(_Config) ->
+'function-declaration-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:foo ($n as xs:integer, $n as xs:integer) { $n };
         local:foo(4, 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0039") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -961,13 +1013,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-025'(_Config) ->
+'function-declaration-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default function namespace \"\";
         declare function foo ($n as xs:integer, $m as xs:integer) { $n };
         foo(4, 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-025.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0060") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -976,15 +1030,17 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-026'(_Config) ->
+'function-declaration-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $global := node();
         declare function local:function() { exists($global) };
         local:function()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('bib2')),
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1,Opts) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-026.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -993,15 +1049,18 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-027'(_Config) ->
+'function-declaration-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10 XQ30"}.
-'function-declaration-028'(_Config) ->
+'function-declaration-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare function local:function() { };
          local:function()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1010,13 +1069,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-029'(_Config) ->
+'function-declaration-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare function local:function($x) { (:there is nothing here:) };
          local:function(3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -1025,13 +1086,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-declaration-030'(_Config) ->
+'function-declaration-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
          declare function local:function($x as xs:integer) as xs:integer { (:there is nothing here:) };
          local:function(3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-declaration-030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1040,13 +1103,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-1'(_Config) ->
+'K-FunctionProlog-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace test = \"http://www.w3.org/2005/xpath-datatypes\";
         declare function test:myFunction() { 1};
         1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1055,13 +1120,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-2'(_Config) ->
+'K-FunctionProlog-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function wrongNS() { 1 };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1070,13 +1137,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-3'(_Config) ->
+'K-FunctionProlog-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function xml:wrongNS() { 1 };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1085,13 +1154,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-4'(_Config) ->
+'K-FunctionProlog-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace my = \"http://www.w3.org/2001/XMLSchema-instance\";
         declare function my:wrongNS() { 1 };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1100,13 +1171,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-5'(_Config) ->
+'K-FunctionProlog-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace my = \"http://www.w3.org/2001/XMLSchema\";
         declare function my:wrongNS() { 1 };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1115,13 +1188,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-6'(_Config) ->
+'K-FunctionProlog-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg = 1) {1};
         true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1130,13 +1205,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-7'(_Config) ->
+'K-FunctionProlog-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg = 1 as xs:integer) {1};
         true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1145,13 +1222,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-8'(_Config) ->
+'K-FunctionProlog-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg := 1) {1};
         true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1160,13 +1239,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-9'(_Config) ->
+'K-FunctionProlog-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg := 1 as xs:integer) {1};
         true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1175,13 +1256,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-10'(_Config) ->
+'K-FunctionProlog-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction() as xs:double { \"This is not a double, it's an xs:string.\" };
         local:myFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1190,13 +1273,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-11'(_Config) ->
+'K-FunctionProlog-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction() as item() { () };
         local:myFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1205,16 +1290,19 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-12a'(_Config) ->
+'K-FunctionProlog-12a'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'K-FunctionProlog-12b'(_Config) ->
+'K-FunctionProlog-12b'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:computeSum() { $myVariable };
         declare variable $myVariable := 1;
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-12b.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1223,14 +1311,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-13'(_Config) ->
+'K-FunctionProlog-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:computeSum() { $prefix:myVariable };
         declare namespaces prefix = \"example.com/Anamespace\";
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
@@ -1247,13 +1337,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-14'(_Config) ->
+'K-FunctionProlog-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction() as xs:integer { subsequence((1, 2, \"a string\"), 3 ,1) };
         fn:boolean(local:myFunction())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1262,13 +1354,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-15'(_Config) ->
+'K-FunctionProlog-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction() as xs:anyURI { 1 };
         true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1285,13 +1379,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-16'(_Config) ->
+'K-FunctionProlog-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction as xs:integer { 1 };
         true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1300,13 +1396,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-17'(_Config) ->
+'K-FunctionProlog-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction { 1 };
         true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1315,7 +1413,8 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-18'(_Config) ->
+'K-FunctionProlog-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $var1 := 1;
         declare function local:func1() as xs:integer { $var1 };
         declare variable $var2 := 2;
@@ -1323,7 +1422,8 @@ environment('bib2') ->
         1 eq local:func1() and 2 eq local:func2()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1332,13 +1432,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-19'(_Config) ->
+'K-FunctionProlog-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:func1($a1, $a2, $a3) { 1 };
         local:func1(1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1347,13 +1449,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-20'(_Config) ->
+'K-FunctionProlog-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:func($choose, $whenTrue, $whenFalse) { if($choose) then $whenTrue else $whenFalse };
         local:func(true(), current-time(), current-date()) instance of xs:time and local:func(false(), current-time(), current-date()) instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1362,13 +1466,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-21'(_Config) ->
+'K-FunctionProlog-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:func($a as xs:integer, $unused, $c as xs:integer) { $a + $c };
         local:func(1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1377,13 +1483,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-22'(_Config) ->
+'K-FunctionProlog-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:func($unused, $b as xs:integer, $c as xs:integer) { $b + $c };
         local:func(1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1392,13 +1500,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-23'(_Config) ->
+'K-FunctionProlog-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:func($a as xs:integer, $b as xs:integer, $unused) { $a + $b };
         local:func(1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -1407,13 +1517,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-24'(_Config) ->
+'K-FunctionProlog-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function wrongNS() { 1 };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1422,13 +1534,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-25'(_Config) ->
+'K-FunctionProlog-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $local:myName := 1;
         declare function local:myName() as xs:integer { 1 };
         $local:myName eq local:myName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1437,14 +1551,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-26'(_Config) ->
+'K-FunctionProlog-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myName() { 1 };
         declare function local:myName() { 1 };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0034") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1453,14 +1569,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-27'(_Config) ->
+'K-FunctionProlog-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myName() as xs:integer { 1 };
         declare function local:myName() as xs:nonPositiveInteger { 1 };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0034") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1469,14 +1587,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-28'(_Config) ->
+'K-FunctionProlog-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myName($myvar as xs:integer) { 1 };
         declare function local:myName($myvar as xs:nonPositiveInteger) { 1 };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0034") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1485,14 +1605,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-29'(_Config) ->
+'K-FunctionProlog-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myName($myvar) { 1 };
         declare function local:myName($myvar2) { 1 };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0034") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1501,14 +1623,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-30'(_Config) ->
+'K-FunctionProlog-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myName($var as xs:integer) as xs:integer { $var };
         declare function local:myName() as xs:integer { 1 };
         (local:myName(4) - 3) eq local:myName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1517,13 +1641,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-31'(_Config) ->
+'K-FunctionProlog-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function fn:count($var) { fn:count($var) };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1532,13 +1658,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-32'(_Config) ->
+'K-FunctionProlog-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function xs:gYear($arg as xs:anyAtomicType?) as xs:gYear? { xs:gYear($arg) };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0045") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1547,13 +1675,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-33'(_Config) ->
+'K-FunctionProlog-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction() { \"a string\" + 1 };
         true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1570,13 +1700,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-34'(_Config) ->
+'K-FunctionProlog-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:MyFunction() { 1 };
         local:myFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1585,13 +1717,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-35'(_Config) ->
+'K-FunctionProlog-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:MyFunction() { 1 };
         local:myFunctionn()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1600,13 +1734,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-36'(_Config) ->
+'K-FunctionProlog-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:MyFunction($myArg) { 0 };
         $myArg",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1615,14 +1751,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-37'(_Config) ->
+'K-FunctionProlog-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:MyFunction($myArg) { 0 };
         declare function local:MyFunction2($myArg2) { $myArg };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1631,14 +1769,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-38'(_Config) ->
+'K-FunctionProlog-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:MyFunction($myArg) { $myArg2 };
         declare function local:MyFunction2($myArg2) { 0 };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1647,13 +1787,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-39'(_Config) ->
+'K-FunctionProlog-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $local:myVar := 1;
         declare function local:myFunction($local:myVar) { $local:myVar };
         $local:myVar, local:myFunction(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -1662,13 +1804,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-40'(_Config) ->
+'K-FunctionProlog-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($local:myVar as xs:integer) { for $local:myVar in ($local:myVar, 3) return $local:myVar };
         deep-equal(local:myFunction(1), (1, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -1677,13 +1821,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-41'(_Config) ->
+'K-FunctionProlog-41'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($local:myVar) { $local:myVar + 1 };
         local:myFunction(1), local:myFunction(\"this will fail\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-41.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1692,13 +1838,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-42'(_Config) ->
+'K-FunctionProlog-42'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($local:arg) as item() { 1, $local:arg };
         local:myFunction(()), local:myFunction(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1707,13 +1855,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-43'(_Config) ->
+'K-FunctionProlog-43'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as item(), $arg2 as xs:integer) { $arg, $arg2 };
         local:myFunction(\"3\", \"3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1722,13 +1872,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-44'(_Config) ->
+'K-FunctionProlog-44'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as item(), $arg2 as xs:integer) { $arg, $arg2 };
         local:myFunction(\"3\", ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-44.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1737,13 +1889,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-45'(_Config) ->
+'K-FunctionProlog-45'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as item()?, $arg2 as xs:integer) { $arg, $arg2 };
         local:myFunction((), 4.1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-45.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1752,13 +1906,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-46'(_Config) ->
+'K-FunctionProlog-46'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as empty-sequence()) { $arg };
         local:myFunction(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-46.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1775,13 +1931,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-47'(_Config) ->
+'K-FunctionProlog-47'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as empty-sequence()+) { $arg };
         local:myFunction(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-47.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1790,13 +1948,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-48'(_Config) ->
+'K-FunctionProlog-48'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as empty-sequence()?) { $arg };
         local:myFunction(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-48.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1805,13 +1965,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-49'(_Config) ->
+'K-FunctionProlog-49'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as empty-sequence()) { $arg };
         empty(local:myFunction(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-49.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1828,13 +1990,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-50'(_Config) ->
+'K-FunctionProlog-50'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg) as empty-sequence() { $arg };
         local:myFunction(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-50.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1843,13 +2007,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-51'(_Config) ->
+'K-FunctionProlog-51'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg) { $arg };
         local:myFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-51.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1858,13 +2024,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-52'(_Config) ->
+'K-FunctionProlog-52'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction() as empty-sequence() { fn:error() };
         local:myFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-52.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1873,14 +2041,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-53'(_Config) ->
+'K-FunctionProlog-53'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace my = \"http://example.com/MyNamespace/\";
         declare variable $my:error-qname := QName(\"http:example.org/\", \"prefix:ncname\");
         declare function my:error($choice, $msg as xs:string) as empty-sequence() { if($choice) then error($my:error-qname, concat('No luck: ', $msg)) else () };
         empty((my:error(false(), \"msg\"), my:error(false(), \"The message\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1897,14 +2067,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-54'(_Config) ->
+'K-FunctionProlog-54'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace my = \"http://example.com/MyNamespace/\";
         declare variable $my:error-qname := QName(\"http://example.com/MyErrorNS\", \"my:qName\");
         declare function my:error($msg as xs:string) as empty-sequence() { error($my:error-qname, concat('No luck: ', $msg)) };
         my:error(\"The message\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"*") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1913,14 +2085,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-55'(_Config) ->
+'K-FunctionProlog-55'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace my = \"http://example.com/MyNamespace/\";
         declare variable $my:error-qname := QName(\"http://example.com/MyErrorNS\", \"my:qName\");
         declare function my:error($choice, $msg as xs:string) as empty-sequence() { if($choice) then error($my:error-qname, concat('No luck: ', $msg)) else () };
         my:error(false(), \"msg\"), my:error(true(), \"The message\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"*") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1929,14 +2103,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-56'(_Config) ->
+'K-FunctionProlog-56'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace my = \"http://example.com/MyNamespace/\";
         declare variable $my:error-qname := QName(\"http://example.com/MyErrorNS\", \"my:qName\");
         declare function my:error($choice, $msg as xs:string) as empty-sequence() { if($choice) then error($my:error-qname, concat('No luck: ', $msg)) else () };
         empty((my:error(false(), \"msg\"), my:error(false(), \"The message\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -1953,13 +2129,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-57'(_Config) ->
+'K-FunctionProlog-57'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:error() as none { 1 };
         local:error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -1968,13 +2146,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-58'(_Config) ->
+'K-FunctionProlog-58'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:error() as none() { 1 };
         local:error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-58.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1991,13 +2171,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-59'(_Config) ->
+'K-FunctionProlog-59'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($unusedArg) { true() };
         local:myFunction(1 + \"a string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-59.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
@@ -2014,13 +2196,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-60'(_Config) ->
+'K-FunctionProlog-60'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg) { 1 };
         $arg",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-60.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2029,13 +2213,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-61'(_Config) ->
+'K-FunctionProlog-61'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg, $arg2, $arg3) { 1 };
         $arg3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-61.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2044,13 +2230,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-62'(_Config) ->
+'K-FunctionProlog-62'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $my := 3;
         declare function local:myFunction($my, $arg2, $arg4) { 1 };
         $my eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-62.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2059,11 +2247,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-63'(_Config) ->
+'K-FunctionProlog-63'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local:myFunction(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-63.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2072,12 +2262,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-64'(_Config) ->
+'K-FunctionProlog-64'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare namespace my = \"http://example.com/ANamespace\";
         my:function(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-64.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2086,13 +2278,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-65'(_Config) ->
+'K-FunctionProlog-65'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction() as empty-sequence() { fn:error() };
         QName(\"http://example.com/ANamespace\", local:myFunction())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-65.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2109,13 +2303,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-66'(_Config) ->
+'K-FunctionProlog-66'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction() { fn:error() };
         QName(\"http://example.com/ANamespace\", local:myFunction())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-66.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
@@ -2132,13 +2328,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-67'(_Config) ->
+'K-FunctionProlog-67'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
         declare function local:is() as xs:integer { 1 };
         is() eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-67.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2147,13 +2345,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K-FunctionProlog-68'(_Config) ->
+'K-FunctionProlog-68'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($usedArg) { $usedArg };
         local:myFunction(1 + \"a string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-FunctionProlog-68.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2162,13 +2362,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-1'(_Config) ->
+'K2-FunctionProlog-1'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
         local:myFunction(1) eq local:myFunction(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-1.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2177,13 +2379,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-2'(_Config) ->
+'K2-FunctionProlog-2'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
         not(local:myFunction(1) ne local:myFunction(2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-2.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2192,13 +2396,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-3'(_Config) ->
+'K2-FunctionProlog-3'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
         local:myFunction(1) = local:myFunction(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2207,13 +2413,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-4'(_Config) ->
+'K2-FunctionProlog-4'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
         not(local:myFunction(1) != local:myFunction(2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-4.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2222,13 +2430,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-5'(_Config) ->
+'K2-FunctionProlog-5'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) { $arg };
         local:myFunction(1.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-5.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2237,13 +2447,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-6'(_Config) ->
+'K2-FunctionProlog-6'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction() as xs:integer { 1.0 };
         local:myFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-6.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2252,14 +2464,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-7'(_Config) ->
+'K2-FunctionProlog-7'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction() as xs:float { 4.0 };
         (current-time(), 1, 2, \"a string\", local:myFunction(), 4.0, xs:double(\"NaN\"), current-date())[5] instance of xs:float
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-7.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2268,7 +2482,8 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-8'(_Config) ->
+'K2-FunctionProlog-8'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) as xs:integer { if($arg eq 1) then $arg else local:myFunction3($arg - 1) };
         declare function local:myFunction2($arg as xs:integer) as xs:integer { local:myFunction($arg) };
@@ -2276,7 +2491,8 @@ environment('bib2') ->
         local:myFunction3(3) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-8.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2285,13 +2501,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-9'(_Config) ->
+'K2-FunctionProlog-9'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:multiplySequence($input as xs:integer*) as xs:integer { if (empty($input)) then 1 else $input[1] * local:multiplySequence($input[position() != 1]) };
         local:multiplySequence((1, 2, 3, 4, 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-9.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"120") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2300,13 +2518,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-10'(_Config) ->
+'K2-FunctionProlog-10'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare default function namespace \"http://example.com\";
         declare function _() { 1 };
         _()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-10.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2315,13 +2535,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-11'(_Config) ->
+'K2-FunctionProlog-11'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:_() { 1 };
         local:_()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-11.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2330,13 +2552,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-12'(_Config) ->
+'K2-FunctionProlog-12'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:_($arg as node()) { $arg };
         local:_(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-12.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2345,13 +2569,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-13'(_Config) ->
+'K2-FunctionProlog-13'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:_($arg as attribute()?) { 1 };
         local:_(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-13.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -2368,12 +2594,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-14'(_Config) ->
+'K2-FunctionProlog-14'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:myFunc() { e };
         <e/>/local:myFunc()/1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -2390,12 +2618,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-15'(_Config) ->
+'K2-FunctionProlog-15'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare variable $var1 := let $var1 := 1 return 1;
         $var1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2404,13 +2634,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-16'(_Config) ->
+'K2-FunctionProlog-16'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:myFunction() as item()* {***};
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -2427,12 +2659,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-17'(_Config) ->
+'K2-FunctionProlog-17'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:func() as xs:integer { <e>1</e> };
         local:func()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2441,13 +2675,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-18'(_Config) ->
+'K2-FunctionProlog-18'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:func() as xs:integer { attribute name {\"1\"} };
         local:func()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2456,13 +2692,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-19'(_Config) ->
+'K2-FunctionProlog-19'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:func() as xs:integer { document {\"1\"} };
         local:func()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2471,12 +2709,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-20'(_Config) ->
+'K2-FunctionProlog-20'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:func() as xs:integer { <!--1--> };
         local:func()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-20.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2485,12 +2725,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-21'(_Config) ->
+'K2-FunctionProlog-21'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:func() as xs:integer { <?target 1?> };
         local:func()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-21.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2499,13 +2741,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-22'(_Config) ->
+'K2-FunctionProlog-22'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:func() as xs:integer? { text {\"1\"} };
         local:func()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-22.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2514,14 +2758,16 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-23'(_Config) ->
+'K2-FunctionProlog-23'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:recursiveFunction($i as xs:integer) as xs:integer { if($i eq 5) then $i else local:recursiveFunction($i + 1) };
         declare function local:proxy() as xs:integer { local:recursiveFunction(0) + 3 };
         local:proxy()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-23.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2530,12 +2776,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-24'(_Config) ->
+'K2-FunctionProlog-24'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:distinct-nodes-stable ($arg as node()*) as xs:boolean* { for $a in $arg return $a };
         local:distinct-nodes-stable((<element1/>,<element2/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2544,12 +2792,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-25'(_Config) ->
+'K2-FunctionProlog-25'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:myFunc($recurse as xs:integer) { attribute {concat(\"name\", $recurse)} {()} , if ($recurse = 0) then () else local:myFunc($recurse - 1) };
         <e> { local:myFunc((2, current-time())[1] treat as xs:integer) } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e name2=\"\" name1=\"\" name0=\"\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -2558,12 +2808,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-26'(_Config) ->
+'K2-FunctionProlog-26'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:myFunc() as element(foo) { <bar/> };
         local:myFunc()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2572,12 +2824,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-27'(_Config) ->
+'K2-FunctionProlog-27'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:myFunc() as attribute(foo) { <foo/> };
         local:myFunc()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2586,13 +2840,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-28'(_Config) ->
+'K2-FunctionProlog-28'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:levenshtein($arg1 as xs:string, $arg2 as xs:string) as xs:decimal { if(string-length($arg1) = 0) then string-length($arg2) else if(string-length($arg2) = 0) then string-length($arg1) else min((local:levenshtein(substring($arg1, 2), $arg2) + 1, local:levenshtein($arg1, substring($arg2, 2)) + 1, local:levenshtein(substring($arg1, 2), substring($arg2, 2)) + (if(substring($arg1, 1, 1) = substring($arg2, 1, 1)) then 0 else 1))) };
         local:levenshtein(\"a\", \"a\"), local:levenshtein(\"aa\", \"aa\"), local:levenshtein(\"aaa\", \"aaa\"), local:levenshtein(\"aa a\", \"aa a\"), local:levenshtein(\"a a a\", \"aaa\"), local:levenshtein(\"aaa\", \"a a a\"), local:levenshtein(\"aaa\", \"aaab\"), local:levenshtein(\"978\", \"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-28.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0 0 0 0 2 2 1 3") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2601,11 +2857,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-29'(_Config) ->
+'K2-FunctionProlog-29'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "function gt function",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-29.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2614,12 +2872,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-30'(_Config) ->
+'K2-FunctionProlog-30'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:foo($arg) as xs:boolean { $arg };
         local:foo(<e/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-30.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -2636,12 +2896,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-31'(_Config) ->
+'K2-FunctionProlog-31'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:foo($arg) as xs:boolean* { $arg };
         local:foo((<e>true</e>, true(), xs:untypedAtomic(\"false\"), false(), <e> true </e>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-31.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true false false true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2650,13 +2912,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-32'(_Config) ->
+'K2-FunctionProlog-32'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:foo($arg ) as xs:boolean* { $arg };
         local:foo(current-date())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-32.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2665,12 +2929,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-33'(_Config) ->
+'K2-FunctionProlog-33'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:foo($arg ) as xs:boolean* { $arg };
         local:foo((<e>true</e>, true(), xs:untypedAtomic(\"false\"), false(), <e> true </e>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true false false true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2679,13 +2945,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-34'(_Config) ->
+'K2-FunctionProlog-34'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:foo($arg) as xs:boolean* { $arg };
         local:foo((true(), xs:untypedAtomic(\"false\"))), local:foo((false(), xs:untypedAtomic(\"false\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-34.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false false false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2694,13 +2962,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-35'(_Config) ->
+'K2-FunctionProlog-35'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:foo($arg) as xs:boolean* { $arg };
         local:foo(xs:untypedAtomic(\"false\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-35.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2709,13 +2979,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-36'(_Config) ->
+'K2-FunctionProlog-36'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:foo($arg) as xs:boolean { $arg };
         local:foo(xs:untypedAtomic(\"false\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-36.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "False"};
       {false, F} -> F 
@@ -2724,12 +2996,14 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-37'(_Config) ->
+'K2-FunctionProlog-37'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "       declare function local:foo($arg ) as xs:boolean* { $arg };
         local:foo((<e>true</e>, true(), xs:untypedAtomic(\"false\"), false(), <e> true </e>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-37.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true false false true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2738,13 +3012,15 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-38'(_Config) ->
+'K2-FunctionProlog-38'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare function local:foo() as xs:boolean { text {local:doesNotExist()} };
         1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-38.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2753,7 +3029,8 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-39'(_Config) ->
+'K2-FunctionProlog-39'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $A:=(<A>{local:functionA()}</A>);
         declare function local:functionA() as element() { <input>testing ...</input> };
@@ -2761,7 +3038,8 @@ environment('bib2') ->
         local:functionB()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-39.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "testing ...") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2770,7 +3048,8 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'K2-FunctionProlog-40'(_Config) ->
+'K2-FunctionProlog-40'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
         declare variable $A:=(<A>{local:functionA()}</A>);
         declare function local:functionA() as element() { <input>testing ...</input> };
@@ -2778,7 +3057,8 @@ environment('bib2') ->
         local:functionB()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-FunctionProlog-40.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "testing ...") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2787,11 +3067,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-function-decl-001'(_Config) ->
+'cbcl-function-decl-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:nothing() as empty-sequence() { () }; empty(local:nothing())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-function-decl-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 
@@ -2800,11 +3082,13 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'cbcl-function-declaration-002'(_Config) ->
+'cbcl-function-declaration-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "declare function local:count($x) { count($x) }; local:count((1 to 100000, 1 to 100000))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-function-declaration-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "200000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -2813,9 +3097,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-001'(_Config) ->
+'function-decl-reserved-function-names-001'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-002'(_Config) ->
+'function-decl-reserved-function-names-002'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function attribute() { fn:true() };
@@ -2823,7 +3109,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2832,9 +3119,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-003'(_Config) ->
+'function-decl-reserved-function-names-003'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-004'(_Config) ->
+'function-decl-reserved-function-names-004'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function comment() { fn:true() };
@@ -2842,7 +3131,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2851,9 +3141,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-005'(_Config) ->
+'function-decl-reserved-function-names-005'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-006'(_Config) ->
+'function-decl-reserved-function-names-006'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function document-node() { fn:true() };
@@ -2861,7 +3153,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-006.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2870,9 +3163,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-007'(_Config) ->
+'function-decl-reserved-function-names-007'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-008'(_Config) ->
+'function-decl-reserved-function-names-008'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function element() { fn:true() };
@@ -2880,7 +3175,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-008.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2889,9 +3185,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-009'(_Config) ->
+'function-decl-reserved-function-names-009'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-010'(_Config) ->
+'function-decl-reserved-function-names-010'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function empty-sequence() { fn:true() };
@@ -2899,7 +3197,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2908,9 +3207,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-011'(_Config) ->
+'function-decl-reserved-function-names-011'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-012'(_Config) ->
+'function-decl-reserved-function-names-012'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function function() { fn:true() };
@@ -2918,7 +3219,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2927,9 +3229,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-013'(_Config) ->
+'function-decl-reserved-function-names-013'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-014'(_Config) ->
+'function-decl-reserved-function-names-014'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function if() { fn:true() };
@@ -2937,7 +3241,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2946,9 +3251,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-015'(_Config) ->
+'function-decl-reserved-function-names-015'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-016'(_Config) ->
+'function-decl-reserved-function-names-016'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function item() { fn:true() };
@@ -2956,7 +3263,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-016.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2965,9 +3273,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-017'(_Config) ->
+'function-decl-reserved-function-names-017'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-018'(_Config) ->
+'function-decl-reserved-function-names-018'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function namespace-node() { fn:true() };
@@ -2975,7 +3285,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-018.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -2984,9 +3295,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-019'(_Config) ->
+'function-decl-reserved-function-names-019'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-020'(_Config) ->
+'function-decl-reserved-function-names-020'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function node() { fn:true() };
@@ -2994,7 +3307,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3003,9 +3317,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-021'(_Config) ->
+'function-decl-reserved-function-names-021'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-022'(_Config) ->
+'function-decl-reserved-function-names-022'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function processing-instruction() { fn:true() };
@@ -3013,7 +3329,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3022,9 +3339,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-023'(_Config) ->
+'function-decl-reserved-function-names-023'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-024'(_Config) ->
+'function-decl-reserved-function-names-024'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function schema-attribute() { fn:true() };
@@ -3032,7 +3351,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-024.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3041,9 +3361,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-025'(_Config) ->
+'function-decl-reserved-function-names-025'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-026'(_Config) ->
+'function-decl-reserved-function-names-026'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function schema-element() { fn:true() };
@@ -3051,7 +3373,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3060,9 +3383,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-027'(_Config) ->
+'function-decl-reserved-function-names-027'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-028'(_Config) ->
+'function-decl-reserved-function-names-028'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function switch() { fn:true() };
@@ -3070,7 +3395,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3079,9 +3405,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-029'(_Config) ->
+'function-decl-reserved-function-names-029'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-030'(_Config) ->
+'function-decl-reserved-function-names-030'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function text() { fn:true() };
@@ -3089,7 +3417,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -3098,9 +3427,11 @@ environment('bib2') ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end.
-'function-decl-reserved-function-names-031'(_Config) ->
+'function-decl-reserved-function-names-031'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XQ10"}.
-'function-decl-reserved-function-names-032'(_Config) ->
+'function-decl-reserved-function-names-032'(Config) ->
+   BaseDir = proplists:get_value(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function typeswitch() { fn:true() };
@@ -3108,7 +3439,8 @@ environment('bib2') ->
       ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try xqerl:run(Qry1) of D -> D catch _:E -> E end,
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "function-decl-reserved-function-names-032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
