@@ -1226,7 +1226,7 @@ init() ->
        [{xqSeqType, {xqKindTest, node, undefined, undefined, undefined}, one},
         {xqSeqType, 'xs:string', one}]}],
       namespaces =>
-     [{xqNamespace, "http://www.w3.org/2000/svg", []},
+     [{xqNamespace, 'no-namespace', []},
       {xqNamespace, "http://www.w3.org/2005/xquery-local-functions", "local"},
       {xqNamespace, "http://www.w3.org/2005/xpath-functions", "fn"},
       {xqNamespace, "http://www.w3.org/2001/XMLSchema-instance", "xsi"},
@@ -1236,34 +1236,174 @@ init() ->
       {xqNamespace, "http://www.w3.org/2005/xpath-functions/map", "map"},
       {xqNamespace, "http://www.w3.org/2005/xpath-functions/array", "array"},
       {xqNamespace, "http://www.w3.org/2005/xqt-errors", "err"},
-      {xqNamespace, "http://www.SDMX.org/resources/SDMXML/schemas/v1_0/message", "msg"},
-      {xqNamespace, "http://www.newyorkfed.org/xml/schemas/FX/utility", "frbny"}]}.
+      {xqNamespace, "http://www.xqsharp.com/raytracer", "raytracer"},
+      {xqNamespace, "http://www.xqsharp.com/raytracer/scene", "scene"}]}.
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 
 
+
+'___Q{}scene'(Ctx0) ->
+    'http://www.xqsharp.com/raytracer/scene':'__Q{http://www.xqsharp.com/raytracer/scene}prepare-scene'(Ctx0,
+                                       xqerl_step:forward(Ctx0,
+                                                xqerl_lib:lget('___Q{}input-context'),
+                                                child,
+                                                {qname,
+                                                 'no-namespace',
+                                                 [], "scene"},
+                                                [])).
+
+'___Q{}input-context'(Ctx0) -> xqerl_context:get_context_item(Ctx0).
+
+'___Q{}height'(Ctx0) -> {xqAtomicValue, 'xs:integer', 64}.
+
+'___Q{}width'(Ctx0) -> {xqAtomicValue, 'xs:integer', 64}.
+
 main(Options) ->
     Ctx0 = xqerl_context:merge(init(), Options),
+    xqerl_lib:lput('___Q{}width', '___Q{}width'(Ctx0)),
+    xqerl_lib:lput('___Q{}height', '___Q{}height'(Ctx0)),
     Ctx = begin
-       Local__1 = maps:get(context_item, Options, []),
+       Local__1 = xqerl_fn:doc(Ctx0,
+                {xqAtomicValue, 'xs:string',
+                 "file:///C:/git/zadean/xqerl/test/QT3-test-suite/app/Demos/sce"
+                 "ne.xml"}),
        xqerl_context:set_context_item(Ctx0, Local__1, 1,
                   {xqAtomicValue, 'xs:integer', xqerl_seq3:size(Local__1)})
      end,
+    xqerl_lib:lput('___Q{}input-context', '___Q{}input-context'(Ctx)),
+    xqerl_lib:lput('___Q{}scene', '___Q{}scene'(Ctx)),
     begin
-      Query = xqerl_array:join(
-                Ctx,
-                xqerl_types:cast_as_seq(
-                  xqerl_seq3:flatten(
-                    [xqerl_array:from_list([{xqAtomicValue,'xs:string', "a"},
-                                            {xqAtomicValue, 'xs:string', "b"}]),
-                     xqerl_array:from_list([{xqAtomicValue, 'xs:string', "c"},
-                                            {xqAtomicValue, 'xs:string', "d"}])]),
-                  {xqSeqType, {xqFunTest, array, [], undefined, any, any}, zero_or_many})),
+      Query = xqerl_fn:'string-join'(Ctx,
+                 xqerl_seq3:flatten([{xqAtomicValue, 'xs:string', "P3"},
+                      xqerl_fn:'string-join'(Ctx,
+                              xqerl_seq3:flatten([xqerl_fn:string(Ctx,
+                                              xqerl_lib:lget('___Q{}width')),
+                                        xqerl_fn:string(Ctx,
+                                              xqerl_lib:lget('___Q{}height'))]),
+                              {xqAtomicValue, 'xs:string', " "}),
+                      {xqAtomicValue, 'xs:string', "255"},
+                      xqerl_seq3:flatten(begin VarTup__1 = let__5(Ctx, new) end)]),
+                 {xqAtomicValue, 'xs:string', "\n"}),
       xqerl_types:return_value(Query)
     end.
 
+-compile({inline, {return__12, 2}}).
 
+return__12(_, []) -> [];
+return__12(Ctx, List) when erlang:is_list(List) ->
+    [return__12(Ctx, T) || T <- List];
+return__12(Ctx, {XQ__var_5, XQ__var_6, XQ__var_7, XQ__var_8, XQ__var_9}) ->
+    xqerl_fn:'string-join'(Ctx,
+            xqerl_seq3:flatten(begin
+                  VarTup__3 = for__10(Ctx,
+                            {XQ__var_5, XQ__var_6, XQ__var_7, XQ__var_8, XQ__var_9})
+                     end),
+            {xqAtomicValue, 'xs:string', " "}).
 
+-compile({inline, {let__9, 2}}).
 
+let__9(Ctx, List) when erlang:is_list(List) ->
+    lists:flatten([let__9(Ctx, T) || T <- List]);
+let__9(Ctx, {XQ__var_5, XQ__var_6, XQ__var_7, XQ__var_8}) ->
+    XQ__var_9 =
+   xqerl_seq3:ensure_zero_or_more(xqerl_operators:multiply(xqerl_operators:subtract(xqerl_operators:divide(XQ__var_8,
+                                          xqerl_lib:lget('___Q{}width')),
+                                  {xqAtomicValue, 'xs:decimal', {xsDecimal, 5, 1}}),
+                        XQ__var_5)),
+    return__12(Ctx, {XQ__var_5, XQ__var_6, XQ__var_7, XQ__var_8, XQ__var_9}).
+
+for__8(_, []) -> [];
+for__8(Ctx, List) when erlang:is_list(List) ->
+    lists:flatten([for__8(Ctx, T) || T <- List]);
+for__8(Ctx, {XQ__var_5, XQ__var_6, XQ__var_7} = Stream) ->
+    List = xqerl_seq3:range({xqAtomicValue, 'xs:integer', 1},
+             xqerl_lib:lget('___Q{}width')),
+    if List == [] -> lists:flatten(for__8(Ctx, empty, Stream));
+       true -> lists:flatten(for__8(Ctx, List, Stream))
+    end.
+
+for__8(_, empty, _) -> [];
+for__8(_, [], _) -> [];
+for__8(Ctx, NoList, Stream) when not erlang:is_list(NoList) ->
+    for__8(Ctx, [NoList], Stream);
+for__8(Ctx, [XQ__var_8 | T], {XQ__var_5, XQ__var_6, XQ__var_7}) ->
+    [let__9(Ctx, {XQ__var_5, XQ__var_6, XQ__var_7, XQ__var_8}) | for__8(Ctx, T,
+                           {XQ__var_5, XQ__var_6, XQ__var_7})].
+
+-compile({inline, {let__7, 2}}).
+
+let__7(Ctx, List) when erlang:is_list(List) ->
+    lists:flatten([let__7(Ctx, T) || T <- List]);
+let__7(Ctx, {XQ__var_5, XQ__var_6}) ->
+    XQ__var_7 =
+   xqerl_seq3:ensure_zero_or_more(xqerl_operators:add(xqerl_operators:divide(xqerl_operators:unary_minus(XQ__var_6),
+                                xqerl_lib:lget('___Q{}height')),
+                        {xqAtomicValue, 'xs:decimal', {xsDecimal, 5, 1}})),
+    for__8(Ctx, {XQ__var_5, XQ__var_6, XQ__var_7}).
+
+for__6(_, []) -> [];
+for__6(Ctx, List) when erlang:is_list(List) ->
+    lists:flatten([for__6(Ctx, T) || T <- List]);
+for__6(Ctx, {XQ__var_5} = Stream) ->
+    List = xqerl_seq3:range({xqAtomicValue, 'xs:integer', 1},
+             xqerl_lib:lget('___Q{}height')),
+    if List == [] -> lists:flatten(for__6(Ctx, empty, Stream));
+       true -> lists:flatten(for__6(Ctx, List, Stream))
+    end.
+
+for__6(_, empty, _) -> [];
+for__6(_, [], _) -> [];
+for__6(Ctx, NoList, Stream) when not erlang:is_list(NoList) ->
+    for__6(Ctx, [NoList], Stream);
+for__6(Ctx, [XQ__var_6 | T], {XQ__var_5}) ->
+    [let__7(Ctx, {XQ__var_5, XQ__var_6}) | for__6(Ctx, T, {XQ__var_5})].
+
+-compile({inline, {let__5, 2}}).
+
+let__5(Ctx, List) when erlang:is_list(List) ->
+    lists:flatten([let__5(Ctx, T) || T <- List]);
+let__5(Ctx, _) ->
+    XQ__var_5 =
+   xqerl_seq3:ensure_zero_or_more(xqerl_operators:divide(xqerl_lib:lget('___Q{}width'),
+                           xqerl_lib:lget('___Q{}height'))),
+    for__6(Ctx, {XQ__var_5}).
+
+-compile({inline, {return__11, 2}}).
+
+return__11(_, []) -> [];
+return__11(Ctx, List) when erlang:is_list(List) ->
+    [return__11(Ctx, T) || T <- List];
+return__11(Ctx,
+      {XQ__var_5, XQ__var_6, XQ__var_7, XQ__var_8, XQ__var_9, XQ__var_10}) ->
+    xqerl_fn:string(Ctx,
+          xqerl_fn:floor(Ctx,
+               xqerl_operators:multiply(XQ__var_10, {xqAtomicValue, 'xs:integer', 255}))).
+
+for__10(_, []) -> [];
+for__10(Ctx, List) when erlang:is_list(List) ->
+    lists:flatten([for__10(Ctx, T) || T <- List]);
+for__10(Ctx,
+   {XQ__var_5, XQ__var_6, XQ__var_7, XQ__var_8, XQ__var_9} = Stream) ->
+    List =
+   'http://www.xqsharp.com/raytracer':'__Q{http://www.xqsharp.com/raytracer}plot-pixel'(Ctx,
+                                      xqerl_lib:lget('___Q{}scene'),
+                                      xqerl_types:cast_as_seq(XQ__var_9,
+                                               {xqSeqType,
+                                                'xs:double', one}),
+                                      XQ__var_7),
+    if List == [] -> lists:flatten(for__10(Ctx, empty, Stream));
+       true -> lists:flatten(for__10(Ctx, List, Stream))
+    end.
+
+for__10(_, empty, _) -> [];
+for__10(_, [], _) -> [];
+for__10(Ctx, NoList, Stream) when not erlang:is_list(NoList) ->
+    for__10(Ctx, [NoList], Stream);
+for__10(Ctx, [XQ__var_10 | T],
+   {XQ__var_5, XQ__var_6, XQ__var_7, XQ__var_8, XQ__var_9}) ->
+    [return__11(Ctx,
+      {XQ__var_5, XQ__var_6, XQ__var_7, XQ__var_8, XQ__var_9, XQ__var_10})
+     | for__10(Ctx, T, {XQ__var_5, XQ__var_6, XQ__var_7, XQ__var_8, XQ__var_9})].

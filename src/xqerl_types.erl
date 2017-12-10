@@ -888,6 +888,11 @@ check_annotations(Annos, TargetAnnos) -> true.
 check_return_type(_Type, any) -> true;
 check_return_type(Type, ReturnType) -> true.
 
+
+instance_of1(#xqNode{node = Node, doc = {doc,File}}, Any) ->
+   Doc = ?get({doc,File}),
+   instance_of1(#xqNode{doc = Doc, node = Node},Any);
+
 %% #xqKindTest{kind = 'document-node',    test = Test} where test is undefined | element-test, schema-element-test
 instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = 'document-node', test = #xqKindTest{kind = element, name = #qname{} = Q1}}) ->
    case catch xqerl_xdm:dm_node_kind(Doc, Node) of
@@ -1544,7 +1549,7 @@ cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:string' ) ->
              true ->
                 xqerl_numeric:string(Val)
           end,
-?dbg("SVal",SVal),
+%?dbg("SVal",SVal),
    #xqAtomicValue{type = 'xs:string', value = SVal};
 cast_as( #xqAtomicValue{type = 'xs:double', value = Val}, 'xs:untypedAtomic' ) -> 
    SVal = if Val == infinity ->

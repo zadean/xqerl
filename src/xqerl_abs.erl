@@ -51,8 +51,13 @@ init_mod_scan() ->
 scan_functions(Functions) ->
    %?dbg("Functions",Functions),
    Specs = [ {Name, % Name#qname{namespace = xqerl_context:get_statically_known_namespace_from_prefix(Name#qname.prefix)}, 
-              Type, Annos, function_function_name(Id, Arity), Arity, param_types(Params) } 
-           || #xqFunction{id = Id, 
+              Type, 
+              Annos,
+              xqerl_static:function_hash_name(Name,Arity), 
+              %function_function_name(Id, Arity), 
+              Arity, 
+              param_types(Params) } 
+           || #xqFunction{%id = Id, 
                           annotations = Annos, 
                           arity = Arity,
                           params = Params,
@@ -67,21 +72,24 @@ scan_functions(Functions) ->
                             end, Annos)   ],
    xqerl_context:import_functions(Specs),
    %xqerl_context:set_statically_known_functions(Specs),
-   [attribute(functions, Specs)].
+   %[attribute(functions, Specs)].
+   Specs.
 
-%% {Name, Type, Annos, function_name] }
+%% {Name, Type, Annos, function_name, External }
 scan_variables(_State, Variables) ->
    Specs = [begin
-               {Name, Type, Annos, variable_function_name(Id) }
+               {Name, Type, Annos, xqerl_static:variable_hash_name(Name),External}
             end
-           || #xqVar{id = Id, 
+           || #xqVar{%id = Id, 
                      annotations = Annos, 
-                     name = Name, 
+                     name = Name,
+                     external = External, 
                      type = Type} 
            <- Variables   ],
    xqerl_context:import_variables(Specs),
    %xqerl_context:set_in_scope_variables(Specs),
-   [attribute(variables, Specs)].
+   %[attribute(variables, Specs)].
+   Specs.
 
 erl_term_abs(Term) ->
    erl_syntax:revert(erl_syntax:abstract(Term)).
@@ -149,21 +157,29 @@ scan_mod(#xqModule{prolog = Prolog,
    StaticNamespaces = xqerl_context:static_namespaces(),
    %?dbg("{Variables}",{Variables}),
    ConstNamespaces  = xqerl_static:overwrite_static_namespaces(StaticNamespaces, Namespaces),
-   FunctionAbs = scan_functions(Functions),
-   EmptyMap = Map#{namespaces => ConstNamespaces}, 
-   VariableAbs = scan_variables(EmptyMap,Variables),
-   [attribute(module, list_to_atom(ModNs))]++
-   VariableAbs ++
-   FunctionAbs ++ 
-   export_variables(Variables, EmptyMap) 
-   ++
-   export_functions(Functions)
-   ++
-   variable_functions(EmptyMap, Variables) 
-   ++ 
-   function_functions(EmptyMap, Functions)
-   ++ 
-   get_global_funs();
+   EmptyMap = Map#{namespaces => ConstNamespaces},
+   ImportedMods = lists:filtermap(fun({'module-import', {_,[]}}) -> false;
+                                     ({'module-import', N}) -> 
+                                        {true, xqerl_static:string_atom(N)};
+                                     (_) -> false
+                                  end,Namespaces),
+   
+   {ModNs,
+    library,
+    ImportedMods,
+    scan_variables(EmptyMap,Variables),
+    scan_functions(Functions),
+    [attribute(module, xqerl_static:string_atom(ModNs))]++
+     export_variables(Variables, EmptyMap) 
+     ++
+     export_functions(Functions)
+     ++
+     variable_functions(EmptyMap, Variables) 
+     ++ 
+     function_functions(EmptyMap, Functions)
+     ++ 
+     get_global_funs()
+    };
 
 %%    _ = valid_ver(Version),
 %%    _ = valid_enc(string:to_upper(Encoding)),      
@@ -228,7 +244,7 @@ scan_mod(#xqModule{prolog = Prolog,
 
 scan_mod(#xqModule{prolog = Prolog, 
                    type = main, 
-                   body = Body}, Map) ->
+                   body = Body}, #{file_name := FileName} =  Map) ->
    xqerl_context:set_statically_known_functions([]), %%% get rid of this!!
    xqerl_context:init(),
    _ = init_mod_scan(),
@@ -245,6 +261,11 @@ scan_mod(#xqModule{prolog = Prolog,
    Variables   = lists:filtermap(VarFun, Prolog),
    Functions   = xqerl_static:pro_glob_functions(Prolog),
    {Functions1, Variables1} = xqerl_context:get_module_exports(Imports),
+   ImportedMods = lists:filtermap(fun({'module-import', {_,[]}}) -> false;
+                                     ({'module-import', N}) -> 
+                                        {true, xqerl_static:string_atom(N)};
+                                     (_) -> false
+                                  end,Prolog),
    %?dbg("Imports",Imports),
    %?dbg("DefElNs",DefElNs),
    %?dbg("Namespaces",Namespaces),
@@ -252,16 +273,16 @@ scan_mod(#xqModule{prolog = Prolog,
    %?dbg("ConstNamespaces",ConstNamespaces),
    %?dbg("Functions1",Functions1),
   
-   FunctionAbs = scan_functions(Functions),
    ok = xqerl_context:import_variables(Variables1),
    ok = xqerl_context:import_functions(Functions1),
    
-   VarFun1 = fun(#xqVar{id = Id,
+   VarFun1 = fun(#xqVar{%id = Id,
                         annotations = Annos,
+                        external = External,
                         name = Name,
                         type = Type}) ->
-                   {Name2,A} = variable_function_name(Id),
-                   {Name, Type, Annos, {Name2,A} };
+                   Name2 = xqerl_static:variable_hash_name(Name),
+                   {Name, Type, Annos, {Name2,1},External };
                 (X) ->
                    X
              end,
@@ -270,25 +291,31 @@ scan_mod(#xqModule{prolog = Prolog,
                    variables => lists:map(VarFun1, Variables)
                   }, 
    %?dbg("Variables",Variables),
-   VariableAbs = scan_variables(EmptyMap,Variables),
+   ModName = xqerl_static:string_atom(FileName),
+   {FileName,
+    main,
+    ImportedMods,
+    scan_variables(EmptyMap,Variables),
+    scan_functions(Functions),
+   
    %?dbg("VariableAbs",VariableAbs),
-   VariableAbs ++
-   FunctionAbs ++ 
-   export_variables(Variables, EmptyMap) 
-   ++
-   export_functions(Functions)
-   ++
+   %VariableAbs ++
+   %FunctionAbs ++ 
+   [attribute(module, ModName)] ++ 
+   [attribute(export , [{main,1}] )] ++
+   %export_variables(Variables, EmptyMap) ++
+   %export_functions(Functions) ++
    [attribute(compile,inline_list_funcs)] ++ 
-[ {function,?L,init,0,
-  [{clause,?L,
-    [],
-    [],
-    [ % body here
-      {call,7,{remote,7,{atom,7,xqerl_context},{atom,7,init}},[]},
-      init_fun_abs(EmptyMap, [])
-    ]}
- ]
-}] ++ 
+   [ {function,?L,init,0,
+     [{clause,?L,
+       [],
+       [],
+       [ % body here
+         {call,7,{remote,7,{atom,7,xqerl_context},{atom,7,init}},[]},
+         init_fun_abs(EmptyMap, [])
+       ]}
+    ]
+   }] ++ 
    variable_functions(EmptyMap, Variables) 
    ++ 
    function_functions(EmptyMap, Functions)
@@ -296,12 +323,13 @@ scan_mod(#xqModule{prolog = Prolog,
    body_function(EmptyMap, Body)
    ++ 
    get_global_funs()
+   }
    .
 
 body_function(ContextMap, Body) ->
    _ = erlang:put(ctx, 1),
    BodyAbs = alist(expr_do(maps:put(ctx_var, 'Ctx',ContextMap), Body)),
-   VarSetFun = fun({_N,_,_,{V,_}}, CtxVar) ->
+   VarSetFun = fun({_N,_T,_A,{V,1},_Ext}, CtxVar) ->
                      {
                       {call,?L,{remote,?L,{atom,?L,xqerl_lib},{atom,?L,lput}},[{atom,?L,V},{call,?L,{atom,?L,V},[{var,?L,CtxVar}]} ]},
                       CtxVar
@@ -339,6 +367,8 @@ body_function(ContextMap, Body) ->
                 end,                 
    % reverse list that the dependencies are correct   
    {VarSetAbs,LastCtx} = lists:mapfoldl(VarSetFun, 'Ctx0', lists:reverse(maps:get(variables, ContextMap))),
+   %?dbg("BodyAbs",BodyAbs),
+   %?dbg("VarSetAbs",VarSetAbs),
    [{function,?L,main,1,[{clause,?L,[{var,?L,'Options'}],[],
                           [{match,?L,{var,?L,'Ctx0'},
                             {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,merge}},
@@ -366,7 +396,7 @@ variable_functions(ContextMap, Variables) ->
                                 P1 ++ ":" ++ L1
                           end,               
                erlang:put(ctx, 1),
-               {Name, Arity} = variable_function_name(Id),
+               Name = xqerl_static:variable_hash_name(QName),
                Expr1 = begin
                           Ex = expr_do(ContextMap, Expr),
                           if is_list(Ex) -> Ex;
@@ -400,7 +430,7 @@ variable_functions(ContextMap, Variables) ->
                               true ->
                                  Expr1
                            end,
-               {function, ?L, Name, Arity,
+               {function, ?L, Name, 1,
                 [{clause,?L, 
                   [{var,?L, CtxName}], % params
                   [], % guards
@@ -420,7 +450,8 @@ function_functions(ContextMap, Functions) ->
    CtxName2 = next_ctx_var_name(),
    Specs = [begin
                erlang:put(ctx, 1),
-               {FName, Arity1} = function_function_name(Id, Arity),
+               {FName, Arity1} = xqerl_static:function_hash_name(FxName, Arity),
+               %{FName, Arity1} = function_function_name(Id, Arity),
                % add parameters to scope
                {List,Map2} =  lists:mapfoldl(fun(#xqVar{id = VId,
                                                         name = Name,
@@ -453,6 +484,7 @@ function_functions(ContextMap, Functions) ->
                Internal
             end  
            || #xqFunction{id = Id, 
+                          name = FxName,
                           arity = Arity,
                           params = Params,
                           body = Expr} 
@@ -460,15 +492,15 @@ function_functions(ContextMap, Functions) ->
    Specs.
 
 export_functions(Functions) ->
-   Specs = [ function_function_name(Id, Arity) 
-           || #xqFunction{id = Id, 
+   Specs = [ xqerl_static:function_hash_name(Name, Arity) 
+           || #xqFunction{name = Name, 
                           arity = Arity} 
            <- Functions   ],
    [attribute(export, Specs)].
 
 export_variables(Variables, _Ctx) ->
-   Specs = [ variable_function_name(Id)
-           || #xqVar{id = Id, name = _Name} 
+   Specs = [ {xqerl_static:variable_hash_name(Name),1}
+           || #xqVar{name = Name} 
            <- Variables   ],
    [attribute(export, Specs)].
 
@@ -476,11 +508,6 @@ export_variables(Variables, _Ctx) ->
 attribute(Name,Val) ->
    erlang:list_to_tuple([attribute,?L,Name,Val]).
    
-variable_function_name(Id) ->
-   {list_to_atom(lists:concat(["var$^",integer_to_list(Id)])), 1}.
-
-function_function_name(Id, Arity) ->
-   {list_to_atom(lists:concat(["fx$^",integer_to_list(Id)])), Arity + 1}.
 
 param_types(Params) ->
    %?dbg("param_types", Params),
@@ -1108,7 +1135,7 @@ expr_do(Ctx, #xqAxisStep{} = Step) ->
    Base = {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,get_context_item}},[{var,?L,CtxVar}]},
    step_expr_do(Ctx, Step, Base);
 
-expr_do(_Ctx, {variable, {Name,_}}) when is_atom(Name) ->
+expr_do(_Ctx, {variable, {Name,1}}) when is_atom(Name) ->
    {call,?L,{remote,?L,{atom,?L,xqerl_lib},{atom,?L,lget}},[{atom,?L,Name}]};
 expr_do(_Ctx, {variable, Name}) when is_atom(Name) ->
    {var,?L,Name};
@@ -2641,10 +2668,10 @@ step_expr_do(Ctx, #xqVarRef{name = Name}, Source) -> % variables aren't step, bu
      ]}
    ;
 
-step_expr_do(Ctx, {variable, {Name,_}}, Source) -> % variables aren't step, but can be dupes
+step_expr_do(Ctx, {variable, {Name,1}}, Source) -> % variables aren't step, but can be dupes
    CtxVar = get_context_variable_name(Ctx),
    NextCtxVar = next_ctx_var_name(),
-   VarAbs = {call,?L,{remote,?L,{atom,?L,xqerl_lib},{atom,?L,lget}},[{atom,?L,Name}]},
+   {VarAbs,_} = get_variable_ref(Name, Ctx),
    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,node_map}},
     [{var,?L,CtxVar},
      {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}],[],
@@ -3671,11 +3698,13 @@ get_variable_tuple(_Ctx, List) when is_list(List) ->
 namespace_from_prefix("default",Ns,N) -> namespace_from_prefix([],Ns,N);
 namespace_from_prefix(default,Ns,N) -> namespace_from_prefix([],Ns,N);
 namespace_from_prefix(Px,Ns,N) ->
-   %?dbg("{Px,Ns,N}",{Px,Ns,N}),
-   Ns2 = [Nx1 || #xqNamespace{namespace = Nx1, prefix = Px1} <- Ns, Px == Px1] ++ [N],
+   Ns2 = [Nx1 || #xqNamespace{namespace = Nx1, prefix = Px1} <- Ns, Px == Px1] ++
+           [Nx1 || {Px1,Nx1} <- Ns, Px == Px1] ++ [N],
+   %Ns2 = [Nx1 || {Px1,Nx1} <- Ns, Px == Px1] ++ [N],
    %?dbg("Ns2",Ns2),
    case hd(Ns2) of
       undefined ->
+         ?dbg("{Ns2,Px,Ns,N}",{Ns2,Px,Ns,N}),
          xqerl_error:error('XPST0081'); % unable to expand
       O ->
          O

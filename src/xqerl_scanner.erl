@@ -173,7 +173,11 @@ scan_dc_token("</" ++ [H|T], _A, Depth) when ?notws(H) ->
    {QName, T1} = if H == $Q ->
                        {Tok1,T2} = scan_QName([H|T]),
                        {Tok2,T3} = scan_name(T2),
-                       {lists:flatten([Tok1,Tok2]),T3};
+                       if Tok2 == invalid_name ->
+                             {Tok1,T2};
+                          true ->
+                             {lists:flatten([Tok1,Tok2]),T3}
+                       end;
                     true ->
                        scan_name([H|T])
                  end,
@@ -184,7 +188,11 @@ scan_dc_token("<" ++ [H|T], _A, Depth) when ?notws(H) ->
    {QName, T1} = if H == $Q ->
                        {Tok1,T2} = scan_QName([H|T]),
                        {Tok2,T3} = scan_name(T2),
-                       {lists:flatten([Tok1,Tok2]),T3};
+                       if Tok2 == invalid_name ->
+                             {Tok1,T2};
+                          true ->
+                             {lists:flatten([Tok1,Tok2]),T3}
+                       end;
                     true ->
                        scan_name([H|T])
                  end,
@@ -1093,7 +1101,13 @@ scan_token(Str = "option" ++ T, A) ->
       _ ->
          scan_name(Str)
    end;
-scan_token("module" ++ T, A) -> qname_if_path("module", T, lookback(A));
+scan_token(Str = "module" ++ T, _A) -> 
+   case lookforward_is_namespace(T) of
+      true ->
+         {{'module',1,'module'}, T};
+      _ ->
+         scan_name(Str)
+   end;
 scan_token("import" ++ T, A) -> 
    case A of
       [] ->
@@ -1316,7 +1330,7 @@ scan_token(Str = "div" ++ T, A) ->
    end;
 
 scan_token("else" ++ T, A) -> 
-   ?dbg("A",lookback(A)),
+   %?dbg("A",lookback(A)),
    qname_if_path("else", T, lookback(A));
 
 scan_token(Str = "cast" ++ T, A) -> 
@@ -1442,8 +1456,8 @@ scan_token(Str = "is" ++ T, A) ->
                    O == '*';
                    O == 'div' ->
                scan_name(Str);                   
-            O ->
-               ?dbg(?LINE,O),
+            _O ->
+               %?dbg(?LINE,O),
                {{'is',?L,'is'}, T}
          end;
       _ ->
@@ -1731,11 +1745,12 @@ scan_token(Str = "<" ++ T, A) ->
       _ ->
          case scan_name(string:trim(T)) of
             {invalid_name, _} ->
-               %?dbg("T",T),
+               ?dbg("T",T),
                {{'<', ?L, '<'}, T};
             _ -> 
                case scan_name(T) of
                   {invalid_name, _} ->
+                     ?dbg("T",T),
                      {{'<', ?L, '<'}, T};
                   _ -> 
                      {direct, Str, 0}
@@ -1885,10 +1900,11 @@ scan_name([H|T]) ->
       true ->
           scan_prefix(T, [H]);
       false ->
+         ?dbg("Line",[H]),
           {invalid_name, [H|T]}
    end;
 scan_name(Str) ->
-   %?dbg("Line",?LINE),
+   ?dbg("Line",?LINE),
    {invalid_name, Str}.
 
 scan_prefix([], Acc) ->
@@ -1909,7 +1925,7 @@ scan_prefix(":" ++ T, Acc) ->
        {'NCName',_, [H2|_] = L1} ->
           case xmerl_lib:is_letter(H2) of
              true ->
-                ?dbg("LocalPart",LocalPart),
+                %?dbg("LocalPart",LocalPart),
                 Prefix = {'NCName',?L, lists:reverse(Acc)},
                 {[Prefix, {':',?L, ':'}, LocalPart], T1};
              _ ->
@@ -2110,6 +2126,12 @@ lookforward_is_version(T) ->
    case strip_ws(T) of
       "version" ++ _ -> true;
       "encoding" ++ _ -> true;
+      _ -> false
+   end.
+
+lookforward_is_namespace(T) ->
+   case strip_ws(T) of
+      "namespace" ++ _ -> true;
       _ -> false
    end.
 

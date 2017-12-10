@@ -325,8 +325,11 @@ resolve_against_base_uri(Base,RelPath) ->
                                 RelPath
                           end,
                {ok, {Scheme, _UserInfo, Host, _Port, Path, _Query, []}} = http_uri:parse(Base,Opts), % fragments not allowed
+               ?dbg("Path",Path),
                PathDir = filename:dirname(tl(Path)),
+               ?dbg("PathDir",PathDir),
                Joined = filename:absname_join(PathDir,RelPath1),
+               ?dbg("Joined",Joined),
                case filename:pathtype(Joined) of
                   absolute -> % windows file
                      [Vol|Rest] = filename:split(Joined),
@@ -343,6 +346,7 @@ resolve_against_base_uri(Base,RelPath) ->
          end;
       % RelPath is absolute and becomes new base
       {ok,_} ->
+         ?dbg("Abs",RelPath),
          RelPath
    end.
 

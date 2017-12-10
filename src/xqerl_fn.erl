@@ -1348,7 +1348,7 @@ val_reverse([{_,V}|T], Acc) ->
 'doc'(#{'base-uri' := BaseUri0},Uri0) -> 
    Uri = xqerl_types:value(Uri0),
    BaseUri = xqerl_types:value(BaseUri0),
-   %?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
+   ?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
    try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
       {error,unsafe} ->
          ?err('FODC0005');
@@ -1368,6 +1368,7 @@ val_reverse([{_,V}|T], Acc) ->
                #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)}
          end
    catch _:_ ->
+            ?dbg("FODC0005",erlang:get_stacktrace()),
             ?err('FODC0005')
    end.
 

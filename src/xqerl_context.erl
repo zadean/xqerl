@@ -391,9 +391,9 @@ set_copy_namespaces_mode(Value) ->
    erlang:put('copy-namespaces-mode', Value).
 
 get_static_base_uri() ->
-   "http://xqerl.org".
+   %"http://xqerl.org".
    %code:lib_dir(xqerl, lib).
-   %erlang:get('static-base-uri').
+   erlang:get('static-base-uri').
 set_static_base_uri(Value) ->
    erlang:put('static-base-uri', Value).
 
@@ -778,32 +778,13 @@ add_default_static_values({_, RawCdt} = Key) ->
 
 %TODO annotations (private)
 get_module_exports(Imports) ->
+   Acc = xqerl_module:get_static_signatures(),
    lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc}) ->
-                 Mod = list_to_atom(Ns),
-                 %?dbg(?MODULE, Mod),
-                 case catch Mod:module_info(attributes) of
-                    {'EXIT',_} ->
-                       xqerl_error:error('XQST0059');
-                    Atts ->
-                       Vars = proplists:get_value(variables, Atts, []),
-                       Funs = proplists:get_value(functions, Atts, []),
-                       PVars = [begin
-                                   %Qn = element(1, V),
-                                   %V1 = setelement(1, V, Qn#qname{namespace = Ns, prefix = Px}),
-                                   {F, A} = element(4, V),
-                                   setelement(4, V, {Mod,F,A})
-                                end || V <- Vars],
-                       PFuns = [begin
-                                   %Qn = element(1, V),
-                                   %V1 = setelement(1, V, Qn#qname{namespace = Ns, prefix = Px}),
-                                   {F, A} = element(4, V),
-                                   setelement(4, V, {Mod,F,A})
-                                end || V <- Funs],
-                       FunsAcc1 = PFuns ++ FunsAcc, 
-                       VarsAcc1 = PVars ++ VarsAcc,
-                       {FunsAcc1,VarsAcc1}
-                 end
-               end, {[],[]}, Imports).
+                     {atomic,{Funs,Vars}} = xqerl_module:get_signatures(Ns),
+                     FunsAcc1 = Funs ++ FunsAcc, 
+                     VarsAcc1 = Vars ++ VarsAcc,
+                     {FunsAcc1,VarsAcc1}
+               end, Acc, Imports).
 
 import_functions(Functions) ->
    lists:foreach(fun(F) ->

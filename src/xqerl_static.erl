@@ -32,7 +32,12 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([handle_tree/1]).
+-export([handle_tree/2]).
+
+-export([variable_hash_name/1]).
+-export([function_hash_name/2]).
+-export([string_atom/1]).
+
 -export([pro_def_elem_ns/1]).
 -export([pro_glob_variables/1]).
 -export([pro_glob_functions/1]).
@@ -88,12 +93,14 @@
 handle_tree(#xqModule{version = {Version,Encoding}, 
                    prolog = Prolog, 
                    type = ModuleType,% main|library, 
-                   body = Body} = Mod) ->
-   State = #state{},
+                   body = Body} = Mod,
+            BaseUri) ->
+   State = #state{base_uri = BaseUri},
    _ = erlang:put(var_id, 1),
    _ = valid_ver(Version),
    _ = valid_enc(string:uppercase(Encoding)),      
    _ = init_mod_scan(),
+   _ = xqerl_context:set_static_base_uri(BaseUri),
    ok = check_prolog_order(Prolog),
    DefElNs     = pro_def_elem_ns(Prolog),
    _           = pro_def_func_ns(Prolog),
@@ -108,27 +115,30 @@ handle_tree(#xqModule{version = {Version,Encoding},
    StaticNamespaces = xqerl_context:static_namespaces(),
    ConstNamespaces  = overwrite_static_namespaces(StaticNamespaces, Namespaces),
    %?dbg("ConstNamespaces",ConstNamespaces),
-   StaticImports = [{"xqerl_fn", "fn"},
-                    {"xqerl_xs", "xs"},
-                    {"xqerl_math", "math"},
-                    {"xqerl_map", "map"},
-                    {"xqerl_array", "array"},
-                    {"xqerl_error", "error"}
-                   ],
+%%    StaticImports = [{"xqerl_fn", "fn"},
+%%                     {"xqerl_xs", "xs"},
+%%                     {"xqerl_math", "math"},
+%%                     {"xqerl_map", "map"},
+%%                     {"xqerl_array", "array"},
+%%                     {"xqerl_error", "error"}
+%%                    ],
+   StaticImports = [],
    {Functions1, Variables1} = xqerl_context:get_module_exports(Imports ++ StaticImports),
    %?dbg(?LINE,{Functions1, Variables1}),
    % analyze for cyclical references
    DiGraph = analyze_fun_vars(Body, Functions, ContextItem ++ Variables),
    ok = has_cycle(DiGraph),
    OrderedGraph = case digraph_utils:topsort(DiGraph) of
-                     false ->
-                        %?dbg("topsort?", false),
+                     false when ModuleType == main ->
                         lists:sort(digraph_utils:reaching([ModuleType],DiGraph));
-                     Ord ->
-                        %?dbg("topsort?", true),
+                     false ->
+                        lists:sort(digraph:vertices(DiGraph));
+                     Ord when ModuleType == main ->
                         lists:filter(fun(OV) ->
                                            lists:member(OV, digraph_utils:reaching([ModuleType],DiGraph))
-                                     end, Ord)
+                                     end, Ord);
+                     Ord ->
+                        Ord
                   end,
    %?dbg("OrderedGraph",OrderedGraph),
    OrderedGraph1 = case lists:member(context_item, OrderedGraph) of
@@ -187,7 +197,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                          },
    State1 = scan_namespaces(State0, ConstNamespaces),
    State2 = scan_setters(State1, Setters),
-   OptionAbs = scan_options(Options),
+   OptionAbs = scan_options(Options,ModuleType),
    FunctionSigs = scan_functions(FunctionsSorted),
    %StatFuncSigs = scan_functions(Functions1),
    %?dbg("FunOrd",FunOrd),
@@ -231,7 +241,8 @@ handle_tree(#xqModule{version = {Version,Encoding},
    S2 = [X ||  X  <- VarFunPart, not is_record(X, xqQuery)],
    %S1 = FinalState#state.context#context.statement,
    %%% for now, return a map with everything in it for the abstract part. just until it has no idea of static context
-   EmptyMap = #{namespaces => FinalState#state.known_ns,
+   EmptyMap = #{file_name => BaseUri,
+                namespaces => FinalState#state.known_ns,
                 variables => [], %FinalState#state.inscope_vars,
                 var_tuple => [],
                 iter => [],
@@ -363,7 +374,9 @@ handle_node(State, Nodes) when is_list(Nodes) ->
 %% 3.1 Primary Expressions
 handle_node(State, #xqQuery{query = Qry} )-> 
   %?dbg("IfSt",State#state.context_item_type),
-  Statements = lists:map(fun(Q) ->
+   % clear all but global variables !!
+   ?dbg("VARS",State#state.inscope_vars),
+   Statements = lists:map(fun(Q) ->
                                 get_statement(handle_node(State, Q))
                           end, Qry),
    set_statement(State, #xqQuery{query = Statements});
@@ -501,13 +514,13 @@ handle_node(State, {'function-ref', #qname{} = Name, Arity}) ->
    set_statement_and_type(State, F#xqFunction{arity = Arity}, #xqSeqType{type = Type, occur = one});
 %% 3.1.7 Inline Function Expressions
 % this is a global variable
-handle_node(State,#xqVar{id = Id,
+handle_node(State,#xqVar{%id = Id,
                          name = Name, 
                          type = Type, 
                          external = true,
                          expr = undefined} = Node) ->
    %ErlVarName = local_variable_name(Id),
-   GlobVarName = global_variable_name(Id),
+   GlobVarName = global_variable_name(Name),
    NewVar  = {Name,Type,[],{GlobVarName,1}},
    State1 = add_inscope_variable(State, NewVar),
    NewStatement = Node#xqVar{expr = undefined},
@@ -518,7 +531,7 @@ handle_node(State,#xqVar{id = Id,
                          type = Type, 
                          expr = Expr} = Node) ->
    %ErlVarName = local_variable_name(Id),
-   GlobVarName = global_variable_name(Id),
+   GlobVarName = global_variable_name(Name),
    VarState = handle_node(State, Expr),
    VarType = get_statement_type(VarState), % for loop type is one out of a sequence
    VarStmt = get_statement(VarState),
@@ -589,8 +602,8 @@ handle_node(State, #xqFunction{name = FName, type = FType, params = Params, body
         end,
 %?dbg("SC", SC),
    FType1 = #xqSeqType{type = #xqFunTest{kind = function,params = ParamTypes,type = FType}, occur = one},
-?dbg("ST", ST),
-?dbg("FType", FType1),
+%?dbg("ST", ST),
+%?dbg("FType", FType1),
    NoCast = check_type_match(ST, FType1),
    %?dbg("NoCast", NoCast),
    St2 = if NoCast == true ->
@@ -798,6 +811,8 @@ handle_node(State, {path_expr, Steps}) ->
                State2 = set_statement_type(StateC, LastType),
                State1 = handle_node(State2, Step),
                Val = get_statement(State1),
+               %?dbg("Step",Step),
+               %?dbg("Val",Val),
                Typ = case get_statement_type(State1) of
                         undefined ->
                            #xqSeqType{type = node, occur = zero_or_many};
@@ -2822,6 +2837,11 @@ default_return(State, Node) ->
 
 analyze_fun_vars(Body, Functions, Variables) ->
    G = digraph:new([]),
+   if Body == [] ->
+         digraph:add_vertex(G, library);
+      true ->
+         digraph:add_vertex(G, library)
+   end,
    %G = digraph:new([acyclic]),
    % add the variables
    %io:format("Variables: ~p ~n", [Variables]),
@@ -2855,10 +2875,9 @@ analyze_fun_vars(Body, Functions, Variables) ->
    %_ = x(G, M2, Variables, []),
    % comment out / only checking variables ??
    _ = x(G, M2, [Body] ++ Functions ++ Variables, []),
-   {V,_} = digraph:vertex(G, main),
-   %{V,_} = digraph:vertex(G, {10,{qname,"http://www.example.com/","functx","yearMonthDuration"},2}),
-   Reaching =  digraph_utils:reaching([V], G),
-   Reachable = digraph_utils:reachable([V], G),
+%%    {V,_} = digraph:vertex(G, ModType),
+%%    Reaching =  digraph_utils:reaching([V], G),
+%%    Reachable = digraph_utils:reachable([V], G),
    %TopoSort = digraph_utils:topsort(G), % this is the order to simplify and inline functions from
    %?dbg("M2",M2),
    %?dbg("Reaching",Reaching),
@@ -2972,6 +2991,7 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
          %Static = lists:member(Px, ["fn","map","math","array","local"]),
          if Ns == undefined ->
                %andalso not Static ->
+               ?dbg("Nm",Nm),
                ?err('XPST0081'); % unknown prefix/namespace for variable
             true ->
                ok
@@ -3099,6 +3119,7 @@ valid_ver("3.1") -> true;
 valid_ver(_) -> ?err('XQST0031').
 
 init_mod_scan() ->
+   xqerl_context:init(),
    erlang:put(imp_mod, 1),
    erlang:put(ctx, 1),
    erlang:put(var_tuple, 1),
@@ -3261,7 +3282,7 @@ pro_mod_imports(Prolog) ->
                                dict:append(Ns, ok, Dict)
                          end
                    end, dict:new(), Imports),
-   ?dbg("Imports",Imports),
+   %?dbg("Imports",Imports),
    Imports.
 
 pro_options(Prolog) ->
@@ -3374,7 +3395,10 @@ scan_setters(State, SetList) ->
 scan_functions(Functions) ->
    %?dbg("Functions",Functions),
    Specs = [ {Name, % Name#qname{namespace = xqerl_context:get_statically_known_namespace_from_prefix(Name#qname.prefix)}, 
-              Type, Annos, function_function_name(Id, Arity), Arity, param_types(Params) } 
+              Type, Annos, 
+              function_hash_name(Name,Arity),
+              %function_function_name(Id, Arity), 
+              Arity, param_types(Params) } 
            || #xqFunction{id = Id, 
                           annotations = Annos, 
                           arity = Arity,
@@ -3394,19 +3418,15 @@ scan_functions(Functions) ->
    Specs.
 
 %% {Name, Type, Annos, function_name] }
-scan_variables(State, Variables) ->
+scan_variables(_State, Variables) ->
    Specs = [begin
-               Name1 = Name, %resolve_qname(Name, State),
-               {Name1, Type, Annos, variable_function_name(Id) }
+               {Name, Type, Annos, {variable_hash_name(Name),1}}
             end
-           || #xqVar{id = Id, 
+           || #xqVar{%id = Id, 
                      annotations = Annos, 
                      name = Name, 
                      type = Type} 
            <- Variables   ],
-   %xqerl_context:import_variables(Specs),
-   %xqerl_context:set_in_scope_variables(Specs),
-   %State#state{inscope_vars = Specs}.
    Specs.
 
 scan_namespaces(State, Namespaces) ->
@@ -3433,8 +3453,9 @@ scan_options(Options,library) ->
          scan_options(Options);
       true ->
          ?err('XQST0108')
-   end.
-   
+   end;   
+scan_options(Options,_) -> scan_options(Options).
+
 scan_options(Options) ->
    _ = xqerl_options:validate(Options),
    [attribute(options,Options)].
@@ -3500,11 +3521,20 @@ scan_dec_formats(Formats,State) ->
 
 attribute(Name,Val) -> erlang:list_to_tuple([attribute,?LINE,Name,Val]).
 
-variable_function_name(Id) ->
-   {list_to_atom(lists:concat(["var$^",integer_to_list(Id)])), 1}.
+variable_hash_name(#qname{namespace = 'no-namespace',local_name = L}) ->
+   string_atom("___Q{}"++L);
+variable_hash_name(#qname{namespace = N,local_name = L}) ->
+   string_atom("___Q{"++N++"}"++L).
 
-function_function_name(Id, Arity) ->
-   {list_to_atom(lists:concat(["fx$^",integer_to_list(Id)])), Arity + 1}.
+function_hash_name(undefined, Arity) ->
+   {undefined, Arity + 1};
+function_hash_name(#qname{namespace = N,local_name = L}, Arity) ->
+   {string_atom("__Q{"++N++"}"++L), Arity + 1}.
+
+string_atom(Term) ->
+   Bin = unicode:characters_to_binary(Term),
+   binary_to_atom(Bin, latin1).
+
 
 %% resolve_qname(#qname{namespace = 'no-namespace', prefix = undefined, local_name = Ln}, _) ->
 %%    #qname{namespace = 'no-namespace', prefix = "", local_name = Ln};
@@ -3517,8 +3547,8 @@ resolve_qname(#qname{prefix = default} = N, X) ->
 resolve_qname(#qname{namespace = _undefined, prefix = Px, local_name = Ln}, #state{known_ns = Nss}) ->
    case lists:keyfind(Px, 3, Nss) of
       false ->
-         %?dbg("Nss",Nss),
-         %?dbg("Px",Px),
+         ?dbg("Nss",Nss),
+         ?dbg("Px",Px),
          ?err('XPST0081'); % unable to expand
       #xqNamespace{namespace = Ns} ->
          #qname{namespace = Ns, prefix = Px, local_name = Ln}
@@ -3998,6 +4028,7 @@ get_static_function(State,{#qname{namespace = "http://www.w3.org/2005/xpath-func
    end;
 get_static_function(#state{known_fx_sigs = Sigs},{#qname{namespace = Ns, local_name = Ln}, Arity}) ->
    if Ns == [] ->
+         ?dbg("Ln",Ln),
          ?err('XPST0081');
       true ->
          ok
@@ -4093,7 +4124,7 @@ check_fun_arg_type(State, Arg, TargetType) ->
    StatCnt = get_static_count(Arg),
    ok = check_occurance_match(ParamType1, TargetType, StatCnt),
    % now check the types
-   ?dbg("NoCast",{StatCnt,ParamType1,TargetType}),
+   %?dbg("NoCast",{StatCnt,ParamType1,TargetType}),
    NoCast = check_type_match(ParamType1, TargetType),
    %?dbg("NoCast",{NoCast,StatCnt,ParamType1,TargetType}),
    #xqSeqType{type = TT} = TargetType,
@@ -4354,7 +4385,7 @@ check_type_match(undefined, _TargetType) ->
    true;
 
 check_type_match(ParamType, TargetType) ->
-   ?dbg("{ParamType, TargetType}",{ParamType, TargetType}),
+   %?dbg("{ParamType, TargetType}",{ParamType, TargetType}),
    BP = xqerl_btypes:get_type(ParamType#xqSeqType.type),
    try xqerl_btypes:get_type(TargetType#xqSeqType.type) of 
       BT ->
@@ -4476,8 +4507,8 @@ set_can_inline(#state{context = #context{} = Ctx} = State, CanInline) ->
 get_can_inline(#state{context = #context{can_inline = CanInline}}) -> CanInline.
 
 
-global_variable_name(Id) ->
-   list_to_atom(lists:concat(["var$^",integer_to_list(Id)])).
+global_variable_name(Name) ->
+   variable_hash_name(Name).
 local_variable_name(Id) ->
    list_to_atom(lists:concat(["XQ__var_", Id])).
 param_variable_name(Id) ->
@@ -4532,11 +4563,11 @@ update_function_type(State = #state{known_fx_sigs = Sigs}, #xqFunction{} = F) ->
    NewSigs = lists:keyreplace(element(4, NewSig), 4, Sigs, NewSig),
    State#state{known_fx_sigs = NewSigs}.
                  
-update_variable_type(State = #state{inscope_vars = Sigs}, #xqVar{} = V) ->
-   [NewSig] = scan_variables(State, [V]),
-   %?dbg("NewSig",NewSig),
-   NewSigs = lists:keyreplace(element(4, NewSig), 4, Sigs, NewSig),
-   State#state{inscope_vars = NewSigs}.
+%% update_variable_type(State = #state{inscope_vars = Sigs}, #xqVar{} = V) ->
+%%    [NewSig] = scan_variables(State, [V]),
+%%    %?dbg("NewSig",NewSig),
+%%    NewSigs = lists:keyreplace(element(4, NewSig), 4, Sigs, NewSig),
+%%    State#state{inscope_vars = NewSigs}.
                  
       
 
