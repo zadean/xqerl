@@ -258,460 +258,85 @@ environment('fsx_NS',BaseDir) ->
 ].
 'statictyping-21'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $x := 1 let $z := $x + $y return $x",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-21.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-22'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "declare variable $x := $y + 1; \"abc\"",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-22.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-23'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $x in (1, 2, 3) for $z in ($x, $y) return $x",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-23.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-24'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $var := (\"a\",\"b\",\"c\") where fn:not($var) eq fn:true() return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-24.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"FORG0006") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-WhereExpr001'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $file in (//Folder)[1]/File where ($file, 1) return $file/FileName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-WhereExpr001.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"FORG0006") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-WhereExpr002'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $file in (//Folder)[1]/File where (1, $file) return $file/FileName",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-WhereExpr002.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"FORG0006") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-1'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $var in (\"a\",\"b\",\"c\") where $var + 1 = 3 return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-1.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-2'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $var in (\"a\",\"b\",\"c\") where fn:abs(($var)) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-2.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-3'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $var in (\"a\",\"b\",\"c\") where fn:avg(($var,1)) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-3.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-4'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $var in (\"a\",\"b\",\"c\") where fn:max(($var,1)) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-4.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-5'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $var in (\"a\",\"b\",\"c\") where fn:min(($var,1)) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-5.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-6'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $var in (\"a\",\"b\",\"c\") where fn:sum(($var,1)) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-6.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-7'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $var := (\"a\",\"b\",\"c\") where fn:boolean($var) = fn:true() return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-7.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"FORG0006") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-8'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $var in (\"a\",\"b\",\"c\") where ($var - 1) = 3 return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-8.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-9'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $var in (\"a\",\"b\",\"c\") where ($var * 1) = 3 return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-9.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-10'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $var in (\"a\",\"b\",\"c\") where ($var div 2) = 3 return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-10.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-11'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $var in (\"a\",\"b\",\"c\") where ($var idiv 2) = 3 return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-11.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-12'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "for $var in (\"a\",\"b\",\"c\") where ($var mod 2) = 3 return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-12.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-13'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $var := (\"a\",\"b\",\"c\") where ($var eq 1) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-13.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-14'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $var := (\"a\",\"b\",\"c\") where ($var le 1) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-14.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-15'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $var := (\"a\",\"b\",\"c\") where ($var lt 1) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-15.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-16'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $var := (\"a\",\"b\",\"c\") where ($var gt 1) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-16.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-17'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $var := (\"a\",\"b\",\"c\") where ($var ne 1) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-17.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-18'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $var := (1,2,3) where ($var + 1) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-18.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-19'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $var := (1,2,3) where ($var - 1) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-19.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'statictyping-20'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $var := (1,2,3) where ($var * 1) return $var",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "statictyping-20.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-PITest-01'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "(: Description: In LetClause, binding expr's ST must be subtype of variable's ST. Under REC FS, both are 'processing-instruction?', so STA succeeds. Under PER FS, former is 'processing-instruction filesystem?', latter is 'processing-instruction filesytem', so STA fails, raises error. (Note that an implementation that doesn't do STA will not raise an error.) :) let $pi as processing-instruction(filesystem) := (//processing-instruction(filesystem))[1] return $pi",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-PITest-01.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-PITest-02'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "
-        for $pi in //processing-instruction(nonexistent) 
-        let $pi2 as processing-instruction(filesystem) := $pi 
-        return $pi2",
-   {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-PITest-02.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.

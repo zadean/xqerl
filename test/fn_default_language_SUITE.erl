@@ -266,4 +266,4 @@ environment('array-and-map',BaseDir) ->
    end.
 'default-language-006'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"default-language fr-CA"}.
+   {skip,"default-language fr-CA "}.

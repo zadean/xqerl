@@ -744,6 +744,7 @@ environment('GroupByUseCases',BaseDir) ->
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},

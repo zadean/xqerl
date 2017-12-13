@@ -361,23 +361,7 @@ environment('array-and-map',BaseDir) ->
    end.
 'fn-function-name-010'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:function-name( if ( fn:current-dateTime() eq
-                                   fn:dateTime( fn:current-date(),
-                                                fn:current-time() ))
-                               then fn:dateTime#2
-                               else 1 )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-name-010.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-function-name-011'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:function-name( if (current-date() eq xs:date('1900-01-01'))

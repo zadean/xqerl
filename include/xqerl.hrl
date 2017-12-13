@@ -183,6 +183,10 @@
                   hour = 0, 
                   min = 0}).
 
+% integer with scaling-factor
+-record(xsDecimal,{int = 0,
+                   scf = 0}).
+
 -record(xsDateTime, {
                    sign     = '+',
                    year     = 0,
@@ -190,7 +194,7 @@
                    day      = 1,
                    hour     = 0,
                    minute   = 0,
-                   second   = 0.000,
+                   second   = #xsDecimal{},
                    offset   = #off_set{},
                    string_value
                    }).

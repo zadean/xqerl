@@ -126,7 +126,15 @@ handle_tree(#xqModule{version = {Version,Encoding},
    {Functions1, Variables1} = xqerl_context:get_module_exports(Imports ++ StaticImports),
    %?dbg(?LINE,{Functions1, Variables1}),
    % analyze for cyclical references
-   DiGraph = analyze_fun_vars(Body, Functions, ContextItem ++ Variables),
+   DiGraph = analyze_fun_vars(Body, Functions1 ++ Functions, ContextItem ++ Variables1 ++ Variables),
+   LU = {"http://www.w3.org/2005/xpath-functions","function-lookup"},
+   _ = case lists:member({0,LU,2}, digraph:vertices(DiGraph)) of
+          true ->
+             %?dbg("lookup",[N || {Id,N,_} <- digraph:vertices(DiGraph), Id =/= 0]),
+             [add_edge(DiGraph, {Id,N,A}, ModuleType) || {Id,N,A} <- digraph:vertices(DiGraph), Id =/= 0];
+          _ ->
+             ok
+       end,
    ok = has_cycle(DiGraph),
    OrderedGraph = case digraph_utils:topsort(DiGraph) of
                      false when ModuleType == main ->
@@ -158,7 +166,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
    FunVarSorted = 
      lists:filtermap(fun(context_item) ->
                            if ContextItem == [] ->
-                                 {true,{'context-item', {item,external,[]}}};
+                                 {true,{'context-item', {item,external,undefined}}};
                               true ->
                                  {true,ContextItem}
                            end;
@@ -178,8 +186,8 @@ handle_tree(#xqModule{version = {Version,Encoding},
    
    %?dbg("FunVarSorted",FunVarSorted),
    
-   FunOrd = [FId || {FId,#qname{}, _}  <- OrderedGraph1, FId =/= 0],
-   VarOrd = [VId || {VId,#qname{}}  <- OrderedGraph1],
+   FunOrd = [FId || {FId,_, _}  <- OrderedGraph1, FId =/= 0],
+   VarOrd = [VId || {VId,_}  <- OrderedGraph1, VId =/= 0],
    FunctionsSorted = lists:map(fun(FId) ->
                                      lists:keyfind(FId, #xqFunction.id, Functions)
                                end, FunOrd),
@@ -201,7 +209,9 @@ handle_tree(#xqModule{version = {Version,Encoding},
    FunctionSigs = scan_functions(FunctionsSorted),
    %StatFuncSigs = scan_functions(Functions1),
    %?dbg("FunOrd",FunOrd),
+   %?dbg("FunctionsSorted",FunctionsSorted),
    %?dbg("FunctionSigs",FunctionSigs),
+   %?dbg("OrderedGraph1",OrderedGraph1),
    VariableSigs = scan_variables(State2,VariablesSorted),
    %?dbg("ContextItem",ContextItem),
    {_ContextItemSt, CtxItemType} = if ContextItem == [] ->
@@ -238,7 +248,8 @@ handle_tree(#xqModule{version = {Version,Encoding},
    %?dbg("FinalState#state.inscope_vars",FinalState#state.inscope_vars),
    digraph:delete(DiGraph),
    S1 = [X || #xqQuery{} = X  <- VarFunPart],
-   S2 = [X ||  X  <- VarFunPart, not is_record(X, xqQuery)],
+   S2 = [X || X  <- VarFunPart, not is_record(X, xqQuery)],
+   S3 = [X || X <-  Prolog, not is_record(X, xqVar), not is_record(X, xqFunction), not element(1, X) == 'context-item'],
    %S1 = FinalState#state.context#context.statement,
    %%% for now, return a map with everything in it for the abstract part. just until it has no idea of static context
    EmptyMap = #{file_name => BaseUri,
@@ -259,7 +270,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                 'copy-namespaces' => FinalState#state.copy_ns_mode,
                 known_collations => FinalState#state.known_collations,
                 known_dec_formats => FinalState#state.known_dec_formats,
-                body => Mod#xqModule{prolog = S2,
+                body => Mod#xqModule{prolog = S3 ++ S2,
                                      body = S1}
                }, 
    %%% not sent in %%%  
@@ -375,7 +386,7 @@ handle_node(State, Nodes) when is_list(Nodes) ->
 handle_node(State, #xqQuery{query = Qry} )-> 
   %?dbg("IfSt",State#state.context_item_type),
    % clear all but global variables !!
-   ?dbg("VARS",State#state.inscope_vars),
+   %?dbg("VARS",State#state.inscope_vars),
    Statements = lists:map(fun(Q) ->
                                 get_statement(handle_node(State, Q))
                           end, Qry),
@@ -521,7 +532,7 @@ handle_node(State,#xqVar{%id = Id,
                          expr = undefined} = Node) ->
    %ErlVarName = local_variable_name(Id),
    GlobVarName = global_variable_name(Name),
-   NewVar  = {Name,Type,[],{GlobVarName,1}},
+   NewVar  = {Name,Type,[],{GlobVarName,1},true},
    State1 = add_inscope_variable(State, NewVar),
    NewStatement = Node#xqVar{expr = undefined},
    set_statement_and_type(State1, NewStatement, Type);
@@ -555,7 +566,7 @@ handle_node(State,#xqVar{id = Id,
          ok
    end,
   %?dbg("OkType",OkType),
-   NewVar  = {Name,SVarType,[],{GlobVarName,1}},
+   NewVar  = {Name,SVarType,[],{GlobVarName,1},false},
    %?dbg("NewVar",NewVar),
    State1 = add_inscope_variable(State, NewVar),
    
@@ -720,18 +731,18 @@ handle_node(State, {postfix, {'function-ref',#qname{} = Name, Arity}, [{argument
 
 % this could be a function/map/array variable
 handle_node(State, {postfix, #xqVarRef{name = Name} = Ref, [{arguments,Args}]}) ->
-   {_Name,FType,_Annos,_VarName} = get_variable(State, Name),
+   {_Name,FType,_Annos,_VarName,_External} = get_variable(State, Name),
    %?dbg("V",V),
    %?dbg("Args",Args),
    {Params,Type} = case FType of
-                      #xqSeqType{type = #xqFunTest{kind = map, params = IParams, type = IType}} ->
-                         if IType == any ->
-                               {IParams, #xqSeqType{type = item, occur = one}};
+                      #xqSeqType{type = #xqFunTest{params = IParams, type = IType}} ->
+                         %?dbg("IType",IType),
+                         if IType == any;
+                            IType == undefined ->
+                               {IParams, #xqSeqType{type = item, occur = zero_or_many}};
                             true ->
                                {IParams, IType}
                          end;
-                      #xqSeqType{type = #xqFunTest{params = IParams, type = IType}} ->
-                         {IParams, IType};
                       #xqSeqType{type = UType} ->
                          %?dbg("UType",UType),
                          {[],FType}
@@ -744,8 +755,8 @@ handle_node(State, {postfix, #xqVarRef{name = Name} = Ref, [{arguments,Args}]}) 
                        end, CheckArgs),
    set_statement_and_type(State, {postfix, Ref, [{arguments,NewArgs}]}, Type);
 
-handle_node(State, {partial_postfix, #xqVarRef{name = Name} = Ref, [{arguments,Args}]}) ->
-   {_Name,FType,_Annos,_VarName} = V = get_variable(State, Name),
+handle_node(State, {partial_postfix, #xqVarRef{name = Name} = Ref, [{arguments,Args}|RestArgs]}) ->
+   {_Name,FType,_Annos,_VarName,_External} = get_variable(State, Name),
    %?dbg("V",V),
    %?dbg("Args",Args),
    {Params,Type} = case FType of
@@ -780,7 +791,7 @@ handle_node(State, {partial_postfix, #xqVarRef{name = Name} = Ref, [{arguments,A
                                     end, lists:zip(Params, Args)),
    AnonFun = #xqFunction{params = PlaceHolders,
                          arity = AnonArity,
-                         body = {postfix, Ref, [{arguments,NewArgs}]},
+                         body = {postfix, Ref, [{arguments,NewArgs}|RestArgs]},
                          type = Type},
    ST = #xqSeqType{type = #xqFunTest{kind = function,
                                      params = AnonParamTypes,
@@ -808,6 +819,7 @@ handle_node(State, {postfix, Sequence, Filters }) ->
 handle_node(State, {path_expr, Steps}) ->
    StateC = set_in_constructor(State, false),
    Fold = fun(Step, LastType) ->
+               %?dbg("LastType",LastType),
                State2 = set_statement_type(StateC, LastType),
                State1 = handle_node(State2, Step),
                Val = get_statement(State1),
@@ -1173,6 +1185,7 @@ handle_node(State, {'integer-divide', Expr1, Expr2}) ->
    Atomic = both_atomics(St1, St2),
    T1 = get_statement_type(S1),
    T2 = get_statement_type(S2),
+   ?dbg("St1",St1),
    T3 = static_operator_type('idivide',T1,T2),
    if Atomic ->
          #xqAtomicValue{type = T} = Eq = xqerl_operators:idivide(St1, St2),
@@ -1856,9 +1869,9 @@ handle_node(State, {'if-then-else', If, Then, Else}) ->
    ElSt = get_statement(ElS1),
    %IfTy = get_statement_type(IfS1), % is boolean
    %?dbg("IfSt",IfSt),
-   %?dbg("ThSt",ThSt),
+   ?dbg("ThSt",ThSt),
    %?dbg("ElSt",ElSt),
-   %?dbg("get_statement_type(ThS1)",get_statement_type(ThS1)),
+   ?dbg("get_statement_type(ThS1)",get_statement_type(ThS1)),
    %?dbg("get_statement_type(ElS1)",get_statement_type(ElS1)),
    #xqSeqType{occur = ThOc} = ThTy = get_statement_type(ThS1),
    #xqSeqType{occur = ElOc} = ElTy = get_statement_type(ElS1),
@@ -2398,8 +2411,8 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
    Type = #xqSeqType{type = 'xs:integer', occur = one},
    ArgSt = get_statement(SimpArg),
    ArgCt = get_static_count(SimpArg),
-   %?dbg("ArgCt",ArgCt),
-   %?dbg("ArgSt",ArgSt),
+   ?dbg("ArgCt",ArgCt),
+   ?dbg("ArgSt",ArgSt),
    if ArgCt == undefined ->
          set_statement_and_type(State, {'function-call',F#xqFunction{params = [ArgSt], type = Type}}, Type);
       true ->
@@ -2685,8 +2698,8 @@ handle_node(State, {'?',Id}) ->
    set_statement_and_type(State, {variable,param_variable_name(Id)}, #xqSeqType{type = item, occur = zero_or_many});
 
 handle_node(State, Node) ->
-   %?dbg("UNKNOWN NODE", Node),
-   %?dbg("UNKNOWN NODE", State#state.context),
+   ?dbg("UNKNOWN NODE", Node),
+   ?dbg("UNKNOWN NODE", State#state.context),
    State.
 
 % TODO make this a foldr to wrap up chained calls and get correct return type
@@ -2744,7 +2757,7 @@ handle_predicate(State, {arguments, Args}) ->
    NewArgs = lists:map(fun(Arg) ->
                              get_statement(Arg)
                        end, SimpArgs),
-   set_statement(State, {arguments, NewArgs});
+   set_statement_and_type(State, {arguments, NewArgs}, #xqSeqType{type = item, occur = zero_or_many});
 % unary lookups
 handle_predicate(State, {lookup, wildcard}) ->
    NewType = #xqSeqType{type = item, occur = zero_or_many}, 
@@ -2844,10 +2857,14 @@ analyze_fun_vars(Body, Functions, Variables) ->
    end,
    %G = digraph:new([acyclic]),
    % add the variables
-   %io:format("Variables: ~p ~n", [Variables]),
-   M1 = lists:foldl(fun(#xqVar{id = Id, name = Nm}, Map) ->
-                        digraph:add_vertex(G, {Id,Nm}),
-                        maps:put(Nm, Id, Map);
+   %?dbg("Functions",Functions),
+   %?dbg("Variables",Variables),
+   M1 = lists:foldl(fun({#qname{} = Nm,_,_,_,_}, Map) ->
+                        digraph:add_vertex(G, {0,sim_name(Nm)}),
+                        maps:put(sim_name(Nm), 0, Map);
+                       (#xqVar{id = Id, name = Nm}, Map) ->
+                        digraph:add_vertex(G, {Id,sim_name(Nm)}),
+                        maps:put(sim_name(Nm), Id, Map);
                        ({'context-item',_}, Map) ->
                         digraph:add_vertex(G, context_item),
                         maps:put(context_item, -1, Map)
@@ -2856,50 +2873,48 @@ analyze_fun_vars(Body, Functions, Variables) ->
                     Variables),
    % add the functions
    M2 = lists:foldl(fun(#xqFunction{id = Id, name = #qname{namespace = Ns} = Nm, arity = Ar}, Map) ->
-                       if Ns == undefined ->
-                             ?err('XQST0060');
-                          true ->
-                             ok
-                       end,
-                       digraph:add_vertex(G, {Id,Nm, Ar}),
-                       case maps:is_key({Nm, Ar}, Map) of
-                          true ->
-                             ?err('XQST0034');
-                          _ ->
-                             maps:put({Nm, Ar}, Id, Map)
-                       end
+                          if Ns == undefined ->
+                                ?err('XQST0060');
+                             true ->
+                                ok
+                          end,
+                          digraph:add_vertex(G, {Id,sim_name(Nm), Ar}),
+                          case maps:is_key({sim_name(Nm), Ar}, Map) of
+                             true ->
+                                ?err('XQST0034');
+                             _ ->
+                                maps:put({sim_name(Nm), Ar}, Id, Map)
+                          end;
+                       ({#qname{} = Nm,_,_,_,Ar,_}, Map) ->
+                          digraph:add_vertex(G, {0,sim_name(Nm), Ar}),
+                          maps:put({sim_name(Nm), Ar}, 0, Map)
                     end, 
                     M1,
                     Functions),
+   Functions1 = [F || #xqFunction{} = F  <- Functions],
    % globals are set now recurse for dependencies
-   %_ = x(G, M2, Variables, []),
-   % comment out / only checking variables ??
-   _ = x(G, M2, [Body] ++ Functions ++ Variables, []),
-%%    {V,_} = digraph:vertex(G, ModType),
-%%    Reaching =  digraph_utils:reaching([V], G),
-%%    Reachable = digraph_utils:reachable([V], G),
-   %TopoSort = digraph_utils:topsort(G), % this is the order to simplify and inline functions from
-   %?dbg("M2",M2),
-   %?dbg("Reaching",Reaching),
-   %?dbg("Reachable",Reachable),
-   %?dbg("TopoSort",TopoSort),
+   _ = x(G, M2, [Body] ++ Functions1 ++ Variables, []),
    G.
-   %digraph:delete(G).
+
+sim_name(#qname{namespace = N, local_name = L}) ->
+   {N,L}.
 
 % scan everything, when new Var found, add edge and make parent, 
 % when new Ref found, find id and make link to parent, leave parent as is
-x(G, Map, [#xqFunction{id = Id, name = Nm, arity = Ar, body = Body, params = Params}|T], _Data) ->
+x(G, Map, [#xqFunction{id = Id, name = Nm0, arity = Ar, body = Body, params = Params}|T], _Data) ->
+   Nm = sim_name(Nm0),
    %?dbg("xqFunction",{Body,{Id,Nm}}),
    digraph:add_vertex(G, {Id,Nm,Ar}),
    % overload params
    Map1 = lists:foldl(fun(#xqVar{id = Id1, name = Nm1}, M) ->
-                            digraph:add_vertex(G, {Id1,Nm1}),
-                            maps:put(Nm1, Id1, M)
+                            digraph:add_vertex(G, {Id1,sim_name(Nm1)}),
+                            maps:put(sim_name(Nm1), Id1, M)
                       end, Map, Params),
    x(G, Map1, {Id,Nm, Ar}, Body),
    x(G, Map, T, []);
 % global variables
-x(G, Map, [#xqVar{id = Id, name = Nm, expr = Body}|T], _Data) ->
+x(G, Map, [#xqVar{id = Id, name = Nm0, expr = Body}|T], _Data) ->
+   Nm = sim_name(Nm0),
    % all global variable bodies can have dependency on context item
    %?dbg("xqVar",{Body,{Id,Nm}}),
    digraph:add_vertex(G, {Id,Nm}),
@@ -2943,17 +2958,17 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
    case Data of
       {'catch',Catches} ->
          ErrNs = "http://www.w3.org/2005/xqt-errors",
-         E1 = #qname{namespace = ErrNs,prefix = "err", local_name = "code"},
+         E1 = {ErrNs,"code"},
+         E2 = {ErrNs,"description"},
+         E3 = {ErrNs,"value"},
+         E4 = {ErrNs,"module"},
+         E5 = {ErrNs,"line-number"},
+         E6 = {ErrNs,"column-number"},
          digraph:add_vertex(G, E1),
-         E2 = #qname{namespace = ErrNs,prefix = "err", local_name = "description"},
          digraph:add_vertex(G, E2),
-         E3 = #qname{namespace = ErrNs,prefix = "err", local_name = "value"},
          digraph:add_vertex(G, E3),
-         E4 = #qname{namespace = ErrNs,prefix = "err", local_name = "module"},
          digraph:add_vertex(G, E4),
-         E5 = #qname{namespace = ErrNs,prefix = "err", local_name = "line-number"},
          digraph:add_vertex(G, E5),
-         E6 = #qname{namespace = ErrNs,prefix = "err", local_name = "column-number"},
          digraph:add_vertex(G, E6),
          M2 = Map#{E1 => E1,
                   E2 => E2,
@@ -2966,28 +2981,30 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
          xf(G, Map, Parent, Data),
          Map;
       #xqPosVar{id = Id1, name = Nm1} ->
-         digraph:add_vertex(G, {Id1,Nm1}),
-         add_edge(G, {Id1,Nm1}, Parent),
-         M2 = maps:put(Nm1, Id1, Map),
+         digraph:add_vertex(G, {Id1,sim_name(Nm1)}),
+         add_edge(G, {Id1,sim_name(Nm1)}, Parent),
+         M2 = maps:put(sim_name(Nm1), Id1, Map),
          x(G, M2, Parent, []),
          M2;
-      #xqVar{id = Id, name = Nm, expr = D, position = Pos} ->
+      #xqVar{id = Id, name = Nm0, expr = D, position = Pos} ->
+         Nm = sim_name(Nm0),
          digraph:add_vertex(G, {Id,Nm}),
          %?dbg("adding edge",{?LINE, {Id,Nm}, Parent}),
          add_edge(G, {Id,Nm}, Parent),
          M1 = maps:put(Nm, Id, Map),
          case Pos of
             #xqPosVar{id = Id1, name = Nm1} ->
-               digraph:add_vertex(G, {Id1,Nm1}),
-               add_edge(G, {Id1,Nm1}, Parent),
-               M2 = maps:put(Nm1, Id1, M1),
+               digraph:add_vertex(G, {Id1,sim_name(Nm1)}),
+               add_edge(G, {Id1,sim_name(Nm1)}, Parent),
+               M2 = maps:put(sim_name(Nm1), Id1, M1),
                x(G, M2, Parent, D),
                M2;
             _ ->
                x(G, M1, Parent, D),
                M1
          end;
-      #xqVarRef{name = #qname{namespace = Ns} = Nm} ->
+      #xqVarRef{name = #qname{namespace = Ns} = Nm0} ->
+         Nm = sim_name(Nm0),
          %Static = lists:member(Px, ["fn","map","math","array","local"]),
          if Ns == undefined ->
                %andalso not Static ->
@@ -2998,18 +3015,21 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
          end,
          case catch maps:get(Nm, Map) of
             {'EXIT',_} ->
+               ?dbg("Nm, Map",{Nm, Map}),
                ?err('XPST0008');
             Id when {Id,Nm} == Parent ->
+               ?dbg("Nm, Map",Map),
                ?err('XPST0008'); % self reference, variable does not exist yet
             Id ->
                %?dbg("adding edge",{{Id,Nm}, Parent}),
                add_edge(G, {Id,Nm}, Parent),
                Map
          end;
-      {FC, Nm, Ar, Args } when FC == 'function-call';
-                                            FC == 'partial-function'->
-         %?dbg("{{Nm,Ar}, Parent}",{{Nm,Ar}, Parent}),
-         Properties = xqerl_static_fn_props:get_props(Nm, Ar),
+      {FC, Nm0, Ar, Args } when FC == 'function-call';
+                                FC == 'partial-function'->
+         %?dbg("{{Nm0,Ar}, Parent}",{{Nm0,Ar}, Parent}),
+         Properties = xqerl_static_fn_props:get_props(Nm0, Ar),
+         Nm = sim_name(Nm0),
          %?dbg("Properties",Properties),
          case maps:is_key({Nm, Ar}, Map) of 
             true ->
@@ -3035,8 +3055,9 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
                x(G, Map, Parent, Args)
          end,
          Map;
-      {'function-ref', Nm, Ar } ->
-         Properties = xqerl_static_fn_props:get_props(Nm, Ar),
+      {'function-ref', Nm0, Ar } ->
+         Properties = xqerl_static_fn_props:get_props(Nm0, Ar),
+         Nm = sim_name(Nm0),
          case maps:is_key({Nm, Ar}, Map) of 
             true ->
                Id = maps:get({Nm, Ar}, Map),
@@ -3063,7 +3084,7 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
          x(G, Map, Parent, D1)
    end;
 x(G, Map, Parent, 'context-item') ->
-   %?dbg("Adding context item",Parent),
+   ?dbg("Adding context item",Parent),
    digraph:add_vertex(G, context_item),
    add_edge(G, context_item, Parent),
    Map;
@@ -3093,7 +3114,7 @@ add_edge(G, A, B) ->
    ok.
 
 has_cycle(G) ->
-   Vars = [Var || {_,#qname{}} = Var <- digraph:vertices(G)],
+   Vars = [Var || {_,_} = Var <- digraph:vertices(G)],
    %?dbg("Vars",Vars),
    lists:foreach(fun(Var) ->
                        case digraph:get_cycle(G, Var) of
@@ -3305,6 +3326,18 @@ pro_glob_variables(Prolog) ->
                                                 ok = xqerl_lib:reserved_namespaces(N)
                                              
                                           end, Annos),
+                        % check dupe public/private 
+                        _ = lists:foldl(fun({annotation,{#qname{namespace = "http://www.w3.org/2012/xquery", 
+                                                                  local_name = L},_}},[]) when L == "public";
+                                                                                               L == "private" ->
+                                                anno;
+                                           ({annotation,{#qname{namespace = "http://www.w3.org/2012/xquery", 
+                                                                  local_name = L},_}},anno) when L == "public";
+                                                                                                 L == "private" ->
+                                                ?err('XQST0116');
+                                           (_,D) ->
+                                                D
+                                        end, [], Annos),                        
                          case dict:is_key({Ns,Ln}, Dict) of
                             true ->
                                ?err('XQST0049');
@@ -3325,7 +3358,7 @@ pro_glob_functions(Prolog) ->
                                    params = Params},Dict) ->
                          % no null namespaces for functions
                          if Ns == [] -> ?err('XQST0060'); true -> ok end,
-                         % check for dup params
+                         % check for dupe params
                         _ = lists:foldl(fun(#xqVar{name = Nm1},Dict1) ->
                                            case dict:is_key(Nm1, Dict1) of
                                               true ->
@@ -3344,7 +3377,19 @@ pro_glob_functions(Prolog) ->
                                              ({annotation,{#qname{namespace = N},_}}) ->
                                                 ok = xqerl_lib:reserved_namespaces(N)
                                           end, Annos),
-                        % check dup fun
+                        % check dupe public/private 
+                        _ = lists:foldl(fun({annotation,{#qname{namespace = "http://www.w3.org/2012/xquery", 
+                                                                  local_name = L},_}},[]) when L == "public";
+                                                                                               L == "private" ->
+                                                anno;
+                                           ({annotation,{#qname{namespace = "http://www.w3.org/2012/xquery", 
+                                                                  local_name = L},_}},anno) when L == "public";
+                                                                                                 L == "private" ->
+                                                ?err('XQST0106');
+                                           (_,D) ->
+                                                D
+                                        end, [], Annos),
+                        % check dupe fun
                          case dict:is_key({{Ns,Ln},A}, Dict) of
                             true ->
                                ?err('XQST0034');
@@ -3417,14 +3462,15 @@ scan_functions(Functions) ->
    %[attribute(functions, Specs)].
    Specs.
 
-%% {Name, Type, Annos, function_name] }
+%% {Name, Type, Annos, function_name, External }
 scan_variables(_State, Variables) ->
    Specs = [begin
-               {Name, Type, Annos, {variable_hash_name(Name),1}}
+               {Name, Type, Annos, {variable_hash_name(Name),1}, External}
             end
            || #xqVar{%id = Id, 
                      annotations = Annos, 
                      name = Name, 
+                     external = External,
                      type = Type} 
            <- Variables   ],
    Specs.
@@ -4054,10 +4100,11 @@ get_static_function(#state{known_fx_sigs = Sigs},{#qname{namespace = Ns, local_n
                   hd(Lookup);
                true ->
                   % 0 or > 1 fun found
+                 %?dbg("Lookup",Lookup),
                  %?dbg("Sigs",Sigs),
-                 %?dbg("Ns",Ns),
-                 %?dbg("Ln",Ln),
-                 %?dbg("Arity",Arity),
+                 ?dbg("Ns",Ns),
+                 ?dbg("Ln",Ln),
+                 ?dbg("Arity",Arity),
                  ?err('XPST0017')
             end,
    FunSig.
@@ -4453,12 +4500,14 @@ check_occurance_match1(In, Target, _) ->
 %% GETTER/SETTERS for static context information being passed around
 %% ====================================================================
 set_statement(#state{context = #context{} = Ctx} = State, Statement) ->
+   %?dbg("Statement",Statement),
    NewCtx = Ctx#context{statement = Statement},
    State#state{context = NewCtx}.
 
 get_statement(#state{context = #context{statement = Statement}}) -> Statement.
 
 set_statement_type(#state{context = #context{} = Ctx} = State, StatementType) ->
+   %?dbg("StatementType",StatementType),
    NewCtx = Ctx#context{statement_type = StatementType},
    State#state{context_item_type = StatementType, context = NewCtx}.
 
@@ -4472,6 +4521,7 @@ set_statement_and_type(#state{context = #context{} = Ctx} = State, Statement, un
    State#state{context_item_type = undefined, context = NewCtx};
 set_statement_and_type(#state{context = #context{static_count = _OldCnt} = Ctx} = State, Statement, #xqSeqType{occur = Occ} = StatementType) ->
    %?dbg("Statement",Statement),
+   %?dbg("StatementType",StatementType),
    NewCtx = if Occ == zero;
                Statement == 'empty-sequence' ->
                   Ctx#context{statement = Statement, statement_type = StatementType, static_count = 0};
@@ -4516,23 +4566,26 @@ param_variable_name(Id) ->
 
 
 % {Name,Type,Annos,ErlVarName}
-add_inscope_variable(#state{inscope_vars = Vars} = State, {#qname{namespace = Ns, local_name = Ln},_,_,_} = NewVar) ->
+add_inscope_variable(State, {A,B,C,D}) ->
+   add_inscope_variable(State, {A,B,C,D,false});
+% {Name,Type,Annos,ErlVarName,External}
+add_inscope_variable(#state{inscope_vars = Vars} = State, {#qname{namespace = Ns, local_name = Ln},_,_,_,_} = NewVar) ->
    %?dbg("NewVar",NewVar),
    %?dbg("Vars",Vars),
-   NewVars = [NewVar | [Var || {#qname{namespace = Ns1, local_name = Ln1},_,_,_} = Var  <- Vars, {Ns1,Ln1} =/= {Ns,Ln}]],
+   NewVars = [NewVar | [Var || {#qname{namespace = Ns1, local_name = Ln1},_,_,_,_} = Var  <- Vars, {Ns1,Ln1} =/= {Ns,Ln}]],
    State#state{inscope_vars = NewVars}.
 
 get_variable(#state{inscope_vars = Vars}, #qname{namespace = Ns, local_name = Ln}) ->
-   case [Var || {#qname{namespace = Ns1, local_name = Ln1},_,_,_} = Var  <- Vars, {Ns1,Ln1} == {Ns,Ln}] of
+   case [Var || {#qname{namespace = Ns1, local_name = Ln1},_,_,_,_} = Var  <- Vars, {Ns1,Ln1} == {Ns,Ln}] of
       [O] ->
          O;
       [] ->
-         %?dbg("Vars",{Ns,Ln}),
-         %?dbg("Vars",Vars),
+         ?dbg("Vars",{Ns,Ln}),
+         ?dbg("Vars",Vars),
          ?err('XPST0008')
    end;
 get_variable(#state{inscope_vars = Vars}, {variable, VarAtom}) ->
-   case [Var || {_,_,_,VarAtom1} = Var <- Vars, VarAtom1 = VarAtom] of
+   case [Var || {_,_,_,VarAtom1,_} = Var <- Vars, VarAtom1 = VarAtom] of
       [O] ->
          O;
       [] ->

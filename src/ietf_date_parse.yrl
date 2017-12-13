@@ -62,10 +62,10 @@ stime -> s hours ':' minutes ':' seconds stimezone  : ?dbg("time",time),{'$2','$
 %% time -> hours ':' minutes ':' seconds s timezone : ?dbg("time",time),{'$1','$3','$5','$7'}.
 %% time -> hours ':' minutes ':' seconds   timezone : ?dbg("time",time),{'$1','$3','$5','$6'}.
 stime -> s hours ':' minutes ':' seconds            : ?dbg("time",time),{'$2','$4','$6',{off_set, '+', 0, 0}}.
-stime -> s hours ':' minutes             stimezone  : ?dbg("time",time),{'$2','$4',0,'$5'}.
-%% time -> hours ':' minutes             s timezone : ?dbg("time",time),{'$1','$3',0,'$5'}.
-%% time -> hours ':' minutes               timezone : ?dbg("time",time),{'$1','$3',0,'$4'}.
-stime -> s hours ':' minutes                        : ?dbg("time",time),{'$2','$4',0,{off_set, '+', 0, 0}}.
+stime -> s hours ':' minutes             stimezone  : ?dbg("time",time),{'$2','$4',xqerl_numeric:decimal(0),'$5'}.
+%% time -> hours ':' minutes             s timezone : ?dbg("time",time),{'$1','$3',xqerl_numeric:decimal(0),'$5'}.
+%% time -> hours ':' minutes               timezone : ?dbg("time",time),{'$1','$3',xqerl_numeric:decimal(0),'$4'}.
+stime -> s hours ':' minutes                        : ?dbg("time",time),{'$2','$4',xqerl_numeric:decimal(0),{off_set, '+', 0, 0}}.
 %% hours ::=   digit digit?
 hours -> digit2   : ?dbg("time",time),
                     case val('$1') of 
@@ -85,17 +85,19 @@ minutes -> digit2 : ?dbg("time",time),
                      end.
 %% seconds  ::=   digit digit ("." digit+)?
 seconds -> digit2 digits : 
-                     case list_to_float(lists:concat([val('$1'),val('$2')])) of
-                        V when V >= 60 ->
+                     V = xqerl_numeric:decimal(lists:concat([val('$1'),val('$2')])),
+                     case xqerl_numeric:greater_than_equal(V, 60) of
+                        true ->
                            xqerl_error:error('FORG0010');
-                        V ->
+                        _ ->
                            V
                      end.
 seconds -> digit2        : 
-                     case list_to_integer(lists:concat([val('$1')])) of
-                        V when V >= 60 ->
+                     V = xqerl_numeric:decimal(lists:concat([val('$1')])),
+                     case xqerl_numeric:greater_than_equal(V, 60) of
+                        true ->
                            xqerl_error:error('FORG0010');
-                        V ->
+                        _ ->
                            V
                      end.
 %% timezone ::=   tzname | tzoffset (S? "(" S? tzname S? ")")?

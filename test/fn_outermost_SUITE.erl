@@ -413,24 +413,7 @@ environment('outermost',BaseDir) ->
    end.
 'fn-outermost-008'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:outermost( if ( fn:current-dateTime() eq
-                                    fn:dateTime( fn:current-date(),
-                                                 fn:current-time() ))
-                               then .
-                               else 1 )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-008.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-outermost-009'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:outermost( if (current-date() eq xs:date('1900-01-01'))
@@ -454,24 +437,7 @@ environment('outermost',BaseDir) ->
    end.
 'fn-outermost-010'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:outermost( if ( fn:current-dateTime() eq
-                                    fn:dateTime( fn:current-date(),
-                                                 fn:current-time() ))
-                               then .
-                               else fn:dateTime#2 )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-010.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-outermost-011'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:outermost( if (current-date() eq xs:date('1900-01-01'))

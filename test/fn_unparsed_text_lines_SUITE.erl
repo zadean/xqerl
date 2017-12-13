@@ -431,23 +431,7 @@ environment('unparsed-text-lines-with-base-uri-2',BaseDir) ->
    end.
 'fn-unparsed-text-lines-007'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:unparsed-text-lines( 
-              if ( fn:current-dateTime() eq fn:dateTime( fn:current-date(),
-                                                         fn:current-time() ))
-              then \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\"
-              else 1 )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-unparsed-text-lines-007.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-unparsed-text-lines-008'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:unparsed-text-lines( 
@@ -472,25 +456,7 @@ environment('unparsed-text-lines-with-base-uri-2',BaseDir) ->
    end.
 'fn-unparsed-text-lines-009'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:unparsed-text-lines( 
-              \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
-              if ( fn:current-dateTime() eq fn:dateTime( fn:current-date(),
-                                                         fn:current-time() ))
-              then \"utf-8\"
-              else 1 )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-unparsed-text-lines-009.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-unparsed-text-lines-010'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:unparsed-text-lines( 
@@ -517,24 +483,7 @@ environment('unparsed-text-lines-with-base-uri-2',BaseDir) ->
    end.
 'fn-unparsed-text-lines-011'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:unparsed-text-lines( 
-              \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
-              if ( fn:current-dateTime() eq fn:dateTime( fn:current-date(),
-                                                         fn:current-time() ))
-              then \"utf-8\"
-              else () )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-unparsed-text-lines-011.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-unparsed-text-lines-012'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:unparsed-text-lines( 
@@ -717,6 +666,7 @@ environment('unparsed-text-lines-with-base-uri-2',BaseDir) ->
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"#UNDEFINED"}]},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -743,6 +693,7 @@ environment('unparsed-text-lines-with-base-uri-2',BaseDir) ->
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"#UNDEFINED"}]},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -769,6 +720,7 @@ environment('unparsed-text-lines-with-base-uri-2',BaseDir) ->
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -795,6 +747,7 @@ environment('unparsed-text-lines-with-base-uri-2',BaseDir) ->
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -917,6 +870,7 @@ environment('unparsed-text-lines-with-base-uri-2',BaseDir) ->
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/does-not-exists.txt"}]},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -943,6 +897,7 @@ environment('unparsed-text-lines-with-base-uri-2',BaseDir) ->
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/does-not-exists.txt"}]},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1353,6 +1308,7 @@ environment('unparsed-text-lines-with-base-uri-2',BaseDir) ->
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"#UNDEFINED"}]},
+{'context-item', [""]},
 {vars, [{"href","xs:string","'unparsed-text/text-plain-utf-8.txt'"}]},
 {params, []},
 {namespaces, []},

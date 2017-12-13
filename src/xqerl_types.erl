@@ -101,10 +101,12 @@ atomize(_) ->
 
 
 return_value([]) -> ?seq:empty();
+% document from a doc store.
 return_value(#xqNode{doc = {doc,File}, node = Node}) ->
    Doc = ?get({doc,File}),
-   {NewDoc,NewNode} = xqerl_xdm:copy(Doc, Node),
-   #xqNode{doc = NewDoc, node = NewNode};
+   %{NewDoc,NewNode} = xqerl_xdm:copy(Doc, Node),
+   #xqNode{doc = Doc, node = Node};
+   %#xqNode{doc = NewDoc, node = NewNode};
 return_value(#xqNode{doc = Doc, node = Node}) ->
    {NewDoc,NewNode} = xqerl_xdm:copy(Doc, Node),
    #xqNode{doc = NewDoc, node = NewNode};
@@ -893,6 +895,8 @@ instance_of1(#xqNode{node = Node, doc = {doc,File}}, Any) ->
    Doc = ?get({doc,File}),
    instance_of1(#xqNode{doc = Doc, node = Node},Any);
 
+instance_of1(#xqNode{}, #xqKindTest{kind = node}) ->
+   true;
 %% #xqKindTest{kind = 'document-node',    test = Test} where test is undefined | element-test, schema-element-test
 instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = 'document-node', test = #xqKindTest{kind = element, name = #qname{} = Q1}}) ->
    case catch xqerl_xdm:dm_node_kind(Doc, Node) of
@@ -1334,7 +1338,7 @@ cast_as( #xqAtomicValue{type = 'xs:boolean', value = Val}, 'xs:untypedAtomic' ) 
 cast_as( #xqAtomicValue{type = 'xs:date', value = Val}, 'xs:dateTime' ) -> 
    Rec = Val#xsDateTime{hour = 0,
                         minute = 0,
-                        second = 0},
+                        second = xqerl_numeric:decimal(0)},
    #xqAtomicValue{type = 'xs:dateTime', 
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:dateTime')}};
 cast_as( #xqAtomicValue{type = 'xs:date', value = Val}, 'xs:gDay' ) -> 
@@ -1373,7 +1377,7 @@ cast_as( #xqAtomicValue{type = 'xs:date',
 cast_as( #xqAtomicValue{type = 'xs:dateTime', value = Val}, 'xs:date' ) -> 
    Rec = Val#xsDateTime{hour = 0,
                         minute = 0,
-                        second = 0},
+                        second = xqerl_numeric:decimal(0)},
    #xqAtomicValue{type = 'xs:date', 
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:date')}};
 cast_as( #xqAtomicValue{type = 'xs:dateTime', value = Val}, 'xs:dateTimeStamp' ) -> 
@@ -1390,7 +1394,7 @@ cast_as( #xqAtomicValue{type = 'xs:dateTime', value = Val}, 'xs:gDay' ) ->
                         month = 0,
                         hour = 0,
                         minute = 0,
-                        second = 0},
+                        second = xqerl_numeric:decimal(0)},
    #xqAtomicValue{type = 'xs:gDay', 
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gDay')}};
 cast_as( #xqAtomicValue{type = 'xs:dateTime', value = Val}, 'xs:gMonth' ) -> 
@@ -1399,7 +1403,7 @@ cast_as( #xqAtomicValue{type = 'xs:dateTime', value = Val}, 'xs:gMonth' ) ->
                         day = 0,
                         hour = 0,
                         minute = 0,
-                        second = 0},
+                        second = xqerl_numeric:decimal(0)},
    #xqAtomicValue{type = 'xs:gMonth', 
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gMonth')}};
 cast_as( #xqAtomicValue{type = 'xs:dateTime', value = Val}, 'xs:gMonthDay' ) -> 
@@ -1407,7 +1411,7 @@ cast_as( #xqAtomicValue{type = 'xs:dateTime', value = Val}, 'xs:gMonthDay' ) ->
                         year = 0,
                         hour = 0,
                         minute = 0,
-                        second = 0},
+                        second = xqerl_numeric:decimal(0)},
    #xqAtomicValue{type = 'xs:gMonthDay', 
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gMonthDay')}};
 cast_as( #xqAtomicValue{type = 'xs:dateTime', value = Val}, 'xs:gYear' ) -> 
@@ -1415,14 +1419,14 @@ cast_as( #xqAtomicValue{type = 'xs:dateTime', value = Val}, 'xs:gYear' ) ->
                         day   = 0,
                         hour = 0,
                         minute = 0,
-                        second = 0},
+                        second = xqerl_numeric:decimal(0)},
    #xqAtomicValue{type = 'xs:gYear', 
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gYear')}};
 cast_as( #xqAtomicValue{type = 'xs:dateTime', value = Val}, 'xs:gYearMonth' ) -> 
    Rec = Val#xsDateTime{day   = 0,
                         hour = 0,
                         minute = 0,
-                        second = 0},
+                        second = xqerl_numeric:decimal(0)},
    #xqAtomicValue{type = 'xs:gYearMonth', 
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gYearMonth')}};
 cast_as( #xqAtomicValue{type = 'xs:dateTime', 
@@ -1475,8 +1479,7 @@ cast_as( #xqAtomicValue{type = 'xs:dayTimeDuration', value = _Val},
                      month  = 0, 
                      day    = 0,
                      hour   = 0,
-                     minute = 0,
-                     second = 0},
+                     minute = 0},
    #xqAtomicValue{type = 'xs:yearMonthDuration', 
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:yearMonthDuration')}};
 
@@ -1577,7 +1580,7 @@ cast_as( #xqAtomicValue{type = 'xs:duration',
    #xqAtomicValue{type = 'xs:untypedAtomic', value = Val};
 cast_as( #xqAtomicValue{type = 'xs:duration', value = Val}, 
          'xs:yearMonthDuration' ) -> 
-   Rec = Val#xsDateTime{day = 0, hour = 0, minute = 0, second = 0},
+   Rec = Val#xsDateTime{day = 0, hour = 0, minute = 0},
    #xqAtomicValue{type = 'xs:yearMonthDuration', 
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:yearMonthDuration')}};
 
@@ -1836,10 +1839,12 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                         offset = Offset},
       Dt = #xqAtomicValue{type = 'xs:dateTime', 
                      value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:dateTime')}},
-      if Hour == 24 andalso Min == 0 andalso Sec == 0 -> xqerl_operators:add(Dt, cast_as(#xqAtomicValue{type = 'xs:string', value = "PT0S"}, 'xs:dayTimeDuration'));
-         Hour >= 24 -> xqerl_error:error('FORG0001'); % only no min/sec is okay with hour 24
-         Min  >= 60 -> xqerl_error:error('FORG0001'); % only no min/sec is okay with hour 24
-         Sec  >= 60 -> xqerl_error:error('FORG0001'); % only no min/sec is okay with hour 24
+      SecFlt = xqerl_numeric:double(Sec),
+      if Hour   == 24 andalso Min == 0 andalso SecFlt == 0 -> 
+            xqerl_operators:add(Dt, cast_as(#xqAtomicValue{type = 'xs:string', value = "PT0S"}, 'xs:dayTimeDuration'));
+         Hour   >= 24 -> xqerl_error:error('FORG0001'); % only no min/sec is okay with hour 24
+         Min    >= 60 -> xqerl_error:error('FORG0001'); % only no min/sec is okay with hour 24
+         SecFlt >= 60 -> xqerl_error:error('FORG0001'); % only no min/sec is okay with hour 24
          true ->
             Dt
       end
@@ -2051,7 +2056,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                            day    = Day,
                            hour   = 0,
                            minute = 0,
-                           second = 0, 
+                           second = xqerl_numeric:decimal(0), 
                            offset = Offset},
          #xqAtomicValue{type = 'xs:gDay', 
                         value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gDay')}};
@@ -2074,7 +2079,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                            day    = 0,
                            hour   = 0,
                            minute = 0,
-                           second = 0, 
+                           second = xqerl_numeric:decimal(0), 
                            offset = Offset},
          #xqAtomicValue{type = 'xs:gMonth', 
                         value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gMonth')}};
@@ -2100,7 +2105,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                               day    = Day,
                               hour   = 0,
                               minute = 0,
-                              second = 0, 
+                              second = xqerl_numeric:decimal(0), 
                               offset = Offset},
             #xqAtomicValue{type = 'xs:gMonthDay', 
                            value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gMonthDay')}};
@@ -2133,7 +2138,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                         day    = 0,
                         hour   = 0,
                         minute = 0,
-                        second = 0, 
+                        second = xqerl_numeric:decimal(0), 
                         offset = Offset},
       if Year == 0 ->
             xqerl_error:error('FORG0001');
@@ -2175,7 +2180,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                               day    = 0,
                               hour   = 0,
                               minute = 0,
-                              second = 0, 
+                              second = xqerl_numeric:decimal(0), 
                               offset = Offset},
                #xqAtomicValue{type = 'xs:gYearMonth', 
                               value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gYearMonth')}}
@@ -2220,7 +2225,8 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
    Bin = list_to_binary(["T", string:trim(Val)]),
    {Hour,Min,Sec,Rest} = time_bin_to_hms(Bin),
    Offset = tz_bin_to_offset(Rest),
-   Hour1 = if Hour == 24 andalso Min == 0 andalso Sec == 0 ->
+   SecFlt = xqerl_numeric:float(Sec),
+   Hour1 = if Hour == 24 andalso Min == 0 andalso SecFlt == 0 ->
                  0;
               Hour >= 24 -> xqerl_error:error('FORG0001'); % only no min/sec is okay with hour 24
               true ->
@@ -2230,9 +2236,9 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                      minute = Min,
                      second = Sec, 
                      offset = Offset},
-   if Hour1 >= 24 ; % only no min/sec is okay with hour 24
-      Min   >= 60 ; % only no min/sec is okay with hour 24
-      Sec   >= 60 -> xqerl_error:error('FORG0001'); % only no min/sec is okay with hour 24
+   if Hour1  >= 24 ; % only no min/sec is okay with hour 24
+      Min    >= 60 ; % only no min/sec is okay with hour 24
+      SecFlt >= 60 -> xqerl_error:error('FORG0001'); % only no min/sec is okay with hour 24
       true ->
          #xqAtomicValue{type = 'xs:time',
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:time')}}
@@ -2414,7 +2420,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                         day    = 0,
                         hour   = 0,
                         minute = 0,
-                        second = 0},
+                        second = xqerl_numeric:decimal(0)},
       #xqAtomicValue{type = 'xs:yearMonthDuration', 
                      value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:yearMonthDuration')}}
    catch
@@ -2447,8 +2453,7 @@ cast_as( #xqAtomicValue{type = 'xs:yearMonthDuration', value = _Val}, % 0.0 sec 
                      month  = 0, 
                      day    = 0,
                      hour   = 0,
-                     minute = 0,
-                     second = 0},
+                     minute = 0},
    #xqAtomicValue{type = 'xs:dayTimeDuration', 
                   value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:dayTimeDuration')}};
 
@@ -2866,9 +2871,9 @@ time_bin_to_hms(Bin) ->
                   Fract = lists:takewhile(fun(E) -> E >= $0 andalso E =< $9 end, L),
                   RestL = lists:subtract(L, Fract),
                   Sec1 = Sec ++ "." ++ Fract,
-                  {Hour,Min,list_to_float(Sec1),list_to_binary(RestL)};
+                  {Hour,Min,xqerl_numeric:decimal(Sec1),list_to_binary(RestL)};
                _ ->
-                  {Hour,Min,list_to_integer(Sec),Rest}
+                  {Hour,Min,xqerl_numeric:decimal(Sec),Rest}
             end;
          _ ->
             xqerl_error:error('FORG0001')
@@ -2895,24 +2900,16 @@ timedur_bin_to_hms(Bin) ->
                        {0,R1}
                  end,
    Sec =   case binary:split(Rest1, <<"S">>) of
-              [SecBin,R2] ->
-                 if R2 == <<>> ->
-                    % might be decimal
-                    try
-                       binary_to_integer(SecBin)
-                    catch 
-                       _:_ ->
-                          binary_to_float(SecBin)
-                    end;
-                 true -> % timezone not allowed
-                    %?dbg("R2",R2),
-                    xqerl_error:error('FORG0001')
-                 end;
+              [SecBin,<<>>] ->
+                 xqerl_numeric:decimal(binary_to_list(SecBin));
+              [_,_] ->
+                 ?err('FORG0001');
               [<<>>] ->
-                 0;
+                 xqerl_numeric:decimal(0);
               [_R2] -> % timezone not allowed
                  xqerl_error:error('FORG0001')
            end,
+   %?dbg("{Bin,Hour,Min,Sec}",{Bin,Hour,Min,Sec}),
    {Hour,Min,Sec}.
 
 ymdur_bin_to_ym(<<>>) -> xqerl_error:error('FORG0001');
@@ -2971,13 +2968,9 @@ daytimedur_bin_to_dhms(Bin) ->
        end,      
    {Hour,Min,Sec} = timedur_bin_to_hms(TimePart),
    % push values up the ladder
-   {SS1,MI1} = if is_integer(Sec) ->
-                     {Sec rem 60, Min + Sec div 60};
-                  true ->
-                     SSt = trunc(Sec),
-                     SSr = round((Sec * 1000) - (SSt * 1000)) / 1000, % for float rounding
-                     {SSt rem 60 + SSr, Min + SSt div 60}
-               end,
+   SecTotal = xqerl_numeric:add(Sec, Min * 60),
+   MI1 = xqerl_numeric:truncate(SecTotal) div 60,
+   SS1 = xqerl_numeric:subtract(SecTotal, MI1 * 60),
    {MI2, HH1} = {MI1 rem 60, Hour + MI1 div 60},
    {HH2, D1}  = {HH1 rem 24, Day  + HH1 div 24},
    {Sign,D1,HH2,MI2,SS1}.
@@ -3021,13 +3014,10 @@ dur_bin_to_ymdhms(Bin) ->
    {Hour,Min,Sec} = timedur_bin_to_hms(TimePart),
    % push values up the ladder
    {Mon1, Year1} = {Mon rem 12, Year + Mon div 12},
-   {SS1,MI1} = if is_integer(Sec) ->
-                     {Sec rem 60, Min + Sec div 60};
-                  true ->
-                     SSt = trunc(Sec),
-                     SSr = round((Sec * 1000) - (SSt * 1000)) / 1000, % for float rounding
-                     {SSt rem 60 + SSr, Min + SSt div 60}
-               end,
+   % push values up the ladder
+   SecTotal = xqerl_numeric:add(Sec, Min * 60),
+   MI1 = xqerl_numeric:truncate(SecTotal) div 60,
+   SS1 = xqerl_numeric:subtract(SecTotal, MI1 * 60),
    {MI2, HH1} = {MI1 rem 60, Hour + MI1 div 60},
    {HH2, D1}  = {HH1 rem 24, Day  + HH1 div 24},
    {Sign,Year1,Mon1,D1,HH2,MI2,SS1}.

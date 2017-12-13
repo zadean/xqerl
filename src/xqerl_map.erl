@@ -162,7 +162,7 @@ find1([_|T], Key) ->
                            #xqAtomicValue{value = "use-first"}),
    'merge'(_Ctx,Maps,OptionMap).
 
-'merge'(_Ctx,[],_) -> [];
+'merge'(_Ctx,[],_) -> #{};
 'merge'(_Ctx,Maps,Options) -> 
    Dup = case maps:get("duplicates", Options) of
       {'EXIT',_} ->

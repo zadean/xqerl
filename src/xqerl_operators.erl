@@ -70,6 +70,7 @@
 
 -define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
 -define(sing(Val), Val).
+-define(dec(Val),xqerl_numeric:decimal(Val)).
 %-define(sing(Val), ?seq:singleton(Val)).
 
 %(xs:integer, xs:decimal, xs:float, xs:double)
@@ -1352,8 +1353,8 @@ yearMonthDuration_less_than(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                            value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
                             #xqAtomicValue{type = 'xs:yearMonthDuration',
                                            value = #xsDateTime{sign = SnB, year = YrB, month = MoB}}) -> 
-   MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
-   MonB = (YrB * 12 + MoB) * (if SnB =:= '-' -> -1; true -> 1 end),
+   MonA = (YrA * 12 + MoA) * unary_sign(SnA),
+   MonB = (YrB * 12 + MoB) * unary_sign(SnB),
    #xqAtomicValue{type = 'xs:boolean', value = MonA < MonB}.
 
 % returns: xs:boolean
@@ -1361,8 +1362,8 @@ yearMonthDuration_greater_than(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                               value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
                                #xqAtomicValue{type = 'xs:yearMonthDuration',
                                               value = #xsDateTime{sign = SnB, year = YrB, month = MoB}}) -> 
-   MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
-   MonB = (YrB * 12 + MoB) * (if SnB =:= '-' -> -1; true -> 1 end),
+   MonA = (YrA * 12 + MoA) * unary_sign(SnA),
+   MonB = (YrB * 12 + MoB) * unary_sign(SnB),
    #xqAtomicValue{type = 'xs:boolean', value = MonA > MonB}.
 
 % returns: xs:boolean
@@ -1372,9 +1373,9 @@ dayTimeDuration_less_than(#xqAtomicValue{type = 'xs:dayTimeDuration',
                           #xqAtomicValue{type = 'xs:dayTimeDuration',
                                          value = #xsDateTime{sign = SnB, day = DyB, hour = HrB, 
                                                              minute = MiB, second = SdB}}) -> 
-   SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
-   SecB = (SdB + (MiB * 60) + (HrB * 3600) + (DyB * 86400)) * (if SnB =:= '-' -> -1; true -> 1 end),
-   #xqAtomicValue{type = 'xs:boolean', value = SecA < SecB}.
+   SecA = xqerl_numeric:multiply(xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), unary_sign(SnA)),
+   SecB = xqerl_numeric:multiply(xqerl_numeric:add(SdB, (MiB * 60) + (HrB * 3600) + (DyB * 86400)), unary_sign(SnB)),
+   #xqAtomicValue{type = 'xs:boolean', value = xqerl_numeric:less_than(SecA, SecB)}.
 
 % returns: xs:boolean
 dayTimeDuration_greater_than(#xqAtomicValue{type = 'xs:dayTimeDuration',
@@ -1383,18 +1384,18 @@ dayTimeDuration_greater_than(#xqAtomicValue{type = 'xs:dayTimeDuration',
                              #xqAtomicValue{type = 'xs:dayTimeDuration',
                                             value = #xsDateTime{sign = SnB, day = DyB, hour = HrB, 
                                                                 minute = MiB, second = SdB}}) -> 
-   SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
-   SecB = (SdB + (MiB * 60) + (HrB * 3600) + (DyB * 86400)) * (if SnB =:= '-' -> -1; true -> 1 end),
-   #xqAtomicValue{type = 'xs:boolean', value = SecA > SecB}.
+   SecA = xqerl_numeric:multiply(xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), unary_sign(SnA)),
+   SecB = xqerl_numeric:multiply(xqerl_numeric:add(SdB, (MiB * 60) + (HrB * 3600) + (DyB * 86400)), unary_sign(SnB)),
+   #xqAtomicValue{type = 'xs:boolean', value = xqerl_numeric:greater_than(SecA, SecB)}.
 
 % returns: xs:boolean
 duration_equal(#xqAtomicValue{value = #xsDateTime{sign = SnA, year = YrA, month = MoA, day = DyA, hour = HrA, minute = MiA, second = SdA}},
                #xqAtomicValue{value = #xsDateTime{sign = SnB, year = YrB, month = MoB, day = DyB, hour = HrB, minute = MiB, second = SdB}}) -> 
-   MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
-   MonB = (YrB * 12 + MoB) * (if SnB =:= '-' -> -1; true -> 1 end),
-   SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
-   SecB = (SdB + (MiB * 60) + (HrB * 3600) + (DyB * 86400)) * (if SnB =:= '-' -> -1; true -> 1 end),
-   #xqAtomicValue{type = 'xs:boolean', value = (MonA == MonB andalso SecA == SecB)};
+   MonA = (YrA * 12 + MoA) * unary_sign(SnA),
+   MonB = (YrB * 12 + MoB) * unary_sign(SnB),
+   SecA = xqerl_numeric:multiply(xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), unary_sign(SnA)),
+   SecB = xqerl_numeric:multiply(xqerl_numeric:add(SdB, (MiB * 60) + (HrB * 3600) + (DyB * 86400)), unary_sign(SnB)),
+   #xqAtomicValue{type = 'xs:boolean', value = (MonA == MonB andalso xqerl_numeric:equal(SecA, SecB))};
 duration_equal(_A,_B) ->
   #xqAtomicValue{type = 'xs:boolean', value = false}.
 
@@ -1403,8 +1404,8 @@ add_yearMonthDurations(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                       value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
                        #xqAtomicValue{type = 'xs:yearMonthDuration',
                                       value = #xsDateTime{sign = SnB, year = YrB, month = MoB}}) -> 
-   MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
-   MonB = (YrB * 12 + MoB) * (if SnB =:= '-' -> -1; true -> 1 end),
+   MonA = (YrA * 12 + MoA) * unary_sign(SnA),
+   MonB = (YrB * 12 + MoB) * unary_sign(SnB),
    MonC = MonA + MonB,
    SnC = if MonC < 0 -> '-';
             true -> '+'
@@ -1420,8 +1421,8 @@ subtract_yearMonthDurations(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                            value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
                             #xqAtomicValue{type = 'xs:yearMonthDuration',
                                            value = #xsDateTime{sign = SnB, year = YrB, month = MoB}}) -> 
-   MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
-   MonB = (YrB * 12 + MoB) * (if SnB =:= '-' -> -1; true -> 1 end),
+   MonA = (YrA * 12 + MoA) * unary_sign(SnA),
+   MonB = (YrB * 12 + MoB) * unary_sign(SnB),
    MonC = MonA - MonB,
    SnC = if MonC < 0 -> '-';
             true -> '+'
@@ -1444,7 +1445,7 @@ multiply_yearMonthDuration(A,#xqAtomicValue{value = neg_zero} = B) ->
 multiply_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                           value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
                            #xqAtomicValue{value = Dbl}) -> 
-   MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
+   MonA = (YrA * 12 + MoA) * unary_sign(SnA),
    MonC = xqerl_numeric:truncate(xqerl_numeric:round_half(xqerl_numeric:multiply(MonA,Dbl), 0)),
    SnC = case xqerl_numeric:less_than(MonC, 0)of
             true -> '-';
@@ -1470,7 +1471,7 @@ divide_yearMonthDuration(_A,#xqAtomicValue{value = Val}) when Val == 0;
 divide_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                         value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
                          #xqAtomicValue{type = Type, value = Dbl}) when ?numeric(Type) ->
-   MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
+   MonA = (YrA * 12 + MoA) * unary_sign(SnA),
    MonT = xqerl_numeric:divide(MonA , Dbl),
    MonC = if MonT < 0 -> xqerl_numeric:truncate(MonA / Dbl);
              true -> xqerl_numeric:truncate(xqerl_numeric:round_half(MonT,0))
@@ -1493,8 +1494,8 @@ divide_yearMonthDuration_by_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMont
                                                              value = #xsDateTime{sign = SnA, year = YrA, month = MoA}},
                                               #xqAtomicValue{type = 'xs:yearMonthDuration',
                                                              value = #xsDateTime{sign = SnB, year = YrB, month = MoB}}) -> 
-   MonA = (YrA * 12 + MoA) * (if SnA =:= '-' -> -1; true -> 1 end),
-   MonB = (YrB * 12 + MoB) * (if SnB =:= '-' -> -1; true -> 1 end),
+   MonA = (YrA * 12 + MoA) * unary_sign(SnA),
+   MonB = (YrB * 12 + MoB) * unary_sign(SnB),
    if MonB == 0 ->
          xqerl_error:error('FOAR0001');
       true ->
@@ -1509,9 +1510,9 @@ add_dayTimeDurations(#xqAtomicValue{type = 'xs:dayTimeDuration',
                      #xqAtomicValue{type = 'xs:dayTimeDuration',
                                     value = #xsDateTime{sign = SnB, day = DyB, hour = HrB, 
                                                         minute = MiB, second = SdB}}) -> 
-   SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
-   SecB = (SdB + (MiB * 60) + (HrB * 3600) + (DyB * 86400)) * (if SnB =:= '-' -> -1; true -> 1 end),
-   SecC = erlang:float(SecA + SecB),
+   SecA = xqerl_numeric:multiply(xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), unary_sign(SnA)),
+   SecB = xqerl_numeric:multiply(xqerl_numeric:add(SdB, (MiB * 60) + (HrB * 3600) + (DyB * 86400)), unary_sign(SnB)),
+   SecC = xqerl_numeric:add(SecA,SecB),
    %?dbg("SecA,SecB,SecC",{SecA,SecB,SecC,SnA,SnB}),
    Str = case xqerl_numeric:less_than(SecC, 0) of
             true -> "-";
@@ -1526,9 +1527,9 @@ subtract_dayTimeDurations(#xqAtomicValue{type = 'xs:dayTimeDuration',
                           #xqAtomicValue{type = 'xs:dayTimeDuration',
                                          value = #xsDateTime{sign = SnB, day = DyB, hour = HrB,
                                                              minute = MiB, second = SdB}}) -> 
-   SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
-   SecB = (SdB + (MiB * 60) + (HrB * 3600) + (DyB * 86400)) * (if SnB =:= '-' -> -1; true -> 1 end),
-   SecC = erlang:float(SecA - SecB),
+   SecA = xqerl_numeric:multiply(xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), unary_sign(SnA)),
+   SecB = xqerl_numeric:multiply(xqerl_numeric:add(SdB, (MiB * 60) + (HrB * 3600) + (DyB * 86400)), unary_sign(SnB)),
+   SecC = xqerl_numeric:subtract(SecA, SecB),
    Str = case xqerl_numeric:less_than(SecC, 0) of
             true -> "-";
             _ -> ""
@@ -1548,7 +1549,7 @@ multiply_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
                                         value = #xsDateTime{sign = SnA, day = DyA, hour = HrA,
                                                             minute = MiA, second = SdA}},
                          #xqAtomicValue{value = Dbl}) -> 
-   SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
+   SecA = xqerl_numeric:multiply(xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), unary_sign(SnA)),
    SecC = xqerl_numeric:multiply(SecA,Dbl),
    Str = case xqerl_numeric:less_than(SecC, 0) of
             true -> "-";
@@ -1572,11 +1573,14 @@ divide_dayTimeDuration(_A,#xqAtomicValue{value = infinity}) ->
 divide_dayTimeDuration(_A,#xqAtomicValue{value = neg_infinity}) ->
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = "PT0S"}, 'xs:dayTimeDuration' );
 divide_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
-                                      value = #xsDateTime{sign = SnA, day = DyA, hour = HrA,
-                                                          minute = MiA, second = SdA}},
+                                      value = #xsDateTime{sign = SnA, 
+                                                          day = DyA, 
+                                                          hour = HrA,
+                                                          minute = MiA, 
+                                                          second = SdA}},
                        #xqAtomicValue{type = Type, value = Dbl}) when ?numeric(Type) ->
-   SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
-   SecC = xqerl_numeric:divide(SecA, Dbl),
+   SecA = xqerl_numeric:multiply(xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), unary_sign(SnA)),
+   SecC = xqerl_numeric:decimal(xqerl_numeric:divide(SecA, Dbl)),
    Str = case xqerl_numeric:less_than(SecC, 0) of
             true -> "-";
             _ -> ""
@@ -1587,20 +1591,33 @@ divide_dayTimeDuration(_,_) ->
 
 % returns: xs:decimal
 divide_dayTimeDuration_by_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
-                                                         value = #xsDateTime{sign = SnA, day = DyA, hour = HrA,
-                                                                             minute = MiA, second = SdA}},
+                                                         value = #xsDateTime{sign = SnA, 
+                                                                             day = DyA, 
+                                                                             hour = HrA,
+                                                                             minute = MiA, 
+                                                                             second = SdA}},
                                           #xqAtomicValue{type = 'xs:dayTimeDuration',
-                                                         value = #xsDateTime{sign = SnB, day = DyB, hour = HrB,
-                                                                             minute = MiB, second = SdB}}) -> 
+                                                         value = #xsDateTime{sign = SnB, 
+                                                                             day = DyB, 
+                                                                             hour = HrB,
+                                                                             minute = MiB, 
+                                                                             second = SdB}}) -> 
    try
-      SecA = (SdA + (MiA * 60) + (HrA * 3600) + (DyA * 86400)) * (if SnA =:= '-' -> -1; true -> 1 end),
-      SecB = (SdB + (MiB * 60) + (HrB * 3600) + (DyB * 86400)) * (if SnB =:= '-' -> -1; true -> 1 end),
+      SecA = xqerl_numeric:multiply(xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), unary_sign(SnA)),
+      SecB = xqerl_numeric:multiply(xqerl_numeric:add(SdB, (MiB * 60) + (HrB * 3600) + (DyB * 86400)), unary_sign(SnB)),
       SecC = xqerl_numeric:divide(SecA, SecB),
       #xqAtomicValue{type = 'xs:decimal', value = SecC}
    catch
       _:_ ->
          xqerl_error:error('FODT0002')
    end.
+
+dec_seconds(Date,Seconds,OffsetSeconds,Sign) ->
+   DSec = calendar:datetime_to_gregorian_seconds(Date),
+   TSec = xqerl_numeric:add(DSec, Seconds),
+   SSec = xqerl_numeric:subtract(TSec, OffsetSeconds),
+   xqerl_numeric:multiply(SSec, unary_sign(Sign)).
+
 
 % returns: xs:boolean
 dateTime_equal(#xqAtomicValue{%type = 'xs:dateTime',
@@ -1633,9 +1650,9 @@ dateTime_equal(#xqAtomicValue{%type = 'xs:dateTime',
    OffSecB = if OfB == [] -> ImpTzSec;
                 true -> offset_to_seconds(OfB)
              end,
-   SecA = (calendar:datetime_to_gregorian_seconds(DtA) + SdA - OffSecA) * unary_sign(SnA), 
-   SecB = (calendar:datetime_to_gregorian_seconds(DtB) + SdB - OffSecB) * unary_sign(SnB),
-   #xqAtomicValue{type = 'xs:boolean', value = SecA == SecB}.
+   SecA = dec_seconds(DtA, SdA, OffSecA, SnA), 
+   SecB = dec_seconds(DtB, SdB, OffSecB, SnB),
+   #xqAtomicValue{type = 'xs:boolean', value = xqerl_numeric:equal(SecA, SecB)}.
 
 
 % returns: xs:boolean
@@ -1669,9 +1686,9 @@ dateTime_less_than(#xqAtomicValue{type = 'xs:dateTime',
    OffSecB = if OfB == [] -> ImpTzSec;
                 true -> offset_to_seconds(OfB)
              end,
-   SecA = (calendar:datetime_to_gregorian_seconds(DtA) + SdA - OffSecA) * unary_sign(SnA), 
-   SecB = (calendar:datetime_to_gregorian_seconds(DtB) + SdB - OffSecB) * unary_sign(SnB),
-   #xqAtomicValue{type = 'xs:boolean', value = SecA < SecB}.
+   SecA = dec_seconds(DtA, SdA, OffSecA, SnA), 
+   SecB = dec_seconds(DtB, SdB, OffSecB, SnB),
+   #xqAtomicValue{type = 'xs:boolean', value = xqerl_numeric:less_than(SecA, SecB)}.
 
 % returns: xs:boolean
 dateTime_greater_than(#xqAtomicValue{type = 'xs:dateTime',
@@ -1704,9 +1721,9 @@ dateTime_greater_than(#xqAtomicValue{type = 'xs:dateTime',
    OffSecB = if OfB == [] -> ImpTzSec;
                 true -> offset_to_seconds(OfB)
              end,
-   SecA = (calendar:datetime_to_gregorian_seconds(DtA) + SdA - OffSecA) * unary_sign(SnA), 
-   SecB = (calendar:datetime_to_gregorian_seconds(DtB) + SdB - OffSecB) * unary_sign(SnB),
-   #xqAtomicValue{type = 'xs:boolean', value = SecA > SecB}.
+   SecA = dec_seconds(DtA, SdA, OffSecA, SnA), 
+   SecB = dec_seconds(DtB, SdB, OffSecB, SnB),
+   #xqAtomicValue{type = 'xs:boolean', value = xqerl_numeric:greater_than(SecA, SecB)}.
 
 % returns: xs:boolean
 date_equal(#xqAtomicValue{type = 'xs:date'} = A,#xqAtomicValue{type = 'xs:date'} = B) -> 
@@ -1733,24 +1750,24 @@ date_greater_than(#xqAtomicValue{type = 'xs:date'} = A,#xqAtomicValue{type = 'xs
 time_equal(#xqAtomicValue{type = 'xs:time'} = A,#xqAtomicValue{type = 'xs:time'} = B) ->
    RefDt = xqerl_xs:xs_date([], #xqAtomicValue{type = 'xs:string', value = "1972-12-31"}),
    equal(
-     xqerl_fn:dateTime([], RefDt, ?seq:singleton(A)),
-     xqerl_fn:dateTime([], RefDt, ?seq:singleton(B))
+     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(A)),
+     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(B))
    ).
 
 % returns: xs:boolean
 time_less_than(#xqAtomicValue{type = 'xs:time'} = A,#xqAtomicValue{type = 'xs:time'} = B) ->
    RefDt = xqerl_xs:xs_date([], #xqAtomicValue{type = 'xs:string', value = "1972-12-31"}),
    less_than(
-     xqerl_fn:dateTime([], RefDt, ?seq:singleton(A)),
-     xqerl_fn:dateTime([], RefDt, ?seq:singleton(B))
+     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(A)),
+     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(B))
    ).
 
 % returns: xs:boolean
 time_greater_than(#xqAtomicValue{type = 'xs:time'} = A,#xqAtomicValue{type = 'xs:time'} = B) ->
    RefDt = xqerl_xs:xs_date([], #xqAtomicValue{type = 'xs:string', value = "1972-12-31"}),
    greater_than(
-     xqerl_fn:dateTime([], RefDt, ?seq:singleton(A)),
-     xqerl_fn:dateTime([], RefDt, ?seq:singleton(B))
+     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(A)),
+     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(B))
    ).
 
 % returns: xs:boolean
@@ -1776,9 +1793,10 @@ gYearMonth_equal(#xqAtomicValue{type = 'xs:gYearMonth',
    OffSecB = if OfB == [] -> ImpTzSec;
                 true -> offset_to_seconds(OfB)
              end,
-   SecA = (calendar:datetime_to_gregorian_seconds(DtA) - OffSecA) * unary_sign(SnA), 
-   SecB = (calendar:datetime_to_gregorian_seconds(DtB) - OffSecB) * unary_sign(SnB),
-   #xqAtomicValue{type = 'xs:boolean', value = SecA == SecB}.
+   
+   SecA = dec_seconds(DtA, 0, OffSecA, SnA), 
+   SecB = dec_seconds(DtB, 0, OffSecB, SnB),
+   #xqAtomicValue{type = 'xs:boolean', value = xqerl_numeric:equal(SecA, SecB)}.
 
 % returns: xs:boolean
 gYear_equal(#xqAtomicValue{type = 'xs:gYear',
@@ -1801,9 +1819,9 @@ gYear_equal(#xqAtomicValue{type = 'xs:gYear',
    OffSecB = if OfB == [] -> ImpTzSec;
                 true -> offset_to_seconds(OfB)
              end,
-   SecA = (calendar:datetime_to_gregorian_seconds(DtA) - OffSecA) * unary_sign(SnA), 
-   SecB = (calendar:datetime_to_gregorian_seconds(DtB) - OffSecB) * unary_sign(SnB),
-   #xqAtomicValue{type = 'xs:boolean', value = SecA == SecB}.
+   SecA = dec_seconds(DtA, 0, OffSecA, SnA), 
+   SecB = dec_seconds(DtB, 0, OffSecB, SnB),
+   #xqAtomicValue{type = 'xs:boolean', value = xqerl_numeric:equal(SecA, SecB)}.
 
 % returns: xs:boolean
 gMonthDay_equal(#xqAtomicValue{type = 'xs:gMonthDay',
@@ -1828,9 +1846,9 @@ gMonthDay_equal(#xqAtomicValue{type = 'xs:gMonthDay',
    OffSecB = if OfB == [] -> ImpTzSec;
                 true -> offset_to_seconds(OfB)
              end,
-   SecA = (calendar:datetime_to_gregorian_seconds(DtA) - OffSecA) * unary_sign(SnA), 
-   SecB = (calendar:datetime_to_gregorian_seconds(DtB) - OffSecB) * unary_sign(SnB),
-   #xqAtomicValue{type = 'xs:boolean', value = SecA == SecB}.
+   SecA = dec_seconds(DtA, 0, OffSecA, SnA), 
+   SecB = dec_seconds(DtB, 0, OffSecB, SnB),
+   #xqAtomicValue{type = 'xs:boolean', value = xqerl_numeric:equal(SecA, SecB)}.
 
 % returns: xs:boolean
 gMonth_equal(#xqAtomicValue{type = 'xs:gMonth',
@@ -1853,9 +1871,9 @@ gMonth_equal(#xqAtomicValue{type = 'xs:gMonth',
    OffSecB = if OfB == [] -> ImpTzSec;
                 true -> offset_to_seconds(OfB)
              end,
-   SecA = (calendar:datetime_to_gregorian_seconds(DtA) - OffSecA) * unary_sign(SnA), 
-   SecB = (calendar:datetime_to_gregorian_seconds(DtB) - OffSecB) * unary_sign(SnB),
-   #xqAtomicValue{type = 'xs:boolean', value = SecA == SecB}.
+   SecA = dec_seconds(DtA, 0, OffSecA, SnA), 
+   SecB = dec_seconds(DtB, 0, OffSecB, SnB),
+   #xqAtomicValue{type = 'xs:boolean', value = xqerl_numeric:equal(SecA, SecB)}.
 
 % returns: xs:boolean
 gDay_equal(#xqAtomicValue{type = 'xs:gDay',
@@ -1878,9 +1896,9 @@ gDay_equal(#xqAtomicValue{type = 'xs:gDay',
    OffSecB = if OfB == [] -> ImpTzSec;
                 true -> offset_to_seconds(OfB)
              end,
-   SecA = (calendar:datetime_to_gregorian_seconds(DtA) - OffSecA) * unary_sign(SnA), 
-   SecB = (calendar:datetime_to_gregorian_seconds(DtB) - OffSecB) * unary_sign(SnB),
-   #xqAtomicValue{type = 'xs:boolean', value = SecA == SecB}.
+   SecA = dec_seconds(DtA, 0, OffSecA, SnA), 
+   SecB = dec_seconds(DtB, 0, OffSecB, SnB),
+   #xqAtomicValue{type = 'xs:boolean', value = xqerl_numeric:equal(SecA, SecB)}.
 
 % returns: xs:dayTimeDuration
 subtract_dateTimes(#xqAtomicValue{type = 'xs:dateTime',
@@ -1905,7 +1923,7 @@ subtract_dateTimes(#xqAtomicValue{type = 'xs:dateTime',
    DtB = {{YrB,MoB,DyB},{HrB,MiB,0}},
    
    ImpTzSec = if OfA == [] orelse OfB == [] -> offset_to_seconds(xqerl_context:get_implicit_timezone());
-                 true -> 0
+                 true -> ?dec(0)
               end,
    OffSecA = if OfA == [] -> ImpTzSec;
                 true -> offset_to_seconds(OfA)
@@ -1913,19 +1931,20 @@ subtract_dateTimes(#xqAtomicValue{type = 'xs:dateTime',
    OffSecB = if OfB == [] -> ImpTzSec;
                 true -> offset_to_seconds(OfB)
              end,
-   SecA = (calendar:datetime_to_gregorian_seconds(DtA) + SdA - OffSecA) * unary_sign(SnA), 
-   SecB = (calendar:datetime_to_gregorian_seconds(DtB) + SdB - OffSecB) * unary_sign(SnB),
-   SecC = SecA - SecB,
-   AbsSec = erlang:abs(SecC),
-   IntSec = erlang:trunc(AbsSec),
-   FraSec = AbsSec - IntSec,
+   SecA = dec_seconds(DtA, SdA, OffSecA, SnA), 
+   SecB = dec_seconds(DtB, SdB, OffSecB, SnB),
+   SecC = xqerl_numeric:subtract(SecA, SecB),
+   AbsSec = xqerl_numeric:abs_val(SecC),
+   IntSec = xqerl_numeric:truncate(AbsSec),
+   FraSec = xqerl_numeric:subtract(AbsSec, IntSec),
+   LT = xqerl_numeric:less_than(SecC, 0),
    {Days, {Hour,Min,Secs}} = calendar:seconds_to_daystime(IntSec),
-   Str = if SecC < 0 -> "-" ;
+   Str = if LT -> "-" ;
             true -> "" end ++ 
            "P"++integer_to_list(Days)++
            "T"++integer_to_list(Hour)++"H"++
                 integer_to_list(Min)++"M" ++
-                float_to_list(float(Secs + FraSec), [{decimals,18}])++"S",                  
+                xqerl_numeric:string(?dec(xqerl_numeric:add(Secs, FraSec))) ++"S",                  
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 'xs:dayTimeDuration' ).
 
 % returns: xs:dayTimeDuration
@@ -1939,8 +1958,8 @@ subtract_dates(#xqAtomicValue{type = 'xs:date'} = A,#xqAtomicValue{type = 'xs:da
 subtract_times(#xqAtomicValue{type = 'xs:time'} = A,#xqAtomicValue{type = 'xs:time'} = B) ->
    RefDt = xqerl_xs:xs_date([], #xqAtomicValue{type = 'xs:string', value = "1972-12-31"}),
    subtract(
-     xqerl_fn:dateTime([], RefDt, ?seq:singleton(A)),
-     xqerl_fn:dateTime([], RefDt, ?seq:singleton(B))
+     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(A)),
+     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(B))
    ).
 
 % returns: xs:dateTime
@@ -2032,9 +2051,7 @@ subtract_dayTimeDuration_from_time(#xqAtomicValue{type = 'xs:time',
 % returns: xs:boolean
 qName_equal(#xqAtomicValue{type = 'xs:QName', value = #qname{namespace = NsA, local_name = LnA}} = _At1,
             #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = NsB, local_name = LnB}} = _At2) -> 
-   %?dbg("Maybe qName_equal", {At1,At2}),
    Eq = NsA == NsB andalso LnA == LnB,
-   %?dbg("qName_equal", Eq),
    ?bool(Eq);
 qName_equal(#xqAtomicValue{}, #xqAtomicValue{}) ->
    ?bool(false).
@@ -2117,7 +2134,8 @@ numeric_unary_minus(_) ->
 
 
 offset_to_seconds(#off_set{sign = OS, hour = OH, min = OM}) ->
-   (OM * 60) + (OH * 3600) * (if OS =:= '-' -> -1; true -> 1 end).
+   Secs = (OM * 60) + (OH * 3600) * (if OS =:= '-' -> -1; true -> 1 end),
+   ?dec(Secs).
 
 unary_sign(Sgn) ->
   if Sgn =:= '-' -> -1; true -> 1 end.
@@ -2139,19 +2157,20 @@ negate(Seq) ->
 
 %% time calculations with day remainders
 loc_quotient(A, B) ->
-   Fract = A / B,
-%%    if Fract < 0 -> trunc(Fract) - 1;
-   if Fract == -1 -> trunc(Fract);
-      Fract < 0 -> trunc(Fract) - 1;
-      true -> trunc(Fract)
+   Fract = xqerl_numeric:divide(A, B),
+   DFract = xqerl_numeric:double(Fract),
+   TFract = xqerl_numeric:truncate(Fract),
+   if DFract == -1 -> TFract;
+      DFract < 0 -> TFract - 1;
+      true -> TFract
    end.
 loc_quotient(A, Low, High) ->
-   loc_quotient(A - Low, High - Low).
+   loc_quotient(xqerl_numeric:subtract(A, Low), xqerl_numeric:subtract(High, Low)).
 
 loc_modulo(A, B) ->
-   A - loc_quotient(A,B)*B.
+   xqerl_numeric:subtract(A, xqerl_numeric:multiply(loc_quotient(A,B), B)).
 loc_modulo(A, Low, High) ->
-   loc_modulo(A - Low, High - Low) + Low.
+   xqerl_numeric:add(loc_modulo(xqerl_numeric:subtract(A, Low), xqerl_numeric:subtract(High, Low)), Low).
 
 loc_ldom(Year, Month) ->
    calendar:last_day_of_the_month(abs(Year), Month). % abs() hack probably not right with BC leap years...
@@ -2183,7 +2202,7 @@ add_duration_to_dateTime(#xqAtomicValue{type = 'xs:dateTime',
    % zone
    OutZone = OfA,
    % seconds
-   SecTemp = SdA * UA + SdB * UB,
+   SecTemp = xqerl_numeric:add(xqerl_numeric:multiply(SdA, UA), xqerl_numeric:multiply(SdB, UB)),
    OutSec = loc_modulo(SecTemp, 60),
    SecCarry = loc_quotient(SecTemp, 60),
    % minutes

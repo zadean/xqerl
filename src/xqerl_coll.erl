@@ -53,7 +53,7 @@ sort_key(Val, Type) when Type == 'xs:gYearMonth';
                          Type == 'xs:gMonthDay';
                          Type == 'xs:gDay';
                          Type == 'xs:gMonth' ->
-   Val#xsDateTime{hour = 0, minute = 0, second = 0, offset = [], string_value = []};
+   Val#xsDateTime{hour = 0, minute = 0, offset = [], string_value = []};
 sort_key({xsDecimal,_,_} = Item, _) ->
    xqerl_numeric:double(Item);
 sort_key(Item, _) when is_float(Item);

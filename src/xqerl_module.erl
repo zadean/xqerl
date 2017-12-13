@@ -201,6 +201,7 @@ get_static_signatures() ->
 %%          erl_code                   :: string()
 %%         }).
 compile(FileName) ->
+   ?dbg("compile",FileName),
    {ok, Bin} = file:read_file(FileName),
    Str = binary_to_list(Bin),
    compile(FileName, Str).
@@ -217,9 +218,12 @@ compile(FileName, Str) ->
       Static = scan_tree_static(Tree, "file:///"++FileName),
       erlang:erase(),
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Ret} = scan_tree(Static),
+      %?dbg("Ret",Ret),
       erlang:erase(),
       {ok,M,B} = compile:forms(Ret, [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]),
       Erl = print_erl(B),
+      ok = check_cycle(M,ImportedMods),
+      %?dbg("Erl",Erl),
       {
        #xq_module{target_namespace = ModNs,
                   type = ModType,
@@ -230,7 +234,7 @@ compile(FileName, Str) ->
                   last_compile_time = erlang:system_time(),
                   imported_modules = ImportedMods,
                   binary = B,
-                  erl_code = Erl},
+                  erl_code = wait},
         FunSigs,
         VarSigs,
         M
@@ -259,9 +263,12 @@ compile(FileName, Str) ->
                 end,
          {atomic, ok} = mnesia:transaction(MFun),
          MN
-   catch _:Error ->
-            % TODO save the error
-            Error
+   catch 
+      _:Error ->
+         ?dbg("Error",Error),
+         ?dbg("Error",erlang:get_stacktrace()),
+         % TODO save the error
+         Error
    end.   
 
 load(ModNamespace) ->
@@ -300,8 +307,8 @@ unload(_) ->
              Mod = #xq_module{status = loaded,  _ = '_'},
              Mods = mnesia:select(xq_module, [{Mod, [], ['$_']}]),
              lists:foreach(fun(#xq_module{name_atom = A} = M) ->
-                                 code:purge(A),
                                  code:delete(A),
+                                 code:purge(A),
                                  mnesia:write(M#xq_module{status = unloaded})
                            end, Mods),
              ok
@@ -336,8 +343,11 @@ delete_functions(ModName) ->
 %%          annotations       = []     :: [term()]
 %%         }).
 build_fun_recs(ModName,FunSigs) ->
-   Fx = fun({#qname{namespace = Namespace, local_name = LocalName},
-             _,Annos,{FunName,A},Arity,_} = Sig) ->
+   Fx = fun({#qname{namespace = Namespace, local_name = LocalName},_,Annos,{FunName,A},Arity,_} = Sig) ->
+               #xq_function{module_name_atom = {ModName,FunName,Arity}, signature = setelement(4, Sig, {ModName,FunName,A}) ,
+                            name = "Q{"++Namespace++"}"++LocalName, 
+                            external = false, annotations = Annos};
+           ({#qname{namespace = Namespace, local_name = LocalName},_,Annos,{_ModName1,FunName,A},Arity,_} = Sig) ->
                #xq_function{module_name_atom = {ModName,FunName,Arity}, signature = setelement(4, Sig, {ModName,FunName,A}) ,
                             name = "Q{"++Namespace++"}"++LocalName, 
                             external = false, annotations = Annos}
@@ -353,18 +363,26 @@ build_fun_recs(ModName,FunSigs) ->
 %%          annotations       = []     :: [term()]
 %%         }).
 build_var_recs(ModName,VarSigs) ->
+   IsPriv = fun(Annos) ->
+                  lists:any(fun({annotation,{#qname{namespace="http://www.w3.org/2012/xquery",local_name="private"},_}}) ->
+                                  true;
+                               (_) ->
+                                  false
+                            end, Annos)
+            end,
    Fx = fun({#qname{namespace = Namespace0, local_name = LocalName},_,Annos,VarName,External} = Sig,Pos) ->
-              Namespace = if Namespace0 == 'no-namespace' ->
-                                "";
-                             true ->
-                                Namespace0
-                          end,
-              {#xq_variable{module_name_atom = {ModName,VarName}, signature = Sig,
-                            name = "Q{"++Namespace++"}"++LocalName, 
-                            external = External, position = Pos, annotations = Annos}, 
-               Pos + 1}
+                 Namespace = if Namespace0 == 'no-namespace' ->
+                                   "";
+                                true ->
+                                   Namespace0
+                             end,
+                 NewSig = setelement(4, Sig, {ModName,VarName}),
+                 {#xq_variable{module_name_atom = {ModName,VarName}, signature = NewSig,
+                               name = "Q{"++Namespace++"}"++LocalName, 
+                               external = External, position = Pos, annotations = Annos}, 
+                  Pos + 1}
         end,
-   {Ret,_} = lists:mapfoldl(Fx, 1, VarSigs),
+   {Ret,_} = lists:mapfoldl(Fx, 1, lists:filter(fun({_,_,I,_,_}) -> not IsPriv(I) end, VarSigs)),
    Ret.
 
 
@@ -421,6 +439,7 @@ scan_tree_static(Tree, BaseUri) ->
    catch
       _:#xqError{} = E ->
          ?dbg("scan_tree",E),
+         ?dbg("scan_tree",erlang:get_stacktrace()),
          throw(E);
       _:_ ->
          ?dbg("scan_tree",erlang:get_stacktrace()),
@@ -428,11 +447,43 @@ scan_tree_static(Tree, BaseUri) ->
    end.
 
 % see what comes out
-print_erl(_) -> wait;
+%print_erl(_) -> wait;
 print_erl(B) ->
    {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
    FL = erl_syntax:form_list(AC),
    PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, {encoding, utf8}])),
    Flat = lists:flatten(io_lib:fwrite("~ts~n", [PP])),
    %?dbg("",Flat),
+   %io:fwrite("~ts~n", [PP]),
    Flat.   
+
+
+check_cycle(_Mod,[]) -> ok;
+check_cycle(Mod,ImportedMods) ->
+   G = digraph:new([acyclic]),
+   digraph:add_vertex(G, Mod),
+   digraph:add_edge(G, Mod, Mod),
+   _ = lists:foreach(fun(I) ->
+                           digraph:add_vertex(G, I),
+                           digraph:add_edge(G, I, Mod)
+                     end, ImportedMods),
+   Match = #xq_module{name_atom = '$1',imported_modules = '$2', _ = '_'},
+   Mods = mnesia:dirty_select(xq_module, [{Match, [], [['$1','$2']]}]),
+   %?dbg("Mods",Mods),
+   _ = lists:foreach(fun([_,[]]) ->
+                           ok;
+                        ([M,I]) ->
+                           digraph:add_vertex(G, M),
+                           lists:foreach(fun(J) ->
+                                               digraph:add_vertex(G, J),
+                                               digraph:add_edge(G, J, M)
+                                         end, I)
+                     end, Mods),
+   %?dbg("Mods",digraph:edges(G)),
+   digraph:delete(G),
+   ok.
+
+%% add_adge(G, V1, V2) ->
+%%    case digraph:add_edge(G, V1, V2) of
+%%       {error,_} ->
+%%          ?err('')

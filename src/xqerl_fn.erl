@@ -100,9 +100,9 @@
  {'collation-key', 2},1, [{xqSeqType, 'xs:string', one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","collation-key"},{xqSeqType, 'xs:base64Binary', one}, [], 
  {'collation-key', 3},2,[{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","collection"},{xqSeqType, item, one}, [], 
+{{qname, "http://www.w3.org/2005/xpath-functions", "fn","collection"},{xqSeqType, item, zero_or_many}, [], 
  {'collection', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","collection"},{xqSeqType, item, one}, [], 
+{{qname, "http://www.w3.org/2005/xpath-functions", "fn","collection"},{xqSeqType, item, zero_or_many}, [], 
  {'collection', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","compare"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'compare', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
@@ -110,30 +110,6 @@
  {'compare', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
  {'concat', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 4}, 3,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 5}, 4,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 6}, 5,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 7}, 6,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 8}, 7,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 9}, 8,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 10},9,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 11},10,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 12},11,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 13},12,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-%% {{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
-%%  {'concat', 14},13,[{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","contains"},{xqSeqType, 'xs:boolean', one}, [], 
  {'contains', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, "http://www.w3.org/2005/xpath-functions", "fn","contains"},{xqSeqType, 'xs:boolean', one}, [], 
@@ -1022,8 +998,28 @@ avg1([H|T], Sum, Count) ->
    ?atm('xs:base64Binary',Bin).
 
 %% Returns a sequence of items identified by a collection URI; or a default collection if no URI is supplied. 
-'collection'(_Ctx) -> exit({not_implemented_maybe_later,?LINE}).
-'collection'(_Ctx,_Arg1) -> exit({not_implemented_maybe_later,?LINE}).
+'collection'(_Ctx) -> 
+   {ok,Doc} = xqerl_collection:get(default),
+   Doc.
+'collection'(_,[]) -> 
+   {ok,Doc} = xqerl_collection:get(default),
+   Doc;
+'collection'(#{'base-uri' := BaseUri0},Uri0) -> 
+   Uri = xqerl_types:value(Uri0),
+   BaseUri = xqerl_types:value(BaseUri0),
+   ?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
+   try 
+      Val = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+      {ok,Doc} = if Val == "" ->
+                       xqerl_collection:get(default);
+                    true ->
+                       xqerl_collection:get(Val)
+                 end,
+      Doc
+   catch
+      _:_ ->
+         ?err('FODC0002')
+   end.
 
 %% Returns -1, 0, or 1, depending on whether $comparand1 collates before, equal to, or after $comparand2 according to the rules of a selected collation. 
 'compare'(Ctx,Arg1,Arg2) -> 
@@ -1348,12 +1344,12 @@ val_reverse([{_,V}|T], Acc) ->
 'doc'(#{'base-uri' := BaseUri0},Uri0) -> 
    Uri = xqerl_types:value(Uri0),
    BaseUri = xqerl_types:value(BaseUri0),
-   ?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
+   %?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
    try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
       {error,unsafe} ->
          ?err('FODC0005');
       ResVal ->
-         ?dbg("ResVal",ResVal),
+         %?dbg("ResVal",ResVal),
          case ?get({doc,ResVal}) of
             [] ->
                case xqerl_doc:exists_doc(ResVal) of
@@ -1588,6 +1584,8 @@ pct_encode3([H|T]) ->
                         true;
                      #xqAtomicValue{type = 'xs:boolean', value = false} ->
                         false;
+                     {'EXIT',#xqError{} = E} ->
+                        throw(E);
                      O ->
                         ?dbg("O",O),
                         xqerl_error:error('XPTY0004')
@@ -1632,8 +1630,8 @@ pct_encode3([H|T]) ->
 %% Returns a string containing an xs:date value formatted for display. 
 'format-date'(_Ctx,Date,Picture) -> 
    'format-dateTime'(_Ctx,Date,Picture).
-'format-date'(_Ctx,Date,Picture,_Arg3,_Arg4,_Arg5) -> 
-   'format-dateTime'(_Ctx,Date,Picture).
+'format-date'(_Ctx,Date,Picture,Arg3,Arg4,Arg5) -> 
+   'format-dateTime'(_Ctx,Date,Picture,Arg3,Arg4,Arg5).
 
 %% Returns a string containing an xs:dateTime value formatted for display. 
 'format-dateTime'(_Ctx,Date,Picture) -> 
@@ -1642,12 +1640,34 @@ pct_encode3([H|T]) ->
    if StrVal == [] ->
          xqerl_error:error('FODF1310');
       true ->
-         Formatted = xqerl_format:parse_picture(IntVal, StrVal),
-         ?str(Formatted)
+         try xqerl_format:parse_picture(IntVal, StrVal) of
+            Formatted ->
+               ?str(Formatted)
+         catch
+            _:#xqError{name = ?atm('xs:QName',#qname{local_name = "FODF1310"})} ->
+                  xqerl_error:error('FOFD1340');
+            _:#xqError{} = E ->
+               ?dbg("E",erlang:get_stacktrace()),
+               throw(E);
+            _:_ ->
+               ?dbg("FOFD1340",erlang:get_stacktrace()),
+               ?err('FOFD1340')
+         end
    end.
 
-'format-dateTime'(_Ctx,Date,Picture,_Arg3,_Arg4,_Arg5) -> 
-   'format-dateTime'(_Ctx,Date,Picture).
+'format-dateTime'(Ctx,Date,Picture,_Language,Calendar,_Place) ->
+   CalVal = xqerl_types:string_value(Calendar),
+   if CalVal == [] ->
+         'format-dateTime'(Ctx,Date,Picture);
+      true ->
+         try
+            _ = xqerl_types:cast_as(Calendar, 'xs:QName', maps:get(namespaces, Ctx)),
+            'format-dateTime'(Ctx,Date,Picture)
+         catch
+            _:_ ->
+               ?err('FOFD1340')
+         end
+   end.
 
 %% Formats an integer according to a given picture string, using the conventions of a given natural language if specified. 
 'format-integer'(_Ctx,Int,Picture) -> 
@@ -1718,8 +1738,8 @@ pct_encode3([H|T]) ->
 %% Returns a string containing an xs:time value formatted for display. 
 'format-time'(_Ctx,Date,Picture) -> 
    'format-dateTime'(_Ctx,Date,Picture).
-'format-time'(_Ctx,Date,Picture,_Arg3,_Arg4,_Arg5) -> 
-   'format-dateTime'(_Ctx,Date,Picture).
+'format-time'(_Ctx,Date,Picture,Arg3,Arg4,Arg5) -> 
+   'format-dateTime'(_Ctx,Date,Picture,Arg3,Arg4,Arg5).
 
 %% Returns the arity of the function identified by a function item. 
 'function-arity'(_Ctx,[]) ->
@@ -1747,6 +1767,8 @@ pct_encode3([H|T]) ->
    Arity1 = xqerl_types:value(Arity),
    get_static_function(Ctx,{QName, Arity1}).
 
+get_static_function(_,{_, []}) ->
+   ?err('XPTY0004');
 get_static_function(Ctx,{#qname{namespace = "http://www.w3.org/2005/xpath-functions", 
                                 local_name = "concat"} = Name, Arity}) when Arity =/= 1 ->
    if Arity > 1 ->
@@ -2009,12 +2031,20 @@ unmask_static_mod_ns(T) -> T.
 %% the nodes are returned in document order with duplicates eliminated. 
 'innermost'(Ctx,Arg1) -> 
    %%    $nodes except $nodes/ancestor::node()
-   %?dbg("innermost",Arg1),
-   ?seq:except(Arg1,
+   try
+      ?seq:except(Arg1,
                     xqerl_step:reverse(Ctx,
                       ?seq:union(Arg1,?seq:empty()),
                       ancestor,#xqKindTest{type = node},
-                      [])).
+                      []))
+   of
+      I ->
+         I
+   catch 
+      _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "XPTY0019"}}} -> ?err('XPTY0004');
+      _:E ->
+         throw(E)
+   end.
 
 %% Returns the prefixes of the in-scope namespaces for an element node. 
 'in-scope-prefixes'(Ctx, [Arg1]) ->
@@ -2727,13 +2757,20 @@ shrink_spaces([H|T]) ->
 %% fn:outermost($nodes as node()*) as node()*
 'outermost'(Ctx,Arg1) -> 
    %%    $nodes except $nodes/ancestor::node()
-   %?dbg("outermost",Arg1),
-   ?seq:except(Arg1,
+   try
+      ?seq:except(Arg1,
                ?seq:union(
                 xqerl_step:forward(Ctx,?seq:union(Arg1,?seq:empty()),descendant,#xqKindTest{type = node},[]),
                 xqerl_step:forward(Ctx,?seq:union(Arg1,?seq:empty()),attribute,#xqKindTest{type = attribute},[])
                 )
-               ).
+               )
+   of
+      O -> O
+   catch 
+      _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "XPTY0019"}}} -> ?err('XPTY0004');
+      _:E ->
+         throw(E)
+   end.
 
 %% Parses a string containing the date and time in IETF format, returning the corresponding xs:dateTime value. 
 'parse-ietf-date'(_Ctx,Arg1) -> 
@@ -2743,11 +2780,12 @@ shrink_spaces([H|T]) ->
       {ok,L,_} = ietf_date:string(Strip),
       %?dbg("L",L),
       {ok,Dt} = ietf_date_parse:parse(L),
+      ?dbg("Dt",Dt),
       DtStr = xqerl_datetime:to_string(Dt, 'xs:dateTime'),
       _ = xqerl_datetime:ymd_is_valid(Dt#xsDateTime.year, Dt#xsDateTime.month, Dt#xsDateTime.day),
       ?atm('xs:dateTime', Dt#xsDateTime{string_value = DtStr})
    catch
-      _:E ->
+      _:_ ->
          %?dbg("E",E),
          xqerl_error:error('FORG0010')
    end.
@@ -2890,8 +2928,105 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
    'parse-xml'(Ctx,Arg1).
 
 %% Returns a path expression that can be used to select the supplied node relative to the root of its containing document. 
-'path'(_Ctx) -> exit({not_implemented,?LINE}).
-'path'(_Ctx,_Arg1) -> exit({not_implemented,?LINE}).
+'path'(Ctx) ->
+   Ci = xqerl_context:get_context_item(Ctx),
+   'path'(Ctx, Ci).
+
+'path'(_,[]) -> [];
+'path'(Ctx,[Arg1]) -> 'path'(Ctx,Arg1);
+
+'path'(Ctx,#xqNode{doc = {doc,File}, node = Node}) ->
+   Doc = ?get({doc,File}),
+   'path'(Ctx,#xqNode{doc = Doc, node = Node});
+'path'(_Ctx,#xqNode{doc = Doc, node = Node}) ->
+   case xqerl_xdm:dm_node_kind(Doc, Node) of
+      document ->
+         ?str("/");
+      _ ->
+         Path = xqerl_xdm:path_to_root(Doc, Node),
+         ?dbg("Path",Path),
+         path_1(Doc,Path,[])
+   end;
+'path'(_,_) -> 
+   ?err('XPTY0004').
+
+path_1(_,[],String) -> ?str(String);
+path_1(Doc,[Root|Rest],[]) ->
+   case xqerl_xdm:dm_node_kind(Doc, Root) of
+      document ->
+         path_1(Doc,Rest,"/");
+      _ ->
+         path_1(Doc,Rest,"Q{http://www.w3.org/2005/xpath-functions}root()")
+   end;
+path_1(Doc,[Node|Rest],Acc) ->
+   case xqerl_xdm:dm_node_kind(Doc, Node) of
+      element ->
+         {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
+         Pos = xqerl_xdm:named_position(Doc, Node),
+         Ns1 = if Ns == 'no-namespace' -> ""; true -> Ns end,
+         Str = "Q{"++Ns1++"}"++Ln++"["++integer_to_list(Pos)++"]",
+         NewAcc = if Acc == "/" ->
+                        Acc ++ Str;
+                     true ->
+                        Acc ++ "/" ++ Str
+                  end,
+         path_1(Doc,Rest,NewAcc);
+      attribute ->
+         {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
+         Str = if Ns == 'no-namespace' -> 
+                     "@" ++ Ln;
+                  true -> 
+                     "@Q{"++Ns++"}"++Ln
+               end,
+         NewAcc = if Acc == "/" ->
+                        Acc ++ Str;
+                     true ->
+                        Acc ++ "/" ++ Str
+                  end,
+         path_1(Doc,Rest,NewAcc);
+      text ->
+         Pos = xqerl_xdm:named_position(Doc, Node),
+         Str = "text()["++integer_to_list(Pos)++"]" ,
+         NewAcc = if Acc == "/" ->
+                        Acc ++ Str;
+                     true ->
+                        Acc ++ "/" ++ Str
+                  end,
+         path_1(Doc,Rest,NewAcc);
+      comment ->
+         Pos = xqerl_xdm:named_position(Doc, Node),
+         Str = "comment()["++integer_to_list(Pos)++"]" ,
+         NewAcc = if Acc == "/" ->
+                        Acc ++ Str;
+                     true ->
+                        Acc ++ "/" ++ Str
+                  end,
+         path_1(Doc,Rest,NewAcc);
+      'processing-instruction' ->
+         {_,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
+         Pos = xqerl_xdm:named_position(Doc, Node),
+         Str = "processing-instruction("++Ln++")["++integer_to_list(Pos)++"]",
+         NewAcc = if Acc == "/" ->
+                        Acc ++ Str;
+                     true ->
+                        Acc ++ "/" ++ Str
+                  end,
+         path_1(Doc,Rest,NewAcc);
+      namespace ->
+         Str = case xqerl_xdm:dm_node_name(Doc, Node) of
+                  [] ->
+                     "namespace::*[Q{http://www.w3.org/2005/xpath-functions}local-name()=\"\"]";
+                  {_,Px} ->
+                     "namespace::" ++ Px
+               end,
+         NewAcc = if Acc == "/" ->
+                        Acc ++ Str;
+                     true ->
+                        Acc ++ "/" ++ Str
+                  end,
+         path_1(Doc,Rest,NewAcc)
+   end.
+
 
 %% Returns the context position from the dynamic context. 
 'position'(Ctx) -> 
@@ -3179,7 +3314,7 @@ string_value(At) -> xqerl_types:string_value(At).
       _ ->
          #xqAtomicValue{value = #xsDateTime{sign = Sn, second = Sd}} = ?seq:singleton_value(Arg1),
          Sd1 = if Sn =:= '-' ->
-                     Sd * -1;
+                     xqerl_numeric:multiply(Sd,-1);
                   true ->
                      Sd
                end,
@@ -3283,6 +3418,8 @@ sort1(Ctx,A,B,Coll) ->
          ColVal = xqerl_coll:parse(Coll),
          VBin = xqerl_coll:sort_key(Str1, ColVal),
          SBin = xqerl_coll:sort_key(Str2, ColVal),
+         %?dbg("VBin",VBin),
+         %?dbg("SBin",SBin),
          L = size(SBin),
          case VBin of
             SBin ->
@@ -3702,14 +3839,15 @@ zip_map_trans([H|T],[TH|TT]) ->
 % set order in the context, do expr, set context back DONE IN-LINE
 
 'unparsed-text'(Ctx,Uri) -> 
-   'unparsed-text'(Ctx,Uri,[]).
+   'unparsed-text'(Ctx,Uri,?str("")).
+'unparsed-text'(_,_Uri0,[]) -> ?err('XPTY0004');
 'unparsed-text'(#{'base-uri' := BaseUri0},Uri0,Encoding) -> 
    try
       Uri = xqerl_types:value(Uri0),
       BaseUri = xqerl_types:value(BaseUri0),
       ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
       Enc = xqerl_types:string_value(Encoding),
-      %?dbg("ResVal",ResVal),
+      ?dbg("ResVal",ResVal),
       {ok,Binary} = xqerl_ds:lookup_res(ResVal),
       if Encoding == [] ->
             ?str( xqerl_file:bin_to_utf8(Binary));
@@ -3718,8 +3856,10 @@ zip_map_trans([H|T],[TH|TT]) ->
       end
    catch 
       _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XQST0046"}}} ->
-            xqerl_error:error('FOUT1170');
+         ?dbg("E",erlang:get_stacktrace()),
+         xqerl_error:error('FOUT1170');
       _:#xqError{} = E ->
+         ?dbg("E",erlang:get_stacktrace()),
          exit(E);
       _:_ ->
          ?dbg("E",erlang:get_stacktrace()),
@@ -3729,18 +3869,20 @@ zip_map_trans([H|T],[TH|TT]) ->
 
 %% Because errors in evaluating the fn:unparsed-text function are non-recoverable, these two functions are provided to allow an application to determine whether a call with particular arguments would succeed. 
 'unparsed-text-available'(Ctx,Arg1) -> 
-   'unparsed-text-available'(Ctx,Arg1,[]).
+   'unparsed-text-available'(Ctx,Arg1,?str("")).
 'unparsed-text-available'(Ctx,Arg1,Arg2) -> 
    case catch 'unparsed-text'(Ctx,Arg1,Arg2) of
-            {'EXIT',_} ->
-               ?bool(false);
-            _ ->
-               ?bool(true)
-         end.
+      {'EXIT',#xqError{name = #xqAtomicValue{value = #qname{local_name = "XPTY0004"}}} = E} ->
+         throw(E);
+      {'EXIT',_} ->
+         ?bool(false);
+      _ ->
+         ?bool(true)
+   end.
 
 %% The fn:unparsed-text-lines function reads an external resource (for example, a file) and returns its contents as a sequence of strings, one for each line of text in the string representation of the resource. 
 'unparsed-text-lines'(Ctx,Arg1) -> 
-   'unparsed-text-lines'(Ctx,Arg1,[]).
+   'unparsed-text-lines'(Ctx,Arg1,?str("")).
 'unparsed-text-lines'(Ctx,Arg1,Arg2) ->
    UParsed = 'unparsed-text'(Ctx,Arg1,Arg2),
    %?dbg("UParsed",UParsed),

@@ -197,8 +197,8 @@ groupbyclause(KeyVals) ->
    %?dbg("All",All),
    lists:reverse(All).
 
-grouped_key(Keys) ->
-   list_to_tuple([K || {K,_} <- tuple_to_list(Keys)]).
+%% grouped_key(Keys) ->
+%%    list_to_tuple([K || {K,_} <- tuple_to_list(Keys)]).
 
 
 %% takes single list from expression and the start function and returns {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 

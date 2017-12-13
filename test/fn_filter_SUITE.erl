@@ -277,10 +277,11 @@ environment('array-and-map',BaseDir) ->
    Qry = "let $data := (/employees)
               return filter($data/emp, function($x as element(emp)){xs:int($x/@salary) lt 300})",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "filter/filter003.xml"),".","file:///"++filename:join(BaseDir, "")}]},
+{sources, [{filename:join(BaseDir, "filter/filter003.xml"),".",[]}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -343,10 +344,11 @@ environment('array-and-map',BaseDir) ->
             $perm := ($nodes[1], $nodes[2], $nodes[3], $nodes[1], $nodes[2], $nodes[4], $nodes[2], $nodes[1]) 
             return $index-of-node($perm, $nodes[2]) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "filter/filter005.xml"),".","file:///"++filename:join(BaseDir, "")}]},
+{sources, [{filename:join(BaseDir, "filter/filter005.xml"),".",[]}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -519,77 +521,16 @@ environment('array-and-map',BaseDir) ->
    end.
 'fn-filter-006'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "( fn:filter( (), if ( fn:current-dateTime() eq
-                            fn:dateTime( fn:current-date(),
-                                         fn:current-time() ))
-                         then fn:exists#1
-                         else 1 ),
-              fn:filter( (), if ( fn:current-dateTime() eq
-                            fn:dateTime( fn:current-date(),
-                                         fn:current-time() ))
-                         then 1
-                         else fn:exists#1 ) )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-filter-006.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-filter-007'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:filter( (), if ( fn:current-dateTime() eq
-                          fn:dateTime( fn:current-date(),
-                                       fn:current-time() ))
-                       then fn:exists#1
-                       else 1 )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-filter-007.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-filter-008'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:filter( (), fn:true() )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-filter-008.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-filter-009'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:filter( (), fn:true() )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-filter-009.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-filter-010'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:filter( (), function($a as item()) as xs:boolean* { fn:boolean($a), fn:boolean($a) } )",
@@ -667,10 +608,11 @@ environment('array-and-map',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:filter( (//node(), 1, \"string\", 3.14, 2.7e0, fn:exists#1), function($arg) { $arg instance of function(*) } )",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "filter/fn-filter-012.xml"),".","file:///"++filename:join(BaseDir, "")}]},
+{sources, [{filename:join(BaseDir, "filter/fn-filter-012.xml"),".",[]}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -721,19 +663,7 @@ environment('array-and-map',BaseDir) ->
    end.
 'fn-filter-016'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then () else fn:true()})",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-filter-016.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-filter-017'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then 0 else fn:true()})",
@@ -766,19 +696,7 @@ environment('array-and-map',BaseDir) ->
    end.
 'fn-filter-019'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then 0 else fn:true()})",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-filter-019.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-filter-020'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then (fn:true(), fn:false()) else fn:true()})",
@@ -811,31 +729,7 @@ environment('array-and-map',BaseDir) ->
    end.
 'fn-filter-022'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then (fn:true(), fn:false()) else fn:true()})",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-filter-022.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-filter-023'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:filter( (\"1\", \"2\", \"3\"), function($arg as xs:integer) as xs:boolean { $arg eq 100 } )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-filter-023.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.

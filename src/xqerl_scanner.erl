@@ -1091,27 +1091,32 @@ scan_token(Str = "return" ++ T, A) ->
             '/' ->
                qname_if_path("return", T, lookback(A));
             _ ->
-               {{'return',1,'return'}, T}
+               {{'return',?L,'return'}, T}
          end
    end;
 scan_token(Str = "option" ++ T, A) -> 
    case lookback(A) of
       'declare' ->
-         {{'option',1,'option'}, T};
+         {{'option',?L,'option'}, T};
       _ ->
          scan_name(Str)
    end;
-scan_token(Str = "module" ++ T, _A) -> 
+scan_token(Str = "module" ++ T, A) -> 
    case lookforward_is_namespace(T) of
       true ->
-         {{'module',1,'module'}, T};
+         {{'module',?L,'module'}, T};
       _ ->
-         scan_name(Str)
+         case lookback(A) of
+            import ->
+               {{'module',?L,'module'}, T};
+            _ ->
+               scan_name(Str)
+         end
    end;
 scan_token("import" ++ T, A) -> 
    case A of
       [] ->
-         {{'import',1,'import'}, T};
+         {{'import',?L,'import'}, T};
       _ ->
          qname_if_path("import", T, lookback(A))
    end;

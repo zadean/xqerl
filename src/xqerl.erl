@@ -87,12 +87,16 @@ run(Str, Options) ->
    try
       Str2 = strip_comments(Str),
       Tokens = scan_tokens(Str2),
+      %?dbg("Tokens",Tokens),
       _ = erlang:put(xquery_id, xqerl_context:init(self())),
       Tree = parse_tokens(Tokens),
+      %?dbg("Tree",Tree),
       Static = scan_tree_static(Tree,"xqerl_main"),
+      %?dbg("Static",maps:remove(known_fx_sigs, Static)),
       {_ModNs,_ModType,_ImportedMods,_VarSigs,_FunSigs,Ret} = scan_tree(Static),
       %?dbg("Ret",Ret),
-      _ = compile_abstract(Ret),
+      B = compile_abstract(Ret),
+      print_erl(B),
       erlang:erase(),
       Res = xqerl_main:main(Options),
       erlang:erase(),
@@ -100,9 +104,11 @@ run(Str, Options) ->
    catch
       _:#xqError{} = E ->
          ?dbg("run",E),
+         ?dbg("run",erlang:get_stacktrace()),
          E;
       _:E ->
          ?dbg("run",E),
+         ?dbg("run",erlang:get_stacktrace()),
          {'EXIT',E1} = (catch xqerl_error:error('XPST0003')),
          E1
    end.
@@ -160,6 +166,7 @@ scan_tree(Tree) ->
    catch
       _:#xqError{} = E ->
          ?dbg("scan_tree",E),
+         ?dbg("scan_tree",erlang:get_stacktrace()),
          throw(E);
       _:_ ->
          ?dbg("scan_tree",erlang:get_stacktrace()),
@@ -172,10 +179,11 @@ scan_tree_static(Tree,FileName) ->
          Abstract
    catch
       _:#xqError{} = E ->
-         ?dbg("scan_tree",E),
+         ?dbg("scan_tree_static",E),
+         ?dbg("scan_tree_static",erlang:get_stacktrace()),
          throw(E);
       _:_ ->
-         ?dbg("scan_tree",erlang:get_stacktrace()),
+         ?dbg("scan_tree_static",erlang:get_stacktrace()),
          xqerl_error:error('XPST0003')
    end.
 
@@ -207,8 +215,8 @@ print_erl(B) ->
    {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
    FL = erl_syntax:form_list(AC),
    PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, {encoding, utf8}])),
-   io:fwrite("~ts~n", [PP]),
-   ?dbg("huh",PP),
+   %io:fwrite("~ts~n", [PP]),
+   %?dbg("huh",PP),
    ok.   
 
 
@@ -234,8 +242,6 @@ print_erl(B) ->
 trun(Str) -> trun(Str, #{}).
 trun(Str, Opt) ->
    % saving the docs between runs to not have to reparse
-   Docs = erlang:get('available-documents'),
-   Txts = erlang:get('available-text-resources'),
    erlang:erase(),
    catch code:purge(xqerl_main),
    catch code:delete(xqerl_main),
@@ -246,15 +252,13 @@ trun(Str, Opt) ->
       _ = erlang:put(xquery_id, xqerl_context:init(self())),
       Tree = parse_tokens(Tokens),
       ?dbg("Tree",Tree),
-      Static = xqerl_static:handle_tree(Tree,"/"),
+      Static = xqerl_static:handle_tree(Tree,"xqerl_main"),
      ?dbg("Static",maps:get(body,Static)),
       Abstract = xqerl_abs:scan_mod(Static),
 %      ?dbg("Abstract",Abstract),
       B = compile_abstract(Abstract),
       print_erl(B),
       erlang:erase(),
-      erlang:put('available-documents', Docs),
-      erlang:put('available-text-resources', Txts),
       xqerl_main:main(Opt).
 %ok.
 

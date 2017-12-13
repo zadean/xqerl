@@ -87,6 +87,7 @@
          path_to_root/2,
          inscope_namespaces/2,
          node_root/2,
+         named_position/2,
          root/1,
          %
          copy/2
@@ -259,6 +260,33 @@ path_to_root(Doc, Node, Acc) ->
       true ->
          path_to_root(Doc, Parent, [Parent|Acc])
    end.
+
+named_position(Doc,Node) ->
+   Par = dm_parent(Doc, Node),
+   Id = uid(Node),
+   case dm_node_kind([], Node) of
+      element ->
+         Name = dm_node_name(Doc, Node),
+         length([C || C <- dm_children(Doc, Par),
+                      dm_node_kind([], C) == element,
+                      dm_node_name(Doc, C) == Name,
+                      uid(C) =< Id]);
+      text ->
+         length([C || C <- dm_children(Doc, Par),
+                      dm_node_kind([], C) == text,
+                      uid(C) =< Id]);
+      comment ->
+         length([C || C <- dm_children(Doc, Par),
+                      dm_node_kind([], C) == comment,
+                      uid(C) =< Id]);
+      'processing-instruction' ->
+         Name = dm_node_name(Doc, Node),
+         length([C || C <- dm_children(Doc, Par),
+                      dm_node_kind([], C) == 'processing-instruction',
+                      dm_node_name(Doc, C) == Name,
+                      uid(C) =< Id])
+   end.
+
 
 % special case of stand-alone attribute, lead by namespace
 root(#{nodes := <<_:32,2:3,_:93,A:32,3:3,B:93>>}) ->

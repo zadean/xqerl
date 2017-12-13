@@ -41,6 +41,7 @@
 -export([read_files/1]).
 
 -export([retrieve_doc/1]).
+-export([retrieve_collection/1]).
 -export([exists_doc/1]).
 
 -export([doc_to_xqnode_doc/1]).
@@ -485,14 +486,23 @@ add_node(#state{nodes = Nodes} = State, #nodes{id = K} = Rec) ->
    Nodes2 = maps:put(K, V, Nodes),
    State#state{nodes = Nodes2}.
 
+store_doc(_Uri, {error,E}) -> {error,E};
 store_doc(Uri, Doc) ->
    BinDoc = doc_to_binary(Doc),
-   xqerl_ds:insert_doc(string:lowercase(Uri), BinDoc).
+   xqerl_ds:insert_doc(Uri, BinDoc).
 
 retrieve_doc(Uri) ->
-   {ok, {_,BinDoc}} = xqerl_ds:lookup_doc(string:lowercase(Uri)),
+   {ok, {_,BinDoc}} = xqerl_ds:lookup_doc(Uri),
    binary_to_doc(BinDoc).
 
+retrieve_collection(Uri) ->
+   {ok,List} = xqerl_ds:lookup_doc(Uri),
+   lists:map(fun({_,BinDoc}) when is_binary(BinDoc) ->
+                   binary_to_doc(BinDoc);
+                (O) ->
+                   O
+             end, List).
+
 exists_doc(Uri) ->
-   xqerl_ds:exists_doc(string:lowercase(Uri)).
+   xqerl_ds:exists_doc(Uri).
 

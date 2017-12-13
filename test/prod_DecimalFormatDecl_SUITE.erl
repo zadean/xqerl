@@ -574,7 +574,19 @@ environment('array-and-map',BaseDir) ->
         declare decimal-format df001 grouping-separator=\"!\";
         format-number(123456.789,'#!###!###.###','df001')||'-'||m:do()
       ",
-   Qry1 = Qry,
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{'context-item', [""]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, [{filename:join(BaseDir, "DecimalFormatDecl/dfd-module-001.xq"),"http://www.w3.org/TestModules/dfd-module-001"}]}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "decimal-format-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
@@ -870,6 +882,7 @@ environment('array-and-map',BaseDir) ->
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},

@@ -590,35 +590,7 @@ environment('array-and-map',BaseDir) ->
    end.
 'fn-for-each-pair-010'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:for-each-pair( (), (), if ( fn:current-dateTime() eq
-                          fn:dateTime( fn:current-date(),
-                                       fn:current-time() ))
-                          then fn:concat#2
-                          else () )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-for-each-pair-010.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end,
-   case xqerl_test:assert_empty(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-for-each-pair-011'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:for-each-pair( (), (), (fn:concat#2, fn:concat#2) )",
@@ -677,10 +649,11 @@ environment('array-and-map',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = " fn:for-each-pair( (), (), /root )",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "for-each-pair/fn-for-each-pair-013.xml"),".","file:///"++filename:join(BaseDir, "")}]},
+{sources, [{filename:join(BaseDir, "for-each-pair/fn-for-each-pair-013.xml"),".",[]}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -803,10 +776,11 @@ environment('array-and-map',BaseDir) ->
                             else deep-equal($a, $b)
                           } )",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "for-each-pair/fn-for-each-pair-013.xml"),".","file:///"++filename:join(BaseDir, "")}]},
+{sources, [{filename:join(BaseDir, "for-each-pair/fn-for-each-pair-013.xml"),".",[]}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -1106,23 +1080,7 @@ environment('array-and-map',BaseDir) ->
    end.
 'fn-for-each-pair-032'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:for-each-pair( \"a\", \"b\", if ( fn:current-dateTime() eq
-                          fn:dateTime( fn:current-date(),
-                                       fn:current-time() ))
-                          then fn:concat#2
-                          else () )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-for-each-pair-032.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-for-each-pair-033'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:for-each-pair( \"a\", \"b\", (fn:concat#2, fn:concat#2) )",
@@ -1157,10 +1115,11 @@ environment('array-and-map',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = " fn:for-each-pair(\"a\", \"b\",  /root )",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "for-each-pair/fn-for-each-pair-013.xml"),".","file:///"++filename:join(BaseDir, "")}]},
+{sources, [{filename:join(BaseDir, "for-each-pair/fn-for-each-pair-013.xml"),".",[]}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},

@@ -1529,8 +1529,8 @@ environment('function-lookup',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "function-lookup/function-lookup.xml"), ".","http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"}]},
 {schemas, []},
-{collections, [{"",[filename:join(BaseDir, "function-lookup/collection-1.xml"),
-filename:join(BaseDir, "function-lookup/collection-2.xml")]}]},
+{collections, [{"",[{src,filename:join(BaseDir, "function-lookup/collection-1.xml")},
+{src,filename:join(BaseDir, "function-lookup/collection-2.xml")}]}]},
 {'static-base-uri', []},
 {params, []},
 {vars, []},
@@ -7830,6 +7830,7 @@ filename:join(BaseDir, "function-lookup/collection-2.xml")]}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.example.com"}]},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -9988,24 +9989,7 @@ string')",
    end.
 'fn-function-lookup-711'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
-                               if ( fn:current-dateTime() eq
-                                    fn:dateTime( fn:current-date(),
-                                                 fn:current-time() ))
-                               then ()
-                               else 1 )",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-711.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-function-lookup-712'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
@@ -10030,24 +10014,7 @@ string')",
    end.
 'fn-function-lookup-713'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:function-lookup((if ( fn:current-dateTime() eq
-                                    fn:dateTime( fn:current-date(),
-                                                 fn:current-time() ))
-                                then fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')
-                                else ()),
-                               1)",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-function-lookup-713.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'fn-function-lookup-714'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "( fn:function-lookup((if (current-date() eq xs:date('1900-01-01'))
@@ -10376,6 +10343,7 @@ string')",
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -10417,6 +10385,7 @@ string')",
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},
@@ -10500,6 +10469,7 @@ string')",
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.w3.org/fots/unparsed-text/"}]},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},

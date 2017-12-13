@@ -83,7 +83,7 @@ rec_list_dir([Path|Paths], FilesOnly, Acc) ->
         end).
 
 is_xml(Path) ->
-  filename:extension(Path) == ".xml".
+  filename:extension(Path) == ".xml" orelse filename:extension(Path) == ".xsd".
 
 
 
@@ -114,6 +114,8 @@ bin_to_utf8(Binary) ->
          end
     end.
 
+bin_to_utf8(Bin,[]) ->
+   bin_to_utf8(Bin);
 bin_to_utf8(<<>>,_) ->
     ?err('FOUT1200'); 
 bin_to_utf8(Binary,Enc) ->
@@ -122,7 +124,8 @@ bin_to_utf8(Binary,Enc) ->
                 utf8;
              "utf-16" ->
                 utf16;
-             _ ->
+             E ->
+                ?dbg("Encoding?",E),
                 ?err('FOUT1190')
           end,  
    case unicode:characters_to_list(Binary, Enc1) of

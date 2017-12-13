@@ -781,6 +781,7 @@ get_module_exports(Imports) ->
    Acc = xqerl_module:get_static_signatures(),
    lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc}) ->
                      {atomic,{Funs,Vars}} = xqerl_module:get_signatures(Ns),
+                     %?dbg("{Funs,Vars}",{Funs,Vars}),
                      FunsAcc1 = Funs ++ FunsAcc, 
                      VarsAcc1 = Vars ++ VarsAcc,
                      {FunsAcc1,VarsAcc1}

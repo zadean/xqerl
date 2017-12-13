@@ -79,7 +79,7 @@ get_from_now_local(Now) ->
             day = D,
             hour = HH,
             minute = MI,
-            second = SS + (Millis / 1000),
+            second = xqerl_numeric:decimal(SS + (Millis / 1000)),
             offset = #off_set{hour = Hd, min = Md}
          },
    #xqAtomicValue{type = 'xs:dateTime', value = Ret#xsDateTime{string_value = to_string(Ret,'xs:dateTime')}}.
@@ -105,7 +105,7 @@ to_string(#xsDateTime{sign     = Sign,
                       minute   = MI,
                       second   = SS},
           'xs:dayTimeDuration') ->
-   if D =:= 0 andalso HH =:= 0 andalso MI =:= 0 andalso SS == 0 ->
+   if D =:= 0 andalso HH =:= 0 andalso MI =:= 0 andalso SS == #xsDecimal{} ->
          "PT0S";
       true ->
          SN = sign_str(Sign),
@@ -146,7 +146,7 @@ to_string(#xsDateTime{sign     = Sign,
                       minute   = MI,
                       second   = SS},
           'xs:duration') ->
-   if Y =:= 0 andalso M =:= 0 andalso D =:= 0 andalso HH =:= 0 andalso MI =:= 0 andalso SS == 0 ->
+   if Y =:= 0 andalso M =:= 0 andalso D =:= 0 andalso HH =:= 0 andalso MI =:= 0 andalso SS == {xsDecimal,0,0} ->
          "PT0S";
       true ->
          SN = sign_str(Sign),
@@ -236,18 +236,21 @@ align_to_timezone(Arg1,Arg2) ->
                         xqerl_datetime:to_string(Os,'xs:dayTimeDuration')
                   end,
       AdjDurStr = case ?seq:singleton_value(Arg2) of
-                     #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{second = Sec}} when Sec > 0 ->
-                        xqerl_error:error('FODT0003');
-                     #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{string_value = DStr}} ->
-                        ?str(DStr);
+                     #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{second = Sec,string_value = DStr}} ->
+                        GT = xqerl_numeric:greater_than(Sec, 0),
+                        if GT ->
+                              ?err('FODT0003');
+                           true ->
+                              ?str(DStr)
+                        end;
                      O ->
                         ?str(xqerl_datetime:to_string(O,'xs:dayTimeDuration'))
                   end,
       %?dbg("ArgDurStr",ArgDurStr),
       %?dbg("AdjDurStr",AdjDurStr),
       %?dbg("Arg2",Arg2),
-      if ArgDurStr == [] andalso AdjDurStr == [] ->
-            Arg1;
+      if %ArgDurStr == [] andalso AdjDurStr == [] ->
+         %   Arg1;
          ArgDurStr == [] ->
             AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
             #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
@@ -258,6 +261,7 @@ align_to_timezone(Arg1,Arg2) ->
          true ->
             DtDur  = xqerl_types:cast_as(?str(ArgDurStr), 'xs:dayTimeDuration'),
             %?dbg("adjust-dateTime-to-timezone DtDur",DtDur),
+            %?dbg("adjust-dateTime-to-timezone AdjDurStr",AdjDurStr),
             AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
             %?dbg("adjust-dateTime-to-timezone AdjDur",AdjDur),
             #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
@@ -277,14 +281,14 @@ align_to_timezone(Arg1,Arg2) ->
 
 
 
-sec_str(Secs) when is_integer(Secs) ->
-   io_lib:format("~2..0b",[Secs]);
-sec_str(Secs) when Secs == trunc(Secs) ->
-   io_lib:format("~2..0b",[trunc(Secs)]);
-sec_str(Secs) when Secs < 10 ->
-   io_lib:format("0~w",[Secs]);
-sec_str(Secs)  ->
-   io_lib:format("~w",[Secs]).
+sec_str(Secs) ->
+   Str = xqerl_numeric:string(Secs),
+   case xqerl_numeric:less_than(Secs, 10) of
+      true ->
+         [$0|Str];
+      _ ->
+         Str
+   end.
 
 year_str(Year) when abs(Year) > 9999 ->
    io_lib:format("~b",[Year]);
@@ -320,13 +324,16 @@ offset_str(#xqAtomicValue{type = 'xs:dayTimeDuration',
    end.
 
 time_dur_str(H,M,S) ->
-   if H =:= 0 andalso M =:= 0 andalso S == 0 -> "";
+   %?dbg("S",S),
+   SStr = case sec_str(S) of
+             [$0|R] ->
+                R;
+             R ->
+                R
+          end,
+   %?dbg("SStr",SStr),
+   if H =:= 0 andalso M =:= 0 andalso SStr == "0" -> "";
       true -> 
-         S1 = if S == trunc(S) ->
-                    trunc(S);
-                 true ->
-                    S
-              end,
          F = "T" ++ 
                if H > 0 -> "~bH";
                   true -> "~i"
@@ -334,11 +341,12 @@ time_dur_str(H,M,S) ->
                if M > 0 -> "~bM";
                   true -> "~i"
                end ++
-               if S1 > 0 andalso is_integer(S1) -> "~bS";
-                  S1 > 0 -> "~wS";
-                  true -> "~i"
+               if SStr == "0" ->
+                     "";
+                  true ->
+                     SStr++"S"
                end,
-         lists:flatten(io_lib:format(F, [H,M,S1]))
+         lists:flatten(io_lib:format(F, [H,M]))
    end.
 
 date_dur_str(Y,M,D) ->

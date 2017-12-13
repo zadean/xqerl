@@ -314,10 +314,11 @@ environment('names',BaseDir) ->
             return for-each($data/*, $f)[not(. instance of attribute())]
         ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "higherOrder/doc1.xml"),".","file:///"++filename:join(BaseDir, "")}]},
+{sources, [{filename:join(BaseDir, "higherOrder/doc1.xml"),".",[]}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},

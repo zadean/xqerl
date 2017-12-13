@@ -244,241 +244,46 @@ environment('Tree1Text',BaseDir) ->
 ].
 'ST-Axes001'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(//center/self::nowhere)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes001.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes002'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(//center/@center-attr-2/self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes002.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes003'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(//center/@center-attr-3/self::center-attr-3)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes003.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes004'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(//center/@center-attr-1/self::nowhere)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes004.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes005'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(//center/text()/self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes005.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes006'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(//center/text()/self::center)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes006.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes007'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(//center/@center-attr-1/descendant-or-self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes007.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes008'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(//center/@center-attr-2/descendant-or-self::far-south)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes008.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes009'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(//center/@center-attr-2/descendant-or-self::center-attr-2)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes009.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes010'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(//center/text()/descendant-or-self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes010.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes011'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(/attribute::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes011.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes012'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(/@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes012.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes013'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(/parent::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes013.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes014'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(/..)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes014.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'ST-Axes015'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "fn:count(/self::*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "ST-Axes015.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.

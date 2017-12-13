@@ -776,7 +776,7 @@ environment('array-and-map',BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-integer-030.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'602)347-826'") of 
+   Out =    case xqerl_test:assert_eq(Res,"'(602)347-826'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
@@ -802,49 +802,13 @@ environment('array-and-map',BaseDir) ->
    end.
 'format-integer-032'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "format-integer(1, 'Ww;o(-er)', 'de' cast as xs:language)",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-integer-032.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'Erster'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"language de "}.
 'format-integer-032-fr'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "format-integer(2, 'Ww;o', 'fr')",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-integer-032-fr.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'Deuxième'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"language fr "}.
 'format-integer-032-it'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "format-integer(5, 'Ww;o(-o)', 'it') || ';' || format-integer(5, 'Ww;o(-a)', 'it')",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-integer-032-it.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'Quinto;Quinta'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"language it "}.
 'format-integer-033'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-integer(1, '1;o(-en)')",
@@ -1109,36 +1073,10 @@ environment('array-and-map',BaseDir) ->
    end.
 'format-integer-049'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "string-join(for $i in 1 to 5 return format-integer($i, 'Α'), '|')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-integer-049.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'Α|Β|Γ|Δ|Ε'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"format-integer-sequence " }.
 'format-integer-050'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "string-join(for $i in 1 to 5 return format-integer($i,'α'), '|')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-integer-050.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'α|β|γ|δ|ε'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"format-integer-sequence " }.
 'format-integer-051'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-integer(12345678901,'# 000')",
@@ -1156,21 +1094,7 @@ environment('array-and-map',BaseDir) ->
    end.
 'format-integer-052'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "string-join(
-                for $i in (1 to 23, 151, 302, 469, 2025) 
-                return concat($i, '=',  format-integer($i, '一')), '|')",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-integer-052.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'1=一|2=二|3=三|4=四|5=五|6=六|7=七|8=八|9=九|10=十|11=十一|12=十二|13=十三|14=十四|15=十五|16=十六|17=十七|18=十八|19=十九|20=二十|21=二十一|22=二十二|23=二十三|151=百五十一|302=三百二|469=四百六十九|2025=二千二十五'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"format-integer-sequence " }.
 'format-integer-053'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-integer(123,'#0')",
@@ -1361,34 +1285,10 @@ environment('array-and-map',BaseDir) ->
    end.
 'format-integer-065'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "format-integer(20, 'Ww;o(%spellout-ordinal)', 'de')",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-integer-065.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'Zwanzigste'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"language de "}.
 'format-integer-066'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "format-integer(5, 'Ww;o(%spellout-ordinal-masculine)', 'it') || ';' || format-integer(5, 'Ww;o(%spellout-ordinal-feminine)', 'it')",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-integer-066.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'Quinto;Quinta'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"language it "}.
 'format-integer-067'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-integer(1234, 'Ww;o(')",

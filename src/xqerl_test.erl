@@ -243,10 +243,6 @@ assert_error(Result, ErrorCode) ->
          {false, {assert_error,StrVal,ErrorCode}}
    end.
 
-
-
-size({Id,{Size,_}}) when is_integer(Id), is_integer(Size) ->
-   1;
 size(A) ->
    ?seq:size(A).
 
@@ -266,6 +262,14 @@ run_suite(Suite) ->
    ct:run_test([{suite, Suite},{dir, "../test"},{logdir, "../test/logs"}])
 .
 
+run(all) ->
+   run(prod),
+   run(misc),
+   run(op),
+   run(fn),
+   run(fn2),
+   run(map),
+   run(array);
 run(misc) ->
    run_suite(misc_CombinedErrorCodes_SUITE),
    run_suite(misc_AnnexE_SUITE),
@@ -283,7 +287,7 @@ run(misc) ->
    run_suite(method_xhtml_SUITE),
    run_suite(method_xml_SUITE),
    run_suite(app_CatalogCheck_SUITE),
-   %run_suite(app_Demos_SUITE), bin copy good... map copy bad...
+   run_suite(app_Demos_SUITE),
    run_suite(app_FunctxFn_SUITE),
    run_suite(app_FunctxFunctx_SUITE),
    run_suite(app_UseCaseCompoundValues_SUITE),
@@ -719,6 +723,7 @@ handle_environment(List) ->
    BaseUri = proplists:get_value('static-base-uri', List) ,
    Params = proplists:get_value(params, List) ,
    Vars = proplists:get_value(vars, List,[]) ,
+   ContextItem = proplists:get_value('context-item', List,[]) ,
    Namespaces = proplists:get_value(namespaces, List) ,
    Resources = proplists:get_value(resources, List) ,
    Modules = proplists:get_value(modules, List) ,
@@ -750,8 +755,37 @@ handle_environment(List) ->
                               _ = xqerl_doc:read_text(File,Uri)
                         end
                   end, Resources),
-   
-   Sources1 = lists:map(fun({File,Role,Uri}) ->
+   _ = lists:foreach(
+         fun({Uri,CList}) ->
+               All = lists:flatmap(
+                 fun({src,FileName}) ->
+                       case xqerl_ds:exists_doc(Uri) of
+                          true ->
+                             Doc1 = xqerl_doc:retrieve_doc(FileName),
+                             Doc2 = #xqNode{doc = Doc1, node = xqerl_xdm:root(Doc1)},
+                             [Doc2];
+                          _ ->
+                             _ = xqerl_doc:read_http(FileName),
+                             Doc1 = xqerl_doc:retrieve_doc(FileName),
+                             Doc2 = #xqNode{doc = Doc1, node = xqerl_xdm:root(Doc1)},
+                             [Doc2]
+                       end;
+                    ({query,Qry}) ->
+                       case xqerl:run(Qry) of
+                          L when is_list(L) ->
+                             L;
+                          L ->
+                             [L]
+                       end
+                 end, CList),
+               %?dbg("All",All),
+               if Uri == "" ->
+                     xqerl_collection:put(default, All);
+                  true ->
+                     xqerl_collection:put(Uri, All)
+               end
+         end, Collections),
+   {Sources1,EMap} = lists:mapfoldl(fun({File,Role,Uri},Map) ->
                               Uri2 = if Uri == [] ->
                                            File;
                                         true ->
@@ -769,19 +803,20 @@ handle_environment(List) ->
                                     ok
                               end,                                    
                               if Role == "." ->
-                                    "declare context item := Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"');\n";
+                                    R = xqerl:run("Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"')"),
+                                    {"",Map#{context_item => R}};
                                  Role == "" ->
-                                    "";
+                                    {"",Map};
                                  true ->
-                                    "declare variable "++Role++" := Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"');\n"
+                                    {"declare variable "++Role++" := Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"');\n",Map}
                               end
-                        end, Sources),
+                        end, #{},Sources),
    Schemas1 = lists:map(fun({File,Uri}) ->
                               "import schema default element namespace '"++Uri++"' at '"++File++"';\n"
              end, Schemas),
-   _ = lists:foreach(fun({File,Uri}) ->
-                           xqerl_module:compile(File),
-                           xqerl_module:load(Uri)
+   _ = lists:foreach(fun({File,_Uri}) ->
+                           catch xqerl_module:compile(File)%,
+                           %xqerl_module:load(Uri)
              end, Modules),
 %%    _ = lists:foreach(fun({Uri,Docs}) ->
 %%                            lists:foreach(fun(File) ->
@@ -813,12 +848,18 @@ handle_environment(List) ->
                                Map#{Name => xqerl:run(Value)};
                           ({Name,As,Value},Map) ->
                              Map#{Name => xqerl:run(Value++" cast as "++As)}                             
-                       end, #{}, Params),
+                       end, EMap, Params),
    Namespaces1 = lists:foldl(fun({Uri,Prefix}, Map) ->
                                    Ns = maps:get(namespaces, Map, []),
                                    NewNs = lists:keystore(Prefix, 1, Ns, {Prefix,Uri}),
                                    Map#{namespaces => NewNs}
                            end, Params1, Namespaces),
+   ContextItem1 = lists:foldl(fun("",Map) ->
+                                    Map;
+                                 (C,Map) ->
+                                    R = xqerl:run(C),
+                                    Map#{context_item => R}
+                              end, Namespaces1, ContextItem),
    Namespaces2 = lists:map(fun({Uri,""}) ->
                                    "declare default element namespace '"++Uri++"';\n";
                               % block statically known 
@@ -833,7 +874,7 @@ handle_environment(List) ->
                           ({Name,As,Value}) ->
                              "declare variable $"++Name++" as "++As++" := "++Value++";\n"
                        end, Vars),
-   {BaseUri1++Sources1++Schemas1++DecFormats1++Namespaces2++Vars1, Namespaces1}.
+   {BaseUri1++Sources1++Schemas1++DecFormats1++Namespaces2++Vars1, ContextItem1}.
 
 
 

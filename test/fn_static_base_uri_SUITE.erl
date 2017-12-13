@@ -430,6 +430,7 @@ environment('array-and-map',BaseDir) ->
 {schemas, []},
 {collections, []},
 {'static-base-uri', [{"http://www.example.com"}]},
+{'context-item', [""]},
 {vars, []},
 {params, []},
 {namespaces, []},

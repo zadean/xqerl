@@ -618,36 +618,10 @@ environment('array-and-map',BaseDir) ->
    end.
 'parse-xml-fragment-022'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "parse-xml-fragment(\"<a/>\")/..",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-xml-fragment-022.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_empty(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'parse-xml-fragment-022-st'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "parse-xml-fragment(\"<a/>\")/..",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "parse-xml-fragment-022-st.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0005") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"staticTyping"}.
 'parse-xml-fragment-023'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "parse-xml-fragment(\"<a/>\") instance of document-node()",

@@ -130,15 +130,12 @@ declare function local:print-testcase($test-case)
     ($test-case/../*:environment[*:source[@validation]]/@name union 
      doc("QT3-test-suite/catalog.xml")/*:catalog/*:environment[*:source[@validation]]/@name)
   let $name := $test-case/@name
-  let $deps := $test-case/*:dependency | $test-case/../*:dependency
+  let $deps := $test-case/*:dependency | $test-case//*:dependency | $test-case/../*:dependency
   let $env  := $test-case/*:environment/(@ref|@name)/string()
   return
   "'"||$name||"'(Config) ->"||'&#10;'||
   "   BaseDir = proplists:get_value(base_dir, Config),"||'&#10;'||
   (
-    (: Collation environments :)
-    (: if ($test-case/*:environment/*:collation) then 
-    "   {skip,""Collation Environment""}" (: => trace() :) :)
     (: validation environments :)
     if ($env = $inscope-schema-envs) then 
     "   {skip,""Validation Environment""}" (: => trace() :)
@@ -150,6 +147,12 @@ declare function local:print-testcase($test-case)
     "   {skip,""higherOrderFunctions""}" :)
     (: else if ($deps[@type = "feature" and @value = "moduleImport"]) then 
     "   {skip,""moduleImport""}" :)
+    else if ($deps[@type = "feature" and @value = "staticTyping"]) then 
+    "   {skip,""staticTyping""}"
+    (: else if ($deps[@type = "feature" and @value = "infoset-dtd"]) then 
+    "   {skip,""infoset-dtd""}" :)
+    (: else if ($deps[@type = "feature" and @value = "namespace-axis"]) then 
+    "   {skip,""namespace-axis""}" :)
     else if ($deps[@type = "feature" and @value = "fn-load-xquery-module" and @satisfied = "true" ]) then
     "   {skip,""load-xquery-module""}"
     else if ($deps[@type = "feature" and @value = "fn-transform-XSLT" and @satisfied = "true" ]) then
@@ -164,16 +167,12 @@ declare function local:print-testcase($test-case)
     "   {skip,""schemaAware""}"
     else if ($deps[@type = "feature" and @value = "xpath-1.0-compatibility"]) then 
     "   {skip,""xpath-1.0-compatibility""}"
-    (: else if ($deps[@type = "feature" and @value = "namespace-axis"]) then 
-    "   {skip,""namespace-axis""}" :)
     else if ($deps[@type = "feature" and @value = "serialization"]) then 
     "   {skip,""serialization""}"
     else if (starts-with($test-case/../@name,"method-")) then 
     "   {skip,""serialization feature""}"
     else if ($test-case/../@name = "fn-serialize") then 
     "   {skip,""serialization feature""}"
-    (: else if ($deps[@type = "feature" and @value = "infoset-dtd"]) then 
-    "   {skip,""infoset-dtd""}" :)
     else if ($deps[@type = "feature" and @value = "collection-stability"]) then 
     "   {skip,""collection-stability""}"
     else if ($deps[@type = "feature" and @value = "directory-as-collection-uri"]) then 
@@ -182,12 +181,18 @@ declare function local:print-testcase($test-case)
     "   {skip,""non_unicode_codepoint_collation""}"
     else if ($deps[@type = "feature" and @value = "advanced-uca-fallback"]) then 
     "   {skip,""advanced-uca-fallback""}"
-    (: else if ($deps[@type = "feature" and @value = "staticTyping"]) then 
-    "   {skip,""staticTyping""}" :)
     else if ($deps[@type = "feature" and @value = "typedData"]) then 
     "   {skip,""typedData""}"
     else if ($deps[@type = "feature" and @value = "schema-location-hint"]) then 
     "   {skip,""schema-location-hint""}"    
+
+    else if ($deps[@type = "default-language" and @value != "en"]) then 
+    "   {skip,""default-language "||$deps[@type = "default-language"]/@value||" ""}" 
+    else if ($deps[@type = "language" and @value != "en"]) then 
+    "   {skip,""language "||$deps[@type = "language"]/@value||" ""}" 
+    else if ($deps[@type = "format-integer-sequence" and 
+                   @value = ("&#x4e00;","&#x03b1;","&#x0391;")]) then 
+    "   {skip,""format-integer-sequence "" }" 
 
     (: older specs :)
     else if ($deps[@type = "spec" and @value = "XP10 XQ10"]) then
@@ -217,8 +222,6 @@ declare function local:print-testcase($test-case)
     else if ($deps[@type = "spec" and @value = "XP30+"]) then
     "   {skip,""XP30+""}"
 
-    else if ($deps[@type = "default-language" and @value = "fr-CA"]) then
-    "   {skip,""default-language fr-CA""}"
     else if ($deps[@type = "unicode-normalization-form" and @value = "FULLY-NORMALIZED"
                    and not(exists(@satisfied)) ]) then
     "   {skip,""unicode-normalization-form FULLY-NORMALIZED""}"
@@ -252,7 +255,7 @@ declare function local:print-testcase($test-case)
       if ($test-case/*:environment[@name or @ref]) then
         "   {Env,Opts} = xqerl_test:handle_environment(environment('"||$env||"',BaseDir)),"||'&#10;'||
         "   Qry1 = lists:flatten(Env ++ Qry),"||'&#10;'
-      else if ($test-case/*:environment) then
+      else if ($test-case/*:environment | $test-case/*:module) then
         "   {Env,Opts} = xqerl_test:handle_environment("||
         string-join(local:print-local-environment($test-case))
         ||"),"||'&#10;'||
@@ -334,9 +337,12 @@ declare function local:print-environment($env,$case)
       for $s in $res/*:source
       return
       if ($is-local) then
-      "filename:join(BaseDir, """||string($s/@file)||""")"
+      "{src,filename:join(BaseDir, """||string($s/@file)||""")}"
       else
-      "filename:join(BaseDir, ""../"||string($s/@file)||""")"
+      "{src,filename:join(BaseDir, ""../"||string($s/@file)||""")}" ,
+      for $s in $res/*:query
+      return
+      "{query,"||local:mask-string($s)||"}"
     ) => string-join(","||'&#10;')
     ||"]}"
   ) => string-join(","||'&#10;')
@@ -404,6 +410,7 @@ declare function local:print-local-environment($env as item()*) as item()*
   let $resources       := $env/*:environment/*:resource 
   let $modules         := $env/*:environment/*:module | $env/*:module
   let $dec-formats     := $env/*:environment/*:decimal-format
+  let $context-item    := $env/*:environment/*:context-item
 
   return (
   "["||
@@ -433,7 +440,10 @@ declare function local:print-local-environment($env as item()*) as item()*
     for $res in $sources
     return
     "{filename:join(BaseDir, """||string($res/@file)||"""),"""||$res/@role||
+    (if (exists($res/@uri)) then
     """,""file:///""++filename:join(BaseDir, """||string($res/@uri)||""")}"
+    else
+    """,[]}")
   ) => string-join(","||'&#10;') 
   ||"]},"|| '&#10;' ||
   "{schemas, ["||
@@ -450,7 +460,10 @@ declare function local:print-local-environment($env as item()*) as item()*
     "{"""||$res/@uri||""",["||(
       for $s in $res/*:source
       return
-      "filename:join(BaseDir, """||string($s/@file)||""")"
+      "filename:join(BaseDir, """||string($s/@file)||""")",
+      for $s in $res/*:query
+      return
+      "{query,"||local:mask-string($s)||"}"
     ) => string-join(","||'&#10;')
     ||"]}"
   ) => string-join(","||'&#10;')
@@ -462,6 +475,7 @@ declare function local:print-local-environment($env as item()*) as item()*
     "{"""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
+  "{'context-item', ["||local:mask-string($context-item/@select)||"]},"|| '&#10;' ||
   "{vars, ["||
   (
     for $res in $vars
