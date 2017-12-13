@@ -3,12 +3,11 @@ Erlang XQuery 3.1 Processor
 
 This is a currently a draft/proof-of-concept. Please don't try to use it for "real" computing (yet)!
 
-It is passing about 96% its (~29k) test cases. The other ~5% are mainly functions that have not been 
+It is passing 97.5% its (~29k) test cases. The other ~2.5% are mainly functions that have not been 
 implemented, regex, and UCA string collation related things.
 
 
 ### Features it has:
-
 * Module Feature
 * Higher-Order Function Feature
 
