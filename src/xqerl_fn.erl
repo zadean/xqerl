@@ -1661,13 +1661,31 @@ pct_encode3([H|T]) ->
          'format-dateTime'(Ctx,Date,Picture);
       true ->
          try
-            _ = xqerl_types:cast_as(Calendar, 'xs:QName', maps:get(namespaces, Ctx)),
-            'format-dateTime'(Ctx,Date,Picture)
+            ?atm('xs:QName',#qname{namespace = CNs, local_name = CLn}) = xqerl_types:cast_as(Calendar, 'xs:QName', maps:get(namespaces, Ctx)),
+            true = is_valid_calendar({CNs,CLn}),
+            if CLn == "AD";
+               CLn == "ISO" ->
+                  'format-dateTime'(Ctx,Date,Picture);
+               true ->
+                  NewVal = xqerl_types:string_value('format-dateTime'(Ctx,Date,Picture)),
+                  ?str("[Calendar: AD]" ++ NewVal)
+            end
          catch
             _:_ ->
                ?err('FOFD1340')
          end
    end.
+
+is_valid_calendar({Ns,Name}) when Ns == 'no-namespace';
+                                  Ns == [] ->
+   Known = ["AD","AH","AME","AM","AP","AS","BE","CB","CE","CL","CS","EE",
+            "FE","ISO","JE","KE","KY","ME","MS","NS","OS","RS","SE","SH",
+            "SS","TE","VE","VS"],
+   lists:member(Name, Known);
+is_valid_calendar({_,_}) ->
+   % calendar in some namespace but not known
+   true.
+
 
 %% Formats an integer according to a given picture string, using the conventions of a given natural language if specified. 
 'format-integer'(_Ctx,Int,Picture) -> 

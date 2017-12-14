@@ -2219,140 +2219,28 @@ environment('array-and-map',BaseDir) ->
    end.
 'format-dateTime-019a'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "
-         format-dateTime(xs:dateTime('2015-02-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [Z]', 'en', (), 'America/New_York')
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-dateTime-019a.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'15 February 2015 @ 07:00 -05:00'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"olson-timezone"}.
 'format-dateTime-019b'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "
-         format-dateTime(xs:dateTime('2015-08-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [Z]', 'en', (), 'America/New_York')
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-dateTime-019b.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'15 August 2015 @ 08:00 -04:00'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"olson-timezone"}.
 'format-dateTime-019c'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "
-         format-dateTime(xs:dateTime('2015-02-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [ZN]', 'en', (), 'America/New_York')
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-dateTime-019c.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'15 February 2015 @ 07:00 EST'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"olson-timezone"}.
 'format-dateTime-019d'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "
-         format-dateTime(xs:dateTime('2015-08-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [ZN]', 'en', (), 'America/New_York')
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-dateTime-019d.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'15 August 2015 @ 08:00 EDT'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"olson-timezone"}.
 'format-dateTime-019e'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "
-         format-dateTime(xs:dateTime('2015-02-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [Z]', 'en', (), 'Europe/Paris')
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-dateTime-019e.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'15 February 2015 @ 13:00 +01:00'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"olson-timezone"}.
 'format-dateTime-019f'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "
-         format-dateTime(xs:dateTime('2015-08-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [Z]', 'en', (), 'Europe/Paris')
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-dateTime-019f.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'15 August 2015 @ 14:00 +02:00'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"olson-timezone"}.
 'format-dateTime-019g'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "
-         format-dateTime(xs:dateTime('2015-02-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [ZN]', 'en', (), 'Europe/Paris')
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-dateTime-019g.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'15 February 2015 @ 13:00 CET'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"olson-timezone"}.
 'format-dateTime-019h'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "
-         format-dateTime(xs:dateTime('2015-08-15T12:00:00Z'), '[D] [MNn] [Y0001] @ [H01]:[m01] [ZN]', 'en', (), 'Europe/Paris')
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "format-dateTime-019h.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'15 August 2015 @ 14:00 CEST'") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"olson-timezone"}.
 'format-dateTime-801err'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "format-dateTime(current-dateTime(), '[bla]', 'en', (), ())",

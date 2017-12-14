@@ -810,14 +810,22 @@ parse_width_modifier(WMod) ->
          {none, none};
       ["*",Max] ->
          Max1 = list_to_integer(Max),
-         {none, Max1};
+         if Max1 == 0 -> xqerl_error:error('FOFD1340');
+            true ->
+               {none, Max1}
+         end;
       [Min,"*"] ->
          Min1 = list_to_integer(Min),
-         {Min1, none};
+         if Min1 == 0 -> xqerl_error:error('FOFD1340');
+            true ->
+               {Min1, none}
+         end;
       [Min,Max] ->
          Min1 = list_to_integer(Min),
          Max1 = list_to_integer(Max),
-         if Max1 < Min1 -> xqerl_error:error('FOFD1340');
+         if Max1 < Min1;
+            Min1 == 0;
+            Max1 == 0 -> xqerl_error:error('FOFD1340');
             true ->
                {Min1, Max1}
          end;
@@ -825,7 +833,10 @@ parse_width_modifier(WMod) ->
          {none, none};
       [Min] ->
          Min1 = list_to_integer(Min),
-         {Min1, none}
+         if Min1 == 0 -> xqerl_error:error('FOFD1340');
+            true ->
+               {Min1, none}
+         end
    end.
      
 
@@ -885,37 +896,47 @@ format_datetime_part(#xsDateTime{year = Y,month = M, day = D}, Type, {woy, _} = 
 format_datetime_part(#xsDateTime{year = Y,month = M, day = D}, Type, {wom, _} = Part) ->
    if Type == 'xs:time' -> xqerl_error:error('FOFD1350');
       true -> 
-         % iso week with 4+ days in month
+         % count of Thursdays in a month
+         Date = {Y,M,D},
          FDom = calendar:day_of_the_week(Y, M, 1),
-         if FDom =< 4 ->
-               W = if ((D + ( FDom - 1)) rem 7) == 0 ->
-                         ((D + ( FDom - 1)) div 7);
-                      true ->
-                         ((D + ( FDom - 1)) div 7) + 1
-                   end,
+         FThurs = if FDom =< 4 ->
+                        {Y, M, 1 + 4 - FDom};
+                     true ->
+                        {Y, M, 1 + 11 - FDom}
+                  end,
+         %?dbg("FThurs",FThurs),
+         GDate = calendar:date_to_gregorian_days(Date),
+         GFThurs = calendar:date_to_gregorian_days(FThurs),
+         GFMon = GFThurs - 3,
+         if GDate >= GFMon -> % in this month
+               W = ((GDate - GFMon) div 7) + 1,
                format_datetime_part_as_int(W,Part);
             true ->
-               Dow = calendar:day_of_the_week(Y, M, D),
-               if D >= 3 orelse Dow == 1 ->
-                     W = if ((D + ( FDom - 1)) rem 7) == 0 ->
-                               ((D + ( FDom - 1)) div 7) - 1;
-                            true ->
-                               ((D + ( FDom - 1)) div 7)
-                         end,
-                     format_datetime_part_as_int(W,Part);
-                  true ->
-                     % in previous month
-                     Mon = calendar:date_to_gregorian_days(Y, M, 1) - (FDom - 1),
-                     {PY,PM,PD} = calendar:gregorian_days_to_date(Mon),
-                     %?dbg("{PY,PM,PD}",{PY,PM,PD}),
-                     PFDom = calendar:day_of_the_week(PY, PM, 1),
-                     PW = if ((PD + ( PFDom - 1)) rem 7) == 0 ->
-                               ((PD + ( PFDom - 1)) div 7);
-                            true ->
-                               ((PD + ( PFDom - 1)) div 7) + 1
-                         end,
-                     format_datetime_part_as_int(PW,Part)
-               end
+               GLMon = GFMon - 7,
+               {PY,PM,_} = calendar:gregorian_days_to_date(GLMon),
+               PFDom = calendar:day_of_the_week(PY, PM, 1),
+               PFThurs = if PFDom =< 4 ->
+                              {PY, PM, 1 + 4 - PFDom};
+                           true ->
+                              {PY, PM, 1 + 11 - PFDom}
+                        end,
+               PGFThurs = calendar:date_to_gregorian_days(PFThurs),
+               PGFMon = PGFThurs - 3,
+               GDiff = GDate - PGFMon - 1,
+               W = if GDiff >= 28 ->
+                         5;
+                      true ->
+                         4
+                   end,
+               %?dbg("Date",Date),
+               %?dbg("PFDom",PFDom),
+               %?dbg("PFThurs",PFThurs),
+               %?dbg("PGFThurs",PGFThurs),
+               %?dbg("PGFMon",PGFMon),
+               %?dbg("PGFMon",calendar:gregorian_days_to_date(PGFMon)),
+               %?dbg("GDate",GDate),
+               %?dbg("W",W),
+               format_datetime_part_as_int(W,Part)
          end
    end;
 format_datetime_part(#xsDateTime{hour = X}, Type, {hour24, _} = Part) ->
@@ -926,7 +947,7 @@ format_datetime_part(#xsDateTime{hour = X}, Type, {hour24, _} = Part) ->
 format_datetime_part(#xsDateTime{hour = H}, Type, {hour12, _} = Part) ->
    if Type == 'xs:date' -> xqerl_error:error('FOFD1350');
       true -> 
-         X = H rem 12,
+         X = case H rem 12 of 0 -> 12; R -> R end,
          format_datetime_part_as_int(X,Part)
    end;
 format_datetime_part(#xsDateTime{minute = X}, Type, {minute, _} = Part) ->
@@ -976,13 +997,20 @@ format_datetime_part(#xsDateTime{second = S}, Type, {secfract, Part}) ->
          format_datetime_part_as_fract(X,Part)
    end;
 
-format_datetime_part(#xsDateTime{hour = H}, Type, {ampm, _Part}) -> 
+format_datetime_part(#xsDateTime{hour = H}, Type, {ampm, {Primary,_,_}}) ->
    if Type == 'xs:date' -> xqerl_error:error('FOFD1350');
-      true -> 
-         if H < 12 ->
-               "AM";
-            true ->
-               "PM"
+      true ->
+         P = pattern_type(Primary),
+         T = if H < 12 -> "am"; true -> "pm" end,
+         case P of
+            name_lower ->
+               T;
+            name_upper ->
+               string:uppercase(T);
+            name_title ->
+               string:titlecase(T);
+            _ ->
+               T
          end
    end;
 
@@ -1054,13 +1082,20 @@ format_datetime_part(#xsDateTime{offset = Offset}, _Type, {tz, {First,Second,{_,
 format_datetime_part(_Date, _Type, {_Other, _Part}) -> not_ok.
 
 format_datetime_part_as_fract(Fract,{First,_Second,{MinLen,MaxLen}}) ->
-   %?dbg("Fract,{First,Second,{MinLen,MaxLen}}",{Fract,{First,Second,{MinLen,MaxLen}}}),
-   Format = parse_decimal_digit_pattern(First),
+   %?dbg("Fract,{First,Second,{MinLen,MaxLen}}",{Fract,{First,_Second,{MinLen,MaxLen}}}),
+   Format = lists:reverse(parse_decimal_digit_pattern(lists:reverse(First))),
    FormLen = length(Format),
    OptLen = length([S || {optional_digit} = S <- Format]),
    ManLen = length([S || {digit, _} = S <- Format]),
    Format1 = if MaxLen == none, MinLen == none, FormLen == 1 ->
                    Dif = 8 - length(Format),
+                   if Dif < 1 ->
+                         Format;
+                      true ->
+                         Format ++ lists:duplicate(Dif, {optional_digit})
+                   end;
+                MaxLen == none, FormLen == 1 ->
+                   Dif = 8 - MinLen,
                    if Dif < 1 ->
                          Format;
                       true ->
@@ -1090,7 +1125,7 @@ format_datetime_part_as_fract(Fract,{First,_Second,{MinLen,MaxLen}}) ->
    W2 = W1 + length([S || {optional_digit} = S <- Format1]),
    Str1 = xqerl_numeric:string(Fract) -- "0.",
    %?dbg("Str1",Str1),
-   SList = if is_integer(MaxLen), length(Str1) > MaxLen ->
+   SList = if is_integer(MaxLen), length(Str1) > MaxLen, W1 =< MaxLen ->
                  lists:sublist(Str1, MaxLen);
               is_integer(MinLen), length(Str1) < MinLen ->
                  lists:flatten(string:pad(Str1, MinLen, trailing, $0));
@@ -1112,12 +1147,14 @@ optional_to_mandatory([{optional_digit}|T],Cnt,ManChar) ->
 optional_to_mandatory([H|T],Cnt,ManChar) ->
    [H|optional_to_mandatory(T,Cnt,ManChar)].
 
-maybe_truncate(String,_,none) ->
+maybe_truncate(String,none,none) ->
    String;
-maybe_truncate(String,_Min,Max) when is_integer(Max) ->
-   %?dbg("Min",Min),
-   %?dbg("Max",Max),
-   string:slice(String, 0, Max).
+maybe_truncate(String,none,Max) when is_integer(Max) ->
+   string:slice(String, 0, Max);
+maybe_truncate(String,Min,none) when is_integer(Min) ->
+   string:pad(String, Min, trailing);
+maybe_truncate(String,Min,Max) when is_integer(Min),is_integer(Max) ->
+   string:pad(string:slice(String, 0, Max), Min, trailing).
 
 
 % Second variable has the modifiers a = alpha, t = traditional, c = cardinal, o = ordinal
@@ -1166,13 +1203,17 @@ format_datetime_part_as_int(Int1,{Part,{PrimaryToken,Second,{MinLen,MaxLen}}}) -
                     end,
                format_integer(Int1, F2, ModifierType);
             PatternType == roman_upper ->
-               int_to_upper_roman(Int1);
+               V1 = int_to_upper_roman(Int1),
+               maybe_truncate(V1,MinLen,none);
             PatternType == roman_lower ->
-               int_to_lower_roman(Int1);
+               V1 = int_to_lower_roman(Int1),
+               maybe_truncate(V1,MinLen,none);
             PatternType == alpha_lower ->
-               int_to_alpha(Int1, lower);
+               V1 = int_to_alpha(Int1, lower),
+               maybe_truncate(V1,MinLen,none);
             PatternType == alpha_upper ->
-               int_to_alpha(Int1, upper);
+               V1 = int_to_alpha(Int1, upper),
+               maybe_truncate(V1,MinLen,none);
             PatternType == words_lower, ModifierType == cardinal;
             PatternType == words_lower, ModifierType == alpha  ->
                string:lowercase(num_to_text(Int1, en));
@@ -1393,12 +1434,16 @@ int_to_alpha(Num, lower) ->
 int_to_alpha(Num, upper) ->
    Shift = $A - 1,
    lists:reverse(int_to_alpha(Num, Shift));
-int_to_alpha(0, _Shift) -> [];
+int_to_alpha(0, _Shift) -> [$0];
 int_to_alpha(Num, Shift) ->
    Mod = Num rem 26,
    Num1 = Num div 26,
-   if Mod == 0 ->
+   if Mod == 0, Num1 - 1 == 0 ->
          [(26 + Shift)];
+      Mod == 0 ->
+         [(26 + Shift)|int_to_alpha(Num1 - 1, Shift)];
+      Mod < 26 andalso Mod > 0 andalso Num1 == 0 ->
+         [(Mod + Shift)];
       Mod < 26 andalso Mod > 0 ->
          [(Mod + Shift)|int_to_alpha(Num1, Shift)];
       true ->
@@ -1694,6 +1739,14 @@ ordinal_ending(2,en) ->
    "nd";
 ordinal_ending(1,en) ->
    "st";
+ordinal_ending(0,en) ->
+   "th";
+ordinal_ending(N,en) when N >= 4, N =< 20 ->
+   "th";
+ordinal_ending(N,en) when N >= 100 ->
+   ordinal_ending(N rem 100,en);
+ordinal_ending(N,en) when N < 100 ->
+   ordinal_ending(N rem 10,en);
 ordinal_ending(_,en) ->
    "th".
 

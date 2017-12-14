@@ -185,6 +185,8 @@ declare function local:print-testcase($test-case)
     "   {skip,""typedData""}"
     else if ($deps[@type = "feature" and @value = "schema-location-hint"]) then 
     "   {skip,""schema-location-hint""}"    
+    else if ($deps[@type = "feature" and @value = "olson-timezone"]) then 
+    "   {skip,""olson-timezone""}"    
 
     else if ($deps[@type = "default-language" and @value != "en"]) then 
     "   {skip,""default-language "||$deps[@type = "default-language"]/@value||" ""}" 

@@ -438,11 +438,11 @@ scan_tree_static(Tree, BaseUri) ->
          Abstract
    catch
       _:#xqError{} = E ->
-         ?dbg("scan_tree",E),
-         ?dbg("scan_tree",erlang:get_stacktrace()),
+         ?dbg("scan_tree_static",E),
+         ?dbg("scan_tree_static",erlang:get_stacktrace()),
          throw(E);
       _:_ ->
-         ?dbg("scan_tree",erlang:get_stacktrace()),
+         ?dbg("scan_tree_static",erlang:get_stacktrace()),
          xqerl_error:error('XPST0003')
    end.
 

@@ -3506,7 +3506,11 @@ abs_fun_test(Ctx,#xqFunTest{kind = Kind, annotations = Annos, name = Name, param
      if Annos == [] ->
            {nil,?L};
         true ->
-           lists:foldr(fun({annotation,{#qname{namespace = N} = Q,_}}, Abs) ->
+           lists:foldr(fun({annotation,{#qname{namespace = "http://www.w3.org/2012/xquery",
+                                               local_name = L} = Q,_}}, Abs) when L == "public";
+                                                                                  L == "private" ->
+                             {cons,?L,abs_qname(Ctx, Q), Abs};
+                          ({annotation,{#qname{namespace = N} = Q,_}}, Abs) ->
                              _ = xqerl_lib:reserved_namespaces(N),
                              {cons,?L,abs_qname(Ctx, Q), Abs}
                        end, {nil,?L}, Annos)

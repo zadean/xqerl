@@ -875,14 +875,22 @@ instance_of(Seq,TType) ->
 
 check_param_types(_Params, any) -> true;
 check_param_types(Params, Params) -> true;
-check_param_types(Params, TargetParams) -> 
-   lists:all(fun({#xqSeqType{type = #xqKindTest{}} = P,
-                  #xqSeqType{type = #xqKindTest{}} = T}) ->
-                   kind_test_match(P, T);
-                ({#xqSeqType{type = P},
-                  #xqSeqType{type = T}}) ->
-                   P == T
-             end, lists:zip(Params, TargetParams)).
+check_param_types(Params, TargetParams) ->
+   try
+      lists:zip(Params, TargetParams)
+   of
+      Zipped ->
+         lists:all(fun({#xqSeqType{type = #xqKindTest{}} = P,
+                        #xqSeqType{type = #xqKindTest{}} = T}) ->
+                         kind_test_match(P, T);
+                      ({#xqSeqType{type = P},
+                        #xqSeqType{type = T}}) ->
+                         P == T orelse subtype_of(T, P)
+                   end, Zipped)
+   catch
+      _:_ ->
+         false
+   end.
 
 check_annotations(_Annos, []) -> true;
 check_annotations(Annos, TargetAnnos) -> true.
