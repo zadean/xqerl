@@ -1233,7 +1233,9 @@ data1(_) ->
                                   compare(Ctx, N1, N2, Collation) == ?atint(0);
                                ({#xqAtomicValue{} = N1,#xqAtomicValue{} = N2}) ->
                                   xqerl_operators:equal(N1,N2) == {xqAtomicValue,'xs:boolean',true};
-                               ({#xqFunction{},#xqFunction{}}) ->
+                               ({_,#xqFunction{}}) ->
+                                  xqerl_error:error('FOTY0015');
+                               ({#xqFunction{},_}) ->
                                   xqerl_error:error('FOTY0015');
                                ({F1,F2}) when is_function(F1) andalso is_function(F2) ->
                                   F1 == F2;
@@ -1254,9 +1256,11 @@ data1(_) ->
                                   'deep-equal'(Ctx,A1,A2,Collation) == ?bool(true)
                                end, Zip))
             catch
+               _:#xqError{name = ?atm('xs:QName',#qname{local_name = "FOTY0015"})} = E ->
+                  throw(E);
                _:_ ->
-?dbg("deep-equal",erlang:get_stacktrace()),
-               ?bool(false)
+                  ?dbg("deep-equal",erlang:get_stacktrace()),
+                  ?bool(false)
          end
    end.
 
