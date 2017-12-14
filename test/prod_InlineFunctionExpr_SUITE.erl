@@ -334,19 +334,7 @@ environment('array-and-map',BaseDir) ->
    end.
 'inline-fn-006'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "let $void := function(){} return $void()",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "inline-fn-006.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XP30 XQ30"}.
 'inline-fn-007'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $void := function(){} return $void()",
@@ -831,12 +819,18 @@ environment('array-and-map',BaseDir) ->
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end,
-   ct:fail(["<not xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-               <assert-type>function(item()*, item()*) as xs:integer</assert-type>
-            </not>", Res]),
-   ct:fail(["<not xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-               <assert-type>function(item()*, item()*, item()*) as item()*</assert-type>
-            </not>", Res])]) of 
+   case (   case xqerl_test:assert_type(Res,"function(item()*, item()*) as xs:integer") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end) of 
+      {comment,C6} -> C6; _ -> {comment,ok}
+   end,
+   case (   case xqerl_test:assert_type(Res,"function(item()*, item()*, item()*) as item()*") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end) of 
+      {comment,C6} -> C6; _ -> {comment,ok}
+   end]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -870,12 +864,18 @@ environment('array-and-map',BaseDir) ->
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end,
-   ct:fail(["<not xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-               <assert-type>function(item()*, item()*) as xs:integer</assert-type>
-            </not>", Res]),
-   ct:fail(["<not xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-               <assert-type>function(xs:integer, xs:decimal) as xs:integer</assert-type>
-            </not>", Res])]) of 
+   case (   case xqerl_test:assert_type(Res,"function(item()*, item()*) as xs:integer") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end) of 
+      {comment,C6} -> C6; _ -> {comment,ok}
+   end,
+   case (   case xqerl_test:assert_type(Res,"function(xs:integer, xs:decimal) as xs:integer") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end) of 
+      {comment,C6} -> C6; _ -> {comment,ok}
+   end]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

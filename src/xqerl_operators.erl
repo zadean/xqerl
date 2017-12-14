@@ -151,6 +151,11 @@ is_comparable(_)-> false.
 
 add(_, []) -> ?seq:empty();
 add([], _) -> ?seq:empty();
+add(#array{data = [Arg1]}, Arg2) -> add(Arg1, Arg2);
+add(Arg1, #array{data = [Arg2]}) -> add(Arg1, Arg2);
+add(Arg1, #xqNode{} = Arg2) ->
+   Ns = xqerl_node:atomize_nodes(Arg2),
+   add(Arg1,Ns);
 add(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
    add(Ns, Arg2);
@@ -207,6 +212,9 @@ add(Arg1, Arg2) ->
 
 subtract(_, []) -> ?seq:empty();
 subtract([], _) -> ?seq:empty();
+
+subtract(#array{data = [Arg1]}, Arg2) -> subtract(Arg1, Arg2);
+subtract(Arg1, #array{data = [Arg2]}) -> subtract(Arg1, Arg2);
 
 subtract(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
@@ -266,6 +274,10 @@ subtract(Arg1, Arg2) ->
 
 multiply(_, []) -> ?seq:empty();
 multiply([], _) -> ?seq:empty();
+
+multiply(#array{data = [Arg1]}, Arg2) -> multiply(Arg1, Arg2);
+multiply(Arg1, #array{data = [Arg2]}) -> multiply(Arg1, Arg2);
+
 multiply(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
    multiply(Ns, Arg2);
@@ -294,6 +306,9 @@ multiply(Arg1, Arg2) ->
 
 divide(_, []) -> ?seq:empty();
 divide([], _) -> ?seq:empty();
+divide(#array{data = [Arg1]}, Arg2) -> divide(Arg1, Arg2);
+divide(Arg1, #array{data = [Arg2]}) -> divide(Arg1, Arg2);
+
 divide(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
    divide(Ns, Arg2);
@@ -322,6 +337,8 @@ divide(Arg1, Arg2) ->
 
 idivide(_, []) -> ?seq:empty();
 idivide([], _) -> ?seq:empty();
+idivide(#array{data = [Arg1]}, Arg2) -> idivide(Arg1, Arg2);
+idivide(Arg1, #array{data = [Arg2]}) -> idivide(Arg1, Arg2);
 idivide(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
    idivide(Ns, Arg2);
@@ -341,6 +358,8 @@ idivide(Arg1, Arg2) ->
 
 modulo(_, []) -> ?seq:empty();
 modulo([], _) -> ?seq:empty();
+modulo(#array{data = [Arg1]}, Arg2) -> modulo(Arg1, Arg2);
+modulo(Arg1, #array{data = [Arg2]}) -> modulo(Arg1, Arg2);
 modulo(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_node:atomize_nodes(Arg1),
    modulo(Ns, Arg2);
@@ -919,7 +938,9 @@ value_compare(Op,Val1,Val2) ->
 atomize_list(#array{data = List}) ->
    atomize_list(List);
 atomize_list(Seq) when is_list(Seq) ->
-   ?seq:val_map(fun(#array{data = List}) ->
+   ?seq:val_map(fun(#xqFunction{}) ->
+                      ?err('FOTY0013');
+                   (#array{data = List}) ->
                       atomize_list(List);
                    (#xqAtomicValue{} = V) ->
                       V;

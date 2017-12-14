@@ -24,6 +24,11 @@ declare function local:print-result($result)
     "      _ -> false " ||'&#10;'|| 
     "   end"
 
+  else if ($name = "not") then 
+    "   case ("||local:print-result($result/*[1])||") of "||'&#10;'|| 
+    "      {comment,C6} -> C6; _ -> {comment,ok}"||'&#10;'|| 
+    "   end"
+
   else if ($name = "assert-empty") then
     "   case xqerl_test:assert_empty(Res) of " ||'&#10;'|| 
     "      true -> {comment, ""Empty""};" ||'&#10;'|| 
@@ -211,6 +216,8 @@ declare function local:print-testcase($test-case)
     "   {skip,""XQ30""}"
     else if ($deps[@type = "spec" and @value = "XQ30 XP30"]) then
     "   {skip,""XQ30 XP30""}"
+    else if ($deps[@type = "spec" and @value = "XP30 XQ30"]) then
+    "   {skip,""XP30 XQ30""}"
     else if ($deps[@type = "spec" and @value = "XP20"]) then
     "   {skip,""XP20""}"
     else if ($deps[@type = "spec" and @value = "XP20 XQ10"]) then
@@ -223,7 +230,7 @@ declare function local:print-testcase($test-case)
     "   {skip,""XP20+""}"
     else if ($deps[@type = "spec" and @value = "XP30+"]) then
     "   {skip,""XP30+""}"
-
+    
     else if ($deps[@type = "unicode-normalization-form" and @value = "FULLY-NORMALIZED"
                    and not(exists(@satisfied)) ]) then
     "   {skip,""unicode-normalization-form FULLY-NORMALIZED""}"

@@ -758,22 +758,7 @@ environment('ListUnionTypes',BaseDir) ->
    {skip,"schemaImport"}.
 'FunctionCall-044'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "
-         let $f := function($x) {}
-         return $f(2)
-      ",
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FunctionCall-044.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"XP30 XQ30"}.
 'FunctionCall-045'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "

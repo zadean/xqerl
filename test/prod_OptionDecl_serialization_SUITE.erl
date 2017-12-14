@@ -943,12 +943,12 @@ environment('user-defined-types',BaseDir) ->
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[tb\\]</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[tc\\]</serialization-matches>", Res]),
    ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[td\\]</serialization-matches>", Res]),
-   ct:fail(["<not xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-  <serialization-matches>CDATA\\[te\\]</serialization-matches>
-</not>", Res]),
-   ct:fail(["<not xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">
-  <serialization-matches>CDATA\\[tt\\]</serialization-matches>
-</not>", Res])]) of 
+   case (   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[te\\]</serialization-matches>", Res])) of 
+      {comment,C6} -> C6; _ -> {comment,ok}
+   end,
+   case (   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[tt\\]</serialization-matches>", Res])) of 
+      {comment,C6} -> C6; _ -> {comment,ok}
+   end]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

@@ -417,7 +417,7 @@ handle_node(State, {sequence, Expr}) ->
            set_statement_and_type(State, {sequence, St}, T), Cnt);
       true ->
          set_static_count(
-         set_statement_and_type(State, St, T), Cnt)
+         set_statement_and_type(State, {sequence, l(St)}, T), Cnt)
    end;
 %% 3.1.4 Context Item Expression
 handle_node(State = #state{context_item_type = CIType}, 'context-item') -> 
@@ -768,7 +768,7 @@ handle_node(State, {partial_postfix, #xqVarRef{name = Name} = Ref, [{arguments,A
                          end;
                       #xqSeqType{type = #xqFunTest{params = IParams, type = IType}} ->
                          {IParams, IType};
-                      #xqSeqType{type = UType} ->
+                      #xqSeqType{type = _UType} ->
                          %?dbg("UType",UType),
                          {[],FType}
                    end,
@@ -792,6 +792,34 @@ handle_node(State, {partial_postfix, #xqVarRef{name = Name} = Ref, [{arguments,A
    AnonFun = #xqFunction{params = PlaceHolders,
                          arity = AnonArity,
                          body = {postfix, Ref, [{arguments,NewArgs}|RestArgs]},
+                         type = Type},
+   ST = #xqSeqType{type = #xqFunTest{kind = function,
+                                     params = AnonParamTypes,
+                                     type = Type}, occur = one} ,
+   set_statement_and_type(State, AnonFun, ST);
+
+handle_node(State, {partial_postfix, {'function-ref',_,_} = Ref, [{arguments,Args}|RestArgs]}) ->
+   FState = handle_node(State, Ref),
+   #xqFunction{params = Params, type = Type} = Fx = get_statement(FState),   
+   StateC = set_in_constructor(State, false),
+   SimpArgs = handle_list(StateC, Args),
+   CheckArgs = check_fun_arg_types(State, SimpArgs, Params),
+   NewArgs = lists:map(fun({S,_C}) ->
+                           S
+                       end, CheckArgs),
+   PlaceHolders = [#xqVar{id = Id, 
+                          type = P,
+                          name = #qname{local_name = "aVeryLongBogusName__"++integer_to_list(Id)}}
+                  || {P, {'?',Id}} <- lists:zip(Params, Args)],
+   AnonArity = length(PlaceHolders),
+   AnonParamTypes = lists:filtermap(fun({P,{'?',_}}) ->
+                                          {true,P};
+                                       (_) ->
+                                          false
+                                    end, lists:zip(Params, Args)),
+   AnonFun = #xqFunction{params = PlaceHolders,
+                         arity = AnonArity,
+                         body = {postfix, Fx, [{arguments,NewArgs}|RestArgs]},
                          type = Type},
    ST = #xqSeqType{type = #xqFunTest{kind = function,
                                      params = AnonParamTypes,
@@ -1486,7 +1514,7 @@ handle_node(State, {'array', Expr}) ->
    St = get_statement(S1),
    Ty = get_statement_type(S1),
    %?dbg("Ty",Ty),
-   set_statement_and_type(State, {'array', l(St)}, #xqSeqType{type = #xqFunTest{kind = array, type = Ty#xqSeqType{occur = one}}, occur = one});
+   set_statement_and_type(State, {'array', l(St)}, #xqSeqType{type = #xqFunTest{kind = array, type = Ty}, occur = one});
 %% 3.11.2.2 Array Lookup using Function Call Syntax
 %% 3.11.3 The Lookup Operator ("?") for Maps and Arrays
 %% 3.11.3.1 Unary Lookup
@@ -1997,6 +2025,7 @@ handle_node(State, {instance_of, Expr1, Expr2}) ->
    OutType = #xqSeqType{type = 'xs:boolean', occur = one},
    S1 = handle_node(State, Expr1),
    St2 = #xqSeqType{type = TType} = get_statement(handle_node(State, Expr2)),
+   %?dbg("St2",St2),
    case TType of
       #xqKindTest{} ->
          ok;
@@ -2004,6 +2033,8 @@ handle_node(State, {instance_of, Expr1, Expr2}) ->
          ok;
       'empty-sequence' ->
          ok;
+      'xs:NMTOKENS' ->
+         ?err('XPST0051');
       _ ->
          try xqerl_btypes:get_type(TType) of %just check if it exists
             _ -> ok
@@ -2636,6 +2667,7 @@ handle_node(State, {'simple-map', SeqExpr, MapExpr}) ->
    MapType      = get_statement_type(MapState),
    
    % need to check/cast the argument type 
+   %?dbg("MapExpr",MapExpr),
    %?dbg("MapStatement",MapStatement),
    %?dbg("NewSeqType",NewSeqType),
    
@@ -3150,8 +3182,8 @@ init_mod_scan() ->
 check_prolog_order(Prolog) ->
    % 1st part : default namespaces, setters, namespace declarations, imports
    % allowing context item to come first only for testing purposes
-   FirstFun = fun({'context-item', _}) -> % testing kludge
-                     true;
+   FirstFun = fun%({'context-item', _}) -> % testing kludge
+                 %    true;
                   ({'element-namespace', _}) ->
                     true;
                  ({'function-namespace', _}) ->
@@ -3226,7 +3258,9 @@ pro_def_func_ns(Prolog) ->
    end.
 
 pro_context_item(Prolog, library) ->
-   D = lists:filter(fun({'context-item', _}) ->
+   D = lists:filter(fun({'context-item', {_,external,_}}) ->
+                          false;
+                       ({'context-item', _}) ->
                           true;
                        (_) ->
                           false
@@ -4635,10 +4669,17 @@ static_operator_type(Op,#xqSeqType{type = T1} = A1,A2) when ?node(T1) ->
 static_operator_type(Op,A1,#xqSeqType{type = T2} = A2) when ?node(T2) ->
    static_operator_type(Op,A1,A2#xqSeqType{type = 'xs:double'});
 
-static_operator_type(Op,#xqSeqType{type = T1},#xqSeqType{type = #xqFunTest{type = T2}}) ->
+static_operator_type(_,_,#xqSeqType{type = #xqFunTest{kind = Bad}}) when Bad == function;
+                                                                         Bad == map ->
+   ?err('FOTY0013');
+static_operator_type(_,#xqSeqType{type = #xqFunTest{kind = Bad}},_) when Bad == function;
+                                                                         Bad == map ->
+   ?err('FOTY0013');
+
+static_operator_type(Op,T1,#xqSeqType{type = #xqFunTest{type = T2}}) ->
    %?dbg("{Op,T1,T2}",{Op,T1,T2}),
    static_operator_type(Op, T1, T2);
-static_operator_type(Op,#xqSeqType{type = #xqFunTest{type = T1}},#xqSeqType{type = T2}) ->
+static_operator_type(Op,#xqSeqType{type = #xqFunTest{type = T1}},T2) ->
    %?dbg("{Op,T1,T2}",{Op,T1,T2}),
    static_operator_type(Op, T1, T2);
 

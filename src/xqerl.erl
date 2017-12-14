@@ -92,7 +92,7 @@ run(Str, Options) ->
       Tree = parse_tokens(Tokens),
       %?dbg("Tree",Tree),
       Static = scan_tree_static(Tree,"xqerl_main"),
-      %?dbg("Static",maps:remove(known_fx_sigs, Static)),
+      %?dbg("Static",maps:get(body, Static)),
       {_ModNs,_ModType,_ImportedMods,_VarSigs,_FunSigs,Ret} = scan_tree(Static),
       %?dbg("Ret",Ret),
       B = compile_abstract(Ret),

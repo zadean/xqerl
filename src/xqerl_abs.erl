@@ -1085,7 +1085,7 @@ expr_do(_Ctx, #xqFunction{annotations = Annos,
                           params = Params,
                           type = Type,
                           body = {M,F,A}} = Fn) ->
-   ?dbg("Fn",Fn),
+   %?dbg("Fn",Fn),
    {tuple,?L,
     [{atom,?L,xqFunction},
      {integer,?L,0},      % id
