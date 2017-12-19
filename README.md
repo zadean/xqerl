@@ -3,8 +3,7 @@ Erlang XQuery 3.1 Processor
 
 This is a currently a draft/proof-of-concept. Please don't try to use it for "real" computing (yet)!
 
-It is passing 97.5% its (~29k) test cases. The other ~2.5% are mainly functions that have not been 
-implemented, regex, and UCA string collation related things.
+It is passing 98.25% its (~29k) test cases. The failing tests are mainly from functions that have not been implemented, and UCA string collation related things.
 
 
 ### Features it has:
@@ -45,7 +44,7 @@ Yes, please. I've been doing it alone, so any help is much appreciated.
 
 <s>Regex is hacked together (fn:matches, fn:replace, etc.). 
 To make it 100% (or even close) will take building a regex parser that rewrites XML Schema regex into one of the Erlang-known flavors.</s>
-Regex is missing the concept of range subtraction. This accounts for 10% of test case errors. 
+<s>Regex is missing the concept of range subtraction. This accounts for 10% of test case errors.</s> FIXED
 
 Query rewrite and optimization phases are still missing.
 
@@ -53,7 +52,6 @@ Streaming the variable tuple. Process to process message passing of the current 
 
 <s>It needs a code server! Currently, main modules are compiled as an Erlang module and run with `xqerl_main:main(Options)`.
 This is okay for debugging and test suites I guess, but not cool at all for a running system!</s>
-
 
 It uses the process dictionary for too much of the "static" information. This will make multi-process streaming a pain.
 
@@ -63,7 +61,7 @@ Text is handled as a "string" and not a binary; yet.
 
 <s>The XDM is kind of rough. Should possibly be made a positional binary format for quick random access.</s> 
 
-Integer/Date formatting is only partially implemented (fn:format-number is implemented).
+<s>Integer/Date formatting is only partially implemented (fn:format-number is implemented).</s>
 
 <s>There is no concept of negative-zero (but who cares right?) (ok, I do... coming soon).</s> Fixed.
 

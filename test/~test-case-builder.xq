@@ -241,10 +241,10 @@ declare function local:print-testcase($test-case)
     (: XSD 1.1 stuff :) 
     (: fn-matches.re :)
     else if ($deps[@type = "xsd-version" and @value = "1.1"] and 
-                   $test-case/../@name != ("fn-matches", "fn-matches.re")) then
+                   not($test-case/../@name = ("fn-matches", "fn-matches.re")) ) then
     "   {skip,""XSD 1.1""}"
     else if ($deps[@type = "xsd-version" and @value = "1.0"] and 
-                   $test-case/../@name = ("fn-matches", "fn-matches.re")) then
+                   ($test-case/../@name = ("fn-matches", "fn-matches.re")) ) then
     "   {skip,""XSD 1.0 regex""}"
     (: XML 1.1 stuff :) 
     else if ($deps[@type = "xml-version" and @value = "1.1"]) then

@@ -2347,7 +2347,7 @@ scan_comments("\"" ++ T, 0, none) -> % start text
 scan_comments("\"" ++ T, 0, "\"") -> % end text
    [$"|scan_comments(T, 0, none)];
 
-scan_comments("(:" ++ T, Depth, Q) when Q =/= "(#" -> % start comment
+scan_comments("(:" ++ T, Depth, none) -> % start comment
    scan_comments(T, Depth + 1, none);
 scan_comments(":)" ++ T, Depth, none) when Depth > 1 -> % end comment
    scan_comments(T, Depth - 1, none);

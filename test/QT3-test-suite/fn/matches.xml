@@ -77,6 +77,7 @@
    </test-case>
 
    <test-case name="fn-matchesErr-4">
+      <!-- znd - incorrect? -->
       <description> single-digit back-reference to group not yet closed See erratum FO.E24 </description>
       <created by="Michael Kay" on="2009-03-04"/>
       <test>fn:matches("#abc#1", "^((#)abc\1)$")</test>
@@ -1387,6 +1388,7 @@ defg
    
 
    <test-case name="cbcl-matches-038">
+      <!-- znd - who says that number is not too large? -->
       <description> test a large exact quantifier </description>
       <created by="Tim Mills" on="2008-07-17"/>      
       <test>fn:matches('aaa', 'a{2147483647}')</test>

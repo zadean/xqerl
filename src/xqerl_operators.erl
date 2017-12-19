@@ -111,6 +111,8 @@
 
 -include("xqerl.hrl").
 
+lookup(Ctx,Sing,[Value]) ->
+   lookup(Ctx,Sing,Value);
 lookup(Ctx,[Sing],Value) ->
    lookup(Ctx,Sing,Value);
 %lookup(Ctx,Fun,Value) when is_function(Fun) -> should not be able to call as lookup

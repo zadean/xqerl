@@ -3026,7 +3026,19 @@ environment('array-and-map',BaseDir) ->
    {skip,"XSD 1.0 regex"}.
 're00056a'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"XSD 1.1"}.
+   Qry = "(every $s in tokenize('', ',') satisfies matches($s, '^(?:[^a-d-b-c])$')) and (every $s in tokenize('a-b,c-c,ab,cc', ',') satisfies not(matches($s, '^(?:[^a-d-b-c])$')))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "re00056a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 're00057'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "(every $s in tokenize('abcxyz}', ',') satisfies matches($s, '^(?:[a-\\}]+)$')) and (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:[a-\\}]+)$')))",
@@ -3469,7 +3481,19 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
    {skip,"XSD 1.0 regex"}.
 're00086a'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"XSD 1.1"}.
+   Qry = "(every $s in tokenize(',a-1x-7,c-4z-9,a-1z-8a-1z-9,a1z-9,a-1z8,a-1,z-9', ',') satisfies matches($s, '^(?:[a-c-1-4x-z-7-9]*)$')) and (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:[a-c-1-4x-z-7-9]*)$')))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "re00086a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 're00087'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "matches('qwerty','[a-\\\\]')",
@@ -3705,7 +3729,19 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
    end.
 're00102'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"XSD 1.1"}.
+   Qry = "(every $s in tokenize('a-x', ',') satisfies matches($s, '^(?:[a-a-x-x]+)$')) and (every $s in tokenize('j,a-b', ',') satisfies not(matches($s, '^(?:[a-a-x-x]+)$')))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "re00102.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 're00102a'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.0 regex"}.

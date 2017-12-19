@@ -96,7 +96,7 @@ run(Str, Options) ->
       {_ModNs,_ModType,_ImportedMods,_VarSigs,_FunSigs,Ret} = scan_tree(Static),
       %?dbg("Ret",Ret),
       B = compile_abstract(Ret),
-      print_erl(B),
+      %print_erl(B),
       erlang:erase(),
       Res = xqerl_main:main(Options),
       erlang:erase(),

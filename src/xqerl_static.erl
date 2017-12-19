@@ -2545,26 +2545,10 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
    StateC = set_in_constructor(State, false),
    S2 = handle_node(StateC, Arg),
    S1 = get_statement(S2),
-   SType = get_statement_type(S2),
-   O1 = case SType of
-           #xqSeqType{occur = O2} ->
-              O2;
-           _ ->
-              zero_or_many
-        end,
-   %?dbg("O1",O1),
    %?dbg("Arg",Arg),
    %?dbg("SType",SType),
-   Val = if O1 == zero;
-            O1 == none ->
-               #xqAtomicValue{type = 'xs:boolean', value = true};
-            O1 == one;
-            O1 == one_or_many ->
-               #xqAtomicValue{type = 'xs:boolean', value = false};
-            true ->
-               F = get_static_function(State, {FName,1}),
-               {'function-call', F#xqFunction{params = [S1]} }
-         end,
+   F = get_static_function(State, {FName,1}),
+   Val = {'function-call', F#xqFunction{params = [S1]} },
    set_statement_and_type(State, Val, #xqSeqType{type = 'xs:boolean', occur = one});
 handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/xpath-functions",
                                             local_name = "true"}, 0, []}) -> 

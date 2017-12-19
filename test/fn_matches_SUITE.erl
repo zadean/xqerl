@@ -1957,7 +1957,19 @@ defg
    end.
 'K2-MatchesFunc-16'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"XSD 1.1"}.
+   Qry = "fn:matches(\"input\", \"[0-9-.]*/\")",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-MatchesFunc-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "false") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K2-MatchesFunc-16a'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    {skip,"XSD 1.0 regex"}.

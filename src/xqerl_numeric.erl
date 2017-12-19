@@ -124,10 +124,10 @@ decimal(String) ->
 
 double(Float) when is_float(Float) ->
    Float;
-double(Int) when is_integer(Int) ->
+double(Int) when is_integer(Int), abs(Int) < 9999999999999999999999 ->
    erlang:float(Int);
-%% double(Int) when is_integer(Int) ->
-%%    double(decimal(Int));
+double(Int) when is_integer(Int) ->
+   double(decimal(Int));
 double(#xsDecimal{} = D) ->
    #xsDecimal{int = Int, scf = Scf} = simplify(D) ,
    try 

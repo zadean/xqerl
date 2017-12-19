@@ -732,7 +732,8 @@
 'analyze-string'(Ctx,Input,Pattern) ->
    'analyze-string'(Ctx,Input,Pattern,[]).
 
-'analyze-string'(Ctx,Input,Pattern,Flags) -> 
+'analyze-string'(Ctx,Input,Pattern0,Flags) ->
+   Pattern = xqerl_types:string_value(Pattern0),
    {_,MP} = xqerl_regex:regex_comp(Pattern,Flags),
    Input1 = string_value(Input),
    Content = case re:run(Input1, MP, [global]) of
@@ -2335,9 +2336,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
                xqerl_error:error('FORG0006')
          end;
       #xqAtomicValue{type = StrType} when ?string(StrType), ?string(SeqType) ->
-         NewType = if SeqType == [] ->
-                         StrType;
-                      SeqType == 'xs:string' ->
+         NewType = if SeqType == 'xs:string' ->
                          SeqType;
                       true ->
                          BType = xqerl_btypes:get_type(StrType),
@@ -2352,9 +2351,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
       #xqAtomicValue{type = StrType} when ?integer(StrType), ?integer(SeqType) ->
          %?dbg("StrType",StrType),
          %?dbg("SeqType",SeqType),
-         NewType = if SeqType == [] ->
-                         StrType;
-                      SeqType == 'xs:integer' ->
+         NewType = if SeqType == 'xs:integer' ->
                          SeqType;
                       true ->
                          BType = xqerl_btypes:get_type(StrType),
@@ -2629,24 +2626,8 @@ compare_convert_seq([H|T], Acc, SeqType) ->
       {Ns,Ln} ->
          Px = xqerl_xdm:prefix(Doc, Node),
          Q = #qname{namespace = Ns, prefix = Px, local_name = Ln},
-         ?atm('xs:QName',Q);
-      {Ns,Px, Ln} ->
-         Q = #qname{namespace = Ns, prefix = Px, local_name = Ln},
          ?atm('xs:QName',Q)
    end;
-%% 'node-name'(_Ctx, N) when is_record(N, xqElementNode);
-%%                           is_record(N, xqDocumentNode);
-%%                           is_record(N, xqAttributeNode);
-%%                           is_record(N, xqCommentNode);
-%%                           is_record(N, xqTextNode);
-%%                           is_record(N, xqProcessingInstructionNode);
-%%                           is_record(N, xqNamespaceNode) ->
-%%    Q = xqerl_node:get_node_name(N),
-%%    if Q == [] ->
-%%          ?seq:empty();
-%%       true ->
-%%          Q
-%%    end;
 'node-name'(_Ctx, []) ->
    [].
 
@@ -3529,7 +3510,7 @@ sort1(Ctx,A,B,Coll) ->
    List = lists:map(fun(C) ->
                           #xqAtomicValue{type = 'xs:integer', value = C}
                     end, Str),
-   ?seq:from_list(List).
+   List.
 
 %% Returns the contiguous sequence of items in the value of $sourceSeq beginning at the position indicated by the value of $startingLoc and continuing for the number of items indicated by the value of $length. 
 'subsequence'(_Ctx,SourceSeq,StartingLoc) -> 
@@ -3773,14 +3754,32 @@ sum1([H|T], Sum) ->
    end.
 
 %% Returns a sequence of strings constructed by splitting the input wherever a separator is found; the separator is any substring that matches a given regular expression. 
-'tokenize'(Ctx,Input) -> 
+'tokenize'(_,Input) -> 
    Str = xqerl_types:cast_as(Input, 'xs:string'),
    Input1 = string_value(Str),
-   Stripped = string:trim(Input1),   
-   'tokenize'(Ctx,?atm('xs:string',Stripped),?str("(\\x{09}|\\x{0A}|\\x{0D}|\\x{20})+")).
+   Stripped = string:trim(Input1),
+   if Input1 == [] ->
+         [];
+      true ->
+         MP = {re_pattern,1,1,1,
+             <<69,82,67,80,96,0,0,0,32,8,64,36,1,8,0,0,255,255,255,255,255,255,255,255,0,0,0,0,0,
+               0,1,0,0,0,64,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,131,0,28,133,0,
+               7,0,1,29,9,119,0,5,29,10,119,0,5,29,13,119,0,5,29,32,121,0,22,120,0,28,0>>},
+         List = re:split(Stripped, MP, [group, {return,list}]),
+         Out = lists:map(fun(S) -> 
+                                 H = lists:flatten(hd(S)),
+                                 #xqAtomicValue{type = 'xs:string', value = H}
+                             end, List),
+         %?dbg(?LINE,Out),
+         Out
+   end.
+  
+   %'tokenize'(Ctx,?atm('xs:string',Stripped),?str("(\\x{09}|\\x{0A}|\\x{0D}|\\x{20})+")).
 'tokenize'(_Ctx,Input,Pattern) ->
    'tokenize'(_Ctx,Input,Pattern,[]).
-'tokenize'(_Ctx,Input,Pattern,Flags) -> 
+'tokenize'(_Ctx,Input,Pattern0,Flags0) -> 
+   Pattern = string_value(Pattern0),
+   Flags = string_value(Flags0),
    {Zero,MP} = xqerl_regex:regex_comp(Pattern,Flags),
    if Zero ->
          ?err('FORX0003');
@@ -3909,17 +3908,36 @@ zip_map_trans([H|T],[TH|TT]) ->
    UParsed = 'unparsed-text'(Ctx,Arg1,Arg2),
    %?dbg("UParsed",UParsed),
    #xqAtomicValue{value = Str} = UParsed,
-   {ok,MP} = re:compile("\\r\\n|\\r|\\n",[unicode]),
-   List = re:split(Str, MP,[{return,list}]),
-   List1 = case List =/= [] andalso lists:last(List) of
-              [] ->
-                 lists:droplast(List);
-              _ ->
-                 List
-           end,
-   lists:map(fun(L) ->
-                   ?str(L)
-             end, List1).
+   to_lines(Str, [], []).
+%%    {ok,MP} = re:compile("\\r\\n|\\r|\\n",[unicode]),
+%%    List = re:split(Str, MP,[{return,list}]),
+%%    List1 = case List =/= [] andalso lists:last(List) of
+%%               [] ->
+%%                  lists:droplast(List);
+%%               _ ->
+%%                  List
+%%            end,
+%%    lists:map(fun(L) ->
+%%                    ?str(L)
+%%              end, List1).
+
+to_lines([],[],Acc) ->
+   lists:reverse(Acc);
+to_lines([],Sub,Acc) ->
+   S = ?str(lists:reverse(Sub)),
+   lists:reverse([S|Acc]);
+to_lines([$\r,$\n|Rest],Sub,Acc) ->
+   S = ?str(lists:reverse(Sub)),
+   to_lines(Rest,[],[S|Acc]);
+to_lines([$\r|Rest],Sub,Acc) ->
+   S = ?str(lists:reverse(Sub)),
+   to_lines(Rest,[],[S|Acc]);
+to_lines([$\n|Rest],Sub,Acc) ->
+   S = ?str(lists:reverse(Sub)),
+   to_lines(Rest,[],[S|Acc]);
+to_lines([C|Rest],Sub,Acc) ->
+   to_lines(Rest,[C|Sub],Acc).
+
 
 %% Converts a string to upper case. 
 'upper-case'(_Ctx,[]) -> #xqAtomicValue{type = 'xs:string', value = ""};
