@@ -287,7 +287,7 @@ run(misc) ->
    run_suite(method_xhtml_SUITE),
    run_suite(method_xml_SUITE),
    run_suite(app_CatalogCheck_SUITE),
-   run_suite(app_Demos_SUITE),
+   %run_suite(app_Demos_SUITE),
    run_suite(app_FunctxFn_SUITE),
    run_suite(app_FunctxFunctx_SUITE),
    run_suite(app_UseCaseCompoundValues_SUITE),

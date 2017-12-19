@@ -59,7 +59,7 @@
          first_compile_time         :: term(),
          imported_modules  = []     :: [string()],
          binary            = <<>>   :: binary(),
-         erl_code                   :: string()
+         erl_code                   :: string() | atom()
         }).
 
 %% ====================================================================
@@ -221,7 +221,7 @@ compile(FileName, Str) ->
       %?dbg("Ret",Ret),
       erlang:erase(),
       {ok,M,B} = compile:forms(Ret, [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]),
-      Erl = print_erl(B),
+      _Erl = print_erl(B),
       ok = check_cycle(M,ImportedMods),
       %?dbg("Erl",Erl),
       {
@@ -259,7 +259,8 @@ compile(FileName, Str) ->
                       lists:foreach(fun(V) ->
                                           mnesia:write(V)
                                     end, Vars),
-                      load(Key)
+                      load(Key),
+                      ok
                 end,
          {atomic, ok} = mnesia:transaction(MFun),
          MN

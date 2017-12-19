@@ -136,7 +136,7 @@ xml_to_json(State = #state{indent = Indent}, #xqElementNode{name = #qname{namesp
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,false),
    Content = lists:map(fun(V) ->
                           xml_to_json(State, V)
-                       end, l(Rest)),
+                       end, Rest),
    if Key == [] ->
          serialize_array(Content, Indent);
       true ->
@@ -167,7 +167,7 @@ xml_to_json(State = #state{indent = Indent}, #xqElementNode{name = #qname{namesp
                                          _ ->
                                             ?err('FOJS0006')
                                       end
-                                end, #{}, l(Rest)),
+                                end, #{}, Rest),
    if Key == [] ->
          serialize_map(Content, Indent);
       true ->
@@ -177,7 +177,7 @@ xml_to_json(State = #state{indent = Indent}, #xqElementNode{name = #qname{namesp
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "boolean"},
                                   expr = Expr}) -> 
    try
-      {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
+      {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
       %?dbg("Expr",{Key, EscKey, Esc, Rest}),
       Txt = xqerl_node:atomize_nodes(Rest),
       Bool = xqerl_types:string_value(xqerl_types:cast_as(Txt,'xs:boolean')),
@@ -193,7 +193,7 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "b
    end;
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, local_name = "null"},
                                   expr = Expr}) -> 
-   {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
+   {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
    %?dbg("Expr",{Key, EscKey, Esc, Rest}),
    if Rest =/= [] ->
          ?err('FOJS0006');
@@ -594,6 +594,7 @@ no_escape([H|T], Fallback) ->
          end
    end.
 
+-compile({nowarn_unused_function, to_surrogates/1}).
 to_surrogates(C) when C >= 16#10000, C =< 16#10FFFF ->
    CP = C - 16#10000,
    High = CP bsr 10 + 16#D800,
@@ -655,11 +656,6 @@ serialize_map([H|T],true) ->
 
 serialize_key_val({Key,Value}) ->
    Key ++ [$:] ++ Value .
-
-l(L) when is_list(L) ->
-  L;
-l(L) ->
-  [L].
 
 to_codepoints([],_) -> [];
 to_codepoints([$\\,$"|T],Esc) -> 

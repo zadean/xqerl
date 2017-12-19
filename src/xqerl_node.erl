@@ -727,10 +727,10 @@ resolve_namespace(#qname{namespace = Ns, prefix = LPx} = QName, InscopeNamespace
          end
    end.
 
-resolve_attribute_namespace(#qname{prefix = []} = QName, _Ns) -> 
-   QName#qname{namespace = 'no-namespace'};
-resolve_attribute_namespace(QName, Ns) ->
-   resolve_namespace(QName, Ns).
+%% resolve_attribute_namespace(#qname{prefix = []} = QName, _Ns) -> 
+%%    QName#qname{namespace = 'no-namespace'};
+%% resolve_attribute_namespace(QName, Ns) ->
+%%    resolve_namespace(QName, Ns).
 
 merge_content(_,[],_) ->
    [];

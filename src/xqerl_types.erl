@@ -1605,8 +1605,6 @@ cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:decimal' ) -> % MAY
       Val == infinity -> xqerl_error:error('FOCA0002');
       true -> #xqAtomicValue{type = 'xs:decimal', value = xqerl_numeric:decimal(Val)}
    end;
-cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:double' ) when is_list(Val) ->
-   #xqAtomicValue{type = 'xs:double', value = Val};
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:double' ) -> 
    #xqAtomicValue{type = 'xs:double', value = Val};
 cast_as( #xqAtomicValue{type = 'xs:float', value = Val}, 'xs:integer' ) -> % MAYBE castable
@@ -1696,11 +1694,9 @@ cast_as( #xqAtomicValue{type = 'xs:integer', value = Val},
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 'xs:decimal' ) -> 
    #xqAtomicValue{type = 'xs:decimal', value = xqerl_numeric:decimal(Val)};
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 'xs:double' ) ->
-   Val1 = list_to_float(float_to_list(erlang:float(Val), [compact,{scientific,16}])),
-   #xqAtomicValue{type = 'xs:double', value = Val1};
+   #xqAtomicValue{type = 'xs:double', value = xqerl_numeric:double(Val)};
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 'xs:float' ) -> 
-   Val1 = list_to_float(float_to_list(erlang:float(Val), [compact,{scientific,16}])),
-   #xqAtomicValue{type = 'xs:float', value = Val1};
+   #xqAtomicValue{type = 'xs:float', value = xqerl_numeric:float(Val)};
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 
          'xs:string' ) -> 
    #xqAtomicValue{type = 'xs:string', value = integer_to_list(Val)};
@@ -2049,8 +2045,6 @@ cast_as( #xqAtomicValue{type = 'xs:string'} = Av,
          end;
       true -> #xqAtomicValue{type = 'xs:float', value = DblVal}
    end;
-cast_as( #xqAtomicValue{type = 'xs:string'} = Av, 'xs:numeric' ) -> % MAYBE castable
-   cast_as(Av, 'xs:double');
 cast_as( #xqAtomicValue{type = 'xs:string', value = Val}, 
          'xs:gDay' ) -> % MAYBE castable
    try

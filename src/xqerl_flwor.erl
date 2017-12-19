@@ -578,47 +578,47 @@ split_clauses(Clauses) ->
    Clauses.
    %split_clauses(Clauses, []).
 
-split_clauses([], Acc) ->
-   Acc;
-split_clauses(List, Acc) ->
-   {Fors,Rest} = lists:splitwith(fun({for,_}) -> true;
-                                    ({'let',_}) -> true;
-                                    %({where,_}) -> true;
-                                    (#xqWindow{}) -> true;
-                                    (_) -> false
-                                 end,
-                                 List),
-   %?dbg("Fors",Fors),
-   if Fors == [] ->
-         {Grps,Rest1} = lists:splitwith(fun(#xqGroupBy{}) -> true;
-                                           (_) -> false
-                                       end,
-                                       List),
-         if Grps == [] ->
-               {Ords,Rest2} = lists:splitwith(fun({order,_,_}) -> true;
-                                                 (_) -> false
-                                             end,
-                                             List),
-               if Ords == [] ->
-                  {Wheres,Rest3} = lists:splitwith(fun({where,_}) -> true;
-                                                    (_) -> false
-                                                end,
-                                                List),
-                  if Wheres == [] ->
-                        [H|T] = Rest,
-                        split_clauses(T,    Acc ++ [{count,[H]}]);
-                     true ->
-                        split_clauses(Rest3, Acc ++ [{where, Wheres}])
-                  end;
-                  true ->
-                     split_clauses(Rest2, Acc ++ [{order, Ords}])
-               end;
-            true ->
-               split_clauses(Rest1, Acc ++ [{group, Grps}])
-         end;
-      true ->
-         split_clauses(Rest, Acc ++ [{for_let, Fors}])
-   end.
+%% split_clauses([], Acc) ->
+%%    Acc;
+%% split_clauses(List, Acc) ->
+%%    {Fors,Rest} = lists:splitwith(fun({for,_}) -> true;
+%%                                     ({'let',_}) -> true;
+%%                                     %({where,_}) -> true;
+%%                                     (#xqWindow{}) -> true;
+%%                                     (_) -> false
+%%                                  end,
+%%                                  List),
+%%    %?dbg("Fors",Fors),
+%%    if Fors == [] ->
+%%          {Grps,Rest1} = lists:splitwith(fun(#xqGroupBy{}) -> true;
+%%                                            (_) -> false
+%%                                        end,
+%%                                        List),
+%%          if Grps == [] ->
+%%                {Ords,Rest2} = lists:splitwith(fun({order,_,_}) -> true;
+%%                                                  (_) -> false
+%%                                              end,
+%%                                              List),
+%%                if Ords == [] ->
+%%                   {Wheres,Rest3} = lists:splitwith(fun({where,_}) -> true;
+%%                                                     (_) -> false
+%%                                                 end,
+%%                                                 List),
+%%                   if Wheres == [] ->
+%%                         [H|T] = Rest,
+%%                         split_clauses(T,    Acc ++ [{count,[H]}]);
+%%                      true ->
+%%                         split_clauses(Rest3, Acc ++ [{where, Wheres}])
+%%                   end;
+%%                   true ->
+%%                      split_clauses(Rest2, Acc ++ [{order, Ords}])
+%%                end;
+%%             true ->
+%%                split_clauses(Rest1, Acc ++ [{group, Grps}])
+%%          end;
+%%       true ->
+%%          split_clauses(Rest, Acc ++ [{for_let, Fors}])
+%%    end.
 
 
 

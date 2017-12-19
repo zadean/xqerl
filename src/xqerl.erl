@@ -215,8 +215,7 @@ print_erl(B) ->
    {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
    FL = erl_syntax:form_list(AC),
    PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, {encoding, utf8}])),
-   %io:fwrite("~ts~n", [PP]),
-   %?dbg("huh",PP),
+   io:fwrite("~ts~n", [PP]),
    ok.   
 
 
@@ -256,8 +255,8 @@ trun(Str, Opt) ->
      ?dbg("Static",maps:get(body,Static)),
       Abstract = xqerl_abs:scan_mod(Static),
 %      ?dbg("Abstract",Abstract),
-      B = compile_abstract(Abstract),
-      print_erl(B),
+      _B = compile_abstract(Abstract),
+      %print_erl(B),
       erlang:erase(),
       xqerl_main:main(Opt).
 %ok.

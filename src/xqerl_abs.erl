@@ -44,7 +44,6 @@ init_mod_scan() ->
    erlang:put(imp_mod, 1),
    erlang:put(ctx, 1),
    erlang:put(var_tuple, 1),
-   erlang:put(iter, 1),
    erlang:put(iter_loop, 1).
 
 %% {Name, Type, Annos, function_name, Arity, [param_types] }
@@ -136,21 +135,21 @@ add_context_key(Map,named_functions,Ctx) ->
 add_context_key(Map,Key,Ctx) ->
    Map#{Key => maps:get(Key, Ctx)}.
 
-dynamic_context_items() ->
-   context_item,
-   context_position,
-   context_size,
-   variable_values,           % lives in process dictionary for global variables, locals stay local
-   named_functions,           % only filled when fn:function-lookup is used, filled with statically known
-   current_date_time,         % lives in process dictionary
-   implicit_timezone,         % lives in process dictionary
-   available_documents,       % lives in seperate process
-   available_text_resources,  % lives in seperate process
-   available_collections,     % lives in seperate process
-   default_collection,        % always empty
-   available_uri_collections, % lives in seperate process
-   default_uri_collection,    % always empty
-   ok.
+%% dynamic_context_items() ->
+%%    context_item,
+%%    context_position,
+%%    context_size,
+%%    variable_values,           % lives in process dictionary for global variables, locals stay local
+%%    named_functions,           % only filled when fn:function-lookup is used, filled with statically known
+%%    current_date_time,         % lives in process dictionary
+%%    implicit_timezone,         % lives in process dictionary
+%%    available_documents,       % lives in seperate process
+%%    available_text_resources,  % lives in seperate process
+%%    available_collections,     % lives in seperate process
+%%    default_collection,        % always empty
+%%    available_uri_collections, % lives in seperate process
+%%    default_uri_collection,    % always empty
+%%    ok.
 
 
 
@@ -489,7 +488,7 @@ variable_functions(ContextMap, Variables) ->
                   ExternAbs
                  }]}
             end  
-           || #xqVar{id = Id, name = QName, expr = Expr, external = Ext} 
+           || #xqVar{id = _, name = QName, expr = Expr, external = Ext} 
            <- Variables   ],
    Specs.
 
@@ -531,7 +530,7 @@ function_functions(ContextMap, Functions) ->
                      }]},
                Internal
             end  
-           || #xqFunction{id = Id, 
+           || #xqFunction{id = _, 
                           name = FxName,
                           arity = Arity,
                           params = Params,
@@ -577,7 +576,7 @@ expr_do(Ctx, {ensure, Var, #xqSeqType{occur = Occur}}) ->
                 true ->
                    ensure_zero_or_more
              end,
-   {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,FunName}}, [Expr]};
+   {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,FunName}}, alist(Expr)};
 % ignoring pragmas for now
 expr_do(_Ctx, {pragma, _Pragmas, []}) ->
    xqerl_error:error('XQST0079');
@@ -1084,7 +1083,7 @@ expr_do(_Ctx, #xqFunction{annotations = Annos,
                           arity = Ay, 
                           params = Params,
                           type = Type,
-                          body = {M,F,A}} = Fn) ->
+                          body = {M,F,A}}) ->
    %?dbg("Fn",Fn),
    {tuple,?L,
     [{atom,?L,xqFunction},
@@ -2004,12 +2003,7 @@ flwor(Ctx, [{order_by,Exprs}|T], RetId, Return, Internal, Global,TupleVar,_Inlin
                                            [{var,?L,TupleVar}]},
                                  Funs]}}],
    NewCtx = set_variable_tuple_name(Ctx, NextTupleVar),
-   flwor(NewCtx, T, RetId, Return, NewInternal, Global, NextTupleVar, false);
-
-   
-flwor(Ctx, Loop, RetId, Return, Internal, Global,TupleVariable,Inline) ->
-   ?dbg("Loop",Loop),
-   ok.
+   flwor(NewCtx, T, RetId, Return, NewInternal, Global, NextTupleVar, false).
 
 return_part(Ctx,{Id, Expr}) ->
    FunctionName = glob_fun_name({return,Id}),
@@ -2323,8 +2317,8 @@ window_loop(Ctx, #xqWindow{type = Type,
    StartTup = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar]),
    EndTup   = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar]),
    % mask the win variable name to type check it later
-   TempWinVarName = next_var_name(),
-   TempWinVar = {[],[],[],TempWinVarName},
+   %TempWinVarName = next_var_name(),
+   %TempWinVar = {[],[],[],TempWinVarName},
 
    OutTup   = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar,EVar,EPosVar,EPrevVar,ENextVar,WinVar]),
    StartFunAbs = {'fun',?L,{clauses,[{clause,?L,[StartTup],[],alist(expr_do(Ctx6, StartExpr))}]}},
@@ -2929,8 +2923,8 @@ step_expr_do(Ctx, Preds, SourceVarName) when is_list(Preds) ->
                                              Abs]}
                                     end;
                              ({arguments, Args}, Abs) ->
-                              NextCtxVar = next_ctx_var_name(),
-                              Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
+                              %NextCtxVar = next_ctx_var_name(),
+                              %Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
                                  PlaceHolders = lists:flatmap(fun(Arg) ->
                                                                     if Arg == '?' ->
                                                                           VarName = next_var_name(),
@@ -3619,21 +3613,21 @@ abs_function(Ctx,
                          arity = Ar,
                          params = Params,
                          type = Type}, BodyAbs) ->
-   N1 = if N == undefined ->
-              undefined;
-           true ->
-              #qname{namespace = Ns, prefix = Px} = N,
-               if Ns == 'no-namespace' orelse Px == [] ->
-                     N#qname{namespace = "http://www.w3.org/2005/xpath-functions", prefix = "fn"};
-                  true ->
-                     N
-               end
-        end,
+%%    N1 = case N of
+%%            undefined ->
+%%               undefined;
+%%            #qname{namespace = Ns, prefix = Px} ->
+%%                if Ns == 'no-namespace' orelse Px == [] ->
+%%                      N#qname{namespace = "http://www.w3.org/2005/xpath-functions", prefix = "fn"};
+%%                   true ->
+%%                      N
+%%                end
+%%         end,
    {tuple, ?L, 
     [atom_or_string(xqFunction),
      atom_or_string(undefined), %id
      atom_or_string(undefined), %annotations
-     abs_qname(Ctx, N1)       , %name
+     abs_qname(Ctx, N)        , %name
      {integer,?L,Ar}          , %arity
      abs_param_list(Ctx, Params), %params
      abs_seq_type(Ctx, Type)  , %type
@@ -3687,11 +3681,6 @@ get_variable_tuple_name(Ctx) ->
 set_variable_tuple_name(Ctx, Name) ->
    maps:put(var_tuple, Name, Ctx).
 
-get_iterator_name(Ctx) ->
-   maps:get(iter, Ctx).
-set_iterator_name(Ctx, Name) ->
-   maps:put(iter, Name, Ctx).
-
 abs_ns_list(Ctx) ->
    lists:foldr(fun(#xqNamespace{prefix = P,namespace = N}, Abs) ->
                      {cons,?L,{tuple,?L,[{atom,?L,xqNamespace},atom_or_string(N),atom_or_string(P)]}, Abs}
@@ -3700,12 +3689,6 @@ abs_ns_list(Ctx) ->
 next_var_tuple_name() ->
    list_to_atom("VarTup__"++integer_to_list(next_id(var_tuple))).
 
-next_iter_name() ->
-   list_to_atom("Iter__"++integer_to_list(next_id(iter))).
-   
-next_iter_loop_name() ->
-   list_to_atom("IterLoop__"++integer_to_list(next_id(iter_loop))).
-   
 next_id(Atom) ->
    Id = erlang:get(Atom),
    erlang:put(Atom, Id + 1),
@@ -3764,9 +3747,6 @@ namespace_from_prefix(Px,Ns,N) ->
       O ->
          O
    end.
-
-empty_seq_abs() ->
-   {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,empty}},[]}.
 
 abs_list(List) ->
     lists:foldr(fun(E, Abs) ->

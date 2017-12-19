@@ -131,43 +131,43 @@ validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "allow-dupli
    validate1(T,maps:put('allow-duplicate-names', true_false(Value), State));
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "byte-order-mark"},Value}|T],State) ->
    validate1(T,maps:put('byte-order-mark', true_false(Value), State));
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "cdata-section-elements"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "cdata-section-elements"},_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "doctype-public"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "doctype-public"},_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "doctype-system"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "doctype-system"},_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "encoding"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "encoding"},_Value}|T],State) -> 
    validate1(T,State);
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "escape-uri-attributes"},Value}|T],State) -> 
    validate1(T,maps:put('escape-uri-attributes', true_false(Value), State));
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "html-version"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "html-version"},_Value}|T],State) -> 
    validate1(T,State);
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "include-content-type"},Value}|T],State) -> 
    validate1(T,maps:put('include-content-type', true_false(Value), State));
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "indent"},Value}|T],State) -> 
    validate1(T,maps:put('indent', true_false(Value), State));
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "item-separator"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "item-separator"},_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "json-node-output-method"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "json-node-output-method"},_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "media-type"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "media-type"},_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "method"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "method"},_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "normalization-form"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "normalization-form"},_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "omit-xml-declaration"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "omit-xml-declaration"},_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "standalone"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "standalone"},_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "suppress-indentation"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "suppress-indentation"},_Value}|T],State) -> 
    validate1(T,State);
 validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "undeclare-prefixes"},Value}|T],State) -> 
    validate1(T,maps:put('undeclare-prefixes', true_false(Value), State));
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "use-character-maps"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "use-character-maps"},_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "version"},Value}|T],State) -> 
+validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "version"},_Value}|T],State) -> 
    validate1(T,State);
 validate1([{#qname{} = Q,Value}|T],State) ->
    ?dbg("Unknown option",{Q,Value}),

@@ -263,7 +263,7 @@ get_matched(Map,Keys) when is_map(Map) ->
                        end
                  end, Keys).
 
-construct(Ctx, KeyValList) ->
+construct(_, KeyValList) ->
    lists:foldl(fun({Key,Val},Map) ->
                   Key1 = xqerl_operators:key_val(Key),
                   case maps:is_key(Key1, Map) of

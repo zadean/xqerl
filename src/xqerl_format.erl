@@ -2072,20 +2072,20 @@ integer_name( I,en,era) when I < 0 -> "BC";
 integer_name( I,en,era) when I > 0 -> "AD";
 integer_name( _,en,era) -> "";
 
-integer_name(Int1,en,Part) -> ok.
+integer_name(_Int1,en,_Part) -> ok.
 
    
 
 
 
-language(_) -> "en".
-
-% should do ISO and AD at minimum
-calendar("ISO") -> "ISO";
-calendar("AD") -> "AD";
-calendar(_) -> "AD".
-
-place(_) -> []. % ignored for now
+%% language(_) -> "en".
+%% 
+%% % should do ISO and AD at minimum
+%% calendar("ISO") -> "ISO";
+%% calendar("AD") -> "AD";
+%% calendar(_) -> "AD".
+%% 
+%% place(_) -> []. % ignored for now
 
 zulu_zone(0) -> "Z";
 zulu_zone(1) -> "A";

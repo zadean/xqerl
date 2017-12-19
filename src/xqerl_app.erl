@@ -41,23 +41,5 @@ start(_StartType, _StartArgs) ->
 stop(_State) ->
     ok.
 
--record(module, {key,
-                 text,
-                 bin,
-                 variables,
-                 functions,
-                 stamp,
-                 imports
-                 }).
-
-
 init() ->
    ok.
-
-   %mnesia:create_schema([node()]),
-   %
-   %code:add_patha(code:lib_dir(xqerl, lib)),
-   %code:lib_dir(xqerl, mnesia),
-   %mnesia:create_table(module,
-   %                [{disc_copies, [node()]},
-   %                 {attributes, record_info(fields, module)}]).

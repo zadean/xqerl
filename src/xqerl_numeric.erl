@@ -125,7 +125,9 @@ decimal(String) ->
 double(Float) when is_float(Float) ->
    Float;
 double(Int) when is_integer(Int) ->
-   double(decimal(Int));
+   erlang:float(Int);
+%% double(Int) when is_integer(Int) ->
+%%    double(decimal(Int));
 double(#xsDecimal{} = D) ->
    #xsDecimal{int = Int, scf = Scf} = simplify(D) ,
    try 
@@ -140,7 +142,8 @@ float(Float) when is_float(Float) ->
    <<New:32/float>> = <<Float:32/float>>,
    New;
 float(Int) when is_integer(Int) ->
-   ?MODULE:float(list_to_float(integer_to_list(Int) ++ ".0E0"));
+   ?MODULE:float(erlang:float(Int));
+   %?MODULE:float(list_to_float(integer_to_list(Int) ++ ".0E0"));
 float(#xsDecimal{int = Int, scf = Scf}) ->
    ?MODULE:float(list_to_float(integer_to_list(Int) ++ ".0E-" ++ integer_to_list(Scf))).
 
