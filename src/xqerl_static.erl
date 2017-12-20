@@ -4151,8 +4151,8 @@ check_fun_arg_types(_State, Args, any) ->
 check_fun_arg_types(State, Args, ArgTypes) ->
    Arg_ArgTypes = lists:zip(Args, ArgTypes),
    Fun = fun({Arg, ArgType}) ->
-               %?dbg("ArgS",get_statement(Arg)),
-               %?dbg("ArgType",ArgType),
+               ?dbg("ArgS",get_statement(Arg)),
+               ?dbg("ArgType",ArgType),
                %?dbg("ArgT",get_statement_type(Arg)),
                S1 = check_fun_arg_type(State, Arg, ArgType),
                Cnt = get_static_count(S1),
@@ -4168,8 +4168,6 @@ check_fun_arg_type(State, Arg, TargetType) ->
    ParamType = get_statement_type(Arg),
    Param = get_statement(Arg),
    %?dbg("Param",Param),
-   %?dbg("ParamType",ParamType),
-   %?dbg("TargetType",TargetType),
    ParamType1 = 
         case ParamType of
            #xqSeqType{type = {parameter,_}} -> % passed in as 'item'
@@ -4187,6 +4185,9 @@ check_fun_arg_type(State, Arg, TargetType) ->
               end
         end, 
    StatCnt = get_static_count(Arg),
+   %?dbg("ParamType",ParamType),
+   %?dbg("TargetType",TargetType),
+   %?dbg("StatCnt",StatCnt),
    ok = check_occurance_match(ParamType1, TargetType, StatCnt),
    % now check the types
    %?dbg("NoCast",{StatCnt,ParamType1,TargetType}),
@@ -4332,10 +4333,10 @@ check_type_match(#xqSeqType{type = 'empty-sequence'}, #xqSeqType{occur = O}) whe
 check_type_match(#xqSeqType{occur = O}, #xqSeqType{type = 'empty-sequence'}) when O == one;
                                                                                   O == one_or_many -> 
    false;
-check_type_match(#xqSeqType{type = #xqFunTest{kind = array, type = ParamTypeA}} = A, 
-                 #xqSeqType{type = #xqFunTest{kind = function, type = ParamTypeB}} = B) -> % needs type checking
-   check_type_match(A#xqSeqType{type = ParamTypeA},
-                    B#xqSeqType{type = ParamTypeB});
+check_type_match(#xqSeqType{type = #xqFunTest{kind = array, type = ParamTypeA}}, 
+                 #xqSeqType{type = #xqFunTest{kind = function, type = ParamTypeB}}) -> % needs type checking
+   check_type_match(ParamTypeA,
+                    ParamTypeB);
 check_type_match(#xqSeqType{type = node}, #xqSeqType{type = #xqKindTest{kind = TargetType}}) when ?node(TargetType) -> 
    true;
 check_type_match(#xqSeqType{type = 'xs:anyAtomicType'}, #xqSeqType{type = 'xs:anyAtomicType'}) -> 
@@ -4371,6 +4372,9 @@ check_type_match(#xqSeqType{type = #xqFunTest{kind = map, params = _Params1, typ
 check_type_match(#xqSeqType{type = #xqFunTest{kind = array, params = _Params1, type = _Type1}}, 
                  #xqSeqType{type = #xqFunTest{kind = array, params = any, type = any}}) ->
    true;   
+check_type_match(#xqSeqType{type = #xqFunTest{kind = array, type = Type1}}, 
+                 #xqSeqType{type = #xqFunTest{kind = array, type = Type2}}) ->
+   check_type_match(Type1,Type2);
 check_type_match(#xqSeqType{type = #xqFunTest{kind = array, params = _Params1, type = Type1}}, 
                  #xqSeqType{} = Type2) ->
    check_type_match(Type1,Type2);

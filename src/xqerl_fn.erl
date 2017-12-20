@@ -1996,21 +1996,35 @@ unmask_static_mod_ns(T) -> T.
 'idref'(Ctx,Arg1) ->
    Node = xqerl_context:get_context_item(Ctx),
    'idref'(Ctx,Arg1,Node).
-'idref'(Ctx,_Arg1,Node) -> % dtd-infoset dependency 
-%%    RefToks = ?seq:val_map(fun(Val) ->
-%%                                 'tokenize'(Ctx, 'normalize-space'(Ctx, ?seq:singleton(Val)))
-%%                           end, Arg1),
+
+'idref'(Ctx,Refs,Node) when not is_list(Refs) ->
+   'idref'(Ctx,[Refs],Node);
+'idref'(Ctx,Refs,[Node]) ->
+   'idref'(Ctx,Refs,Node);
+'idref'(Ctx,Refs,Node) -> % dtd-infoset dependency 
+   RefToks = lists:flatmap(fun(Val) ->
+                                 Norm = 'normalize-space'(Ctx, ?seq:singleton(Val)),
+                                 'tokenize'(Ctx, Norm)
+                          end, Refs),
    try
-      _Root = xqerl_step:root(Ctx,Node),
-      ?seq:empty()
+      Desc = xqerl_step:forward(Ctx,Node, 'descendant-or-self', #qname{namespace = "*", local_name = "*"}, []),
+      Atts = xqerl_step:idrefs(Ctx, Desc),
+      Filtered = lists:filter(
+                   fun(A) ->
+                         ANorm = 'normalize-space'(Ctx, A),
+                         AToks = 'tokenize'(Ctx, ANorm),
+                         xqerl_operators:general_compare('=',AToks,RefToks) == ?bool(true)
+                   end, Atts),
+      Filtered
    catch 
-      _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XPDY0050"}}} ->
+      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPDY0050"})} ->
             xqerl_error:error('FODC0001');
-      _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XPTY0019"}}} ->
+      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPTY0020"})} ->
             xqerl_error:error('XPTY0004');
-      _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XPTY0020"}}} ->
+      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPTY0019"})} ->
             xqerl_error:error('XPTY0004');
       _:E ->
+         %?dbg(?LINE,E),
          throw(E)
    end.
 
@@ -2776,12 +2790,13 @@ shrink_spaces([H|T]) ->
    end.
 
 %% Parses a string containing the date and time in IETF format, returning the corresponding xs:dateTime value. 
+'parse-ietf-date'(_Ctx,[]) ->  [];
 'parse-ietf-date'(_Ctx,Arg1) -> 
    Str = xqerl_types:string_value(Arg1),
    Strip = string:strip(Str),
    try 
       {ok,L,_} = ietf_date:string(Strip),
-      %?dbg("L",L),
+      ?dbg("L",L),
       {ok,Dt} = ietf_date_parse:parse(L),
       ?dbg("Dt",Dt),
       DtStr = xqerl_datetime:to_string(Dt, 'xs:dateTime'),
@@ -2789,7 +2804,7 @@ shrink_spaces([H|T]) ->
       ?atm('xs:dateTime', Dt#xsDateTime{string_value = DtStr})
    catch
       _:_ ->
-         %?dbg("E",E),
+         ?dbg("E",erlang:get_stacktrace()),
          xqerl_error:error('FORG0010')
    end.
 

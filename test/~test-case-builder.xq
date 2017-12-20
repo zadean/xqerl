@@ -249,6 +249,18 @@ declare function local:print-testcase($test-case)
     (: XML 1.1 stuff :) 
     else if ($deps[@type = "xml-version" and @value = "1.1"]) then
     "   {skip,""XML 1.1""}"
+    (: spec examples with dependencies :)
+    else if ($test-case/../@name = "app-spec-examples" and 
+                $test-case/@name = ('fo-test-fn-serialize-002','fo-test-fn-serialize-001')
+            ) then
+    "   {skip,""serialization feature""}"
+    else if ($test-case/../@name = "app-spec-examples" and 
+                $test-case/@name = ('fo-test-fn-id-001','fo-test-fn-id-002',
+                                    'fo-test-fn-element-with-id-001','fo-test-fn-element-with-id-002',
+                                    'fo-test-fn-idref-001','fo-test-fn-idref-002')
+            ) then
+    "   {skip,""schemaAware""}"
+    
     else
     "   Qry = "||
     (

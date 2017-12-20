@@ -9,20 +9,22 @@ MONTHNAME = ([Jj][Aa][Nn])|([Ff][Ee][Bb])|([Mm][Aa][Rr])|([Aa][Pp][Rr])|([Mm][Aa
 
 Rules.
 
-[\,]     : {token,{',',TokenLine,','}}. %skip_token.
-[\(]     : {token,{'(',TokenLine,'('}}.
-[\)]     : {token,{')',TokenLine,')'}}.
-[\:]     : {token,{':',TokenLine,':'}}.
-{S}      : {token,{s,TokenLine,s}}.
-[\.]      : {token,{dot,TokenLine,'.'}}.
-{DIGIT2}  : {token,{digit2,TokenLine,list_to_integer(TokenChars)}}.
-{DIGIT}  : {token,{digit,TokenLine,list_to_integer(TokenChars)}}.
-[\.]{DIGIT}+  : {token,{digits,TokenLine,TokenChars}}.
-[\+]   : {token,{plus,TokenLine,TokenChars}}.
-[\-]   : {token,{minus,TokenLine,TokenChars}}.
-{TZNAME} : {token,{tzname,TokenLine,string:uppercase(TokenChars)}}.
-{MONTHNAME} : {token,{monthname,TokenLine,string:uppercase(TokenChars)}}.
-{DAYNAME} : {token,{dayname,TokenLine,ignore}}. %skip_token.
-{S}?[\(]{S}?{TZNAME}{S}?[\)] : skip_token.
+({S})?\(({S})?({TZNAME})({S})?\) : skip_token.
+
+[\,]         : {token,{',',TokenLine,','}}. %skip_token.
+[\(]         : {token,{'(',TokenLine,'('}}.
+[\)]         : {token,{')',TokenLine,')'}}.
+[\:]         : {token,{':',TokenLine,':'}}.
+{S}          : {token,{s,TokenLine,s}}.
+[\.]         : {token,{dot,TokenLine,'.'}}.
+{DIGIT2}     : {token,{digit2,TokenLine,TokenChars}}.
+{DIGIT}      : {token,{digit,TokenLine,TokenChars}}.
+[\.]{DIGIT}+ : {token,{digits,TokenLine,TokenChars}}.
+[\+]         : {token,{plus,TokenLine,TokenChars}}.
+[\-]         : {token,{minus,TokenLine,TokenChars}}.
+{TZNAME}     : {token,{tzname,TokenLine,string:uppercase(TokenChars)}}.
+{MONTHNAME}  : {token,{monthname,TokenLine,string:uppercase(TokenChars)}}.
+{DAYNAME}    : {token,{dayname,TokenLine,ignore}}. %skip_token.
+
 
 Erlang code.

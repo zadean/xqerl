@@ -297,6 +297,7 @@ handle_event({startElement, Uri, LocalName, {Prefix,_}, Attributes}, _Ln, #state
                  AttType = case maps:find({LocalName,Ln}, AttTypes) of
                               {ok,'xs:ID'} -> 1;
                               {ok,'xs:IDREF'} -> 2;
+                              {ok,'xs:IDREFS'} -> 2;
                               _ -> 0
                            end,
                  AtNd = #nodes{atsz = AttType, id = C2, dst = C2 - C, tp = attribute, ln = LnId, ns = NsId, val = TxId},

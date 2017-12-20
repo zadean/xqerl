@@ -28,6 +28,7 @@
 
 -export([filter/3]).
 -export([ids/2]).
+-export([idrefs/2]).
 -export([any_root/2]).
 -export([root/2]).
 -export([forward/5]).
@@ -106,7 +107,23 @@ ids(_Ctx, Nodes) ->
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:map(Fun1, Nodes),
+   PrePredicate = lists:flatmap(Fun1, lists:flatten(Nodes)),
+   lists:usort(PrePredicate).
+
+idrefs(_Ctx, Nodes) ->
+   % check if is single root doc
+   _ = root([],Nodes),
+   Fun1 = fun(#xqNode{doc = Doc} = Node1) ->
+                
+                Pointers = attribute(Node1),
+                Ids = lists:filter(fun(P) ->
+                                         xqerl_xdm:dm_is_idrefs(Doc, P)
+                                   end, Pointers),
+                as_xqnodes(Doc, Ids);
+             (_) ->
+                ?err('XPTY0019')
+          end,
+   PrePredicate = lists:flatmap(Fun1, Nodes),
    lists:usort(PrePredicate).
 
 
