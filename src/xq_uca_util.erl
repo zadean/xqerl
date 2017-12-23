@@ -62,14 +62,14 @@ unblocked_non_starters([H|T],Last,Acc) ->
 get_first_match(_,[],Acc,Str) ->
    {false, Acc ++ Str};
 get_first_match(L,[N|R],Acc,Str) when is_list(L) ->
-   case xq_uca_def_util:in_table(L++[N]) of
+   case in_table(L++[N]) of
       true ->
          {true, L++[N|R] ++ Acc ++ Str};
       _ ->
          get_first_match(L,R,Acc ++ [N],Str)
    end;
 get_first_match(L,[N|R],Acc,Str) ->
-   case xq_uca_def_util:in_table([L,N]) of
+   case in_table([L,N]) of
       true ->
          {true, [L,N|R] ++ Acc ++ Str};
       _ ->
