@@ -31,14 +31,21 @@
 %% ====================================================================
 -export([parse/1]).
 -export([sort_key/2]).
+-export([split/3]).
+-export([as_list/2]).
+-export([as_bin_list/2]).
 
 
+% testing only ,caseblind
+parse("http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind") ->
+   parse("http://www.w3.org/2013/collation/UCA?strength=primary");
+% 
 parse("http://www.w3.org/2005/xpath-functions/collation/codepoint") ->
-   codepoint;
+   key_fun(codepoint);
 parse("http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive") ->
-   ascii;
+   key_fun(ascii);
 parse("http://www.w3.org/2013/collation/UCA" ++ Query) ->
-   {uca, parse_query_string(Query)};
+   key_fun({uca, parse_query_string(Query)});
 parse(_) ->
   xqerl_error:error('FOCH0002').
 
@@ -64,55 +71,87 @@ sort_key([], _) ->
    <<>>;
 sort_key(Atom, _) when is_atom(Atom) ->
    Atom;
-sort_key(Str, codepoint) ->
-   unicode:characters_to_binary(Str);
-sort_key(Str, ascii) ->
-   unicode:characters_to_binary(
-     [ if C >= $A, C=< $Z ->
-           C + 32;
-        true ->
-           C
-     end   || C <- Str ]);
-%% sort_key(Str, {uca, #{strength := "primary", lang := "en"}}) ->
-%%    sort_key(Str, ascii);
-sort_key(Str, {uca,Map}) ->
-   % if fallback is okay, use codepoint for now, until collations implemented
-   case maps:get(fallback,Map) of
-      "yes" ->
-         unicode:characters_to_binary(Str);
-      _ ->
+
+sort_key(Str, Fun) ->
+   try
+      Fun(Str)
+   catch
+      _:_ ->
+         ?dbg("sort_key",erlang:get_stacktrace()),
          xqerl_error:error('FOCH0002')
    end.
 
+as_list(Str,Fun) ->
+   [{C,Fun([C])} || C <- Str].
+
+as_bin_list(Str,Fun) ->
+   << B || {_,B} <- as_list(Str,Fun) >>.
+
+split(String,SearchPattern,Fun) ->
+   Pattern = [B || {_,B} <- as_list(SearchPattern, Fun), B =/= <<>>],
+   ToSplit = as_list(String, Fun),
+   %CharStr = [C || {C,_} <- ToSplit],
+   BinStr =  [B || {_,B} <- ToSplit],
+   %?dbg("BinStr",BinStr),
+   %?dbg("String",String),
+   %?dbg("Pattern",Pattern),
+   %?dbg("CharStr",CharStr),
+   split_1(BinStr,Pattern,String,[]).
+   %split_1(BinStr,Pattern,CharStr,[]).
 
 %% ====================================================================
 %% Internal functions
 %% ====================================================================
 
+split_1([],_Pattern,_Chars,Acc) ->
+   [lists:reverse(Acc)];
+split_1(Bins,Pattern,Chars,Acc) ->
+   Squashed = [hd(Bins)|[B || B <- tl(Bins), B =/= <<>>]],
+   case lists:prefix(Pattern,Squashed) of
+      true ->
+         [lists:reverse(Acc), get_tail_1(Pattern, Bins, Chars)];
+      _ ->
+         split_1(tl(Bins),Pattern,tl(Chars), [hd(Chars)|Acc])
+   end.
+
+get_tail_1([],_,C) -> C;
+get_tail_1([PH|PT],[<<>>|BT],[_|CT]) ->
+   get_tail_1([PH|PT],BT,CT);
+get_tail_1([PH|PT],[BH|BT],[_|CT]) when PH == BH ->
+   get_tail_1(PT,BT,CT).
+   
+
+
+
+
 parse_query_string([]) ->
-   default_query();
+   #{};
 parse_query_string("?"++Rest) ->
    split_query(Rest).
 
-split_query([]) -> default_query();
+split_query([]) -> #{};
 split_query(Qry) -> 
    Split = string:split(Qry, [$;],all),
    lists:foldl(fun([],Map) -> Map;
                   (Str,Map) ->
                      [K,V] = string:split(Str, [$=]),
-                     Map#{list_to_existing_atom(K) => V}
-               end, default_query(), Split).
+                     Map#{list_to_atom(K) => V}                        
+               end, #{}, Split).
 
-default_query() ->
-   #{fallback        => "yes",
-     lang            => "en",
-     version         => "1.0",
-     strength        => "tertiary",
-     maxVariable     => "punct",
-     alternate       => "non-ignorable",
-     backwards       => "no",
-     normalization   => "no",
-     caseLevel       => "no",
-     caseFirst       => "upper",
-     numeric         => "no",
-     reorder         => []}.
+key_fun({uca,Opts}) ->
+   xq_uca:uca(Opts);
+key_fun(codepoint) ->
+   fun(Str) ->
+         unicode:characters_to_binary(Str)
+   end;
+key_fun(ascii) ->
+   fun(Str) ->
+         unicode:characters_to_binary(
+           [ if C >= $A, C=< $Z ->
+                 C + 32;
+              true ->
+                 C
+           end   || C <- Str ])
+   end.
+
+   

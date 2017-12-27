@@ -1029,16 +1029,24 @@ avg1([H|T], Sum, Count) ->
 
 'compare'(_Ctx,[],_Arg2,_Collation) -> [];
 'compare'(_Ctx,_Arg1,[],_Collation) -> [];
-'compare'(_Ctx,Arg1,Arg2,Collation) -> 
-   ColVal = xqerl_coll:parse(xqerl_types:string_value(Collation)),
-   StrVal1 = xqerl_types:string_value(Arg1),
-   StrVal2 = xqerl_types:string_value(Arg2),
-   Bin1 = xqerl_coll:sort_key(StrVal1, ColVal),
-   Bin2 = xqerl_coll:sort_key(StrVal2, ColVal),
-   if Bin1 < Bin2 -> ?atint(-1);
-      Bin1 > Bin2 -> ?atint(1);
-      true -> ?atint(0)
-   end.
+'compare'(_Ctx,Arg1,Arg2,Collation) ->
+   try
+      ColVal = xqerl_coll:parse(xqerl_types:string_value(Collation)),
+      StrVal1 = xqerl_types:string_value(Arg1),
+      StrVal2 = xqerl_types:string_value(Arg2),
+      Bin1 = xqerl_coll:sort_key(StrVal1, ColVal),
+      Bin2 = xqerl_coll:sort_key(StrVal2, ColVal),
+      %?dbg("Bin1",Bin1),
+      %?dbg("Bin2",Bin2),
+      if Bin1 < Bin2 -> ?atint(-1);
+         Bin1 > Bin2 -> ?atint(1);
+         true -> ?atint(0)
+      end
+   catch
+      _:_ ->
+         ?dbg("compare",erlang:get_stacktrace()),
+         ?err('FOCH0002')
+  end.
 
 %% Returns the concatenation of the string values of the arguments. 
 %% 'concat'(Ctx,Arg1,Arg2) -> concat1(Ctx,[Arg1,Arg2]).
@@ -1063,13 +1071,19 @@ avg1([H|T], Sum, Count) ->
    Coll = xqerl_coll:parse(xqerl_types:value(Collation)),
    S1 = xqerl_types:value(Arg1),
    S2 = xqerl_types:value(Arg2),
-   B1 = xqerl_coll:sort_key(S1, Coll),
-   B2 = xqerl_coll:sort_key(S2, Coll),
-   case string:find(B1,B2) of
-      nomatch when S2 =/= [] ->
-         ?bool(false);
-      _ ->
-         ?bool(true)
+   B1 = xqerl_coll:as_bin_list(S1, Coll),
+   B2 = xqerl_coll:as_bin_list(S2, Coll),
+   %?dbg("B1",B1),
+   %?dbg("B2",B2),
+   if B2 == <<>> ->
+         ?bool(true);
+      true ->
+         case binary:matches(B1,B2) of
+            [] when S2 =/= [] ->
+               ?bool(false);
+            _ ->
+               ?bool(true)
+         end
    end.
 
 %% Determines whether or not any of the supplied strings, when tokenized at whitespace boundaries, 
@@ -1449,20 +1463,19 @@ val_reverse([{_,V}|T], Acc) ->
    Coll = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
    if Str2 == [] ->
          ?bool(true);
-      Str1 == [] ->
-         ?bool(false);
       true ->
          ColVal = xqerl_coll:parse(Coll),
-         VBin = xqerl_coll:sort_key(lists:reverse(Str1), ColVal),
-         SBin = xqerl_coll:sort_key(lists:reverse(Str2), ColVal),
-         L = size(SBin),
-         case VBin of
-            SBin ->
-               ?bool(true);
-            <<SBin:L/binary,_/binary>> ->
-               ?bool(true);
-            _ ->
-               ?bool(false)
+         VBin = xqerl_coll:as_bin_list(Str1, ColVal),
+         SBin = xqerl_coll:as_bin_list(Str2, ColVal),
+         if VBin == <<>> andalso SBin =/= <<>> ->
+               ?bool(false);
+            true ->
+               case lists:suffix(binary:bin_to_list(SBin), binary:bin_to_list(VBin)) of
+                  true ->
+                     ?bool(true);
+                  _ ->
+                     ?bool(false)
+               end
          end
    end.
 
@@ -3430,22 +3443,26 @@ sort1(Ctx,A,B,Coll) ->
    Coll = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
    if Str2 == [] ->
          ?bool(true);
-      Str1 == [] ->
-         ?bool(false);
       true ->
          ColVal = xqerl_coll:parse(Coll),
-         VBin = xqerl_coll:sort_key(Str1, ColVal),
-         SBin = xqerl_coll:sort_key(Str2, ColVal),
-         %?dbg("VBin",VBin),
-         %?dbg("SBin",SBin),
-         L = size(SBin),
-         case VBin of
-            SBin ->
+         VBin = xqerl_coll:as_bin_list(Str1, ColVal),
+         SBin = xqerl_coll:as_bin_list(Str2, ColVal),
+         if SBin == <<>> ->
                ?bool(true);
-            <<SBin:L/binary,_/binary>> ->
-               ?bool(true);
-            _ ->
-               ?bool(false)
+            VBin == <<>> andalso SBin =/= <<>> ->
+               ?bool(false);
+            true ->
+               %?dbg("VBin",VBin),
+               %?dbg("SBin",SBin),
+               L = size(SBin),
+               case VBin of
+                  SBin ->
+                     ?bool(true);
+                  <<SBin:L/binary,_/binary>> ->
+                     ?bool(true);
+                  _ ->
+                     ?bool(false)
+               end
          end
    end.
 
@@ -3637,14 +3654,14 @@ sort1(Ctx,A,B,Coll) ->
          ?str(StrVal);
       true ->
          ColVal = xqerl_coll:parse(Coll),
-         VBin = xqerl_coll:sort_key(StrVal, ColVal),
-         SBin = xqerl_coll:sort_key(SplVal, ColVal),
-         Str3 = string:split(VBin,SBin),
+         %VBin = xqerl_coll:sort_key(StrVal, ColVal),
+         %SBin = xqerl_coll:sort_key(SplVal, ColVal),
+         Str3 = xqerl_coll:split(StrVal,SplVal,ColVal),
          case Str3 of
             [_] ->
                ?str("");
             [_,A] ->
-               ?str(unicode:characters_to_list(A))
+               ?str(A)
          end
    end.
    
@@ -3660,14 +3677,14 @@ sort1(Ctx,A,B,Coll) ->
    StrVal = xqerl_types:string_value(Arg1),
    SplVal = xqerl_types:string_value(Arg2),
    ColVal = xqerl_coll:parse(Coll),
-   VBin = xqerl_coll:sort_key(StrVal, ColVal),
-   SBin = xqerl_coll:sort_key(SplVal, ColVal),
-   Str3 = string:split(VBin,SBin),
+   %VBin = xqerl_coll:sort_key(StrVal, ColVal),
+   %SBin = xqerl_coll:sort_key(SplVal, ColVal),
+   Str3 = xqerl_coll:split(StrVal,SplVal,ColVal),
    case Str3 of
       [_] ->
          ?str("");
-      _ ->
-         ?str(unicode:characters_to_list(hd(Str3)))
+      [S,_] ->
+         ?str(S)
    end.
    
 

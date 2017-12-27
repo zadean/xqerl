@@ -5085,6 +5085,7 @@ environment('global',BaseDir) ->
         fn:compare('Strasse', 'Straße')
       ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{'default-collation', "http://www.w3.org/2013/collation/UCA?lang=de;strength=primary"},
 {sources, []},
 {schemas, []},
 {collections, []},
@@ -5135,6 +5136,7 @@ environment('global',BaseDir) ->
         fn:compare('Strassen', 'Straße')
       ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{'default-collation', "http://www.w3.org/2013/collation/UCA?lang=de"},
 {sources, []},
 {schemas, []},
 {collections, []},

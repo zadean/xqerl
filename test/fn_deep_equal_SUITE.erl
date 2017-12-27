@@ -3528,28 +3528,239 @@ environment('perverse',BaseDir) ->
    end.
 'K-SeqDeepEqualFunc-56'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"non_unicode_codepoint_collation"}.
+   Qry = "deep-equal((\"a\", \"A\"), (\"A\", \"a\"), \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{'context-item', [""]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqDeepEqualFunc-56.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-57'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"non_unicode_codepoint_collation"}.
+   Qry = "deep-equal((\"a\", \"A\"), (\"A\", \"b\"), \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{'context-item', [""]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqDeepEqualFunc-57.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-58'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"non_unicode_codepoint_collation"}.
+   Qry = "
+         deep-equal(<a><b x=\"abc\"/></a>, <a><b x=\"ABC\"/></a>,
+             \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+      ",
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{'context-item', [""]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqDeepEqualFunc-58.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-59'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"non_unicode_codepoint_collation"}.
+   Qry = "
+         deep-equal(<a><b>abc</b></a>, <a><b>ABC</b></a>,
+             \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+      ",
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{'context-item', [""]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqDeepEqualFunc-59.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-60'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"non_unicode_codepoint_collation"}.
+   Qry = "
+         deep-equal(<a><b>abc</b></a>, <a><B>abc</B></a>,
+             \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+      ",
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{'context-item', [""]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqDeepEqualFunc-60.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-61'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"non_unicode_codepoint_collation"}.
+   Qry = "
+         deep-equal(<a><b x=\"abc\"/></a>, <a><b X=\"abc\"/></a>,
+             \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+      ",
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{'context-item', [""]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqDeepEqualFunc-61.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "False"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-62'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"non_unicode_codepoint_collation"}.
+   Qry = "
+         let $deep := deep-equal(?, ?, \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+         return $deep(<a><b>abc</b></a>, <a><b>ABC</b></a>)
+      ",
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{'context-item', [""]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqDeepEqualFunc-62.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-63'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"non_unicode_codepoint_collation"}.
+   Qry = "
+         let $deep := deep-equal#3 
+         return $deep(<a><b>abc</b></a>, <a><b>ABC</b></a>, 
+                      \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")
+      ",
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{'context-item', [""]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqDeepEqualFunc-63.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-64'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "deep-equal((\"a\", \"A\"), (\"A\", \"a\"), \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")",
@@ -3726,7 +3937,34 @@ environment('perverse',BaseDir) ->
    end.
 'K-SeqDeepEqualFunc-70'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"non_unicode_codepoint_collation"}.
+   Qry = "
+         let $deep := deep-equal(?, ?, \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")
+         return $deep(<a><b>abc</b></a>, <a><b>ABC</b></a>)
+      ",
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{'context-item', [""]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqDeepEqualFunc-70.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'K-SeqDeepEqualFunc-71'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "

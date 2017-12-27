@@ -743,8 +743,7 @@ handle_node(State, {postfix, #xqVarRef{name = Name} = Ref, [{arguments,Args}]}) 
                             true ->
                                {IParams, IType}
                          end;
-                      #xqSeqType{type = UType} ->
-                         %?dbg("UType",UType),
+                      #xqSeqType{} ->
                          {[],FType}
                    end,
    %?dbg("Type",Type),
@@ -3104,8 +3103,7 @@ x(G, Map, Parent, 'context-item') ->
    digraph:add_vertex(G, context_item),
    add_edge(G, context_item, Parent),
    Map;
-x(_G, Map, Parent, Data) ->
-   %?dbg("dead end??",{?LINE, {Parent, Data}}),
+x(_, Map, _, _) ->
    Map.
 
 xf(G, Map, Parent, #xqFlwor{loop = Loop, return = Ret}) ->
@@ -4151,7 +4149,7 @@ check_fun_arg_types(_State, Args, any) ->
 check_fun_arg_types(State, Args, ArgTypes) ->
    Arg_ArgTypes = lists:zip(Args, ArgTypes),
    Fun = fun({Arg, ArgType}) ->
-               ?dbg("ArgS",get_statement(Arg)),
+               %?dbg("ArgS",get_statement(Arg)),
                ?dbg("ArgType",ArgType),
                %?dbg("ArgT",get_statement_type(Arg)),
                S1 = check_fun_arg_type(State, Arg, ArgType),
@@ -4301,7 +4299,7 @@ get_array_type(O) ->
 % for now until other stuff fixed
 check_type_match(A, A) -> 
    true;
-check_type_match(A, undefined) -> 
+check_type_match(_, undefined) -> 
    true;
 
 % everything is an item

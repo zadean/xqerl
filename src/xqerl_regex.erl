@@ -95,10 +95,10 @@ translate_1({char,C}) when is_list(C) -> C;
 translate_1({char,C}) -> [C];
 translate_1({char_class,Cc}) -> 
    Range = xq_unicode:range(Cc),
-   "(?i:[" ++ xq_unicode:range_to_regex(Range) ++ "])";
+   "(?-i:[" ++ xq_unicode:range_to_regex(Range) ++ "])";
 translate_1({neg_char_class,Cc}) -> 
    Range = xq_unicode:range(Cc),
-   "(?i:[^" ++ xq_unicode:range_to_regex(Range) ++ "])";
+   "(?-i:[^" ++ xq_unicode:range_to_regex(Range) ++ "])";
 translate_1({paren,RegEx}) ->
    "("++ translate_1(RegEx) ++")";
 translate_1({nc_paren,RegEx} ) ->
@@ -457,40 +457,48 @@ chop_to(Int,_Max,Acc) ->
 % http://www.regular-expressions.info/shorthand.html - \i \c \I \C (XML shorthand)
 % returns {MatchesZeroLengthString, MP}
 regex_comp(Expr0,Flags) ->
-   try
-      %?dbg("Expr0",Expr0),
-      FlagList1 = regex_flags(Flags),
-      X = lists:member(extended, FlagList1),
-      FlagList = FlagList1 ++ [{newline, any}, unicode, ucp, no_start_optimize],
-      Opts = FlagList -- [do_qe],
-      Q = [F || F <- FlagList, F == do_qe],
-      Expr = if X ->
-                   strip_esc_ws(Expr0);
-                true ->
-                   Expr0
-             end,
-      %?dbg("Expr ",Expr),
-      Expr1 = if Q == [] -> translate(Expr);
-                 true -> "\\Q" ++ Expr ++ "\\E"
-              end,
-      %?dbg("Expr1",Expr1),
-      {ok, MP} = re:compile(Expr1, Opts),
-      case catch re:run("",MP) of
-         nomatch ->
-            {false,MP};
-         {match,_} ->
-            {true,MP};
-         _ ->
-            {false,MP}
-      end
-   catch 
-      _:#xqError{} = E -> 
-         ?dbg("E",erlang:get_stacktrace()),
-         throw(E);
-      _:_ -> 
-         ?dbg("E",erlang:get_stacktrace()),
-         ?err('FORX0002')
+   case ?get({regex,Expr0,Flags}) of 
+      [] ->
+         try
+            %?dbg("Expr0",Expr0),
+            FlagList1 = regex_flags(Flags),
+            X = lists:member(extended, FlagList1),
+            FlagList = FlagList1 ++ [{newline, any}, unicode, ucp, no_start_optimize],
+            Opts = FlagList -- [do_qe],
+            Q = [F || F <- FlagList, F == do_qe],
+            Expr = if X ->
+                         strip_esc_ws(Expr0);
+                      true ->
+                         Expr0
+                   end,
+            %?dbg("Expr ",Expr),
+            Expr1 = if Q == [] -> translate(Expr);
+                       true -> "\\Q" ++ Expr ++ "\\E"
+                    end,
+            %?dbg("Expr1",Expr1),
+            {ok, MP} = re:compile(Expr1, Opts),
+            Out = case catch re:run("",MP) of
+               nomatch ->
+                  {false,MP};
+               {match,_} ->
+                  {true,MP};
+               _ ->
+                  {false,MP}
+            end,
+            ?put({regex,Expr0,Flags},Out),
+            Out
+         catch 
+            _:#xqError{} = E -> 
+               ?dbg("E",erlang:get_stacktrace()),
+               throw(E);
+            _:_ -> 
+               ?dbg("E",erlang:get_stacktrace()),
+               ?err('FORX0002')
+         end;
+      O ->
+         O
    end.
+
 
 strip_esc_ws([]) -> [];
 strip_esc_ws([$[|T]) -> 

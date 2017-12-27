@@ -152,12 +152,18 @@ declare function local:print-testcase($test-case)
     "   {skip,""higherOrderFunctions""}" :)
     (: else if ($deps[@type = "feature" and @value = "moduleImport"]) then 
     "   {skip,""moduleImport""}" :)
-    else if ($deps[@type = "feature" and @value = "staticTyping"]) then 
-    "   {skip,""staticTyping""}"
+    
+    else if ($deps[@type = "feature" and @value = "advanced-uca-fallback"]) then 
+    "   {skip,""advanced-uca-fallback""}"
+    (: else if ($deps[@type = "feature" and @value = "non_unicode_codepoint_collation"]) then 
+    "   {skip,""non_unicode_codepoint_collation""}" :)
+
     (: else if ($deps[@type = "feature" and @value = "infoset-dtd"]) then 
     "   {skip,""infoset-dtd""}" :)
     (: else if ($deps[@type = "feature" and @value = "namespace-axis"]) then 
     "   {skip,""namespace-axis""}" :)
+    else if ($deps[@type = "feature" and @value = "staticTyping"]) then 
+    "   {skip,""staticTyping""}"
     else if ($deps[@type = "feature" and @value = "fn-load-xquery-module" and @satisfied = "true" ]) then
     "   {skip,""load-xquery-module""}"
     else if ($deps[@type = "feature" and @value = "fn-transform-XSLT" and @satisfied = "true" ]) then
@@ -182,10 +188,6 @@ declare function local:print-testcase($test-case)
     "   {skip,""collection-stability""}"
     else if ($deps[@type = "feature" and @value = "directory-as-collection-uri"]) then 
     "   {skip,""directory-as-collection-uri""}"
-    else if ($deps[@type = "feature" and @value = "non_unicode_codepoint_collation"]) then 
-    "   {skip,""non_unicode_codepoint_collation""}"
-    else if ($deps[@type = "feature" and @value = "advanced-uca-fallback"]) then 
-    "   {skip,""advanced-uca-fallback""}"
     else if ($deps[@type = "feature" and @value = "typedData"]) then 
     "   {skip,""typedData""}"
     else if ($deps[@type = "feature" and @value = "schema-location-hint"]) then 
@@ -314,6 +316,7 @@ declare function local:print-environment($env,$case)
   let $resources       := $env/*:resource
   let $modules         := $env/*:module | $env/../*:module
   let $dec-formats     := $env/*:decimal-format
+  let $def-collation   := $env/*:collation[@default = 'true']
   let $is-local        := base-uri($env) eq base-uri($case)
   return 
   "environment('"||$name||"',BaseDir) ->" || '&#10;' ||
@@ -330,6 +333,11 @@ declare function local:print-environment($env,$case)
               ||"]}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
+  (
+    if (exists($def-collation)) then
+    "{'default-collation', """||$def-collation/@uri||"""},"|| '&#10;'
+    else ()
+  ) ||
   "{sources, ["||
   (
     for $res in $sources
@@ -431,6 +439,7 @@ declare function local:print-local-environment($env as item()*) as item()*
   let $resources       := $env/*:environment/*:resource 
   let $modules         := $env/*:environment/*:module | $env/*:module
   let $dec-formats     := $env/*:environment/*:decimal-format
+  let $def-collation   := $env/*:environment/*:collation[@default = 'true']
   let $context-item    := $env/*:environment/*:context-item
 
   return (
@@ -456,6 +465,11 @@ declare function local:print-local-environment($env as item()*) as item()*
               ||"]}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
+  (
+    if (exists($def-collation)) then
+    "{'default-collation', """||$def-collation/@uri||"""},"|| '&#10;'
+    else ()
+  ) ||
   "{sources, ["||
   (
     for $res in $sources

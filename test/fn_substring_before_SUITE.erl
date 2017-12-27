@@ -788,7 +788,32 @@ environment('array-and-map',BaseDir) ->
    end.
 'fn-substring-before-24'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   {skip,"non_unicode_codepoint_collation"}.
+   Qry = "substring-before(\"banana\", \"A\",
+         \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{'context-item', [""]},
+{vars, []},
+{params, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-substring-before-24.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"\"b\"") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'fn-substring-before-25'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "substring-before(\"𐀁𐀂𐀃\", \"𐀂\")",

@@ -56,7 +56,7 @@ uca(Opts) ->
 %% ====================================================================
 
 get_fun({en,Strength,MaxVar,Alternate,Backwards,true,CaseFirst}) ->
-   Strength1 = case lists:member(3, Strength) of true -> Strength; _ -> lists:sort(Strength ++ [3]) end,
+   Strength1 = case lists:member(3, Strength) of true -> Strength; _ -> lists:sort(Strength ++ [2.5]) end,
    get_fun({en,Strength1,MaxVar,Alternate,Backwards,false,CaseFirst});
 get_fun({en,Strength,MaxVar,Alternate,Backwards,false,CaseFirst}) ->
    ImplQuat = Alternate == shifted,
@@ -79,6 +79,7 @@ get_fun({en,Strength,MaxVar,Alternate,Backwards,false,CaseFirst}) ->
                         true -> Strength; 
                         _ when ImplQuat -> lists:sort(Strength ++ [4]);
                         _ -> Strength end,
+         %?dbg("Strength1",Strength1),
          << if L == 2 andalso Backwards == yes ->
                   (level_part_key(W2, L, reverse));
                L == 5 ->
@@ -102,20 +103,30 @@ parse_options(#{fallback      := Fallback,
                 caseFirst     := CaseFirst,
                 numeric       := Numeric,   % not implemented
                 reorder       := Reorder    % not implemented
-               }) ->
+               } = M) ->
    Fb = parse_yes_no(Fallback) == yes, % can fallback boolean()
+   if Fb ->
+         ok;
+      true ->
+         List = [fallback,lang,version,strength,maxVariable,alternate,backwards,normalization,caseLevel,caseFirst,numeric,reorder],
+         case lists:all(fun(I) -> lists:member(I, List) end, maps:keys(M)) of
+            true ->
+               ok;
+            _ ->
+               throw({error,unknown_option})
+         end
+   end,
    Lang1 = case parse_lang(Lang) of 
               undefined when Fb -> en;
               undefined -> throw({error,unknown_language});
               CL -> CL
            end,                        
-    _ = case parse_version(Vers) of 
-           undefined when Fb -> ?UTIL:spec_version();
-           undefined -> throw({error,unsupported_version});
-           CV -> CV
+    _ = case catch parse_version(Vers) of 
+           _ when Fb -> ?UTIL:spec_version();
+           _ -> throw({error,unsupported_version})
         end,
    Strength1 = case parse_strength(Strength) of 
-                  undefined when Fb -> tertiary;
+                  undefined when Fb -> [1,2,3];
                   undefined -> throw({error,unknown_strength});
                   CS -> CS
                end, 
@@ -129,13 +140,24 @@ parse_options(#{fallback      := Fallback,
                   undefined -> throw({error,unknown_alternate});
                   CA -> CA
                end,
-   Backwards1 = parse_yes_no(Backwards),
+   Backwards1 =case parse_yes_no(Backwards) of
+                  undefined when Fb -> no;
+                  undefined -> throw({error,unknown_backwards});
+                  BA -> BA
+               end,
    _ = case parse_yes_no(Normalization) of
           yes when Fb -> no;
+          undefined when Fb -> no;
           yes -> throw({error,normalization});
+          undefined -> throw({error,normalization});
           _ -> no
        end,
-   CaseLevel1 = parse_yes_no(CaseLevel) == yes,
+   CaseLevel1 = case parse_yes_no(CaseLevel) of
+                   yes -> true;
+                   undefined when Fb -> false;
+                   undefined -> throw({error,unknown_caselevel});
+                   _ -> false
+                end,
    CaseFirst1 = case parse_casefirst(CaseFirst) of
                    undefined when Fb -> lower;
                    undefined -> throw({error,unknown_case});
@@ -143,7 +165,9 @@ parse_options(#{fallback      := Fallback,
                 end,
    _ = case parse_yes_no(Numeric) of
           yes when Fb -> no;
+          undefined when Fb -> no;
           yes -> throw({error,numeric_sort});
+          undefined -> throw({error,numeric_sort});
           _ -> no
        end,
    _ = case Reorder of
@@ -165,11 +189,15 @@ parse_yes_no("no") -> no;
 parse_yes_no("N") -> no;
 parse_yes_no("n") -> no;
 parse_yes_no("0") -> no;
-parse_yes_no(0) -> no.
+parse_yes_no(0) -> no;
+parse_yes_no(_) -> undefined.
 
 parse_lang(en) -> en;
 parse_lang(_) -> undefined.
 
+parse_version(Str) when is_list(Str) ->
+   [Maj,Min] = string:split(Str, "."),
+   parse_version({Maj,Min});
 parse_version({Maj,Min}) ->
    {CMaj,CMin} = ?UTIL:spec_version(),
    if CMaj > Maj -> {CMaj,CMin};
@@ -274,6 +302,13 @@ level_part_key(Weights,L,reverse) ->
    B = << <<W:16/integer>> || 
        E <- lists:reverse(Weights), 
        W <- [element(L, E)], 
+       W > 0>>,
+   <<0:16/integer,B/binary>>;
+level_part_key(Weights,2.5,_) ->
+   B = << <<W:16/integer>> || 
+       E <- Weights, 
+       W <- [element(3, E)], 
+       element(1, E) > 0, 
        W > 0>>,
    <<0:16/integer,B/binary>>;
 level_part_key(Weights,L,_) ->

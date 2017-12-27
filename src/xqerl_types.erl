@@ -160,19 +160,13 @@ string_value(Map) when is_map(Map) ->
 string_value(Fun) when is_function(Fun) ->
    ?err('XPTY0004');
 string_value(Seq) ->
-   %?dbg("Seq",Seq),
-   case Seq of 
-      {S,T} when is_integer(S) andalso is_tuple(T) ->
-         string_value(xqerl_node:new_fragment(Seq));
+   case ?seq:size(Seq) of
+      0 ->
+         "";
+      1 when is_list(Seq) ->
+         string_value(hd(Seq));
       _ ->
-         case ?seq:size(Seq) of
-            0 ->
-               "";
-            1 when is_list(Seq) ->
-               string_value(hd(Seq));
-            _ ->
-               lists:concat([string_value(hd(Seq))|[" "++ string_value(Av) || Av <- tl(Seq) ] ])
-         end
+         lists:concat([string_value(hd(Seq))|[" "++ string_value(Av) || Av <- tl(Seq) ] ])
    end.
 
 value(#xqNode{} = N) ->
@@ -459,7 +453,7 @@ seq_type_val_match(#xqSeqType{type = _Type, occur = one_or_many}, #xqSeqType{occ
    true;
 seq_type_val_match(#xqSeqType{type = _Type, occur = zero_or_many}, _V) ->
    true;
-seq_type_val_match(A, B) ->
+seq_type_val_match(_A, _B) ->
    %?dbg(?LINE,{A,B}),
    false.
 
@@ -867,9 +861,7 @@ instance_of( Seq, #xqSeqType{type = TType, occur = TOccur}) when TOccur == one_o
       true ->
          ?false
    end;
-instance_of(Seq,TType) ->
-   %?dbg("Seq",Seq),
-   %?dbg("TType",TType),
+instance_of(_,_) ->
    ?false.
 
 
@@ -893,10 +885,10 @@ check_param_types(Params, TargetParams) ->
    end.
 
 check_annotations(_Annos, []) -> true;
-check_annotations(Annos, TargetAnnos) -> true.
+check_annotations(_Annos, _TargetAnnos) -> true.
 
 check_return_type(_Type, any) -> true;
-check_return_type(Type, ReturnType) -> true.
+check_return_type(_Type, _ReturnType) -> true.
 
 
 instance_of1(#xqNode{node = Node, doc = {doc,File}}, Any) ->
@@ -1065,7 +1057,6 @@ instance_of1(Seq, Type) when is_list(Seq) ->
        end,
    lists:all(F, Seq);
 
-
 instance_of1(Seq, Type) ->
    IType = get_item_type(Seq),
    TType = get_type(Type),
@@ -1075,28 +1066,7 @@ instance_of1(Seq, Type) ->
    BTType = xqerl_btypes:get_type(TType),
    %?dbg("BIType",BIType),
    %?dbg("BTType",BTType),
-   xqerl_btypes:can_substitute(BIType, BTType);
-
-instance_of1(Singleton, Type) ->
-   true;
-instance_of1(Singleton, Type) ->
-   true;
-instance_of1(Singleton, Type) ->
-   true;
-instance_of1(Singleton, Type) ->
-   true;
-instance_of1(Singleton, Type) ->
-   true;
-instance_of1(Singleton, Type) ->
-   true;
-instance_of1(Singleton, Type) ->
-   true;
-instance_of1(Singleton, Type) ->
-   true;
-instance_of1(Singleton, Type) ->
-   true;
-instance_of1(Singleton, Type) ->
-   true.
+   xqerl_btypes:can_substitute(BIType, BTType).
 
 
 get_type(Type) when is_atom(Type) ->
@@ -1117,12 +1087,12 @@ get_item_type(Map) when is_map(Map) ->
    map;
 get_item_type({array,_}) ->
    array;
-get_item_type(O) ->
+get_item_type(_) ->
    %?dbg("get_item_type",O),
    item.
 
-get_item_list_type(_) ->
-   item.
+%% get_item_list_type(_) ->
+%%    item.
 
 get_array_type(_) ->
    item.
@@ -1147,8 +1117,7 @@ type_check(#xqSeqType{type = Type} = T1, #xqSeqType{type = TargetType} = T2) ->
          %?dbg(?LINE,{TargetType,Type}),
          false
    end;
-type_check(T1, T2) ->
-   %?dbg(?LINE,{T1,T2}),
+type_check(_, _) ->
    false.
 
 %% param_check(_, undefined) -> true;
@@ -1159,8 +1128,7 @@ param_check(L1, L2) when length(L1) == length(L2) ->
    lists:all(fun({A,B}) ->
                    type_check(A,B)
              end, lists:zip(L1, L2));
-param_check(T1, T2) ->
-   %?dbg(?LINE,{T1,T2}),
+param_check(_, _) ->
    false.
 
 fun_check(#xqFunTest{kind = function, name = Name1, type = RetType1, params = Params1},
@@ -1173,8 +1141,7 @@ fun_check(#xqFunTest{kind = function, name = Name1, type = RetType1, params = Pa
    %?dbg(?LINE, {ParamCheck, Params2, Params1}),
    NameCheck andalso TypeCheck andalso ParamCheck;
 
-fun_check(#xqFunTest{}=A,#xqFunTest{}=B) ->
-   %?dbg(?LINE, {A,B}),
+fun_check(#xqFunTest{},#xqFunTest{}) ->
    false.
 
 
@@ -1228,41 +1195,41 @@ cast_as( #xqAtomicValue{} = At, #xqSeqType{type = Type} ) ->
 
 cast_as( #xqNode{} = At, #xqKindTest{kind = node} ) -> 
    At;
-cast_as( #xqNode{} = At, #xqKindTest{kind = element, name = #qname{namespace = Ns,local_name = Ln}} ) ->
-   case xqerl_node:get_node(At) of
-      #xqElementNode{name = #qname{namespace = Ns,local_name = Ln}} ->
-         At;
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end;
-cast_as( #xqNode{} = At, #xqKindTest{kind = element} ) ->
-   case xqerl_node:get_node(At) of
-      #xqElementNode{} ->
-         At;
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end;
-cast_as( #xqNode{} = At, #xqKindTest{kind = attribute} ) ->
-   case xqerl_node:get_node(At) of
-      #xqAttributeNode{} ->
-         At;
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end;
-cast_as( #xqNode{} = At, #xqKindTest{kind = 'processing-instruction'} ) ->
-   case xqerl_node:get_node(At) of
-      #xqProcessingInstructionNode{} ->
-         At;
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end;
-cast_as( #xqNode{} = At, #xqKindTest{kind = 'document-node'} ) ->
-   case xqerl_node:get_node(At) of
-      #xqDocumentNode{} ->
-         At;
-      _ ->
-         xqerl_error:error('XPTY0004')
-   end;
+%% cast_as( #xqNode{} = At, #xqKindTest{kind = element, name = #qname{namespace = Ns,local_name = Ln}} ) ->
+%%    case xqerl_node:get_node(At) of
+%%       #xqElementNode{name = #qname{namespace = Ns,local_name = Ln}} ->
+%%          At;
+%%       _ ->
+%%          xqerl_error:error('XPTY0004')
+%%    end;
+%% cast_as( #xqNode{} = At, #xqKindTest{kind = element} ) ->
+%%    case xqerl_node:get_node(At) of
+%%       #xqElementNode{} ->
+%%          At;
+%%       _ ->
+%%          xqerl_error:error('XPTY0004')
+%%    end;
+%% cast_as( #xqNode{} = At, #xqKindTest{kind = attribute} ) ->
+%%    case xqerl_node:get_node(At) of
+%%       #xqAttributeNode{} ->
+%%          At;
+%%       _ ->
+%%          xqerl_error:error('XPTY0004')
+%%    end;
+%% cast_as( #xqNode{} = At, #xqKindTest{kind = 'processing-instruction'} ) ->
+%%    case xqerl_node:get_node(At) of
+%%       #xqProcessingInstructionNode{} ->
+%%          At;
+%%       _ ->
+%%          xqerl_error:error('XPTY0004')
+%%    end;
+%% cast_as( #xqNode{} = At, #xqKindTest{kind = 'document-node'} ) ->
+%%    case xqerl_node:get_node(At) of
+%%       #xqDocumentNode{} ->
+%%          At;
+%%       _ ->
+%%          xqerl_error:error('XPTY0004')
+%%    end;
 cast_as( #xqNode{} = At, TT ) ->
    Atomized = xqerl_node:atomize_nodes(At),
    %?dbg("Atomized",Atomized),
@@ -1776,8 +1743,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val}, 'xs:anyURI' ) -> % MAY
                      %?dbg("Bad",L),
                      xqerl_error:error('FORG0001')
                end;
-            X ->
-               %?dbg("Bad",X),
+            _ ->
                xqerl_error:error('FORG0001')
          end
    end;
@@ -2151,8 +2117,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                            value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:gYear')}}
       end
    catch _:#xqError{} = E -> throw(E);
-         %_:{badmatch,_} -> xqerl_error:error('FODT0001');
-         _:E -> %?dbg("E",E), 
+         _:_ -> 
             xqerl_error:error('FORG0001')
    end;
 
@@ -2589,7 +2554,7 @@ cast_as( #xqAtomicValue{type = 'xs:byte'} = Arg1, TT ) ->
    xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
 
 % block known types
-cast_as( #xqAtomicValue{type = Intype} = I, T ) when 
+cast_as( #xqAtomicValue{type = Intype}, T ) when 
    Intype == 'xs:unsignedInt';Intype == 'xs:string';Intype == 'xs:boolean';Intype == 'xs:decimal';
    Intype == 'xs:float';Intype == 'xs:double';Intype == 'xs:duration';Intype == 'xs:dateTime';
    Intype == 'xs:time';Intype == 'xs:date';Intype == 'xs:gYearMonth';Intype == 'xs:gYear';
@@ -2631,13 +2596,8 @@ cast_as( #xqAtomicValue{type = Intype} = I, T ) when
       true ->
          xqerl_error:error('XPTY0004');
       _ ->
-         %?dbg("unknown type",{I,T}),
          xqerl_error:error('XQST0052')
    end;
-
-cast_as( {[Ids],Doc}, TT ) ->
-   String = xqerl_node:atomize_nodes({[Ids],Doc}),
-   cast_as(String, TT);
 
 cast_as(Seq,#xqSeqType{type = T, occur = Occur}) when Occur == one ->
    case ?seq:size(Seq) of
@@ -2652,9 +2612,7 @@ cast_as(Seq,#xqSeqType{type = T, occur = Occur}) when Occur == one ->
       _ ->
          xqerl_error:error('XPTY0004')
    end;
-cast_as(Seq,T) ->
-   %?dbg("Seq",Seq),
-   %?dbg("T",T),
+cast_as(_,_) ->
    xqerl_error:error('XPTY0004').
 
 % namespace sensitive

@@ -728,6 +728,7 @@ handle_environment(List) ->
    Resources = proplists:get_value(resources, List) ,
    Modules = proplists:get_value(modules, List) ,
    DecFormats = proplists:get_value('decimal-formats', List, []) ,
+   DefCollation = proplists:get_value('default-collation', List, undefined) ,
 
 %% EmptyMap = #{namespaces => FinalState#state.known_ns,
 %%              variables => [],
@@ -746,6 +747,11 @@ handle_environment(List) ->
 %%              'copy-namespaces' => FinalState#state.copy_ns_mode,
 %%              body => Mod#xqModule{prolog = ContextItem ++ VarFunPart, % just for now
 %%                                   body = S1}
+   Map1 = if DefCollation == undefined ->
+                #{};
+             true ->
+                #{'default-collation' => DefCollation}
+          end,
    _ = lists:foreach(
                   fun({File,Uri}) ->
                         case xqerl_ds:exists_res(Uri) of
@@ -810,7 +816,7 @@ handle_environment(List) ->
                                  true ->
                                     {"declare variable "++Role++" := Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"');\n",Map}
                               end
-                        end, #{},Sources),
+                        end, Map1,Sources),
    Schemas1 = lists:map(fun({File,Uri}) ->
                               "import schema default element namespace '"++Uri++"' at '"++File++"';\n"
              end, Schemas),
