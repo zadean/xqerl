@@ -3,7 +3,7 @@ Erlang XQuery 3.1 Processor
 
 This is a currently a draft/proof-of-concept. Please don't try to use it for "real" computing (yet)!
 
-It is passing 98.7% its (~29k) test cases. The failing tests are mainly from features that have not been fully implemented.
+It is passing 98.7% its ~29k test cases. 2.1k cases are skipped. The failing tests are mainly from features that have not been fully implemented.
 
 
 ### Features it has:
