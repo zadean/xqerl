@@ -128,8 +128,8 @@ add_context_key(Map,named_functions,Ctx) ->
         'copy-namespaces'   => maps:get('copy-namespaces', Ctx),
         'default-collation' => maps:get('default-collation', Ctx),
         known_collations    => maps:get(known_collations, Ctx),
-        known_dec_formats   => maps:get(known_dec_formats, Ctx),
-        named_functions     => maps:get(known_fx_sigs, Ctx)%[]%  
+        known_dec_formats   => maps:get(known_dec_formats, Ctx)%,
+        %named_functions     => maps:get(known_fx_sigs, Ctx)%[]%  
        };
 
 add_context_key(Map,Key,Ctx) ->
@@ -269,7 +269,7 @@ scan_mod(#xqModule{prolog = Prolog,
    
    VarFun = fun(#xqVar{} = V) ->
                   {true,V};
-               ({'context-item',{_,_,V}}) ->
+               ({'context-item',{_,_,_} = V}) ->
                   {true,{'context-item',V}};
                (_) ->
                   false
@@ -282,6 +282,7 @@ scan_mod(#xqModule{prolog = Prolog,
                                         {true, xqerl_static:string_atom(N)};
                                      (_) -> false
                                   end,Prolog),
+   %?dbg("Prolog",Body),
    %?dbg("Imports",Imports),
    %?dbg("DefElNs",DefElNs),
    %?dbg("Namespaces",Namespaces),
@@ -328,6 +329,9 @@ scan_mod(#xqModule{prolog = Prolog,
        [],
        [ % body here
          {call,7,{remote,7,{atom,7,xqerl_context},{atom,7,init}},[]},
+         {call,7,{remote,7,{atom,7,xqerl_context},{atom,7,set_named_functions}},
+          [erl_term_abs(maps:get(known_fx_sigs,EmptyMap))]
+         },
          init_fun_abs(EmptyMap#{module => ModName}, [])
        ]}
     ]
@@ -376,35 +380,31 @@ body_function(ContextMap, Body,ImportedMods) ->
                       {call,?L,{remote,?L,{atom,?L,xqerl_lib},{atom,?L,lput}},[{atom,?L,V},{call,?L,{atom,?L,V},[{var,?L,CtxVar}]} ]},
                       CtxVar
                      };
-                  ({'context-item',V}, _CtxVar) ->
+                  ({'context-item',{CType,External,Expr}}, _CtxVar) ->
+                     NextVar = next_var_name(),
                      {{match,?L,{var,?L,'Ctx'}, 
-                       if V == [] -> % is context set?
-                             NextVar = next_var_name(),
-                             {block,?L,
-                             [{match,?L,{var,?L,NextVar}, 
-                               {call,?L,{remote,?L,{atom,?L,maps},{atom,?L,get}},
-                                [{atom,?L,context_item},{var,?L,'Options'},{nil,?L} ]}},
-                              {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_item}},
-                               [{var,?L,'Ctx0'},
-                                {var,?L,NextVar},
-                                {integer,?L,1},
-                                {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:integer'},
-                                           {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,size}},[{var,?L,NextVar}]}]}
-                                          ]}                                
-                              ]};
-                          true ->
-                             NextVar = next_var_name(),
-                             {block,?L,
-                             [{match,?L,{var,?L,NextVar}, expr_do(ContextMap, V)},
-                              {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_item}},
-                               [{var,?L,'Ctx0'},
-                                {var,?L,NextVar},
-                                {integer,?L,1},
-                                {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:integer'},
-                                           {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,size}},[{var,?L,NextVar}]}]}
-                                          ]}                                
-                             ]}
-                        end
+                      {block,?L,
+                       [{match,?L,{var,?L,NextVar}, 
+                         {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,promote}},[
+                          {call,?L,{remote,?L,{atom,?L,maps},{atom,?L,get}},
+                           [{atom,?L,'context-item'},{var,?L,'Options'},expr_do(ContextMap, Expr)]},
+                            expr_do(ContextMap, #xqSeqType{type = CType, occur = if External =:= external ->
+                                                                                       zero_or_one;
+                                                                                       %one;
+                                                                                    Expr =/= [] ->
+                                                                                       one;
+                                                                                    true ->
+                                                                                       zero_or_one
+                                                                                 end})]}},
+                        
+                        {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_context_item}},
+                         [{var,?L,'Ctx0'},
+                          {var,?L,NextVar},
+                          {integer,?L,1},
+                          {tuple,?L,[{atom,?L,xqAtomicValue},{atom,?L,'xs:integer'},
+                                     {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,size}},[{var,?L,NextVar}]}]}
+                                    ]}                                
+                       ]}
                       }, 'Ctx'}    
                 end,                 
    % reverse list that the dependencies are correct   
@@ -413,6 +413,7 @@ body_function(ContextMap, Body,ImportedMods) ->
                   {call,?L,{remote,?L,{atom,?L,Ns},{atom,?L,init}},[{var,?L,'Ctx0'}]}
             end,
    Imps = lists:map(ImpFun, ImportedMods),
+   %?dbg("Imps",Imps),
    %?dbg("BodyAbs",BodyAbs),
    %?dbg("VarSetAbs",VarSetAbs),
    [{function,?L,main,1,[{clause,?L,[{var,?L,'Options'}],[],
@@ -697,10 +698,17 @@ expr_do(Ctx, #xqFunction{id = _Id,
                          %as_seq check
                          {{var,?L, VarName}, NewMap}
                     end, Ctx1, Params),
+   NextNextCtxVar = next_ctx_var_name(),
+   Ctx3 = set_context_variable_name(Ctx2, NextNextCtxVar),
    Body = {'fun',?L,
     {clauses,
      [{clause,?L,[{var,?L, NextCtxVar}|ParamList],[],
-       [expr_do(Ctx2, Expr)]
+       [ % do not allow functions to access the current context item
+         {match,?L,{var,?L,NextNextCtxVar},
+           {var,?L, NextCtxVar} },
+           %{call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,set_empty_context_item}}, [ {var,?L, NextCtxVar}] }},
+          expr_do(Ctx3, Expr)
+       ]
       }]
     }
    },
@@ -837,7 +845,7 @@ expr_do(Ctx, {'or',Expr1,Expr2}) ->
 
 % instance of / castable
 expr_do(Ctx, {instance_of,Expr1,Expr2}) ->
-   %?dbg("instance_of abs",{Ctx, Expr2}),
+   ?dbg("instance_of abs",{Expr1, Expr2}),
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
    {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,instance_of}},[E1,E2]};
@@ -883,7 +891,7 @@ expr_do(Ctx, {promote_to, #xqFunction{body = Body} = Expr1,#xqSeqType{type = #xq
    expr_do(Ctx, Expr1#xqFunction{body = {promote_to, Body, Expr2}});
 expr_do(Ctx, {promote_to,Expr1,Expr2}) ->
    %?dbg("Body",{Expr1,Expr2}),
-   {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,cast_as_seq}},[expr_do(Ctx, Expr1),expr_do(Ctx, Expr2)
+   {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,promote}},[expr_do(Ctx, Expr1),expr_do(Ctx, Expr2)
    ]};
 
 expr_do(_Ctx, #xqSeqType{type = Atom, occur = O}) when is_atom(Atom) ->
@@ -932,7 +940,7 @@ expr_do(Ctx, {comp_cons, Expr}) ->
 expr_do(Ctx, {atomize, #xqFunction{body = Body} = Expr1}) ->
    expr_do(Ctx, Expr1#xqFunction{body = {atomize, Body}});
 expr_do(Ctx, {atomize, Expr0}) ->
-   {call,?L,{remote,?L,{atom,?L,xqerl_node},{atom,?L,atomize_nodes}},
+   {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,atomize}},
     [expr_do(Ctx, Expr0)]};
 
 
@@ -1508,6 +1516,8 @@ expr_do(Ctx, {postfix, Base, Preds }) when is_list(Preds) ->
                                                      if ArgAbs == [] -> {nil,?L};
                                                         true -> hd(ArgAbs)
                                                      end]}]},
+                                                 {clause,?L,[{nil,?L}],[],
+                                                  [{call,?L,{remote,?L,{atom,?L,xqerl_error},{atom,?L,error}},[{atom,?L,'XPTY0004'}]}]},
                                                  {clause,?L,
                                                   [{cons,?L,{var,?L,NextVar2},{nil,?L}}],
                                                   [[{call,?L,{remote,?L,{atom,?L,erlang},{atom,?L,is_map}},[{var,?L,NextVar2}]}]],
@@ -1555,7 +1565,8 @@ expr_do(Ctx, {postfix, Base, Preds }) when is_list(Preds) ->
                                                         if ArgAbs == [] -> {nil,?L};
                                                            true -> hd(ArgAbs)
                                                         end]}]
-                                                      }]}
+                                                      }
+                                                    ]}
                                                      ]}
                                                 ]}}, Abs
                                      ]};
@@ -2380,7 +2391,7 @@ window_loop(Ctx, #xqWindow{type = Type,
                   ]
                }
               ]},
-
+%{promote_to,Expr1,Expr2}
    WinFun2 = {function, ?L, FunctionName, 3,
               [{clause,?L, [{var,?L, '_'},{nil,?L},{var,?L, '_'}],[],
                 [{nil,?L}]},
@@ -3510,7 +3521,7 @@ abs_fun_test(Ctx,#xqFunTest{kind = Kind, annotations = Annos, name = Name, param
                        end, {nil,?L}, Annos)
      end,
      abs_qname(Ctx,Name),
-     if Params == any ->
+     if Params =:= any ->
            atom_or_string(any);
         is_atom(Params) ->
            {cons,?L,abs_seq_type(Ctx,Params), {nil,?L}};
@@ -3519,7 +3530,7 @@ abs_fun_test(Ctx,#xqFunTest{kind = Kind, annotations = Annos, name = Name, param
                              {cons,?L,abs_seq_type(Ctx,P), Abs}
                        end, {nil,?L}, Params)
      end,
-     if Params == any ->
+     if Type =:= any ->
            atom_or_string(any);
         true ->
            abs_seq_type(Ctx,Type)

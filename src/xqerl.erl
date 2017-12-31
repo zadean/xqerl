@@ -86,17 +86,18 @@ run(Str, Options) ->
    catch code:delete(xqerl_main),
    try
       Str2 = strip_comments(Str),
+      ?dbg("Str2",Str2),
       Tokens = scan_tokens(Str2),
-      %?dbg("Tokens",Tokens),
+%      ?dbg("Tokens",Tokens),
       _ = erlang:put(xquery_id, xqerl_context:init(self())),
       Tree = parse_tokens(Tokens),
-      %?dbg("Tree",Tree),
+%      ?dbg("Tree",Tree),
       Static = scan_tree_static(Tree,"xqerl_main"),
-      %?dbg("Static",maps:get(body, Static)),
+%      ?dbg("Static",maps:get(body, Static)),
       {_ModNs,_ModType,_ImportedMods,_VarSigs,_FunSigs,Ret} = scan_tree(Static),
       %?dbg("Ret",Ret),
       B = compile_abstract(Ret),
-      %print_erl(B),
+%      print_erl(B),
       erlang:erase(),
       Res = xqerl_main:main(Options),
       erlang:erase(),
@@ -109,7 +110,7 @@ run(Str, Options) ->
       _:E ->
          ?dbg("run",E),
          ?dbg("run",erlang:get_stacktrace()),
-         {'EXIT',E1} = (catch xqerl_error:error('XPST0003')),
+         {'EXIT',E1} = (catch xqerl_error:error('XPST0000')),
          E1
    end.
 
@@ -145,9 +146,9 @@ scan_tokens(Str) ->
 
 % returns Tree
 parse_tokens(Tokens) ->
-   try xqerl_parser:parse(Tokens) of
-      {ok, Tree} ->
-         Tree
+   try 
+      {ok, Tree} = xqerl_parser:parse(Tokens),
+      Tree
    catch
       _:#xqError{} = E ->
          ?dbg("parse_tokens",E),

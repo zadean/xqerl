@@ -205,6 +205,8 @@ flatten1([H|T]) ->
          xqerl_error:error('XPTY0004');
       _:badarg ->
          xqerl_error:error('XPTY0004');
+      _:function_clause ->
+         xqerl_error:error('XPTY0004');
       _:E ->
          throw(E)
    end.

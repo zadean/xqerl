@@ -810,7 +810,7 @@ handle_environment(List) ->
                               end,                                    
                               if Role == "." ->
                                     R = xqerl:run("Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"')"),
-                                    {"",Map#{context_item => R}};
+                                    {"",Map#{'context-item' => R}};
                                  Role == "" ->
                                     {"",Map};
                                  true ->
@@ -864,7 +864,7 @@ handle_environment(List) ->
                                     Map;
                                  (C,Map) ->
                                     R = xqerl:run(C),
-                                    Map#{context_item => R}
+                                    Map#{'context-item' => R}
                               end, Namespaces1, ContextItem),
    Namespaces2 = lists:map(fun({Uri,""}) ->
                                    "declare default element namespace '"++Uri++"';\n";

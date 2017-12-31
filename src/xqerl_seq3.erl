@@ -92,16 +92,16 @@ sequence(L) ->
    [L].
 
 ensure_one([A]) -> A;
-ensure_one(A) when is_list(A) -> xqerl_error:error('XPTY0004');
+ensure_one(A) when is_list(A) -> ?err('XPTY0004');
 ensure_one(A) -> A.
 
-ensure_one_or_more([]) -> xqerl_error:error('XPTY0004');
+ensure_one_or_more([]) -> ?err('XPTY0004');
 ensure_one_or_more([A]) -> A;
 ensure_one_or_more(A) -> A.
 
 ensure_zero_or_one([]) -> [];
 ensure_zero_or_one([A]) -> A;
-ensure_zero_or_one(A) when is_list(A) -> xqerl_error:error('XPTY0004');
+ensure_zero_or_one(A) when is_list(A) -> ?err('XPTY0004');
 ensure_zero_or_one(A) -> A.
 
 ensure_zero_or_more(A) -> A.
@@ -171,7 +171,7 @@ set_fun1(List1, List2, Fun) ->
          %?dbg("U3",U3),
          ?set:to_list(U3);
       _ ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 
@@ -180,14 +180,14 @@ singleton_value([V]) -> V;
 singleton_value(#xqFunction{body = V}) -> V;
 singleton_value(V) when not is_list(V) -> V;
 singleton_value(V) when is_list(V) -> 
-   xqerl_error:error('XPTY0004').
+   ?err('XPTY0004').
 
 singleton(V) when not is_list(V) ->
    [V];
 singleton([V]) ->
    [V];
 singleton(V) when is_list(V)->
-   xqerl_error:error('XPTY0004').
+   ?err('XPTY0004').
 
 subsequence(List,Start) when Start > 0 ->
    lists:sublist(List, Start);
@@ -233,9 +233,9 @@ insert(Seq1,Seq2,Pos) ->
    
 zip_with(_Ctx, _Fun,[],[]) -> [];
 zip_with(_Ctx, _Fun,[],_) ->
-   xqerl_error:error('XPTY0004');
+   ?err('XPTY0004');
 zip_with(_Ctx, _Fun,_,[]) ->
-   xqerl_error:error('XPTY0004');
+   ?err('XPTY0004');
 zip_with(Ctx, Fun,Seq1,Seq2) when is_function(Fun), is_list(Seq1), is_list(Seq2) ->
    Size = erlang:min(?MODULE:size(Seq1),?MODULE:size(Seq2)),
    NewCtx = xqerl_context:set_context_size(Ctx, int_rec(Size)),
@@ -253,7 +253,7 @@ zip_with(Ctx, Fun,Seq1,Seq2) ->
    if is_function(Fun1) ->
          zip_with(Ctx, Fun1,Seq1,Seq2);
       true ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 zip_with1(_Ctx, _Fun, {[],_List2}, _Pos, Acc ) -> Acc;
@@ -273,7 +273,7 @@ zip_with1(Ctx, Fun, {[H1|List1],[H2|List2]}, Pos,  Acc ) ->
       _:#xqError{} = E -> throw(E);
       _:_ ->
          ?dbg("error",erlang:get_stacktrace()),
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 for_each(_Ctx, Fun,Seq) when not is_list(Seq) -> 
@@ -289,7 +289,7 @@ for_each(Ctx, Fun,Seq) ->
    if is_function(Fun1) ->
          for_each(Ctx, Fun1,Seq);
       true ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 for_each1(_Ctx, _Fun, [], _Pos) -> [];
@@ -305,14 +305,18 @@ for_each1(Ctx, Fun, [H|T], Pos) ->
       _:E ->
          ?dbg("E",E),
          ?dbg("error",erlang:get_stacktrace()),
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 val_map(_Fun,[]) -> [];
 val_map(Fun,H) when not is_list(H) ->
    val_map(Fun,[H]);
 val_map(Fun,[H|T]) ->
-   Val = Fun(H),
+   %?dbg("Fun",Fun),
+   %?dbg("H",H),
+   Val = try Fun(H) 
+         catch _:#xqError{} = E -> throw(E);
+               _:_ -> ?err('XPTY0004') end,
    %?dbg("Val",Val),
    if is_list(Val) ->
          Val ++ val_map(Fun, T);
@@ -331,7 +335,7 @@ map(Ctx, Fun,Seq) ->
    if is_function(Fun1) ->
          map(Ctx, Fun1,Seq);
       true ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 map1(_Ctx, _Fun, [], _Pos) -> [];
@@ -352,7 +356,7 @@ map1(Ctx, Fun, [H|T], Pos) ->
          throw(E);
       _:_ ->
          ?dbg("error",erlang:get_stacktrace()),
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 node_map(Ctx, Fun, Seq) when not is_list(Seq) ->
@@ -372,12 +376,12 @@ node_map(Ctx, Fun, Seq) ->
                      from_list(Nodes);
                   _ ->
                      % mixed
-                     xqerl_error:error('XPTY0018')
+                     ?err('XPTY0018')
                end
          end;
       _ ->
          ?dbg("NOT All node",Seq),
-         xqerl_error:error('XPTY0019')
+         ?err('XPTY0019')
    end.
 
 
@@ -388,7 +392,7 @@ foldl(Ctx,Fun,Acc,Seq) ->
    if is_function(Fun1) ->
          foldl(Ctx,Fun1,Acc,Seq);
       true ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 foldl1(_Ctx,_Fun,Acc,[]) ->
@@ -403,7 +407,7 @@ foldr(Ctx,Fun,Acc,Seq) ->
    if is_function(Fun1) ->
          foldr(Ctx,Fun1,Acc,Seq);
       true ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 foldr1(_Ctx,_Fun,Acc,[]) ->
@@ -457,7 +461,7 @@ range(From, To) ->
          end;
          %range2(To1 - From1 + 1, To1,From1,[]);
       _ ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 range1(Curr,Max) when Curr =< Max ->
@@ -564,8 +568,9 @@ filter1(Ctx, Fun, [H|T], Pos) ->
    catch 
       _:#xqError{name = #xqAtomicValue{value = #qname{local_name = "XPTY0019"}}} ->
          % context was not a node when one was expected
-         xqerl_error:error('XPTY0020');
+         ?err('XPTY0020');
       _:#xqError{} = E ->
+         ?dbg("H",erlang:get_stacktrace()),
          throw(E)
   end.
 
@@ -625,7 +630,23 @@ get_seq_type1([],Curr) ->
 get_seq_type1([H|T],Curr) ->
    HType = get_item_type(H),
    HBType = xqerl_btypes:get_type(HType),
-   get_seq_type1(T,HBType band Curr).
+   case xqerl_btypes:is_numeric(HBType) of
+      true ->
+         case xqerl_btypes:is_numeric(Curr) of
+            true ->
+               New = HBType band Curr,
+               IsNum = xqerl_btypes:is_numeric(New),
+               if IsNum ->
+                     get_seq_type1(T,New);
+                  true ->
+                     get_seq_type1(T,xqerl_btypes:get_type('xs:numeric'))
+               end;
+            _ ->
+               get_seq_type1(T,HBType band Curr)
+         end;
+      _ ->
+         get_seq_type1(T,HBType band Curr)
+   end.
 
 get_item_type([Item]) ->
    get_item_type(Item);

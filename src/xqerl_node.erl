@@ -772,6 +772,8 @@ expand_nodes([#xqNode{} = Node|T],Preserve,Namespaces) ->
 %%    expand_nodes(List,Preserve,Namespaces);
 expand_nodes([#array{data = H}|T],Preserve,Namespaces) ->
    expand_nodes(H++T,Preserve,Namespaces);
+expand_nodes([#xqFunction{}|_],_,_) ->
+   ?err('XQTY0105');
 expand_nodes([H|T],Preserve,Namespaces) ->
    [H|expand_nodes(T,Preserve,Namespaces)];
 expand_nodes([],_Presrve,_Namespaces) -> [].

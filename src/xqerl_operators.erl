@@ -513,6 +513,8 @@ equal([Arg1], Arg2) ->
    equal(Arg1, Arg2);
 equal(Arg1, [Arg2]) ->
    equal(Arg1, Arg2);
+equal(#xqFunction{},_) -> ?err('FOTY0013');
+equal(_,#xqFunction{}) -> ?err('FOTY0013');
 equal(_, _) ->
    xqerl_error:error('XPTY0004').
 

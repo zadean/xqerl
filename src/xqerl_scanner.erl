@@ -1928,7 +1928,7 @@ scan_prefix(":" ++ T, Acc) ->
        {'NCName',_, []} ->
           {{'NCName',?L, lists:reverse(Acc)}, ":" ++ T1};
        {'NCName',_, [H2|_] = L1} ->
-          case xmerl_lib:is_letter(H2) of
+          case xmerl_lib:is_letter(H2) orelse H2 =:= $_ of
              true ->
                 %?dbg("LocalPart",LocalPart),
                 Prefix = {'NCName',?L, lists:reverse(Acc)},
@@ -2187,8 +2187,8 @@ lookforward_is_curly(T) ->
 
 qname_if_path(Tok, [], _Last) ->
    scan_name(Tok);
-qname_if_path(Tok, _, []) ->
-   scan_name(Tok);
+qname_if_path(Tok, R, []) ->
+   scan_name(Tok ++ R);
 qname_if_path(Tok, [H|T], Last) ->
    case xmerl_lib:is_namechar(H) of
       true ->
@@ -2334,6 +2334,12 @@ scan_comments([13,10|T], Depth, Type) ->
    [10|scan_comments(T, Depth, Type)];
 scan_comments([13|T], Depth, Type) ->
    [10|scan_comments(T, Depth, Type)];
+%% scan_comments("{" ++ T, 0, none) -> % start encl expr
+%%    ?dbg("H",0),
+%%    "{" ++ scan_comments(T, 0, "{");
+%% scan_comments("}" ++ T, 0, "{") -> % end encl expr
+%%    ?dbg("H",0),
+%%    "}" ++ scan_comments(T, 0, none);
 scan_comments("(#" ++ T, 0, none) -> % start pragma
    "(#" ++ scan_comments(T, 0, "(#");
 scan_comments("#)" ++ T, 0, "(#") -> % end pragma
@@ -2346,6 +2352,13 @@ scan_comments("\"" ++ T, 0, none) -> % start text
    [$"|scan_comments(T, 0, "\"")];
 scan_comments("\"" ++ T, 0, "\"") -> % end text
    [$"|scan_comments(T, 0, none)];
+
+%% scan_comments("(:" ++ T, Depth, "{") -> % start comment
+%%    ?dbg("H",Depth),
+%%    scan_comments(T, Depth + 1, "{");
+%% scan_comments(":)" ++ T, Depth, "{") when Depth > 1 -> % end comment
+%%    ?dbg("H",Depth),
+%%    scan_comments(T, Depth - 1, "{");
 
 scan_comments("(:" ++ T, Depth, none) -> % start comment
    scan_comments(T, Depth + 1, none);

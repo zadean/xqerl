@@ -1246,42 +1246,16 @@ init() ->
 main(Options) ->
     Ctx0 = xqerl_context:merge(init(), Options),
     Ctx = begin
-       Local__2 = maps:get(context_item, Options, []),
-       xqerl_context:set_context_item(Ctx0, Local__2, 1,
-                  {xqAtomicValue, 'xs:integer', xqerl_seq3:size(Local__2)})
+       Local__1 = xqerl_types:promote(maps:get('context-item', Options,
+                      xqerl_seq3:position_filter(Ctx0, {xqAtomicValue, 'xs:integer', 20},
+                                  xqerl_seq3:flatten([xqerl_seq3:range({xqAtomicValue,
+                                               'xs:integer', 1},
+                                              {xqAtomicValue,
+                                               'xs:integer', 17})]))),
+                  {xqSeqType, item, zero_or_one}),
+       xqerl_context:set_context_item(Ctx0, Local__1, 1,
+                  {xqAtomicValue, 'xs:integer', xqerl_seq3:size(Local__1)})
      end,
     begin
-      Query = xqerl_seq3:val_map(
-                fun(Local__1) when erlang:is_map(Local__1) ->
-                       xqerl_operators:lookup(Ctx, Local__1, {xqAtomicValue, 'xs:string', "arg"});
-                   ([Local__1]) when erlang:is_map(Local__1) ->
-                      xqerl_operators:lookup(Ctx, Local__1, {xqAtomicValue, 'xs:string', "arg"});
-                   ({array, _} = Local__1) ->
-                      xqerl_operators:lookup(Ctx, Local__1, {xqAtomicValue, 'xs:string', "arg"});
-                   (Ctx__1) ->
-                      Local__1 = xqerl_types:value(xqerl_fn:'function-lookup'(Ctx,
-                                     xqerl_fn:'QName'(Ctx,
-                                            {xqAtomicValue,
-                                             'xs:string',
-                                             "http://www.w3.org/2005/xquery-local-functions"},
-                                            {xqAtomicValue,
-                                             'xs:string', "missing"}),
-                                     {xqAtomicValue, 'xs:integer', 1})),
-                if erlang:is_function(Local__1) ->
-                  case Local__1 == fun xqerl_fn:concat/2 of
-                    true ->
-                        Local__1(Ctx, xqerl_seq3:flatten([{xqAtomicValue, 'xs:string', "arg"}]));
-                    _ -> Local__1(Ctx, {xqAtomicValue, 'xs:string', "arg"})
-                  end;
-                   true ->
-                     xqerl_operators:lookup(Ctx, Local__1, {xqAtomicValue, 'xs:string', "arg"})
-                end
-             end,
-             xqerl_fn:'function-lookup'(Ctx,
-                         xqerl_fn:'QName'(Ctx,
-                                {xqAtomicValue, 'xs:string',
-                                 "http://www.w3.org/2005/xquery-local-functions"},
-                                {xqAtomicValue, 'xs:string', "missing"}),
-                         {xqAtomicValue, 'xs:integer', 1})),
-      xqerl_types:return_value(Query)
+      Query = xqerl_context:get_context_item(Ctx), xqerl_types:return_value(Query)
     end.

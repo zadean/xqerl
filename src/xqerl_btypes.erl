@@ -233,8 +233,6 @@ is_numeric(_) ->
 
 
 
-
-
 get_type('item'                    ) ->   9223372036854775808 ;
 get_type('node'                    ) ->  11529215046068469760 ;
 get_type('attribute'               ) ->  11538222245323210752 ;

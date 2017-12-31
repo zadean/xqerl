@@ -161,8 +161,8 @@
 -export([get_variable_value/2]).
 -export([set_variable_values/1]).
 -export([add_variable_value/2]).
-%% -export([get_named_functions/0]).
-%% -export([set_named_functions/1]).
+-export([get_named_functions/0]).
+-export([set_named_functions/1]).
 -export([get_current_datetime/0]).
 -export([set_current_datetime/1]).
 -export([get_implicit_timezone/0]).
@@ -203,11 +203,11 @@ merge(#{namespaces := INs} = InitialContext, OuterContext) ->
 init() -> init(self()).
 
 init(Pid) ->
-   Docs = erlang:get('available-documents'),
-   Txts = erlang:get('available-text-resources'),
+%   Docs = erlang:get('available-documents'),
+%   Txts = erlang:get('available-text-resources'),
    erlang:erase(),
-   erlang:put('available-documents', Docs),
-   erlang:put('available-text-resources', Txts),
+%   erlang:put('available-documents', Docs),
+%   erlang:put('available-text-resources', Txts),
    
    Now = erlang:timestamp(),
    Key = {Pid, Now},
@@ -684,10 +684,10 @@ add_variable_value(Key, Value) ->
    New = gb_trees:enter(Key, Value, All),
    erlang:put('variable-values', New).
 
-%% get_named_functions() ->
-%%    erlang:get('named-functions').
-%% set_named_functions(Value) ->
-%%    erlang:put('named-functions', Value).
+get_named_functions() ->
+   erlang:get('named-functions').
+set_named_functions(Value) ->
+   erlang:put('named-functions', Value).
 
 get_current_datetime() ->
    erlang:get('current-datetime').

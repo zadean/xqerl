@@ -428,8 +428,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'LibraryModule'          -> 'ModuleDecl'          : {'$1', [], undefined}.
 
 'ModuleDecl'             -> 'module' 'namespace' 'NCName' '=' 'URILiteral' 'Separator' 
-                           : xqerl_context:add_statically_known_namespace('$5', value_of('$3')), 
-                           {'module-namespace', {'$5', value_of('$3')}}.
+                           : xqerl_context:add_statically_known_namespace("Q{"++'$5'++"}", value_of('$3')), 
+                           {'module-namespace', {"Q{"++'$5'++"}", value_of('$3')}}.
 
 'Separator'              -> ';'.
 
@@ -522,15 +522,15 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
                            : if '$3' == [] ->
                                     xqerl_error:error('XQST0088');
                                  true ->
-                                    xqerl_context:add_statically_known_namespace('$3', []),
-                                    {'$3', []}
+                                    xqerl_context:add_statically_known_namespace("Q{"++'$3'++"}", []),
+                                    {"Q{"++'$3'++"}", []}
                               end.
 'ModuleImport'           -> 'import' 'module' 'namespace' 'NCName' '=' 'URILiteral' 
                            : if '$6' == [] ->
                                     xqerl_error:error('XQST0088');
                                  true ->
-                                    xqerl_context:add_statically_known_namespace('$6', value_of('$4')),
-                                    {'$6', value_of('$4')}
+                                    xqerl_context:add_statically_known_namespace("Q{"++'$6'++"}", value_of('$4')),
+                                    {"Q{"++'$6'++"}", value_of('$4')}
                               end.
 %%% ignoring the "at" portion, everything must be pre-compiled before use TODO?
 %'ModuleImport'           -> 'import' 'module' 'URILiteral' 'at' 'URILiteralList' : {'module-import', '$3', undefined, '$5'}.
@@ -538,8 +538,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
                            : if '$6' == [] ->
                                     xqerl_error:error('XQST0088');
                                  true ->
-                                    xqerl_context:add_statically_known_namespace('$6', value_of('$4')),
-                                    {'$6', value_of('$4')}
+                                    xqerl_context:add_statically_known_namespace("Q{"++'$6'++"}", value_of('$4')),
+                                    {"Q{"++'$6'++"}", value_of('$4')}
                               end.
 
 'NamespaceDecl'          -> 'declare' 'namespace' 'NCName' '=' 'URILiteral' 
@@ -1585,7 +1585,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [216]    ParenthesizedItemType      ::=      "(" ItemType ")"  
 'ParenthesizedItemType'  -> '(' 'ItemType' ')' : '$2'.
 % [217]    URILiteral     ::=      StringLiteral  
-'URILiteral'             -> 'StringLiteral' : xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(value_of('$1')))).
+'URILiteral'             -> 'StringLiteral' : string:trim(xqerl_lib:shrink_spaces(value_of('$1'))).
+%'URILiteral'             -> 'StringLiteral' : xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(value_of('$1')))).
 %'URILiteral'             -> 'StringLiteral' : [{bin_element,?L,{string,?L,value_of('$1')},default,default}].
 % [218]    EQName      ::=      QName | URIQualifiedName
 'EQName'                 -> 'PrefixedName' : '$1'.
@@ -1728,12 +1729,8 @@ qname(pi, Ln) ->
       _ ->
          xqerl_error:error('XPTY0004')
    end,
-   LC = string:lowercase(Str),
-   if LC == "xml" ->
-         xqerl_error:error('XPST0003');
-      true ->
-         {qname,'no-namespace',[],Str}
-   end;
+   % allow "xml" here
+   {qname,'no-namespace',[],Str};
 
 %% qname(type, {qname,_,"xs",Ln}) ->
 %%    Ns = "xqerl_xs",

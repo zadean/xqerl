@@ -73,6 +73,7 @@ quantity -> 'QuantExact' : val('$1').
 %[72a] backReference ::= "\" [1-9][0-9]*
 atom -> 'NormalChar'       : {char,val('$1')}.
 atom -> '-'                : {char,"-"}.
+atom -> 'sub'              : {char,"-"}.
 atom -> charClass          : '$1'.
 atom -> '(' regExp ')'     : {paren,'$2'}.
 atom -> '('        ')'     : {char,"()"}.

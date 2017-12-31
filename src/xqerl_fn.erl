@@ -1375,11 +1375,13 @@ val_reverse([{_,V}|T], Acc) ->
                   true ->
                      Doc = xqerl_doc:retrieve_doc(ResVal),
                      ?put({doc,ResVal},Doc),
+                     %#xqNode{doc = Doc, node = xqerl_xdm:root(Doc)};
                      #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)};
                   _ ->
                      ?err('FODC0002')
                end;
             Doc ->
+               %#xqNode{doc = Doc, node = xqerl_xdm:root(Doc)}
                #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)}
          end
    catch _:_ ->
@@ -1603,6 +1605,8 @@ pct_encode3([H|T]) ->
                      #xqAtomicValue{type = 'xs:boolean', value = false} ->
                         false;
                      {'EXIT',#xqError{} = E} ->
+                        ?dbg("O",E),
+                        ?dbg("O",erlang:get_stacktrace()),
                         throw(E);
                      O ->
                         ?dbg("O",O),
@@ -1813,8 +1817,9 @@ get_static_function(Ctx,{#qname{namespace = "http://www.w3.org/2005/xpath-functi
          %?dbg("Arity",Arity),
          xqerl_error:error('XPST0017')
    end;
-get_static_function(Ctx,{#qname{namespace = Ns, local_name = Ln}, Arity}) ->
-   Sigs = maps:get(named_functions, Ctx),
+get_static_function(_Ctx,{#qname{namespace = Ns, local_name = Ln}, Arity}) ->
+   Sigs = xqerl_context:get_named_functions(),
+   %Sigs = maps:get(named_functions, Ctx),
    Lookup = [#xqFunction{annotations = Annotations,
                          name = Name1,
                          arity = Arity1,
@@ -2940,21 +2945,27 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
    
 
 %% This function takes as input an XML document represented as a string, and returns the document node at the root of an XDM tree representing the parsed document. 
+'parse-xml'(_,[]) -> [];
 'parse-xml'(#{'base-uri' := BaseUri},Arg1) ->
    String = xqerl_types:string_value(Arg1),
-   BaseUri1 = xqerl_types:string_value(BaseUri),
-   try
-      Doc = xqerl_doc:read_stream(String,BaseUri1),
-      Doc1 = xqerl_doc:doc_to_xqnode_doc(Doc),
-      Doc2 = #xqNode{doc = Doc1, node = xqerl_xdm:root(Doc1)},
-      xqerl_node:new_fragment(Doc2)
-   catch 
-      _:E ->
-         ?dbg("E",E),
-         ?err('FODC0006')
+   if String =:= [] ->
+         xqerl_node:new_fragment([]);
+      true ->
+         BaseUri1 = xqerl_types:string_value(BaseUri),
+         try
+            Doc = xqerl_doc:read_stream(String,BaseUri1),
+            Doc1 = xqerl_doc:doc_to_xqnode_doc(Doc),
+            Doc2 = #xqNode{doc = Doc1, node = xqerl_xdm:root(Doc1)},
+            xqerl_node:new_fragment(Doc2)
+         catch 
+            _:E ->
+               ?dbg("E",E),
+               ?err('FODC0006')
+         end
    end.
 
 %% This function takes as input an XML external entity represented as a string, and returns the document node at the root of an XDM tree representing the parsed document fragment. 
+'parse-xml-fragment'(_,[]) -> [];
 'parse-xml-fragment'(Ctx,Arg1) -> 
    'parse-xml'(Ctx,Arg1).
 

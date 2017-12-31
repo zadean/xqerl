@@ -94,8 +94,11 @@ is_date_type(_Type) -> false.
 
 atomize([]) -> [];
 atomize(#xqAtomicValue{} = A) -> A;
+atomize(#array{} = A) -> xqerl_array:flatten(#{}, A);
 atomize(#xqNode{} = N) -> 
    ?seq:singleton_value(xqerl_node:atomize_nodes(N));
+atomize(L) when is_list(L) -> 
+   lists:map(fun atomize/1, L);
 atomize(_) -> 
    xqerl_error:error('XPTY0004').
 
@@ -155,6 +158,8 @@ string_value(N) when is_record(N, xqElementNode);
 string_value(#xqNode{} = Nd) ->
    string_value(cast_as(Nd, 'xs:string'));
 
+string_value(#xqFunction{}) ->
+   ?err('FOTY0013');
 string_value(Map) when is_map(Map) ->
    ?err('FOTY0013');
 string_value(Fun) when is_function(Fun) ->
@@ -209,6 +214,8 @@ type(Seq) ->
 %%    Vals.
 
 % this function is for promoting/checking sequences for their types
+cast_as_seq(Vals, SeqType) when is_atom(SeqType) ->
+   cast_as_seq(Vals, #xqSeqType{type = SeqType});
 cast_as_seq([Vals], SeqType) ->
    cast_as_seq(Vals, SeqType);
 cast_as_seq(Vals, []) ->
@@ -225,7 +232,7 @@ cast_as_seq(Map, #xqSeqType{type = #xqFunTest{kind = map}}) ->
    Map;
 %% cast_as_seq(Map, #xqSeqType{type = #xqFunTest{kind = map}}) when is_map(Map) ->
 %%    Map;
-cast_as_seq(Av, #xqSeqType{type = 'xs:boolean'}) ->
+cast_as_seq(Av, #xqSeqType{type = 'xs:boolean'}) when not is_list(Av) ->
    cast_as(Av, 'xs:boolean');
 cast_as_seq(#xqAtomicValue{type = 'xs:anyURI'} = Av, #xqSeqType{type = 'xs:string'}) ->
    cast_as(Av,'xs:string');
@@ -240,7 +247,7 @@ cast_as_seq(#xqAtomicValue{type = AType} = Av, #xqSeqType{type = Type}) ->
       ?numeric(AType), ?numeric(Type) ->
          cast_as(Av,Type);
       true ->
-         xqerl_error:error('XPTY0004')
+         xqerl_error:error('FORG0001')
    end;
 cast_as_seq(#xqNode{} = Av, SeqType) ->
    cast_as(Av, SeqType);
@@ -259,7 +266,7 @@ cast_as_seq(Vals, #xqSeqType{type = #xqFunTest{kind = function}}) when is_list(V
    if All ->
          Vals;
       true ->
-         xqerl_error:error('XPTY0004')
+         xqerl_error:error('FORG0001')
    end;
 cast_as_seq(Vals, #xqSeqType{type = #xqFunTest{kind = array}}) when is_list(Vals) ->
    All = lists:all(fun(#array{}) ->
@@ -270,7 +277,7 @@ cast_as_seq(Vals, #xqSeqType{type = #xqFunTest{kind = array}}) when is_list(Vals
    if All ->
          Vals;
       true ->
-         xqerl_error:error('XPTY0004')
+         xqerl_error:error('FORG0001')
    end;
 cast_as_seq(Seq, #xqSeqType{type = 'xs:anyAtomicType'}) when is_list(Seq) ->
    lists:map(fun(#xqAtomicValue{} = Av) ->
@@ -315,7 +322,7 @@ cast_as_seq(Seq, #xqSeqType{type = Type, occur = Occur} = TargetSeqType) ->
                                               _ ->
                                                  try 
                                                     cast_as(Val, Type)
-                                                 catch _:_ -> xqerl_error:error('XPTY0004',?LINE)
+                                                 catch _:_ -> xqerl_error:error('FORG0001',?LINE)
                                                  end      
                                            end
                                      end, Seq);
@@ -329,12 +336,12 @@ cast_as_seq(Seq, #xqSeqType{type = Type, occur = Occur} = TargetSeqType) ->
                               _:#xqError{} = E -> 
                                  %?dbg(Seq,TargetSeqType),
                                  throw(E);
-                              _:_ -> xqerl_error:error('XPTY0004',?LINE)
+                              _:_ -> xqerl_error:error('FORG0001',?LINE)
                            end
                      end
                end;
             _ ->
-               xqerl_error:error('XPTY0004',?LINE)
+               xqerl_error:error('FORG0001',?LINE)
          end
    end.
 
@@ -395,6 +402,30 @@ kind_test_match(#xqSeqType{type = #xqKindTest{kind = Kind1,
          end
    end.
 
+fun_test_match(#xqSeqType{type = #xqFunTest{kind   = Kind1,
+                                            params = Params1,
+                                            type   = Type1}} = Ft1,
+               #xqSeqType{type = #xqFunTest{kind   = Kind2,
+                                            params = Params2,
+                                            type   = Type2}} = Ft2) ->
+   % maybe, so check name and type
+   if Kind1 =:= Kind2;
+      Kind1 =:= function ->
+         M = seq_type_val_match(Type1,Type2),
+         ?dbg("M",M),
+         case M of
+            false when Type1 =:= any ->
+               true;
+            false ->
+               false;
+            nocast ->
+               true;
+            _ ->
+               derives_from(Type1,Type2)
+         end;
+      true ->
+         false
+   end.
 
 %% -record(xqSeqType, {
 %%    type  = item :: atom(),
@@ -457,14 +488,84 @@ seq_type_val_match(_A, _B) ->
    %?dbg(?LINE,{A,B}),
    false.
 
+promote([],#xqSeqType{occur = zero}) -> [];
+promote([],#xqSeqType{occur = zero_or_one}) -> [];
+promote([],#xqSeqType{occur = zero_or_many}) -> [];
+promote(_,#xqSeqType{occur = zero}) ->
+   ?err('XPTY0004');
+promote([At],Type) ->
+   promote(At,Type);
+promote(List,#xqSeqType{occur = Occ}) when is_list(List) andalso Occ =:= zero;
+                                           is_list(List) andalso Occ =:= one;
+                                           is_list(List) andalso Occ =:= zero_or_one ->
+   ?dbg("List",List),
+   ?err('XPTY0004');
+promote(At,#xqSeqType{type = item}) ->
+   At;
+promote(#xqAtomicValue{} = At,#xqSeqType{type = 'xs:anyAtomicType'}) ->
+   At;
+promote(#xqNode{} = N,#xqSeqType{type = 'xs:anyAtomicType'}) ->
+   atomize(N);
+promote(#array{} = N,#xqSeqType{type = 'xs:anyAtomicType'}) ->
+   atomize(N);
+promote(List,#xqSeqType{type = 'xs:anyAtomicType'}) when is_list(List) ->
+   Fun = fun(#xqAtomicValue{} = A) ->
+               A;
+            (#xqNode{} = N) ->
+               atomize(N);
+            (_) ->
+               ?err('XPTY0004')
+         end,
+   lists:map(Fun, List);
+promote(#xqAtomicValue{type = Num1} = At,#xqSeqType{type = Num2}) when ?numeric(Num1) andalso ?numeric(Num2) ->
+   cast_as_seq(At,Num2);
+promote(#xqAtomicValue{type = 'xs:untypedAtomic'} = At,Type) ->
+   cast_as_seq(At,Type);
+promote(Map,#xqSeqType{type = #xqFunTest{kind = map}}) when is_map(Map) ->
+   Map;
+promote({array,_} = A,#xqSeqType{type = #xqFunTest{kind = array}}) ->
+   A;
 promote(At,Type) ->
    InType = type(At),
-   case subtype_of(InType,Type) of
+   ?dbg("InType",{At,InType,Type#xqSeqType.type}),
+   case subtype_of(InType,Type#xqSeqType.type) of
+      true when is_list(At) andalso InType =:= function ->
+         Tests = fun_to_fun_test(At),
+         case subtype_of(Tests, Type#xqSeqType.type) of
+            true ->
+               At;
+            _ ->
+               ?err('XPTY0004')
+         end;
+      true when is_list(At) ->
+         At;
+      true when is_record(At, xqAtomicValue) ->
+         cast_as(At,Type);
+      true when is_record(At, xqFunction) ->
+         At;
+      true when is_function(At) ->
+         At;
       true ->
          #xqAtomicValue{type = Type, value = value(At)};
+      
+      _ when is_record(Type#xqSeqType.type, xqFunTest) ->
+         ?err('XPTY0004');
+      _ when InType =:= 'xs:untypedAtomic' ->
+         try cast_as_seq(At,Type) catch _:_ -> ?err('FORG0001') end;
+      _ when ?numeric(InType) andalso ?numeric(Type#xqSeqType.type) ->
+         cast_as_seq(At,Type);
+      _ when InType =:= 'xs:anyURI' andalso Type#xqSeqType.type =:= 'xs:string' ->
+         cast_as_seq(At,Type);
+      _ when is_record(At, xqAtomicValue) ->
+         ?err('XPTY0004');
       _ ->
-         xqerl_error:error('FORG0006')
+         try cast_as_seq(At,Type) catch _:_ -> ?err('FORG0001') end
    end.
+
+
+fun_to_fun_test([]) -> [];
+fun_to_fun_test([#xqFunction{annotations = An, params = P, type = Ty }|T]) ->
+   [#xqFunTest{kind = function, annotations = An, params = P, type = Ty}|fun_to_fun_test(T)].
 
 % params subtype, type
 % subtype substitution allowed when true (don't cast the value, keep original type')
@@ -473,6 +574,11 @@ subtype_of(T, T) -> true;
 
 subtype_of(#xqFunTest{} = F1, #xqFunTest{} = F2) ->
    fun_check(F1,F2);
+
+subtype_of(Fs, #xqFunTest{} = F2) when is_list(Fs) ->
+   lists:all(fun(F) ->
+                   fun_check(F,F2)
+             end , Fs);
 
 subtype_of(T, #xqKindTest{kind = T}) -> true;
 subtype_of(T, #xqFunTest{kind = T}) -> true;
@@ -498,6 +604,7 @@ subtype_of(#xqKindTest{kind = 'processing-instruction', name = N1}, #xqKindTest{
 
 subtype_of('empty-sequence', _) -> true;
 subtype_of(_, item) -> true;
+subtype_of(Node, #xqKindTest{kind = Node}) -> true;
 subtype_of('document-node', #xqKindTest{kind = node}) -> true;
 subtype_of('element', #xqKindTest{kind = node}) -> true;
 subtype_of('comment', #xqKindTest{kind = node}) -> true;
@@ -875,6 +982,9 @@ check_param_types(Params, TargetParams) ->
          lists:all(fun({#xqSeqType{type = #xqKindTest{}} = P,
                         #xqSeqType{type = #xqKindTest{}} = T}) ->
                          kind_test_match(P, T);
+                      ({#xqSeqType{type = #xqFunTest{}} = P,
+                        #xqSeqType{type = #xqFunTest{}} = T}) ->
+                         fun_test_match(P, T);
                       ({#xqSeqType{type = P},
                         #xqSeqType{type = T}}) ->
                          P == T orelse subtype_of(T, P)
@@ -1011,8 +1121,8 @@ instance_of1(#xqFunction{annotations = Annos, params = Params, type = Type},
    if AnnoOk andalso ParamOk andalso TypeOk ->
          true;
       true ->
-         %?dbg("{AnnoOk,ParamOk,TypeOk}",{AnnoOk,ParamOk,TypeOk}),
-         %?dbg("Params, ListOfSeqTypes",{Params, ListOfSeqTypes}),
+         ?dbg("{AnnoOk,ParamOk,TypeOk}",{AnnoOk,ParamOk,TypeOk}),
+         ?dbg("Params, ListOfSeqTypes",{Params, ListOfSeqTypes}),
          false
    end;
 instance_of1(Map, #xqFunTest{kind = function, type = SeqType}) when is_map(Map) -> % map is function(anyAtomic,V)
@@ -1036,14 +1146,20 @@ instance_of1(Map, #xqFunTest{kind = map, params = Param, type = SeqType}) when i
          false
    end;
 
+% array is always function with single integer param
+instance_of1({array,_}, #xqFunTest{kind = function, params = [#xqSeqType{type = 'xs:integer',occur = one}]}) -> % array is a function arity 1
+   true;
 instance_of1({array,Array}, #xqFunTest{kind = function, params = SeqType}) -> % array is a function arity 1
    instance_of1({array,Array}, #xqFunTest{kind = array, type = SeqType});
-instance_of1({array,Array}, #xqFunTest{kind = array, type = SeqType}) ->
+instance_of1({array,Array}, #xqFunTest{kind = array, type = SeqType} = F) ->
+   %?dbg("{SeqType,Array}",{F,Array}),
    TypeOk = if SeqType == any ->
                   true;
                true ->
-                  ListType = get_array_type(Array),
-                  check_return_type(ListType, SeqType)
+                  lists:all(fun(AI) ->
+                                  instance_of(AI, SeqType) == {xqAtomicValue,'xs:boolean',true}
+                                  %check_return_type(get_list_type(AI), SeqType)
+                            end, Array)
             end,
    if TypeOk ->
          true;
@@ -1069,6 +1185,8 @@ instance_of1(Seq, Type) ->
    xqerl_btypes:can_substitute(BIType, BTType).
 
 
+get_type(#xqSeqType{type = Type}) ->
+   get_type(Type);
 get_type(Type) when is_atom(Type) ->
    Type;
 get_type(#xqKindTest{kind = Type}) ->
@@ -1094,8 +1212,55 @@ get_item_type(_) ->
 %% get_item_list_type(_) ->
 %%    item.
 
-get_array_type(_) ->
-   item.
+get_array_type(List) ->
+   T = get_list_type(List),
+   ?dbg("T",T),
+   T.
+
+get_list_type([]) -> #xqSeqType{type = 'empty-sequence', occur = zero};
+get_list_type([S]) -> #xqSeqType{type = get_item_type(S),occur = one};
+get_list_type(Types) when is_list(Types) ->
+   get_list_type(Types, []);
+get_list_type(S) -> #xqSeqType{type = get_item_type(S),occur = one}.
+
+get_list_type([], []) ->
+   #xqSeqType{type = 'empty-sequence', occur = zero};
+get_list_type([], BType) ->
+   #xqSeqType{type = xqerl_btypes:get_type(BType), occur = one_or_many};
+get_list_type([undefined|Types], Acc) ->
+   get_list_type(Types, Acc);
+get_list_type([H|Types], []) ->
+   if H == [] ->
+         get_list_type(Types, []);
+      is_list(H) ->
+         #xqSeqType{type = H1} = get_list_type(H, []),
+         get_list_type(Types, xqerl_btypes:get_type(H1));
+      true ->
+         get_list_type(Types, xqerl_btypes:get_type(get_item_type(H)))
+   end;
+get_list_type([H|Types], BType) ->
+   if H == [] ->
+         get_list_type(Types, BType);
+      true ->
+         H1 = if is_list(H) ->
+                    get_list_type(H);
+                 true ->
+                    get_item_type(H)
+              end,
+         HType = xqerl_btypes:get_type(H1),
+         HN = xqerl_btypes:is_numeric(HType),
+         BN = xqerl_btypes:is_numeric(BType),
+         if HN andalso BN ->
+               Item = xqerl_btypes:get_type('item'),
+               if Item == HType band BType ->
+                     get_list_type(Types, xqerl_btypes:get_type('xs:numeric'));
+                  true ->
+                     get_list_type(Types, HType band BType)
+               end;
+            true ->
+               get_list_type(Types, HType band BType)
+         end
+   end.
 
 
 construct_as(At,#xqSeqType{type = 'xs:error'}) ->
@@ -1134,11 +1299,11 @@ param_check(_, _) ->
 fun_check(#xqFunTest{kind = function, name = Name1, type = RetType1, params = Params1},
           #xqFunTest{kind = function, name = Name2, type = RetType2, params = Params2}) ->
    NameCheck = has_name(Name2,Name1),
-   %?dbg(?LINE, {NameCheck, Name1, Name2}),
-   TypeCheck = type_check(RetType2, RetType1),
-   %?dbg(?LINE, {TypeCheck, RetType2, RetType1}),
-   ParamCheck = param_check(Params2, Params1),
-   %?dbg(?LINE, {ParamCheck, Params2, Params1}),
+   ?dbg(?LINE, {NameCheck, Name1, Name2}),
+   TypeCheck = type_check(RetType1, RetType2),
+   ?dbg(?LINE, {TypeCheck, RetType2, RetType1}),
+   ParamCheck = param_check(Params1,Params2),
+   ?dbg(?LINE, {ParamCheck, Params2, Params1}),
    NameCheck andalso TypeCheck andalso ParamCheck;
 
 fun_check(#xqFunTest{},#xqFunTest{}) ->
@@ -2534,6 +2699,7 @@ cast_as( #xqAtomicValue{type = 'xs:long'} = Arg1, TT ) ->
    xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
 
 cast_as( #xqAtomicValue{} = Arg1, 'xs:int' ) -> 
+   ?dbg("Arg1",Arg1),
    IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
    if IntVal > 2147483647 orelse IntVal < -2147483648 ->
          xqerl_error:error('FORG0001');

@@ -39,6 +39,7 @@
 translate([]) -> [];
 translate(String) ->
    {ok,Tokens,_} = xq_regex_scanner:string(String),
+   %?dbg("Tokens",Tokens),
    case xq_regex_parser:parse(Tokens) of
       {ok,Tree} ->
          translate_1(Tree);
