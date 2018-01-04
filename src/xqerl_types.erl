@@ -23,6 +23,7 @@
 %% @doc Functions for casting types (Very messy!).
 
 -module(xqerl_types).
+-compile(inline_list_funcs).
 
 -export([return_value/1]).
 -export([value/1]).
@@ -545,6 +546,8 @@ promote(At,Type) ->
          At;
       true when is_function(At) ->
          At;
+      true when is_map(At) ->
+         At;
       true ->
          #xqAtomicValue{type = Type, value = value(At)};
       
@@ -583,6 +586,8 @@ subtype_of(Fs, #xqFunTest{} = F2) when is_list(Fs) ->
 subtype_of(T, #xqKindTest{kind = T}) -> true;
 subtype_of(T, #xqFunTest{kind = T}) -> true;
 subtype_of(T, #xqFunTest{kind = T}) -> true;
+
+subtype_of(map, #xqFunTest{kind = function, type = any}) -> true;
 
 %% subtype_of(_, #xqKindTest{kind = item}) -> true;
 

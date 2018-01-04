@@ -23,6 +23,7 @@
 %% @doc  JSON related functions for de-encoding from/to map/array
 
 -module(xqerl_json).
+-compile(inline_list_funcs).
 
 -include("xqerl.hrl").
 

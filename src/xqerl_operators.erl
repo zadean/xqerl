@@ -23,6 +23,7 @@
 %% @doc XQuery operator functions. the "op" functions in the spec.
 
 -module(xqerl_operators).
+-compile(inline_list_funcs).
 
 -define(MINFLOAT, -3.4028235e38).
 -define(MAXFLOAT,  3.4028235e38).

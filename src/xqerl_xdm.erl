@@ -23,6 +23,7 @@
 %% @doc XML Data Model  
 
 -module(xqerl_xdm).
+-compile(inline_list_funcs).
 
 %% XML doc is a map: #{file  => DocumentUri,- URI from the document during loading, doc-store lookup key
 %%                     base  => BaseUri,    - Base URI for the document. can be different than Doc URI, e.g. set in query, also overridden by xml:base
@@ -166,7 +167,7 @@ prefix(Doc, Node) ->
 prefix(_, [], _) -> [];
 % special case stand-alone attribute, attribute at position 2
 prefix(#{nodes := Nodes} = Doc, <<2:32,3:3,_:5,_:56,0:32>>, _) ->
-   Namespace = binary_part(Nodes,0,?BS),
+   Namespace = get_bin_part(Nodes,0,?BS),
    case dm_node_name(Doc, Namespace) of
       [] ->
          [];
@@ -293,7 +294,7 @@ root(#{nodes := <<_:32,2:3,_:93,A:32,3:3,B:93>>}) ->
    <<A:32,3:3,B:93>>;
 % the root node of the document. Does not have to be a document
 root(#{nodes := Nodes}) ->
-   MaybeRoot = binary_part(Nodes, 0, 16),
+   MaybeRoot = get_bin_part(Nodes, 0, ?BS),
    MRootSize = get_size(MaybeRoot),
    MultiRoot = byte_size(Nodes) =/= MRootSize * ?BS + ?BS,
    %?dbg("MRootSize",MRootSize),
@@ -307,10 +308,10 @@ root(#{nodes := Nodes}) ->
 root_1(<<>>) ->
    [];
 root_1(Bin) ->
-   Root = binary_part(Bin, 0, 16),
+   Root = get_bin_part(Bin, 0, ?BS),
    Size = get_size(Root),
    BSize = byte_size(Bin),
-   [Root|root_1( binary_part(Bin, Size * ?BS + ?BS, BSize - (Size * ?BS + ?BS)) )].
+   [Root|root_1( get_bin_part(Bin, Size * ?BS + ?BS, BSize - (Size * ?BS + ?BS)) )].
 
 
 
@@ -323,9 +324,9 @@ dm_attributes(_Doc,<<_Id:32,1:3,0:5,_Nsp:8,_Name:16,_Offset:32,_Size:32>>) -> % 
    [];
 dm_attributes(#{nodes := Nodes},<<Id:32,1:3,AtNsSize:5,_Nsp:8,_Name:16,_Offset:32,Size:32>>) ->
    Possible = if AtNsSize == 31 ->
-                    binary_part(Nodes, Id * ?BS, Size * ?BS);
+                    get_bin_part(Nodes, Id * ?BS, Size * ?BS);
                  true ->
-                    binary_part(Nodes, Id * ?BS, AtNsSize * ?BS)
+                    get_bin_part(Nodes, Id * ?BS, AtNsSize * ?BS)
               end,
    get_attributes_1(Possible);
 dm_attributes(_Doc,_Node) ->
@@ -364,7 +365,7 @@ augment_base_uri(_,_,CurrentBase,[],_,_) -> CurrentBase;
 augment_base_uri(Texts,Nodes,CurrentBase,[<<_:32,0:3,_:61,_:32>>|Rest],NsId,LnId) ->
    augment_base_uri(Texts,Nodes,CurrentBase,Rest,NsId,LnId);
 augment_base_uri(Texts,Nodes,CurrentBase,[<<Id:32,1:3,_:61,Size:32>>|Rest],NsId,LnId) ->
-   Possible = binary_part(Nodes, Id * ?BS, Size * ?BS),
+   Possible = get_bin_part(Nodes, Id * ?BS, Size * ?BS),
    %{_, Resolved} = xqerl_lib:resolve_against_base_uri(Base, XmlBase)
    case get_attribute_by_eqname(Possible,NsId,LnId) of
       [] ->
@@ -378,13 +379,13 @@ augment_base_uri(Texts,Nodes,CurrentBase,[<<Id:32,1:3,_:61,Size:32>>|Rest],NsId,
 % return all child nodes for an element or document, 
 % children can not be namespace, attribute, or document nodes
 dm_children(#{nodes := Nodes},<<Id:32,0:64,Size:32>>) ->
-   Possible = binary_part(Nodes, Id * ?BS, Size * ?BS),
+   Possible = get_bin_part(Nodes, Id * ?BS, Size * ?BS),
    get_children_1(Possible);
 dm_children(#{nodes := Nodes},<<Id:32,1:3,_AtNsSize:5,_Nsp:8,_Name:16,_Offset:32,Size:32>>) ->
-   Possible = binary_part(Nodes, Id * ?BS, Size * ?BS),
+   Possible = get_bin_part(Nodes, Id * ?BS, Size * ?BS),
    %?dbg("Possible",Possible),
    %?dbg("Nodes",Nodes),
-   %Possible = binary_part(Nodes, (Id * ?BS) + (AtNsSize * ?BS), (Size - AtNsSize) * ?BS),
+   %Possible = get_bin_part(Nodes, (Id * ?BS) + (AtNsSize * ?BS), (Size - AtNsSize) * ?BS),
    get_children_1(Possible);
 dm_children(#{nodes := _Nodes},_Node) ->
    [].
@@ -414,9 +415,9 @@ dm_namespace_nodes(_Doc,<<_:32,1:3,0:5,_:96>>) -> % no atts/ns
    [];
 dm_namespace_nodes(#{nodes := Nodes},<<Id:32,1:3,AtNsSize:5,_Nsp:8,_Name:16,_Offset:32,Size:32>>) ->
    Possible = if AtNsSize == 31 ->
-                    binary_part(Nodes, Id * ?BS, Size * ?BS);
+                    get_bin_part(Nodes, Id * ?BS, Size * ?BS);
                  true ->
-                    binary_part(Nodes, Id * ?BS, AtNsSize * ?BS)
+                    get_bin_part(Nodes, Id * ?BS, AtNsSize * ?BS)
               end,
    get_namespaces_1(Possible);
 dm_namespace_nodes(_Doc,_Node) ->
@@ -475,16 +476,16 @@ dm_parent(#{nodes := _Nodes},<<1:32,N:3,_:61,_:32>>) when N > 1 -> [];
 % element with parent
 dm_parent(#{nodes := Nodes},<<Id:32,1:3,_:29,Offset:32,_:32>>) ->
    ParPos = (Id - Offset -1) * ?BS,
-   binary_part(Nodes, ParPos, ?BS);
+   get_bin_part(Nodes, ParPos, ?BS);
 % all other nodes with parent
 dm_parent(#{nodes := Nodes},<<Id:32,_:64,Offset:32>>) ->
    ParPos = (Id - Offset - 1) * ?BS,
-   binary_part(Nodes, ParPos, ?BS).
+   get_bin_part(Nodes, ParPos, ?BS).
 
 dm_string_value(#{nodes := Nodes,
                   texts := Texts},<<Id:32,N:3,_:61,Size:32>>) when N == 0;
                                                                    N == 1 ->
-   Possible = binary_part(Nodes, Id * ?BS, Size * ?BS),
+   Possible = get_bin_part(Nodes, Id * ?BS, Size * ?BS),
    AllTexts = get_texts_1(Possible),
    lists:flatmap(fun(<<_:64,Value:32,_:32>>) ->
                        maps:get(Value,Texts)
@@ -739,12 +740,18 @@ lookup_by_value(Map, Value) ->
 lookup_by_key(Map, Key) ->
    maps:get(Key, Map, []).
 
+get_bin_part(Bin,Part) ->
+   (binary_part(Bin,Part)).
+
+get_bin_part(Bin,Start,Size) ->
+   (binary_part(Bin,Start,Size)).
+
 % ignore attributes
 get_namespaces_1(<<_:32,3:3,_:93,Rest/binary>>) ->
    get_namespaces_1(Rest);
 % collect namespaces
 get_namespaces_1(<<_:32,2:3,_:93,Rest/binary>> = Bin) ->
-   [binary_part(Bin, {0,?BS})|get_namespaces_1(Rest)];
+   [get_bin_part(Bin, {0,?BS})|get_namespaces_1(Rest)];
 % end of the road
 get_namespaces_1(_) ->
    [].
@@ -754,43 +761,43 @@ get_attributes_1(<<_:32,2:3,_:93,Rest/binary>>) ->
    get_attributes_1(Rest);
 % collect attributes
 get_attributes_1(<<_:32,3:3,_:93,Rest/binary>> = Bin) ->
-   [binary_part(Bin, {0,?BS})|get_attributes_1(Rest)];
+   [get_bin_part(Bin, {0,?BS})|get_attributes_1(Rest)];
 % end of the road
 get_attributes_1(_) ->
    [].
 
 get_texts_1(<<_:32,4:3,_:93,Rest/binary>> = Bin) ->
-   [binary_part(Bin, {0,?BS})|get_texts_1(Rest)];
+   [get_bin_part(Bin, {0,?BS})|get_texts_1(Rest)];
 get_texts_1(<<_:128,Rest/binary>>) ->
    get_texts_1(Rest);
 get_texts_1(<<>>) ->
    [].
 
 get_children_1(<<_:32,1:3,_:5,_:8,_:16,_:32,Size:32,_/binary>> = Bin) when Size > 0 ->
-   Child = binary_part(Bin, {0,?BS}),
+   Child = get_bin_part(Bin, {0,?BS}),
    %?dbg("Child",Child),
    NextPoint = (Size + 1) * ?BS,
    Next  = if NextPoint >= byte_size(Bin) ->
                  <<>>;
               true ->
-                 binary_part(Bin, {NextPoint, byte_size(Bin) - NextPoint })
+                 get_bin_part(Bin, {NextPoint, byte_size(Bin) - NextPoint })
            end,
    %?dbg("Next",Next),
    [Child|get_children_1(Next)];
 get_children_1(<<_:32,1:3,_:5,_:8,_:16,_:32,0:32,Rest/binary>> = Bin) ->
-   Child = binary_part(Bin, {0,?BS}),
+   Child = get_bin_part(Bin, {0,?BS}),
    %?dbg("Child",Child),
    [Child|get_children_1(Rest)];
 get_children_1(<<_:32,N:3,_:93>> = Bin) when N == 4;
                                              N == 5;
                                              N == 6 ->
-   Child = binary_part(Bin, {0,?BS}),
+   Child = get_bin_part(Bin, {0,?BS}),
    %?dbg("Child",Child),
    [Child];
 get_children_1(<<_:32,N:3,_:93,Rest/binary>> = Bin) when N == 4;
                                                          N == 5;
                                                          N == 6 ->
-   Child = binary_part(Bin, {0,?BS}),
+   Child = get_bin_part(Bin, {0,?BS}),
    %?dbg("Child",Child),
    %?dbg("Rest",Rest),
    [Child|get_children_1(Rest)];
@@ -804,7 +811,7 @@ get_children_1(_) ->
    [].
 
 get_attribute_by_eqname(<<_:32,3:3,0:5,NsId:8,LnId:16,_:32,_:32,_/binary>> = Bin,NsId,LnId) ->
-   binary_part(Bin, {0,?BS});
+   get_bin_part(Bin, {0,?BS});
 get_attribute_by_eqname(<<_:32,N:3,_:93,Rest/binary>>,NsId,LnId) when N == 2;
                                                                       N == 3 ->
    get_attribute_by_eqname(Rest,NsId,LnId);

@@ -219,6 +219,7 @@ Erlang code.
 %% @doc  REGEX parser (https://www.w3.org/TR/xmlschema11-2/#regex-branch).
 
 -include("xqerl.hrl").
+-compile([{hipe,[{regalloc,linear_scan}]}]).
 
 val({_,_,Token}) ->
    Token.

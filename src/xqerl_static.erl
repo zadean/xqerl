@@ -87,7 +87,8 @@
          default_collection_type,
          known_collations,
          % helpers
-         context
+         context,
+         tab
    }).
 
 handle_tree(#xqModule{version = {Version,Encoding}, 
@@ -99,8 +100,8 @@ handle_tree(#xqModule{version = {Version,Encoding},
    _ = erlang:put(var_id, 1),
    _ = valid_ver(Version),
    _ = valid_enc(string:uppercase(Encoding)),      
-   _ = init_mod_scan(),
-   _ = xqerl_context:set_static_base_uri(BaseUri),
+   Tab = init_mod_scan(),
+   _ = xqerl_context:set_static_base_uri(Tab,BaseUri),
    ok = check_prolog_order(Prolog),
    DefElNs     = pro_def_elem_ns(Prolog),
    _           = pro_def_func_ns(Prolog),
@@ -201,8 +202,9 @@ handle_tree(#xqModule{version = {Version,Encoding},
                                end, VarOrd),
    State0 = State#state{known_collations = xqerl_context:static_collations(),
                         default_elem_ns = DefElNs,
-                        context = #context{}
-                         },
+                        context = #context{},
+                        tab = Tab
+                       },
    State1 = scan_namespaces(State0, ConstNamespaces),
    State2 = scan_setters(State1, Setters),
    OptionAbs = scan_options(Options,ModuleType),
@@ -261,6 +263,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                 ctx_var => 'Ctx0',
                 parameters => [],
                 known_fx_sigs => FinalState#state.known_fx_sigs,
+                tab => Tab,
                 'boundary-space' => FinalState#state.boundary_space,
                 'construction-mode' => FinalState#state.construction_mode,
                 'default-collation' => FinalState#state.default_collation,
@@ -2440,8 +2443,8 @@ handle_node(State, {'function-call', #qname{namespace = "http://www.w3.org/2005/
    Type = #xqSeqType{type = 'xs:integer', occur = one},
    ArgSt = get_statement(SimpArg),
    ArgCt = get_static_count(SimpArg),
-   ?dbg("ArgCt",ArgCt),
-   ?dbg("ArgSt",ArgSt),
+   %?dbg("ArgCt",ArgCt),
+   %?dbg("ArgSt",ArgSt),
    if ArgCt == undefined ->
          set_statement_and_type(State, {'function-call',F#xqFunction{params = [ArgSt], type = Type}}, Type);
       true ->
@@ -2593,7 +2596,7 @@ handle_node(State, {'function-call', Name, Arity, Args}) ->
    NewType1 = Type, %get_list_type(NewType),
    %?dbg("SimpArgs, Params",{Args, Params}),
    CheckArgs = check_fun_arg_types(State, SimpArgs, Params),
-   ?dbg("CheckArgs",CheckArgs),
+   %?dbg("CheckArgs",CheckArgs),
    NewArgs = lists:map(fun({S,_C}) ->
                            S
                        end, CheckArgs),
@@ -3157,12 +3160,13 @@ valid_ver("3.1") -> true;
 valid_ver(_) -> ?err('XQST0031').
 
 init_mod_scan() ->
-   xqerl_context:init(),
+   Tab = xqerl_context:init(),
    erlang:put(imp_mod, 1),
    erlang:put(ctx, 1),
    erlang:put(var_tuple, 1),
    erlang:put(iter, 1),
-   erlang:put(iter_loop, 1).
+   erlang:put(iter_loop, 1),
+   Tab.
 
 check_prolog_order(Prolog) ->
    % 1st part : default namespaces, setters, namespace declarations, imports
@@ -3435,10 +3439,10 @@ set_or_error(Name,List,Default,Error) ->
          ?err(Error)
    end.  
 
-scan_setters(State, SetList) ->
+scan_setters(#state{tab = Tab} = State, SetList) ->
    BS = set_or_error('boundary-space', SetList, strip, 'XQST0068'),
    DC = set_or_error('default-collation', SetList, "http://www.w3.org/2005/xpath-functions/collation/codepoint", 'XQST0038'),
-   BU = set_or_error('base-uri', SetList, xqerl_context:get_static_base_uri(), 'XQST0032'),
+   BU = set_or_error('base-uri', SetList, xqerl_context:get_static_base_uri(Tab), 'XQST0032'),
    CM = set_or_error('construction-mode', SetList, preserve, 'XQST0067'),
    OM = set_or_error('ordering-mode', SetList, ordered, 'XQST0065'),
    EO = set_or_error('empty-seq-order', SetList, greatest, 'XQST0069'),
@@ -4182,7 +4186,7 @@ check_fun_arg_types(State, Args, ArgTypes) ->
          Arg_ArgTypes = lists:zip(Args, ArgTypes),
          Fun = fun({Arg, ArgType}) ->
                      %?dbg("ArgS",get_statement(Arg)),
-                     ?dbg("ArgType",ArgType),
+                     %?dbg("ArgType",ArgType),
                      %?dbg("ArgT",get_statement_type(Arg)),
                      S1 = check_fun_arg_type(State, Arg, ArgType),
                      Cnt = get_static_count(S1),
@@ -4225,7 +4229,7 @@ check_fun_arg_type(State, Arg, TargetType) ->
    % now check the types
    %?dbg("NoCast",{StatCnt,ParamType1,TargetType}),
    NoCast = check_type_match(ParamType1, TargetType),
-   ?dbg("NoCast",{NoCast,StatCnt,ParamType1,TargetType}),
+   %?dbg("NoCast",{NoCast,StatCnt,ParamType1,TargetType}),
    #xqSeqType{type = TT} = TargetType,
    if NoCast ->
          set_statement(Arg, type_ensure(ParamType1,TargetType,Param));

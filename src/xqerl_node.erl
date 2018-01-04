@@ -24,6 +24,7 @@
 %% @TODO MESSY
 
 -module(xqerl_node).
+-compile(inline_list_funcs).
 
 -include("xqerl.hrl").
 

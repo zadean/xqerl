@@ -82,6 +82,7 @@ Erlang code.
 %% @doc  JSON parser (RFC7159).
 
 -include("xqerl.hrl").
+-compile([{hipe,[{regalloc,linear_scan}]}]).
 
 val({_,_,Token}) when hd(Token) == $" ->
     lists:reverse(tl(lists:reverse(tl(Token))));

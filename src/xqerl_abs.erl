@@ -47,7 +47,7 @@ init_mod_scan() ->
    erlang:put(iter_loop, 1).
 
 %% {Name, Type, Annos, function_name, Arity, [param_types] }
-scan_functions(Functions,ModName) ->
+scan_functions(#{tab := Tab}, Functions,ModName) ->
    %?dbg("Functions",Functions),
    Specs = [ {Name#qname{prefix = []}, % Name#qname{namespace = xqerl_context:get_statically_known_namespace_from_prefix(Name#qname.prefix)}, 
               Type, 
@@ -72,13 +72,13 @@ scan_functions(Functions,ModName) ->
                                (_) ->
                                   false
                             end, Annos)   ],
-   xqerl_context:import_functions(Specs),
+   xqerl_context:import_functions(Specs,Tab),
    %xqerl_context:set_statically_known_functions(Specs),
    %[attribute(functions, Specs)].
    Specs.
 
 %% {Name, Type, Annos, function_name, External }
-scan_variables(_State, Variables) ->
+scan_variables(#{tab := Tab}, Variables) ->
    Specs = [begin
                {Name#qname{prefix = []}, Type, Annos, xqerl_static:variable_hash_name(Name),External}
             end
@@ -88,7 +88,7 @@ scan_variables(_State, Variables) ->
                      external = External, 
                      type = Type} 
            <- Variables   ],
-   xqerl_context:import_variables(Specs),
+   xqerl_context:import_variables(Specs,Tab),
    %xqerl_context:set_in_scope_variables(Specs),
    %[attribute(variables, Specs)].
    Specs.
@@ -180,7 +180,7 @@ scan_mod(#xqModule{prolog = Prolog,
     library,
     ImportedMods,
     scan_variables(EmptyMap,Variables),
-    scan_functions(Functions, ModNs),
+    scan_functions(EmptyMap,Functions, ModNs),
     [attribute(module, xqerl_static:string_atom(ModNs))]++
      [attribute(export , [{init,1}] )] ++
      export_variables(Variables, EmptyMap) 
@@ -260,8 +260,8 @@ scan_mod(#xqModule{prolog = Prolog,
 
 scan_mod(#xqModule{prolog = Prolog, 
                    type = main, 
-                   body = Body}, #{file_name := FileName} =  Map) ->
-   xqerl_context:set_statically_known_functions([]), %%% get rid of this!!
+                   body = Body}, #{file_name := FileName, tab := Tab} =  Map) ->
+   xqerl_context:set_statically_known_functions(Tab,[]), %%% get rid of this!!
    xqerl_context:init(),
    _ = init_mod_scan(),
    % the prolog is sorted in reverse order
@@ -290,8 +290,8 @@ scan_mod(#xqModule{prolog = Prolog,
    %?dbg("ConstNamespaces",ConstNamespaces),
    %?dbg("Functions1",Functions1),
   
-   ok = xqerl_context:import_variables(Variables1),
-   ok = xqerl_context:import_functions(Functions1),
+   ok = xqerl_context:import_variables(Variables1,Tab),
+   ok = xqerl_context:import_functions(Functions1,Tab),
    
    VarFun1 = fun(#xqVar{%id = Id,
                         annotations = Annos,
@@ -313,7 +313,7 @@ scan_mod(#xqModule{prolog = Prolog,
     main,
     ImportedMods,
     scan_variables(EmptyMap,Variables),
-    scan_functions(Functions,ModName),
+    scan_functions(EmptyMap,Functions,ModName),
    
    %?dbg("VariableAbs",VariableAbs),
    %VariableAbs ++
@@ -328,11 +328,14 @@ scan_mod(#xqModule{prolog = Prolog,
        [],
        [],
        [ % body here
-         {call,7,{remote,7,{atom,7,xqerl_context},{atom,7,init}},[]},
+         {match,?L,{var,?L,'Tab'},{call,7,{remote,7,{atom,7,xqerl_context},{atom,7,init}},[]}},
          {call,7,{remote,7,{atom,7,xqerl_context},{atom,7,set_named_functions}},
-          [erl_term_abs(maps:get(known_fx_sigs,EmptyMap))]
+          [{var,?L,'Tab'},erl_term_abs(maps:get(known_fx_sigs,exp_local_funs(EmptyMap#{module => ModName})))]
          },
-         init_fun_abs(EmptyMap#{module => ModName}, [])
+         {call,7,{remote,7,{atom,7,maps},{atom,7,put}},
+          [{atom,7,tab},
+           {var,?L,'Tab'},
+           init_fun_abs(EmptyMap#{module => ModName}, []) ]}
        ]}
     ]
    }] ++ 
@@ -3185,7 +3188,7 @@ add_param(Variable, Map) ->
    maps:put(parameters, NewVars, NewMap).
 
 %% {name,type,annos,Name}
-add_variable({#qname{} = Qn,_,_,_} = Variable, Map) ->
+add_variable({#qname{} = Qn,_,_,_} = Variable, #{tab := Tab} = Map) ->
    Qn1 = case Qn of
             #qname{namespace = undefined, prefix = Px, local_name = Ln} ->
                Nss = maps:get(namespaces, Map),
@@ -3196,7 +3199,7 @@ add_variable({#qname{} = Qn,_,_,_} = Variable, Map) ->
          end,
    Variable1 = erlang:setelement(1, Variable, Qn1),
    
-   _ = xqerl_context:add_in_scope_variable(Variable1),
+   _ = xqerl_context:add_in_scope_variable(Tab,Variable1),
    
    Vars = maps:get(variables, Map),
    Key = Qn1,
@@ -3204,7 +3207,7 @@ add_variable({#qname{} = Qn,_,_,_} = Variable, Map) ->
    NewVars = lists:keystore(Key, 1, Vars1, Variable1),
    maps:put(variables, NewVars, Map).
 
-add_grouping_variable({#qname{} = Qn,_,_,_} = Variable, Map) ->
+add_grouping_variable({#qname{} = Qn,_,_,_} = Variable, #{tab := Tab} = Map) ->
    Qn1 = case Qn of
             #qname{namespace = undefined, prefix = Px, local_name = Ln} ->
                Nss = maps:get(namespaces, Map),
@@ -3215,7 +3218,7 @@ add_grouping_variable({#qname{} = Qn,_,_,_} = Variable, Map) ->
          end,
    Variable1 = erlang:setelement(1, Variable, Qn1),
    
-   _ = xqerl_context:add_in_scope_variable(Variable1),
+   _ = xqerl_context:add_in_scope_variable(Tab,Variable1),
    
    Vars = maps:get(variables, Map),
    GVars = maps:get(grp_variables, Map),
@@ -3227,15 +3230,14 @@ add_grouping_variable({#qname{} = Qn,_,_,_} = Variable, Map) ->
    Map#{variables => NewVars,
         grp_variables => GNewVars}.
 
-get_variable_ref(#qname{namespace = Ns, prefix = Px, local_name = Ln}, Map) ->
-   Vars0 = xqerl_context:get_in_scope_variables(),
+get_variable_ref(#qname{namespace = Ns, prefix = Px, local_name = Ln}, #{tab := Tab} = Map) ->
+   Vars0 = xqerl_context:get_in_scope_variables(Tab),
    Vars1 = maps:get(parameters, Map),
    Vars = maps:get(variables, Map) ++ Vars1 ++ Vars0,
    Nss = maps:get(namespaces, Map),
    Ns2 = case Ns of
             undefined ->
                proplists:get_value(Px, Nss);
-               %xqerl_context:get_statically_known_namespace_from_prefix(Px);
             _ ->
                Ns
          end,

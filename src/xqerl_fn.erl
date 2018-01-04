@@ -27,6 +27,7 @@
 %% @TODO move helpful stuff into operators or own module.
  
 -module(xqerl_fn).
+-compile(inline_list_funcs).
 
 -define(inbool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
 -define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
@@ -702,8 +703,9 @@
 
 %% Adjusts an xs:dateTime value to a specific timezone, or to no timezone at all. 
 'adjust-dateTime-to-timezone'(_Ctx,[]) -> [];
-'adjust-dateTime-to-timezone'(Ctx,Arg1) ->
-   Itz = xqerl_context:get_implicit_timezone(),
+'adjust-dateTime-to-timezone'(#{tab := Tab} = Ctx,Arg1) ->
+   Itz = xqerl_context:get_implicit_timezone(Tab),
+   ?dbg("Itz",Itz),
    'adjust-dateTime-to-timezone'(Ctx,Arg1, #xqAtomicValue{type = 'xs:dayTimeDuration', 
                                                          value = #xsDateTime{month = 0,
                                                                              day = 0,
@@ -1117,16 +1119,16 @@ avg1([H|T], Sum, Count) ->
    ?atint(Size).
 
 %% Returns the current date. 
-'current-date'(_Ctx) -> 
-   xqerl_types:cast_as(xqerl_context:get_current_datetime(), 'xs:date') .
+'current-date'(#{tab := Tab}) -> 
+   xqerl_types:cast_as(xqerl_context:get_current_datetime(Tab), 'xs:date') .
 
 %% Returns the current date and time (with timezone). 
-'current-dateTime'(_Ctx) -> 
-   xqerl_context:get_current_datetime().
+'current-dateTime'(#{tab := Tab}) -> 
+   xqerl_context:get_current_datetime(Tab).
 
 %% Returns the current time. 
-'current-time'(_Ctx) -> 
-   xqerl_types:cast_as(xqerl_context:get_current_datetime(), 'xs:time') .
+'current-time'(#{tab := Tab}) -> 
+   xqerl_types:cast_as(xqerl_context:get_current_datetime(Tab), 'xs:time') .
 
 %% Returns the result of atomizing a sequence. This process flattens arrays, and replaces nodes by their typed values. 
 'data'(Ctx) -> 
@@ -1285,8 +1287,8 @@ data1(_) ->
    ?str(Str).
 
 %% Returns the value of the default language property from the dynamic context. 
-'default-language'(_Ctx) -> 
-   ?seq:singleton(xqerl_context:get_default_language()).
+'default-language'(#{tab := Tab}) -> 
+   ?seq:singleton(xqerl_context:get_default_language(Tab)).
 
 %% Returns the values that appear in a sequence, with duplicates eliminated. 
 'distinct-values'(_Ctx,[]) -> [];
@@ -1817,8 +1819,8 @@ get_static_function(Ctx,{#qname{namespace = "http://www.w3.org/2005/xpath-functi
          %?dbg("Arity",Arity),
          xqerl_error:error('XPST0017')
    end;
-get_static_function(_Ctx,{#qname{namespace = Ns, local_name = Ln}, Arity}) ->
-   Sigs = xqerl_context:get_named_functions(),
+get_static_function(#{tab := Tab},{#qname{namespace = Ns, local_name = Ln}, Arity}) ->
+   Sigs = xqerl_context:get_named_functions(Tab),
    %Sigs = maps:get(named_functions, Ctx),
    Lookup = [#xqFunction{annotations = Annotations,
                          name = Name1,

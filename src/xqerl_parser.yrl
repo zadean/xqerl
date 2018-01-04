@@ -428,7 +428,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'LibraryModule'          -> 'ModuleDecl'          : {'$1', [], undefined}.
 
 'ModuleDecl'             -> 'module' 'namespace' 'NCName' '=' 'URILiteral' 'Separator' 
-                           : xqerl_context:add_statically_known_namespace("Q{"++'$5'++"}", value_of('$3')), 
+                           : xqerl_context:add_statically_known_namespace(parser,"Q{"++'$5'++"}", value_of('$3')), 
                            {'module-namespace', {"Q{"++'$5'++"}", value_of('$3')}}.
 
 'Separator'              -> ';'.
@@ -522,14 +522,14 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
                            : if '$3' == [] ->
                                     xqerl_error:error('XQST0088');
                                  true ->
-                                    xqerl_context:add_statically_known_namespace("Q{"++'$3'++"}", []),
+                                    xqerl_context:add_statically_known_namespace(parser,"Q{"++'$3'++"}", []),
                                     {"Q{"++'$3'++"}", []}
                               end.
 'ModuleImport'           -> 'import' 'module' 'namespace' 'NCName' '=' 'URILiteral' 
                            : if '$6' == [] ->
                                     xqerl_error:error('XQST0088');
                                  true ->
-                                    xqerl_context:add_statically_known_namespace("Q{"++'$6'++"}", value_of('$4')),
+                                    xqerl_context:add_statically_known_namespace(parser,"Q{"++'$6'++"}", value_of('$4')),
                                     {"Q{"++'$6'++"}", value_of('$4')}
                               end.
 %%% ignoring the "at" portion, everything must be pre-compiled before use TODO?
@@ -538,20 +538,20 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
                            : if '$6' == [] ->
                                     xqerl_error:error('XQST0088');
                                  true ->
-                                    xqerl_context:add_statically_known_namespace("Q{"++'$6'++"}", value_of('$4')),
+                                    xqerl_context:add_statically_known_namespace(parser,"Q{"++'$6'++"}", value_of('$4')),
                                     {"Q{"++'$6'++"}", value_of('$4')}
                               end.
 
 'NamespaceDecl'          -> 'declare' 'namespace' 'NCName' '=' 'URILiteral' 
-                           : xqerl_context:add_statically_known_namespace('$5', value_of('$3')),
+                           : xqerl_context:add_statically_known_namespace(parser,'$5', value_of('$3')),
                              {namespace, {'$5', value_of('$3')}}.
 
 'DefaultNamespaceDecl'   -> 'declare' 'default' 'element'  'namespace' 'URILiteral' 
-                           : xqerl_context:add_statically_known_namespace('$5', ""),
-                             xqerl_context:set_default_element_type_namespace('$5'),
+                           : xqerl_context:add_statically_known_namespace(parser,'$5', ""),
+                             xqerl_context:set_default_element_type_namespace(parser,'$5'),
                              {'element-namespace', '$5'}.
 'DefaultNamespaceDecl'   -> 'declare' 'default' 'function' 'namespace' 'URILiteral' 
-                           : xqerl_context:set_default_function_namespace('$5'), 
+                           : xqerl_context:set_default_function_namespace(parser,'$5'), 
                              {'function-namespace', '$5'}.
 %% xqerl_error:error('XQST0066'). % NOPE
 
@@ -1639,8 +1639,9 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 %% @doc Parser for the XQuery 3.1 Grammar.
 
 -include("xqerl.hrl").
-
 -define(L,1).
+
+-compile([{hipe,[{regalloc,linear_scan}]}]).
 
 value_of(Token) ->
     element(3, Token).
@@ -1683,7 +1684,7 @@ xqAtomicValue(Type,Value) ->
 %%    {qname,"http://www.w3.org/2005/xquery-local-functions","local",Ln};
 qname(func, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
    try
-      Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+      Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
       {qname,Ns,Px,Ln}
    catch _:_ ->
       {qname,undefined,Px,Ln}
@@ -1709,7 +1710,7 @@ qname(func, {qname,default,_,"text"}) -> xqerl_error:error('XPST0003');
 qname(func, {qname,default,_,"typeswitch"}) -> xqerl_error:error('XPST0003');
 % default
 qname(func, {qname,default,_Px,Ln}) ->
-   {qname,xqerl_context:get_default_function_namespace(),"",Ln};
+   {qname,xqerl_context:get_default_function_namespace(parser),"",Ln};
 qname(func, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
@@ -1748,14 +1749,14 @@ qname(var, {qname,_,"err",Ln}) ->
    {qname,"http://www.w3.org/2005/xqt-errors","err",Ln};
 qname(var, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
    try
-      Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+      Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
       {qname,Ns,Px,Ln}
    catch _:_ ->
       {qname,undefined,Px,Ln}
    end;
 qname(var, {qname,Ns,undefined,Ln}) -> % may be known in static namespaces
    try
-      Px = xqerl_context:get_statically_known_prefix_from_namespace(Ns),
+      Px = xqerl_context:get_statically_known_prefix_from_namespace(parser,Ns),
       {qname,Ns,Px,Ln}
    catch _:_ ->
       {qname,Ns,undefined,Ln}
@@ -1764,7 +1765,7 @@ qname(var, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
 qname(anno, {qname,undefined,Px,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
    {qname,Ns,Px,Ln};
 qname(anno, {qname,default,_,Ln}) ->
    Ns  = "http://www.w3.org/2012/xquery",
@@ -1773,7 +1774,7 @@ qname(anno, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
 qname(opt, {qname,undefined,Px,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
    {qname,Ns,Px,Ln};
 qname(opt, {qname,default,_,Ln}) ->
    Ns  = "http://www.w3.org/2012/xquery",
@@ -1787,9 +1788,6 @@ qname(wildcard, {qname,default,_Px,Ln}) ->
    {qname,'no-namespace',[],Ln};
 qname(wildcard, {qname,undefined,"*",Ln}) ->
    {qname,"*","*",Ln};
-%% qname(wildcard, {qname,undefined,Px,Ln}) ->
-%%    %Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
-%%    {qname,Ns,Px,Ln};
 qname(wildcard, {qname,Ns,default,Ln}) ->
    {qname,Ns,"*",Ln};
 qname(wildcard, {qname,Ns,Px,Ln}) ->
@@ -1807,7 +1805,7 @@ qname(other, {qname,_,"*","*"}) ->
 qname(other, {qname,_,"*",Ln}) ->
    {qname,"*","*",Ln};
 qname(other, {qname,undefined,Px,"*"}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(Px),
+   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
    {qname,Ns,Px,"*"};
 %% qname(other, {qname,_,"local",Ln}) ->
 %%    {qname,"http://www.w3.org/2005/xquery-local-functions","local",Ln};
@@ -1826,10 +1824,10 @@ qname(other, {qname,_,"map",Ln}) ->
 qname(other, {qname,_,"array",Ln}) ->
    {qname,"http://www.w3.org/2005/xpath-functions/array","array",Ln};
 qname(other, {qname,_,default,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix([]),
+   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,[]),
    {qname,Ns,[],Ln};
 qname(other, {qname,Ns,Px,Ln}) ->
-   try xqerl_context:get_statically_known_namespace_from_prefix(Px) of
+   try xqerl_context:get_statically_known_namespace_from_prefix(parser,Px) of
       Ns1 -> {qname,Ns1,Px,Ln}
    catch _:_ -> 
       {qname,Ns,Px,Ln}
@@ -1925,15 +1923,12 @@ as_list(L) ->
 
 dir_att(QName, Value) ->
    if QName#qname.prefix == "xmlns"  ->
-         %xqerl_context:add_statically_known_namespace(ns_value(Value), QName#qname.local_name),
          #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = QName#qname.local_name, local_name = []}};
       QName#qname.local_name == "xmlns" andalso QName#qname.prefix == default ->
          case at_value(Value) of 
             "" -> 
-               %xqerl_context:add_statically_known_namespace('no-namespace', []),
                #xqNamespaceNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = []}};
             _ -> 
-               %xqerl_context:add_statically_known_namespace(ns_value(Value), []),
                #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = [], local_name = []}} 
          end;
       true ->

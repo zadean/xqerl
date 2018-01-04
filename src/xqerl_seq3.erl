@@ -23,6 +23,7 @@
 %% @doc Functions that handle XQuery sequences.
 
 -module(xqerl_seq3).
+-compile(inline_list_funcs).
 
 -export([sequence/1]).
 

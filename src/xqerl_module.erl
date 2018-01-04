@@ -212,7 +212,7 @@ compile(FileName, Str) ->
       Toks = scan_tokens(Str2),
       erlang:erase(),
       % init the parse
-      erlang:put(xquery_id, xqerl_context:init(self())),
+      erlang:put(xquery_id, xqerl_context:init(parser)),
       Tree = parse_tokens(Toks),
       erlang:erase(),
       Static = scan_tree_static(Tree, "file:///"++FileName),
