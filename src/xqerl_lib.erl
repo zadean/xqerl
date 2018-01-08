@@ -306,8 +306,12 @@ check_bad_percent([]) -> ok.
 
 resolve_against_base_uri(Base,[]) -> 
    Base;
-resolve_against_base_uri(Base,RelPath) ->
-   ok = check_bad_percent(RelPath),                                  
+resolve_against_base_uri("xqerl_main",RelPath) ->
+   resolve_against_base_uri("file:///",RelPath);
+resolve_against_base_uri(Base,RelPath0) ->
+   ok = check_bad_percent(RelPath0),
+   RelPath = ensure_schema(RelPath0),
+   ?dbg("RelPath",RelPath),
    Opts = [{scheme_defaults,[{file,1},{urn,2}|http_uri:scheme_defaults()]},{fragment,true}],
    case http_uri:parse(RelPath,Opts) of
       % not absolute
@@ -318,38 +322,103 @@ resolve_against_base_uri(Base,RelPath) ->
             NonHeir ->
                RelPath;
             true ->
+               ?dbg("Base",Base),
+               ?dbg("RelPath",RelPath),
                % leading slash on relative does not mean root
                RelPath1 = if hd(RelPath) == $/ ->
                                 tl(RelPath);
                              true ->
                                 RelPath
                           end,
-               {ok, {Scheme, _UserInfo, Host, _Port, Path, _Query, []}} = http_uri:parse(Base,Opts), % fragments not allowed
-               %?dbg("Path",Path),
-               PathDir = filename:dirname(tl(Path)),
-               %?dbg("PathDir",PathDir),
-               Joined = filename:absname_join(PathDir,RelPath1),
-               %?dbg("Joined",Joined),
-               case filename:pathtype(Joined) of
-                  absolute -> % windows file
-                     [Vol|Rest] = filename:split(Joined),
-                     NonAbs = filename:join(Rest),
-                     Safe = filename:safe_relative_path(NonAbs),
-                     atom_to_list(Scheme) ++ ":///" ++ Vol ++ Safe;
-                  relative ->
-                     Safe = filename:safe_relative_path(Joined),
-                     atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Safe;
-                  volumerelative ->
-                     ?dbg("Joined",Joined),
-                     {error,unsafe}
-               end
+               {ok, Parsed} = http_uri:parse(Base,Opts), % fragments allowed on base
+               ?dbg("RelPath1",RelPath1),
+               ?dbg("Parsed",Parsed),
+               parsed_to_path(RelPath1,Parsed)
          end;
-      % RelPath is absolute and becomes new base
-      {ok,_} ->
-         %?dbg("Abs",RelPath),
-         RelPath
+      {ok,{_,_,_,_,"/",_,[]}} ->
+         ?dbg("RelPath",RelPath),
+         RelPath;
+      {ok,{_,_,_,_,_,Q,[]} = P} ->
+         ?dbg("P",P),
+         parsed_to_path([],P) ++ Q;
+      _ ->
+         % relative with fragment
+         ?err('FORG0002')
    end.
 
+parsed_to_path([],{Scheme, _UserInfo, Host, _Port, Path, _Query, Frag}) ->
+   Safe = simplify_path(tl(Path)),
+   ?dbg("Safe",Safe),
+   Dir = Path =/= "/" andalso lists:last(Path) =:= $/,
+   if Dir ->
+         atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Safe ++ "/";
+      Safe == [] ->
+         atom_to_list(Scheme) ++ "://" ++ Host;
+      true ->
+         atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Safe ++ Frag
+   end;
+parsed_to_path(RelPath,{Scheme, _UserInfo, Host, _Port, Path, _Query, Frag}) ->
+   PathDir = if Scheme =:= file ->
+                   filename:dirname(tl(Path));
+                true ->
+                   tl(Path)
+             end,
+   Joined = simplify_path(uri_join(PathDir,RelPath)),
+   ?dbg("PathDir",PathDir),
+   ?dbg("RelPath",RelPath),
+   ?dbg("Joined",Joined),
+   Dir = Path =/= "/" andalso lists:last(Path) =:= $/,
+   RelDir = RelPath =/= "/" andalso lists:last(RelPath) =:= $/,
+   if Joined == [] andalso Dir ->
+         atom_to_list(Scheme) ++ "://" ++ Host ++ "/";
+      Joined == [] ->
+         atom_to_list(Scheme) ++ "://" ++ Host;
+      RelDir ->
+         atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Joined ++ "/";
+      true ->
+         atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Joined ++ Frag
+   end.
+
+uri_join([],Path) ->
+   Path;
+uri_join(Base,Path) ->
+   filename:join(Base,Path).
+
+simplify_path(Path) ->
+   Split = filename:split(Path),
+   Fun = fun(".",Acc) ->
+               Acc;
+            ("..",Acc) ->
+               tl(Acc);
+            (S,Acc) ->
+               [S|Acc]
+         end,
+   Sim = lists:foldl(Fun, [], Split),
+   build_path(lists:reverse(Sim)).
+
+build_path([]) -> [];
+build_path([H]) ->
+   H;
+build_path([[C,$:,$/] = H|T]) when C >= $A, C =< $Z; C >= $a, C =< $z ->
+   H ++ build_path(T);
+build_path([[C,$:,$\\] = H|T]) when C >= $A, C =< $Z; C >= $a, C =< $z ->
+   H ++ build_path(T);
+build_path([H|T]) ->
+   H ++ "/" ++ build_path(T).
+
+ensure_schema("file:///" ++ _ = Path) -> Path;
+ensure_schema("file://" ++ _) -> ?err('FORG0002');
+ensure_schema("file:/" ++ _ = Path) -> Path;
+ensure_schema("file:" ++ _) -> ?err('FORG0002');
+ensure_schema("//" ++ _) -> ?err('FORG0002');
+ensure_schema(":" ++ _) -> ?err('FORG0002');
+ensure_schema([C, $:, $/ | _]=Path) when C >= $A, C =< $Z; C >= $a, C =< $z ->
+    "file:///" ++ Path;
+ensure_schema([C, $:, $\ | _]=Path) when C >= $A, C =< $Z; C >= $a, C =< $z ->
+    "file:///" ++ Path;
+ensure_schema("/" ++ _ = Path) -> 
+   "file://" ++ Path;
+ensure_schema(Path) -> Path.  
 
 lnew() ->
 %%    catch ets:delete(local_data),

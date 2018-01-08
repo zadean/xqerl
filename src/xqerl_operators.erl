@@ -24,6 +24,11 @@
 
 -module(xqerl_operators).
 -compile(inline_list_funcs).
+-compile({no_auto_import,[float/1]}).
+
+-import(xqerl_numeric,[double/1,
+                       decimal/1,
+                       float/1]).
 
 -define(MINFLOAT, -3.4028235e38).
 -define(MAXFLOAT,  3.4028235e38).
@@ -71,7 +76,7 @@
 
 -define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
 -define(sing(Val), Val).
--define(dec(Val),xqerl_numeric:decimal(Val)).
+-define(dec(Val),decimal(Val)).
 %-define(sing(Val), ?seq:singleton(Val)).
 
 %(xs:integer, xs:decimal, xs:float, xs:double)
@@ -987,13 +992,13 @@ numeric_add(#xqAtomicValue{type = TypeA, value = ValA},
              ValA == neg_infinity orelse ValB == neg_infinity ->
                 neg_infinity;
              Prec == 15 -> % float could be overflowed
-                case xqerl_numeric:float(ValA) + xqerl_numeric:float(ValB) of
+                case float(ValA) + float(ValB) of
                    X when X > ?MAXFLOAT ->
                       infinity;
                    X when X < ?MINFLOAT ->
                       neg_infinity;
                    X ->
-                      xqerl_numeric:float(X)
+                      float(X)
                 end;
              true ->
                 xqerl_numeric:add(ValA, ValB)
@@ -1033,13 +1038,13 @@ numeric_subtract(#xqAtomicValue{type = TypeA, value = ValA},
              (is_integer(ValA) orelse trunc(ValA) == ValA) andalso (is_integer(ValB) orelse trunc(ValB) == ValB) ->
                 ValA - ValB;
              Prec == 15 -> % float could be overflowed
-                case xqerl_numeric:float(ValA) - xqerl_numeric:float(ValB) of
+                case float(ValA) - float(ValB) of
                    X when X > ?MAXFLOAT ->
                       infinity;
                    X when X < ?MINFLOAT ->
                       neg_infinity;
                    X ->
-                      xqerl_numeric:float(X)
+                      float(X)
                 end;
              true ->
                 xqerl_numeric:subtract(ValA, ValB)
@@ -1079,13 +1084,13 @@ numeric_multiply(#xqAtomicValue{type = TypeA, value = ValA},
              is_integer(ValA) andalso is_integer(ValB) ->
                 ValA * ValB;
              Prec == 15 -> % float could be overflowed
-                case xqerl_numeric:float(ValA) * xqerl_numeric:float(ValB) of
+                case float(ValA) * float(ValB) of
                    X when X > ?MAXFLOAT ->
                       infinity;
                    X when X < ?MINFLOAT ->
                       neg_infinity;
                    X ->
-                      xqerl_numeric:float(X)
+                      float(X)
                 end;
             true ->
                 xqerl_numeric:multiply(ValA, ValB)
@@ -1146,13 +1151,13 @@ numeric_divide(#xqAtomicValue{type = TypeA, value = ValA},
              ValA == nan orelse ValB == nan ->
                 nan;
              Prec == 15 -> % float could be overflowed
-                case xqerl_numeric:float(ValA) / xqerl_numeric:float(ValB) of
+                case float(ValA) / float(ValB) of
                    X when X > ?MAXFLOAT ->
                       infinity;
                    X when X < ?MINFLOAT ->
                       neg_infinity;
                    X ->
-                      xqerl_numeric:float(X)
+                      float(X)
                 end;
              true ->
                 case xqerl_numeric:equal(ValB, 0) of
@@ -1191,13 +1196,13 @@ numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
              is_integer(ValA) andalso is_integer(ValB) ->
                 ValA div ValB;
              Prec == 15 -> % float could be overflowed
-                case trunc(xqerl_numeric:float(ValA) / xqerl_numeric:float(ValB)) of
+                case trunc(float(ValA) / float(ValB)) of
                    X when X > ?MAXFLOAT ->
                       xqerl_error:error('FOAR0002');
                    X when X < ?MINFLOAT ->
                       xqerl_error:error('FOAR0002');
                    X ->
-                      xqerl_numeric:float(X)
+                      float(X)
                 end;
              true ->
                 case xqerl_numeric:equal(ValB, 0) of
@@ -1275,13 +1280,13 @@ numeric_equal(#xqAtomicValue{type = TypeA, value = ValA},
              (ValA == neg_zero) orelse (ValB == neg_zero) ->
                 false;
              ?decimal(TypeA) andalso TypeB == 'xs:float' ->
-                xqerl_numeric:float(ValA) == ValB;
+                float(ValA) == ValB;
              ?decimal(TypeA) andalso TypeB == 'xs:double' ->
-                xqerl_numeric:double(ValA) == ValB;
+                double(ValA) == ValB;
              ?decimal(TypeB) andalso TypeA == 'xs:float' ->
-                xqerl_numeric:float(ValB) == ValA;
+                float(ValB) == ValA;
              ?decimal(TypeB) andalso TypeA == 'xs:double' ->
-                xqerl_numeric:double(ValB) == ValA;
+                double(ValB) == ValA;
              TypeA == 'xs:float' andalso TypeB == 'xs:double' ->
                 %?dbg("equal",{ValA,ValB}),
                 ValA == ValB;
@@ -1606,7 +1611,7 @@ divide_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
                                                           second = SdA}},
                        #xqAtomicValue{type = Type, value = Dbl}) when ?numeric(Type) ->
    SecA = xqerl_numeric:multiply(xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), unary_sign(SnA)),
-   SecC = xqerl_numeric:decimal(xqerl_numeric:divide(SecA, Dbl)),
+   SecC = decimal(xqerl_numeric:divide(SecA, Dbl)),
    Str = case xqerl_numeric:less_than(SecC, 0) of
             true -> "-";
             _ -> ""
@@ -2184,7 +2189,7 @@ negate(Seq) ->
 %% time calculations with day remainders
 loc_quotient(A, B) ->
    Fract = xqerl_numeric:divide(A, B),
-   DFract = xqerl_numeric:double(Fract),
+   DFract = double(Fract),
    TFract = xqerl_numeric:truncate(Fract),
    if DFract == -1 -> TFract;
       DFract < 0 -> TFract - 1;
@@ -2301,7 +2306,7 @@ key_val(Val) ->
                                                   Type == 'xs:untypedAtomic'  ->
          V;
       #xqAtomicValue{type = 'xs:integer', value = V} ->
-         {number,xqerl_numeric:decimal(V)};
+         {number,decimal(V)};
       #xqAtomicValue{type = 'xs:decimal', value = V} ->
          {number,V};
       #xqAtomicValue{type = 'xs:double', value = V} when V == neg_zero; % maybe
@@ -2315,9 +2320,9 @@ key_val(Val) ->
                                                         V == neg_infinity ->
          {number,V};
       #xqAtomicValue{type = 'xs:double', value = V} ->
-         {number,xqerl_numeric:decimal(V)};
+         {number,decimal(V)};
       #xqAtomicValue{type = 'xs:float', value = V} ->
-         {number,xqerl_numeric:decimal(V)};
+         {number,decimal(V)};
       #xqAtomicValue{type = 'xs:yearMonthDuration', value = V} ->
          {duration,V};
       #xqAtomicValue{type = 'xs:dayTimeDuration', value = V} ->

@@ -298,7 +298,11 @@ for_each1(Ctx, Fun, [H|T], Pos) ->
    try
       Ctx1 = xqerl_context:set_context_item(Ctx, H, Pos),
       Output = Fun(Ctx1, H),
-      [Output | for_each1(Ctx, Fun, T, Pos + 1)]
+      if is_list(Output) ->
+            Output ++ for_each1(Ctx, Fun, T, Pos + 1);
+         true ->
+            [Output | for_each1(Ctx, Fun, T, Pos + 1)]
+      end
    catch
       _:#xqError{} = E -> 
          ?dbg("error",erlang:get_stacktrace()),
@@ -480,6 +484,7 @@ append(Seq1, Seq2) ->
    concat_seqs(Seq2,Seq1).
 
 get_unique_values(Seq) when is_list(Seq) ->
+   %Vals = get_unique_values1(Seq),
    Vals = get_unique_values1(lists:flatten(Seq)),
    %?dbg("Vals",Vals),
    lists:usort(Vals);
@@ -504,10 +509,13 @@ position_filter(Ctx, Fun, Seq) when is_list(Seq), is_function(Fun) ->
                   end, 1, Seq),
    position_filter(Ctx, Positions, Seq);
 
+position_filter(_Ctx, Positions, Seq) when is_list(Seq), is_list(Positions) ->
+   UniquePos = get_unique_values(lists:usort(Positions)),
+   position_filter1(UniquePos, 1, Seq);
 position_filter(_Ctx, Positions, Seq) when is_list(Seq) ->
    UniquePos = get_unique_values(Positions),
-   %?dbg("UniquePos",UniquePos),
    position_filter1(UniquePos, 1, Seq);
+
 position_filter(Ctx, Positions, Seq) ->
    position_filter(Ctx, Positions, [Seq]).
 
@@ -532,8 +540,8 @@ filter(Ctx, [#xqAtomicValue{}|_] = Pos,Seq) ->
    position_filter(Ctx, Pos, Seq);
 filter(Ctx, Fun, Seq) when not is_list(Seq) ->
    filter(Ctx, Fun, [Seq]);
-filter(Ctx, Fun, Seq) when is_function(Fun,1) ->
-   Seq2 = flatten(Seq),
+filter(Ctx, Fun, Seq2) when is_function(Fun,1) ->
+   %Seq2 = flatten(Seq),
    Size = ?MODULE:size(Seq2),
    Ctx1 = xqerl_context:set_context_size(Ctx, int_rec(Size)),
    filter1(Ctx1, Fun, Seq2, 1).

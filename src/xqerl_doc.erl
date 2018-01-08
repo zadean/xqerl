@@ -69,54 +69,65 @@ read_dir(Dir) ->
    read_files(FileList).
 
 read_http(Uri0) ->
-   read_http(Uri0,Uri0).
+   Uri = xqerl_lib:resolve_against_base_uri("file:///", Uri0),
+   read_http(Uri,Uri).
 
-read_http(Uri0,Name) ->
-   Uri = case lists:prefix("file:///", Uri0) of
-             true ->
-                lists:subtract(Uri0, "file:///");
-             _ ->
-                Uri0
-          end,
-   case filelib:is_file(Uri) of
-      true ->
-         read_file(self(), Uri, Name);
+read_http(Uri,Name) ->
+   case xqerl_file:read_uri(Uri) of
+      {ok,Str} ->
+         Doc = read_stream(Str, Name),
+         ?dbg("{Uri,Name}",{Uri,Name}),
+         _ = store_doc(Name, Doc),
+         ok;
       _ ->
-         case inets:services() of
-            {error,inets_not_started} ->
-               inets:start();
-            _ ->
-               ok
-         end,
-         Xml = case catch httpc:request(Uri) of
-                  {ok,{{_,404,_},_Head,_Body}} ->
-                     xqerl_error:error('FODC0002');
-                  {ok,{_Stat,_Head,Body}} ->
-                     Body;
-                  {ok,{{_,404,_},_Body}} ->
-                     xqerl_error:error('FODC0002');
-                  {ok,{_Stat,Body}} ->
-                     Body;
-                  {error,no_scheme} ->
-                     xqerl_error:error('FODC0002');
-                  {'EXIT',_} ->
-                     xqerl_error:error('FODC0002');
-                  Other ->
-                     ?dbg("Other",Other),
-                     xqerl_error:error('FODC0002')
-               end,
-         Doc = read_stream(Xml, Name),
-         _ = store_doc(Uri, Doc),
-         ok
+         ?err('FODC0002')
    end.
+
+%%    Uri = case lists:prefix("file://", Uri0) of
+%%              true ->
+%%                 lists:subtract(Uri0, "file://");
+%%              _ ->
+%%                 Uri0
+%%           end,
+%%    case filelib:is_file(Uri) of
+%%       true ->
+%%          read_file(self(), Uri, Name);
+%%       _ ->
+%%          case inets:services() of
+%%             {error,inets_not_started} ->
+%%                inets:start();
+%%             _ ->
+%%                ok
+%%          end,
+%%          Xml = case catch httpc:request(Uri) of
+%%                   {ok,{{_,404,_},_Head,_Body}} ->
+%%                      xqerl_error:error('FODC0002');
+%%                   {ok,{_Stat,_Head,Body}} ->
+%%                      Body;
+%%                   {ok,{{_,404,_},_Body}} ->
+%%                      xqerl_error:error('FODC0002');
+%%                   {ok,{_Stat,Body}} ->
+%%                      Body;
+%%                   {error,no_scheme} ->
+%%                      xqerl_error:error('FODC0002');
+%%                   {'EXIT',_} ->
+%%                      xqerl_error:error('FODC0002');
+%%                   Other ->
+%%                      ?dbg("Other",Other),
+%%                      xqerl_error:error('FODC0002')
+%%                end,
+%%          Doc = read_stream(Xml, Name),
+%%          _ = store_doc(Uri, Doc),
+%%          ok
+%%    end.
 
 %% read_text(Uri0) ->
 %%    read_text(Uri0,Uri0).
 
 read_text(Uri0,Name) ->
-   Uri = case lists:prefix("file:///", Uri0) of
+   Uri = case lists:prefix("file://", Uri0) of
              true ->
-                lists:subtract(Uri0, "file:///");
+                lists:subtract(Uri0, "file://");
              _ ->
                 Uri0
           end,

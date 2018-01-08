@@ -14,6 +14,9 @@
 -export([assert_norm_string_value/2]).
 -export([assert_error/2]).
 
+-export([compile/3]).
+-export([parallel_compile/1]).
+
 -export([size/1]).
 -export([string_value/1]).
 -export([run/1]).
@@ -263,13 +266,21 @@ run_suite(Suite) ->
 .
 
 run(all) ->
+   xqerl_module:one_time_init(),
    run(prod),
+   xqerl_module:one_time_init(),
    run(misc),
-   run(op),
+   xqerl_module:one_time_init(),
    run(fn),
+   xqerl_module:one_time_init(),
    run(fn2),
+   xqerl_module:one_time_init(),
    run(map),
-   run(array);
+   xqerl_module:one_time_init(),
+   run(op),
+   xqerl_module:one_time_init(),
+   run(array),
+   xqerl_module:one_time_init();
 run(misc) ->
    run_suite(misc_CombinedErrorCodes_SUITE),
    run_suite(misc_AnnexE_SUITE),
@@ -287,7 +298,7 @@ run(misc) ->
    run_suite(method_xhtml_SUITE),
    run_suite(method_xml_SUITE),
    run_suite(app_CatalogCheck_SUITE),
-   %run_suite(app_Demos_SUITE),
+   run_suite(app_Demos_SUITE),
    run_suite(app_FunctxFn_SUITE),
    run_suite(app_FunctxFunctx_SUITE),
    run_suite(app_UseCaseCompoundValues_SUITE),
@@ -716,6 +727,32 @@ run(Str, Options) ->
    xqerl:run(Str, Options).
 
 
+parallel_compile(ArgL) ->
+    Keys = map_keys(ArgL),
+    [rpc:yield(K) || K <- Keys].
+
+map_keys([]) -> [];
+map_keys([Args|Tail]) ->
+    [rpc:async_call(node(),?MODULE,compile,tuple_to_list(Args)) | 
+     map_keys(Tail)].
+
+
+compile(Name, Env, Qry) ->
+   {EnvStr,Opts} = xqerl_test:handle_environment(Env),
+   Qry1 = lists:flatten(EnvStr ++ Qry),
+   try xqerl_module:compile(Name, Qry1) of
+      Mod ->
+         {Name,Mod,Opts}
+   catch
+      _:#xqError{} = E ->
+         {Name,E};
+      _:E ->
+         {Name,E}
+   end.
+
+             
+
+handle_environment([]) -> {"",#{}};
 handle_environment(List) ->
    Sources = proplists:get_value(sources, List) ,
    Schemas = proplists:get_value(schemas, List) ,
@@ -764,7 +801,8 @@ handle_environment(List) ->
    _ = lists:foreach(
          fun({Uri,CList}) ->
                All = lists:flatmap(
-                 fun({src,FileName}) ->
+                 fun({src,FileName0}) ->
+                       FileName = xqerl_lib:resolve_against_base_uri("file:///", FileName0),
                        case xqerl_ds:exists_doc(Uri) of
                           true ->
                              Doc1 = xqerl_doc:retrieve_doc(FileName),
@@ -791,19 +829,25 @@ handle_environment(List) ->
                      xqerl_collection:put(Uri, All)
                end
          end, Collections),
-   {Sources1,EMap} = lists:mapfoldl(fun({File,Role,Uri},Map) ->
-                              Uri2 = if Uri == [] ->
+   {Sources1,EMap} = lists:mapfoldl(fun({File0,Role,Uri0},Map) ->
+                              ?dbg("File0",File0),
+                              File = xqerl_lib:resolve_against_base_uri("file:///", File0),
+                              Uri2 = if Uri0 == [] ->
+                                           File;
+                                        Uri0 == File0 ->
                                            File;
                                         true ->
-                                           Uri
+                                           Uri0
                                      end,
+                              ?dbg("File",File),
                               case xqerl_ds:exists_doc(Uri2) of
                                  true ->
                                     ok;
                                  _ ->
                                     try
                                     _ = xqerl_doc:read_http(File, Uri2)
-                                    catch _:_ ->
+                                    catch _:E ->
+                                             ?dbg("E",E),
                                              ok
                                     end,
                                     ok

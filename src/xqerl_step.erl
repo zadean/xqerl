@@ -130,64 +130,60 @@ idrefs(_Ctx, Nodes) ->
 forward(Ctx, Nodes, Axis, Name, PredFuns) when not is_list(Nodes) ->
    forward(Ctx, [Nodes], Axis, Name, PredFuns);
 
-forward(Ctx0, N, Axis, Name, PredFuns) when is_record(N, xqElementNode);
-                                            is_record(N, xqDocumentNode);
-                                            is_record(N, xqAttributeNode);
-                                            is_record(N, xqCommentNode);
-                                            is_record(N, xqTextNode);
-                                            is_record(N, xqProcessingInstructionNode);
-                                            is_record(N, xqNamespaceNode) ->
-   % this happens when stepping on a non-created node
-   Node = xqerl_node:new_fragment(Ctx0, N),
-   forward(Ctx0, Node, Axis, Name, PredFuns);
+%% forward(Ctx0, N, Axis, Name, PredFuns) when is_record(N, xqElementNode);
+%%                                             is_record(N, xqDocumentNode);
+%%                                             is_record(N, xqAttributeNode);
+%%                                             is_record(N, xqCommentNode);
+%%                                             is_record(N, xqTextNode);
+%%                                             is_record(N, xqProcessingInstructionNode);
+%%                                             is_record(N, xqNamespaceNode) ->
+%%    % this happens when stepping on a non-created node
+%%    Node = xqerl_node:new_fragment(Ctx0, N),
+%%    forward(Ctx0, Node, Axis, Name, PredFuns);
 
 forward(Ctx, Nodes, child, #qname{} = Name, PredFuns) ->
-   Fun1 = fun(#xqNode{doc = Doc, node = Node1}) ->
-                Pointers = get_named_children(Doc,Node1,Name),
-                as_xqnodes(Doc, Pointers);
-             (_) ->
-                ?err('XPTY0019')
-          end,
-   PrePredicate = lists:map(Fun1, Nodes),
-   PostPredicat = do_preds(Ctx, PrePredicate, PredFuns),
-   lists:usort(PostPredicat);
+   L = [P
+       || #xqNode{doc = Doc, node = Node1} <- usort(Nodes),
+          Pointers <- [get_named_children(Doc,Node1,Name)],
+          P <- pred_filter(Ctx, 
+                           [#xqNode{doc = Doc, node = P1} || P1 <- Pointers], 
+                           PredFuns)
+       ],
+   usort(L);
 
 forward(Ctx, Nodes, child, #xqKindTest{kind = Kind, name = Name}, PredFuns) ->
-   Fun1 = fun(#xqNode{doc = Doc, node = Node1}) ->
-                Pointers = get_named_children(Doc,Node1,Name),
-                TFiltered = kind_filter(Pointers, Kind),
-                as_xqnodes(Doc, TFiltered);
-             (_) ->
-                ?err('XPTY0019')
-          end,
-   PrePredicate = lists:map(Fun1, Nodes),
-   PostPredicat = do_preds(Ctx, PrePredicate, PredFuns),
-   lists:usort(PostPredicat);
+   L = [P
+       || #xqNode{doc = Doc, node = Node1} <- usort(Nodes),
+          Pointers  <- [get_named_children(Doc,Node1,Name)],
+          TFiltered <- [kind_filter(Pointers, Kind)],
+          P <- pred_filter(Ctx, 
+                           [#xqNode{doc = Doc, node = P1} || P1 <- TFiltered],
+                           PredFuns)
+       ],
+   usort(L);
 
 forward(Ctx, Nodes, descendant, #qname{} = Name, PredFuns) ->
-   Fun1 = fun(#xqNode{doc = Doc} = Node1) ->
-                Pointers = descendant(Node1),
-                NFiltered = name_filter(Doc, Pointers, Name),
-                as_xqnodes(Doc, NFiltered);
-             (_) ->
-                ?err('XPTY0019')
-          end,
-   PrePredicate = lists:map(Fun1, Nodes),
-   PostPredicat = do_preds(Ctx, PrePredicate, PredFuns),
-   lists:usort(PostPredicat);
+   L = [P
+       || #xqNode{doc = Doc} = Node1 <- usort(Nodes),
+          Pointers  <- [descendant(Node1)],
+          NFiltered <- [name_filter(Doc, Pointers, Name)],
+          P <- pred_filter(Ctx, 
+                           [#xqNode{doc = Doc, node = P1} || P1 <- NFiltered], 
+                           PredFuns)
+       ],
+   usort(L);
 
 forward(Ctx, Nodes, descendant, #xqKindTest{kind = Kind, name = Name}, PredFuns) ->
-   Fun1 = fun(#xqNode{doc = Doc} = Node1) ->
-                Pointers = descendant(Node1),
-                NFiltered = name_filter(Doc, Pointers, Name),
-                TFiltered = kind_filter(NFiltered, Kind),
-                as_xqnodes(Doc, TFiltered);
-             (_) ->
-                ?err('XPTY0019')
-          end,
-   PrePredicate = lists:map(Fun1, Nodes),
-   PostPredicat = do_preds(Ctx, PrePredicate, PredFuns),
-   lists:usort(PostPredicat);
+   L = [P
+       || #xqNode{doc = Doc} = Node1 <- usort(Nodes),
+          Pointers  <- [descendant(Node1)],
+          NFiltered <- [name_filter(Doc, Pointers, Name)],
+          TFiltered <- [kind_filter(NFiltered, Kind)],
+          P <- pred_filter(Ctx, 
+                           [#xqNode{doc = Doc, node = P1} || P1 <- TFiltered], 
+                           PredFuns)
+       ],
+   usort(L);
 
 forward(Ctx, Nodes, attribute, #qname{} = Name, PredFuns) ->
    Fun1 = fun(#xqNode{doc = Doc} = Node1) ->
@@ -280,27 +276,45 @@ forward(Ctx, Nodes, 'descendant-or-self', #xqKindTest{kind = Kind, name = Name},
    lists:usort(PostPredicat);
 
 forward(Ctx, Nodes, 'following-sibling', #qname{} = Name, PredFuns) ->
-   Fun1 = fun(#xqNode{doc = Doc} = Node1) ->
-                Pointers = following_sibling(Node1,Name),
-                as_xqnodes(Doc, Pointers);
-             (_) ->
-                ?err('XPTY0019')
-          end,
-   PrePredicate = lists:map(Fun1, Nodes),
-   PostPredicat = do_preds(Ctx, PrePredicate, PredFuns),
-   lists:usort(PostPredicat);
+   L = [P
+       || #xqNode{doc = Doc, node = Node} = Node1 <- usort(Nodes),
+          xqerl_xdm:dm_node_kind([], Node) =/= attribute,
+          UId      <- [xqerl_xdm:uid(Node)],
+          Parent   <- parent(Node1),
+          Children <- [get_named_children_after(Doc, Parent, Name, UId)], 
+          P <- pred_filter(Ctx, 
+                           [#xqNode{doc = Doc, node = P1} || P1 <- Children], 
+                           PredFuns)
+       ],
+   usort(L);
+
+%% following_sibling(#xqNode{doc = {doc,File}, node = Node},Name) ->
+%%    Doc = ?get({doc,File}),
+%%    following_sibling(#xqNode{doc = Doc, node = Node},Name);
+%% following_sibling(#xqNode{doc = Doc, node = Node},Name) ->
+%%    case xqerl_xdm:dm_node_kind(Doc, Node) of
+%%       attribute ->
+%%          [];
+%%       _ ->
+%%          Parent = xqerl_xdm:dm_parent(Doc, Node),
+%%          Children = get_named_children(Doc, Parent, Name),
+%%          NodeId = xqerl_xdm:uid(Node),
+%%          xqerl_xdm:after_id(Children, NodeId)
+%%    end.
 
 forward(Ctx, Nodes, 'following-sibling', #xqKindTest{kind = Kind, name = Name}, PredFuns) ->
-   Fun1 = fun(#xqNode{doc = Doc} = Node1) ->
-                Pointers = following_sibling(Node1,Name),
-                TFiltered = kind_filter(Pointers, Kind),
-                as_xqnodes(Doc, TFiltered);
-             (_) ->
-                ?err('XPTY0019')
-          end,
-   PrePredicate = lists:map(Fun1, Nodes),
-   PostPredicat = do_preds(Ctx, PrePredicate, PredFuns),
-   lists:usort(PostPredicat);
+   L = [P
+       || #xqNode{doc = Doc, node = Node} = Node1 <- usort(Nodes),
+          xqerl_xdm:dm_node_kind([], Node) =/= attribute,
+          UId      <- [xqerl_xdm:uid(Node)],
+          Parent   <- parent(Node1),
+          Children <- [get_named_children_after(Doc, Parent, Name, UId)], 
+          TFiltered <- [kind_filter(Children, Kind)],
+          P <- pred_filter(Ctx, 
+                           [#xqNode{doc = Doc, node = P1} || P1 <- TFiltered], 
+                           PredFuns)
+       ],
+   usort(L);
 
 forward(Ctx, Nodes, following, #qname{} = Name, PredFuns) ->
    Fun1 = fun(#xqNode{doc = Doc} = Node1) ->
@@ -492,6 +506,14 @@ do_preds(Ctx, PreFilterSeq, PredFuns) ->
                   end, Sub, PredFuns)
              end, PreFilterSeq),
    lists:flatten(L).
+
+pred_filter(Ctx, PreFilterSeq, PredFuns) ->
+   lists:foldl(fun([],SeqAcc) ->
+                     SeqAcc;
+                  (Pred,SeqAcc) ->
+                     %?dbg("Line",PreFilterSeq),
+                     ?seq:filter(Ctx, Pred, SeqAcc)
+               end, PreFilterSeq, PredFuns).
 
 
 
@@ -718,3 +740,30 @@ get_named_children(#{file := File} = Doc,Node,Name) ->
          Val
    end.
 
+get_named_children_after({doc,File},Node,Name,Uid) ->
+   Doc = ?get({doc,File}),
+   get_named_children_after(Doc,Node,Name,Uid);
+get_named_children_after(#{file := File} = Doc,Node,Name,Uid) ->
+   case ?get({named_children_after,File,Name,Node,Uid}) of
+      [] ->
+         Named = get_named_children(Doc, Node, Name),
+         After = xqerl_xdm:after_id(Named, Uid),
+         _ = ?put({named_children_after,File,Name,Node,Uid}, After),
+         %?dbg("Named",Named),
+         After;
+      Val ->
+         Val
+   end.
+
+usort(L) ->
+   U = lists:usort(L),
+   case lists:all(fun(#xqNode{}) ->
+                        true;
+                     (_) ->
+                        false
+                  end, U) of
+      true ->
+         U;
+      _ ->
+         ?err('XPTY0019')
+  end.

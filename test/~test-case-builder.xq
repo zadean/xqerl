@@ -343,9 +343,9 @@ declare function local:print-environment($env,$case)
     for $res in $sources
     return
     if ($is-local) then
-    "{filename:join(BaseDir, """||string($res/@file)||"""), """||$res/@role||""","""||$res/@uri||"""}"
+    "{""file://""++filename:join(BaseDir, """||string($res/@file)||"""), """||$res/@role||""","""||$res/@uri||"""}"
     else
-    "{filename:join(BaseDir, ""../"||string($res/@file)||"""), """||$res/@role||""","""||$res/@uri||"""}"
+    "{""file://""++filename:join(BaseDir, ""../"||string($res/@file)||"""), """||$res/@role||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{schemas, ["||
@@ -474,9 +474,9 @@ declare function local:print-local-environment($env as item()*) as item()*
   (
     for $res in $sources
     return
-    "{filename:join(BaseDir, """||string($res/@file)||"""),"""||$res/@role||
+    "{""file://""++filename:join(BaseDir, """||string($res/@file)||"""),"""||$res/@role||
     (if (exists($res/@uri)) then
-    """,""file:///""++filename:join(BaseDir, """||string($res/@uri)||""")}"
+    """,""file://""++filename:join(BaseDir, """||string($res/@uri)||""")}"
     else
     """,[]}")
   ) => string-join(","||'&#10;') 
@@ -608,7 +608,7 @@ let $mod := "-module('"||$SUITE||"')."||'&#10;'
 ||"init_per_suite(Config) -> "
 ||'&#10;'
 ||"   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),"||'&#10;'
-||"   TD = filename:absname_join(DD, ""QT3-test-suite""),"||'&#10;'
+||"   TD = filename:join(DD, ""QT3-test-suite""),"||'&#10;'
 ||"   BaseDir = filename:join(TD, """||$subdir||""")"||'&#10;'
 
 ||( for $res in $case//*:module

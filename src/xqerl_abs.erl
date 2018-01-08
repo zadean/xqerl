@@ -262,7 +262,6 @@ scan_mod(#xqModule{prolog = Prolog,
                    type = main, 
                    body = Body}, #{file_name := FileName, tab := Tab} =  Map) ->
    xqerl_context:set_statically_known_functions(Tab,[]), %%% get rid of this!!
-   xqerl_context:init(),
    _ = init_mod_scan(),
    % the prolog is sorted in reverse order
    Imports     = xqerl_static:pro_mod_imports(Prolog),
@@ -322,7 +321,8 @@ scan_mod(#xqModule{prolog = Prolog,
    [attribute(export , [{main,1}] )] ++
    %export_variables(Variables, EmptyMap) ++
    export_functions(Functions) ++
-   [attribute(compile,inline_list_funcs)] ++ 
+   [attribute(compile,inline_list_funcs)] ++
+   %[attribute(compile,native)] ++ 
    [ {function,?L,init,0,
      [{clause,?L,
        [],
@@ -419,7 +419,8 @@ body_function(ContextMap, Body,ImportedMods) ->
    %?dbg("Imps",Imps),
    %?dbg("BodyAbs",BodyAbs),
    %?dbg("VarSetAbs",VarSetAbs),
-   [{function,?L,main,1,[{clause,?L,[{var,?L,'Options'}],[],
+   [
+    {function,?L,main,1,[{clause,?L,[{var,?L,'Options'}],[],
                           [{match,?L,{var,?L,'Ctx0'},
                             {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,merge}},
                              [{call,?L,{atom,?L,init},[]},
@@ -795,7 +796,9 @@ expr_do(Ctx, {array, Expr} ) ->
 expr_do(Ctx, #xqQuery{query = Qry} )->
    {block,?L,
     [{match,?L,{var,?L,'Query'},expr_do(Ctx, Qry)},
-     {call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,return_value}},[{var,?L,'Query'}]}
+     {match,?L,{var,?L,'ReturnVal'},{call,?L,{remote,?L,{atom,?L,xqerl_types},{atom,?L,return_value}},[{var,?L,'Query'}]}},
+     {call,?L,{remote,?L,{atom,?L,xqerl_context},{atom,?L,destroy}},[{var,?L,get_context_variable_name(Ctx)}]},
+     {var,?L,'ReturnVal'}
      ]};
    
 expr_do(Ctx, [T]) when is_tuple(T) ->
@@ -1429,6 +1432,11 @@ expr_do(Ctx, {postfix, Base, Preds }) when is_list(Preds) ->
                               NextCtxVar = next_ctx_var_name(),
                               Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
                               case P of
+                                 {variable, Name} -> 
+                                    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,position_filter}},
+                                     [{var,?L,CtxVar},
+                                      {var,?L,Name},
+                                      Abs]};
                                  #xqAtomicValue{} = A -> % positional predicate
                                     {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,position_filter}},
                                      [{var,?L,CtxVar},
@@ -1439,9 +1447,40 @@ expr_do(Ctx, {postfix, Base, Preds }) when is_list(Preds) ->
                                      [{var,?L,CtxVar},
                                       abs_simp_atomic_value(A), 
                                       Abs]};
+                                 #xqVarRef{name = Name} -> 
+                                    {VarAbs,#xqSeqType{type = VarType}} = get_variable_ref(Name, Ctx),
+                                    if ?numeric(VarType) ->
+                                          {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,position_filter}},
+                                           [{var,?L,CtxVar},
+                                            VarAbs,
+                                            Abs]};
+                                       true ->
+                                          {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,position_filter}},
+                                           [{var,?L,CtxVar},
+                                            %expr_do(Ctx, P), 
+                                            {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}],[], alist(expr_do(Ctx1, P))}]}}, 
+                                            Abs
+                                            ]}
+                                    end;
+                                 [#xqVarRef{name = Name}] -> 
+                                    {VarAbs,#xqSeqType{type = VarType}} = get_variable_ref(Name, Ctx),
+                                    if ?numeric(VarType) ->
+                                          {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,position_filter}},
+                                           [{var,?L,CtxVar},
+                                            VarAbs,
+                                            Abs]};
+                                       true ->
+                                          {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,position_filter}},
+                                           [{var,?L,CtxVar},
+                                            %expr_do(Ctx, P), 
+                                            {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}],[], alist(expr_do(Ctx1, P))}]}}, 
+                                            Abs
+                                            ]}
+                                    end;
                                  _ ->
                                     {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,position_filter}},
                                      [{var,?L,CtxVar},
+                                      %expr_do(Ctx, P), 
                                       {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}],[], alist(expr_do(Ctx1, P))}]}}, 
                                       Abs
                                       ]}
@@ -2817,16 +2856,19 @@ step_expr_do(Ctx, #xqAxisStep{direction = Direction, axis = Axis, node_test = #x
    Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
    PredFuns = lists:foldr(fun({predicate, P}, Abs) ->
                               case P of
-                                 #xqAtomicValue{type = 'xs:integer'} = A -> % positional predicate
+                                 #xqAtomicValue{type = Type} = A when ?integer(Type) -> % positional predicate
                                     {cons,?L,abs_simp_atomic_value(A), Abs};
                                  _ ->
                                     {cons,?L,{'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}],[], alist(expr_do(Ctx1, P))}]}}, Abs}
                               end;
                              ({positional_predicate, P}, Abs) ->
                               case P of
-                                 #xqAtomicValue{type = 'xs:integer'} = A -> % positional predicate
+                                 #xqAtomicValue{type = Type} = A when ?integer(Type) -> % positional predicate
                                     {cons,?L,abs_simp_atomic_value(A), Abs};
+                                 {variable,Name} ->
+                                    {cons,?L,{var,?L,Name}, Abs};
                                  _ ->
+                                    %{cons,?L,expr_do(Ctx, P), Abs}
                                     {cons,?L,{'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}],[], alist(expr_do(Ctx1, P))}]}}, Abs}
                               end
                       end, {nil,?L}, Preds),     
@@ -2863,16 +2905,19 @@ step_expr_do(Ctx, #xqAxisStep{direction = Direction, axis = Axis, node_test = #x
             end,   
    PredFuns = lists:foldr(fun({predicate, P}, Abs) ->
                               case P of
-                                 [#xqAtomicValue{type = 'xs:integer'} = A] -> % positional predicate
+                                 [#xqAtomicValue{type = Type} = A] when ?integer(Type) -> % positional predicate
                                     {cons,?L,abs_simp_atomic_value(A), Abs};
                                  _ ->
                                     {cons,?L,{'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}],[], alist(expr_do(Ctx1, P))}]}}, Abs}
                               end;
                              ({positional_predicate, P}, Abs) ->
                               case P of
-                                 [#xqAtomicValue{type = 'xs:integer'} = A] -> % positional predicate
+                                 [#xqAtomicValue{type = Type} = A] when ?integer(Type) -> % positional predicate
                                     {cons,?L,abs_simp_atomic_value(A), Abs};
+                                 {variable,Name} ->
+                                    {cons,?L,{var,?L,Name}, Abs};
                                  _ ->
+                                    %{cons,?L,expr_do(Ctx, P), Abs}
                                     {cons,?L,{'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}],[], alist(expr_do(Ctx1, P))}]}}, Abs}
                               end
                       end, {nil,?L}, Preds),
@@ -2896,9 +2941,15 @@ step_expr_do(Ctx, Preds, SourceVarName) when is_list(Preds) ->
                                      [{var,?L,CtxVar},
                                       abs_simp_atomic_value(A), 
                                       Abs]};
+                                 {variable, Name} -> 
+                                    {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,position_filter}},
+                                     [{var,?L,CtxVar},
+                                      {var,?L,Name},
+                                      Abs]};
                                  _ ->
                                     {call,?L,{remote,?L,{atom,?L,?seq},{atom,?L,position_filter}},
                                      [{var,?L,CtxVar},
+                                      %expr_do(Ctx, P), 
                                       {'fun',?L,{clauses,[{clause,?L,[{var,?L,NextCtxVar}],[], alist(expr_do(Ctx1, P))}]}}, 
                                       Abs
                                       ]}

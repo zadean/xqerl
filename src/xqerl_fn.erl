@@ -1380,6 +1380,7 @@ val_reverse([{_,V}|T], Acc) ->
                      %#xqNode{doc = Doc, node = xqerl_xdm:root(Doc)};
                      #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)};
                   _ ->
+                     ?dbg("ResVal",ResVal),
                      ?err('FODC0002')
                end;
             Doc ->
@@ -1405,8 +1406,11 @@ val_reverse([{_,V}|T], Acc) ->
             _ ->
                ?bool(false)
          end
-   catch _:_ ->
-      ?err('FODC0005')
+   catch 
+      _:#xqError{name = #xqAtomicValue{value = #qname{local_name = "FORG0002"}}} ->
+         ?bool(false);
+      _:_ ->
+         ?err('FODC0005')
    end.
 
 %% Returns the URI of a resource where a document can be found, if available. 

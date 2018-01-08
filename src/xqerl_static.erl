@@ -3433,6 +3433,16 @@ set_or_error(Name,List,Default,Error) ->
    case proplists:get_all_values(Name,List) of
       [] ->
          Default;
+      [H] when Name =:= 'base-uri' andalso H == Default ->
+         try xqerl_lib:resolve_against_base_uri(H,".")
+         catch _:_ ->
+                  ?err('XQST0046')
+         end;
+      [H] when Name =:= 'base-uri' ->
+         try xqerl_lib:resolve_against_base_uri(Default,H)
+         catch _:_ ->
+                  ?err('XQST0046')
+         end;
       [H] ->
          H;
       _ ->

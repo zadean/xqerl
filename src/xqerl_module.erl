@@ -116,7 +116,8 @@
 one_time_init() ->
    ok = application:ensure_started(mnesia),
    TabDefMod = [{attributes,record_info(fields, xq_module)},
-                {disc_copies,[]},
+                {ram_copies, [node()]},
+                %{disc_only_copies, [nodes()]},
                 {index, []},
                 {type, set}
                ],
@@ -214,12 +215,11 @@ compile(FileName, Str) ->
       % init the parse
       erlang:put(xquery_id, xqerl_context:init(parser)),
       Tree = parse_tokens(Toks),
-      erlang:erase(),
-      Static = scan_tree_static(Tree, "file:///"++FileName),
-      erlang:erase(),
+      Static = scan_tree_static(Tree, xqerl_lib:resolve_against_base_uri("file:///", FileName)),
+%?dbg("Static",maps:get(body, Static)),
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Ret} = scan_tree(Static),
       %?dbg("Ret",Ret),
-      erlang:erase(),
+      xqerl_context:destroy(Static),
       {ok,M,B} = compile:forms(Ret, [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]),
       _Erl = print_erl(B),
       ok = check_cycle(M,ImportedMods),
@@ -296,6 +296,7 @@ unload(all) ->
              Set = sets:intersection(sets:from_list(Loaded),sets:from_list(Ms)),
              ?dbg("Count",sets:size(Set)),
              lists:foreach(fun(A) ->
+                                 code:purge(A),
                                  code:delete(A),
                                  code:purge(A)
                            end, sets:to_list(Set)),
@@ -405,15 +406,16 @@ scan_tokens(Str) ->
 
 % returns Tree
 parse_tokens(Tokens) ->
-   try xqerl_parser:parse(Tokens) of
-      {ok, Tree} ->
-         Tree
+   try 
+      {ok, Tree} = xqerl_parser:parse(Tokens),
+      Tree
    catch
       _:#xqError{} = E ->
          ?dbg("parse_tokens",E),
          throw(E);
       _:E ->
          ?dbg("parse_tokens e",E),
+         ?dbg("parse_tokens e",erlang:get_stacktrace()),
          xqerl_error:error('XPST0003')
    end.
    

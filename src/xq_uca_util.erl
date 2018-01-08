@@ -23,6 +23,7 @@
 %% @doc Default Unicode Collation Element Table (DUCET) - non-tailored.
 
 -module(xq_uca_util).
+-compile([{hipe,[{regalloc,linear_scan}]}]).
 
 %% ====================================================================
 %% API functions

@@ -484,17 +484,14 @@ orderbyclause(VarStream, Clauses) ->
                        end, Clauses),
              {Tuple,Cs}
        end,
-   %?dbg("orderbyclause 2",erlang:system_time()),
 %%    Set = rpc:pmap({?MODULE,int_order_1}, [Clauses], VarStream),
    Set = lists:map(F, VarStream),
-   %?dbg("orderbyclause 3",erlang:system_time()),
+   %?dbg("orderbyclause 2",erlang:system_time()),
    Sorted = lists:sort(fun(A,B) ->
                              do_order(A,B)
                        end, Set),
-   %?dbg("orderbyclause 4",erlang:system_time()),
-   lists:map(fun({T,_}) ->
-                   T
-             end, Sorted).
+   %?dbg("orderbyclause 3",erlang:system_time()),
+   [T || {T,_} <- Sorted].
 
 
 do_order({_,[]},{_,[]}) ->

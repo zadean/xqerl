@@ -25,6 +25,8 @@
 -module(xqerl_types).
 -compile(inline_list_funcs).
 
+-import(xqerl_numeric,[double/1]).
+
 -export([return_value/1]).
 -export([value/1]).
 -export([atomize/1]).
@@ -522,6 +524,8 @@ promote(#xqAtomicValue{type = Num1} = At,#xqSeqType{type = Num2}) when ?numeric(
    cast_as_seq(At,Num2);
 promote(#xqAtomicValue{type = 'xs:untypedAtomic'} = At,Type) ->
    cast_as_seq(At,Type);
+promote(#xqAtomicValue{type = 'xs:anyURI'} = At,#xqSeqType{type = 'xs:string'} = Type) ->
+   cast_as_seq(At,Type);
 promote(Map,#xqSeqType{type = #xqFunTest{kind = map}}) when is_map(Map) ->
    Map;
 promote({array,_} = A,#xqSeqType{type = #xqFunTest{kind = array}}) ->
@@ -557,8 +561,8 @@ promote(At,Type) ->
          try cast_as_seq(At,Type) catch _:_ -> ?err('FORG0001') end;
       _ when ?numeric(InType) andalso ?numeric(Type#xqSeqType.type) ->
          cast_as_seq(At,Type);
-      _ when InType =:= 'xs:anyURI' andalso Type#xqSeqType.type =:= 'xs:string' ->
-         cast_as_seq(At,Type);
+      %_ when InType =:= 'xs:anyURI' andalso Type#xqSeqType.type =:= 'xs:string' ->
+      %   cast_as_seq(At,Type);
       _ when is_record(At, xqAtomicValue) ->
          ?err('XPTY0004');
       _ ->
@@ -921,6 +925,7 @@ instance_of( #xqNode{} = Seq, #xqSeqType{type = TType,
                                                                TOccur == one_or_many;
                                                                TOccur == zero_or_one;
                                                                TOccur == zero_or_many -> 
+   ?dbg("Seq",Seq),
    ?xav('xs:boolean',instance_of1(Seq, TType));
 instance_of( #array{} = Seq, #xqSeqType{type = TType, 
                                         occur = TOccur}) when TOccur == one;
@@ -1099,6 +1104,13 @@ instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = attribute, name
          {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
          Q2 = #qname{namespace = Ns, local_name = Ln},
          has_name(Q2, Q1);
+      _ ->
+         false
+   end;
+instance_of1(#xqNode{node = Node, doc = Doc}, #xqKindTest{kind = attribute}) ->
+   case xqerl_xdm:dm_node_kind(Doc, Node) of
+      attribute ->
+         true;
       _ ->
          false
    end;
@@ -1639,7 +1651,7 @@ cast_as( #xqAtomicValue{type = 'xs:double'} = At, 'xs:numeric' ) ->
 cast_as( #xqAtomicValue{type = 'xs:decimal'} = At, 'xs:numeric' ) ->
    At;
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:double' ) -> 
-   #xqAtomicValue{type = 'xs:double', value = xqerl_numeric:double(Val)};
+   #xqAtomicValue{type = 'xs:double', value = double(Val)};
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:float' ) -> 
    #xqAtomicValue{type = 'xs:float', value = xqerl_numeric:float(Val)};
 cast_as( #xqAtomicValue{type = 'xs:decimal', value = Val}, 'xs:integer' ) -> 
@@ -1831,7 +1843,7 @@ cast_as( #xqAtomicValue{type = 'xs:integer', value = Val},
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 'xs:decimal' ) -> 
    #xqAtomicValue{type = 'xs:decimal', value = xqerl_numeric:decimal(Val)};
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 'xs:double' ) ->
-   #xqAtomicValue{type = 'xs:double', value = xqerl_numeric:double(Val)};
+   #xqAtomicValue{type = 'xs:double', value = double(Val)};
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 'xs:float' ) -> 
    #xqAtomicValue{type = 'xs:float', value = xqerl_numeric:float(Val)};
 cast_as( #xqAtomicValue{type = 'xs:integer', value = Val}, 
@@ -1979,7 +1991,7 @@ cast_as( #xqAtomicValue{type = 'xs:string', value = Val},
                         offset = Offset},
       Dt = #xqAtomicValue{type = 'xs:dateTime', 
                      value = Rec#xsDateTime{string_value = xqerl_datetime:to_string(Rec,'xs:dateTime')}},
-      SecFlt = xqerl_numeric:double(Sec),
+      SecFlt = double(Sec),
       if Hour   == 24 andalso Min == 0 andalso SecFlt == 0 -> 
             xqerl_operators:add(Dt, cast_as(#xqAtomicValue{type = 'xs:string', value = "PT0S"}, 'xs:dayTimeDuration'));
          Hour   >= 24 -> xqerl_error:error('FORG0001'); % only no min/sec is okay with hour 24

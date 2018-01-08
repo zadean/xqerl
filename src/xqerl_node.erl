@@ -548,7 +548,11 @@ handle_content(Ctx, Parent, #xqAttributeNode{name = QName, expr = Content} = N, 
                 Content2;
                 %xqerl_types:cast_as(Expr0,'xs:language');
              #qname{namespace = _, prefix = "xml", local_name = "base"} ->
-                xqerl_types:cast_as(Content2,'xs:anyURI');
+                try
+                   xqerl_types:cast_as(Content2,'xs:anyURI')
+                catch _:_ ->
+                   Content2
+                end;
              _ ->
                 Content2
           end,
@@ -670,10 +674,8 @@ handle_content(Ctx, Parent, Seq, INs, Sz)  ->
    handle_contents(Ctx, Parent, Ci, INs, Sz).
 
 % returns {Id,Ctx}
-next_id(Ctx) ->
-   Last = maps:get(next_node_id, Ctx),
-   Next = Last + 1,
-   {Last, maps:put(next_node_id, Next, Ctx)}.
+next_id(#{next_node_id := Last} = Ctx) ->
+   {Last, Ctx#{next_node_id := Last + 1}}.
 
 next_frag_id() ->
    case erlang:get(next_frag_id) of

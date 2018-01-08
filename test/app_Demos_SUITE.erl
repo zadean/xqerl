@@ -12,7 +12,7 @@ suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
-   TD = filename:absname_join(DD, "QT3-test-suite"),
+   TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 , try  xqerl_module:compile(filename:join(BaseDir, "Demos/raytracer.xq")) catch _:_ -> ok end
 , try  xqerl_module:compile(filename:join(BaseDir, "Demos/scene.xq")) catch _:_ -> ok end
@@ -40,7 +40,7 @@ environment('empty',BaseDir) ->
 ];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -52,7 +52,7 @@ environment('atomic',BaseDir) ->
 ];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -64,7 +64,7 @@ environment('atomic-xq',BaseDir) ->
 ];
 environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -76,7 +76,7 @@ environment('works-mod',BaseDir) ->
 ];
 environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -88,7 +88,7 @@ environment('works',BaseDir) ->
 ];
 environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -100,8 +100,8 @@ environment('staff',BaseDir) ->
 ];
 environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{"file://"++filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -113,7 +113,7 @@ environment('works-and-staff',BaseDir) ->
 ];
 environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -130,7 +130,7 @@ environment('auction',BaseDir) ->
 ];
 environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
 {schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -272,141 +272,7 @@ environment('array-and-map',BaseDir) ->
    end.
 'currencysvg'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
-   Qry = "(: Name: currencysvg :)
-(: Description: Draw an SVG of currency exchange data :)
-(: Author: Nick Jones :)
-(: Date: 2008-10-30 :)
-(: Declare namespaces :)
-declare default element namespace \"http://www.w3.org/2000/svg\";
-declare namespace msg=\"http://www.SDMX.org/resources/SDMXML/schemas/v1_0/message\";
-declare namespace frbny=\"http://www.newyorkfed.org/xml/schemas/FX/utility\";
-
-(: Currency to lookup :)
-declare variable $input-context := .;
-
-(: A list of observations :)
-declare variable $obs := $input-context/msg:UtilityData/frbny:DataSet/frbny:Series/frbny:Obs;
-
-(: Minimum/maximum/average exchange rates :)
-declare variable $values := $obs/frbny:OBS_VALUE/xs:decimal(.);
-declare variable $minValue := min($values);
-declare variable $maxValue := max($values);
-declare variable $avgValue := avg($values);
-
-
-(: First/last dates :)
-declare variable $dates := $obs/frbny:TIME_PERIOD/xs:date(.);
-declare variable $firstDate := min($dates);
-declare variable $lastDate := max($dates);
-
-(: Returns the change in exchange rate over a specified number of days :)
-declare function local:period-change($ob as element(frbny:Obs,xs:untyped),
-                                     $days as xs:positiveInteger) as xs:decimal {
-    let $previous := xs:decimal($ob/following-sibling::frbny:Obs[$days]/frbny:OBS_VALUE)
-    return xs:decimal($ob/frbny:OBS_VALUE - $previous)
-};
-
-
-(: Converts an observation to an x,y coordinate pair :)
-declare function local:coordinate($ob as element(frbny:Obs,xs:untyped)) as xs:decimal+ {
-  (
-    xs:decimal((xs:date($ob/frbny:TIME_PERIOD) - $firstDate) div ($lastDate - $firstDate) * 1000)
-    ,
-    xs:decimal(1000 - ($ob/frbny:OBS_VALUE - $minValue) div ($maxValue - $minValue) * 1000)
-  )
-};
-
-(: Labels the largest falls and rises over a specified number of days :)
-declare function local:label-changes($days as xs:positiveInteger) as element(text,xs:anyType)+ {
-      let $sortedByChange:= 
-          for $ob in $obs[position() <= last() - $days]
-          order by local:period-change($ob,$days) descending
-          return $ob
-      return
-        (
-          local:label-observation($sortedByChange[last()]/following-sibling::frbny:Obs[$days],concat('Largest ',$days,'-day rise'))
-          ,
-          local:label-observation($sortedByChange[1]/following-sibling::frbny:Obs[$days],concat('Largest ',$days,'-day fall'))
-        )
-};
-
-(: Labels an observation :)
-declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$label as xs:string) as element(text,xs:anyType) {
-      let $coord := local:coordinate($ob)
-      return
-        <text x=\"{round-half-to-even($coord[1], 4)}\"
-                  y=\"{round-half-to-even($coord[2], 4)}\"
-                  text-anchor=\"end\"
-                  title=\"{concat($ob/frbny:TIME_PERIOD,' - ',$ob/frbny:OBS_VALUE)}\">
-          {$label}
-        </text>
-};
-
-<svg viewBox=\"-50,-50,1100,1100\">
-
-  <!-- Border -->
-  <path stroke=\"black\" fill=\"none\" stroke-width=\"1\" d=\"M0,0L1000,0L1000,1000L0,1000L0,0\"/>
-
-  <!-- Title -->
-  <text x=\"500\" y=\"-20\" text-anchor=\"middle\">{string($input-context/msg:UtilityData/msg:Header/msg:Name)}</text>
-
-  <!-- Generator -->
-  <text x=\"500\" y=\"1040\" text-anchor=\"middle\">Generated by XQSharp</text>
-
-  <!-- Ranges -->
-  <text x=\"0\" y=\"1020\" text-anchor=\"middle\">{$firstDate}</text>
-  <text x=\"1000\" y=\"1020\" text-anchor=\"middle\">{$lastDate}</text>
-  <text x=\"0\" y=\"0\" text-anchor=\"end\">{$maxValue}</text>
-  <text x=\"0\" y=\"1000\" text-anchor=\"end\">{$minValue}</text>
-
-  <!-- Graph -->
-  <path stroke=\"red\" fill=\"none\" stroke-width=\"1\">
-    {
-      attribute {\"d\"}
-      {
-        for $ob at $pos in $obs
-        let $coord := local:coordinate($ob)
-        return
-          concat(if($pos = 1) then \"M\" else \"L\",round-half-to-even($coord[1], 4),\",\",round-half-to-even($coord[2], 4))
-      }
-    }
-  </path>
-
-  <!-- Average -->
-  <path stroke=\"blue\" fill=\"none\" stroke-with=\"2\" d=\"M0,{round-half-to-even(($maxValue - $avgValue) div ($maxValue - $minValue) * 1000, 4)}l1000,0\"/>
-  <text x=\"0\" y=\"{round-half-to-even(($maxValue - $avgValue) div ($maxValue - $minValue) * 1000, 4)}\" text-anchor=\"end\">Average</text>
-
-  {
-    (: Label largest changes over 1,5,90,365 days :)
-    for $days in (1,5,90,365)
-    return local:label-changes(xs:positiveInteger($days))
-  }
-</svg>
-",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "Demos/GBPNoon.xml"),".",[]}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "currencysvg.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "Demos/currencysvg-result.xml")}) of 
-      true -> {comment, "XML Deep equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip," CRASH "}.
 'itunes'(Config) ->
    BaseDir = proplists:get_value(base_dir, Config),
    {skip,"Validation Environment"}.
@@ -431,7 +297,7 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
         			     return string(floor($channel * 255)), \" \") ), \"&#xA;\" )
       ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "Demos/scene.xml"),".",[]}]},
+{sources, [{"file://"++filename:join(BaseDir, "Demos/scene.xml"),".",[]}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},

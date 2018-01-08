@@ -233,8 +233,16 @@ uid(<<Id:32,_:96>>) ->
 
 after_id([<<Id:32,_:96>>|T],CId) when CId >= Id ->
    after_id(T,CId);
-after_id(L,_CId) ->
+after_id(L,_) ->
    L.
+
+%% after_id(L,CId) ->
+%%    after_id_1(lists:reverse(L),CId,[]).
+%% 
+%% after_id_1([<<Id:32,_:96>> = H|T],CId,Acc) when CId < Id ->
+%%    after_id_1(T,CId,[H|Acc]);
+%% after_id_1(_,_,Acc) ->
+%%    Acc.
 
 % the URI for this file, or ID for locally built docs
 uri({doc, File}) ->

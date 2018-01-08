@@ -510,7 +510,7 @@ suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
-   TD = filename:absname_join(DD, "QT3-test-suite"),
+   TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
 ,[{base_dir, BaseDir}|Config].
@@ -1031,7 +1031,7 @@ environment('empty',BaseDir) ->
 ];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -1043,7 +1043,7 @@ environment('atomic',BaseDir) ->
 ];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -1055,7 +1055,7 @@ environment('atomic-xq',BaseDir) ->
 ];
 environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1067,7 +1067,7 @@ environment('works-mod',BaseDir) ->
 ];
 environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1079,7 +1079,7 @@ environment('works',BaseDir) ->
 ];
 environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1091,8 +1091,8 @@ environment('staff',BaseDir) ->
 ];
 environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{"file://"++filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1104,7 +1104,7 @@ environment('works-and-staff',BaseDir) ->
 ];
 environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1121,7 +1121,7 @@ environment('auction',BaseDir) ->
 ];
 environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
 {schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -1182,7 +1182,7 @@ environment('array-and-map',BaseDir) ->
 ];
 environment('functx_order',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "FunctxFn/functx_order.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "FunctxFn/functx_order.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1194,7 +1194,7 @@ environment('functx_order',BaseDir) ->
 ];
 environment('functx_catalog',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "FunctxFn/functx_catalog.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "FunctxFn/functx_catalog.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1206,7 +1206,7 @@ environment('functx_catalog',BaseDir) ->
 ];
 environment('functx_cats',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "FunctxFn/functx_cats.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "FunctxFn/functx_cats.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -1218,7 +1218,7 @@ environment('functx_cats',BaseDir) ->
 ];
 environment('functx_prices',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "FunctxFn/functx_prices.xml"), ".",""}]},
+{sources, [{"file://"++filename:join(BaseDir, "FunctxFn/functx_prices.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},

@@ -30,6 +30,8 @@
 
 -export([init/1]).
 -export([init/0]).
+-export([destroy/1]).
+
 -export([static_namespaces/0]).
 -export([static_collations/0]).
 
@@ -208,8 +210,16 @@ init(parser) ->
    add_default_static_values(parser);
 init(_) ->
    Tab = ets:new(?MODULE, []),
+   %?dbg("Tab",Tab),
    Now = erlang:timestamp(),
    add_default_static_values(Tab, Now).
+
+destroy(#{tab := Tab}) ->
+   %?dbg("Tab",Tab),
+   ets:delete(Tab),
+   erlang:erase(),
+   ok.
+
 
 %%% STATIC CONTEXT
 get_statically_known_namespaces(parser) ->
@@ -573,10 +583,25 @@ set_empty_context_item(Ctx) ->
 % returns new Ctx map
 set_context_item(Ctx, [], _Pos, _Size) ->
    set_empty_context_item(Ctx);
+set_context_item(#{'context-item' := _} = Ctx, CI, Pos, Size) when is_integer(Size) ->
+   Ctx#{'context-item' := CI,
+        'context-position' := Pos,
+        'context-item-count' := #xqAtomicValue{type = 'xs:integer',value = Size}};
 set_context_item(Ctx, CI, Pos, Size) when is_integer(Size) ->
    Ctx#{'context-item' => CI,
         'context-position' => Pos,
         'context-item-count' => #xqAtomicValue{type = 'xs:integer',value = Size}};
+set_context_item(#{'context-item' := _,
+                   'context-position' := _,
+                   'context-item-count' := Size} = Ctx, CI, Pos, Size) ->
+   Ctx#{'context-item' := CI,
+        'context-position' := Pos};
+set_context_item(#{'context-item' := _,
+                   'context-position' := _,
+                   'context-item-count' := _} = Ctx, CI, Pos, Size) ->
+   Ctx#{'context-item' := CI,
+        'context-position' := Pos,
+        'context-item-count' := Size};
 set_context_item(Ctx, CI, Pos, Size) ->
    Ctx#{'context-item' => CI,
         'context-position' => Pos,
@@ -594,23 +619,19 @@ set_context_item(Ctx, []) ->
 set_context_item(Ctx, CI) ->
    maps:put('context-item', CI, Ctx).
 
-get_context_position(Ctx) ->
-   case catch maps:get('context-position', Ctx) of
-      {'EXIT',_} ->
-         xqerl_error:error('XPDY0002');
-      C ->
-         C
-   end.
+get_context_position(#{'context-position' := P}) ->
+   P;
+get_context_position(_) ->
+   ?err('XPDY0002').
+
 set_context_position(Ctx, Value) ->
    maps:put('context-position', Value, Ctx).
 
-get_context_size(Ctx) ->
-   case catch maps:get('context-item-count', Ctx) of
-      {'EXIT',_} ->
-         xqerl_error:error('XPDY0002');
-      C ->
-         C
-   end.
+get_context_size(#{'context-item-count' := P}) ->
+   P;
+get_context_size(_) ->
+   ?err('XPDY0002').
+
 set_context_size(Ctx, Value) when is_integer(Value)->
    maps:put('context-item-count', #xqAtomicValue{type = 'xs:integer',value = Value}, Ctx);
 set_context_size(Ctx, Value) ->
