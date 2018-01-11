@@ -343,9 +343,9 @@ declare function local:print-environment($env,$case)
     for $res in $sources
     return
     if ($is-local) then
-    "{""file://""++filename:join(BaseDir, """||string($res/@file)||"""), """||$res/@role||""","""||$res/@uri||"""}"
+    "{filename:join(BaseDir, """||string($res/@file)||"""), """||$res/@role||""","""||$res/@uri||"""}"
     else
-    "{""file://""++filename:join(BaseDir, ""../"||string($res/@file)||"""), """||$res/@role||""","""||$res/@uri||"""}"
+    "{filename:join(BaseDir, ""../"||string($res/@file)||"""), """||$res/@role||""","""||$res/@uri||"""}"
   ) => string-join(","||'&#10;')
   ||"]},"|| '&#10;' ||
   "{schemas, ["||
@@ -474,9 +474,9 @@ declare function local:print-local-environment($env as item()*) as item()*
   (
     for $res in $sources
     return
-    "{""file://""++filename:join(BaseDir, """||string($res/@file)||"""),"""||$res/@role||
+    "{filename:join(BaseDir, """||string($res/@file)||"""),"""||$res/@role||
     (if (exists($res/@uri)) then
-    """,""file://""++filename:join(BaseDir, """||string($res/@uri)||""")}"
+    """,filename:join(BaseDir, """||string($res/@uri)||""")}"
     else
     """,[]}")
   ) => string-join(","||'&#10;') 

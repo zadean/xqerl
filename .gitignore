@@ -15,3 +15,5 @@ rel/example_project
 /data/
 /.pmd
 /lib/
+/_build/
+/rebar.lock

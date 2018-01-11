@@ -413,7 +413,7 @@ environment('empty',BaseDir) ->
 ];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -425,7 +425,7 @@ environment('atomic',BaseDir) ->
 ];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -437,7 +437,7 @@ environment('atomic-xq',BaseDir) ->
 ];
 environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -449,7 +449,7 @@ environment('works-mod',BaseDir) ->
 ];
 environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -461,7 +461,7 @@ environment('works',BaseDir) ->
 ];
 environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -473,8 +473,8 @@ environment('staff',BaseDir) ->
 ];
 environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{"file://"++filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -486,7 +486,7 @@ environment('works-and-staff',BaseDir) ->
 ];
 environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -503,7 +503,7 @@ environment('auction',BaseDir) ->
 ];
 environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
 {schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},

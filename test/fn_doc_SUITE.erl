@@ -117,7 +117,7 @@ environment('empty',BaseDir) ->
 ];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -129,7 +129,7 @@ environment('atomic',BaseDir) ->
 ];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -141,7 +141,7 @@ environment('atomic-xq',BaseDir) ->
 ];
 environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -153,7 +153,7 @@ environment('works-mod',BaseDir) ->
 ];
 environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -165,7 +165,7 @@ environment('works',BaseDir) ->
 ];
 environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -177,8 +177,8 @@ environment('staff',BaseDir) ->
 ];
 environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{"file://"++filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -190,7 +190,7 @@ environment('works-and-staff',BaseDir) ->
 ];
 environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -207,7 +207,7 @@ environment('auction',BaseDir) ->
 ];
 environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
 {schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -268,7 +268,7 @@ environment('array-and-map',BaseDir) ->
 ];
 environment('works-mod-uri',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -280,8 +280,8 @@ environment('works-mod-uri',BaseDir) ->
 ];
 environment('works-and-staff-uri',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works.xml"), "","http://www.w3.org/fots/docs/works.xml"},
-{"file://"++filename:join(BaseDir, "../docs/staff.xml"), "","http://www.w3.org/fots/docs/staff.xml"}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "","http://www.w3.org/fots/docs/works.xml"},
+{filename:join(BaseDir, "../docs/staff.xml"), "","http://www.w3.org/fots/docs/staff.xml"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -547,7 +547,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/SpaceBracket.xml"),"","file://"++filename:join(BaseDir, "id/SpaceBracket.xml")}]},
+{sources, [{filename:join(BaseDir, "id/SpaceBracket.xml"),"",filename:join(BaseDir, "id/SpaceBracket.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -574,7 +574,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/HighUnicode.xml"),"","file://"++filename:join(BaseDir, "id/HighUnicode.xml")}]},
+{sources, [{filename:join(BaseDir, "id/HighUnicode.xml"),"",filename:join(BaseDir, "id/HighUnicode.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -601,7 +601,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/HighUnicode2.xml"),"","file://"++filename:join(BaseDir, "id/HighUnicode2.xml")}]},
+{sources, [{filename:join(BaseDir, "id/HighUnicode2.xml"),"",filename:join(BaseDir, "id/HighUnicode2.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -628,7 +628,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/BCisInvalid.xml"),"","file://"++filename:join(BaseDir, "id/BCisInvalid.xml")}]},
+{sources, [{filename:join(BaseDir, "id/BCisInvalid.xml"),"",filename:join(BaseDir, "id/BCisInvalid.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -655,7 +655,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/InvalidUmlaut.xml"),"","file://"++filename:join(BaseDir, "id/InvalidUmlaut.xml")}]},
+{sources, [{filename:join(BaseDir, "id/InvalidUmlaut.xml"),"",filename:join(BaseDir, "id/InvalidUmlaut.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -682,7 +682,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/NamespaceSuppliedInternally.xml"),"","file://"++filename:join(BaseDir, "id/NamespaceSuppliedInternally.xml")}]},
+{sources, [{filename:join(BaseDir, "id/NamespaceSuppliedInternally.xml"),"",filename:join(BaseDir, "id/NamespaceSuppliedInternally.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -709,7 +709,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name(fn:doc($uri)/*)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/XMLIdDuplicated.xml"),"","file://"++filename:join(BaseDir, "id/XMLIdDuplicated.xml")}]},
+{sources, [{filename:join(BaseDir, "id/XMLIdDuplicated.xml"),"",filename:join(BaseDir, "id/XMLIdDuplicated.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -744,7 +744,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "local-name(fn:doc($uri)/*)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/InvalidXMLId.xml"),"","file://"++filename:join(BaseDir, "id/InvalidXMLId.xml")}]},
+{sources, [{filename:join(BaseDir, "id/InvalidXMLId.xml"),"",filename:join(BaseDir, "id/InvalidXMLId.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -794,7 +794,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "normalize-space(string(fn:doc($uri))), normalize-space(string(exactly-one(fn:doc($uri)/*)))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/Books2.xml"),"","file://"++filename:join(BaseDir, "id/Books2.xml")}]},
+{sources, [{filename:join(BaseDir, "id/Books2.xml"),"",filename:join(BaseDir, "id/Books2.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -841,7 +841,7 @@ environment('works-and-staff-uri',BaseDir) ->
         } </s:svg>
      ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/QObject.xml"),"","file://"++filename:join(BaseDir, "id/QObject.xml")}]},
+{sources, [{filename:join(BaseDir, "id/QObject.xml"),"",filename:join(BaseDir, "id/QObject.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -868,7 +868,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/0x010D.xml"),"","file://"++filename:join(BaseDir, "id/0x010D.xml")}]},
+{sources, [{filename:join(BaseDir, "id/0x010D.xml"),"",filename:join(BaseDir, "id/0x010D.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -910,7 +910,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "count(doc($uri)//text())",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/builtinEntities.xml"),"","file://"++filename:join(BaseDir, "id/builtinEntities.xml")}]},
+{sources, [{filename:join(BaseDir, "id/builtinEntities.xml"),"",filename:join(BaseDir, "id/builtinEntities.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -937,7 +937,7 @@ environment('works-and-staff-uri',BaseDir) ->
    BaseDir = proplists:get_value(base_dir, Config),
    Qry = "let $result := id(\"idABC\", doc($uri)) return $result",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "id/XMLIdWhitespace.xml"),"","file://"++filename:join(BaseDir, "id/XMLIdWhitespace.xml")}]},
+{sources, [{filename:join(BaseDir, "id/XMLIdWhitespace.xml"),"",filename:join(BaseDir, "id/XMLIdWhitespace.xml")}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},

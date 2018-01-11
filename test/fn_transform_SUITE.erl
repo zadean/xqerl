@@ -249,7 +249,7 @@ environment('empty',BaseDir) ->
 ];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -261,7 +261,7 @@ environment('atomic',BaseDir) ->
 ];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
+{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -273,7 +273,7 @@ environment('atomic-xq',BaseDir) ->
 ];
 environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -285,7 +285,7 @@ environment('works-mod',BaseDir) ->
 ];
 environment('works',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -297,7 +297,7 @@ environment('works',BaseDir) ->
 ];
 environment('staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -309,8 +309,8 @@ environment('staff',BaseDir) ->
 ];
 environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{"file://"++filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
+{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -322,7 +322,7 @@ environment('works-and-staff',BaseDir) ->
 ];
 environment('auction',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -339,7 +339,7 @@ environment('auction',BaseDir) ->
 ];
 environment('qname',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
 {schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
 {collections, []},
 {'static-base-uri', []},
@@ -400,8 +400,8 @@ environment('array-and-map',BaseDir) ->
 ];
 environment('works-mod-uri2',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"},
-{"file://"++filename:join(BaseDir, "transform/render.xsl"), "","http://www.w3.org/fots/fn/transform/render.xsl"}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"},
+{filename:join(BaseDir, "transform/render.xsl"), "","http://www.w3.org/fots/fn/transform/render.xsl"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -415,9 +415,9 @@ environment('works-mod-uri2',BaseDir) ->
 ];
 environment('works-mod-local',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "../docs/works-mod.xml"), "$works",""},
-{"file://"++filename:join(BaseDir, "transform/render.xsl"), "$render",""},
-{"file://"++filename:join(BaseDir, "transform/include.xsl"), "$include",""}]},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), "$works",""},
+{filename:join(BaseDir, "transform/render.xsl"), "$render",""},
+{filename:join(BaseDir, "transform/include.xsl"), "$include",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -429,7 +429,7 @@ environment('works-mod-local',BaseDir) ->
 ];
 environment('variable-uri',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "transform/variable.xsl"), ".","http://www.w3.org/fots/fn/transform/variable.xsl"}]},
+{sources, [{filename:join(BaseDir, "transform/variable.xsl"), ".","http://www.w3.org/fots/fn/transform/variable.xsl"}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -441,7 +441,7 @@ environment('variable-uri',BaseDir) ->
 ];
 environment('variable-with-context',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "transform/variable-with-context.xsl"), "$stylesheet",""}]},
+{sources, [{filename:join(BaseDir, "transform/variable-with-context.xsl"), "$stylesheet",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -453,8 +453,8 @@ environment('variable-with-context',BaseDir) ->
 ];
 environment('multiple-result-docs',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{"file://"++filename:join(BaseDir, "transform/multipledocs.xsl"), "$multipledocs",""},
-{"file://"++filename:join(BaseDir, "transform/sections.xml"), "$sections",""}]},
+{sources, [{filename:join(BaseDir, "transform/multipledocs.xsl"), "$multipledocs",""},
+{filename:join(BaseDir, "transform/sections.xml"), "$sections",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
