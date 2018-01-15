@@ -73,9 +73,10 @@ new_fragment(#xqNode{doc = Doc } = Node) ->
 % return document {RootId, Doc}
 new_fragment(Ctx0, Content) when is_list(Content) ->
    %?dbg("Content",Content),
-   %DefaultNs = [#xqNamespace{namespace = 'no-namespace', prefix = []}],
-   %DefaultNs = [],
-   DefaultNs = [Ns || #xqNamespace{prefix = Px} = Ns <- maps:get(namespaces, Ctx0), Px == []],
+   DefaultNs = [Ns || #xqNamespace{prefix = Px} = Ns 
+               <- maps:get(namespaces, Ctx0,
+                           [#xqNamespace{namespace = 'no-namespace', prefix = []}]), 
+                      Px == []],
    Ctx = new_context(Ctx0),
    {Id,Ctx1} = next_id(Ctx),
    Doc = #xqXmlFragment{identity = Id},

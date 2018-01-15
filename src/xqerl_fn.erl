@@ -3251,8 +3251,7 @@ string_value(At) -> xqerl_types:string_value(At).
 
 %% Resolves a relative IRI reference against an absolute IRI. 
 'resolve-uri'(_Ctx,[]) -> ?seq:empty();
-'resolve-uri'(Ctx,Relative) -> 
-   Base = maps:get('base-uri', Ctx),
+'resolve-uri'(#{'base-uri' := Base} = Ctx,Relative) -> 
    'resolve-uri'(Ctx,Relative,Base).
 'resolve-uri'(_Ctx,[],_Base) -> ?seq:empty();
 'resolve-uri'(Ctx,Relative,Base) ->

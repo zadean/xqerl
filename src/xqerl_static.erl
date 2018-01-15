@@ -124,7 +124,8 @@ handle_tree(#xqModule{version = {Version,Encoding},
 %%                     {"xqerl_error", "error"}
 %%                    ],
    StaticImports = [],
-   {Functions1, Variables1} = xqerl_context:get_module_exports(Imports ++ StaticImports),
+   {Functions1, Variables1, StaticProps} = xqerl_context:get_module_exports(Imports ++ StaticImports),
+   ?dbg("StaticProps",StaticProps),
    %?dbg(?LINE,{Functions1, Variables1}),
    % analyze for cyclical references
    DiGraph = analyze_fun_vars(Body, Functions1 ++ Functions, ContextItem ++ Variables1 ++ Variables),
@@ -138,18 +139,20 @@ handle_tree(#xqModule{version = {Version,Encoding},
        end,
    ok = has_cycle(DiGraph),
    OrderedGraph = case digraph_utils:topsort(DiGraph) of
-                     false when ModuleType == main ->
-                        lists:sort(digraph_utils:reaching([ModuleType],DiGraph));
                      false ->
-                        lists:sort(digraph:vertices(DiGraph));
-                     Ord when ModuleType == main ->
+                     %false when ModuleType == main ->
+                        lists:sort(digraph_utils:reaching([ModuleType],DiGraph));
+                     %false ->
+                     %   lists:sort(digraph:vertices(DiGraph));
+                     Ord  ->
+                     %Ord when ModuleType == main ->
                         lists:filter(fun(OV) ->
                                            lists:member(OV, digraph_utils:reaching([ModuleType],DiGraph))
-                                     end, Ord);
-                     Ord ->
-                        Ord
+                                     end, Ord)%;
+                     %Ord ->
+                     %   Ord
                   end,
-   %?dbg("OrderedGraph",OrderedGraph),
+   ?dbg("OrderedGraph",OrderedGraph),
    OrderedGraph1 = case lists:member(context_item, OrderedGraph) of
                       true ->
                          OrderedGraph;
@@ -189,6 +192,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
    
    FunOrd = [FId || {FId,_, _}  <- OrderedGraph1, FId =/= 0],
    VarOrd = [VId || {VId,_}  <- OrderedGraph1, VId =/= 0],
+   StatProps = [Prop || {static,Prop}  <- OrderedGraph1],
    FunctionsSorted = lists:map(fun(FId) ->
                                      lists:keyfind(FId, #xqFunction.id, Functions)
                                end, FunOrd),
@@ -241,7 +245,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                              {get_statement(IState), IState}
                        end, State3, lists:reverse(FunVarSorted) ++ [Body]),
 %%                        end, State3, FunVarSorted),
-   %?dbg("VarPart",VarPart),
+%?dbg("VarPart",VarPart),
    
 %%    State5 = State4#state{known_fx_sigs = scan_functions(FunPart) ++ Functions1,
 %%                          inscope_vars = scan_variables(State3,VarPart) ++ Variables1},
@@ -264,6 +268,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                 parameters => [],
                 known_fx_sigs => FinalState#state.known_fx_sigs,
                 tab => Tab,
+                stat_props => StatProps,
                 'boundary-space' => FinalState#state.boundary_space,
                 'construction-mode' => FinalState#state.construction_mode,
                 'default-collation' => FinalState#state.default_collation,
@@ -2882,7 +2887,8 @@ check_parameter_names(Params) ->
 
 analyze_fun_vars(Body, Functions, Variables) ->
    G = digraph:new([]),
-   if Body == [] ->
+   IsLib = Body == [],
+   if IsLib ->
          digraph:add_vertex(G, library);
       true ->
          digraph:add_vertex(G, library)
@@ -2891,9 +2897,17 @@ analyze_fun_vars(Body, Functions, Variables) ->
    % add the variables
    %?dbg("Functions",Functions),
    %?dbg("Variables",Variables),
-   M1 = lists:foldl(fun({#qname{} = Nm,_,_,_,_}, Map) ->
+   M1 = lists:foldl(fun({#qname{} = Nm,_,_,_,_}, Map) when IsLib ->
+                        digraph:add_vertex(G, {0,sim_name(Nm)}),
+                        add_edge(G, library,{0,sim_name(Nm)}),
+                        maps:put(sim_name(Nm), 0, Map);
+                       ({#qname{} = Nm,_,_,_,_}, Map) ->
                         digraph:add_vertex(G, {0,sim_name(Nm)}),
                         maps:put(sim_name(Nm), 0, Map);
+                       (#xqVar{id = Id, name = Nm}, Map) when IsLib ->
+                        digraph:add_vertex(G, {Id,sim_name(Nm)}),
+                        add_edge(G, library,{Id,sim_name(Nm)}),
+                        maps:put(sim_name(Nm), Id, Map);
                        (#xqVar{id = Id, name = Nm}, Map) ->
                         digraph:add_vertex(G, {Id,sim_name(Nm)}),
                         maps:put(sim_name(Nm), Id, Map);
@@ -2911,6 +2925,11 @@ analyze_fun_vars(Body, Functions, Variables) ->
                                 ok
                           end,
                           digraph:add_vertex(G, {Id,sim_name(Nm), Ar}),
+                          if IsLib ->
+                                add_edge(G, library,{Id,sim_name(Nm), Ar});
+                             true ->
+                                ok
+                          end,
                           case maps:is_key({sim_name(Nm), Ar}, Map) of
                              true ->
                                 ?err('XQST0034');
@@ -2925,7 +2944,9 @@ analyze_fun_vars(Body, Functions, Variables) ->
                     Functions),
    Functions1 = [F || #xqFunction{} = F  <- Functions],
    % globals are set now recurse for dependencies
-   _ = x(G, M2, [Body] ++ Functions1 ++ Variables, []),
+   Body1 = if IsLib -> [];
+              true -> [Body] end,
+   _ = x(G, M2, Body1 ++ Functions1 ++ Variables, []),
    G.
 
 sim_name(#qname{namespace = N, local_name = L}) ->
@@ -3001,7 +3022,7 @@ x(G, Map, [{'context-item',{_,_,Expr}}|T],_Data ) ->
    x(G, Map, T, []);
 x(G, Map, Parent, Data) when is_list(Data) ->
    lists:foldl(fun(D,M) ->
-                       x(G, M, Parent, D)
+                     x(G, M, Parent, D)
                  end, Map, Data);
 x(G, Map, Parent, Data) when is_tuple(Data) ->
    %?dbg("tuple",{Parent,Data}),
@@ -3027,6 +3048,13 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
                   E5 => E5,
                   E6 => E6},
          x(G, M2, Parent, Catches);
+      {Cons,Bod} when Cons =:= direct_cons orelse Cons =:= comp_cons ->
+         digraph:add_vertex(G, {static,base_uri}),
+         digraph:add_vertex(G, {static,known_namespaces}),
+         add_edge(G,{static,base_uri},Parent),
+         add_edge(G,{static,known_namespaces},Parent),
+         x(G, Map, Parent, Bod),
+         Map;
       #xqFlwor{} ->
          xf(G, Map, Parent, Data),
          Map;
@@ -4670,8 +4698,8 @@ add_inscope_variable(State, {A,B,C,D}) ->
    add_inscope_variable(State, {A,B,C,D,false});
 % {Name,Type,Annos,ErlVarName,External}
 add_inscope_variable(#state{inscope_vars = Vars} = State, {#qname{namespace = Ns, local_name = Ln},_,_,_,_} = NewVar) ->
-   %?dbg("NewVar",NewVar),
-   %?dbg("Vars",Vars),
+   ?dbg("NewVar",NewVar),
+   ?dbg("Vars",Vars),
    NewVars = [NewVar | [Var || {#qname{namespace = Ns1, local_name = Ln1},_,_,_,_} = Var  <- Vars, {Ns1,Ln1} =/= {Ns,Ln}]],
    State#state{inscope_vars = NewVars}.
 
@@ -4680,7 +4708,7 @@ get_variable(#state{inscope_vars = Vars}, #qname{namespace = Ns, local_name = Ln
       [O] ->
          O;
       [] ->
-         ?dbg("Vars",{Ns,Ln}),
+         ?dbg("Var",{Ns,Ln}),
          ?dbg("Vars",Vars),
          ?err('XPST0008')
    end;

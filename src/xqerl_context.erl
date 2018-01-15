@@ -201,7 +201,9 @@ merge(#{namespaces := INs} = InitialContext, OuterContext) ->
    NewNs = lists:foldl(fun({Prefix,Namespace},Acc) ->
                              lists:keystore(Prefix, 3, Acc, #xqNamespace{namespace = Namespace, prefix = Prefix})
                        end, INs, NsToMerge),
-   Merged#{namespaces => NewNs}.
+   Merged#{namespaces => NewNs};
+merge(InitialContext, OuterContext) ->
+   maps:merge(InitialContext, OuterContext).
 
 
 init() -> init(self()).
@@ -796,12 +798,15 @@ add_default_static_values(Tab, RawCdt) ->
 %TODO annotations (private)
 get_module_exports(Imports) ->
    Acc = xqerl_module:get_static_signatures(),
-   lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc}) ->
+   lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc, PropsAcc}) ->
                      {atomic,{Funs,Vars}} = xqerl_module:get_signatures(Ns),
+                     {atomic,Name} = xqerl_module:get_module_name(Ns),
+                     Props = Name:static_props(),
                      %?dbg("{Funs,Vars}",{Funs,Vars}),
                      FunsAcc1 = Funs ++ FunsAcc, 
                      VarsAcc1 = Vars ++ VarsAcc,
-                     {FunsAcc1,VarsAcc1}
+                     PropsAcc1 = Props ++ PropsAcc,
+                     {FunsAcc1,VarsAcc1,PropsAcc1}
                end, Acc, Imports).
 
 import_functions(Functions,Tab) ->

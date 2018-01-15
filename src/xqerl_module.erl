@@ -104,6 +104,7 @@
 -export([test_compile/2]).
 
 -export([get_signatures/1]).
+-export([get_module_name/1]).
 -export([get_static_signatures/0]).
 -export([compile/1]).
 -export([compile/2]).
@@ -171,9 +172,24 @@ get_signatures(ModNamespace) ->
            end,
    mnesia:transaction(Query).
 
+get_module_name(ModNamespace) ->
+   Query = fun() ->
+                 ModName = #xq_module{name_atom = '$1', target_namespace = ModNamespace,  _ = '_'},
+                 ModNameAtom0 = mnesia:select(xq_module, [{ModName, [], ['$1']}]),
+                 %?dbg("ModNameAtom",ModNameAtom0),
+                 if ModNameAtom0 == [] ->
+                       ?dbg("Unknown ModNamespace",ModNamespace),
+                       ?err('XQST0059');
+                    true ->
+                       hd(ModNameAtom0)
+                 end
+           end,
+   mnesia:transaction(Query).
+   
+
 get_static_signatures() ->
    Mods = [xqerl_fn,xqerl_math,xqerl_map,xqerl_array,xqerl_xs,xqerl_error],
-   Query = fun(Mod,{PFunsAcc,PVarsAcc}) ->
+   Query = fun(Mod,{PFunsAcc,PVarsAcc,_}) ->
                  Atts = Mod:module_info(attributes),
                  Vars = proplists:get_value(variables, Atts, []),
                  Funs = proplists:get_value(functions, Atts, []),
@@ -185,9 +201,9 @@ get_static_signatures() ->
                              {F, A} = element(4, V),
                              setelement(4, V, {Mod,F,A})
                           end || V <- Funs],
-                 {PFuns ++ PFunsAcc, PVars ++ PVarsAcc}
+                 {PFuns ++ PFunsAcc, PVars ++ PVarsAcc,[]}
            end,
-   lists:foldl(Query, {[],[]}, Mods).
+   lists:foldl(Query, {[],[],[]}, Mods).
 
 
 %% -record(xq_module, 
@@ -217,6 +233,7 @@ compile(FileName, Str) ->
       % init the parse
       erlang:put(xquery_id, xqerl_context:init(parser)),
       Tree = parse_tokens(Toks),
+%?dbg("Tree",Tree),
       Static = scan_tree_static(Tree, xqerl_lib:resolve_against_base_uri("file:///", FileName)),
 %?dbg("Static",maps:get(body, Static)),
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Ret} = scan_tree(Static),

@@ -107,18 +107,32 @@ exp_local_funs(#{module        := Mod,
 
 init_fun_abs(Ctx0, KeysToAdd) ->
    Ctx = exp_local_funs(Ctx0),
-   Map  = add_context_key(#{},namespaces,Ctx),
-   Map2 = add_context_key(Map,named_functions,Ctx),
    Fun = fun(Name, M) ->
                add_context_key(M,Name,Ctx)
          end,
-   Map3 = lists:foldl(Fun, Map2, KeysToAdd),
+   Map3 = lists:foldl(Fun, #{}, KeysToAdd),
    erl_term_abs(Map3).
 
-add_context_key(Map,namespaces,Ctx) ->
-   Map#{namespaces => maps:get(namespaces, Ctx)};
+add_context_key(Map,dynamic_known_functions,Ctx) ->
+   Map#{named_functions => maps:get(known_fx_sigs, Ctx)};
+add_context_key(Map,known_decimal_formats,Ctx) ->
+   Map#{known_dec_formats => maps:get(known_dec_formats, Ctx)};
+add_context_key(Map,default_calendar,_) ->
+   Map;
+add_context_key(Map,base_uri,Ctx) ->
+   Map#{'base-uri' => maps:get('base-uri', Ctx)};
 add_context_key(Map,known_collations,Ctx) ->
-   Map#{known_collations => maps:get(known_collations, Ctx)};
+   Map#{'base-uri' => maps:get('base-uri', Ctx),
+        'default-collation' => maps:get('default-collation', Ctx),
+        known_collations => maps:get(known_collations, Ctx)};
+add_context_key(Map,default_place,_) ->
+   Map;
+add_context_key(Map,default_language,_) ->
+   Map;
+add_context_key(Map,known_namespaces,Ctx) ->
+   Map#{'copy-namespaces' => maps:get('copy-namespaces', Ctx),
+        namespaces => maps:get(namespaces, Ctx)};
+
 
 
 % when named-functions added, everything is needed
@@ -183,17 +197,17 @@ scan_mod(#xqModule{prolog = Prolog,
     scan_functions(EmptyMap,Functions, ModNs),
     [attribute(module, xqerl_static:string_atom(ModNs))]++
      [attribute(export , [{init,1}] )] ++
+     [attribute(export , [{static_props,0}] )] ++
      export_variables(Variables, EmptyMap) 
      ++
      export_functions(Functions)
      ++
      [attribute(compile,inline_list_funcs)] ++ 
-     init_function(scan_variables(EmptyMap,Variables),ImportedMods)
-     ++
-     variable_functions(EmptyMap, Variables) 
-     ++ 
-     function_functions(EmptyMap, Functions)
-     ++ 
+     [{function,?L,static_props,0,
+       [{clause,?L,[],[],[erl_term_abs(maps:get(stat_props, EmptyMap))] }]}] ++
+     init_function(scan_variables(EmptyMap,Variables),ImportedMods) ++
+     variable_functions(EmptyMap, Variables) ++ 
+     function_functions(EmptyMap, Functions) ++ 
      get_global_funs()
     };
 
@@ -275,7 +289,8 @@ scan_mod(#xqModule{prolog = Prolog,
             end,
    Variables   = lists:filtermap(VarFun, Prolog),
    Functions   = xqerl_static:pro_glob_functions(Prolog),
-   {Functions1, Variables1} = xqerl_context:get_module_exports(Imports),
+   {Functions1, Variables1, StaticProps} = xqerl_context:get_module_exports(Imports),
+   ?dbg("StaticProps",StaticProps),
    ImportedMods = lists:filtermap(fun({'module-import', {_,[]}}) -> false;
                                      ({'module-import', {N,_}}) -> 
                                         {true, xqerl_static:string_atom(N)};
@@ -329,13 +344,16 @@ scan_mod(#xqModule{prolog = Prolog,
        [],
        [ % body here
          {match,?L,{var,?L,'Tab'},{call,7,{remote,7,{atom,7,xqerl_context},{atom,7,init}},[]}},
-         {call,7,{remote,7,{atom,7,xqerl_context},{atom,7,set_named_functions}},
-          [{var,?L,'Tab'},erl_term_abs(maps:get(known_fx_sigs,exp_local_funs(EmptyMap#{module => ModName})))]
-         },
+         {match,?L,{var,?L,'Map'},
          {call,7,{remote,7,{atom,7,maps},{atom,7,put}},
           [{atom,7,tab},
            {var,?L,'Tab'},
-           init_fun_abs(EmptyMap#{module => ModName}, []) ]}
+           init_fun_abs(EmptyMap#{module => ModName}, maps:get(stat_props, EmptyMap) ++ StaticProps ) ]}},
+         {call,7,{remote,7,{atom,7,xqerl_context},{atom,7,set_named_functions}},
+          [{var,?L,'Tab'},
+           {call,7,{remote,7,{atom,7,maps},{atom,7,get}},[{atom,?L,named_functions},{var,?L,'Map'},{nil,?L}]}]
+         },
+         {call,7,{remote,7,{atom,7,maps},{atom,7,remove}},[{atom,?L,named_functions},{var,?L,'Map'}]}
        ]}
     ]
    }] ++ 
